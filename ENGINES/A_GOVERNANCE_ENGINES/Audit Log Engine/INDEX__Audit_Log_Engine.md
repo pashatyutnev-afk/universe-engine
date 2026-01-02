@@ -29,7 +29,7 @@ UNIVERSE_ENGINE
 его роли в системе и ограничений ответственности.
 
 🔗  
-ENGINES/A_GOVERNANCE_ENGINES/Audit Log Engine/DESCRIPTION__Audit_Log_Engine.md
+https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/ENGINES/A_GOVERNANCE_ENGINES/Audit%20Log%20Engine/DESCRIPTION__Audit_Log_Engine.md
 
 ---
 
@@ -39,7 +39,7 @@ ENGINES/A_GOVERNANCE_ENGINES/Audit Log Engine/DESCRIPTION__Audit_Log_Engine.md
 категория, статус и каноничность.
 
 🔗  
-ENGINES/A_GOVERNANCE_ENGINES/Audit Log Engine/PASSPORT__Audit_Log_Engine.md
+https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/ENGINES/A_GOVERNANCE_ENGINES/Audit%20Log%20Engine/PASSPORT__Audit_Log_Engine.md
 
 ---
 
@@ -50,7 +50,7 @@ ENGINES/A_GOVERNANCE_ENGINES/Audit Log Engine/PASSPORT__Audit_Log_Engine.md
 выходы и условия отказа.
 
 🔗  
-ENGINES/A_GOVERNANCE_ENGINES/Audit Log Engine/PROTOCOL__Audit_Log_Engine.md
+https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/ENGINES/A_GOVERNANCE_ENGINES/Audit%20Log%20Engine/PROTOCOL__Audit_Log_Engine.md
 
 ---
 
@@ -60,7 +60,7 @@ ENGINES/A_GOVERNANCE_ENGINES/Audit Log Engine/PROTOCOL__Audit_Log_Engine.md
 обязательные требования и жёсткие запреты.
 
 🔗  
-ENGINES/A_GOVERNANCE_ENGINES/Audit Log Engine/RULES__Audit_Log_Engine.md
+https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/ENGINES/A_GOVERNANCE_ENGINES/Audit%20Log%20Engine/RULES__Audit_Log_Engine.md
 
 ---
 
@@ -70,7 +70,7 @@ ENGINES/A_GOVERNANCE_ENGINES/Audit Log Engine/RULES__Audit_Log_Engine.md
 принципы, философия и системная идея.
 
 🔗  
-ENGINES/A_GOVERNANCE_ENGINES/Audit Log Engine/CONCEPT__Audit_Log_Engine.md
+https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/ENGINES/A_GOVERNANCE_ENGINES/Audit%20Log%20Engine/CONCEPT__Audit_Log_Engine.md
 
 ---
 
