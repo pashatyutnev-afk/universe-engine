@@ -1,71 +1,53 @@
-# PROTOCOL — <Engine_Name>
-## Engine Operational Protocol
+# PROTOCOL — <ENGINE_NAME>
+
+## 1. Вызов
+
+Engine вызывается при:
+- <INVOCATION_CONDITION>
 
 ---
 
-## 1. Invocation / Вызов
+## 2. Входные данные
 
-This engine is invoked when:
-- <Condition>
-- <System trigger>
-
----
-
-## 2. Input / Входные данные
-
-Receives:
-- Content to validate
-- Context references
-- Canon constraints
+Получает:
+- <INPUT_DATA>
 
 ---
 
-## 3. Operation Logic / Логика работы
+## 3. Логика работы
 
-1. Receive input
-2. Check against rules
-3. Identify violations
-4. Approve or block
-5. Return result
+1. <STEP_1>
+2. <STEP_2>
+3. <STEP_3>
 
 ---
 
-## 4. Output / Выходные данные
+## 4. Выходные данные
 
-Produces:
-- Approval
-- Rejection
-- Constraint feedback
+Формирует:
+- <OUTPUT_DATA>
 
 ---
 
-## 5. Failure Conditions / Ошибки
+## 5. Условия отказа
 
-Fails when:
-- Canon conflict detected
-- Structural inconsistency found
+Ошибка возникает при:
+- <FAIL_CONDITION>
 
----
-
-## 6. Completion Criteria / Завершение
-
-Engine execution is complete when:
-- Decision is returned
-- No unresolved conflicts remain
+Реакция системы:
+- <SYSTEM_RESPONSE>
 
 ---
 
-## 7. Prohibitions / Запреты
+## 6. Критерий завершения
 
-Must NOT:
-- Modify content
-- Invent rules
-- Act outside scope
+Процесс считается завершённым,
+когда:
+- <COMPLETION_CRITERIA>
 
 ---
 
-## 8. Notes / Заметки
+## 7. Запреты
 
-This engine guarantees
-system integrity —
-not creativity.
+Engine НЕ имеет права:
+- <PROHIBITION>

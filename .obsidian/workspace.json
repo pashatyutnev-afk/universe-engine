@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "ENGINES/A_GOVERNANCE_ENGINES/Audit Log Engine/INDEX__Audit_Log_Engine.md",
+                "file": "ENGINES/ОБРАЗЕЦ №6 — INDEX__ENGINE (КАНОН).md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "INDEX__Audit_Log_Engine"
+              "title": "ОБРАЗЕЦ №6 — INDEX__ENGINE (КАНОН)"
             }
           }
         ]
@@ -78,7 +78,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300
+    "width": 439.5
   },
   "right": {
     "id": "62b2681af6cdac18",
@@ -94,7 +94,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "ENGINES/A_GOVERNANCE_ENGINES/Audit Log Engine/INDEX__Audit_Log_Engine.md",
+                "file": "ENGINES/ОБРАЗЕЦ №6 — INDEX__ENGINE (КАНОН).md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -104,7 +104,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Обратные ссылки для INDEX__Audit_Log_Engine"
+              "title": "Обратные ссылки для ОБРАЗЕЦ №6 — INDEX__ENGINE (КАНОН)"
             }
           },
           {
@@ -113,12 +113,12 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "ENGINES/A_GOVERNANCE_ENGINES/Audit Log Engine/INDEX__Audit_Log_Engine.md",
+                "file": "ENGINES/ОБРАЗЕЦ №6 — INDEX__ENGINE (КАНОН).md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "Исходящие ссылки из INDEX__Audit_Log_Engine"
+              "title": "Исходящие ссылки из ОБРАЗЕЦ №6 — INDEX__ENGINE (КАНОН)"
             }
           },
           {
@@ -156,13 +156,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "ENGINES/A_GOVERNANCE_ENGINES/Audit Log Engine/INDEX__Audit_Log_Engine.md",
+                "file": "ENGINES/ОБРАЗЕЦ №6 — INDEX__ENGINE (КАНОН).md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Структура INDEX__Audit_Log_Engine"
+              "title": "Структура ОБРАЗЕЦ №6 — INDEX__ENGINE (КАНОН)"
             }
           }
         ]
@@ -185,18 +185,19 @@
   },
   "active": "7447f6455030139c",
   "lastOpenFiles": [
-    "ENGINES/A_GOVERNANCE_ENGINES/Audit Log Engine/PASSPORT__Audit_Log_Engine.md",
+    "ENGINES/ОБРАЗЕЦ №1 — PASSPORT__ENGINE (КАНОН).md",
+    "ENGINES/ОБРАЗЕЦ №2 — PROTOCOL__ENGINE (КАНОН).md",
+    "ENGINES/ОБРАЗЕЦ №3 — RULES__ENGINE (КАНОН).md",
+    "ENGINES/ОБРАЗЕЦ №4 — CONCEPT__ENGINE (КАНОН).md",
+    "ENGINES/ОБРАЗЕЦ №5 — DESCRIPTION__ENGINE (КАНОН).md",
+    "ENGINES/ОБРАЗЕЦ №6 — INDEX__ENGINE (КАНОН).md",
     "ENGINES/A_GOVERNANCE_ENGINES/Audit Log Engine/INDEX__Audit_Log_Engine.md",
+    "ENGINES/A_GOVERNANCE_ENGINES/Audit Log Engine/PASSPORT__Audit_Log_Engine.md",
     "ENGINES/A_GOVERNANCE_ENGINES/Audit Log Engine/CONCEPT__Audit_Log_Engine.md",
     "ENGINES/A_GOVERNANCE_ENGINES/Audit Log Engine/RULES__Audit_Log_Engine.md",
     "ENGINES/A_GOVERNANCE_ENGINES/Audit Log Engine/PROTOCOL__Audit_Log_Engine.md",
     "ENGINES/A_GOVERNANCE_ENGINES/Audit Log Engine/DESCRIPTION__Audit_Log_Engine.md",
     "ENGINES/ОБРАЗЕЦ №6 — INDEX__ENGINE.md (КАНОН).md",
-    "ENGINES/ОБРАЗЕЦ №5 — DESCRIPTION__ENGINE.md (КАНОН).md",
-    "ENGINES/ОБРАЗЕЦ №4 — CONCEPT__ENGINE.md (КАНОН).md",
-    "ENGINES/ОБРАЗЕЦ №3 — RULES__ENGINE.md (КАНОН).md",
-    "ENGINES/ОБРАЗЕЦ №2 — PROTOCOL__ENGINE.md (КАНОН).md",
-    "ENGINES/ОБРАЗЕЦ №1 — PASSPORT__ENGINE.md (КАНОН).md",
     "_SYSTEM_INDEX/ENGINES_OVERVIEW.md",
     "INDEX__UNIVERSE_ENGINE.md",
     "_SYSTEM_INDEX/INDEX_POLICY.md"

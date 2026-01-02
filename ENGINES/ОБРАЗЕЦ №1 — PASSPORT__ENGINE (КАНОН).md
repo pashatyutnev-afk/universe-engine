@@ -1,75 +1,63 @@
-# PASSPORT — <Engine_Name>
-## Engine Identity Document
+# PASSPORT — <ENGINE_NAME>
 
----
+## 1. Идентификация
 
-## 1. Identification / Идентификация
-
-- Engine ID: <ID>
-- Name: <Engine_Name>
-- Category: <World / Narrative / Visual / Audio / Logic>
-- Level: L1 / L2 / L3
-- Status: Active
+- Engine ID: <ENGINE_ID>
+- Name: <ENGINE_NAME>
+- Category: <ENGINE_CATEGORY>
+- Level: <ENGINE_LEVEL>
+- Status: <ACTIVE | DRAFT | DEPRECATED>
 - System Owner: Universe Engine
 
 ---
 
-## 2. Purpose / Назначение
+## 2. Назначение
 
-### EN
-Defines the core function this engine enforces within the system.
-
-### RU
-Определяет основную функцию, которую данный движок обеспечивает в системе.
+Краткое описание системной роли Engine.
+Без процессов и логики работы.
 
 ---
 
-## 3. Scope / Область действия
+## 3. Область действия
 
-This engine applies to:
-- <What it affects>
+Распространяется на:
+- <IN_SCOPE>
 
-Does NOT apply to:
-- <What it cannot touch>
-
----
-
-## 4. Authority / Полномочия
-
-Can:
-- Validate outputs
-- Enforce constraints
-- Block invalid results
-
-Cannot:
-- Create content
-- Make creative decisions
-- Override higher canon
+Не распространяется на:
+- <OUT_OF_SCOPE>
 
 ---
 
-## 5. Integration / Интеграции
+## 4. Полномочия
 
-Invoked by:
-- <Specialists>
-- <Other Engines>
+Может:
+- <CAN_DO>
 
-References:
-- Canon documents
-- Structural definitions
+Не может:
+- <CANNOT_DO>
 
 ---
 
-## 6. Canon Status / Канон
+## 5. Интеграции
 
-- Canonical Engine: YES
-- Immutable Sections: Identification, Purpose
-- Editable Sections: Integrations
+Вызывается:
+- <INVOKED_BY>
+
+Используется:
+- <USED_BY>
 
 ---
 
-## 7. Notes / Заметки
+## 6. Канонический статус
 
-Engines define
-what is allowed —
-not what is desired.
+- Canonical Engine: <YES | NO>
+- Mandatory: <YES | NO>
+- Immutable: <YES | NO>
+- Bypass Allowed: <YES | NO>
+
+---
+
+## 7. Каноническая формула
+
+Одна фраза,
+описывающая сущность Engine.
