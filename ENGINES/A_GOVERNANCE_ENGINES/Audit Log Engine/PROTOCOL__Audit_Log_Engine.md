@@ -1,82 +1,82 @@
 # PROTOCOL — Audit Log Engine
-## Engine Operational Protocol
+
+## 1. Вызов
+
+Engine вызывается:
+- автоматически при любом системном действии
+- при старте и завершении выполнения Engines
+- при попытках изменения канона/протоколов/системных модулей
+- при событиях одобрения/отклонения (approval/rejection)
+- при системных операциях уровня ядра
 
 ---
 
-## 1. Invocation / Вызов
+## 2. Входные данные
 
-This engine is invoked:
-- Automatically on any system-level action
-- On engine execution start and end
-- On canon modification attempts
-- On approval or rejection events
-
----
-
-## 2. Input / Входные данные
-
-Receives:
-- Action identifier
-- Actor (engine / specialist / system)
-- Timestamp
-- Context reference
-- Affected entities
+Получает:
+- идентификатор действия/события (Action ID)
+- актор (engine / specialist / system)
+- timestamp (временная метка)
+- контекст (ссылка/контекстный идентификатор)
+- затронутые сущности (affected entities)
+- причина/обоснование (если применимо)
 
 ---
 
-## 3. Operation Logic / Логика работы
+## 3. Логика работы
 
-1. Capture event metadata
-2. Assign unique log ID
-3. Attach context references
-4. Store record in immutable log
-5. Confirm log persistence
-
----
-
-## 4. Output / Выходные данные
-
-Produces:
-- Log record ID
-- Confirmation of запись
-- Reference for future audits
+1. Захват метаданных события
+2. Присвоение уникального Log ID
+3. Привязка контекстных ссылок и происхождения
+4. Запись в неизменяемое хранилище журнала
+5. Подтверждение сохранения (persistence confirmation)
+6. Возврат ссылки на запись для последующего аудита
 
 ---
 
-## 5. Failure Conditions / Ошибки
+## 4. Выходные данные
 
-Fails when:
-- Log storage unavailable
-- Context missing
-- Timestamp invalid
-
-Failure response:
-- Block system progression
-- Raise critical system alert
+Формирует:
+- Log Record ID
+- подтверждение записи (write confirmation)
+- ссылку/референс для будущих проверок
 
 ---
 
-## 6. Completion Criteria / Завершение
+## 5. Условия отказа
 
-Execution completes when:
-- Log entry is safely stored
-- Reference is returned
+Ошибка возникает при:
+- недоступности хранилища журнала
+- отсутствии обязательного контекста
+- некорректной временной метке
+
+Реакция системы:
+- блокировать прогресс системы (halt progression)
+- поднять критическое системное предупреждение (critical alert)
+- зафиксировать факт сбоя как отдельное событие, если это возможно
 
 ---
 
-## 7. Prohibitions / Запреты
+## 6. Критерий завершения
 
-Must NOT:
-- Edit existing logs
-- Delete records
-- Interpret actions
-- Suppress events
+Выполнение завершено, когда:
+- запись безопасно сохранена
+- ссылка/идентификатор возвращены вызывающей стороне
+
+---
+
+## 7. Запреты
+
+Engine НЕ имеет права:
+- редактировать существующие записи
+- удалять записи
+- интерпретировать действия и оценивать корректность
+- подавлять или скрывать события
 
 ---
 
 ## 8. Notes / Заметки
 
-Audit Log Engine
-does not judge.
+Audit Log Engine не судит.
 
-It remembers.
+Он помнит.

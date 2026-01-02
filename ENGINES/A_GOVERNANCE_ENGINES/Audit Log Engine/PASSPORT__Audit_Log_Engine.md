@@ -1,9 +1,6 @@
 # PASSPORT — Audit Log Engine
-## Engine Identity Document
 
----
-
-## 1. Identification / Идентификация
+## 1. Идентификация
 
 - Engine ID: GOV-ALE-001
 - Name: Audit Log Engine
@@ -14,66 +11,62 @@
 
 ---
 
-## 2. Purpose / Назначение
+## 2. Назначение
 
-### EN
-Ensures complete traceability of system actions, decisions, and changes.
-Records who did what, when, and why.
-
-### RU
 Обеспечивает полную трассируемость действий, решений и изменений в системе.
 Фиксирует кто, что, когда и по какой причине сделал.
 
 ---
 
-## 3. Scope / Область действия
+## 3. Область действия
 
-Applies to:
-- Engine executions
-- Specialist decisions
-- Canon changes
-- Protocol invocations
-- System-level operations
+Распространяется на:
+- выполнения Engines (start/end и ключевые шаги)
+- решения Specialists
+- изменения канона и протоколов
+- системные операции и управляющие события
+- одобрения/отклонения изменений и заявок
 
-Does NOT apply to:
-- Raw creative drafts
-- Temporary brainstorming
-- Non-canonical experiments
-
----
-
-## 4. Authority / Полномочия
-
-Can:
-- Record all system events
-- Tag actions with context and origin
-- Preserve immutable logs
-- Provide audit trails
-
-Cannot:
-- Block actions
-- Modify decisions
-- Interpret meaning
-- Judge correctness
+Не распространяется на:
+- сырые творческие черновики
+- временные брейнштормы без канонического статуса
+- неканонические эксперименты (если явно не требуется аудит)
 
 ---
 
-## 5. Integration / Интеграции
+## 4. Полномочия
 
-Invoked by:
-- All Governance Engines
+Может:
+- фиксировать события системы
+- присваивать записи уникальные идентификаторы
+- привязывать контекст и происхождение
+- обеспечивать неизменяемость журнала
+- выдавать аудиторные ссылки для проверки
+
+Не может:
+- блокировать действия по смысловым причинам
+- изменять решения и результаты
+- интерпретировать смысл или судить корректность
+- скрывать или подавлять события
+
+---
+
+## 5. Интеграции
+
+Вызывается:
+- всеми Governance Engines
 - Canon Authority Engine
 - Change Control Engine
-- System Core
+- System Core (системные операции)
 
-Referenced by:
+Используется:
 - Quality Control
 - Risk & Safety Engines
 - Meta Analysis Specialists
 
 ---
 
-## 6. Canon Status / Канон
+## 6. Канонический статус
 
 - Canonical Engine: YES
 - Mandatory: YES
@@ -82,9 +75,7 @@ Referenced by:
 
 ---
 
-## 7. Notes / Заметки
+## 7. Каноническая формула
 
-If something happened
-and there is no log —
-for the system,
-it never happened.
+Если что-то произошло и нет лога —
+для системы этого не было.

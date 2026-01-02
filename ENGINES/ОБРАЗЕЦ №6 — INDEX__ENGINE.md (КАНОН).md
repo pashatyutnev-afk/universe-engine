@@ -1,0 +1,15 @@
+# INDEX — <ENGINE_NAME>
+
+**Канонический путь:**
+UNIVERSE_ENGINE  
+→ <ENGINE_NAME>
+
+---
+
+## Содержимое модуля
+
+- [DESCRIPTION__<ENGINE_NAME>.md](./DESCRIPTION__<ENGINE_NAME>.md)
+- [PASSPORT__<ENGINE_NAME>.md](./PASSPORT__<ENGINE_NAME>.md)
+- [PROTOCOL__<ENGINE_NAME>.md](./PROTOCOL__<ENGINE_NAME>.md)
+- [RULES__<ENGINE_NAME>.md](./RULES__<ENGINE_NAME>.md)
+- [CONCEPT__<ENGINE_NAME>.md](./CONCEPT__<ENGINE_NAME>.md)
