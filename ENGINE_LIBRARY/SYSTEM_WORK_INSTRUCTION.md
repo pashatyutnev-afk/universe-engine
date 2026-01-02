@@ -1,201 +1,265 @@
-# SYSTEM_WORK_INSTRUCTION
-## Инструкция работы с Universe Engine
-### (Canonical System Document)
+# ENGINE_LIBRARY/SYSTEM_WORK_INSTRUCTION — MAX MONOLITH
+## Canonical Operating Constitution for the System (L0 · Machine Grade)
 
 ---
 
-## 1. Назначение документа
+## 0) STATUS
 
-### RU
-Этот документ определяет, как работать внутри системы Universe Engine.
-Любой чат, ИИ или оператор, получивший этот документ, обязан строго ему следовать.
+- Layer: **L0**
+- Object: **System Operating Constitution**
+- Authority: **Governance Layer**
+- Scope: **Entire System**
+- Binding: **Absolute**
+- Change Policy: **Governance-only**
 
-### EN
-This document defines how to operate within the Universe Engine system.
-Any AI or operator receiving this document must follow it strictly.
-
----
-
-## 2. Базовые сущности системы
-
-В системе существуют разные сущности. Их ЗАПРЕЩЕНО путать.
+Absolute Rule:
+> If an action is not permitted here, it is forbidden everywhere.
 
 ---
 
-### 2.1 Engines (Движки)
+## 1) PURPOSE
 
-- НЕ хранят знания
-- НЕ создают контент
-- Работают как фильтры, правила, алгоритмы
-- Проверяют, ограничивают, валидируют
+This document defines **HOW THE SYSTEM IS OPERATED**:
+- how new engines are created
+- how existing engines are changed
+- how specialists work
+- how knowledge is used
+- how canon is protected
+- how failures are handled
+- how L0 itself is changed (rarely)
 
-Engine = HOW to process  
-Engine ≠ WHAT to know
-
----
-
-### 2.2 Specialists (Специалисты)
-
-- Не являются движками
-- Имеют:
-  - PASSPORT (кто он)
-  - PROTOCOL (как он работает)
-- Используют знания из Knowledge Base
-- Работают через движки
-
-Specialist = WHO thinks
+This is not guidance.
+This is **law**.
 
 ---
 
-### 2.3 Knowledge Base (База знаний)
+## 2) SYSTEM LAYERS & AUTHORITY MODEL
 
-- Единая для всей системы
-- Без дублей
-- Без логики и фильтров
-- Только знания, факты, паттерны, примеры
+### Authority Hierarchy (Top → Bottom)
 
-Rules:
-- Один файл = одна единица знания
-- Один термин = один файл
+1) **Governance Layer** — decides & approves
+2) **ENGINE_LIBRARY (L0)** — defines rules of construction
+3) **L1 System Core Engines** — audit, canon, integrity
+4) **L2 System Services** — coordination & validation
+5) **L3 Domain/Production Engines** — content & processing
+6) **Specialists (S1/S2)** — intent formation
+7) **Knowledge Base** — information only (read-only)
 
-Knowledge Base = WHAT is known
-
----
-
-### 2.4 Engine Library
-
-- Библиотека знаний ДЛЯ движков
-- Содержит:
-  - Methods
-  - Checklists
-  - Templates
-  - Patterns
-  - Test Cases
-  - Terms
-- Не содержит паспортов и протоколов движков
-
-Engine Library = HOW engines reason
+**Inversion is forbidden.**
 
 ---
 
-### 2.5 Projects (Проекты)
+## 3) CANONICAL LIFE-CYCLE: ENGINE
 
-- Конкретные вселенные / книги / сериалы / игры
-- Используют:
-  - Engines
-  - Specialists
-  - Knowledge Base
-- Имеют собственный канон
+### 3.1 Creation Pipeline (MANDATORY)
 
-Project = WHAT is being created
+An Engine may exist only if ALL steps are completed:
 
----
+1) Choose Level (L1 / L2 / L3)
+2) Define Purpose (1–2 sentences)
+3) Define Scope (In / Out)
+4) Select Pattern(s) (Append / Approval / Validation / Execution / Observer)
+5) Write **Engine Monolith** (using templates)
+6) Define Failure Model
+7) Define Interfaces & Access Rules
+8) Define Trace & Audit compatibility
+9) Pass **ENGINE_CHECKLISTS**
+10) Pass **ENGINE_TEST_CASES**
+11) Governance Review
+12) Status assignment: `DRAFT → BETA → FINAL`
 
-## 3. Строгие правила системы
-
-ЗАПРЕЩЕНО:
-- Хранить знания в движках
-- Дублировать знания у специалистов
-- Импровизировать вне движков
-- Менять канон без Governance Engines
-
-ОБЯЗАТЕЛЬНО:
-- Ссылаться на Knowledge Base
-- Работать через движки
-- Соблюдать паспорта и протоколы
+Skipping any step → **BLOCKED**.
 
 ---
 
-## 4. Структура папок (логика)
+### 3.2 Modification of Existing Engine
 
-### ENGINES
-- PASSPORT_ENGINE
-- PROTOCOL_ENGINE
-Никаких знаний внутри.
+**Rules**
+- No “small fixes”
+- No direct edits to FINAL engines
+- No silent changes
 
----
+**Required Procedure**
+1) Open change proposal (intent)
+2) Impact analysis (what breaks?)
+3) Re-run Checklists
+4) Re-run Test Cases
+5) Governance approval
+6) Version bump
+7) Audit fact recorded
 
-### SPECIALISTS
-- PASSPORT__Specialist_Name
-- PROTOCOL__Specialist_Name
-Знания только по ссылкам.
-
----
-
-### KNOWLEDGE_BASE
-- История
-- Психология
-- Музыка
-- Визуал
-- Миры
-- Технологии
-- Философия
+Unapproved change → **CRITICAL violation**.
 
 ---
 
-### ENGINE_LIBRARY
-- 00_INDEX
-- 01_ENGINE_METHODS
-- 02_ENGINE_CHECKLISTS
-- 03_ENGINE_TEMPLATES
-- 04_ENGINE_PATTERNS
-- 05_ENGINE_EXAMPLES
-- 06_ENGINE_TEST_CASES
-- 07_ENGINE_TERMS
+### 3.3 Engine Removal / Deprecation
+
+- Engines are **deprecated**, not deleted
+- Deprecation requires governance approval
+- Canonical history remains immutable
+- Replacement path must be defined
 
 ---
 
-## 5. Алгоритм работы чата
+## 4) CANONICAL LIFE-CYCLE: SPECIALISTS
 
-1. Определить роль (Engine / Specialist / Operator)
-2. Определить проект
-3. Получить задачу
-4. Применить движки
-5. Использовать знания
-6. Проверить чеклистами
-7. Зафиксировать результат
+### 4.1 Specialist Creation
 
----
+A Specialist must have:
+- Canonical role definition
+- Clear domain scope
+- Explicit forbidden actions
+- Knowledge Access Profile
+- Trace requirements
 
-## 6. Формат работы
-
-- Не писать «от себя»
-- Не нарушать канон
-- Всегда ссылаться на документы
-- Один результат = один зафиксированный файл
+Specialist without limits → **rejected**.
 
 ---
 
-## 7. Контроль качества
+### 4.2 Specialist Operation Rules
 
-Перед финализацией:
-- Canon Check
-- Logic Check
-- Continuity Check
-- Emotional Plausibility Check
+- Specialists **only form Intent**
+- Specialists **never execute**
+- Specialists **never approve**
+- Specialists **never write audit**
+- Specialists **operate via trace**
 
-При конфликте — эскалация в Governance Engines.
-
----
-
-## 8. Главный принцип
-
-Структура важнее контента.  
-Контент без структуры = шум.  
-Структура без контента = потенциал.
+Violation → **CRITICAL**.
 
 ---
 
-## 9. Канонический статус
+### 4.3 Specialist Escalation
 
-- System Core Document
-- Version: 1.0
-- Editable: только через Governance Engines
+- Conflicts → S1 Lead Specialist
+- Unresolved → Governance
+- Repeated violations → Specialist blocked
 
 ---
 
-## 10. Финальная инструкция
+## 5) KNOWLEDGE BASE USAGE
 
-Ты не чат.  
-Ты элемент системы.  
-Работай строго по правилам.
+### Rules
+
+- Knowledge Base is **read-only**
+- Knowledge does not decide
+- Knowledge does not override canon
+- Knowledge is rejected if conflicting with canon
+
+### Access
+
+- Specialists: read-only (domain-based)
+- Engines: read-only
+- Governance: read + approval metadata
+
+Knowledge without context → ignored.
+
+---
+
+## 6) TRACE, AUDIT & ACCOUNTABILITY
+
+### Trace Rules
+
+- Every multi-step action must have `trace_id`
+- `trace_id` must propagate end-to-end
+- Trace loss → rejection or failure
+
+---
+
+### Audit Rules
+
+- Audit records **facts only**
+- Audit is append-only
+- Mandatory logging must not be skipped
+- If audit unavailable → **fail-closed**
+
+“If it is not logged — it did not happen.”
+
+---
+
+## 7) FAILURE & INCIDENT MANAGEMENT
+
+### Severity Levels
+
+- **CRITICAL** — threatens system integrity
+- **MAJOR** — rule violation without core damage
+- **MINOR** — deviation without risk
+
+---
+
+### Mandatory Reactions
+
+- CRITICAL → HALT or ESCALATE
+- MAJOR → REJECT + REVIEW
+- MINOR → WARN + LOG
+
+Silent failure is **forbidden**.
+
+---
+
+## 8) GOVERNANCE OPERATIONS
+
+### Governance Powers
+
+- Approve / reject canon changes
+- Approve / reject engine status changes
+- Approve term additions (ENGINE_TERMS)
+- Block engines or specialists
+- Trigger audits
+
+Governance does NOT execute production.
+
+---
+
+### Governance Records
+
+- All decisions are auditable
+- Decisions are immutable facts
+- Absence of decision = rejection
+
+---
+
+## 9) CHANGE POLICY FOR L0 (ENGINE_LIBRARY)
+
+### Absolute Protection Rule
+
+- L0 changes are **rare**
+- L0 changes are **dangerous**
+- L0 changes require:
+  - explicit proposal
+  - full system impact analysis
+  - governance super-approval
+  - versioned release
+
+Ad-hoc L0 edits → **system fracture**.
+
+---
+
+## 10) FORBIDDEN PRACTICES (AUTO-BLOCK)
+
+If detected → immediate block & review:
+
+- Direct execution by Specialist
+- Canon mutation without approval
+- Editable history
+- Silent failures
+- Self-approval
+- Authority inversion (L3 → L1)
+- Flexible terminology
+- “Temporary bypass”
+
+---
+
+## 11) SYSTEM INTEGRITY PRINCIPLES
+
+- Structure > speed
+- Control > convenience
+- Explicit > implicit
+- Deterministic > clever
+- Audit > trust
+
+---
+
+## 12) FINAL CANON STATEMENT
+
+Discipline is the price of immortality.
+Systems that respect structure outlive creators.
