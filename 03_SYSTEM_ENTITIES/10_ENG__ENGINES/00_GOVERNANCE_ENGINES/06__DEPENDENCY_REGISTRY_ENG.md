@@ -4,272 +4,327 @@ FILE: 06__DEPENDENCY_REGISTRY_ENG.md
 SCOPE: Universe Engine
 ENTITY_GROUP: ENGINES (ENG)
 FAMILY: 00_GOVERNANCE_ENGINES
-CLASS: GOVERNANCE (L1)
 LEVEL: L1
 STATUS: ACTIVE
-VERSION: 2.0
-ROLE: Canonical dependency + handoff law for all ENG engines; defines allowed link types, required mini-contract fields, and produces reproducible dependency graph artifacts
-
----
-
-## PURPOSE
-
-Этот движок вводит “закон связей” для ENG:
-- чтобы все зависимые цепочки были **явными**
-- чтобы outputs одного движка были корректным input для другого
-- чтобы не было скрытых пересечений ролей
-- чтобы INDEX был дорожной картой не только по списку, но и по **интеграции**
-
----
-
-## SCOPE (WHAT IT CONTROLS)
-
-Dependency Registry контролирует:
-- типы связей между движками (link types)
-- формат записи зависимости (edge schema)
-- требования к mini-contract (CONSUMES/PRODUCES/DEPENDS_ON/OUTPUT_TARGET)
-- требования к HANDOFF блоку
-- политику циклов (cycle policy)
-- формат артефакта dependency graph (DEP_GRAPH)
-
----
-
-## NON-GOALS (WHAT IT DOES NOT DO)
-
-- не утверждает канон (Canon Authority)
-- не управляет изменениями (Change Control)
-- не оценивает качество текста (Consistency Engine)
-- не заменяет доменную логику (Narrative/World/Character)
+VERSION: 1.0
+ROLE: Single source of truth for ENG engine dependencies (DEPENDS_ON) + cycle governance + sync rules
 
 ---
 
 ## MINI-CONTRACT (MANDATORY)
+CONSUMES:
+- Engine files (DEPENDS_ON blocks)
+- ENG layer INDEX (registry targets)
+- Change proposals that touch deps
+- Existing dependency registry entries
 
-### CONSUMES
-- engine mini-contract blocks from all families
-- handoff blocks from all engines
-- change packets that modify dependencies
-- index references (for canonical addressing)
+PRODUCES:
+- Canon dependency registry (this file)
+- Dependency violation list (hidden deps / mismatches / cycles)
+- Cycle exception notes (allowed cycles + reasons)
+- Sync directives for Consistency Engine + Change Control
+- Dependency map rules for future engines
 
-### PRODUCES
-- DEP_GRAPH artifact (canonical dependency graph snapshot)
-- DEP_EDGES registry entries (edge list)
-- CYCLE REPORT (if cycles exist)
-- REQUIRED FIXES list when contract mismatch found
+DEPENDS_ON:
+- 03__RULE_HIERARCHY_ENG
+- 04__CHANGE_CONTROL_ENG
+- 05__CONSISTENCY_ENG
+- 01__AUDIT_LOG_ENG
+- 10__VERSIONING_MEMORY_ENG
 
-### DEPENDS_ON
-- 00_GOVERNANCE_ENGINES/04__CHANGE_CONTROL_ENG.md
-- 00_GOVERNANCE_ENGINES/05__CONSISTENCY_ENG.md
-- 00_GOVERNANCE_ENGINES/02__CANON_AUTHORITY_ENG.md
-- 00_GOVERNANCE_ENGINES/01__AUDIT_LOG_ENG.md
-
-### OUTPUT_TARGET
-- System-wide governance: used before LOCKing any change set
-- Attached to Consistency Report and referenced in Audit Log
-
----
-
-## CANON ADDRESSING (ENGINE IDENTIFIERS)
-
-Любая ссылка на движок в системе должна быть в одном формате:
-
-- ENGINE_ID: `ENG::<FAMILY>::<NN>::<ENGINE_NAME>`
-  - example: `ENG::00_GOVERNANCE_ENGINES::06::DEPENDENCY_REGISTRY`
-
-- CANON_PATH: `03_SYSTEM_ENTITIES/10_ENG__ENGINES/<FAMILY>/<FILE>`
-
-В тексте допускается сокращение:
-- `00/06` означает `00_GOVERNANCE_ENGINES/06__DEPENDENCY_REGISTRY_ENG.md`
+OUTPUT_TARGET:
+- Registry entries used by all ENG engines and governance gating
 
 ---
 
-## REQUIRED FIELDS IN EVERY ENGINE (LAW)
+## 0) PURPOSE (LAW)
+Этот реестр — **единственная точка истины** для зависимостей ENG-движков.
 
-Каждый ENG движок обязан содержать:
+Он гарантирует:
+- отсутствие “скрытых зависимостей”
+- синхронность между `DEPENDS_ON` в движках и реестром
+- контролируемые циклы (если они нужны — то **явно** и **обоснованно**)
+- стабильность pipeline (Change Control / Consistency / Audit)
 
-### 1) MINI-CONTRACT (MANDATORY)
-- CONSUMES
-- PRODUCES
-- DEPENDS_ON
-- OUTPUT_TARGET
-
-### 2) HANDOFF (MANDATORY WHEN APPLICABLE)
-Если движок PRODUCES артефакт, который кто-то CONSUMES —
-должен быть описан HANDOFF.
-
-Если движок не отдаёт ничего downstream — HANDOFF допускается пустым,
-но mini-contract всё равно обязателен.
+### ABSOLUTE RULE
+> Любая зависимость, которой нет в этом реестре, считается **non-canon** даже если она упомянута в тексте движка.
 
 ---
 
-## LINK TYPES (CANON)
+## 1) SCOPE
+Реестр охватывает **только ENG слой**:
 
-### A) DEPENDS_ON (HARD)
-Жёсткая зависимость. Без upstream артефакта этот движок не может работать.
-- strictness: HARD
-- implies: consumer must cite upstream in handoff mapping
+`03_SYSTEM_ENTITIES/10_ENG__ENGINES/**`
 
-### B) FEEDS_INTO (SOFT)
-Выход движка используется downstream, но без него downstream может работать “в режиме деградации”.
-- strictness: SOFT
-
-### C) HANDOFF_TO (SOFT/HARD)
-Явная передача артефакта (файла/спека/карты) в downstream.
-- strictness: can be HARD or SOFT (declared per edge)
-
-### D) OVERLAP_RISK (SOFT)
-Риск пересечения ролей. Требует boundary clarification.
-- always SOFT but treated as CRITICAL by Consistency unless resolved
-
-### E) CONFLICTS_WITH (HARD)
-Правила противоречат. Требуется решение через governance.
-- strictness: HARD
-- triggers: Change Control + Canon Authority
-
-### F) SUBSUMES (HARD)
-Один движок является “надстройкой”, включающей другой как подмодуль.
-- used rarely; requires explicit approval
+Если зависимость указывает на другой класс сущностей (ORC/SPC/CTL/VAL/QA),
+она должна быть оформлена как **cross-layer link** (в отдельном реестре того слоя)
+и отражена через governance-стыки (Rule Hierarchy / Change Control).
 
 ---
 
-## DEPENDENCY EDGE SCHEMA (CANON)
+## 2) DEPENDENCY TERMS (DEFINITIONS)
+### 2.1 What is a dependency
+**Dependency** — это когда движок **не может быть корректно выполнен** без результата другого движка.
 
-Каждая связь между движками описывается так:
+### 2.2 Hard vs Soft
+- **HARD_DEP**: без него движок невалиден (обязательная предпосылка)
+- **SOFT_DEP**: улучшает результат, но движок всё ещё работает (опционально)
 
-- EDGE_ID: DE-0001
-- FROM: <ENGINE_ID>
-- TO: <ENGINE_ID>
-- TYPE: DEPENDS_ON | FEEDS_INTO | HANDOFF_TO | OVERLAP_RISK | CONFLICTS_WITH | SUBSUMES
-- STRICTNESS: HARD | SOFT
-- ARTIFACT: what is handed off (name)
-- ARTIFACT_FORMAT: spec/card/graph/checklist/template/etc
-- MAPPING: "FROM.PRODUCES -> TO.CONSUMES" one line
-- RATIONALE: one sentence
-- NOTES: optional
+### 2.3 Dependency Direction
+Запись `A -> B` означает:
+- A **depends_on** B
+- B должен быть пройден / доступен перед A
 
 ---
 
-## HANDOFF BLOCK STANDARD (CANON)
+## 3) REGISTRY FORMAT (CANON)
+Каждая запись реестра должна быть в строгом формате.
 
-В каждом движке, если есть downstream usage, вставляется:
+### 3.1 Record Template (MANDATORY)
+ENGINE_ID: <FAMILY>/<NN__ENGINE_FILE_ENG.md>
+ENGINE_NAME: <Human readable>
+DEPENDS_ON:
+  - <FAMILY>/<NN__ENGINE_FILE_ENG.md> [HARD|SOFT]
+  - ...
+CYCLE_STATUS: NONE | ALLOWED | FORBIDDEN
+CYCLE_REASON: <required if ALLOWED>
+NOTES: <optional>
+LOCK: FIXED
 
-### HANDOFF (MANDATORY)
-- PRODUCED_ARTIFACTS:
-  - <artifact_name> — <short description> — <format>
-- CONSUMERS:
-  - <engine_id or family/nn> — consumes: <artifact_name> — strictness
-- DELIVERY:
-  - where stored (path or project folder standard)
-- ACCEPTANCE:
-  - how consumer validates artifact
-
----
-
-## CANON ARTIFACT: DEP_GRAPH (SYSTEM SNAPSHOT)
-
-Dependency Registry обязан уметь отдавать “снимок графа” (текстом):
-
-### DEP_GRAPH (CANON FORMAT)
-- GRAPH_ID: DG-ENG-0001
-- DATE:
-- SCOPE:
-  - full ENG | families list | change packet scope
-- NODE_COUNT:
-- EDGE_COUNT:
-- EDGES:
-  - list of DEP_EDGES (edge schema above)
-- CYCLES:
-  - none | list (see cycle report)
-- NOTES:
-  - major risks / required fixes
-
-Этот артефакт прикладывается к:
-- Consistency Report
-- Change Control packet (если правка меняет связи)
+### 3.2 Engine ID rule
+- Используем **канонический путь** относительно `10_ENG__ENGINES/`
+- Без raw-links (raw-links живут в INDEX)
+- Пример:
+  `00_GOVERNANCE_ENGINES/04__CHANGE_CONTROL_ENG.md`
 
 ---
 
-## CYCLE POLICY (DEFAULT FORBIDDEN)
+## 4) SYNC LAW (DEPENDS_ON ↔ REGISTRY)
+### 4.1 Sync Rule (ABSOLUTE)
+- `DEPENDS_ON` в файле движка **обязан** совпадать с `DEPENDS_ON` в реестре.
+- Разрешено только одно: в реестре можно держать отметку HARD/SOFT и цикл-статус.
 
-### Default rule
-Циклы запрещены.
-
-### Allowed cycles (rare)
-Разрешены только если:
-- цикл описан как **governance mediated**
-- есть явный “разрыв” через gate:
-  - approve/review/lock/audit
-- указан “источник истины” (single source of truth)
-- Canon Authority это разрешила
-
-### Cycle report format
-- CYCLE_ID: CY-0001
-- NODES: list
-- WHY_EXISTS:
-- BREAK_MECHANISM:
-- RISK:
-- APPROVAL:
+### 4.2 If mismatch found
+Это `S1_CRITICAL` нарушение (блокирует канон), пока не выполнено одно из двух:
+1) исправить DEPENDS_ON в движке под реестр
+2) провести Change Control и изменить реестр + движок синхронно
 
 ---
 
-## CONTRACT MISMATCH RULES (AUTOMATIC FAIL CONDITIONS)
+## 5) HIDDEN DEPENDENCIES (FORBIDDEN)
+Скрытая зависимость — когда:
+- движок в тексте “опирается на” другой движок,
+- но DEPENDS_ON это не отражает,
+- и/или в реестре нет записи.
 
-Если обнаружено:
-- TO engine CONSUMES artifact, которого не PRODUCES upstream
-- FROM engine PRODUCES artifact, но нет downstream consumer (если заявлено как mandatory)
-- DEPENDS_ON отсутствует, но handoff явно обязателен
-
-→ это минимум S1 (critical), иногда S0 (blocker), и должно быть исправлено.
-
----
-
-## CORE SYSTEM INTEGRATION (EXPECTED LINKS)
-
-Чтобы ENG работал как конвейер, минимальные связи должны существовать:
-
-### Governance backbone (always)
-- All engines — DEPENDS_ON → 00/04 Change Control (process)
-- All engines — FEEDS_INTO → 00/05 Consistency (audits)
-- All engine families — FEEDS_INTO → 00/01 Audit Log (record)
-- INDEX — HANDOFF_TO → Consistency + Dependency Registry (registry scans)
-
-### Domain → Expression (logic flow)
-- 02 Domain Narrative — FEEDS_INTO → 05 Expression
-  - Narrative Logic → Cause-Effect / Event
-
-### Domain → Production (artifact flow)
-- Domain outputs — FEEDS_INTO → 07 Production Format (adaptation)
-- 07 Production Format — FEEDS_INTO → 08 Knowledge Production (media specs)
-- 08 Knowledge Production — HANDOFF_TO → 09 Sound/Music (deep) when needed
-
-(Это не означает “все на всех”, но означает: связи должны быть описаны там, где реально используется.)
+### Enforcement
+- Любая скрытая зависимость = `S1_CRITICAL`
+- Фикс: добавить в DEPENDS_ON + реестр через Change Control
 
 ---
 
-## PROCEDURE (HOW TO USE THIS ENGINE)
+## 6) CYCLE LAW (CYCLES)
+### 6.1 Default
+Циклы **по умолчанию запрещены**.
 
-1) Для каждого движка заполнить mini-contract (обязательные поля)
-2) Если есть downstream — заполнить HANDOFF блок
-3) Сформировать DEP_EDGES:
-   - из DEPENDS_ON
-   - из явных handoff consumers
-4) Проверить циклы
-5) Выдать DEP_GRAPH snapshot
-6) Если правка меняет связи — оформить через Change Control
+### 6.2 When cycle may be allowed
+Только если:
+- цикл **невозможно** заменить линейной зависимостью без потери смысла
+- цикл описан как “итеративная система обратной связи”
+- есть чёткий “entry-point engine” (с которого цикл запускается)
+- есть правило “когда цикл останавливается” (stop condition)
+
+### 6.3 Mandatory fields for allowed cycles
+Если `CYCLE_STATUS: ALLOWED`, то обязательно:
+- `CYCLE_REASON`
+- `NOTES` с:
+  - entry-point
+  - stop condition
+  - почему нельзя разорвать
+
+---
+
+## 7) CHANGE CONTROL GATE (MANDATORY)
+Любое изменение зависимостей — это изменение канона и идёт через:
+- `00_GOVERNANCE_ENGINES/04__CHANGE_CONTROL_ENG.md`
+- логируется в `01__AUDIT_LOG_ENG.md`
+- записывается в `10__VERSIONING_MEMORY_ENG.md`
+- проходит `05__CONSISTENCY_ENG.md`
 
 ---
 
-## VALIDATION CHECKLIST (AUDIT)
+# DEPENDENCY REGISTRY — ENG (CANON)
 
-- DR1: mini-contract есть в каждом движке
-- DR2: handoff описан там, где outputs используются downstream
-- DR3: DEPENDS_ON соответствует реальным входам
-- DR4: нет циклов без governance break
-- DR5: overlap risk помечен и имеет OWNER/решение
-- DR6: contract mismatch отсутствует (produces/consumes совпадают)
+LOCK: FIXED
 
 ---
+
+## 00_GOVERNANCE_ENGINES
+
+ENGINE_ID: 00_GOVERNANCE_ENGINES/01__AUDIT_LOG_ENG.md
+ENGINE_NAME: Audit Log Engine
+DEPENDS_ON:
+  - 00_GOVERNANCE_ENGINES/02__CANON_AUTHORITY_ENG.md [HARD]
+  - 00_GOVERNANCE_ENGINES/03__RULE_HIERARCHY_ENG.md [HARD]
+CYCLE_STATUS: NONE
+CYCLE_REASON:
+NOTES:
+LOCK: FIXED
+
+---
+
+ENGINE_ID: 00_GOVERNANCE_ENGINES/02__CANON_AUTHORITY_ENG.md
+ENGINE_NAME: Canon Authority Engine
+DEPENDS_ON:
+  - 00_GOVERNANCE_ENGINES/03__RULE_HIERARCHY_ENG.md [HARD]
+CYCLE_STATUS: NONE
+CYCLE_REASON:
+NOTES:
+LOCK: FIXED
+
+---
+
+ENGINE_ID: 00_GOVERNANCE_ENGINES/03__RULE_HIERARCHY_ENG.md
+ENGINE_NAME: Rule Hierarchy Engine
+DEPENDS_ON: []
+CYCLE_STATUS: NONE
+CYCLE_REASON:
+NOTES:
+LOCK: FIXED
+
+---
+
+ENGINE_ID: 00_GOVERNANCE_ENGINES/04__CHANGE_CONTROL_ENG.md
+ENGINE_NAME: Change Control Engine
+DEPENDS_ON:
+  - 00_GOVERNANCE_ENGINES/02__CANON_AUTHORITY_ENG.md [HARD]
+  - 00_GOVERNANCE_ENGINES/03__RULE_HIERARCHY_ENG.md [HARD]
+  - 00_GOVERNANCE_ENGINES/01__AUDIT_LOG_ENG.md [HARD]
+  - 00_GOVERNANCE_ENGINES/10__VERSIONING_MEMORY_ENG.md [HARD]
+CYCLE_STATUS: NONE
+CYCLE_REASON:
+NOTES:
+LOCK: FIXED
+
+---
+
+ENGINE_ID: 00_GOVERNANCE_ENGINES/05__CONSISTENCY_ENG.md
+ENGINE_NAME: Consistency Engine
+DEPENDS_ON:
+  - 00_GOVERNANCE_ENGINES/03__RULE_HIERARCHY_ENG.md [HARD]
+  - 00_GOVERNANCE_ENGINES/04__CHANGE_CONTROL_ENG.md [HARD]
+  - 00_GOVERNANCE_ENGINES/06__DEPENDENCY_REGISTRY_ENG.md [HARD]
+  - 00_GOVERNANCE_ENGINES/10__VERSIONING_MEMORY_ENG.md [SOFT]
+CYCLE_STATUS: ALLOWED
+CYCLE_REASON: Consistency validates Dependency Registry, while Dependency Registry rules depend on Consistency enforcement.
+NOTES:
+  entry_point: 00_GOVERNANCE_ENGINES/04__CHANGE_CONTROL_ENG.md
+  stop_condition: When registry and engine DEPENDS_ON blocks are synchronized and no S1 violations remain.
+LOCK: FIXED
+
+---
+
+ENGINE_ID: 00_GOVERNANCE_ENGINES/06__DEPENDENCY_REGISTRY_ENG.md
+ENGINE_NAME: Dependency Registry Engine
+DEPENDS_ON:
+  - 00_GOVERNANCE_ENGINES/03__RULE_HIERARCHY_ENG.md [HARD]
+  - 00_GOVERNANCE_ENGINES/04__CHANGE_CONTROL_ENG.md [HARD]
+  - 00_GOVERNANCE_ENGINES/05__CONSISTENCY_ENG.md [HARD]
+  - 00_GOVERNANCE_ENGINES/01__AUDIT_LOG_ENG.md [SOFT]
+  - 00_GOVERNANCE_ENGINES/10__VERSIONING_MEMORY_ENG.md [SOFT]
+CYCLE_STATUS: ALLOWED
+CYCLE_REASON: Registry and Consistency are mutually validating in governance loop.
+NOTES:
+  entry_point: 00_GOVERNANCE_ENGINES/04__CHANGE_CONTROL_ENG.md
+  stop_condition: Registry reflects actual canon dependencies and Consistency report has no S1.
+LOCK: FIXED
+
+---
+
+ENGINE_ID: 00_GOVERNANCE_ENGINES/07__DECISION_APPROVAL_ENG.md
+ENGINE_NAME: Decision Approval Engine
+DEPENDS_ON:
+  - 00_GOVERNANCE_ENGINES/02__CANON_AUTHORITY_ENG.md [HARD]
+  - 00_GOVERNANCE_ENGINES/04__CHANGE_CONTROL_ENG.md [HARD]
+CYCLE_STATUS: NONE
+CYCLE_REASON:
+NOTES:
+LOCK: FIXED
+
+---
+
+ENGINE_ID: 00_GOVERNANCE_ENGINES/08__SCOPE_IMPACT_ENG.md
+ENGINE_NAME: Scope Impact Engine
+DEPENDS_ON:
+  - 00_GOVERNANCE_ENGINES/04__CHANGE_CONTROL_ENG.md [HARD]
+  - 00_GOVERNANCE_ENGINES/05__CONSISTENCY_ENG.md [SOFT]
+CYCLE_STATUS: NONE
+CYCLE_REASON:
+NOTES:
+LOCK: FIXED
+
+---
+
+ENGINE_ID: 00_GOVERNANCE_ENGINES/09__RISK_SAFETY_ENG.md
+ENGINE_NAME: Risk Safety Engine
+DEPENDS_ON:
+  - 00_GOVERNANCE_ENGINES/04__CHANGE_CONTROL_ENG.md [HARD]
+  - 00_GOVERNANCE_ENGINES/03__RULE_HIERARCHY_ENG.md [SOFT]
+CYCLE_STATUS: NONE
+CYCLE_REASON:
+NOTES:
+LOCK: FIXED
+
+---
+
+ENGINE_ID: 00_GOVERNANCE_ENGINES/10__VERSIONING_MEMORY_ENG.md
+ENGINE_NAME: Versioning & Memory Engine
+DEPENDS_ON:
+  - 00_GOVERNANCE_ENGINES/01__AUDIT_LOG_ENG.md [HARD]
+  - 00_GOVERNANCE_ENGINES/03__RULE_HIERARCHY_ENG.md [SOFT]
+CYCLE_STATUS: NONE
+CYCLE_REASON:
+NOTES:
+LOCK: FIXED
+
+---
+
+## 01_CORE_ENGINES
+# TODO: Fill when CORE engines are finalized with their DEPENDS_ON blocks.
+# RULE: Do not add speculative dependencies. Only what is present in engine DEPENDS_ON.
+
+## 02_DOMAIN_NARRATIVE_ENGINES
+# TODO
+
+## 03_DOMAIN_CHARACTER_ENGINES
+# TODO
+
+## 04_DOMAIN_WORLD_ENGINES
+# TODO
+
+## 05_EXPRESSION_ENGINES
+# TODO
+
+## 06_GENRE_STYLE_ENGINES
+# TODO
+
+## 07_PRODUCTION_FORMAT_ENGINES
+# TODO
+
+## 08_KNOWLEDGE_PRODUCTION_ENGINES
+# TODO
+
+## 09_SOUND_MUSIC_ENGINES
+# TODO
+
+## 10_META_EVOLUTION_ENGINES
+# TODO
+
+---
+
+## FINAL RULE (LOCK)
+> Dependency Registry — единственный канонический реестр зависимостей ENG слоя.  
+> Любая правка зависимостей проходит Change Control и фиксируется в Audit + Versioning.
 
 OWNER: Universe Engine
 LOCK: FIXED
-CHANGE_GATE: GOVERNANCE_PIPELINE

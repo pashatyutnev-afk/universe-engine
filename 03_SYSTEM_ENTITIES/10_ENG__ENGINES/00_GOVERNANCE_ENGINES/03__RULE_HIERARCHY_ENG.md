@@ -4,208 +4,166 @@ FILE: 03__RULE_HIERARCHY_ENG.md
 SCOPE: Universe Engine
 ENTITY_GROUP: ENGINES (ENG)
 FAMILY: 00_GOVERNANCE_ENGINES
-CLASS: GOVERNANCE (L1)
 LEVEL: L1
 STATUS: ACTIVE
-VERSION: 2.0
-ROLE: Defines precedence of laws and documents for ENG; resolves conflicts by determining which rule wins, and enforces canonical override/waiver mechanisms
-
----
-
-## PURPOSE
-
-Этот движок нужен, чтобы система не спорила сама с собой.
-
-Он фиксирует:
-- **иерархию источников** (что сильнее, что слабее)
-- **правила конфликта** (как решать противоречия)
-- **механизм override/waiver** (как допускаются исключения)
-- **правило “локальный vs глобальный”** (что имеет приоритет)
-
----
-
-## SCOPE (WHAT IT APPLIES TO)
-
-Иерархия распространяется на:
-- INDEX (реестр)
-- governance движки
-- README realm files семейств
-- engine files
-- любые “производные” артефакты (specs, packs, checklists)
-- черновики/чаты (как не-канон)
-
----
-
-## NON-GOALS
-
-- не утверждает решения (это Canon Authority)
-- не проверяет соответствие (это Consistency Engine)
-- не управляет изменениями (это Change Control)
-- не описывает зависимости (это Dependency Registry)
+VERSION: 1.0
+ROLE: Defines strict hierarchy of rules, precedence order, and conflict resolution across the system
 
 ---
 
 ## MINI-CONTRACT (MANDATORY)
+CONSUMES:
+- Conflicting statements (rules, contracts, readmes, indexes)
+- Change proposals touching rules/structure
+- Registry/index references for affected scope
+- Audit entries / decision IDs (if exist)
 
-### CONSUMES
-- conflicting rules or claims across docs
-- family realm files + engine files
-- index and governance rules
-- waiver proposals (if exception needed)
+PRODUCES:
+- Canon precedence verdict (which rule wins)
+- Required rewrite targets (what must be fixed)
+- Conflict classification (type + severity)
+- Enforcement checklist for maintainers
+- Anti-duplication boundary map (when needed)
 
-### PRODUCES
-- conflict resolution outcome (winner rule)
-- required actions: align / override / waiver / deprecate
-- precedence mapping (for auditors and authors)
+DEPENDS_ON:
+- 02__CANON_AUTHORITY_ENG
+- 04__CHANGE_CONTROL_ENG
+- 01__AUDIT_LOG_ENG
 
-### DEPENDS_ON
-- 00_GOVERNANCE_ENGINES/02__CANON_AUTHORITY_ENG.md
-- 00_GOVERNANCE_ENGINES/05__CONSISTENCY_ENG.md
-- 00_GOVERNANCE_ENGINES/04__CHANGE_CONTROL_ENG.md
-
-### OUTPUT_TARGET
-- Used whenever contradictions appear during writing, audits, or integration
-- Referenced by Consistency findings and Canon Authority verdicts
-
----
-
-## HIERARCHY OF TRUTH (CANON PRECEDENCE)
-
-### P0 — Existence & navigation law (highest)
-1) `00__INDEX_ALL_ENGINES.md`
-- решает: существует ли движок, где он живёт, какой его номер и порядок
-
-### P1 — Governance law
-2) `00_GOVERNANCE_ENGINES/*`
-- решает: как менять, как проверять, как фиксировать, что считать каноном
-
-### P2 — Family realm law
-3) `00__README__<FAMILY>_ENGINES.md`
-- решает: термины семьи, границы ответственности, базовые outputs семьи
-
-### P3 — Engine local law
-4) `<NN>__<ENGINE>_ENG.md`
-- решает: локальная процедура и контракт в рамках границ семьи
-
-### P4 — Derived artifacts (lowest canon)
-5) generated specs/checklists/prompt packs/etc
-- они обязаны соответствовать P0–P3
-
-### P5 — Non-canon sources (not truth)
-6) чаты/черновики/заметки
-- не считаются истиной, пока не оформлены как файлы и не зарегистрированы/утверждены
+OUTPUT_TARGET:
+- Rule enforcement across all ENG files and registries
+- Governance resolutions used by indexes/owners
 
 ---
 
-## CONFLICT TYPES (STANDARD)
+## 0) PURPOSE (LAW)
+Rule Hierarchy Engine гарантирует, что система всегда может ответить:
 
-### C1 — Registry conflict (INDEX vs file)
-- INDEX всегда побеждает (P0)
-- если файл не совпадает с INDEX → файл должен быть приведён к индексу
+1) **Какая формулировка является истиной**, если тексты конфликтуют?
+2) **Что сильнее**: INDEX, RULES, README, Engine contract, notes?
+3) **Что делать**, когда найдено противоречие?
 
-### C2 — Governance conflict (governance vs anything)
-- governance побеждает (P1)
-- исключения только через waiver + canon verdict
-
-### C3 — Family realm conflict (README vs engine)
-- README побеждает (P2)
-- движок обязан подстроиться
-- если README устарел — меняем README через Change Control
-
-### C4 — Engine vs engine inside same family
-- решается через:
-  - boundaries + handoff (Dependency Registry)
-  - overlap owner assignment (Canon Authority)
-
-### C5 — Terminology collision
-- побеждает определение, зафиксированное в family README
-- если термин глобальный — фиксируется в governance/glossary (если появится)
-- альтернативы помечаются deprecated
-
-### C6 — Level/Class mismatch (INDEX vs README/engines)
-- INDEX заявляет класс/уровень семейства
-- README и движки обязаны совпасть
-- mismatch = S0 blocker (до фикса)
+### ABSOLUTE RULE
+> При конфликте выигрывает правило **более высокого уровня**.  
+> Проигравший текст обязан быть исправлен или помечен как non-canon.
 
 ---
 
-## LOCAL VS GLOBAL RULE (OVERRIDE POLICY)
+## 1) RULE LAYERS (SYSTEM MAP)
+Система состоит из слоёв правил (от более сильных к более слабым):
 
-### Default
-Глобальное правило побеждает локальное:
-- INDEX (P0) побеждает всё
-- Governance (P1) побеждает всё, кроме INDEX
-
-### Allowed local specialization
-Локальный движок может уточнять:
-- процедуру
-- формат outputs
-- частные правила
-
-Но НЕ может:
-- менять границы семьи (это README)
-- менять нумерацию/имена (это INDEX)
-- менять governance процесс (это governance)
+- **L0 — CORE LAW**: базовые законы репозитория (если существуют)
+- **L1 — LAYER LAW (ENG)**: правила слоя ENG (realm + ruleset + index)
+- **L2 — FAMILY LAW**: правила семейства (README family + family rules)
+- **L3 — ENGINE LAW**: правила конкретного движка (mini-contract + boundaries)
+- **L4 — ARTIFACTS**: любые результаты, заметки, черновики (non-law)
 
 ---
 
-## OVERRIDE / WAIVER MECHANISM (THE ONLY LEGAL EXCEPTION)
+## 2) PRECEDENCE ORDER (STRICT)
+Если есть конфликт, применяй порядок ниже (1 = сильнее):
 
-Если нужно исключение из более сильного правила:
-- оформляется waiver (Canon Authority)
-- фиксируется в Audit Log
-- имеет scope + expiry + mitigation
-- никогда не применяется к S0 blockers (registry, naming, level mismatch)
+1) **GLOBAL INDEX / REGISTRIES** (состав/порядок/существование)
+2) **LAYER RULESET** (например `01__RULES__ENGINES.md`)
+3) **CANON AUTHORITY DECISION** (если есть явное решение с audit)
+4) **FAMILY README / REALM** (границы, термины, правила семейства)
+5) **ENGINE MINI-CONTRACT** (consumes/produces/depends/output_target)
+6) **ENGINE BODY TEXT** (описания, процессы, примеры)
+7) **NOTES / DRAFTS / IDEAS** (всё остальное)
 
----
-
-## DEPRECATION RULE (HOW TO RETIRE OLD RULES)
-
-Если правило заменяется новым:
-- старое помечается `DEPRECATED`
-- указывается `REPLACED_BY: <file/section>`
-- указывается дата и причина
-- deprecation проходит через Change Control и фиксируется в Audit
+### NOTE
+Решение Canon Authority (п.3) работает как “временный/финальный арбитр”, но не отменяет обязанность привести документы в порядок по иерархии.
 
 ---
 
-## PROCEDURE (HOW TO RESOLVE ANY CONFLICT)
+## 3) EXISTENCE & REGISTRY LAW (NON-NEGOTIABLE)
+### 3.1 Existence rule
+> Если объект не зарегистрирован в INDEX/REGISTRY — он не существует в каноне.
 
-1) Identify conflict
-- какие документы спорят
-- какой тип конфликта (C1–C6)
+### 3.2 Canon path rule
+Любая ссылка/путь обязаны быть каноническими и повторяемыми.
 
-2) Determine precedence level (P0–P5)
-- кто выше — тот и “истина”
-
-3) Decide action
-- align: привести низший документ к высшему
-- override: только через waiver + verdict
-- deprecate: если правило устарело
-
-4) Register decision
-- если влияет на канон → через Change Control
-- зафиксировать в audit (AUDIT_ID)
+### 3.3 Ordering rule
+Порядок в INDEX — обязательный, не “рекомендация”.
 
 ---
 
-## VALIDATION CHECKLIST
+## 4) CONFLICT TYPES (CLASSIFIER)
+### T1 — Text Conflict
+Два текста утверждают разные факты/правила.
 
-- RH1: Любой конфликт имеет тип (C1–C6)
-- RH2: Решение всегда ссылается на уровень (P0–P5)
-- RH3: Исключения только через waiver/verdict
-- RH4: Deprecation всегда содержит replaced_by
+### T2 — Scope Conflict
+Два документа пытаются владеть одной областью (дублирование).
+
+### T3 — Contract Conflict
+CONSUMES/PRODUCES/DEPENDS_ON противоречат другим контрактам/реестрам.
+
+### T4 — Registry Conflict
+INDEX говорит одно, а файлы/папки — другое.
+
+### T5 — Authority Conflict
+Два владельца/решения конфликтуют по правам.
 
 ---
 
-## INTEGRATION NOTES
+## 5) RESOLUTION PROTOCOL (MANDATORY)
+Когда найден конфликт:
 
-- Consistency Engine использует эту иерархию как “таблицу истинности”
-- Canon Authority использует её при вынесении verdict
-- Change Control требует align действий перед LOCK: FIXED
+1) **Определи scope**: Layer / Family / Engine
+2) **Определи тип конфликта** (T1–T5)
+3) **Применяй precedence order** (раздел 2)
+4) **Зафиксируй вывод**:
+   - что победило
+   - что проиграло
+   - какие файлы переписать
+5) **Запусти governance pipeline**, если затронут канон:
+   - Change Control → Canon Authority → Audit Log → Versioning (если надо)
+6) **Обнови реестры**, если изменился состав/порядок/зависимости
+
+### FAST RULE
+> Нельзя “оставить как есть”. Любой конфликт должен завершиться либо переписыванием, либо явным решением/пометкой non-canon.
 
 ---
 
-OWNER: Universe Engine
+## 6) ANTI-DUPLICATION LAW (BOUNDARY ENFORCEMENT)
+Дублирование запрещено на уровне “владения смыслом”.
+
+### Boundary rule
+Если два файла описывают одно и то же:
+- один становится владельцем области
+- второй должен:
+  - либо стать ссылкой/указателем (xref),
+  - либо сузить scope,
+  - либо быть удалён/перенесён в non-canon (по решению)
+
+---
+
+## 7) “WHERE RULES LIVE” (CANON PLACEMENT)
+Чтобы не было хаоса:
+
+- **Состав/порядок** — только в INDEX/registries
+- **Правила слоя** — в layer ruleset
+- **Границы семейства** — в README family
+- **Контракты движков** — только в engine файлах (mini-contract)
+- **Примеры/пайплайны** — в engine body / artifacts (но не выше правил)
+
+---
+
+## 8) ENFORCEMENT CHECKLIST (QUICK)
+Перед тем как считать область “чистой”:
+
+- [ ] Есть INDEX запись (существование подтверждено)
+- [ ] Есть правила слоя/семейства (realm/readme)
+- [ ] У движка есть mini-contract
+- [ ] Нет конфликтов с соседними движками (boundaries)
+- [ ] Зависимости отражены в DEPENDS_ON и dependency registry
+- [ ] Изменения прошли governance pipeline (если канон тронут)
+
+---
+
+## 9) FINAL LAW (LOCK)
+> Rule Hierarchy — механизм, который не даёт канону расползтись.  
+> Любое противоречие обязано быть разрешено по этой иерархии.
+
+OWNER: Universe Engine  
 LOCK: FIXED
-CHANGE_GATE: GOVERNANCE_PIPELINE

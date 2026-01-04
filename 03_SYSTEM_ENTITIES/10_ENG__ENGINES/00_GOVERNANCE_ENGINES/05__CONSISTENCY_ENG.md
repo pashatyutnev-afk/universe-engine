@@ -4,282 +4,202 @@ FILE: 05__CONSISTENCY_ENG.md
 SCOPE: Universe Engine
 ENTITY_GROUP: ENGINES (ENG)
 FAMILY: 00_GOVERNANCE_ENGINES
-CLASS: GOVERNANCE (L1)
 LEVEL: L1
 STATUS: ACTIVE
-VERSION: 2.0
-ROLE: System-wide integrity + contradiction detection for ENG engines; prevents role overlap, canon drift, broken dependencies, and incoherent terminology
-
----
-
-## PURPOSE
-
-Этот движок — “охранник целостности” ENG.
-
-Он нужен, чтобы:
-- движки не противоречили друг другу
-- роли движков не дублировались
-- терминология была единой
-- handoff между движками был согласован
-- INDEX и файлы не расходились
-
----
-
-## SCOPE (WHAT IT CHECKS)
-
-Consistency Engine проверяет:
-
-1) **Registry consistency**
-- файл существует → он зарегистрирован в INDEX
-- номер в имени файла совпадает с номером в INDEX
-- README семейства существует и корректно связан
-
-2) **Metadata consistency**
-- SCOPE / ENTITY_GROUP / FAMILY / CLASS / LEVEL / STATUS / VERSION присутствуют
-- нет двойного STATUS (внизу должен быть LOCK)
-
-3) **Role consistency**
-- ROLE движка не пересекается с другим движком без boundary owner
-- ясна зона “что движок НЕ делает”
-
-4) **Contract consistency**
-- mini-contract заполнен в каждом движке
-- CONSUMES ↔ PRODUCES upstream/downstream совпадают (handoff не “придуман”)
-- DEPENDS_ON отражает реальные зависимости
-
-5) **Terminology consistency**
-- канон-термины совпадают по смыслу и названию
-- нет двух терминов для одного и того же
-- нет одного термина с разными смыслами
-
-6) **Level/Class consistency**
-- CLASS/LEVEL семейства в INDEX соответствует README и движкам внутри
-- особенно META (L4) — без “проседаний” до L3
-
----
-
-## NON-GOALS (WHAT IT DOES NOT DO)
-
-- не утверждает канон (это Canon Authority)
-- не управляет изменениями (это Change Control)
-- не описывает зависимости как язык (это Dependency Registry)
-- не пишет вместо доменных движков их содержание (он только выявляет конфликты)
+VERSION: 1.0
+ROLE: Enforces canon consistency across ENG layer (naming, numbering, paths, links, contracts, registries, deps)
 
 ---
 
 ## MINI-CONTRACT (MANDATORY)
+CONSUMES:
+- ENG layer indexes + registries
+- Family READMEs (realm files)
+- Engine files (all families)
+- Dependency registry entries
+- Change proposals (optional)
 
-### CONSUMES
-- index registry (00__INDEX_ALL_ENGINES.md)
-- engine files (all families)
-- dependency notes (from Dependency Registry)
-- change packet (from Change Control) when auditing a change
-- canon terms from README family realm files
+PRODUCES:
+- Consistency report (violations list + severity)
+- Required fix actions (targets + exact changes)
+- Canon sync checklist (index ↔ filesystem ↔ links)
+- Approval gating notes for Change Control
+- Suggested refactors for anti-duplication
 
-### PRODUCES
-- CONSISTENCY REPORT (canonical artifact)
-- contradiction list + overlap list
-- required fixes list (file-by-file)
-- severity scoring and stop/go decision
+DEPENDS_ON:
+- 03__RULE_HIERARCHY_ENG
+- 04__CHANGE_CONTROL_ENG
+- 06__DEPENDENCY_REGISTRY_ENG
+- 10__VERSIONING_MEMORY_ENG
 
-### DEPENDS_ON
-- 00_GOVERNANCE_ENGINES/04__CHANGE_CONTROL_ENG.md
-- 00_GOVERNANCE_ENGINES/02__CANON_AUTHORITY_ENG.md
-- 00_GOVERNANCE_ENGINES/06__DEPENDENCY_REGISTRY_ENG.md
-- 00_GOVERNANCE_ENGINES/01__AUDIT_LOG_ENG.md
-
-### OUTPUT_TARGET
-- Used before LOCKing any canon set, and before merging any MAJOR change
-- Report is attached to change packet and referenced in audit log
-
----
-
-## CANON OUTPUT ARTIFACT: CONSISTENCY REPORT (MANDATORY)
-
-Любая проверка должна отдавать отчёт в стандартной форме:
-
-### CONSISTENCY_REPORT (CANON FORMAT)
-
-- REPORT_ID: CR-ENG-0001
-- DATE:
-- AUDIT_SCOPE:
-  - families covered
-  - files covered
-- TRIGGER:
-  - periodic | pre-lock | pre-release | post-change
-- SUMMARY:
-  - short verdict: PASS | PASS_WITH_FIXES | FAIL
-- SEVERITY COUNTS:
-  - S0 blockers:
-  - S1 critical:
-  - S2 major:
-  - S3 minor:
-- FINDINGS:
-  - list of issues (see finding schema)
-- REQUIRED FIXES (ORDERED):
-  - file-by-file actions
-- DEPENDENCY NOTES:
-  - edges affected / risk of cycles
-- APPROVAL REQUIRED:
-  - yes/no + who (canon authority)
-- NEXT ACTION:
-  - lock / fix / re-audit
-
-### FINDING SCHEMA (EACH ISSUE)
-
-- ID: C-0001
-- SEVERITY: S0 | S1 | S2 | S3
-- TYPE:
-  - INDEX_DRIFT | NAMING_MISMATCH | METADATA_MISSING | LEVEL_MISMATCH
-  - ROLE_OVERLAP | CONTRACT_GAP | HANDOFF_MISSING | TERM_CONFLICT
-  - DEP_CYCLE | LINK_BROKEN | DUPLICATE_STATUS
-- LOCATION:
-  - file path(s)
-  - section(s)
-- DESCRIPTION:
-  - what is wrong
-- WHY_IT_MATTERS:
-  - impact explanation
-- FIX:
-  - exact fix steps (minimum)
-- OWNER:
-  - who must change it
-- STATUS:
-  - OPEN | FIXED | WAIVED
-- WAIVER_RULE (optional):
-  - if waived, explain why and for how long
+OUTPUT_TARGET:
+- Fix directives applied to ENG docs, indexes, READMEs, and registries
 
 ---
 
-## SEVERITY STANDARD (CANON)
+## 0) PURPOSE (LAW)
+Consistency Engine гарантирует, что ENG-слой:
+- **не расходится** между индексом, путями, именами и файлами
+- остаётся **навигируемым** и **машиночитаемым**
+- не содержит **скрытых зависимостей** и **дубликатов владения**
 
-### S0 — BLOCKER (STOP SHIP)
-- index drift (file exists but not in INDEX, or INDEX points to missing file)
-- naming/number mismatch
-- level mismatch on family (e.g., META L4 vs files L3)
-- broken dependency cycles without explicit governance breaks
-- contradictions that break downstream pipeline (handoff impossible)
-
-### S1 — CRITICAL
-- role overlap without boundary owner
-- mini-contract missing or clearly wrong
-- handoff missing when produces/consumes exists
-- terminology collision (same term different meaning)
-
-### S2 — MAJOR
-- weak/unclear boundaries leading to likely duplication
-- missing required sections (procedure/validation)
-- inconsistent output artifact definitions
-
-### S3 — MINOR
-- formatting inconsistencies
-- small wording drift
-- missing integration notes but contract exists
+### ABSOLUTE LAW
+> Если индекс/правила говорят одно, а файлы/ссылки другое — канон считается нарушенным.
 
 ---
 
-## CONSISTENCY DOMAINS (WHAT WE MUST KEEP CLEAN)
+## 1) CONSISTENCY AXES (WHAT MUST MATCH)
+Проверка ведётся по осям:
 
-### 1) ROLE MAP (NO OVERLAP WITHOUT OWNER)
-If overlap exists:
-- designate OWNER engine
-- add boundary notes in both engines
-- add handoff mapping
-- log in audit
+### A) Index ↔ Filesystem
+- все движки из INDEX должны существовать как файлы
+- все файлы движков должны быть зарегистрированы в INDEX
 
-### 2) CONTRACT MAP (CONSUME/PRODUCE MUST MATCH)
-If engine says it consumes X, upstream must produce X.
-If it doesn’t exist → mark as CONTRACT_GAP (S1/S0 depending).
+### B) Numbering ↔ Filenames ↔ Index
+- номер в INDEX == номер в имени файла
+- номера внутри семейства идут подряд (01..NN без дыр, если не разрешено)
 
-### 3) TERMINOLOGY MAP
-Canonical terms must live in:
-- family README realm file
-- or global glossary (if exists)
-If term defined in two places differently → TERM_CONFLICT (S1).
+### C) Paths
+- канонический путь соответствует стандарту:
+  `03_SYSTEM_ENTITIES/10_ENG__ENGINES/<FAMILY>/<FILE>`
 
-### 4) LEVEL MAP
-Family class/level must be consistent:
-- INDEX ↔ README ↔ all engines
-Mismatch is S0.
+### D) Links
+- у каждой FAMILY есть README realm link
+- у каждого движка есть raw-link
+- ссылки не битые и указывают на правильный файл
 
----
+### E) Mini-contract
+- каждый движок содержит mini-contract
+- поля не пустые (кроме DEPENDS_ON допускает [])
 
-## PROCEDURE (HOW TO RUN A CONSISTENCY AUDIT)
+### F) Dependencies
+- DEPENDS_ON совпадает с dependency registry
+- нет скрытых deps
+- циклы только с явным объяснением
 
-1) Load audit scope
-- full system OR selected families OR change packet touched files
-
-2) Registry scan
-- INDEX entries exist and links point to real files
-- files in repo are registered (or marked non-canon)
-
-3) Metadata scan
-- mandatory header fields present
-- bottom lock block present
-- no duplicate STATUS
-
-4) Role scan
-- compare ROLE + purpose across engines in same layer
-- flag overlaps and missing boundaries
-
-5) Contract scan
-- verify mini-contract is present
-- map produces→consumes across engines
-- verify depends_on edges are coherent
-
-6) Terminology scan
-- list core terms per family README
-- detect collisions / drift
-
-7) Dependency risk scan
-- detect cycles and hidden couplings (with Dependency Registry)
-- classify cycle type: forbidden by default
-
-8) Produce Consistency Report
-- severity list + ordered fix plan
-- stop/go verdict
-
-9) Route to Change Control (if fixes needed)
-- create CHG packet(s) for the required fixes
-- after fixes, rerun audit
+### G) Status/Lock
+- в файле только один STATUS
+- LOCK указан и соблюдается правилами (FIXED/OPEN)
 
 ---
 
-## QUICK CHECKLIST (FAST MODE)
+## 2) VIOLATION SEVERITY (GATES)
+Каждое нарушение имеет уровень:
 
-- K1: INDEX ↔ files match (no drift)
-- K2: naming/numbering correct
-- K3: no duplicate STATUS; use LOCK
-- K4: mini-contract exists everywhere
-- K5: handoff described where outputs feed downstream
-- K6: no role overlap without OWNER/boundary
-- K7: family LEVEL consistent (INDEX/README/engines)
+- `S1_CRITICAL` — ломает канон (index mismatch, неверный номер, отсутствует файл, неверный путь, скрытая зависимость)
+- `S2_MAJOR` — мешает навигации/поддержке (битые ссылки, дырки в нумерации без правила, конфликт ownership)
+- `S3_MINOR` — косметика/формат (пробелы, пунктуация, стиль заголовков), не меняет смысла
 
----
-
-## INTEGRATION (GOVERNANCE PIPELINE)
-
-- Triggered by:
-  - Change Control gate G3 (consistency)
-  - Pre-lock releases
-  - Periodic maintenance
-
-- Feeds into:
-  - Canon Authority (approve/waive)
-  - Audit Log (record report + verdict)
-  - Dependency Registry (edge fixes / cycle fixes)
+### HARD RULE
+> S1_CRITICAL блокирует любые изменения канона до фикса.
 
 ---
 
-## FAILURE MODES (COMMON)
+## 3) CANON CHECKS (MANDATORY TESTS)
+### 3.1 Index Coverage Check
+- [ ] Все перечисленные в INDEX raw-links открываются
+- [ ] Каждая запись в INDEX соответствует существующему файлу в репо
+- [ ] Нет “лишних” engine файлов вне INDEX
 
-- “Система кажется логичной”, но отсутствует contract/handoff → downstream ломается
-- Индекс красивый, но ссылки/номера расходятся → навигация становится ложной
-- Движки дублируют роли → разные агенты будут принимать разные решения
-- META уровень не совпадает → мета-слой начинает “конкурировать” с L3
+### 3.2 Family Realm Check
+- [ ] В каждой FAMILY есть `00__README__<FAMILY>_ENGINES.md`
+- [ ] README содержит STATUS + LOCK
+- [ ] README определяет границы семейства (что входит/не входит)
+
+### 3.3 Numbering Check
+- [ ] Внутри FAMILY движки начинаются с 01
+- [ ] Номера уникальны
+- [ ] Номер в названии файла совпадает с номером в INDEX
+- [ ] Дырки допускаются только если прямо описано правило “reserved numbers”
+
+### 3.4 Canon Path Check
+- [ ] Путь в raw-link соответствует стандарту
+- [ ] Нет “съехавших” папок/имен
+
+### 3.5 Mini-contract Check
+- [ ] Есть блок MINI-CONTRACT
+- [ ] CONSUMES/PRODUCES/OUTPUT_TARGET заполнены
+- [ ] DEPENDS_ON указан (или [])
+- [ ] Нет “забытых” зависимостей в тексте без DEPENDS_ON
+
+### 3.6 Dependency Sync Check
+- [ ] DEPENDS_ON == dependency registry
+- [ ] Любой новый DEPENDS_ON отражён в registry
+- [ ] Циклы отмечены + причина
+
+### 3.7 Status/Lock Check
+- [ ] В файле только один STATUS
+- [ ] LOCK один и в конце (или в стандартном месте)
+- [ ] FIXED нельзя править без Change Control (MAJOR/CRITICAL)
 
 ---
 
-OWNER: Universe Engine
+## 4) QUICK FIX RULES (FAST PATCHES)
+### 4.1 Allowed without canon change (S3 only)
+Можно править без Canon Authority, если:
+- исправление опечаток
+- форматирование
+- корректировка пробелов/переносов
+- уточнение текста без изменения правил/контрактов
+
+### 4.2 Not allowed as “quick fix”
+Запрещено как “быстрая правка”:
+- менять номера/порядок
+- добавлять движок
+- менять DEPENDS_ON
+- менять границы владения
+- менять LOCK (особенно FIXED)
+
+---
+
+## 5) CONSISTENCY REPORT TEMPLATE (COPY-PASTE)
+REPORT_ID: CNS-XXXX
+DATE: YYYY-MM-DD
+SCOPE: ENG
+
+SUMMARY:
+- total_violations: N
+- S1_CRITICAL: N
+- S2_MAJOR: N
+- S3_MINOR: N
+
+VIOLATIONS:
+- ID: CNS-XXXX-01
+  SEVERITY: S1_CRITICAL|S2_MAJOR|S3_MINOR
+  TYPE: INDEX_MISMATCH|MISSING_FILE|BROKEN_LINK|NUMBERING|PATH|MINI_CONTRACT|DEP_SYNC|LOCK_STATUS|OWNERSHIP
+  TARGET: path/to/file.md
+  DETAILS: <что сломано>
+  REQUIRED_FIX:
+    - <точные действия>
+  OWNER_HINT:
+    - <какой движок/семейство отвечает по rule hierarchy>
+
+---
+
+## 6) ANTI-DUPLICATION ENFORCEMENT
+Если найден дубликат владения (две области отвечают за одно и то же):
+1) определить владельца по Rule Hierarchy
+2) перенести/развести ответственность
+3) обновить README границы
+4) обновить INDEX при необходимости
+5) записать в audit + versioning
+
+---
+
+## 7) MINIMUM “CANON OK” BAR
+ENG слой считается “OK”, когда:
+
+- нет S1_CRITICAL
+- все raw-links валидны
+- INDEX ↔ файлы совпадают
+- у всех движков есть mini-contract
+- dependency registry синхронизирован
+
+---
+
+## 8) FINAL RULE (LOCK)
+> Consistency Engine — системный детектор рассинхрона.  
+> Он не “советует”, а фиксирует: что канонично, а что нет.
+
+OWNER: Universe Engine  
 LOCK: FIXED
-CHANGE_GATE: GOVERNANCE_PIPELINE

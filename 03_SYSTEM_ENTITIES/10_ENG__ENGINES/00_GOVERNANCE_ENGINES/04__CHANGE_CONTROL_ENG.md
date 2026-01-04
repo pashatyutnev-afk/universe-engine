@@ -4,210 +4,245 @@ FILE: 04__CHANGE_CONTROL_ENG.md
 SCOPE: Universe Engine
 ENTITY_GROUP: ENGINES (ENG)
 FAMILY: 00_GOVERNANCE_ENGINES
-CLASS: GOVERNANCE (L1)
 LEVEL: L1
 STATUS: ACTIVE
-VERSION: 2.0
-ROLE: Canonical workflow that governs any change to ENG engines, families, index, dependencies, and canon metadata
-
----
-
-## PURPOSE
-
-Этот движок превращает любые изменения ENG в **управляемый, проверяемый и воспроизводимый процесс**.
-
-Он отвечает за:
-- как предлагать изменения (Change Request)
-- как оценивать последствия (impact)
-- как проверять на противоречия (consistency)
-- как утверждать канон (approval)
-- как фиксировать версию и память изменений (version + memory)
-- как писать в журнал (audit)
-- как ставить LOCK (canon lock)
-
----
-
-## SCOPE (WHAT IT CONTROLS)
-
-Изменениями считаются (все проходят через этот движок):
-- правки любого файла в `03_SYSTEM_ENTITIES/10_ENG__ENGINES/**`
-- добавление / удаление движков
-- перенос движков между семействами
-- изменение нумерации / именования
-- любые правки `00__INDEX_ALL_ENGINES.md`
-- любые изменения зависимостей / handoff правил
-- изменение терминов, которые влияют на другие движки
-
----
-
-## NON-GOALS (WHAT IT DOES NOT DO)
-
-- не решает “истину канона” (это Canon Authority)
-- не делает содержательную проверку качества (это Consistency Engine)
-- не описывает сами зависимости (это Dependency Registry)
-- не заменяет QA/VAL процессы (они отдельные реестры)
+VERSION: 1.0
+ROLE: Controls all canon changes: proposals, review gates, approvals, and safe application rules
 
 ---
 
 ## MINI-CONTRACT (MANDATORY)
+CONSUMES:
+- Change proposal (draft or formal)
+- Diffs / suggested edits / new file requests
+- Registry/index impact notes
+- Risk notes (if any)
+- Canon Authority verdicts / decision IDs (if exist)
 
-### CONSUMES
-- change proposal (описание правки)
-- scope notes (какие файлы, какая цель)
-- dependency impact notes (что заденем)
-- consistency notes (проверки/конфликты)
-- approval decision (canon authority)
+PRODUCES:
+- Approved or rejected change decision
+- Required edit list (targets + exact actions)
+- Versioning instructions (what to bump, where)
+- Audit log entry payload (what must be recorded)
+- Canon-safe merge checklist
 
-### PRODUCES
-- approved change packet (CHG packet)
-- version bump decision
-- required updates list (INDEX/deps/links)
-- audit log entry request
-- lock decision (fixed/unfixed)
+DEPENDS_ON:
+- 01__AUDIT_LOG_ENG
+- 02__CANON_AUTHORITY_ENG
+- 03__RULE_HIERARCHY_ENG
+- 10__VERSIONING_MEMORY_ENG
 
-### DEPENDS_ON
-- 00_GOVERNANCE_ENGINES/01__AUDIT_LOG_ENG.md
-- 00_GOVERNANCE_ENGINES/02__CANON_AUTHORITY_ENG.md
-- 00_GOVERNANCE_ENGINES/05__CONSISTENCY_ENG.md
-- 00_GOVERNANCE_ENGINES/06__DEPENDENCY_REGISTRY_ENG.md
-- 00_GOVERNANCE_ENGINES/10__VERSIONING_MEMORY_ENG.md
-
-### OUTPUT_TARGET
-- Applies to all ENG engine files + INDEX + README realm files
-- Updates must result in: (a) valid canon registry, (b) consistent dependency graph, (c) audit record
+OUTPUT_TARGET:
+- Governance-controlled updates to ENG layer files, READMEs, registries, and engine docs
 
 ---
 
-## CHANGE CLASSIFICATION (CANON)
+## 0) PURPOSE (LAW)
+Change Control Engine гарантирует, что:
+- канон меняется **только управляемо**
+- правки **не ломают** реестры, зависимости, границы
+- любое изменение оставляет **след** (audit + versioning)
 
-### PATCH (X.Y.Z+1)
-- форматирование/опечатки/markdown-структура
-- правка ссылок без изменения ролей
-- уточнение формулировок без смены смысла
-- добавление LOCK/OWNER/metadata выравнивание
-
-### MINOR (X.Y+1.0)
-- добавление новых секций/правил, backward-compatible
-- расширение outputs/inputs без смены роли
-- уточнение boundary + handoff
-- добавление новых движков в конец семейства (без перестановок)
-
-### MAJOR (X+1.0.0)
-- изменение роли движка (ROLE)
-- изменение mini-contract (CONSUMES/PRODUCES/DEPENDS_ON)
-- смена уровня/класса семейства
-- перенос между семействами
-- изменение нумерации/структуры
-- удаление движка или breaking change
+### ABSOLUTE LAW
+> Любая правка, влияющая на канон, обязана пройти Change Control.  
+> “Тихие правки” запрещены.
 
 ---
 
-## CANON CHANGE PACKET (CHG) — REQUIRED FORMAT
+## 1) WHAT COUNTS AS CANON CHANGE (SCOPE)
+Canon change = любое действие, которое меняет хотя бы один пункт:
 
-Каждое изменение должно иметь CHG пакет (в тексте PR/коммита или отдельным файлом):
+### A) Registry / Index / Order
+- добавление/удаление движков
+- смена номера
+- смена порядка
+- смена семейства
+- смена путей / канонических ссылок
 
-- CHG_ID: CHG-ENG-0001
-- DATE:
-- CHANGE_TYPE: PATCH | MINOR | MAJOR
-- TARGET_SCOPE: (families/engines)
-- SUMMARY: one paragraph
-- RATIONALE: why change is needed
-- FILES_TOUCHED: explicit list
-- INDEX_UPDATE: yes/no (what lines change)
-- DEP_GRAPH_IMPACT: list of edges added/removed/changed
-- CONTRACT_CHANGE: yes/no (what fields)
-- RISKS: what could break
-- VALIDATION_PLAN: what checks run
-- APPROVALS: (canon authority signature)
-- AUDIT_LOG: entry id / link
-- LOCK_DECISION: FIXED | UNFIXED (and why)
+### B) Rules / Laws / Realm
+- изменение правил слоя/семейства/движка
+- изменение правил нумерации/именования
+- изменение “existence rule”, “lock standard”, “mini-contract law”
 
----
+### C) Contracts / Dependencies
+- изменение CONSUMES/PRODUCES/DEPENDS_ON/OUTPUT_TARGET
+- добавление новой зависимости
+- изменение governance dependency registry
 
-## GOVERNANCE GATES (MANDATORY PIPELINE)
+### D) Boundaries / Ownership
+- перенос ответственности между движками
+- сужение/расширение scope у движка/семейства
+- устранение дублирования (anti-duplication)
 
-Каждая правка обязана пройти ворота:
-
-### G1 — PROPOSE
-- CHG пакет создан
-- список файлов указан
-- цель и тип изменения определены
-
-### G2 — IMPACT (Dependency)
-- описаны изменения графа зависимостей
-- проверено: не создаём скрытых handoff
-- проверено: нет новых циклов без обоснования
-
-### G3 — CONSISTENCY (System)
-- нет конфликтов ролей / дублей ответственности
-- соблюдены naming/numbering правила
-- README и INDEX соответствуют структуре
-
-### G4 — APPROVE (Canon Authority)
-- канон-решение принято: принять/отклонить/вернуть на доработку
-
-### G5 — VERSION + MEMORY
-- версия обновлена по правилам
-- память изменений записана (что и почему)
-
-### G6 — AUDIT LOG
-- запись о правке внесена в audit
-- указаны touched files, тип, итог
-
-### G7 — LOCK
-- если правка завершена и согласована → LOCK: FIXED
-- если в работе/эксперимент → LOCK: UNFIXED (и почему)
+### E) Status / Lock
+- смена STATUS
+- смена LOCK (OPEN ↔ FIXED)
 
 ---
 
-## REQUIRED OUTPUT ARTIFACTS (DEFINITION OF DONE)
+## 2) CHANGE STATES (STATUS MODEL)
+Статус относится к **изменению**, а не к файлу.
 
-Правка считается завершённой только если:
+- `DRAFT` — идея/черновик, не готово к review
+- `PROPOSED` — оформлено по шаблону, готово к проверке
+- `REVIEW` — идет проверка влияний (scope/deps/conflicts)
+- `APPROVED` — принято в канон (можно применять)
+- `REJECTED` — отклонено (с причиной)
+- `APPLIED` — внесено в файлы + обновлены реестры + аудит
+- `ROLLED_BACK` — откат (если сломали канон)
 
-1) ✅ CHG пакет заполнен  
-2) ✅ INDEX обновлён (если затронут состав/порядок/ссылки)  
-3) ✅ dependency edges обновлены (если менялись входы/выходы)  
-4) ✅ mini-contract обновлён (если были изменения контрактов)  
-5) ✅ consistency checks пройдены  
-6) ✅ audit log entry сделан  
-7) ✅ LOCK выставлен правильно
-
----
-
-## VALIDATION CHECKLIST (QUICK)
-
-- CC1: Нет второго `STATUS` внизу (используется `LOCK`)
-- CC2: Заголовок и metadata построчно, единый формат
-- CC3: Имя файла соответствует номеру в INDEX
-- CC4: Все ссылки raw корректны (если менялись)
-- CC5: `DEPENDS_ON` отражает реальную зависимость
-- CC6: Handoff описан, если outputs используются downstream
-- CC7: Нет дублирования ролей между движками без boundary
-- CC8: Нет циклов в зависимостях без явно описанного разрыва через governance gate
+### HARD RULE
+> Нельзя “APPLIED” без “APPROVED”.
 
 ---
 
-## FAILURE MODES (WHAT CAN GO WRONG)
+## 3) CHANGE LEVELS (SEVERITY)
+- `MINOR` — правка текста без изменения смысла/правил/контрактов
+- `MAJOR` — меняет правила, порядок, зависимости или границы
+- `CRITICAL` — трогает existence/registry/order/lock law или ломает совместимость слоёв
 
-- Hidden coupling: движок зависит от чужого артефакта, но это не описано
-- Role overlap: два движка “делают одно и то же”
-- Index drift: файл существует, но отсутствует в INDEX / или номер не совпадает
-- Level mismatch: CLASS/LEVEL в индексе не совпадает с README/движками
-- Unlogged change: канон меняется без audit trail
-
----
-
-## INTEGRATION NOTES (WHERE THIS FITS)
-
-- INDEX является навигационным законом, но любые изменения INDEX идут через Change Control
-- Dependency Registry даёт язык зависимостей и handoff
-- Consistency Engine даёт “проверку целостности”
-- Canon Authority решает “принимаем ли в канон”
-- Versioning & Memory фиксирует версию и объясняет историю
-- Audit Log фиксирует след правки
+### RULE
+> MAJOR и CRITICAL всегда требуют Canon Authority решения (явного).
 
 ---
 
-OWNER: Universe Engine
+## 4) REQUIRED PIPELINE (MANDATORY)
+Любая каноническая правка проходит шаги:
+
+1) **Proposal** (описать изменение по шаблону)
+2) **Impact Scan** (scope + registry + deps + boundaries)
+3) **Conflict Check** (Rule Hierarchy: кто владелец области)
+4) **Decision** (Canon Authority: approve/reject)
+5) **Apply** (внести изменения: файлы + ссылки + порядок)
+6) **Registry Sync** (index/registry обязаны совпасть)
+7) **Audit Log** (зафиксировать факт)
+8) **Versioning** (если затронуто: bump и запись в memory)
+
+---
+
+## 5) IMPACT SCAN CHECKLIST (MANDATORY)
+Перед approve ответить “да/нет”:
+
+### 5.1 Scope
+- [ ] Тронут ли слой ENG?
+- [ ] Тронуто ли семейство?
+- [ ] Тронут ли конкретный движок?
+
+### 5.2 Registry
+- [ ] Нужно ли менять INDEX?
+- [ ] Нужен ли новый движок в реестре?
+- [ ] Меняется ли порядок/номер?
+
+### 5.3 Dependencies
+- [ ] Меняются ли DEPENDS_ON?
+- [ ] Нужно ли обновить dependency registry?
+
+### 5.4 Boundaries
+- [ ] Есть ли дублирование владения?
+- [ ] Меняются ли critical boundaries?
+
+### 5.5 Lock/Status
+- [ ] Нужно ли менять LOCK/STATUS?
+
+---
+
+## 6) CHANGE PROPOSAL TEMPLATE (COPY-PASTE)
+Используй этот блок как стандарт.
+
+CHANGE_ID: CHG-XXXX
+STATUS: DRAFT|PROPOSED|REVIEW|APPROVED|REJECTED|APPLIED|ROLLED_BACK
+SEVERITY: MINOR|MAJOR|CRITICAL
+
+TITLE: <коротко, что меняем>
+OWNER: <кто ведёт изменение>
+
+SCOPE:
+- LAYER: ENG
+- FAMILY: <если применимо>
+- ENGINE: <если применимо>
+
+MOTIVATION:
+- почему это нужно (1–5 строк)
+
+PROPOSAL (WHAT CHANGES):
+- конкретные изменения пунктами
+
+AFFECTED FILES:
+- path/to/file.md
+- path/to/index.md
+
+REGISTRY IMPACT:
+- добавляем/удаляем/меняем порядок/нет
+
+DEPENDENCY IMPACT:
+- новые deps / удалённые deps / нет
+
+BOUNDARY IMPACT:
+- кто владелец области до/после
+
+RISK NOTES:
+- что может сломаться
+
+ROLLBACK PLAN:
+- как откатить, если плохо
+
+CANON AUTHORITY REQUIRED:
+- YES/NO (если MAJOR/CRITICAL → YES)
+
+APPROVAL:
+- decision_id: <если есть>
+- date: <если есть>
+
+APPLY CHECKLIST:
+- [ ] Files updated
+- [ ] Index synced
+- [ ] Dependency registry synced
+- [ ] Audit log written
+- [ ] Version bumped (if needed)
+
+---
+
+## 7) RULES FOR APPLY (SAFE MERGE LAW)
+### 7.1 No orphan changes
+Если меняешь файл движка — проверь:
+- registry entry существует
+- ссылки валидны
+- нумерация совпадает
+
+### 7.2 No silent deps
+Любая новая зависимость:
+- добавляется в DEPENDS_ON
+- отражается в dependency registry
+
+### 7.3 No duplicate ownership
+Если правка создаёт пересечение областей:
+- сначала boundary fix
+- потом остальное
+
+### 7.4 No broken locks
+LOCK: FIXED нельзя менять без MAJOR/CRITICAL процесса.
+
+---
+
+## 8) WHAT TO DO WHEN FOUND A BROKEN CANON
+Если обнаружено:
+- файл есть, но нет в INDEX
+- номер не совпадает
+- README/engine конфликтуют
+- deps скрыты
+
+Тогда:
+1) создать change proposal (SEVERITY минимум MAJOR)
+2) указать конфликт и владельца по Rule Hierarchy
+3) провести Canon Authority решение
+4) привести всё к канону
+5) записать в audit
+
+---
+
+## 9) FINAL RULE (LOCK)
+> Change Control — шлюз канона.  
+> Всё, что меняет канон, проходит через этот шлюз и оставляет след.
+
+OWNER: Universe Engine  
 LOCK: FIXED
-CHANGE_GATE: GOVERNANCE_PIPELINE

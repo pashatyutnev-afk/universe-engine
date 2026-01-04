@@ -4,214 +4,145 @@ FILE: 01__AUDIT_LOG_ENG.md
 SCOPE: Universe Engine
 ENTITY_GROUP: ENGINES (ENG)
 FAMILY: 00_GOVERNANCE_ENGINES
-CLASS: GOVERNANCE (L1)
 LEVEL: L1
 STATUS: ACTIVE
-VERSION: 2.0
-ROLE: Canonical immutable change ledger for ENG; records what changed, why, scope, approvals, dependency impact, and lock decisions
-
----
-
-## PURPOSE
-
-Этот движок — **единый журнал памяти канона** для ENG.
-
-Он нужен, чтобы:
-- любая правка имела след
-- можно было восстановить “почему система стала такой”
-- можно было откатить/сравнить версии
-- индекс/зависимости/контракты не менялись “втихую”
-
----
-
-## SCOPE (WHAT MUST BE LOGGED)
-
-В Audit Log обязаны попадать:
-
-### A) Registry changes
-- любые правки `00__INDEX_ALL_ENGINES.md`
-- добавление/удаление движков
-- переносы между семействами
-- изменения нумерации/именования
-- изменение ссылок raw (если влияет на навигацию)
-
-### B) Contract / dependency changes
-- любое изменение MINI-CONTRACT (CONSUMES/PRODUCES/DEPENDS_ON/OUTPUT_TARGET)
-- любые изменения handoff правил
-- любые изменения DEP_EDGES / cycles / overlap decisions
-
-### C) Canon law changes
-- изменения в governance движках (00/*)
-- изменения в README realm files (термины/границы/законы)
-
-### D) Lock decisions
-- постановка или снятие `LOCK: FIXED/UNFIXED`
-- waivers (временные допуски) по несоответствиям
-
----
-
-## NON-GOALS
-
-- audit log не является местом для длинных обсуждений
-- audit log не заменяет change packet (CHG) — он его фиксирует
-- audit log не утверждает канон (это Canon Authority)
+VERSION: 1.0
+ROLE: Canon audit memory — records every canon-relevant action/change as immutable log entries
 
 ---
 
 ## MINI-CONTRACT (MANDATORY)
+CONSUMES:
+- Change proposal (text / diff / intent)
+- Decision approval result (approve/reject)
+- Affected file list (canonical paths)
+- Versioning reference (if bump required)
 
-### CONSUMES
-- approved change packets (CHG)
-- version/memory notes (release notes)
-- consistency reports (CR)
-- dependency graph snapshots (DG) when applicable
+PRODUCES:
+- Audit Entry ID (immutable)
+- Canon audit record (timestamped)
+- Linkable anchor for other docs (Versioning, Index, Dependency)
 
-### PRODUCES
-- AUDIT ENTRY records (canonical ledger items)
-- audit index pointers (IDs that other files can cite)
+DEPENDS_ON:
+- 02__CANON_AUTHORITY_ENG
+- 04__CHANGE_CONTROL_ENG
+- 10__VERSIONING_MEMORY_ENG
 
-### DEPENDS_ON
-- 00_GOVERNANCE_ENGINES/04__CHANGE_CONTROL_ENG.md
-- 00_GOVERNANCE_ENGINES/10__VERSIONING_MEMORY_ENG.md
-- 00_GOVERNANCE_ENGINES/05__CONSISTENCY_ENG.md
-- 00_GOVERNANCE_ENGINES/06__DEPENDENCY_REGISTRY_ENG.md
-- 00_GOVERNANCE_ENGINES/02__CANON_AUTHORITY_ENG.md
-
-### OUTPUT_TARGET
-- Any canon change results in an Audit Entry
-- Audit Entry IDs are referenced from CHG packets and (optionally) from touched files
+OUTPUT_TARGET:
+- This file (Audit Log Registry)
+- Linked from: Versioning Memory, Index updates, Dependency registry
 
 ---
 
-## CANON ARTIFACT: AUDIT ENTRY (MANDATORY)
+## 0) PURPOSE (LAW)
+Audit Log — это **не обсуждение**, а **протокол канона**.
 
-Каждая запись должна быть минимально достаточной, но полной по смыслу.
+Он нужен чтобы:
+- фиксировать *когда / кто / что / почему* изменил канон
+- давать ссылку-якорь на любую правку (для INDEX / VERSIONING / DEPENDENCY)
+- не допускать “серых изменений” без следа
 
-### AUDIT_ENTRY SCHEMA (CANON)
-
-- AUDIT_ID: AL-ENG-0001
-- DATE:
-- CHANGE_TYPE: PATCH | MINOR | MAJOR
-- SCOPE:
-  - families:
-  - engines:
-- SUMMARY:
-  - one paragraph: what changed
-- RATIONALE:
-  - one paragraph: why
-- FILES_TOUCHED:
-  - explicit list of canon paths
-- INDEX_IMPACT:
-  - yes/no + what lines/sections changed
-- CONTRACT_IMPACT:
-  - yes/no + which engines’ contracts changed
-- DEP_GRAPH_IMPACT:
-  - none | DG-ENG-XXXX reference + edge notes
-- CONSISTENCY_REPORT:
-  - CR-ENG-XXXX reference + verdict
-- APPROVAL:
-  - approved_by: (Canon Authority)
-  - decision: APPROVE | REJECT | RETURN
-- VERSION:
-  - before:
-  - after:
-- LOCK_DECISION:
-  - FIXED | UNFIXED
-  - reason:
-- WAIVERS (optional):
-  - list of waivers with expiry/conditions
-- NOTES (optional):
-  - max 5 bullets
+### ABSOLUTE RULE
+> Любая каноническая правка без записи в Audit Log считается **non-canon**.
 
 ---
 
-## AUDIT STORAGE STANDARD (WHERE IT LIVES)
+## 1) WHAT MUST BE LOGGED (MANDATORY)
+Записывается **всегда**:
 
-Audit log должен быть доступен как “единый файл” или “единая папка”.
+### 1.1 Canon composition/order changes
+- добавление/удаление движков
+- смена порядка в INDEX
+- создание/удаление family папок
+- изменения “законов” (law blocks)
 
-Например (канон-правило, выбрать один вариант и держать его всегда):
-- OPTION A (single file): `03_SYSTEM_ENTITIES/10_ENG__ENGINES/00_GOVERNANCE_ENGINES/00__AUDIT_LOG.md`
-- OPTION B (entries folder): `.../00__AUDIT_LOG/AL-ENG-0001.md`
+### 1.2 Contract + dependency changes
+- mini-contract изменения (CONSUMES/PRODUCES/DEPENDS_ON/OUTPUT_TARGET)
+- любые зависимости или xref
 
-ВАЖНО:
-- формат записи (schema) неизменен
-- ссылки на AUDIT_ID должны быть стабильны
+### 1.3 Lock / status changes
+- LOCK: OPEN → FIXED
+- STATUS изменения, влияющие на канон
 
-(Выбор конкретного storage-формата фиксируется в README Governance.)
-
----
-
-## WHEN TO WRITE (TRIGGERS)
-
-Запись делается **всегда**:
-
-1) После прохождения governance gates G1–G7 (см. Change Control)
-2) Перед постановкой `LOCK: FIXED` на набор изменений
-3) После любого MAJOR изменения
-4) После любой правки INDEX
-5) После обнаружения и решения overlap/cycle (dependency decisions)
+### 1.4 Governance decisions
+- approve / reject / rollback / migration
 
 ---
 
-## PROCEDURE (HOW TO LOG A CHANGE)
+## 2) ENTRY ID STANDARD (MANDATORY)
+Формат ID:
 
-1) Получить CHG пакет (из Change Control)
-2) Привязать отчёты:
-   - CR (Consistency Report), если был аудит
-   - DG (Dependency Graph), если менялись связи/контракты
-3) Заполнить AUDIT_ENTRY schema
-4) Проверить минимальные поля (см. checklist)
-5) Записать entry в audit storage
-6) Сослаться на AUDIT_ID в:
-   - CHG packet
-   - (опционально) в touched files в блоке “LAST_AUDIT” (если у тебя такой стандарт появится)
+`ENG-AUDIT-YYYYMMDD-XXXX`
 
----
+Где:
+- YYYYMMDD — дата
+- XXXX — порядковый номер записи за этот день (0001, 0002…)
 
-## VALIDATION CHECKLIST (AUDIT ENTRY MUST PASS)
-
-- AL1: есть AUDIT_ID и дата
-- AL2: перечислены FILES_TOUCHED (явно)
-- AL3: есть решение APPROVAL (кто и что решил)
-- AL4: указана версия before/after
-- AL5: указано LOCK_DECISION и причина
-- AL6: если менялись зависимости — есть DG ссылка/edge notes
-- AL7: если был аудит целостности — есть CR ссылка/вердикт
+Пример:
+`ENG-AUDIT-20260105-0001`
 
 ---
 
-## SEVERITY / TRACEABILITY RULES
+## 3) ENTRY FORMAT (MANDATORY)
+Каждая запись строго так:
 
-- PATCH может логироваться “коротко”, но schema всё равно обязателен
-- MINOR и MAJOR должны включать dependency + consistency refs (если применимо)
-- Любая WAIVER запись должна иметь условия и срок (expiry)
+- ID:
+- DATE: YYYY-MM-DD
+- TIME: HH:MM (Asia/Almaty)
+- ACTOR: (person/system)
+- SCOPE: LAYER / FAMILY:<name> / ENGINE:<name>
+- TYPE: CREATE / UPDATE / DELETE / REORDER / LOCK / STATUS / DEPENDENCY / FIX
+- SEVERITY: C0 / C1 / C2 / C3 / C4
+- DECISION: APPROVED / REJECTED / ROLLED_BACK
+- VERSION: old → new (or “no bump”)
+- SUMMARY: 1–2 строки
+- DETAILS: 1–6 строк (что именно)
+- WHY: 1 строка (зачем)
+- FILES:
+  - canonical paths list
+- LINKS:
+  - Index / Versioning / Dependency references (raw links allowed)
 
----
-
-## INTEGRATION (HOW IT CONNECTS)
-
-- Change Control (00/04):
-  - audit запись — обязательный шаг перед lock (G6)
-- Versioning & Memory (00/10):
-  - audit фиксирует before/after версии
-- Consistency (00/05):
-  - audit хранит вердикт и CR ссылку
-- Dependency Registry (00/06):
-  - audit хранит DG ссылку и edge notes
-- Canon Authority (00/02):
-  - audit хранит финальное решение (approve/reject)
-
----
-
-## FAILURE MODES (WHAT BREAKS SYSTEM TRUST)
-
-- изменения без AUDIT_ID → “не существует” для канона
-- файловые правки без FILES_TOUCHED → невозможно восстановить историю
-- нет версии before/after → невозможно сравнивать состояния
-- нет решения approval → канон становится “самопальным”
+### Severity scale
+- C0 — cosmetic, смысл не меняется
+- C1 — minor canon add/clarify, совместимость ок
+- C2 — medium change, затрагивает правила/контракты частично
+- C3 — major change, нужна миграция/перепривязки
+- C4 — emergency/rollback/safety critical
 
 ---
 
-OWNER: Universe Engine
+## 4) IMMUTABILITY LAW
+- Запись после публикации **не редактируется**.
+- Если ошибка — добавляется новая запись типа `FIX` с ссылкой на ID ошибки.
+- Удаление записей запрещено.
+
+---
+
+## 5) CURRENT AUDIT LOG (ENTRIES)
+
+### ENG-AUDIT-20260105-0001
+- ID: ENG-AUDIT-20260105-0001
+- DATE: 2026-01-05
+- TIME: 19:00
+- ACTOR: OWNER
+- SCOPE: LAYER
+- TYPE: UPDATE
+- SEVERITY: C1
+- DECISION: APPROVED
+- VERSION: (init) → ENG@4.0
+- SUMMARY: Created/standardized ENG global index as single source of truth
+- DETAILS:
+  - Added ROOT FILES section (realm + rules + index)
+  - Normalized family listing format + raw links
+  - Established existence rule for ENG engines
+- WHY: Make canon navigable and enforce registry discipline
+- FILES:
+  - 03_SYSTEM_ENTITIES/10_ENG__ENGINES/02__INDEX_ALL_ENGINES.md
+- LINKS:
+  - Versioning: 03_SYSTEM_ENTITIES/10_ENG__ENGINES/00_GOVERNANCE_ENGINES/10__VERSIONING_MEMORY_ENG.md
+
+---
+
+OWNER: Universe Engine  
 LOCK: FIXED
-CHANGE_GATE: GOVERNANCE_PIPELINE
