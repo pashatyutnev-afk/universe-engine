@@ -1,102 +1,110 @@
-# KNOWLEDGE PRODUCTION ENGINES
-00__README__KNOWLEDGE_PRODUCTION_ENGINES
-
-CLASS_ID: KNOWLEDGE_PRODUCTION
-LEVEL: L3
-ROLE: Knowledge → Applied Decisions
+# 🧠 KNOWLEDGE PRODUCTION ENGINES — REALM README
+## Canonical Realm Specification  
+**LEVEL: L3 · PRODUCTION KNOWLEDGE LAYER · MEDIA SYSTEMS · MACHINE-GRADE**
 
 ---
 
-## PURPOSE
-Knowledge Production Engines превращают профессиональную базу знаний
-(стандарты, best practices, “как правильно”) в прикладные решения,
-которые могут использовать Orchestrators, Domain Engines и Specialists.
+## 0. REALM STATUS
 
-Ключевая функция: **трансформация знаний в исполнимые правила / чек-листы / пресеты / рекомендации**.
+- REALM: 10_KNOWLEDGE_PRODUCTION_ENGINES
+- CLASS: PRODUCTION (L3)
+- ROLE: Convert narrative intent into production-ready media specifications
+- STATUS: ACTIVE
+- OWNER: System / Human
+- BYPASS_ALLOWED: false (media specs are mandatory for consistent output)
+- NON_CANON: true (production choices do not change canon facts)
 
----
-
-## SCOPE (ALLOWED)
-- Извлечение релевантных стандартов из Professional Knowledge
-- Компиляция знаний в:
-  - чек-листы
-  - пайплайны (в виде шагов)
-  - пресеты и гайды
-  - “правила качества”
-  - типовые схемы решений
-- Нормализация терминов (приведение к Glossary)
-- Сопоставление “запрос → какой стандарт применить”
-- Формирование “Applied Knowledge Pack” (структурированный результат для других сущностей)
+### REALM ABSOLUTE RULE
+> Production creates representation, not truth. Truth remains in canon + logs.
 
 ---
 
-## OUTCOME (WHAT IT PRODUCES)
-Результат работы — не контент и не сюжет, а **Knowledge Pack**, например:
-- Lighting_Standard_Pack
-- Dialogue_Naturalism_Checklist
-- Shot_Composition_Preset
-- Mixing_Mastering_Workflow
-- Platform_Spec_YouTube_Longform
+## 1. PURPOSE
 
-Формат результата:
-- кратко
-- структурно
-- применимо в процессе
-- без художественной генерации
+Knowledge Production Engines generate **machine-grade media specs**:
+- composition and framing
+- art style constraints
+- camera & cinematography rules
+- lighting plans
+- image generation prompts/specs
+- video generation specs
+- editing & montage rules
+- sound & music packaging rules
 
----
-
-## FORBIDDEN
-- Изменение канона системы
-- Придумывание “из фантазии” вместо базы знаний
-- Генерация сюжета, сцен, диалогов
-- Продакшн-рендер, монтаж, выпуск
-- Подмена валидаторов (не проверяет, а предлагает “как делать правильно”)
+They ensure:
+- consistent visual/audio identity
+- repeatable production results
+- reduced ambiguity for generators and editors
 
 ---
 
-## RELATIONSHIPS (WHO USES IT)
-### Typical Callers (ALLOWED)
-- ORCHESTRATORS (для сборки процессов)
-- DOMAIN_*_ENGINES (для правил домена)
-- SPECIALISTS (как справочник-помощник)
-- VALIDATION_ENGINES (как эталон стандартов для проверки)
+## 2. WHAT THIS REALM PRODUCES
 
-### Typical Inputs
-- запрос/задача (task intent)
-- контекст проекта (project constraints)
-- ссылки на Professional Knowledge / Glossary / Standards
+Primary artifacts:
+- VISUAL_COMPOSITION_SPEC
+- ART_STYLE_SPEC
+- CAMERA_CINEMATOGRAPHY_SPEC
+- LIGHTING_SPEC
+- IMAGE_GENERATION_SPEC
+- VIDEO_GENERATION_SPEC
+- EDITING_MONTAGE_SPEC
+- SOUND_MUSIC_PACKAGE
 
-### Typical Outputs
-- Applied Knowledge Pack
-- Checklist Pack
-- Preset / Template Pack
-
----
-
-## BOUNDARY RULE
-> Knowledge ≠ Decision.
->  
-> Knowledge Production Engine даёт “как правильно по стандартам”,
-> но финальное решение остаётся за Orchestrator / Governance.
+These artifacts feed:
+- Production Orchestrator
+- Prompt builders / generation pipelines
+- Editors / compositors
+- QA / validation layer
 
 ---
 
-## COMMON MISTAKES
-- Смешивать с “Knowledge Base” (это хранилище)  
-  Здесь — **движок преобразования**.
-- Пытаться “проверять” вместо “компилировать”
-- Делать художественные ответы вместо прикладных пакетов
+## 3. HARD RULES (REALM)
+
+- Every spec must declare:
+  - target medium (image/video)
+  - aspect ratio / resolution
+  - style constraints (positive + negative)
+  - continuity constraints (what must stay stable)
+  - deliverable format
+- Specs must be reusable:
+  - avoid one-off vagueness (“make it cool”).
+- Production must respect:
+  - tone/mood
+  - genre constraints
+  - platform constraints
+- No canon mutation:
+  - production cannot invent new truths unless explicitly flagged as “non-canon visualization”.
 
 ---
 
-## CREATION RULE
-Новый Knowledge Production Engine создаётся, если:
-- есть крупная область знаний (свет/звук/монтаж/актёрка/драматургия/маркетинг)
-- и нужно регулярно превращать её в применимый, повторяемый “пакет решений”.
+## 4. ENGINE LIST (ORDER IS MANDATORY)
 
-Один движок = один тип компиляции знаний (одна специализация результата).
+00 — README (this file)
+
+01 — Visual Composition Engine  
+02 — Art Style Engine  
+03 — Camera & Cinematography Engine  
+04 — Lighting Engine  
+05 — Image Generation Engine  
+06 — Video Generation Engine  
+07 — Editing & Montage Engine  
+08 — Sound & Music Engine  
 
 ---
 
-STATUS: FINAL (Class README)
+## 5. REQUIRED DEPENDENCIES (CROSS-LAYER)
+
+Common dependencies:
+- Tone & Mood outputs
+- Atmosphere Layer Map
+- Sensory Detail Schema (optional but powerful)
+- Platform format target (short/series/youtube/game)
+- Style realm (genre/style engines)
+
+---
+
+## 6. FINAL STATEMENT
+
+If the narrative is the brain,
+production specs are the nervous system.
+They turn intent into controlled output.
