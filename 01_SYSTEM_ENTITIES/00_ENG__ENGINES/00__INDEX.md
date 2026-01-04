@@ -119,6 +119,22 @@ ROLE: Canonical navigation point for all ENG engine families and instances
 
 ---
 
+<<<<<<< HEAD
+=======
+## 05_ORCHESTRATORS  
+**CLASS:** ORCHESTRATOR (L3)  
+🔗 **REALM FILE:** https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01_SYSTEM_ENTITIES/00_ENG__ENGINES/05_ORCHESTRATORS/00__README__ORCHESTRATORS.md  
+**Family Path:** `05_ORCHESTRATORS/`
+
+01 — Narrative Orchestrator — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01_SYSTEM_ENTITIES/00_ENG__ENGINES/05_ORCHESTRATORS/01__NARRATIVE_ORCHESTRATOR_ENG.md  
+02 — Character Orchestrator — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01_SYSTEM_ENTITIES/00_ENG__ENGINES/05_ORCHESTRATORS/02__CHARACTER_ORCHESTRATOR_ENG.md  
+03 — World Orchestrator — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01_SYSTEM_ENTITIES/00_ENG__ENGINES/05_ORCHESTRATORS/03__WORLD_ORCHESTRATOR_ENG.md  
+04 — Production Orchestrator — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01_SYSTEM_ENTITIES/00_ENG__ENGINES/05_ORCHESTRATORS/04__PRODUCTION_ORCHESTRATOR_ENG.md  
+05 — Multi-Engine Pipeline Orchestrator — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01_SYSTEM_ENTITIES/00_ENG__ENGINES/05_ORCHESTRATORS/05__MULTI_ENGINE_PIPELINE_ORCHESTRATOR_ENG.md  
+
+---
+
+>>>>>>> 08ae65d6c4ddb80fcca45ef4a52fc6f8bde97d3b
 ## 06_EXPRESSION_ENGINES  
 **CLASS:** EXPRESSION (L3)  
 🔗 **REALM FILE:** https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01_SYSTEM_ENTITIES/00_ENG__ENGINES/06_EXPRESSION_ENGINES/00__README__EXPRESSION_ENGINES.md  
