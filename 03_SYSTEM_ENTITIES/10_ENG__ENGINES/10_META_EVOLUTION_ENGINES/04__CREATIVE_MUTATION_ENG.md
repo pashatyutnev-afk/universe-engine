@@ -4,82 +4,91 @@ FILE: 04__CREATIVE_MUTATION_ENG.md
 SCOPE: Universe Engine
 ENTITY_GROUP: ENGINES (ENG)
 FAMILY: 10_META_EVOLUTION_ENGINES
-LEVEL: L3
+CLASS: META (L4)
+LEVEL: L4
 STATUS: ACTIVE
 VERSION: 1.0
-ROLE: Generates novel variants (mutations) of solutions/artifacts while keeping constraints; outputs mutation sets and evaluation plans
+ROLE: Proposes and tests new structural/creative system mutations safely (bounded experiments, A/B comparisons, compatibility checks); turns successful mutations into canon standards via governance
 
 ---
 
 ## PURPOSE
 
-Мутации — это controlled chaos, чтобы находить прорывы.
-Движок:
-- генерирует новые варианты решений (неочевидные)
-- сохраняет ограничения (канон/стиль/ресурсы)
-- делает “набор мутаций” и план проверки
-- отделяет эксперименты от канона
+Мутация — это “новая идея системы”:
+- новый формат документа
+- новый механизм связей
+- новый принцип пайплайна
+- новый движок или переразбиение семейства
+
+Но мутация опасна → нужна дисциплина:
+- ограниченная зона влияния
+- эксперимент
+- сравнение
+- откат
 
 ---
 
 ## INPUTS
 
-- Current baseline (что есть)
-- Constraints (must keep)
-- Forbidden list (must avoid)
-- Target improvements (what to boost)
-- Risk tolerance (how wild allowed)
+- pain points (LER)
+- pattern gaps (нет паттерна для задачи)
+- future projection insights (05)
+- creative proposals
 
 ---
 
 ## OUTPUTS
 
-- Mutation set (variants)
-- Mutation rationale (why each might work)
-- Evaluation plan (how to test)
-- Safe-to-try shortlist
-- “Do not canonize before test” stamp
+- MUTATION PROPOSAL (MUP)
+- EXPERIMENT PLAN (EXP)
+- A/B COMPARISON REPORT (ABR)
+- COMPATIBILITY CHECK (CCK)
+- CANONIZATION REQUEST (CRQ) if success
+- ROLLBACK NOTE (RBN) if fail
 
 ---
 
-## MUTATION SET (CANON)
+## REQUIRED ARTIFACT: MUTATION PROPOSAL (MUP)
 
-Global:
-- BASELINE ID
-- TARGET IMPROVEMENT
-- MUTATION BUDGET (how many + how wild)
-- CONSTRAINTS (must keep)
-- FORBIDDEN (must avoid)
+MUP SCHEMA (CANON):
+- MUP_ID:
+- TITLE:
+- PROBLEM IT SOLVES:
+- WHAT CHANGES:
+- SCOPE BOUNDARY:
+  - what is NOT touched
+- COMPATIBILITY RISKS:
+- SUCCESS CRITERIA:
+- FAILURE CRITERIA:
+- ROLLBACK PLAN:
+- STATUS:
+  - proposed / testing / accepted / rejected
 
-Per mutation:
-- MUTATION ID
-- MUTATION TYPE (structure/style/process/tooling)
-- DESCRIPTION (what changes)
-- WHY IT MAY WORK
-- RISK LEVEL (low/med/high)
-- TEST METHOD
-- STOP CONDITION (when to abandon)
+Rule:
+- Mutation without boundary is system damage.
 
 ---
 
 ## PROCEDURE
 
-1) Define baseline + constraints
-2) Choose mutation budget and risk tolerance
-3) Generate variant set across mutation types
-4) Tag risks and test methods
-5) Shortlist safe-to-try
-6) Run tests and feed back to Learning engine
+1) Write MUP with strict boundary + success criteria
+2) Create EXP plan (small sandbox)
+3) Run experiment and record results
+4) Check compatibility + dependency impact
+5) If success: CRQ through governance
+6) If fail: rollback and publish RBN
+7) Extract pattern if useful (send to 02 engine)
 
 ---
 
 ## VALIDATION RULES
 
-- CM1: Мутации не нарушают must-keep constraints.
-- CM2: У каждой мутации есть гипотеза (почему может сработать).
-- CM3: Тест-план обязателен.
-- CM4: До проверки мутации не становятся “каноном”.
+- MUT1: Every mutation is bounded and reversible.
+- MUT2: Must have success/failure criteria.
+- MUT3: Must include compatibility check.
+- MUT4: Only governance can canonize.
 
 ---
+
 OWNER: Universe Engine
 STATUS: FIXED

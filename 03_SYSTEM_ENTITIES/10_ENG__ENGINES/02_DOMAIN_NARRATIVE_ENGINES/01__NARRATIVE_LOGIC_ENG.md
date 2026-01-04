@@ -4,116 +4,183 @@ FILE: 01__NARRATIVE_LOGIC_ENG.md
 SCOPE: Universe Engine
 ENTITY_GROUP: ENGINES (ENG)
 FAMILY: 02_DOMAIN_NARRATIVE_ENGINES
+CLASS: DOMAIN (L2)
 LEVEL: L2
 STATUS: ACTIVE
-VERSION: 1.0
-ROLE: Ensures causal logic, intent logic, and state-change logic in narrative
+VERSION: 2.0
+ROLE: Ensures narrative causality and state transitions; converts story intent into explicit logic constraints so scenes/events remain coherent and reproducible
 
 ---
 
 ## PURPOSE
 
-Гарантирует, что история **логична как система**:
-- причинно-следственная цепь не рвётся
-- мотивы персонажей согласованы с действиями
-- изменения мира/отношений объяснимы
-- "случайность" используется контролируемо
+Нарративная логика — это “скелет правдоподобия”.
+Движок гарантирует:
+- причинно-следственную связность
+- явные состояния “до/после”
+- отсутствие случайностей без мотивации
+- воспроизводимость истории по спецификации
 
 ---
 
-## INPUTS
+## NON-GOALS
 
-- Events (E): список событий (включая внешние удары)
-- Actors (A): кто участвует
-- Intents (I): желания/цели/страхи
-- Constraints (C): законы мира, ресурсы, запреты
-- Current State (S): статус-кво до события
-
----
-
-## OUTPUTS
-
-- Causal Graph (G): граф причинности (cause → effect)
-- Justification Notes: почему событие возможно и почему оно случилось
-- Flag List: логические дыры, совпадения, нарушения мотивации
-- Required Bridges: какие сцены/факты надо добавить, чтобы закрыть дырки
+- не пишет стиль/тон (это Genre/Style family)
+- не раскрывает психологию персонажа (Character family)
+- не строит мир (World family)
+Он отвечает только за логическую связность и переходы состояния.
 
 ---
 
-## CORE MODEL
+## MINI-CONTRACT (MANDATORY)
 
-### Event Types
-- Intent-driven: вызвано решениями персонажей
-- Constraint-driven: вызвано законами мира/обстоятельствами
-- External shock: внешняя сила/катастрофа/вмешательство
-- Randomness: допустимо только если:
-  - (a) не решает ключевую проблему вместо героя
-  - (b) имеет цену/последствие
-  - (c) не ломает мотивации и канон
+### CONSUMES
+- Story intent (high-level)
+- World constraints (laws/timeline) if known
+- Character constraints (motivations/limits) if known
+- Any existing scene/event list
+
+### PRODUCES
+- NARRATIVE LOGIC SPEC (NLS)
+- CAUSAL CHAIN map (event -> consequence)
+- STATE TRANSITION statements (before -> after)
+- LOGIC VIOLATIONS list (if found)
+
+### DEPENDS_ON
+- 01_CORE_ENGINES/03__CORE_LIFECYCLE_ENG.md (status discipline)
+- 00_GOVERNANCE_ENGINES/03__RULE_HIERARCHY_ENG.md (conflict precedence)
+
+### OUTPUT_TARGET
+- Feeds Scene Construction (04), Continuity (09)
+- Provides constraints to Character/World families
+- Used as “logic gate” before production specs are generated
 
 ---
 
-## PROCEDURE (CANON)
+## CANON CONCEPTS
 
-1) **State Snapshot**
-   - зафиксировать S0: кто где, что хочет, какие ограничения
+### STATE
+Состояние — это набор фактов, которые важны для истории.
+Примеры: “герой свободен/в плену”, “ресурс есть/нет”, “отношение доверие/вражда”.
 
-2) **For each event**
-   - определить тип события
-   - указать "Причину" (cause)
-   - указать "Механизм" (how it happens under constraints)
-   - указать "Изменение" (что поменялось: info/position/relationship/risk)
+### TRANSITION
+Переход состояния должен иметь причину.
+Если переход без причины — это ошибка или intentional (должно быть помечено).
 
-3) **Build Causal Graph**
-   - соединить cause → effect
-   - проверить: есть ли “висящие эффекты” без причины
+### CAUSAL CHAIN
+Цепочка: событие -> эффект -> новое состояние.
 
-4) **Intent Consistency Check**
-   - каждое ключевое действие должно иметь:
-     - цель (goal)
-     - цену (cost)
-     - риск (risk)
-     - причину выбора (why this option)
+---
 
-5) **Coincidence Audit**
-   - совпадение допустимо только если:
-     - оно ухудшает положение (делает хуже), либо
-     - оно открывает проблему, но не решает её
+## REQUIRED ARTIFACT: NARRATIVE LOGIC SPEC (NLS)
 
-6) **Output Bridges**
-   - если дыра — предложить минимальную сцену/факт, который чинит цепь
+### NLS SCHEMA (CANON)
+
+- NLS_ID:
+- STORY_SCOPE:
+  - scene | episode | arc | season
+- GOAL:
+  - what must land
+- INITIAL STATE (BEFORE):
+  - facts list
+- FINAL STATE (AFTER):
+  - facts list
+- EVENTS (ORDERED):
+  - E1:
+    - event summary
+    - cause (why it happens)
+    - immediate effect
+    - state change
+  - E2...
+- CAUSAL LINKS:
+  - E1 -> E2 (why E2 follows)
+  - E2 -> E3 ...
+- CONSTRAINTS:
+  - world laws constraints
+  - character constraints
+- RANDOMNESS POLICY:
+  - none | controlled | intentional chaos
+  - if randomness used: how it is justified
+- LOGIC CHECKS:
+  - list of checks performed (see checklist)
+- VIOLATIONS (if any):
+  - what breaks and why
+- FIX STRATEGY:
+  - how to repair logic (if violations exist)
+
+---
+
+## LOGIC RULES (CANON)
+
+### NL1 — Every event changes state
+Если событие не меняет состояние:
+- либо это “texture beat” (должно быть помечено)
+- либо удалить/объединить
+
+### NL2 — No effect without cause
+Любой эффект обязан иметь причину.
+Если “просто так” — это:
+- ошибка, или
+- intentional mystery (must be tagged and paid off later)
+
+### NL3 — Constraints are binding
+Если world law запрещает — сцена не может нарушать,
+пока не введено:
+- разрешение (изменение закона),
+- исключение (waiver), или
+- объяснение (technology/magic/circumstance) как новый закон.
+
+### NL4 — Stakes must be consistent
+Если ставки заявлены высокие, последствия не могут быть “нулевые”.
+Иначе: stakes inflation.
+
+### NL5 — No teleportation of info/resources
+Информация/ресурс/персонаж не “появляется” без передачи/пути.
+
+### NL6 — Chekhov discipline
+Любая сильная установка должна иметь:
+- payoff, или
+- intentional non-payoff (тоже помечается, но редко)
+
+---
+
+## PROCEDURE (HOW TO RUN)
+
+1) Define scope (scene/episode/arc)
+2) Write BEFORE/AFTER state
+3) List events in order
+4) For each event:
+   - cause
+   - effect
+   - state change
+5) Build causal links between events
+6) Apply constraints (world/character)
+7) Run logic checklist
+8) Output NLS + violations (if any)
+
+---
+
+## LOGIC CHECKLIST (QC)
+
+- does BEFORE explain first event trigger?
+- does each event have cause and effect?
+- does each event change state?
+- are transitions motivated (no “magic jumps”)?
+- are stakes consistent with consequences?
+- are resources/info transfer accounted for?
+- do constraints (world/character) hold?
+- any mystery tags without payoff plan?
 
 ---
 
 ## VALIDATION RULES
 
-- L1: Нельзя получить эффект без причины (кроме внешнего удара, который помечен).
-- L2: Герой не может действовать против мотива без:
-  - психологического триггера, или
-  - давления обстоятельств, или
-  - новой информации.
-- L3: Решение ключевого конфликта не может быть подарком случайности.
-- L4: Любое изменение состояния фиксируется и влияет дальше.
+- NLV1: NLS has explicit BEFORE/AFTER.
+- NLV2: Event list is ordered and linked.
+- NLV3: Violations are either fixed or explicitly tagged intentional with payoff plan.
+- NLV4: Constraints are referenced (even if “unknown yet”, it must be stated).
 
 ---
 
-## FAILURE MODES
-
-- Deus ex machina
-- Телепортации фактов (инфа появляется из ниоткуда)
-- Нарушение компетенций мира (персонаж умеет то, что не умеет)
-- "Персонаж тупеет" ради сюжета
-- Случайность спасает в кульминации
-
----
-
-## INTEGRATION
-
-- With CAUSE_EFFECT_ENG (Expression): более детализированная причинность сцен.
-- With CHARACTER engines: мотивы/психология как источник решений.
-- With WORLD_LAW_ENG: проверка “возможно ли это”.
-- With CONTINUITY_ENG: фактология и состояния.
-
----
 OWNER: Universe Engine
-STATUS: FIXED
+LOCK: FIXED

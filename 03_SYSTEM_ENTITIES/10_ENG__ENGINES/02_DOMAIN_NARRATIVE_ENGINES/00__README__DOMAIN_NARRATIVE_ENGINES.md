@@ -4,54 +4,113 @@ FILE: 00__README__DOMAIN_NARRATIVE_ENGINES.md
 SCOPE: Universe Engine
 ENTITY_GROUP: ENGINES (ENG)
 FAMILY: 02_DOMAIN_NARRATIVE_ENGINES
+CLASS: DOMAIN (L2)
 LEVEL: L2
 STATUS: ACTIVE
-VERSION: 1.0
-ROLE: Realm file for narrative-domain engines (story logic and structure mechanics)
+VERSION: 2.0
+ROLE: Realm file for narrative domain engines; defines canonical narrative terms, boundaries, outputs, and how narrative specs flow into character/world and production families
 
 ---
 
 ## WHAT THIS FAMILY IS
 
-**DOMAIN NARRATIVE ENGINES** — это движки доменной логики повествования.
-Они отвечают за то, чтобы история была:
-- причинно-следственной
-- структурированной
-- драматически работающей
-- понятной на уровне сцен
-- управляемой по темпу и напряжению
-- непрерывной по фактам и состояниям
-- несущей тему/смысл
+**DOMAIN_NARRATIVE_ENGINES** — это движки, которые превращают “идею” в **сценарную систему**:
+- логика нарратива
+- структура истории
+- драматическая дуга
+- сцены и биты
+- темп/ритм
+- ставки/напряжение
+- предвосхищение и раскрытия
+- непрерывность
+- тема/смысл
 
-Это НЕ “стиль” и НЕ “продакшн-формат”.
-Стиль живёт в GENRE_STYLE_ENGINES, формат — в PRODUCTION_FORMAT_ENGINES.
+Это слой L2: фундамент домена “история”.
 
 ---
 
 ## WHY IT EXISTS
 
-Чтобы из сырых событий получить работающий нарратив:
-- события → сцены
-- сцены → дуги
-- дуги → сезон/книга
-- сезон → каноническая история
+Если нарратив не системный:
+- события не следуют причинности
+- сцены не держат смысловую дугу
+- персонажи выглядят случайно
+- монтаж/визуал не имеют опоры
+
+Этот family делает **Narrative Spec** — то, на что могут опираться:
+- Character engines
+- World engines
+- Production engines
 
 ---
 
-## INPUT / OUTPUT (CANON)
+## FAMILY BOUNDARY (IMPORTANT)
 
-### Inputs
-- Event list (что происходит)
-- Character intents (кто чего хочет)
-- World constraints (что возможно)
-- Target audience/format constraints (если есть)
+Narrative family НЕ делает:
+- психологию персонажей (это 03_DOMAIN_CHARACTER_ENGINES)
+- устройство мира/законы/экономику (это 04_DOMAIN_WORLD_ENGINES)
+- камеру/свет/монтаж (это production families)
 
-### Outputs
-- Story skeleton (acts / beats / arcs)
-- Scene list (с целями и поворотами)
-- Stakes & tension map
-- Continuity constraints
-- Theme statement + throughlines
+Narrative family делает:
+- **смысловую структуру** истории и сцены
+- **требования** к персонажам/миру как to-be constraints
+- **scene spec** как главный output
+
+---
+
+## FAMILY-WIDE CANON TERMS
+
+### NARRATIVE SPEC
+Структурированное описание истории/сцены, достаточное для воспроизведения:
+- цель сцены
+- биты
+- конфликт
+- ставки
+- поворот/кульминация/разрешение
+- последствия
+
+### BEAT
+Мини-событие/шаг, который меняет состояние сцены.
+
+### TURN
+Сдвиг направления: персонаж/ситуация “переворачивается”.
+
+### STAKES
+Цена, которую платит герой.
+
+### CONTINUITY
+Непрерывность логики и фактов между сценами.
+
+---
+
+## PRIMARY OUTPUTS (WHAT DOWNSTREAM EXPECTS)
+
+### Scene Spec (canonical payload)
+- SCENE_ID
+- GOAL (what must land)
+- SETUP
+- BEATS (ordered)
+- CONFLICT
+- STAKES
+- TURNING POINT
+- CLIMAX
+- RESOLUTION
+- CONSEQUENCES
+- CONTINUITY NOTES
+- THEME HOOK (meaning anchor)
+
+### Story Skeleton (optional)
+- acts/episodes structure
+- major turns and reveals
+
+---
+
+## PIPELINE LINKS (HANDOFF)
+
+Narrative outputs feed:
+- Character family: motivations, trauma, evolution, dialogue intent
+- World family: location constraints, law constraints, timeline anchors
+- Production families: shot lists, visuals, editing rhythm, sound sync hooks
 
 ---
 
@@ -66,31 +125,18 @@ ROLE: Realm file for narrative-domain engines (story logic and structure mechani
 07 — Foreshadowing Engine  
 08 — Twist & Reveal Engine  
 09 — Narrative Continuity Engine  
-10 — Theme & Meaning Engine
+10 — Theme & Meaning Engine  
 
 ---
 
-## DOMAIN INVARIANTS (NARRATIVE LAW)
+## FAMILY-WIDE VALIDATION
 
-- N0: У каждого события есть причина или оно маркировано как “внешний удар”.
-- N1: Любая сцена обязана менять состояние (инфо/отношения/положение/риск).
-- N2: Любая дуга имеет старт → напряжение → точку перелома → выход.
-- N3: Темп управляется осознанно, а не случайно.
-- N4: Ставки либо растут, либо меняют природу угрозы.
-- N5: Твисты не противоречат канону и подготовлены (явно или скрыто).
-- N6: Непрерывность важнее “красивой идеи”. Сначала консистентность.
-- N7: Тема проявляется через выборы и последствия, а не декларации.
+- N1: Любая сцена имеет цель и измеримый “сдвиг состояния”.
+- N2: Причинность не нарушена (если не заявлено intentional).
+- N3: Continuity notes существуют всегда (минимум 1–3 пункта).
+- N4: Сцена имеет связь с темой (theme hook), даже если тонкая.
 
 ---
 
-## INTEGRATION
-
-- With CORE (Identity/State/Lifecycle): сцены и арки тоже сущности с состояниями.
-- With CHARACTER engines: мотивации/психология — топливо нарратива.
-- With WORLD engines: законы мира ограничивают решения.
-- With ORC Orchestrators: пайплайн “events → scenes → arcs → canon”.
-- With VAL/QA: проверка логики, непрерывности, качества.
-
----
 OWNER: Universe Engine
-STATUS: FIXED
+LOCK: FIXED

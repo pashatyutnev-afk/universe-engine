@@ -4,78 +4,89 @@ FILE: 03__OPTIMIZATION_ENG.md
 SCOPE: Universe Engine
 ENTITY_GROUP: ENGINES (ENG)
 FAMILY: 10_META_EVOLUTION_ENGINES
-LEVEL: L3
+CLASS: META (L4)
+LEVEL: L4
 STATUS: ACTIVE
 VERSION: 1.0
-ROLE: Produces prioritized optimization moves from patterns and signals, balancing impact vs cost vs risk
+ROLE: Optimizes system performance (clarity, speed, compatibility, reproducibility) via measurable targets; creates optimization backlog, patches, dependency impact notes, and rollback-safe releases
 
 ---
 
 ## PURPOSE
 
-Оптимизация — это “делать лучше системно”.
-Движок:
-- переводит паттерны в конкретные изменения
-- приоритезирует (impact/cost/risk)
-- планирует внедрение и тест
-- отслеживает побочные эффекты
+Оптимизация — это:
+- меньше времени на выпуск
+- меньше ошибок
+- больше ясности
+- меньше дрейфа
+- больше воспроизводимости
+
+Но **только измеримо** и **совместимо**.
 
 ---
 
 ## INPUTS
 
-- Pattern library + triggers
-- Current KPIs and pain points
-- Constraints (time/budget)
-- Dependencies (что трогает что)
+- metrics (time-to-output, error rate, QA fails)
+- LER incidents
+- pattern cards (PC/APC)
+- dependency graphs (00_GOV/06)
 
 ---
 
 ## OUTPUTS
 
-- Optimization backlog (ranked)
-- Change specs (what exactly to modify)
-- Test plan + rollback plan
-- Expected delta per KPI
-- Risk register
+- OPTIMIZATION BACKLOG ITEM (OBI)
+- PATCH SPEC (PSP)
+- IMPACT NOTE (IN)
+- MIGRATION PLAN (MP) if needed
+- ROLLBACK PLAN (RP)
+- POST-CHANGE REPORT (PCR)
 
 ---
 
-## OPTIMIZATION MOVE (CANON)
+## REQUIRED ARTIFACT: OPTIMIZATION BACKLOG ITEM (OBI)
 
-- MOVE ID
-- TARGET KPI (what improves)
-- PROBLEM STATEMENT
-- PROPOSED CHANGE (exact)
-- EXPECTED IMPACT (quantified if possible)
-- COST (low/med/high)
-- RISK (low/med/high)
-- DEPENDENCIES
-- TEST METHOD (A/B, review, simulation)
-- ROLLBACK PLAN
-- SUCCESS CRITERIA
-- SIDE EFFECTS WATCHLIST
+OBI SCHEMA (CANON):
+- OBI_ID:
+- TARGET:
+  - clarity / speed / compatibility / quality
+- METRIC:
+  - what we measure
+- BASELINE:
+- GOAL:
+- SCOPE:
+  - which families/engines affected
+- CHANGE TYPE:
+  - refactor / template / index / rule / pipeline
+- DEPENDENCY IMPACT (summary):
+- RISK:
+- ROLLBACK:
+- STATUS:
+  - proposed / approved / applied / reverted
 
 ---
 
 ## PROCEDURE
 
-1) Select top leverage patterns
-2) Generate 3–10 candidate moves
-3) Score moves by impact/cost/risk
-4) Choose top N and write change specs
-5) Define test + rollback
-6) Execute and record learning
+1) Define metric + baseline
+2) Create OBI with goal
+3) Create patch spec + impact note
+4) Governance approval (ME1)
+5) Apply patch
+6) Validate: did metric improve without breaking compatibility
+7) Publish PCR (post-change report)
 
 ---
 
 ## VALIDATION RULES
 
-- O1: Каждая оптимизация привязана к KPI и сигналам.
-- O2: Есть план теста и отката.
-- O3: Приоритет обоснован (почему это выше другого).
-- O4: Учитываются побочные эффекты.
+- OPT1: No optimization without metric.
+- OPT2: No optimization without dependency impact note.
+- OPT3: Every change is reversible.
+- OPT4: If improvement is not real → revert.
 
 ---
+
 OWNER: Universe Engine
 STATUS: FIXED

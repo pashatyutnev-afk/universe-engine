@@ -4,141 +4,227 @@ FILE: 03__CORE_LIFECYCLE_ENG.md
 SCOPE: Universe Engine
 ENTITY_GROUP: ENGINES (ENG)
 FAMILY: 01_CORE_ENGINES
+CLASS: CORE (L1)
 LEVEL: L1
 STATUS: ACTIVE
-VERSION: 1.0
-ROLE: Defines the lifecycle process: how entities are created, stabilized, evolved, migrated, and archived
+VERSION: 2.0
+ROLE: Defines canonical lifecycle states and transitions for ENG entities (families/engines/artifacts); standardizes how items move from draft to active to fixed, how deprecation works, and when archiving is allowed
 
 ---
 
 ## PURPOSE
 
-Описывает **жизненный цикл сущности** как процесс:
-- создание
-- стабилизация
-- публикация (активация)
-- поддержка и эволюция
-- замена и миграция
-- деприкация и архив
+Lifecycle отвечает на вопрос:
 
-Lifecycle — это “как мы живём”, State — это “в каком статусе мы сейчас”.
+> “Как элемент системы живёт во времени и по каким правилам меняет статус?”
 
----
-
-## LIFECYCLE PHASES (CANONICAL)
-
-### Phase 0 — Intake / Drafting
-- создание сущности
-- первичное заполнение
-- минимальная структура
-**STATE:** DRAFT
-
-### Phase 1 — Stabilization
-- приведение к стандартам
-- добавление owner/версии/путей
-- внесение в индексы (если требуется)
-**STATE:** DRAFT → готовность к ACTIVE
-
-### Phase 2 — Activation (Publish)
-- прохождение gates (Identity/Index/Ref/Contract)
-- фиксация как точки истины
-**STATE:** ACTIVE
-
-### Phase 3 — Operation / Maintenance
-- исправления, расширения, уточнения
-- контроль версий
-- аудит изменений
-**STATE:** ACTIVE
-
-### Phase 4 — Evolution / Replacement
-- появляется новая версия или новая сущность-замена
-- формируется миграционный план
-**STATE:** ACTIVE → DEPRECATED (старое)
-
-### Phase 5 — Deprecation & Migration
-- система переезжает на replacement
-- поддерживаются xref/совместимость
-**STATE:** DEPRECATED
-
-### Phase 6 — Archive
-- объект исторический, но не используется
-- хранится для памяти/разбора
-**STATE:** ARCHIVED
-
-### Exception Phase — Repair
-- если обнаружена поломка/конфликт/битые ссылки
-**STATE:** BROKEN → (DRAFT/ACTIVE после ремонта)
+Без этого:
+- “черновики” начинают жить как канон
+- deprecated остаётся как будто активное
+- архивы путаются с актуальной реальностью
+- невозможно управлять стабильностью
 
 ---
 
-## REQUIRED ARTIFACTS PER PHASE
+## NON-GOALS
 
-- Intake:
-  - Identity header
-  - минимальный смысл (purpose + роль)
-- Stabilization:
-  - стандарты формата
-  - owner + version
-  - индексация
-- Activation:
-  - gate checklist пройден
-  - audit entry создан
-- Maintenance:
-  - изменения фиксируются
-  - версия повышается
-- Replacement:
-  - replacement указан
-  - xref mapping создан
-  - migration plan описан
-- Archive:
-  - пометка архива
-  - ссылки только исторические
+- не утверждает изменения (Canon Authority)
+- не ведёт аудит (Audit Log)
+- не версионирует релизы (Versioning & Memory)
+Он задаёт **стандарт переходов** и критерии каждого состояния.
 
 ---
 
-## LIFE GATES (CANONICAL)
+## MINI-CONTRACT (MANDATORY)
 
-- Gate 1: Identity Valid (CORE_IDENTITY_ENG)
-- Gate 2: State Valid (CORE_STATE_ENG)
-- Gate 3: Consistency Pass (CONSISTENCY_ENG) — для индексируемых сущностей
-- Gate 4: Change Control Check (CHANGE_CONTROL_ENG) — если high/critical
-- Gate 5: Decision Approval (DECISION_APPROVAL_ENG) — если protected zone / breaking
+### CONSUMES
+- Change packets (CHG)
+- Canon verdicts (CV)
+- Consistency reports (CR)
+- Release notes (RN) when lifecycle changes are part of release
 
----
+### PRODUCES
+- LIFECYCLE STATE model (canonical)
+- TRANSITION RECORD (TR) artifact for meaningful transitions
+- DEPRECATION NOTICE (DN) artifact for retirements
 
-## MECHANICS (HOW IT WORKS)
+### DEPENDS_ON
+- 00_GOVERNANCE_ENGINES/04__CHANGE_CONTROL_ENG.md
+- 00_GOVERNANCE_ENGINES/02__CANON_AUTHORITY_ENG.md
+- 00_GOVERNANCE_ENGINES/05__CONSISTENCY_ENG.md
+- 00_GOVERNANCE_ENGINES/10__VERSIONING_MEMORY_ENG.md
 
-1) Любая сущность не может “внезапно” стать активной без gates.
-2) Любая массовая правка проходит через:
-   - impact оценку
-   - dependency проверку
-   - xref mapping (если переезды)
-3) Любая замена требует:
-   - фиксации replacement
-   - поддержания совместимости до миграции
-4) Архив — это финал жизни, но не смерть истории.
-
----
-
-## FAILURE MODES
-
-- F1: Нет стабилизации → DRAFT притворяется ACTIVE.
-- F2: Нет миграции → старые ссылки умирают.
-- F3: Нет audit/decision → невозможно понять почему так.
-- F4: Ломают историю (удаление/переписывание) → канон теряет доверие.
+### OUTPUT_TARGET
+- Every family/engine should follow these lifecycle rules
+- INDEX and READMEs may reference lifecycle for status meaning
 
 ---
 
-## INTEGRATION
+## LIFECYCLE STATES (CANON)
 
-- With AUDIT_LOG_ENG: каждая фаза ключевых изменений должна фиксироваться.
-- With CHANGE_CONTROL_ENG: lifecycle запускает governance gates.
-- With DEPENDENCY_REGISTRY_ENG: lifecycle учитывает blast radius.
-- With XREF__CROSSREF: lifecycle управляет переездами и совместимостью.
-- With PROJECTS:
-  - проекты используют lifecycle как pipeline производства контента:
-    intake(workshop) → stabilize(project level) → publish(canon).
+### DRAFT
+- exists, may be incomplete
+- may be registered in INDEX (if you want tracking)
+- cannot be LOCK: FIXED
+- allowed to change frequently
+
+### ACTIVE
+- usable, coherent
+- contract exists and is understandable
+- may still evolve, but changes must go through governance if canon-impacting
+
+### FIXED (LOCKED CANON)
+- status may remain ACTIVE, but LOCK becomes FIXED
+- contract is stable
+- consumers can safely build on it
+- changes require stricter gate (at least D2 when contract changes)
+
+### DEPRECATED
+- still exists for backward compatibility
+- cannot be used by new work
+- must specify replacement pointer and sunset plan
+
+### ARCHIVED
+- removed from active navigation
+- cannot be referenced by new canon
+- may remain as historical artifact
 
 ---
+
+## STATUS VS LOCK (IMPORTANT)
+
+- STATUS is about existence/usefulness (ACTIVE/DEPRECATED/ARCHIVED)
+- LOCK is about stability (FIXED/UNFIXED)
+
+Allowed combos:
+- STATUS: ACTIVE + LOCK: UNFIXED (in-progress but usable)
+- STATUS: ACTIVE + LOCK: FIXED (stable canon)
+- STATUS: DEPRECATED + LOCK: FIXED (frozen old)
+Not allowed:
+- STATUS: ARCHIVED + LOCK: UNFIXED (archive must be frozen or irrelevant)
+
+---
+
+## TRANSITION RULES (CANON)
+
+### Allowed transitions
+- DRAFT -> ACTIVE
+- ACTIVE -> DEPRECATED
+- DEPRECATED -> ARCHIVED
+- ACTIVE (UNFIXED) -> ACTIVE (FIXED)  (lock transition)
+
+### Discouraged (require MAJOR decision)
+- ACTIVE -> DRAFT (rollback) (only with strong reason + audit)
+- ARCHIVED -> ACTIVE (resurrection) (treat as new engine + MAJOR)
+
+---
+
+## ENTRY CRITERIA (GATES)
+
+### DRAFT -> ACTIVE
+Required:
+- coherent ROLE statement
+- mini-contract present
+- naming/numbering correct
+- registered in INDEX
+- no S0 blockers in consistency scan
+
+Recommended:
+- basic validation checklist present
+
+### ACTIVE (UNFIXED) -> ACTIVE (FIXED)
+Required:
+- CR verdict PASS
+- CV approval
+- audit entry exists
+- versioning pointers exist (RN at least)
+- contract and boundaries explicitly stated
+
+### ACTIVE -> DEPRECATED
+Required:
+- deprecation notice (DN)
+- replacement pointer (REPLACED_BY)
+- sunset timeline or condition
+
+### DEPRECATED -> ARCHIVED
+Required:
+- no active references in INDEX or READMEs
+- archive note includes reason and date
+- if references remain historically, they must point to replacement
+
+---
+
+## REQUIRED CANON ARTIFACT: TRANSITION RECORD (TR)
+
+### TRANSITION_RECORD SCHEMA (CANON)
+
+- TR_ID: TR-ENG-0001
+- DATE:
+- ENTITY:
+  - family/engine/artifact path
+- FROM_STATE:
+- TO_STATE:
+- REASON:
+  - 3–7 bullets
+- REQUIRED UPDATES:
+  - list of files and what changes
+- VALIDATION REQUIRED:
+  - CR? yes/no
+  - CV? yes/no
+  - AL? yes/no
+  - RN? yes/no
+- REFERENCES:
+  - CHG_ID:
+  - CV_ID:
+  - AL_ID:
+  - RN_ID:
+- NOTES (optional)
+
+---
+
+## REQUIRED CANON ARTIFACT: DEPRECATION NOTICE (DN)
+
+### DEPRECATION_NOTICE SCHEMA (CANON)
+
+- DN_ID: DN-ENG-0001
+- DATE:
+- ENTITY:
+- STATUS:
+  - DEPRECATED
+- REPLACED_BY:
+  - file pointer
+- WHY:
+  - short
+- SUNSET:
+  - date OR condition
+- MIGRATION NOTES:
+  - how consumers should adapt
+- REFERENCES:
+  - CV/AL/RN ids
+
+---
+
+## PROCEDURE (HOW TO APPLY LIFECYCLE)
+
+1) Decide target transition (e.g., draft->active)
+2) Check entry criteria and required artifacts
+3) If canon-impacting, open CHG and attach IR (if needed)
+4) Obtain verdict (CV) when required
+5) Apply file header updates (STATUS/LOCK)
+6) Write TR or DN artifact if required
+7) Log in audit and update release notes if part of release
+
+---
+
+## VALIDATION CHECKLIST
+
+- CL1: No entity is FIXED without CR + CV + AL + RN pointers
+- CL2: Deprecated items always have REPLACED_BY and SUNSET
+- CL3: Archived items are not referenced by new canon
+- CL4: Status and lock combinations obey allowed matrix
+- CL5: INDEX reflects current lifecycle (no dead links)
+
+---
+
 OWNER: Universe Engine
-STATUS: FIXED
+LOCK: FIXED

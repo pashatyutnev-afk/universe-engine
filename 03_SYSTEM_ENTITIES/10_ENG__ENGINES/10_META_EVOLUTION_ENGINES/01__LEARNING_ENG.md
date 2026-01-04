@@ -4,79 +4,100 @@ FILE: 01__LEARNING_ENG.md
 SCOPE: Universe Engine
 ENTITY_GROUP: ENGINES (ENG)
 FAMILY: 10_META_EVOLUTION_ENGINES
-LEVEL: L3
+CLASS: META (L4)
+LEVEL: L4
 STATUS: ACTIVE
 VERSION: 1.0
-ROLE: Converts experience (runs, feedback, outcomes) into retained rules, playbooks, and reusable knowledge
+ROLE: Captures learning events from execution, QA, and governance; converts them into actionable lessons, patches, and updated standards with traceability and rollback plans
 
 ---
 
 ## PURPOSE
 
-Обучение — это превращение опыта в капитал.
-Движок делает:
-- сбор сигналов (что случилось)
-- оценку результата (хорошо/плохо и почему)
-- извлечение уроков
-- запись в канонические “правила/плейбуки”
-- отсев шумов и ложных выводов
+Собирать “чему мы научились” из реальной работы:
+- ошибки
+- успехи
+- неожиданности
+- повторяющиеся боли
+
+И превращать это в:
+- уроки
+- правила
+- патчи движков
+- обновления стандартов
 
 ---
 
 ## INPUTS
 
-- Run logs (что делали)
-- Outcome (результат)
-- Feedback (человек/метрики)
-- Context (условия)
-- Constraints (ресурсы/сроки)
+- audit log entries
+- QA failures / drift reports
+- production incidents (сломалось/непонятно/долго)
+- user feedback
+- change requests
 
 ---
 
 ## OUTPUTS
 
-- Learned rules (heuristics)
-- Updated playbooks
-- “Do/Don’t” updates
-- Confidence score per lesson
-- Open questions list (что не ясно)
+- LEARNING EVENT RECORD (LER)
+- LESSONS LIST (LL)
+- PATCH PROPOSAL (PP)
+- MIGRATION NOTE (MN) if structure changes
+- ROLLBACK PLAN (RP)
+- VALIDATION CHECKLIST (VC)
 
 ---
 
-## LEARNING RECORD (CANON)
+## REQUIRED ARTIFACT: LEARNING EVENT RECORD (LER)
 
-- LEARNING ID
-- SOURCE (which runs / events)
-- CONTEXT SUMMARY
-- SIGNALS (what observed)
-- OUTCOME (what happened)
-- LESSON (one sentence)
-- ACTIONABLE RULE (what to do next time)
-- SCOPE (where it applies)
-- CONFIDENCE (low/med/high + why)
-- COUNTER-EXAMPLES (when it fails)
-- NEXT TEST (how to validate)
+LER SCHEMA (CANON):
+- LER_ID:
+- DATE:
+- SOURCE:
+  - audit / QA / user / pipeline
+- CONTEXT:
+  - where it happened (family/engine/project)
+- SYMPTOM:
+  - what went wrong / what was slow / what was unclear
+- ROOT CAUSE (hypothesis):
+- FIX TYPE:
+  - rule change / template change / engine patch / indexing / naming
+- PROPOSED CHANGE (summary):
+- AFFECTED DEPENDENCIES:
+- RISK LEVEL:
+  - low/med/high
+- ROLLBACK PLAN:
+- OWNER:
+- STATUS:
+  - draft / approved / applied / reverted
+
+Rule:
+- No learning without traceability.
 
 ---
 
 ## PROCEDURE
 
-1) Collect signals & outcome
-2) Separate correlation vs causation assumptions
-3) Write lesson as testable rule
-4) Add counter-examples and scope
-5) Assign confidence
-6) Schedule next validation test
+1) Capture incident as LER
+2) Classify: clarity / compatibility / drift / speed / quality
+3) Identify root cause (best hypothesis)
+4) Propose fix (PP) + dependencies + risk
+5) Send through governance pipeline (ME1)
+6) Apply patch + update indexes/templates if needed
+7) Validate (VC)
+8) Record outcome in audit
 
 ---
 
 ## VALIDATION RULES
 
-- L1: Урок формулируется как правило, которое можно применить.
-- L2: Есть область применимости (scope) и ограничения.
-- L3: Есть план проверки (иначе это “мнение”).
-- L4: Урок не дублирует старые — либо усиливает, либо заменяет.
+- LRN1: Любой “урок” имеет LER и источник.
+- LRN2: Любая правка имеет rollback plan.
+- LRN3: После правки есть проверка, что проблема ушла.
+- LRN4: Нельзя “учиться”, ломая канон без регистрации.
 
 ---
+
 OWNER: Universe Engine
 STATUS: FIXED

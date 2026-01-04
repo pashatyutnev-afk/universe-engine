@@ -4,80 +4,100 @@ FILE: 05__FUTURE_PROJECTION_ENG.md
 SCOPE: Universe Engine
 ENTITY_GROUP: ENGINES (ENG)
 FAMILY: 10_META_EVOLUTION_ENGINES
-LEVEL: L3
+CLASS: META (L4)
+LEVEL: L4
 STATUS: ACTIVE
 VERSION: 1.0
-ROLE: Projects future states via scenarios, forecasts, and risk maps; outputs actionable guidance and monitoring signals
+ROLE: Builds future scenarios for system growth (roadmaps, risks, capacity, dependency evolution) and converts them into actionable plans: scenario maps, risk registers, migration forecasts, and priority recommendations
 
 ---
 
 ## PURPOSE
 
-Прогноз — это не гадание, а карта сценариев.
-Движок:
-- строит 3–5 сценариев будущего
-- фиксирует допущения (assumptions)
-- оценивает риски и возможности
-- задаёт “monitoring signals” (что отслеживать)
-- выдаёт рекомендации действий
+Проекция — это не гадание.
+Это:
+- сценарии “что будет если”
+- оценка рисков и узких мест
+- прогноз влияния изменений
+- планы миграции и развития
+
+Цель: чтобы система масштабировалась и не треснула.
 
 ---
 
 ## INPUTS
 
-- Current state + trends (signals)
-- Constraints and goals
-- Known risks and dependencies
-- External factors (если есть)
+- current engine registry + dependency graph
+- backlog (optimization + mutation proposals)
+- QA risk areas
+- production needs (projects)
 
 ---
 
 ## OUTPUTS
 
-- Scenario set (best/base/worst/black swan)
-- Assumptions list
-- Risk/opportunity map
-- Monitoring dashboard spec (signals)
-- Action guidance (what to do now)
+- SCENARIO MAP (SM)
+- RISK REGISTER (RR)
+- ROADMAP RECOMMENDATION (RMR)
+- MIGRATION FORECAST (MF)
+- CAPACITY PLAN (CP)
 
 ---
 
-## PROJECTION SPEC (CANON)
+## REQUIRED ARTIFACT: SCENARIO MAP (SM)
 
-- TIME HORIZON (near/mid/far)
-- KEY ASSUMPTIONS (list)
-- SCENARIOS (3–5):
-  - NAME
-  - DESCRIPTION
-  - PROBABILITY (low/med/high)
-  - IMPACT (low/med/high)
-  - EARLY SIGNALS (what we would see)
-  - RISKS
-  - OPPORTUNITIES
-  - RECOMMENDED ACTIONS
-- NO-REGRET MOVES (safe actions across scenarios)
-- MONITORING SIGNALS (what to track weekly)
+SM SCHEMA (CANON):
+- SM_ID:
+- HORIZON:
+  - short / mid / long
+- SCENARIOS (2–5):
+  For each:
+  - NAME:
+  - TRIGGERS:
+  - BENEFITS:
+  - RISKS:
+  - REQUIRED CHANGES:
+  - DEPENDENCIES AFFECTED:
+  - EXIT/ROLLBACK PATH:
+
+Rule:
+- Always include “do nothing” scenario as baseline.
+
+---
+
+## REQUIRED ARTIFACT: RISK REGISTER (RR)
+
+RR SCHEMA (CANON):
+- RR_ID:
+- RISK:
+- IMPACT:
+- LIKELIHOOD:
+- MITIGATION:
+- EARLY SIGNALS:
+- OWNER:
+- STATUS:
 
 ---
 
 ## PROCEDURE
 
-1) Define horizon and key assumptions
-2) Generate base scenario (most likely)
-3) Generate best/worst + wildcard
-4) Identify early signals for each
-5) Define no-regret moves
-6) Schedule monitoring and update cycle
+1) Choose horizon
+2) Build scenarios and map dependencies
+3) Identify risks and mitigations
+4) Recommend roadmap priorities (RMR)
+5) If migration expected: produce MF plan
+6) Feed into optimization/mutation engines
 
 ---
 
 ## VALIDATION RULES
 
-- FP1: Прогноз содержит допущения (они явные).
-- FP2: Есть несколько сценариев, а не один.
-- FP3: Есть ранние сигналы для отслеживания.
-- FP4: Есть действия “прямо сейчас”, не только размышления.
+- FP1: Scenarios must include triggers and exit paths.
+- FP2: Risks have mitigations and early signals.
+- FP3: Recommendations consider dependencies, not only “wish”.
+- FP4: Output feeds actionable backlog items.
 
 ---
+
 OWNER: Universe Engine
 STATUS: FIXED

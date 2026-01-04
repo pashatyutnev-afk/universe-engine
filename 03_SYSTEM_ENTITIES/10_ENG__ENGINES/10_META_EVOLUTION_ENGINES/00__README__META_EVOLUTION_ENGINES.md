@@ -4,78 +4,104 @@ FILE: 00__README__META_EVOLUTION_ENGINES.md
 SCOPE: Universe Engine
 ENTITY_GROUP: ENGINES (ENG)
 FAMILY: 10_META_EVOLUTION_ENGINES
-LEVEL: L3
+CLASS: META (L4)
+LEVEL: L4
 STATUS: ACTIVE
 VERSION: 1.0
-ROLE: Realm file for engines that evolve the system over time: learning, pattern extraction, optimization, creative mutation, future projection
+ROLE: Realm file for meta-layer engines that improve the whole system over time (learning, pattern extraction, optimization, creative mutation, future projection) while obeying governance and canon rules
 
 ---
 
 ## WHAT THIS FAMILY IS
 
-**META_EVOLUTION_ENGINES** — это слой, который отвечает за развитие и улучшение всей системы.
-Если остальные движки “производят результат”, то эти движки отвечают за:
-- **как система учится**
-- **как она выявляет закономерности**
-- **как она оптимизирует себя**
-- **как она генерирует новые варианты (мутации)**
-- **как она прогнозирует будущие состояния**
+**META_EVOLUTION_ENGINES** — это слой, который делает систему лучше со временем.
 
-Это “эволюционный мета-слой”, который делает проект живым, усиливающимся, самоулучшающимся.
+Он НЕ создаёт сюжет/арт напрямую.
+Он:
+- собирает обратную связь
+- вынимает повторяющиеся паттерны
+- превращает хаос в стандарты
+- оптимизирует движки и пайплайны
+- предлагает безопасные “мутации” (новые подходы)
+- строит прогнозы и сценарии развития
 
 ---
 
 ## WHY IT EXISTS
 
-Без мета-эволюции:
-- ошибки повторяются
-- прогресс не накапливается
-- решения остаются локальными, а не системными
-- качество зависит от удачи, а не от процесса
+Без L4 мета-слоя система начинает:
+- повторять одни и те же ошибки
+- разрастаться без стандарта
+- терять совместимость
+- превращаться в “зоопарк движков”
 
-Этот family делает прогресс **накопительным**.
-
----
-
-## INPUT / OUTPUT
-
-### Inputs
-- Logs / outcomes of previous runs (что получилось)
-- Feedback signals (качество, успех/провал)
-- Constraints and resources (время/люди/инструменты)
-- Goals and KPIs (чего хотим больше)
-
-### Outputs
-- Learned rules / heuristics
-- Extracted patterns (what worked/failed)
-- Optimization plans (what to change)
-- Mutation proposals (new ideas/variants)
-- Future projections (scenarios + risks)
+Этот слой делает эволюцию **контролируемой и воспроизводимой**.
 
 ---
 
 ## FAMILY-WIDE CANON TERMS
 
-### SIGNAL
-Любая метрика/наблюдение, по которой можно судить “лучше/хуже”.
+### LEARNING EVENT
+Событие обучения: что случилось, чему научились, что меняем.
 
 ### PATTERN
-Повторяемая закономерность в данных/процессе (“когда X — тогда Y”).
+Повторяемая структура, которая встречается в разных местах системы.
 
-### OPTIMIZATION MOVE
-Конкретное изменение, которое повышает показатель (или снижает риск).
+### OPTIMIZATION
+Изменение, которое улучшает метрики (ясность, скорость, воспроизводимость, совместимость).
 
 ### MUTATION
-Новый вариант решения, который может быть лучше, но не гарантирован.
+Предложение нового подхода/структуры. Всегда идёт через контроль рисков.
 
 ### PROJECTION
-Прогноз будущего по сценариям с рисками и допущениями.
+Сценарий будущего развития + риски + меры.
+
+---
+
+## META FAMILY INPUT / OUTPUT
+
+### Inputs
+- audit logs
+- QA findings
+- user feedback
+- drift incidents (несовместимость, разъезд стиля)
+- pipeline metrics (скорость, ошибки, ясность)
+- change proposals
+
+### Outputs
+- learning logs
+- pattern libraries
+- optimization backlog + patches
+- mutation proposals + controlled experiments
+- future scenario maps + risk plans
+
+---
+
+## FAMILY-WIDE LAWS (MANDATORY)
+
+### ME1 — Governance first
+Любая правка системы идёт через:
+- Change Control (00_GOV/04)
+- Canon Authority (00_GOV/02)
+- Versioning & Memory (00_GOV/10)
+- Audit Log (00_GOV/01)
+
+### ME2 — Reproducibility
+Если улучшение нельзя повторить по спеке — это не улучшение, а случайность.
+
+### ME3 — Compatibility
+Любая оптимизация обязана:
+- описать влияние на зависимости
+- быть обратимой (rollback plan)
+- иметь “migration note” если меняется структура
+
+### ME4 — Safe mutation
+Мутации — только через эксперимент (A/B), ограниченный по зоне влияния.
 
 ---
 
 ## FAMILY CONTENTS
 
-00 — README
 01 — Learning Engine
 02 — Pattern Extraction Engine
 03 — Optimization Engine
@@ -84,13 +110,15 @@ ROLE: Realm file for engines that evolve the system over time: learning, pattern
 
 ---
 
-## FAMILY-WIDE VALIDATION
+## FAMILY-WIDE VALIDATION (GATES)
 
-- ME1: Любая “эволюция” должна ссылаться на сигнал/данные (почему меняем).
-- ME2: Любое изменение имеет ожидаемый эффект (что улучшит).
-- ME3: Мутации отделены от канона до прохождения проверки.
-- ME4: Прогнозы всегда содержат допущения и сценарии (не один “оракул”).
+- MG1: Есть входные данные (лог/факт), а не “мне кажется”.
+- MG2: Есть артефакт изменения (spec/patch) и версия.
+- MG3: Есть проверка совместимости и откат.
+- MG4: Изменение улучшает измеримый критерий (или фиксит конкретную боль).
+- MG5: Канон не ломается: ссылки/индексы/номера остаются строгими.
 
 ---
+
 OWNER: Universe Engine
 STATUS: FIXED

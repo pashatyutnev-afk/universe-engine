@@ -4,116 +4,211 @@ FILE: 02__STORY_STRUCTURE_ENG.md
 SCOPE: Universe Engine
 ENTITY_GROUP: ENGINES (ENG)
 FAMILY: 02_DOMAIN_NARRATIVE_ENGINES
+CLASS: DOMAIN (L2)
 LEVEL: L2
 STATUS: ACTIVE
-VERSION: 1.0
-ROLE: Produces macro-structure (acts/beats) and ensures structural completeness
+VERSION: 2.0
+ROLE: Defines reproducible story macro-structure (acts/episodes/turns) and produces a Story Structure Spec that maps major beats, reversals, reveals, and payoffs across a defined scope
 
 ---
 
 ## PURPOSE
 
-Делает из хаоса событий **каркас истории**:
-- актовая структура / крупные блоки
-- обязательные “узлы” (setup/inciting/turning/climax/etc.)
-- распределение информации и конфликтов
-- контроль баланса “обещаний и выплат”
+Story Structure — это “каркас” истории на уровне:
+- эпизода
+- арки
+- сезона
+- книги
+
+Движок нужен, чтобы:
+- история имела понятную прогрессию
+- поворотные точки были распределены осознанно
+- setup/payoff работали системно
+- можно было масштабировать сюжет без потери контроля
 
 ---
 
-## INPUTS
+## NON-GOALS
 
-- Premise
-- Main conflict
-- Protagonist goal + opposition
-- Event pool
-- Constraints: format (book/series), target length
-
----
-
-## OUTPUTS
-
-- Structure Map:
-  - Acts (A1..An)
-  - Key Beats list
-  - Placement rationale
-- Open questions list (promises)
-- Payoff plan (where they close)
+- не пишет конкретные сцены покадрово (это Scene Construction)
+- не делает темп/ритм (это Pacing & Rhythm)
+- не занимается стилем (Genre/Style)
+Он определяет структурную сетку, на которую потом “надеваются” сцены.
 
 ---
 
-## STRUCTURE OPTIONS (SUPPORTED)
+## MINI-CONTRACT (MANDATORY)
 
-- 3-Act (default)
-- 4-Act / Midpoint heavy
-- Episode arc structure (for series)
-- Mini-arc structure (for short content)
+### CONSUMES
+- Narrative Logic Spec (NLS) constraints
+- Theme hook (from Theme & Meaning)
+- Scope definition (episode/arc/season/book)
+- Key characters list (optional)
+- World timeline anchors (optional)
 
-Engine не навязывает один шаблон — он выбирает подходящий под формат.
+### PRODUCES
+- STORY STRUCTURE SPEC (SSS)
+- ACT/EPISODE MAP
+- TURN MAP (major turns + their purpose)
+- SETUP/PAYOFF MAP (what is introduced and where it pays)
+
+### DEPENDS_ON
+- 02_DOMAIN_NARRATIVE_ENGINES/01__NARRATIVE_LOGIC_ENG.md
+- 02_DOMAIN_NARRATIVE_ENGINES/10__THEME_MEANING_ENG.md
+
+### OUTPUT_TARGET
+- Feeds Dramatic Arc (03) and Scene Construction (04)
+- Provides structure constraints for Twist/Reveal (08) and Continuity (09)
 
 ---
 
-## CANONICAL BEATS (MINIMUM SET)
+## CANON TERMS
 
-- Setup (мир, герой, правила)
-- Inciting Incident (пинок)
-- Commitment (герой выбирает путь/цель)
-- First Major Turn (вход в новую реальность)
-- Midpoint Shift (переворот ставки/понимания)
-- Second Major Turn (самый тяжёлый провал/потеря)
-- Climax (решение конфликта)
-- Resolution (новый статус-кво)
+### SCOPE UNIT
+- EPISODE: 1-contained structure
+- ARC: multiple episodes/scenes around one primary change
+- SEASON: collection of arcs with season-level turn points
+- BOOK: long-form analogous to season/arc mapping
+
+### STRUCTURAL TURN
+Поворот, который меняет направление истории:
+- goal flips
+- stakes escalate
+- new truth revealed
+- ally becomes enemy, etc.
+
+### SETUP/PAYOFF
+Любая сильная установка должна иметь точку возврата (payoff) или осознанный отказ.
 
 ---
 
-## PROCEDURE
+## STRUCTURE PATTERNS (TOOLBOX)
 
-1) Identify Core Promise
-   - что зритель должен получить
+(Не догма. Выбираешь 1 как “основной”.)
 
-2) Define Conflict Spine
-   - “если герой не добьётся цели — что случится?”
+### Pattern A: 3-Act
+- Act I: setup + inciting + commitment
+- Act II: escalation + complications + midpoint turn
+- Act III: climax + resolution + consequences
 
-3) Build Act Skeleton
-   - распределить beats по актам
+### Pattern B: 5-Act
+- intro / rising / midpoint / falling / finale
 
-4) Assign Events to Beats
-   - каждый beat получает конкретные события/сцены
+### Pattern C: Episodic loop with season spine
+- episodes have mini-acts
+- season has 3–5 big turns across episodes
 
-5) Promise/Payoff Ledger
-   - каждое обещание должно иметь payoff или осознанный “не-payoff” (открытый финал)
+Rule:
+- Pattern must be declared in SSS (иначе структура “случайная”).
 
-6) Structural Completeness Check
-   - нет ли “акта без turning point”
-   - нет ли “climax без подготовки”
-   - есть ли стоимость победы
+---
+
+## REQUIRED ARTIFACT: STORY STRUCTURE SPEC (SSS)
+
+### SSS SCHEMA (CANON)
+
+- SSS_ID:
+- SCOPE:
+  - episode | arc | season | book
+- PATTERN:
+  - 3-act | 5-act | episodic-spine | custom
+- PREMISE (1–2 lines):
+- CENTRAL QUESTION:
+  - what question drives the structure
+- THEME HOOK:
+  - pointer or short statement
+
+### STRUCTURE MAP
+- SECTION 1 (Act/Ep block):
+  - PURPOSE:
+  - START STATE:
+  - END STATE:
+  - KEY TURNS:
+    - T1 (what flips + why)
+  - SETUP ITEMS:
+  - PAYOFF TARGETS:
+
+(repeat for sections)
+
+### TURN INVENTORY (GLOBAL)
+- T1:
+  - type: inciting | midpoint | reversal | reveal | climax-turn | consequence-turn
+  - effect: what changes
+  - dependency: what must be set up before this
+
+### SETUP/PAYOFF MAP
+- S1: setup item -> payoff target (where/how)
+- S2...
+
+### RISK FLAGS (OPTIONAL)
+- pacing risk
+- too many turns
+- weak midpoint
+- payoff missing
+
+---
+
+## STRUCTURE RULES (CANON)
+
+### SS1 — State progression must exist
+Каждый act/episode должен менять глобальное состояние.
+Если “ничего не изменилось” → структура не работает.
+
+### SS2 — Turns are intentional
+Ключевые повороты не появляются случайно.
+Каждый turn имеет:
+- purpose
+- dependency (что надо подготовить)
+
+### SS3 — Setup discipline
+Если setup сильный → он в карте payoff.
+Если payoff отсутствует → пометить intentional and rare.
+
+### SS4 — Scale consistency
+Если scope = season, структура должна включать:
+- season inciting
+- mid-season turn
+- finale turn
+(минимум 3 крупных turn)
+
+### SS5 — Structural clarity beats complexity
+Слишком много turn points ломают читаемость.
+Если >7 major turns на episode → риск перегруза (flag).
+
+---
+
+## PROCEDURE (HOW TO RUN)
+
+1) Declare scope + pattern
+2) Write premise + central question
+3) Build sections (acts/episodes) with start/end states
+4) Place major turns (inciting/midpoint/climax)
+5) Fill setup/payoff map
+6) Run checklist (below)
+7) Output SSS
+
+---
+
+## STRUCTURE CHECKLIST
+
+- is scope declared clearly?
+- is pattern declared and followed?
+- does each section have start/end state?
+- do major turns exist and are spaced plausibly?
+- are stakes rising across structure?
+- are setup items mapped to payoff?
+- does structure align with theme hook?
 
 ---
 
 ## VALIDATION RULES
 
-- S1: Каждый акт должен менять условия игры.
-- S2: Midpoint обязан менять понимание/ставки (не просто “ещё сцена”).
-- S3: Climax решает главный конфликт (или осознанно переносит его).
-- S4: Resolution показывает последствия, а не просто “конец”.
+- SSV1: SSS has scope + pattern + structure map.
+- SSV2: Major turns are explicit and purposeful.
+- SSV3: Setup/payoff map exists (>=1 item unless declared none).
+- SSV4: Structure is compatible with NLS (no logical contradictions).
 
 ---
 
-## FAILURE MODES
-
-- Сюжет без обязательств героя (он “плывёт”)
-- Набор сцен без turning points
-- Переизбыток setup без движения
-- Финал “ни о чём” (нет новой реальности)
-
----
-
-## INTEGRATION
-
-- With DRAMATIC_ARC_ENG: эмоц.-драматическая дуга поверх структуры
-- With PACING_RHYTHM_ENG: распределение плотности и темпа
-- With THEME_MEANING_ENG: тема встраивается в beats
-
----
 OWNER: Universe Engine
-STATUS: FIXED
+LOCK: FIXED

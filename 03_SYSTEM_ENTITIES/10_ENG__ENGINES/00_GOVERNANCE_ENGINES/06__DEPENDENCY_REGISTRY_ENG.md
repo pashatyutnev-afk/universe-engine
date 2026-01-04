@@ -4,132 +4,272 @@ FILE: 06__DEPENDENCY_REGISTRY_ENG.md
 SCOPE: Universe Engine
 ENTITY_GROUP: ENGINES (ENG)
 FAMILY: 00_GOVERNANCE_ENGINES
+CLASS: GOVERNANCE (L1)
 LEVEL: L1
 STATUS: ACTIVE
-VERSION: 1.0
-ROLE: Canonical registry of dependencies between entities, indexes, rules, and projects
+VERSION: 2.0
+ROLE: Canonical dependency + handoff law for all ENG engines; defines allowed link types, required mini-contract fields, and produces reproducible dependency graph artifacts
 
 ---
 
 ## PURPOSE
 
-Создаёт и поддерживает **единый реестр зависимостей** системы:
-- какие сущности зависят от каких
-- какие индексы обязаны быть обновлены при изменениях
-- какие правила/форматы (STANDARDS) обязаны соблюдаться
-- какие проекты используют какие движки/сущности
-
-Главная цель: **ни одно изменение не должно ломать цепочку**, даже если переименовали папку.
+Этот движок вводит “закон связей” для ENG:
+- чтобы все зависимые цепочки были **явными**
+- чтобы outputs одного движка были корректным input для другого
+- чтобы не было скрытых пересечений ролей
+- чтобы INDEX был дорожной картой не только по списку, но и по **интеграции**
 
 ---
 
-## DEFINITIONS
+## SCOPE (WHAT IT CONTROLS)
 
-- Dependency — отношение "A требует B" (A cannot function without B).
-- Dependent — тот, кто зависит (A).
-- Provider — тот, от кого зависят (B).
-- Dependency Type:
-  - structural (paths, indexes, naming, numbering)
-  - semantic (meaning/contract)
-  - operational (process gates)
-  - reference (links, xrefs)
-  - production (output used by another)
-- Dependency Strength:
-  - hard (обязательная)
-  - soft (желательная)
-- Break — нарушение зависимости.
+Dependency Registry контролирует:
+- типы связей между движками (link types)
+- формат записи зависимости (edge schema)
+- требования к mini-contract (CONSUMES/PRODUCES/DEPENDS_ON/OUTPUT_TARGET)
+- требования к HANDOFF блоку
+- политику циклов (cycle policy)
+- формат артефакта dependency graph (DEP_GRAPH)
 
 ---
 
-## INPUTS
+## NON-GOALS (WHAT IT DOES NOT DO)
 
-- индексы (GLOBAL/FAMILY)
-- README/REALM файлы семейств
-- правила нумерации и именования
-- решения (Decision Records)
-- факты изменений (diff/commit)
-- список проектов/пайплайнов (если привязка используется)
+- не утверждает канон (Canon Authority)
+- не управляет изменениями (Change Control)
+- не оценивает качество текста (Consistency Engine)
+- не заменяет доменную логику (Narrative/World/Character)
 
 ---
 
-## OUTPUTS
+## MINI-CONTRACT (MANDATORY)
 
-- Dependency Records (структурированные записи)
-- Impact Requirements:
-  - "если меняешь X — обязан обновить Y"
-- Break Alerts:
-  - список нарушений
-- Migration Guidance:
-  - как переехать без поломки
+### CONSUMES
+- engine mini-contract blocks from all families
+- handoff blocks from all engines
+- change packets that modify dependencies
+- index references (for canonical addressing)
 
----
+### PRODUCES
+- DEP_GRAPH artifact (canonical dependency graph snapshot)
+- DEP_EDGES registry entries (edge list)
+- CYCLE REPORT (if cycles exist)
+- REQUIRED FIXES list when contract mismatch found
 
-## DEPENDENCY RECORD FORMAT
+### DEPENDS_ON
+- 00_GOVERNANCE_ENGINES/04__CHANGE_CONTROL_ENG.md
+- 00_GOVERNANCE_ENGINES/05__CONSISTENCY_ENG.md
+- 00_GOVERNANCE_ENGINES/02__CANON_AUTHORITY_ENG.md
+- 00_GOVERNANCE_ENGINES/01__AUDIT_LOG_ENG.md
 
-Минимальный формат записи (логический, можно хранить где угодно — важно содержимое):
-
-- dependent_id / dependent_path
-- provider_id / provider_path
-- type: structural|semantic|operational|reference|production
-- strength: hard|soft
-- rationale: почему зависимость существует
-- break_condition: что считается поломкой
-- repair_action: как чинить
-
----
-
-## MECHANICS (HOW IT WORKS)
-
-1) Любая сущность/индекс может объявить зависимости.
-2) При change package строится graph:
-   - какие nodes затронуты
-   - какие edges могут сломаться
-3) Если ломается hard dependency → change blocked (см. CHANGE_CONTROL_ENG).
-4) Если ломается soft dependency → warning, требуется план фикса.
-5) Для move/rename обязательна запись dependency типа reference + XREF mapping.
+### OUTPUT_TARGET
+- System-wide governance: used before LOCKing any change set
+- Attached to Consistency Report and referenced in Audit Log
 
 ---
 
-## RULES
+## CANON ADDRESSING (ENGINE IDENTIFIERS)
 
-- D1: Индекс является provider для всех сущностей, которые он регистрирует.
-- D2: README/REALM является provider для правил семейства.
-- D3: STANDARDS является provider для формата документов.
-- D4: Любая ссылка на raw/github path создаёт reference dependency.
-- D5: Любое переименование папки создаёт structural dependency break risk.
-- D6: Для крупных переездов обязателен migration plan:
-  - mapping from → to
-  - список индексов на апдейт
-  - список ссылок на апдейт
-  - валидация консистентности после
+Любая ссылка на движок в системе должна быть в одном формате:
 
----
+- ENGINE_ID: `ENG::<FAMILY>::<NN>::<ENGINE_NAME>`
+  - example: `ENG::00_GOVERNANCE_ENGINES::06::DEPENDENCY_REGISTRY`
 
-## FAILURE MODES
+- CANON_PATH: `03_SYSTEM_ENTITIES/10_ENG__ENGINES/<FAMILY>/<FILE>`
 
-- F1: "Переезд" без зависимостей → волна битых ссылок.
-- F2: "Не обновили индекс" → сироты/фантомы.
-- F3: "Семантика поменялась" без фикса downstream → неверные результаты.
+В тексте допускается сокращение:
+- `00/06` означает `00_GOVERNANCE_ENGINES/06__DEPENDENCY_REGISTRY_ENG.md`
 
 ---
 
-## INTEGRATION
+## REQUIRED FIELDS IN EVERY ENGINE (LAW)
 
-- With CHANGE_CONTROL_ENG: dependency breaks участвуют в блокировке.
-- With CONSISTENCY_ENG: зависимости помогают находить orphan/phantom и broken refs.
-- With SCOPE_IMPACT_ENG: dependency graph повышает impact score.
-- With XREF__CROSSREF: хранит mapping и поддерживает continuity.
+Каждый ENG движок обязан содержать:
+
+### 1) MINI-CONTRACT (MANDATORY)
+- CONSUMES
+- PRODUCES
+- DEPENDS_ON
+- OUTPUT_TARGET
+
+### 2) HANDOFF (MANDATORY WHEN APPLICABLE)
+Если движок PRODUCES артефакт, который кто-то CONSUMES —
+должен быть описан HANDOFF.
+
+Если движок не отдаёт ничего downstream — HANDOFF допускается пустым,
+но mini-contract всё равно обязателен.
 
 ---
 
-## CHANGE POLICY
+## LINK TYPES (CANON)
 
-- Любая правка dependency policy требует Decision Approval.
-- Для новых классов сущностей должен быть описан dependency baseline:
-  - какие индексы обязательны
-  - какие ссылки допустимы
-  - какие правила формата обязательны
+### A) DEPENDS_ON (HARD)
+Жёсткая зависимость. Без upstream артефакта этот движок не может работать.
+- strictness: HARD
+- implies: consumer must cite upstream in handoff mapping
+
+### B) FEEDS_INTO (SOFT)
+Выход движка используется downstream, но без него downstream может работать “в режиме деградации”.
+- strictness: SOFT
+
+### C) HANDOFF_TO (SOFT/HARD)
+Явная передача артефакта (файла/спека/карты) в downstream.
+- strictness: can be HARD or SOFT (declared per edge)
+
+### D) OVERLAP_RISK (SOFT)
+Риск пересечения ролей. Требует boundary clarification.
+- always SOFT but treated as CRITICAL by Consistency unless resolved
+
+### E) CONFLICTS_WITH (HARD)
+Правила противоречат. Требуется решение через governance.
+- strictness: HARD
+- triggers: Change Control + Canon Authority
+
+### F) SUBSUMES (HARD)
+Один движок является “надстройкой”, включающей другой как подмодуль.
+- used rarely; requires explicit approval
 
 ---
+
+## DEPENDENCY EDGE SCHEMA (CANON)
+
+Каждая связь между движками описывается так:
+
+- EDGE_ID: DE-0001
+- FROM: <ENGINE_ID>
+- TO: <ENGINE_ID>
+- TYPE: DEPENDS_ON | FEEDS_INTO | HANDOFF_TO | OVERLAP_RISK | CONFLICTS_WITH | SUBSUMES
+- STRICTNESS: HARD | SOFT
+- ARTIFACT: what is handed off (name)
+- ARTIFACT_FORMAT: spec/card/graph/checklist/template/etc
+- MAPPING: "FROM.PRODUCES -> TO.CONSUMES" one line
+- RATIONALE: one sentence
+- NOTES: optional
+
+---
+
+## HANDOFF BLOCK STANDARD (CANON)
+
+В каждом движке, если есть downstream usage, вставляется:
+
+### HANDOFF (MANDATORY)
+- PRODUCED_ARTIFACTS:
+  - <artifact_name> — <short description> — <format>
+- CONSUMERS:
+  - <engine_id or family/nn> — consumes: <artifact_name> — strictness
+- DELIVERY:
+  - where stored (path or project folder standard)
+- ACCEPTANCE:
+  - how consumer validates artifact
+
+---
+
+## CANON ARTIFACT: DEP_GRAPH (SYSTEM SNAPSHOT)
+
+Dependency Registry обязан уметь отдавать “снимок графа” (текстом):
+
+### DEP_GRAPH (CANON FORMAT)
+- GRAPH_ID: DG-ENG-0001
+- DATE:
+- SCOPE:
+  - full ENG | families list | change packet scope
+- NODE_COUNT:
+- EDGE_COUNT:
+- EDGES:
+  - list of DEP_EDGES (edge schema above)
+- CYCLES:
+  - none | list (see cycle report)
+- NOTES:
+  - major risks / required fixes
+
+Этот артефакт прикладывается к:
+- Consistency Report
+- Change Control packet (если правка меняет связи)
+
+---
+
+## CYCLE POLICY (DEFAULT FORBIDDEN)
+
+### Default rule
+Циклы запрещены.
+
+### Allowed cycles (rare)
+Разрешены только если:
+- цикл описан как **governance mediated**
+- есть явный “разрыв” через gate:
+  - approve/review/lock/audit
+- указан “источник истины” (single source of truth)
+- Canon Authority это разрешила
+
+### Cycle report format
+- CYCLE_ID: CY-0001
+- NODES: list
+- WHY_EXISTS:
+- BREAK_MECHANISM:
+- RISK:
+- APPROVAL:
+
+---
+
+## CONTRACT MISMATCH RULES (AUTOMATIC FAIL CONDITIONS)
+
+Если обнаружено:
+- TO engine CONSUMES artifact, которого не PRODUCES upstream
+- FROM engine PRODUCES artifact, но нет downstream consumer (если заявлено как mandatory)
+- DEPENDS_ON отсутствует, но handoff явно обязателен
+
+→ это минимум S1 (critical), иногда S0 (blocker), и должно быть исправлено.
+
+---
+
+## CORE SYSTEM INTEGRATION (EXPECTED LINKS)
+
+Чтобы ENG работал как конвейер, минимальные связи должны существовать:
+
+### Governance backbone (always)
+- All engines — DEPENDS_ON → 00/04 Change Control (process)
+- All engines — FEEDS_INTO → 00/05 Consistency (audits)
+- All engine families — FEEDS_INTO → 00/01 Audit Log (record)
+- INDEX — HANDOFF_TO → Consistency + Dependency Registry (registry scans)
+
+### Domain → Expression (logic flow)
+- 02 Domain Narrative — FEEDS_INTO → 05 Expression
+  - Narrative Logic → Cause-Effect / Event
+
+### Domain → Production (artifact flow)
+- Domain outputs — FEEDS_INTO → 07 Production Format (adaptation)
+- 07 Production Format — FEEDS_INTO → 08 Knowledge Production (media specs)
+- 08 Knowledge Production — HANDOFF_TO → 09 Sound/Music (deep) when needed
+
+(Это не означает “все на всех”, но означает: связи должны быть описаны там, где реально используется.)
+
+---
+
+## PROCEDURE (HOW TO USE THIS ENGINE)
+
+1) Для каждого движка заполнить mini-contract (обязательные поля)
+2) Если есть downstream — заполнить HANDOFF блок
+3) Сформировать DEP_EDGES:
+   - из DEPENDS_ON
+   - из явных handoff consumers
+4) Проверить циклы
+5) Выдать DEP_GRAPH snapshot
+6) Если правка меняет связи — оформить через Change Control
+
+---
+
+## VALIDATION CHECKLIST (AUDIT)
+
+- DR1: mini-contract есть в каждом движке
+- DR2: handoff описан там, где outputs используются downstream
+- DR3: DEPENDS_ON соответствует реальным входам
+- DR4: нет циклов без governance break
+- DR5: overlap risk помечен и имеет OWNER/решение
+- DR6: contract mismatch отсутствует (produces/consumes совпадают)
+
+---
+
 OWNER: Universe Engine
-STATUS: FIXED
+LOCK: FIXED
+CHANGE_GATE: GOVERNANCE_PIPELINE
