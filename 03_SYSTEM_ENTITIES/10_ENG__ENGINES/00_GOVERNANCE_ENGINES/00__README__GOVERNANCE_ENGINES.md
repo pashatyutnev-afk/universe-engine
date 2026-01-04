@@ -1,72 +1,51 @@
-# GOVERNANCE ENGINES — REALM FILE (ENG FAMILY)
+# GOVERNANCE ENGINES — REALM FILE (FAMILY README)
 FILE: 00__README__GOVERNANCE_ENGINES.md
 
 SCOPE: Universe Engine
 ENTITY_GROUP: ENGINES (ENG)
 FAMILY: 00_GOVERNANCE_ENGINES
-CLASS: GOVERNANCE (L1)
+REALM_TYPE: FAMILY_REALM
 LEVEL: L1
 STATUS: ACTIVE
-VERSION: 2.0
-ROLE: Realm boundary + navigation + rules for all governance engines (ENG layer)
+VERSION: 1.0
+ROLE: Governance realm — rules that control canon, changes, safety, and system integrity
 
 ---
 
-## 0) PURPOSE (REALM LAW)
+## 0) PURPOSE (LAW)
 
-Этот REALM-файл определяет **границы и смысл** семейства `00_GOVERNANCE_ENGINES`.
-
-GOVERNANCE-движки нужны, чтобы:
-- держать **канон** в целостности (one source of truth)
-- управлять **изменениями** (pipeline) и не допускать “теневой канон”
-- фиксировать **историю решений** (audit/decision/memory)
-- держать **инварианты** (consistency) и **граф зависимостей** (dependency registry)
-- обеспечивать **безопасность изменений** (risk/scope)
+Это семейство содержит **верхние управляющие движки**, которые:
+- определяют, что считается каноном,
+- контролируют изменения и версии,
+- фиксируют аудит,
+- описывают зависимости,
+- обеспечивают безопасность и консистентность.
 
 ---
 
-## 1) SCOPE (WHAT THIS FAMILY OWNS)
+## 1) BOUNDARIES (ANTI-DUPLICATION)
 
-Семейство владеет:
-- governance pipeline (как вносить изменения в канон)
-- правилами согласования решений (decision levels)
-- аудитом (что изменили), авторитетом (что правда), иерархией правил (что главнее)
-- проверкой целостности (consistency invariants)
-- реестром зависимостей (dependency graph + cycles policy)
-- оценкой воздействия изменений (impact / blast radius)
-- риск-рамками (safety rails)
-- версионированием и памятью (release snapshots / compatibility)
+GOVERNANCE НЕ пишет сюжет, не строит мир и не делает продакшн.  
+GOVERNANCE — только правила, процессы, фиксация, контроль.
 
 ---
 
-## 2) NON-GOALS (BOUNDARIES)
+## 2) HOW TO USE (WORKFLOW)
 
-GOVERNANCE НЕ делает:
-- доменный контент (сцены, персонажи, мир) — это DOMAIN families
-- продакшен-артефакты (видео/арт/звук) — это PRODUCTION families
-- “творческое развитие системы” — это META family
-
-GOVERNANCE только задаёт **правила игры**, порядок изменений и контроль целостности.
-
----
-
-## 3) HOW TO USE (NAVIGATION)
-
-1) Если ты хочешь **поменять канон** → начни с `04__CHANGE_CONTROL_ENG.md`.
-2) Если нужно понять **кто решает** → `02__CANON_AUTHORITY_ENG.md` + `07__DECISION_APPROVAL_ENG.md`.
-3) Если нужно понять **что важнее** → `03__RULE_HIERARCHY_ENG.md`.
-4) Если нужно проверить **не сломали ли систему** → `05__CONSISTENCY_ENG.md`.
-5) Если нужно понять **что заденет правка** → `08__SCOPE_IMPACT_ENG.md`.
-6) Если нужно понять **риски и запреты** → `09__RISK_SAFETY_ENG.md`.
-7) Если нужно зафиксировать **память/версии** → `10__VERSIONING_MEMORY_ENG.md`.
-8) Если упёрлись в “скрытые связи” → `06__DEPENDENCY_REGISTRY_ENG.md`.
-9) Любое существенное действие должно оставлять след в `01__AUDIT_LOG_ENG.md`.
+1) Любую правку начинай с:
+   - `04__CHANGE_CONTROL_ENG.md`
+2) Решение “канон/не канон” — через:
+   - `02__CANON_AUTHORITY_ENG.md`
+3) Любая правка фиксируется:
+   - `01__AUDIT_LOG_ENG.md`
+4) Любые версии/память:
+   - `10__VERSIONING_MEMORY_ENG.md`
+5) Любые зависимости:
+   - `06__DEPENDENCY_REGISTRY_ENG.md`
 
 ---
 
-## 4) FAMILY INDEX (CANON ORDER)
-
-**Family Path:** `00_GOVERNANCE_ENGINES/`
+## 3) FAMILY REGISTRY (CANON ORDER)
 
 01 — Audit Log Engine — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/00_GOVERNANCE_ENGINES/01__AUDIT_LOG_ENG.md  
 02 — Canon Authority Engine — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/00_GOVERNANCE_ENGINES/02__CANON_AUTHORITY_ENG.md  
@@ -81,16 +60,13 @@ GOVERNANCE только задаёт **правила игры**, порядок
 
 ---
 
-## 5) FAMILY INVARIANTS (CANON RULES)
+## 4) CROSS-LINKS (MANDATORY)
 
-- Любая канон-правка должна проходить governance pipeline (Change Control → Impact/Risk → Approve → Audit → Lock).
-- Любые зависимости должны отражаться в Dependency Registry.
-- Любой движок без mini-contract считается incomplete.
-- Любой `LOCK: FIXED` требует audit-след и согласование.
+- Global ENG Index: `../02__INDEX_ALL_ENGINES.md`
+- ENG Layer Rules: `../01__RULES__ENGINES.md`
+- ENG Layer Realm: `../00__README__ENGINES_REALM.md`
 
 ---
-
-## FINAL (LOCK)
 
 OWNER: Universe Engine  
 LOCK: FIXED

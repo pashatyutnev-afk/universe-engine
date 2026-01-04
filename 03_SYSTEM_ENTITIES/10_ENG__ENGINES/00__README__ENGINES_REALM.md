@@ -1,138 +1,90 @@
-# ENG ENGINES REALM — LAYER README (CANON REALM)
+# ENG ENGINES — LAYER REALM (ROOT)
 FILE: 00__README__ENGINES_REALM.md
 
 SCOPE: Universe Engine
 ENTITY_GROUP: ENGINES (ENG)
-DOC_TYPE: LAYER_REALM
+REALM_TYPE: ENG_LAYER_REALM
 LEVEL: L1
 STATUS: ACTIVE
 VERSION: 1.0
-ROLE: ENG layer borders + meaning + navigation gateway
-
-LOCK: FIXED
-OWNER: Universe Engine
+ROLE: Root realm for ENG layer — defines what ENG is, how engines are structured, and where canon lives
 
 ---
 
-## 0) WHAT IS ENG (REALM)
+## 0) WHAT IS ENG (DEFINITION)
 
-ENG — это слой **движков** (Engines): стандартизированные “механизмы мышления/производства”, которые:
-- принимают входные артефакты (CONSUMES),
-- выполняют преобразование по правилам,
-- выдают выходные артефакты (PRODUCES),
-- и фиксируют зависимости (DEPENDS_ON).
-
-ENG не хранит “сюжет сам по себе” или “мир сам по себе”.
-ENG хранит **методы и процедуры**, по которым эти вещи создаются/валидируются/эволюционируют.
+ENG (Engines) — это **набор канонических движков** Universe Engine.  
+Движок = документ с правилами/процессом, который:
+- принимает входы (CONSUMES),
+- выдаёт выход (PRODUCES),
+- имеет зависимости (DEPENDS_ON),
+- имеет назначение результата (OUTPUT_TARGET).
 
 ---
 
-## 1) CANON ROOT (PATH)
+## 1) ENG LAYER ROOT FILES (MANDATORY)
 
-Канонический корень ENG-слоя:
+00 — ENG Layer Realm (this file)  
+01 — ENG Layer Rules — `01__RULES__ENGINES.md`  
+02 — Global ENG Registry (Index) — `02__INDEX_ALL_ENGINES.md`
+
+---
+
+## 2) DIRECTORY REALM (CANON PATH)
+
+Все ENG файлы живут строго здесь:
 
 `03_SYSTEM_ENTITIES/10_ENG__ENGINES/`
 
----
-
-## 2) ROOT FILES (NAV)
-
-00 — ENG Layer Realm (this file)  
-01 — ENG Layer Rules (ruleset): `01__RULES__ENGINES.md`  
-02 — ENG Global Index (registry): `02__INDEX_ALL_ENGINES.md`
+Семейства (FAMILIES) — это папки внутри этого каталога.
 
 ---
 
-## 3) ABSOLUTE LAW: INDEX IS REALITY
+## 3) NAMING LAW (MANDATORY)
 
-ENG-слой признаёт существование только зарегистрированных движков.
+### 3.1 Family folder
+Формат: `NN_<FAMILY_NAME>_ENGINES`
 
-> Если движка нет в `02__INDEX_ALL_ENGINES.md` — для ENG-слоя он **не существует**.  
-> Если файл есть, но не зарегистрирован — он **ignored / non-canon**.
+Пример: `00_GOVERNANCE_ENGINES`
 
----
+### 3.2 Engine file
+Формат: `NN__<ENGINE_NAME>_ENG.md`
 
-## 4) WHAT COUNTS AS “ENGINE”
+Пример: `04__CHANGE_CONTROL_ENG.md`
 
-**Engine** — это файл вида:
-`NN__<ENGINE_NAME>_ENG.md`
+### 3.3 Family README (Realm file)
+README не является движком. Всегда номер `00`:
 
-Он обязан иметь:
-- шапку (метаданные),
-- mini-contract (CONSUMES/PRODUCES/DEPENDS_ON/OUTPUT_TARGET),
-- тело движка (процедура/логика/правила),
-- единый STATUS в шапке,
-- LOCK в шапке.
-
-**README семейства** — не движок. Это “realm file” семейства:
 `00__README__<FAMILY>_ENGINES.md`
 
 ---
 
-## 5) FAMILY CONCEPT (ENGINE FAMILIES)
+## 4) CANON EXISTENCE RULE (ABSOLUTE)
 
-ENG организован семействами (папками). Семейство = область задач/границ.
-
-Формат папки семейства:
-`NN_<FAMILY_NAME>_ENGINES`
-
-В каждом семействе:
-- `00__README__...` (realm file семейства)
-- движки `01..NN__..._ENG.md`
+> Если движка нет в `02__INDEX_ALL_ENGINES.md` — он **не существует** для ENG слоя.  
+> Если файл существует, но не зарегистрирован — он **ignored / non-canon**.
 
 ---
 
-## 6) HOW TO USE (WORKFLOW)
+## 5) STATUS + LOCK (STANDARD)
 
-1) Открой `02__INDEX_ALL_ENGINES.md`.
-2) Найди FAMILY по задаче (TASK → FAMILY MAP).
-3) Открой README семейства (realm file) → пойми границы и термины.
-4) Иди по движкам **строго по номеру**.
-5) Если нужен новый движок:
-   - сначала регистрируй его в `02__INDEX_ALL_ENGINES.md`,
-   - затем создавай файл,
-   - затем прописывай зависимости (DEPENDS_ON) и отражай это в governance.
+В шапке каждого файла допускается **один** `STATUS: ...`.
+
+Фиксация:
+- `LOCK: OPEN` — документ в разработке
+- `LOCK: FIXED` — канонически закреплён (любые правки идут через governance pipeline)
 
 ---
 
-## 7) BOUNDARIES (ANTI-DUPLICATION)
+## 6) GOVERNANCE PIPELINE (MANDATORY)
 
-ENG-слой запрещает дубли:
-- Если два движка делают одно и то же — это ошибка дизайна.
-- Если зона пересечения неизбежна — обязан быть явный “boundary rule” (кто за что отвечает).
-
-Критические границы уже закреплены в INDEX (см. раздел CRITICAL BOUNDARIES).
-
----
-
-## 8) GOVERNANCE PIPELINE (CHANGES)
-
-Любые изменения состава движков/семейств/версий проходят governance-пайплайн (см. ссылки в INDEX).
-
-Минимально допустимо:
-- сначала изменение в INDEX,
-- потом изменение файла движка,
-- потом фиксация зависимостей,
-- потом аудит/лог.
+Любая правка ENG-канона проходит:
+- `00_GOVERNANCE_ENGINES/04__CHANGE_CONTROL_ENG.md`
+- `00_GOVERNANCE_ENGINES/02__CANON_AUTHORITY_ENG.md`
+- `00_GOVERNANCE_ENGINES/01__AUDIT_LOG_ENG.md`
+- `00_GOVERNANCE_ENGINES/10__VERSIONING_MEMORY_ENG.md`
 
 ---
 
-## 9) QUICK TEMPLATE: ENGINE MINI-CONTRACT
-
-Обязательный блок в каждом движке:
-
-CONSUMES:
-- ...
-PRODUCES:
-- ...
-DEPENDS_ON:
-- ...
-OUTPUT_TARGET:
-- ...
-
----
-
-## FINAL (LOCK)
-
-ENG Layer Realm — канонические границы слоя ENG.
+OWNER: Universe Engine  
 LOCK: FIXED

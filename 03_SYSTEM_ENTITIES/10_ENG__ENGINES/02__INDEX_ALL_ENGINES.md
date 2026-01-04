@@ -15,7 +15,7 @@ ROLE: Canonical navigation law + roadmap for all ENG engine families and instanc
 
 00 — ENG Layer Realm (README) — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/00__README__ENGINES_REALM.md  
 01 — ENG Layer Rules (Ruleset) — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/01__RULES__ENGINES.md  
-02 — ENG  INDEX_ALL_ENGINES — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/02__INDEX_ALL_ENGINES.md
+02 — ENG INDEX_ALL_ENGINES — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/02__INDEX_ALL_ENGINES.md  
 
 ---
 
@@ -116,20 +116,17 @@ ROLE: Canonical navigation law + roadmap for all ENG engine families and instanc
 ## 5) STATUS / LOCK STANDARD (MANDATORY)
 
 В каждом README и каждом Engine файле:
-
-- В шапке допускается только один статус:
-  `STATUS: ACTIVE` (или другой при необходимости)
+- В шапке допускается только один статус: `STATUS: ACTIVE` (или другой при необходимости)
 - В конце файла НЕ допускается второй `STATUS: ...`
 - Для фиксации применяется:
-  `LOCK: FIXED` (канонически зафиксирован)
-  `LOCK: OPEN` (в разработке)
+  - `LOCK: FIXED` (канонически зафиксирован)
+  - `LOCK: OPEN` (в разработке)
 
 ---
 
 ## 6) ENGINE MINI-CONTRACT LAW (MANDATORY)
 
 Каждый движок обязан иметь mini-contract блок:
-
 - CONSUMES: (1–5 типов входных артефактов)
 - PRODUCES: (1–5 типов выходных артефактов)
 - DEPENDS_ON: (список движков-предпосылок или [])
