@@ -1,0 +1,15 @@
+# CONTROLLERS REALM (CTL)
+00__README__CONTROLLERS.md
+
+SCOPE: Universe Engine
+ENTITY_GROUP: CONTROLLERS (CTL)
+LEVEL: L1
+STATUS: ACTIVE
+ROLE: Governance & control layer for system integrity
+
+---
+
+NAVIGATION: `00__INDEX__CONTROLLERS.md`
+
+OWNER: Universe Engine
+STATUS: FIXED
