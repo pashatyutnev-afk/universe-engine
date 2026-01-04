@@ -364,7 +364,7 @@ ROLE: Canonical navigation law + roadmap for all ENG engine families and instanc
 05 — Future Projection Engine — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/10_META_EVOLUTION_ENGINES/05__FUTURE_PROJECTION_ENG.md
 
 ---
-
+01__RULES__ENGINES — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/01__RULES__ENGINES.md
 ## FINAL RULE (LOCK)
 
 > Этот INDEX — единственная точка истины о составе и порядке ENG-движков системы.  
