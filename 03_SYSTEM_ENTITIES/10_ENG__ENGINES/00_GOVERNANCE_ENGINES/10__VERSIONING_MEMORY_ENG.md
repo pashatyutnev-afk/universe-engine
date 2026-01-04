@@ -4,191 +4,128 @@ FILE: 10__VERSIONING_MEMORY_ENG.md
 SCOPE: Universe Engine
 ENTITY_GROUP: ENGINES (ENG)
 FAMILY: 00_GOVERNANCE_ENGINES
+CLASS: GOVERNANCE (L1)
 LEVEL: L1
 STATUS: ACTIVE
-VERSION: 1.1
-ROLE: Canon version law + change memory — defines how ENG layer versions are assigned, recorded, and referenced
+VERSION: 2.0
+ROLE: Defines versioning strategy, release snapshots, and long-term memory of canonical states (audit/decision/change → release)
+
+---
+
+## PURPOSE
+
+Этот движок делает систему **воспроизводимой во времени**:
+- вводит понятие версий/релизов канона
+- фиксирует “снимки” состояния (release snapshots)
+- связывает изменения с audit и decision
+- задаёт compatibility/migration правила для breaking изменений
+
+---
+
+## NON-GOALS
+
+- не утверждает канон (это Canon Authority)
+- не управляет изменениями по шагам (это Change Control)
+- не проверяет целостность после изменений (это Consistency)
 
 ---
 
 ## MINI-CONTRACT (MANDATORY)
-CONSUMES:
-- Approved Change Decision (from Change Control)
-- Audit reference (entry id / date / summary)
-- List of affected files (paths)
-- Dependency impact notes (optional)
 
-PRODUCES:
-- Canon version increment (LAYER / FAMILY / ENGINE)
-- Changelog entry (structured)
-- Memory anchors (references used by other docs)
-- Release note stub (optional)
+### CONSUMES
+- audit events (AL)
+- decision records (DR)
+- change packets (CHG)
+- index states (registry snapshots)
+- compatibility/migration notes (если есть)
 
-DEPENDS_ON:
-- 01__AUDIT_LOG_ENG
-- 02__CANON_AUTHORITY_ENG
-- 04__CHANGE_CONTROL_ENG
-- 05__CONSISTENCY_ENG
+### PRODUCES
+- Release Note (RN) — обязательный артефакт релиза
+- Snapshot Reference (SR) — ссылка на фиксированный снимок (commit/tag/ref)
+- Compatibility Notes (CN)
+- Migration Guide (MG) — если MAJOR/breaking
+- Rollback Plan (RB) — если MAJOR
 
-OUTPUT_TARGET:
-- This file (Versioning Memory Registry)
-- Affected docs: header VERSION update when required
-- INDEX files when canon composition/order changes
+### DEPENDS_ON
+- 00_GOVERNANCE_ENGINES/01__AUDIT_LOG_ENG.md
+- 00_GOVERNANCE_ENGINES/07__DECISION_APPROVAL_ENG.md
+- 00_GOVERNANCE_ENGINES/04__CHANGE_CONTROL_ENG.md
+- 00_GOVERNANCE_ENGINES/05__CONSISTENCY_ENG.md
+- 00_GOVERNANCE_ENGINES/02__CANON_AUTHORITY_ENG.md
 
----
-
-## 0) PURPOSE (LAW)
-Versioning & Memory Engine обеспечивает:
-- **единые правила версий** для ENG слоя
-- **память изменений** (что, когда, почему)
-- **якоря ссылок** на изменения (чтобы другие документы могли ссылаться на точные версии)
-
-> Любое каноническое изменение обязано оставить след в памяти версий.
+### OUTPUT_TARGET
+- Release packets for canon milestones
+- Reference used by all indexes/standards when claiming “as of version X”
 
 ---
 
-## 1) VERSION SCOPES (3 LAYERS)
-Версии бывают трёх уровней:
+## DEFINITIONS (CANON)
 
-### 1.1 ENG LAYER VERSION
-Главная версия слоя ENG (используется в индексах верхнего уровня).
-Меняется когда затронут **состав/порядок/правила** всего слоя.
-
-### 1.2 FAMILY VERSION
-Версия конкретного семейства (папки), меняется когда:
-- добавлен/удалён движок
-- поменялся порядок
-- изменился README realm семейства
-- изменились правила/границы семейства
-
-### 1.3 ENGINE VERSION
-Версия конкретного движка, меняется когда:
-- изменился mini-contract
-- изменился алгоритм/процесс/выходы
-- изменились зависимости
-- изменились обязательные интерфейсы (inputs/outputs)
+- **Canon Version** — версия канона (структура + индексы + ключевые правила).
+- **Release Snapshot** — фиксированный снимок состояния (commit/tag/ref).
+- **Milestone** — значимый этап (например, завершён слой ENG).
+- **Compatibility** — совместимость форматов/правил между версиями.
+- **Changelog** — список изменений между версиями.
 
 ---
 
-## 2) VERSION FORMAT (MANDATORY)
-Формат: `MAJOR.MINOR`
+## VERSIONING STRATEGY (CANONICAL)
 
-### 2.1 MAJOR increment
-MAJOR++ когда:
-- ломается совместимость (rules breaking)
-- меняется структура папок/именования
-- меняется контракт движков так, что старые пайплайны невалидны
-- меняются “законы” (law blocks) с обязательной миграцией
+Модель SemVer:
+- **MAJOR**: ломаем форматы/пути/иерархии (breaking)
+- **MINOR**: добавляем сущности/семейства без ломки старого
+- **PATCH**: правки без изменения контрактов
 
-### 2.2 MINOR increment
-MINOR++ когда:
-- добавлены новые движки/поля/пояснения без ломки совместимости
-- уточнение/расширение без изменения смысла (но добавляет норму)
-- исправления, повышающие консистентность
-
-### 2.3 C0 Cosmetic note
-Если правка чисто косметическая (C0) и **не меняет смысл**, допускается:
-- НЕ повышать версию файла,
-- НО всё равно добавить запись в память как “C0 note” (см. раздел 4).
+Пример: `1.2.3`
 
 ---
 
-## 3) WHAT REQUIRES VERSION BUMP (TABLE)
-### 3.1 ENG LAYER bump
-- новый Family
-- удаление/слияние Family
-- изменение order семейств
-- изменение “existence rule”, naming rules, link rules
+## CANON ARTIFACTS (SCHEMAS)
 
-### 3.2 FAMILY bump
-- добавление/удаление engine внутри семейства
-- смена нумерации
-- изменение family README realm, влияющее на правила/границы
+### RELEASE_NOTE (RN)
+- RN_ID:
+- DATE:
+- VERSION:
+- SNAPSHOT_REF:
+- CHANGE_SUMMARY (3–10 bullets):
+- INCLUDED_CHG (list of CHG_ID):
+- INCLUDED_DR (list of DR_ID):
+- REQUIRED_MIGRATION: yes/no
+- MIGRATION_REF (if any):
+- COMPATIBILITY_NOTES:
+- KNOWN_RISKS (if any, RR refs):
+- CONSISTENCY_STATUS: PASS/FAIL
+- OWNER:
 
-### 3.3 ENGINE bump
-- изменение CONSUMES/PRODUCES/DEPENDS_ON/OUTPUT_TARGET
-- изменение алгоритма/шагов/выходного формата
-- изменение статуса/lock при фиксации канона (OPEN→FIXED)
-
----
-
-## 4) MEMORY LOG (CANON CHANGELOG)
-Все записи делаются в формате:
-
-- DATE: YYYY-MM-DD
-- SCOPE: LAYER / FAMILY:<name> / ENGINE:<name>
-- TYPE: C0/C1/C2/C3/C4
-- VERSION: old → new (или “no bump” для C0)
-- CHANGE: 1–3 строки что изменено
-- WHY: 1 строка зачем
-- FILES:
-  - list of canonical paths
-- LINKS:
-  - Audit entry (raw link or reference)
+### SNAPSHOT_REFERENCE (SR)
+- SR_ID:
+- VERSION:
+- REF_TYPE: commit | tag | branch_ref
+- REF_VALUE:
+- INDEX_ANCHORS:
+  - list of canonical indexes/standards that define this release
 
 ---
 
-## 5) REQUIRED HEADER FIELDS (CONSISTENCY)
-В каждом документе ENG допускается поле VERSION в шапке.
+## RULES (LOCKED)
 
-Правило:
-- Если документ участвует в каноне (INDEX/README/ENGINE) — VERSION обязателен.
-- VERSION внизу файла запрещён (только в шапке).
-
----
-
-## 6) RELEASE ANCHORS (REFERENCE LAW)
-Когда в других местах нужно сослаться на изменение, используется “anchor”:
-
-Формат:
-`ENG@<layer_version> / <family>@<family_version> / <engine>@<engine_version>`
-
-Пример:
-`ENG@4.0 / 02_DOMAIN_NARRATIVE_ENGINES@1.2 / 05__PACING_RHYTHM_ENG@1.1`
+- V1: Нельзя выпускать MAJOR без MG (migration guide) и RB (rollback plan).
+- V2: Релиз обязан фиксировать “точки истины”: какие индексы/законы определяют систему.
+- V3: Любые изменения форматов должны иметь CN (compatibility note).
+- V4: История не стирается: только supersede (заменить), но не delete.
 
 ---
 
-## 7) CURRENT CANON VERSIONS (REGISTRY)
+## INTEGRATION
 
-### 7.1 ENG LAYER
-- ENG_LAYER_VERSION: 4.0
-- CURRENT_INDEX: 02__INDEX_ALL_ENGINES.md
-
-### 7.2 FAMILY VERSIONS
-- 00_GOVERNANCE_ENGINES: 1.0
-- 01_CORE_ENGINES: 1.0
-- 02_DOMAIN_NARRATIVE_ENGINES: 1.0
-- 03_DOMAIN_CHARACTER_ENGINES: 1.0
-- 04_DOMAIN_WORLD_ENGINES: 1.0
-- 05_EXPRESSION_ENGINES: 1.0
-- 06_GENRE_STYLE_ENGINES: 1.0
-- 07_PRODUCTION_FORMAT_ENGINES: 1.0
-- 08_KNOWLEDGE_PRODUCTION_ENGINES: 1.0
-- 09_SOUND_MUSIC_ENGINES: 1.0
-- 10_META_EVOLUTION_ENGINES: 1.0
-
-### 7.3 ENGINE VERSIONS (OPTIONAL REGISTRY)
-Этот реестр заполняется постепенно.
-Правило: если движок открыт/в разработке — можно не фиксировать здесь.
-Если движок LOCK: FIXED — рекомендуется добавить в этот список.
+- Audit Log фиксирует факты изменений → Versioning связывает их в релизы.
+- Decision Approval фиксирует причины → Versioning включает DR refs в RN.
+- Risk Safety требует rails для крупных релизов → Versioning тянет RR refs.
+- Consistency обязателен PASS перед релизом.
 
 ---
 
-## 8) MEMORY LOG (ENTRIES)
-
-### ENTRY 0001
-DATE: 2026-01-05
-SCOPE: LAYER
-TYPE: C1
-VERSION: 3.x → 4.0
-CHANGE: Established global ENG index structure + family registry order + root links
-WHY: Create single source of truth and canon navigation law
-FILES:
-- 03_SYSTEM_ENTITIES/10_ENG__ENGINES/02__INDEX_ALL_ENGINES.md
-LINKS:
-- Audit: (to be linked)
-
----
+## FINAL (LOCK)
 
 OWNER: Universe Engine  
 LOCK: FIXED
