@@ -1,298 +1,238 @@
-# ALL ENGINES INDEX
+# ENG ENGINES INDEX
 00__INDEX_ALL_ENGINES.md
 
 SCOPE: Universe Engine  
-ENTITY_GROUP: ENGINES  
+ENTITY_GROUP: ENGINES (ENG)  
 INDEX_TYPE: GLOBAL_ENGINE_REGISTRY  
 LEVEL: L1  
 STATUS: ACTIVE  
-ROLE: Single navigation point for all Engine classes, categories and instances
+VERSION: 2.0  
+ROLE: Canonical navigation point for all ENG engine families and instances
 
 ---
 
 ## PURPOSE
 
-Этот INDEX является **единой картой всех движков системы Universe Engine**.
+Этот INDEX является **единым навигационным законом** для всех **ENG-движков** Universe Engine.
 
-Он:
-- фиксирует ВСЕ классы (L1–L4)
-- фиксирует ВСЕ категории (Narrative, Character, World и т.д.)
-- регистрирует КАЖДЫЙ движок как отдельную сущность
-- служит навигацией и точкой синхронизации для любых чатов
+Он фиксирует:
+- список семейств (папок) внутри `01_SYSTEM_ENTITIES/00_ENG__ENGINES/`
+- порядок движков внутри каждого семейства
+- обязательную нумерацию движков
 
 Правило:
 > Если движка нет в этом INDEX —  
-> он не существует для системы.
+> он не существует для ENG слоя системы.
 
 ---
 
-## HOW TO USE (IMPORTANT)
+## SCOPE NOTE (IMPORTANT)
 
-- **Класс** = уровень / роль (L1–L4)
-- **Категория** = область смысла
-- **Семья** = папка (класс + категория)
-- **Движок** = один файл
+Этот INDEX описывает **только ENG-движки**.
 
-🔗 **Ссылки ставятся ТОЛЬКО на файлы движков**  
-(README и внутренние INDEX — вспомогательные)
-
----
-
-# ENGINE MAP
+Другие классы сущностей (ORC / SPC / CTL / VAL / QA) имеют свои реестры
+в соответствующих корневых папках:
+- `01_ORC__ORCHESTRATORS/`
+- `02_SPC__SPECIALISTS/`
+- `03_CTL__CONTROLLERS/`
+- `04_VAL__VALIDATORS/`
+- `05_QA__QUALITY/`
 
 ---
 
-## L1 — CORE & GOVERNANCE
+## NUMBERING RULE (ENGINES)
 
-### CORE ENGINES  
+- Нумерация обязательна для всех Engine-файлов.
+- Формат имени файла движка: `NN__<ENGINE_NAME>_ENG.md`
+- `NN` начинается с `01` внутри каждого семейства.
+- Номер в INDEX и номер в имени файла **обязаны совпадать**.
+- README не является движком и всегда имеет номер `00`.
+
+---
+
+# ENGINE MAP (ENG)
+
+---
+
+## 01_CORE_ENGINES  
 **CLASS:** CORE (L1)  
+🔗 **REALM FILE:** https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01_SYSTEM_ENTITIES/00_ENG__ENGINES/01_CORE_ENGINES/00__README__CORE_ENGINES.md  
 **Family Path:** `01_CORE_ENGINES/`
 
-- Core Identity Engine  
-  🔗 LINK: `[TO_BE_ADDED]`
-- Core State Engine  
-  🔗 LINK: `[TO_BE_ADDED]`
-- Core Lifecycle Engine  
-  🔗 LINK: `[TO_BE_ADDED]`
+01 — Core Identity Engine — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01_SYSTEM_ENTITIES/00_ENG__ENGINES/01_CORE_ENGINES/01__CORE_IDENTITY_ENG.md  
+02 — Core State Engine — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01_SYSTEM_ENTITIES/00_ENG__ENGINES/01_CORE_ENGINES/02__CORE_STATE_ENG.md  
+03 — Core Lifecycle Engine — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01_SYSTEM_ENTITIES/00_ENG__ENGINES/01_CORE_ENGINES/03__CORE_LIFECYCLE_ENG.md  
 
 ---
 
-### GOVERNANCE ENGINES  
-**CLASS:** GOVERNANCE (L1)  
-**Family Path:** `02_GOVERNANCE_ENGINES/`
-
-- Audit Log Engine  
-  🔗 LINK: `[TO_BE_ADDED]`
-- Canon Authority Engine  
-  🔗 LINK: `[TO_BE_ADDED]`
-- Change Control Engine  
-  🔗 LINK: `[TO_BE_ADDED]`
-- Consistency Engine  
-  🔗 LINK: `[TO_BE_ADDED]`
-- Decision Approval Engine  
-  🔗 LINK: `[TO_BE_ADDED]`
-- Dependency Registry Engine  
-  🔗 LINK: `[TO_BE_ADDED]`
-- Risk Safety Engine  
-  🔗 LINK: `[TO_BE_ADDED]`
-- Rule Hierarchy Engine  
-  🔗 LINK: `[TO_BE_ADDED]`
-- Scope Impact Engine  
-  🔗 LINK: `[TO_BE_ADDED]`
-- Versioning & Memory Engine  
-  🔗 LINK: `[TO_BE_ADDED]`
-
----
-
-## L2 — DOMAIN LOGIC
-
-### DOMAIN NARRATIVE ENGINES  
+## 02_DOMAIN_NARRATIVE_ENGINES  
 **CLASS:** DOMAIN (L2)  
-**CATEGORY:** Narrative  
-**Family Path:** `03_DOMAIN_NARRATIVE_ENGINES/`
+🔗 **REALM FILE:** https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01_SYSTEM_ENTITIES/00_ENG__ENGINES/02_DOMAIN_NARRATIVE_ENGINES/00__README__DOMAIN_NARRATIVE_ENGINES.md  
+**Family Path:** `02_DOMAIN_NARRATIVE_ENGINES/`
 
-- Dramatic Arc Engine  
-  🔗 LINK: `[TO_BE_ADDED]`
-- Foreshadowing Engine  
-  🔗 LINK: `[TO_BE_ADDED]`
-- Narrative Continuity Engine  
-  🔗 LINK: `[TO_BE_ADDED]`
-- Narrative Logic Engine  
-  🔗 LINK: `[TO_BE_ADDED]`
-- Pacing & Rhythm Engine  
-  🔗 LINK: `[TO_BE_ADDED]`
-- Scene Construction Engine  
-  🔗 LINK: `[TO_BE_ADDED]`
-- Story Structure Engine  
-  🔗 LINK: `[TO_BE_ADDED]`
-- Tension & Stakes Engine  
-  🔗 LINK: `[TO_BE_ADDED]`
-- Theme & Meaning Engine  
-  🔗 LINK: `[TO_BE_ADDED]`
-- Twist & Reveal Engine  
-  🔗 LINK: `[TO_BE_ADDED]`
+01 — Narrative Logic Engine — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01_SYSTEM_ENTITIES/00_ENG__ENGINES/02_DOMAIN_NARRATIVE_ENGINES/01__NARRATIVE_LOGIC_ENG.md  
+02 — Story Structure Engine — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01_SYSTEM_ENTITIES/00_ENG__ENGINES/02_DOMAIN_NARRATIVE_ENGINES/02__STORY_STRUCTURE_ENG.md  
+03 — Dramatic Arc Engine — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01_SYSTEM_ENTITIES/00_ENG__ENGINES/02_DOMAIN_NARRATIVE_ENGINES/03__DRAMATIC_ARC_ENG.md  
+04 — Scene Construction Engine — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01_SYSTEM_ENTITIES/00_ENG__ENGINES/02_DOMAIN_NARRATIVE_ENGINES/04__SCENE_CONSTRUCTION_ENG.md  
+05 — Pacing & Rhythm Engine — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01_SYSTEM_ENTITIES/00_ENG__ENGINES/02_DOMAIN_NARRATIVE_ENGINES/05__PACING_RHYTHM_ENG.md  
+06 — Tension & Stakes Engine — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01_SYSTEM_ENTITIES/00_ENG__ENGINES/02_DOMAIN_NARRATIVE_ENGINES/06__TENSION_STAKES_ENG.md  
+07 — Foreshadowing Engine — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01_SYSTEM_ENTITIES/00_ENG__ENGINES/02_DOMAIN_NARRATIVE_ENGINES/07__FORESHADOWING_ENG.md  
+08 — Twist & Reveal Engine — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01_SYSTEM_ENTITIES/00_ENG__ENGINES/02_DOMAIN_NARRATIVE_ENGINES/08__TWIST_REVEAL_ENG.md  
+09 — Narrative Continuity Engine — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01_SYSTEM_ENTITIES/00_ENG__ENGINES/02_DOMAIN_NARRATIVE_ENGINES/09__NARRATIVE_CONTINUITY_ENG.md  
+10 — Theme & Meaning Engine — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01_SYSTEM_ENTITIES/00_ENG__ENGINES/02_DOMAIN_NARRATIVE_ENGINES/10__THEME_MEANING_ENG.md  
 
 ---
 
-### DOMAIN CHARACTER ENGINES  
+## 03_DOMAIN_CHARACTER_ENGINES  
 **CLASS:** DOMAIN (L2)  
-**CATEGORY:** Character  
-**Family Path:** `04_DOMAIN_CHARACTER_ENGINES/`
+🔗 **REALM FILE:** https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01_SYSTEM_ENTITIES/00_ENG__ENGINES/03_DOMAIN_CHARACTER_ENGINES/00__README__DOMAIN_CHARACTER_ENGINES.md  
+**Family Path:** `03_DOMAIN_CHARACTER_ENGINES/`
 
-- Character Core Engine  
-  🔗 LINK: `[TO_BE_ADDED]`
-- Character Behavior Engine  
-  🔗 LINK: `[TO_BE_ADDED]`
-- Character Evolution Engine  
-  🔗 LINK: `[TO_BE_ADDED]`
-- Character Psychology Engine  
-  🔗 LINK: `[TO_BE_ADDED]`
-- Dialogue Engine  
-  🔗 LINK: `[TO_BE_ADDED]`
-- Growth & Trauma Engine  
-  🔗 LINK: `[TO_BE_ADDED]`
-- Moral & Value Engine  
-  🔗 LINK: `[TO_BE_ADDED]`
-- Motivation & Desire Engine  
-  🔗 LINK: `[TO_BE_ADDED]`
-- Relationship Engine  
-  🔗 LINK: `[TO_BE_ADDED]`
-- Speech Naturalization Engine  
-  🔗 LINK: `[TO_BE_ADDED]`
+01 — Character Core Engine — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01_SYSTEM_ENTITIES/00_ENG__ENGINES/03_DOMAIN_CHARACTER_ENGINES/01__CHARACTER_CORE_ENG.md  
+02 — Motivation & Desire Engine — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01_SYSTEM_ENTITIES/00_ENG__ENGINES/03_DOMAIN_CHARACTER_ENGINES/02__MOTIVATION_DESIRE_ENG.md  
+03 — Moral & Value Engine — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01_SYSTEM_ENTITIES/00_ENG__ENGINES/03_DOMAIN_CHARACTER_ENGINES/03__MORAL_VALUE_ENG.md  
+04 — Character Psychology Engine — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01_SYSTEM_ENTITIES/00_ENG__ENGINES/03_DOMAIN_CHARACTER_ENGINES/04__CHARACTER_PSYCHOLOGY_ENG.md  
+05 — Character Behavior Engine — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01_SYSTEM_ENTITIES/00_ENG__ENGINES/03_DOMAIN_CHARACTER_ENGINES/05__CHARACTER_BEHAVIOR_ENG.md  
+06 — Relationship Engine — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01_SYSTEM_ENTITIES/00_ENG__ENGINES/03_DOMAIN_CHARACTER_ENGINES/06__RELATIONSHIP_ENG.md  
+07 — Dialogue Engine — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01_SYSTEM_ENTITIES/00_ENG__ENGINES/03_DOMAIN_CHARACTER_ENGINES/07__DIALOGUE_ENG.md  
+08 — Speech Naturalization Engine — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01_SYSTEM_ENTITIES/00_ENG__ENGINES/03_DOMAIN_CHARACTER_ENGINES/08__SPEECH_NATURALIZATION_ENG.md  
+09 — Growth & Trauma Engine — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01_SYSTEM_ENTITIES/00_ENG__ENGINES/03_DOMAIN_CHARACTER_ENGINES/09__GROWTH_TRAUMA_ENG.md  
+10 — Character Evolution Engine — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01_SYSTEM_ENTITIES/00_ENG__ENGINES/03_DOMAIN_CHARACTER_ENGINES/10__CHARACTER_EVOLUTION_ENG.md  
 
 ---
 
-### DOMAIN WORLD ENGINES  
+## 04_DOMAIN_WORLD_ENGINES  
 **CLASS:** DOMAIN (L2)  
-**CATEGORY:** World  
-**Family Path:** `05_DOMAIN_WORLD_ENGINES/`
+🔗 **REALM FILE:** https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01_SYSTEM_ENTITIES/00_ENG__ENGINES/04_DOMAIN_WORLD_ENGINES/00__README__DOMAIN_WORLD_ENGINES.md  
+**Family Path:** `04_DOMAIN_WORLD_ENGINES/`
 
-- Civilization Engine  
-  🔗 LINK: `[TO_BE_ADDED]`
-- Conflict & Power Engine  
-  🔗 LINK: `[TO_BE_ADDED]`
-- Economy & Resource Engine  
-  🔗 LINK: `[TO_BE_ADDED]`
-- Environment & Ecology Engine  
-  🔗 LINK: `[TO_BE_ADDED]`
-- Geopolitics Engine  
-  🔗 LINK: `[TO_BE_ADDED]`
-- Mythology & Belief Engine  
-  🔗 LINK: `[TO_BE_ADDED]`
-- Technology & Magic Engine  
-  🔗 LINK: `[TO_BE_ADDED]`
-- Timeline & Epoch Engine  
-  🔗 LINK: `[TO_BE_ADDED]`
-- World Law Engine  
-  🔗 LINK: `[TO_BE_ADDED]`
-- World Structure Engine  
-  🔗 LINK: `[TO_BE_ADDED]`
+01 — World Structure Engine — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01_SYSTEM_ENTITIES/00_ENG__ENGINES/04_DOMAIN_WORLD_ENGINES/01__WORLD_STRUCTURE_ENG.md  
+02 — World Law Engine — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01_SYSTEM_ENTITIES/00_ENG__ENGINES/04_DOMAIN_WORLD_ENGINES/02__WORLD_LAW_ENG.md  
+03 — Timeline & Epoch Engine — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01_SYSTEM_ENTITIES/00_ENG__ENGINES/04_DOMAIN_WORLD_ENGINES/03__TIMELINE_EPOCH_ENG.md  
+04 — Civilization Engine — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01_SYSTEM_ENTITIES/00_ENG__ENGINES/04_DOMAIN_WORLD_ENGINES/04__CIVILIZATION_ENG.md  
+05 — Conflict & Power Engine — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01_SYSTEM_ENTITIES/00_ENG__ENGINES/04_DOMAIN_WORLD_ENGINES/05__CONFLICT_POWER_ENG.md  
+06 — Geopolitics Engine — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01_SYSTEM_ENTITIES/00_ENG__ENGINES/04_DOMAIN_WORLD_ENGINES/06__GEOPOLITICS_ENG.md  
+07 — Economy & Resource Engine — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01_SYSTEM_ENTITIES/00_ENG__ENGINES/04_DOMAIN_WORLD_ENGINES/07__ECONOMY_RESOURCE_ENG.md  
+08 — Technology & Magic Engine — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01_SYSTEM_ENTITIES/00_ENG__ENGINES/04_DOMAIN_WORLD_ENGINES/08__TECHNOLOGY_MAGIC_ENG.md  
+09 — Mythology & Belief Engine — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01_SYSTEM_ENTITIES/00_ENG__ENGINES/04_DOMAIN_WORLD_ENGINES/09__MYTHOLOGY_BELIEF_ENG.md  
+10 — Environment & Ecology Engine — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01_SYSTEM_ENTITIES/00_ENG__ENGINES/04_DOMAIN_WORLD_ENGINES/10__ENVIRONMENT_ECOLOGY_ENG.md  
 
 ---
 
-## L3 — PRODUCTION & EXPRESSION
-
-### ORCHESTRATORS  
+## 05_ORCHESTRATORS  
 **CLASS:** ORCHESTRATOR (L3)  
-**Family Path:** `06_ORCHESTRATORS/`
+🔗 **REALM FILE:** https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01_SYSTEM_ENTITIES/00_ENG__ENGINES/05_ORCHESTRATORS/00__README__ORCHESTRATORS.md  
+**Family Path:** `05_ORCHESTRATORS/`
 
-- Narrative Orchestrator  
-  🔗 LINK: `[TO_BE_ADDED]`
-- Character Orchestrator  
-  🔗 LINK: `[TO_BE_ADDED]`
-- World Orchestrator  
-  🔗 LINK: `[TO_BE_ADDED]`
-- Production Orchestrator  
-  🔗 LINK: `[TO_BE_ADDED]`
+01 — Narrative Orchestrator — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01_SYSTEM_ENTITIES/00_ENG__ENGINES/05_ORCHESTRATORS/01__NARRATIVE_ORCHESTRATOR_ENG.md  
+02 — Character Orchestrator — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01_SYSTEM_ENTITIES/00_ENG__ENGINES/05_ORCHESTRATORS/02__CHARACTER_ORCHESTRATOR_ENG.md  
+03 — World Orchestrator — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01_SYSTEM_ENTITIES/00_ENG__ENGINES/05_ORCHESTRATORS/03__WORLD_ORCHESTRATOR_ENG.md  
+04 — Production Orchestrator — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01_SYSTEM_ENTITIES/00_ENG__ENGINES/05_ORCHESTRATORS/04__PRODUCTION_ORCHESTRATOR_ENG.md  
+05 — Multi-Engine Pipeline Orchestrator — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01_SYSTEM_ENTITIES/00_ENG__ENGINES/05_ORCHESTRATORS/05__MULTI_ENGINE_PIPELINE_ORCHESTRATOR_ENG.md  
 
 ---
 
-### EXPRESSION ENGINES  
+## 06_EXPRESSION_ENGINES  
 **CLASS:** EXPRESSION (L3)  
-**Family Path:** `07_EXPRESSION_ENGINES/`
+🔗 **REALM FILE:** https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01_SYSTEM_ENTITIES/00_ENG__ENGINES/06_EXPRESSION_ENGINES/00__README__EXPRESSION_ENGINES.md  
+**Family Path:** `06_EXPRESSION_ENGINES/`
 
-- Cause–Effect Engine  
-  🔗 LINK: `[TO_BE_ADDED]`
-- Climax Engine  
-  🔗 LINK: `[TO_BE_ADDED]`
-- Conflict Engine  
-  🔗 LINK: `[TO_BE_ADDED]`
-- Event Engine  
-  🔗 LINK: `[TO_BE_ADDED]`
-- Event Scheduling Engine  
-  🔗 LINK: `[TO_BE_ADDED]`
-- Randomness & Chaos Engine  
-  🔗 LINK: `[TO_BE_ADDED]`
-- Resolution Engine  
-  🔗 LINK: `[TO_BE_ADDED]`
-- System Shock Engine  
-  🔗 LINK: `[TO_BE_ADDED]`
-- Turning Point Engine  
-  🔗 LINK: `[TO_BE_ADDED]`
+01 — Event Engine — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01_SYSTEM_ENTITIES/00_ENG__ENGINES/06_EXPRESSION_ENGINES/01__EVENT_ENG.md  
+02 — Cause–Effect Engine — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01_SYSTEM_ENTITIES/00_ENG__ENGINES/06_EXPRESSION_ENGINES/02__CAUSE_EFFECT_ENG.md  
+03 — Conflict Engine — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01_SYSTEM_ENTITIES/00_ENG__ENGINES/06_EXPRESSION_ENGINES/03__CONFLICT_ENG.md  
+04 — Turning Point Engine — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01_SYSTEM_ENTITIES/00_ENG__ENGINES/06_EXPRESSION_ENGINES/04__TURNING_POINT_ENG.md  
+05 — Climax Engine — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01_SYSTEM_ENTITIES/00_ENG__ENGINES/06_EXPRESSION_ENGINES/05__CLIMAX_ENG.md  
+06 — Resolution Engine — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01_SYSTEM_ENTITIES/00_ENG__ENGINES/06_EXPRESSION_ENGINES/06__RESOLUTION_ENG.md  
+07 — System Shock Engine — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01_SYSTEM_ENTITIES/00_ENG__ENGINES/06_EXPRESSION_ENGINES/07__SYSTEM_SHOCK_ENG.md  
+08 — Event Scheduling Engine — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01_SYSTEM_ENTITIES/00_ENG__ENGINES/06_EXPRESSION_ENGINES/08__EVENT_SCHEDULING_ENG.md  
+09 — Randomness & Chaos Engine — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01_SYSTEM_ENTITIES/00_ENG__ENGINES/06_EXPRESSION_ENGINES/09__RANDOMNESS_CHAOS_ENG.md  
 
 ---
 
-### GENRE & STYLE ENGINES  
+## 07_GENRE_STYLE_ENGINES  
 **CLASS:** STYLE (L3)  
-**Family Path:** `08_GENRE_STYLE_ENGINES/`
+🔗 **REALM FILE:** https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01_SYSTEM_ENTITIES/00_ENG__ENGINES/07_GENRE_STYLE_ENGINES/00__README__GENRE_STYLE_ENGINES.md  
+**Family Path:** `07_GENRE_STYLE_ENGINES/`
 
-- Atmosphere Engine  
-  🔗 LINK: `[TO_BE_ADDED]`
-- Emotional Resonance Engine  
-  🔗 LINK: `[TO_BE_ADDED]`
-- Metaphor Engine  
-  🔗 LINK: `[TO_BE_ADDED]`
-- Sensory Detail Engine  
-  🔗 LINK: `[TO_BE_ADDED]`
-- Symbolism Engine  
-  🔗 LINK: `[TO_BE_ADDED]`
-- Tone & Mood Engine  
-  🔗 LINK: `[TO_BE_ADDED]`
+01 — Tone & Mood Engine — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01_SYSTEM_ENTITIES/00_ENG__ENGINES/07_GENRE_STYLE_ENGINES/01__TONE_MOOD_ENG.md  
+02 — Atmosphere Engine — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01_SYSTEM_ENTITIES/00_ENG__ENGINES/07_GENRE_STYLE_ENGINES/02__ATMOSPHERE_ENG.md  
+03 — Emotional Resonance Engine — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01_SYSTEM_ENTITIES/00_ENG__ENGINES/07_GENRE_STYLE_ENGINES/03__EMOTIONAL_RESONANCE_ENG.md  
+04 — Symbolism Engine — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01_SYSTEM_ENTITIES/00_ENG__ENGINES/07_GENRE_STYLE_ENGINES/04__SYMBOLISM_ENG.md  
+05 — Metaphor Engine — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01_SYSTEM_ENTITIES/00_ENG__ENGINES/07_GENRE_STYLE_ENGINES/05__METAPHOR_ENG.md  
+06 — Sensory Detail Engine — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01_SYSTEM_ENTITIES/00_ENG__ENGINES/07_GENRE_STYLE_ENGINES/06__SENSORY_DETAIL_ENG.md  
 
 ---
 
-### PRODUCTION FORMAT ENGINES  
+## 08_PRODUCTION_FORMAT_ENGINES  
 **CLASS:** PRODUCTION (L3)  
-**Family Path:** `09_PRODUCTION_FORMAT_ENGINES/`
+🔗 **REALM FILE:** https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01_SYSTEM_ENTITIES/00_ENG__ENGINES/08_PRODUCTION_FORMAT_ENGINES/00__README__PRODUCTION_FORMAT_ENGINES.md  
+**Family Path:** `08_PRODUCTION_FORMAT_ENGINES/`
 
-- Book Format Engine  
-  🔗 LINK: `[TO_BE_ADDED]`
-- Series & Episode Engine  
-  🔗 LINK: `[TO_BE_ADDED]`
-- Short Content Engine  
-  🔗 LINK: `[TO_BE_ADDED]`
-- YouTube Longform Engine  
-  🔗 LINK: `[TO_BE_ADDED]`
-- Game Narrative Engine  
-  🔗 LINK: `[TO_BE_ADDED]`
-
----
-
-## L4 — VALIDATION & EVOLUTION
-
-### VALIDATION ENGINES  
-**CLASS:** VALIDATION (L4)  
-**Family Path:** `11_VALIDATION_ENGINES/`
-
-- Cultural Accuracy Engine  
-  🔗 LINK: `[TO_BE_ADDED]`
-- Error Detection Engine  
-  🔗 LINK: `[TO_BE_ADDED]`
-- Fact Consistency Engine  
-  🔗 LINK: `[TO_BE_ADDED]`
-- Historical Accuracy Engine  
-  🔗 LINK: `[TO_BE_ADDED]`
-- Language & Linguistics Engine  
-  🔗 LINK: `[TO_BE_ADDED]`
-- Scientific Plausibility Engine  
-  🔗 LINK: `[TO_BE_ADDED]`
+01 — Genre Engine — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01_SYSTEM_ENTITIES/00_ENG__ENGINES/08_PRODUCTION_FORMAT_ENGINES/01__GENRE_ENG.md  
+02 — Genre Blending Engine — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01_SYSTEM_ENTITIES/00_ENG__ENGINES/08_PRODUCTION_FORMAT_ENGINES/02__GENRE_BLENDING_ENG.md  
+03 — Format Adaptation Engine — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01_SYSTEM_ENTITIES/00_ENG__ENGINES/08_PRODUCTION_FORMAT_ENGINES/03__FORMAT_ADAPTATION_ENG.md  
+04 — Book Format Engine — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01_SYSTEM_ENTITIES/00_ENG__ENGINES/08_PRODUCTION_FORMAT_ENGINES/04__BOOK_FORMAT_ENG.md  
+05 — Series & Episode Engine — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01_SYSTEM_ENTITIES/00_ENG__ENGINES/08_PRODUCTION_FORMAT_ENGINES/05__SERIES_EPISODE_ENG.md  
+06 — Short Content Engine — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01_SYSTEM_ENTITIES/00_ENG__ENGINES/08_PRODUCTION_FORMAT_ENGINES/06__SHORT_CONTENT_ENG.md  
+07 — YouTube Longform Engine — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01_SYSTEM_ENTITIES/00_ENG__ENGINES/08_PRODUCTION_FORMAT_ENGINES/07__YOUTUBE_LONGFORM_ENG.md  
+08 — Game Narrative Engine — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01_SYSTEM_ENTITIES/00_ENG__ENGINES/08_PRODUCTION_FORMAT_ENGINES/08__GAME_NARRATIVE_ENG.md  
 
 ---
 
-### META EVOLUTION ENGINES  
+## 09_KNOWLEDGE_PRODUCTION_ENGINES  
+**CLASS:** PRODUCTION (L3)  
+🔗 **REALM FILE:** https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01_SYSTEM_ENTITIES/00_ENG__ENGINES/09_KNOWLEDGE_PRODUCTION_ENGINES/00__README__KNOWLEDGE_PRODUCTION_ENGINES.md  
+**Family Path:** `09_KNOWLEDGE_PRODUCTION_ENGINES/`
+
+01 — Visual Composition Engine — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01_SYSTEM_ENTITIES/00_ENG__ENGINES/09_KNOWLEDGE_PRODUCTION_ENGINES/01__VISUAL_COMPOSITION_ENG.md  
+02 — Art Style Engine — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01_SYSTEM_ENTITIES/00_ENG__ENGINES/09_KNOWLEDGE_PRODUCTION_ENGINES/02__ART_STYLE_ENG.md  
+03 — Camera & Cinematography Engine — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01_SYSTEM_ENTITIES/00_ENG__ENGINES/09_KNOWLEDGE_PRODUCTION_ENGINES/03__CAMERA_CINEMATOGRAPHY_ENG.md  
+04 — Lighting Engine — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01_SYSTEM_ENTITIES/00_ENG__ENGINES/09_KNOWLEDGE_PRODUCTION_ENGINES/04__LIGHTING_ENG.md  
+05 — Image Generation Engine — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01_SYSTEM_ENTITIES/00_ENG__ENGINES/09_KNOWLEDGE_PRODUCTION_ENGINES/05__IMAGE_GENERATION_ENG.md  
+06 — Video Generation Engine — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01_SYSTEM_ENTITIES/00_ENG__ENGINES/09_KNOWLEDGE_PRODUCTION_ENGINES/06__VIDEO_GENERATION_ENG.md  
+07 — Editing & Montage Engine — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01_SYSTEM_ENTITIES/00_ENG__ENGINES/09_KNOWLEDGE_PRODUCTION_ENGINES/07__EDITING_MONTAGE_ENG.md  
+08 — Sound & Music Engine — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01_SYSTEM_ENTITIES/00_ENG__ENGINES/09_KNOWLEDGE_PRODUCTION_ENGINES/08__SOUND_MUSIC_ENG.md  
+
+---
+
+## 10_SOUND_MUSIC_ENGINES  
+**CLASS:** PRODUCTION (L3)  
+🔗 **REALM FILE:** https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01_SYSTEM_ENTITIES/00_ENG__ENGINES/10_SOUND_MUSIC_ENGINES/00__README__SOUND_MUSIC_ENGINES.md  
+**Family Path:** `10_SOUND_MUSIC_ENGINES/`
+
+01 — Music Composition Engine — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01_SYSTEM_ENTITIES/00_ENG__ENGINES/10_SOUND_MUSIC_ENGINES/01__MUSIC_COMPOSITION_ENG.md  
+02 — Song Structure Engine — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01_SYSTEM_ENTITIES/00_ENG__ENGINES/10_SOUND_MUSIC_ENGINES/02__SONG_STRUCTURE_ENG.md  
+03 — Harmony & Chord Engine — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01_SYSTEM_ENTITIES/00_ENG__ENGINES/10_SOUND_MUSIC_ENGINES/03__HARMONY_CHORD_ENG.md  
+04 — Melody Hook Engine — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01_SYSTEM_ENTITIES/00_ENG__ENGINES/10_SOUND_MUSIC_ENGINES/04__MELODY_HOOK_ENG.md  
+05 — Rhythm & Groove Engine — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01_SYSTEM_ENTITIES/00_ENG__ENGINES/10_SOUND_MUSIC_ENGINES/05__RHYTHM_GROOVE_ENG.md  
+06 — Rhyme & Meter Engine — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01_SYSTEM_ENTITIES/00_ENG__ENGINES/10_SOUND_MUSIC_ENGINES/06__RHYME_METER_ENG.md  
+07 — Lyrics Engine — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01_SYSTEM_ENTITIES/00_ENG__ENGINES/10_SOUND_MUSIC_ENGINES/07__LYRICS_ENG.md  
+08 — Arrangement & Instrumentation Engine — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01_SYSTEM_ENTITIES/00_ENG__ENGINES/10_SOUND_MUSIC_ENGINES/08__ARRANGEMENT_INSTRUMENTATION_ENG.md  
+09 — Vocal Performance Engine — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01_SYSTEM_ENTITIES/00_ENG__ENGINES/10_SOUND_MUSIC_ENGINES/09__VOCAL_PERFORMANCE_ENG.md  
+10 — Sound Design Engine — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01_SYSTEM_ENTITIES/00_ENG__ENGINES/10_SOUND_MUSIC_ENGINES/10__SOUND_DESIGN_ENG.md  
+11 — Music Style Consistency Engine — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01_SYSTEM_ENTITIES/00_ENG__ENGINES/10_SOUND_MUSIC_ENGINES/11__MUSIC_STYLE_CONSISTENCY_ENG.md  
+12 — Music to Scene Engine — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01_SYSTEM_ENTITIES/00_ENG__ENGINES/10_SOUND_MUSIC_ENGINES/12__MUSIC_TO_SCENE_ENG.md  
+13 — Mix & Master Engine — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01_SYSTEM_ENTITIES/00_ENG__ENGINES/10_SOUND_MUSIC_ENGINES/13__MIX_MASTER_ENG.md  
+
+---
+
+## 11_META_EVOLUTION_ENGINES  
 **CLASS:** META (L4)  
-**Family Path:** `13_META_EVOLUTION_ENGINES/`
+🔗 **REALM FILE:** https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01_SYSTEM_ENTITIES/00_ENG__ENGINES/11_META_EVOLUTION_ENGINES/00__README__META_EVOLUTION_ENGINES.md  
+**Family Path:** `11_META_EVOLUTION_ENGINES/`
 
-- Creative Mutation Engine  
-  🔗 LINK: `[TO_BE_ADDED]`
-- Future Projection Engine  
-  🔗 LINK: `[TO_BE_ADDED]`
-- Learning Engine  
-  🔗 LINK: `[TO_BE_ADDED]`
-- Optimization Engine  
-  🔗 LINK: `[TO_BE_ADDED]`
-- Pattern Extraction Engine  
-  🔗 LINK: `[TO_BE_ADDED]`
+01 — Learning Engine — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01_SYSTEM_ENTITIES/00_ENG__ENGINES/11_META_EVOLUTION_ENGINES/01__LEARNING_ENG.md  
+02 — Pattern Extraction Engine — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01_SYSTEM_ENTITIES/00_ENG__ENGINES/11_META_EVOLUTION_ENGINES/02__PATTERN_EXTRACTION_ENG.md  
+03 — Optimization Engine — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01_SYSTEM_ENTITIES/00_ENG__ENGINES/11_META_EVOLUTION_ENGINES/03__OPTIMIZATION_ENG.md  
+04 — Creative Mutation Engine — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01_SYSTEM_ENTITIES/00_ENG__ENGINES/11_META_EVOLUTION_ENGINES/04__CREATIVE_MUTATION_ENG.md  
+05 — Future Projection Engine — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01_SYSTEM_ENTITIES/00_ENG__ENGINES/11_META_EVOLUTION_ENGINES/05__FUTURE_PROJECTION_ENG.md  
 
 ---
 
 ## FINAL RULE
 
-> Этот INDEX — единственная точка,
-> откуда система узнаёт **какие движки существуют**.
+> Этот INDEX — единственная точка истины  
+> о составе и порядке ENG-движков системы.
 
----
-
-STATUS: FIXED  
-VERSION: 1.0  
-OWNER: Universe Engine
+OWNER: Universe Engine  
+STATUS: FIXED
