@@ -4,182 +4,160 @@ FILE: 00__TEMPLATE__README__DOMAIN_NARRATIVE_ENGINES.md
 SCOPE: Universe Engine
 LAYER: ENG
 DOC_TYPE: TEMPLATE
-ENTITY_KIND: GENERIC
-PROJECT_SCOPE: GLOBAL
-OUTPUT_LEVEL: N/A
-ID: ENG.TPL.FAMILY.DOMAIN_NARRATIVE.README
+ENTITY_GROUP: ENGINES (ENG)
+TEMPLATE_KIND: FAMILY_README_OVERLAY
+LEVEL: L2
 STATUS: ACTIVE
 VERSION: 2.0
-ROLE: Realm law + role map + interfaces + required REG/XREF + canon order for DOMAIN_NARRATIVE family.
+ROLE: Family overlay for Narrative (Domain) realm README. Compatible with base family template v2 and base engine template v2. Defines narrative canon boundaries and required xref graphs.
+
+LOCK: FIXED
+OWNER: Universe Engine
 
 ---
 
 ## 0) PURPOSE (REALM LAW)
 
-Этот README — закон семейства **DOMAIN_NARRATIVE_ENGINES**.
-Семейство отвечает за:
-- логику истории (story logic)
-- структуру (story structure)
-- драматургию (arc)
-- построение сцен (scene construction)
-- story-time pacing/rhythm (ритм истории, а не монтажа)
-- напряжение/ставки, предвосхищения, твисты, непрерывность, тема/смысл
+Семейство **DOMAIN_NARRATIVE_ENGINES** отвечает за сюжетную логику и структуру:
+- логика повествования (narrative logic)
+- структура истории (acts/beats)
+- драматическая дуга
+- конструирование сцен
+- темп/ритм (story-time, не монтаж)
+- напряжение/ставки
+- предвосхищения
+- повороты/раскрытия
+- непрерывность (continuity)
+- тема/смысл
 
-### EXISTENCE RULE (NARRATIVE)
-> Любая история в проекте обязана иметь структурный “скелет” Narrative: логика → структура → арка → сцены → непрерывность.
+EXISTENCE RULE:
+> Любой сюжетный канон (L2) должен иметь: structure → arc → scenes → continuity → theme links.
 
 ---
 
 ## 1) FAMILY IDENTITY (MANDATORY)
 
-FAMILY_NAME: DOMAIN_NARRATIVE_ENGINES  
-FAMILY_CODE: NAR  
-FAMILY_CLASS: DOMAIN  
-FAMILY_LEVEL: L2  
+FAMILY_NAME: DOMAIN_NARRATIVE_ENGINES
+FAMILY_CODE: NAR
+FAMILY_CLASS: DOMAIN
+FAMILY_LEVEL: L2
 
-FAMILY_PATH: `10_ENG__ENGINES/02_DOMAIN_NARRATIVE_ENGINES/`  
-README_FILE: `00__README__DOMAIN_NARRATIVE_ENGINES.md`
+FAMILY_PATH:
+`03_SYSTEM_ENTITIES/10_ENG__ENGINES/02_DOMAIN_NARRATIVE_ENGINES/`
+
+README_FILE:
+`00__README__DOMAIN_NARRATIVE_ENGINES.md`
 
 ---
 
 ## 2) OWNERSHIP BOUNDARIES (ANTI-DUPLICATION)
 
 ### 2.1 OWNS
-- Story logic: причинность, правила правдоподобия истории
-- Story structure: акты/фазы/узлы
-- Dramatic arc: рост/повороты/разрядка (как каркас)
-- Scene construction: сцена как unit истории (цель/конфликт/изменение)
-- Pacing & rhythm (story-time): темп развёртывания событий в истории
-- Tension & stakes: что на кону и как растёт давление
-- Foreshadowing: предвосхищения
-- Twist & reveal: раскрытия и перевороты
-- Continuity: непрерывность истории, логические стыки
-- Theme & meaning: смысловой каркас
+- story-time structure and logic (acts/beats/scenes as narrative units)
+- dramatic arc as story meaning progression
+- narrative continuity and canon coherence inside story
+- pacing & rhythm in story-time terms (not seconds of screen)
+- theme and meaning as narrative law
 
 ### 2.2 DOES NOT OWN (hard boundaries)
-- Expression units (Event/Cause-Effect/Conflict/Climax/Resolution) → `05_EXPRESSION_ENGINES`
-- Screen-time rhythm (монтаж/тайминг кадра) → `08_KNOWLEDGE_PRODUCTION_ENGINES/07__EDITING_MONTAGE_ENG.md`
-- Dialogue craft/речь/психология → `03_DOMAIN_CHARACTER_ENGINES`
-- World laws/timeline epochs/civilization → `04_DOMAIN_WORLD_ENGINES` (Narrative only consumes them)
-- Genre tone/atmosphere/symbolism → `06_GENRE_STYLE_ENGINES` (Narrative uses as constraints)
-- Format constraints (book/series/shorts/game) → `07_PRODUCTION_FORMAT_ENGINES` (Narrative adapts to them via interfaces)
-
-Boundary rule:
-> Narrative проектирует каркас и логику, но “атомы событий” формализует EXPRESSION, а “экранный тайминг” делает PRODUCTION/EDITING.
+- screen-time rhythm / edit timing / montage → 08 Production Editing
+- visual style and atmosphere rules → 06 Style
+- character psychology and speech patterns → 03 Character (but narrative can reference them)
+- world laws and economics → 04 World (but narrative can depend on them)
+- music placement/sync → 08 Production; music as work → 09 Music
+Rule:
+> Narrative defines story logic, not production timing.
 
 ---
 
 ## 3) ROLE MAP (MANDATORY)
 
-- FOUNDATION — логика/структура как базовые законы истории
-- BUILDER — сбор арки/сцен в черновик
-- VALIDATOR — continuity, stakes coherence, foreshadowing integrity
-- BRIDGE — стыки с FORMAT (книга/сериал/короткие) и WORLD timeline
-- OUTPUT — сюжетный blueprint/outline/scene list
+- FOUNDATION: logic/structure/arc
+- BUILDER: scenes/pacing/tension/foreshadow/twist
+- VALIDATOR: continuity/theme coherence
+- OUTPUT: canon scene packs / arc packs / story bible parts
 
 ### 3.1 Canonical role map table
 | Engine NN | Engine Name | ROLE_IN_FAMILY | PIPELINE_STAGE |
 |---|---|---|---|
 | 01 | Narrative Logic Engine | FOUNDATION | DEFINE |
 | 02 | Story Structure Engine | FOUNDATION | DEFINE |
-| 03 | Dramatic Arc Engine | BUILDER | BUILD |
+| 03 | Dramatic Arc Engine | FOUNDATION | DEFINE |
 | 04 | Scene Construction Engine | BUILDER | BUILD |
-| 05 | Pacing & Rhythm Engine | VALIDATOR | CHECK |
-| 06 | Tension & Stakes Engine | VALIDATOR | CHECK |
-| 07 | Foreshadowing Engine | VALIDATOR | CHECK |
+| 05 | Pacing & Rhythm Engine | BUILDER | BUILD |
+| 06 | Tension & Stakes Engine | BUILDER | BUILD |
+| 07 | Foreshadowing Engine | BUILDER | BUILD |
 | 08 | Twist & Reveal Engine | BUILDER | BUILD |
 | 09 | Narrative Continuity Engine | VALIDATOR | CHECK |
-| 10 | Theme & Meaning Engine | BRIDGE | PACKAGE |
-
-OUTPUT в практике:
-- outline / beat sheet / scene list / arc map (L2)
-- production-ready story blueprint (L3) — но без монтажа
+| 10 | Theme & Meaning Engine | VALIDATOR | CHECK |
 
 ---
 
 ## 4) FAMILY OUTPUT POLICY (WORKSHOP L0–L3) — MANDATORY
 
-Narrative работает как по сущностям (ARC/EVT), так и по project-level “сюжетным пакетам”.
+Default roots:
+`05_PROJECTS/<PROJECT_ID>/01_WORKSHOP/`
 
-DEFAULT_PROJECT_OUTPUT_ROOT:
-- `05_PROJECTS/<PROJECT_ID>/01_WORKSHOP/`
+Recommended domain folders (choose what fits your project):
+- `06_EVENTS/` (events + beats)
+- `09_ARCS/` (arcs)
+- `03_OBJECTS/` (plot objects if needed)
+- `07_CONCEPTS/` (themes, premises)
+- `05_FACTIONS/` (if politics are story-critical)
+- `05_PROJECT__L2/` (story bible / narrative canon packs)
 
-Primary categories:
-- `09_ARCS/` (для арок)
-- `06_EVENTS/` (если храните narrative-представление событий как сущность, но event-атомы всё равно выражаются EXPRESSION)
-- Project-level narrative packs:
-  - `05_PROJECT__L3/` (когда выход — “outline сезона/книги”)
+Entity scope examples:
+- `06_EVENTS/EVT_<NAME>/03_CANON_L2/`
+- `09_ARCS/ARC_<NAME>/03_CANON_L2/`
 
-Recommended routing:
-- L0: зерно идеи/синопсис/сырьё
-- L1: черновые структуры/варианты арки/сцены
-- L2: canon outline + canon scene list + continuity map
-- L3: output pack под формат (book/series/shorts/game) — без монтажа
+Project scope examples:
+- `05_PROJECT__L2/03_CANON_L2/` (Story Bible)
+
+Rule:
+> Narrative L2 canon must be stored in entity or project scope (not system scope).
 
 ---
 
 ## 5) REQUIRED REGISTRIES (MANDATORY)
 
-REQUIRED_REGISTRIES (project-scoped):
-- `REG.PRJ.<PROJECT_ID>.ENTITIES` (если арки/сцены/темы заведены как сущности)
-- `REG.PRJ.<PROJECT_ID>.CANON_L2` (для канон-outline/arc canon)
-- `REG.PRJ.<PROJECT_ID>.OUTPUT_L3` (для narrative output packs)
-
-Rule:
-> Любой L2 narrative-pack и L3 narrative output обязаны быть в REG.
+Project-scoped:
+- `00_REG__REGISTRIES/REG.PRJ.<PROJECT_ID>.ENTITIES.md`
+- `00_REG__REGISTRIES/REG.PRJ.<PROJECT_ID>.CANON_L2.md`
+- `00_REG__REGISTRIES/REG.PRJ.<PROJECT_ID>.OUTPUT_L3.md` (if narrative outputs are packaged)
 
 ---
 
 ## 6) REQUIRED XREF INDEXES (MANDATORY)
 
-REQUIRED_XREF (project-scoped):
-- `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__PROVENANCE.md`
+Project-scoped (core):
 - `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__CANON_REFS.md`
 - `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__DEPENDENCIES.md`
+- `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__PROVENANCE.md`
 - `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__ENTITY_GRAPH.md`
 
-Narrative-specific recommended:
-- `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__NARRATIVE_CONTINUITY.md` (optional)
+Narrative-specific (mandatory for story logic):
+- `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__CAUSE_EFFECT_GRAPH.md`
+- `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__ARC_GRAPH.md` (optional but recommended)
+- `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__SCENE_GRAPH.md` (optional but recommended)
 
-Hard rule:
-> Любой narrative pack обязан ссылаться на world/character/style constraints через DEPENDS_ON (в XREF).
-
----
-
-## 7) INTERFACES (INPUT / OUTPUT ARTIFACT TYPES)
-
-### 7.1 INPUT TYPES
-- CORE_CARD / ENTITY_CORE (from CORE)
-- WORLD_CONSTRAINTS (from WORLD)
-- CHARACTER_MOTIVATION/ARC (from CHARACTER)
-- FORMAT_CONSTRAINTS (from PRODUCTION_FORMAT)
-- STYLE_CONSTRAINTS (from GENRE_STYLE)
-- EXPRESSION_ATOMS (events/conflicts/resolutions as units) (from EXPRESSION)
-
-### 7.2 OUTPUT TYPES
-- STORY_BLUEPRINT (outline)
-- BEAT_SHEET
-- ARC_MAP
-- SCENE_LIST
-- CONTINUITY_MAP
-- THEME_MAP
-- FORMAT_ADAPTED_OUTLINE (for book/series/shorts/game) — still story-time
+Rule:
+> Cause-effect is mandatory for any narrative canon beyond a single scene.
 
 ---
 
-## 8) TEMPLATES (MANDATORY BLOCK)
+## 7) TEMPLATES (MANDATORY BLOCK)
 
 Base templates:
-- FAMILY README TEMPLATE (base) — `10_ENG__ENGINES/00__TEMPLATE__README__FAMILY__ENG.md`
-- ENGINE TEMPLATE (base) — `10_ENG__ENGINES/00__TEMPLATE__ENGINE__ENG.md`
+- ENGINE TEMPLATE (base) — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/00__TEMPLATE__ENGINE__ENG.md
+- FAMILY README TEMPLATE (base) — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/00__TEMPLATE__README__FAMILY__ENG.md
 
 Family overlays:
-- README TEMPLATE (this file) — `10_ENG__ENGINES/02_DOMAIN_NARRATIVE_ENGINES/00__TEMPLATE__README__DOMAIN_NARRATIVE_ENGINES.md`
-- ENGINE TEMPLATE (family) — `10_ENG__ENGINES/02_DOMAIN_NARRATIVE_ENGINES/00__TEMPLATE__ENGINE__DOMAIN_NARRATIVE_ENGINES.md`
+- ENGINE TEMPLATE (family) — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/02_DOMAIN_NARRATIVE_ENGINES/00__TEMPLATE__ENGINE__DOMAIN_NARRATIVE_ENGINES.md
+- README TEMPLATE (family) — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/02_DOMAIN_NARRATIVE_ENGINES/00__TEMPLATE__README__DOMAIN_NARRATIVE_ENGINES.md
 
 ---
 
-## 9) CANON ORDER (MANDATORY)
+## 8) CANON ORDER (MANDATORY)
 
 00 — README (Realm)  
 01 — Narrative Logic Engine  
@@ -195,19 +173,23 @@ Family overlays:
 
 ---
 
-## 10) GOVERNANCE COMPATIBILITY (MANDATORY)
+## 9) GOVERNANCE COMPATIBILITY (MANDATORY)
 
-Narrative canon changes:
-- требуют фиксации WHY (audit log)
-- требуют обновления continuity/xref links
-- не должны ломать boundary rules (event atoms остаются в EXPRESSION)
+Narrative L2 canon changes must pass governance pipeline when:
+- they modify locked canon
+- they create/alter major arcs that affect multiple entities
+- they require migrations (renaming/structural refactors)
+
+---
+
+## 10) RAW LINK (MANDATORY)
+
+RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/02_DOMAIN_NARRATIVE_ENGINES/00__TEMPLATE__README__DOMAIN_NARRATIVE_ENGINES.md
 
 ---
 
 ## FINAL RULE (LOCK)
 
-> Narrative family задаёт каркас истории.  
-> Любой narrative output обязан быть traceable (REG/XREF) и совместим с format/style/world/character constraints.
+> Narrative defines story-time logic. Screen-time belongs to production editing.
 
-OWNER: Universe Engine  
 LOCK: FIXED

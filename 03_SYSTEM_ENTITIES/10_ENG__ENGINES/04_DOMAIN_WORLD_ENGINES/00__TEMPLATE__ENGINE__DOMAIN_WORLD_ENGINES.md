@@ -4,212 +4,270 @@ FILE: 00__TEMPLATE__ENGINE__DOMAIN_WORLD_ENGINES.md
 SCOPE: Universe Engine
 LAYER: ENG
 DOC_TYPE: TEMPLATE
-ENTITY_KIND: WORLD
-PROJECT_SCOPE: GLOBAL
-OUTPUT_LEVEL: N/A
-ID: ENG.TPL.ENGINE.WORLD
+ENTITY_GROUP: ENGINES (ENG)
+TEMPLATE_KIND: ENGINE_FAMILY_OVERLAY
+LEVEL: L2
 STATUS: ACTIVE
 VERSION: 2.0
-ROLE: Family-specific overlay template for World engines. Compatible with ENG ENGINE TEMPLATE v2 and adds world defaults (world constraints, non-currency rule for great civilizations, REG/XREF requirements).
+ROLE: World family overlay. Compatible with ENG ENGINE TEMPLATE (BASE v2). Adds world-law schemas (laws/epochs/civs/resources/tech/ecology) and mandatory world graphs (law/epoch/resource/power).
+
+LOCK: FIXED
+OWNER: Universe Engine
 
 ---
 
 ## 0) ENGINE IDENTITY (MANDATORY)
 
 ENGINE_NAME: <UPPER_SNAKE_CASE>
-ENGINE_ID: <ENG.WLD.<NN>.<ENGINE_NAME>>
+ENGINE_ID: ENG.WLD.<NN>.<ENGINE_NAME>
 
 FAMILY_CODE: WLD
 ENGINE_NN_IN_FAMILY: <01..10>
 ENGINE_CLASS: DOMAIN
 ENGINE_LEVEL: L2
 
-ROLE_IN_FAMILY: <FOUNDATION|BUILDER|VALIDATOR|BRIDGE|OUTPUT>
-PIPELINE_STAGE: <DEFINE|BUILD|CHECK|PACKAGE|PRODUCE>
-
-OWNER: Universe Engine
-LOCK: OPEN
+ROLE_IN_FAMILY: <FOUNDATION|BUILDER|VALIDATOR|OUTPUT>
+PIPELINE_STAGE: <DEFINE|BUILD|CHECK|PRODUCE>
 
 ---
 
 ## 1) PURPOSE (WHAT THIS ENGINE DOES)
 
-One paragraph: what world capability it defines.
-
-### OWNERSHIP
-- <world aspect this engine owns>
-
-### DOES NOT OWN (hard)
-- narrative scene ordering (NAR)
-- character psychology/dialogue (CHR)
-- style authoring (STYLE)
-- production outputs (08)
-- governance decisions (GOV)
-- event atoms formalization (EXP)
+One paragraph:
+- what world aspect it defines (law/epochs/civs/economy/tech/ecology/etc)
+- what structured artifacts it outputs
 
 ---
 
-## 2) TRIGGERS (WHEN TO RUN)
+## 2) OWNERSHIP BOUNDARIES (ANTI-DUPLICATION)
+
+OWNS:
+- world facts/laws/constraints as canonical system data
+
+DOES NOT OWN (hard):
+- narrative events/scenes (NAR)
+- character psyche (CHR)
+- global artistic tone (STY)
+- production timing (PRD)
+- music works (MUS)
+
+---
+
+## 3) TRIGGERS (WHEN TO RUN)
 
 TRIGGERS:
-- new project world seed
-- new region/faction/system concept added
-- timeline/epoch update
-- tech/magic stack update
-- economy/resource model requested
-- contradiction detected (world conflict)
-- narrative requests constraint clarification
+- new location/system/civilization introduced
+- contradiction in laws or timeline
+- economy/resource model required
+- tech/magic capability needed
+- ecology sustainability check needed
 
 ---
 
-## 3) MINI-CONTRACT (MANDATORY)
+## 4) MINI-CONTRACT (MANDATORY)
 
-CONSUMES (examples):
-- CORE_CARD (entity existence)
-- NARRATIVE_REQUIREMENTS
-- CHARACTER_REQUIREMENTS
-- STYLE_CONSTRAINTS (presentation constraint)
-- existing world canon/drafts
+CONSUMES:
+- CORE_STATE_VALIDATION (required)
+- existing world canon (if iterating)
+- narrative requirements (optional)
+- style constraints (optional, only if they affect cultural facts)
 
-PRODUCES (examples):
-- WORLD_BIBLE
-- WORLD_LAWSET
-- TIMELINE_PACK
-- EPOCH_MAP
-- CIVILIZATION_PROFILE_SET
-- GEOPOLITICS_MAP
+PRODUCES:
+- WORLD_STRUCTURE_SPEC
+- WORLD_LAW_SPEC
+- EPOCH_SPEC
+- CIV_SPEC
+- POWER_MODEL
+- GEO_MODEL
 - ECON_RESOURCE_MODEL
-- TECH_MAGIC_STACK
-- MYTH_BELIEF_SYSTEM
-- ECOLOGY_PROFILE
-- WORLD_CONSTRAINTS_PACK
+- TECH_MAGIC_MODEL
+- MYTH_BELIEF_MODEL
+- ECOLOGY_MODEL
 
 DEPENDS_ON:
-- []  (if depends → mirror in XREF__DEPENDENCIES)
+- [] (or engine IDs)
 
-OUTPUT_ARTIFACT_TYPE:
-- <WORLD_LAWSET|TIMELINE_PACK|ECON_RESOURCE_MODEL|WORLD_CONSTRAINTS_PACK|...>
+OUTPUT_TARGET (canonical defaults):
+- world systems:
+  `05_PROJECTS/<PROJECT_ID>/01_WORKSHOP/04_SYSTEMS/SYS_<NAME>/<LEVEL_FOLDER>/`
+- locations:
+  `05_PROJECTS/<PROJECT_ID>/01_WORKSHOP/02_LOCATIONS/LOC_<NAME>/<LEVEL_FOLDER>/`
+- civilizations/factions:
+  `05_PROJECTS/<PROJECT_ID>/01_WORKSHOP/05_FACTIONS/FAC_<NAME>/<LEVEL_FOLDER>/`
+- world bible bundle:
+  `05_PROJECTS/<PROJECT_ID>/01_WORKSHOP/05_PROJECT__L2/<LEVEL_FOLDER>/`
 
----
-
-## 4) SYSTEM INTERFACE (MANDATORY) — WORLD DEFAULTS
-
-## SYSTEM INTERFACE
-- INPUTS:
-  - artifacts: [intake notes, drafts, canon constraints]
-  - sources:
-    - project registries
-    - project xref indexes
-    - family README boundary rules
-
-- OUTPUTS:
-  - artifacts: [world artifacts]
-  - output_level: <L0_INTAKE|L1_DRAFT|L2_CANON|L3_OUTPUT>
-  - entity_kind: <SYS|LOC|FAC|CPT|WORLD|GENERIC>
-
-  - target_path_rule:
-    - base: `05_PROJECTS/<PROJECT_ID>/01_WORKSHOP/`
-    - category:
-      - world system: `04_SYSTEMS/WORLD_<NAME>/`
-      - locations: `02_LOCATIONS/LOC_<NAME>/`
-      - factions: `05_FACTIONS/FAC_<NAME>/`
-      - concepts: `07_CONCEPTS/CPT_<NAME>/`
-      - project-level pack: `05_PROJECT__L3/`
-    - level_folder:
-      - L0: `01_INTAKE_L0/`
-      - L1: `02_DRAFT_L1/`
-      - L2: `03_CANON_L2/`
-      - L3: `04_OUTPUT_L3/`
-
-    - file examples:
-      - L0: `00__WORLD_NOTES.md`
-      - L1: `00__WORLD_DRAFT.md`
-      - L2: `00__WORLD_BIBLE_CANON.md` / `01__TIMELINE_CANON.md`
-      - L3: `00__WORLD_CONSTRAINTS_PACK.md`
-
-- REGISTRY_UPDATES:
-  - required: YES (for L2/L3)
-  - registries:
-    - `REG.PRJ.<PROJECT_ID>.ENTITIES`
-    - `REG.PRJ.<PROJECT_ID>.CANON_L2`
-    - `REG.PRJ.<PROJECT_ID>.OUTPUT_L3`
-
-- XREF_UPDATES:
-  - required: YES
-  - record_types:
-    - [DEPENDS_ON, DERIVED_FROM, PRODUCED_BY, CANON_REF, ENTITY_LINK, CONFLICTS_WITH, REPLACED_BY]
-  - xref_targets:
-    - `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__ENTITY_GRAPH.md`
-    - `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__DEPENDENCIES.md`
-    - `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__PROVENANCE.md`
-    - `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__CANON_REFS.md`
-    - `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__CONFLICTS.md`
-    - `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__CHANGES.md` (replacements)
-  - mandatory_links (examples):
-    - `L2_WORLD_BIBLE -> L1_WORLD_DRAFT | TYPE:DERIVED_FROM | SCOPE:PRJ:<PROJECT_ID> | WHY:Canonized world bible | BY:ENG.WLD.<NN>.<ENGINE_NAME> | AT:<YYYY-MM-DD>`
-    - `L3_CONSTRAINTS_PACK -> L2_WORLD_BIBLE | TYPE:CANON_REF | SCOPE:PRJ:<PROJECT_ID> | WHY:Pack derived from canon | BY:ENG.WLD.<NN>.<ENGINE_NAME> | AT:<YYYY-MM-DD>`
-
-- GATES:
-  - validators:
-    - `VAL.WLD.01.COHERENCE_CHECK` (placeholder)
-    - `VAL.WLD.02.NO_CURRENCY_GREAT_CIV` (placeholder; see family rule)
-  - qa_checks:
-    - `QA.WLD.01.USABILITY_FOR_OTHER_LAYERS` (placeholder)
-    - `QA.XREF.01.LINK_INTEGRITY` (placeholder)
-
-- ORCHESTRATION:
-  - orc_owner: [<ORC.WLD.* if used>]
-  - ctl_enforcers:
-    - `CTL.WORKSHOP.PATH_ENFORCER` (placeholder)
-    - `CTL.WORKSHOP.LEVEL_ENFORCER` (placeholder)
-    - `CTL.XREF.NO_HIDDEN_LINKS` (placeholder)
-    - `CTL.REG.ENTRY_ENFORCER` (placeholder)
+Rule:
+> L2 canon requires REG + XREF world graphs updates.
 
 ---
 
-## 5) PROCESS (HOW IT WORKS)
+## 5) WORLD SCHEMAS (MANDATORY)
 
-1) Consume requests + constraints from narrative/character
-2) Build world component (law/timeline/civ/econ/tech/ecology)
-3) Validate coherence (tech↔econ↔ecology↔timeline)
-4) Enforce no-currency rule for great civilizations
-5) Canonize + register + provenance + dependency links
-6) Produce constraints pack for other families
+### 5.1 WORLD_LAW_SPEC
+
+LAW_ID: <LAW_<NAME>>
+TYPE: <PHYSICAL|META|MAGIC|SOCIAL|TECH|ECOLOGY|ECONOMY>
+STATEMENT: <one clear law>
+SCOPE: <GLOBAL|REGION|CIV|LOCAL>
+CONSTRAINTS: [ ... ]
+ALLOWANCES: [ ... ]
+VIOLATIONS:
+- detection_signals: [ ... ]
+- resolution_policy: <fix canon|justify as exception|reject>
+CANON_STATUS: <DRAFT|CANON>
+CANON_REFS: [ ... ]
 
 ---
 
-## 6) QUALITY (MANDATORY)
+### 5.2 EPOCH_SPEC
+
+EPOCH_ID: <EPOCH_<NAME>>
+TIME_RANGE: <...>
+WORLD_STATE: <summary>
+TECH_TIER: <...>
+POWER_DISTRIBUTION: <summary>
+KEY_CIVS: [FAC_*]
+KEY_LAWS: [LAW_*]
+NOTES: ...
+
+---
+
+### 5.3 CIV_SPEC (civilization/faction)
+
+FAC_ID: <FAC_<NAME>>
+TYPE: <CIV|FACTION|EMPIRE|ORDER|NETWORK|...>
+PRINCIPLES: [ ... ]
+GOVERNANCE_MODEL: <...>
+RESOURCE_MODEL: <see ECON_RESOURCE_MODEL refs>
+CURRENCY_USED: <NO|YES|LOCAL_SURROGATE>
+CURRENCY_JUSTIFICATION: <required if not NO>
+TECH_MAGIC_ACCESS: <...>
+ECOLOGY_FOOTPRINT: <...>
+
+Rule:
+> Great civilizations must set CURRENCY_USED=NO unless explicitly justified as “not great / transitional / local”.
+
+---
+
+### 5.4 ECON_RESOURCE_MODEL
+
+MODEL_ID: <ECON_<NAME>>
+CURRENCY: <NONE|LOCAL|YES>
+MECHANISM:
+- distribution: <allocation|access|reputation|quota|gift|contract_access|...>
+RESOURCE_FLOWS:
+- producers: [ ... ]
+- transformers: [ ... ]
+- consumers: [ ... ]
+SCARCITY: <...>
+FAILURE_MODES: [ ... ]
+CANON_REFS: [ ... ]
+
+---
+
+### 5.5 TECH_MAGIC_MODEL
+
+MODEL_ID: <TECH_<NAME>>
+DOMAINS: [tech|magic|hybrid]
+CAPABILITIES: [ ... ]
+LIMITATIONS: [ ... ]
+COSTS: [energy|risk|time|social|...]
+ACCESS_CONTROL: <...>
+CANON_REFS: [ ... ]
+
+---
+
+### 5.6 ECOLOGY_MODEL
+
+ECO_ID: <ECO_<NAME>>
+SYSTEMS: [ ... ]
+CYCLES: [ ... ]
+STABILITY: <stable|fragile|collapsing>
+HUMAN_OR_CIV_IMPACT: <...>
+CANON_REFS: [ ... ]
+
+---
+
+## 6) SYSTEM INTERFACE (MANDATORY) — ORC/CTL/VAL/QA/REG/XREF
+
+ORCHESTRATED_BY (ORC):
+- []
+
+CONTROLLED_BY (CTL):
+- []
+
+VALIDATED_BY (VAL):
+- <VAL.WLD.01.COHERENCE> (placeholder) or []
+
+QA_BY (QA):
+- <QA.WLD.01.CANON_INTEGRITY> (placeholder) or []
+
+REGISTRY_UPDATES:
+- REQUIRED: YES (for L2)
+- TARGETS:
+  - `00_REG__REGISTRIES/REG.PRJ.<PROJECT_ID>.ENTITIES.md`
+  - `00_REG__REGISTRIES/REG.PRJ.<PROJECT_ID>.CANON_L2.md`
+
+XREF_UPDATES:
+- REQUIRED: YES
+- RECORD_TYPES:
+  - CANON_REF
+  - DEPENDS_ON
+  - DERIVED_FROM
+  - PRODUCED_BY
+  - CONFLICTS_WITH
+- TARGETS:
+  - `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__WORLD_LAW_GRAPH.md`
+  - `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__EPOCH_GRAPH.md`
+  - `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__RESOURCE_FLOW_GRAPH.md`
+  - `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__POWER_GRAPH.md`
+  - `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__ENTITY_GRAPH.md`
+  - `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__PROVENANCE.md`
+  - `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__DEPENDENCIES.md`
+  - `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__CANON_REFS.md`
+
+Rule:
+> Any world law or economy model update must update WORLD_LAW_GRAPH and (if resources) RESOURCE_FLOW_GRAPH.
+
+---
+
+## 7) PROCESS (HOW TO EXECUTE)
+
+1) Validate CORE state of target entities.
+2) Define/update structured world specs (laws/epochs/civs/resources/tech/ecology).
+3) Check currency constraint explicitly (CURRENCY_USED + justification).
+4) Store outputs in routing paths.
+5) Update REG + XREF graphs.
+6) Run coherence validation + canon integrity QA.
+7) If changing locked laws — governance pipeline.
+
+---
+
+## 8) QUALITY GATES (MANDATORY)
 
 PASS if:
-- constraints pack is explicit and linkable
-- no-currency rule respected or exception logged
-- dependencies are explicit in XREF
-- L3 outputs reference L2 canon via CANON_REF
+- laws are explicit and testable
+- epochs link to laws + civs
+- economy model states currency=NONE for great civs (or justified)
+- REG + XREF updated
 
 FAIL if:
+- implicit laws (prose only)
+- economy uses currency without justification
 - hidden dependencies
-- contradictions not logged
-- great civilization uses currency without exception record
+- writes outside routing law
 
 ---
 
-## 7) FAILURE MODES
+## 9) RAW LINK (MANDATORY)
 
-- World contradiction detected → XREF CONFLICTS_WITH + route to governance decision
-- Economy model accidentally includes currency in great civ → block until rewritten or exception approved
-- Timeline breaks causality → require epoch correction and provenance update
-
----
-
-## 8) RAW LINK (MANDATORY)
-
-RAW: <raw github link to this template file>
+RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/04_DOMAIN_WORLD_ENGINES/00__TEMPLATE__ENGINE__DOMAIN_WORLD_ENGINES.md
 
 ---
 
 ## FINAL RULE (LOCK)
 
-> World engines define reality constraints. Everything else must reference them explicitly. Great civilizations do not use currency.
+> World canon is constraint data. Other layers consume it; they do not override it.
 
-OWNER: Universe Engine  
-LOCK: OPEN
+LOCK: FIXED

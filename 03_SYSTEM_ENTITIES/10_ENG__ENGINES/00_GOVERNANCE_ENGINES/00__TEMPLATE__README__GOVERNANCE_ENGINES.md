@@ -4,185 +4,160 @@ FILE: 00__TEMPLATE__README__GOVERNANCE_ENGINES.md
 SCOPE: Universe Engine
 LAYER: ENG
 DOC_TYPE: TEMPLATE
-ENTITY_KIND: GENERIC
-PROJECT_SCOPE: GLOBAL
-OUTPUT_LEVEL: N/A
-ID: ENG.TPL.FAMILY.GOVERNANCE.README
+ENTITY_GROUP: ENGINES (ENG)
+TEMPLATE_KIND: FAMILY_README_OVERLAY
+LEVEL: L1
 STATUS: ACTIVE
 VERSION: 2.0
-ROLE: Realm law + role map + interfaces + required REG/XREF + canon order for GOVERNANCE family.
+ROLE: Family overlay for GOVERNANCE realm README. Must be compatible with base family template v2 and base engine template v2.
+
+LOCK: FIXED
+OWNER: Universe Engine
 
 ---
 
 ## 0) PURPOSE (REALM LAW)
 
-Этот README — закон семейства **GOVERNANCE_ENGINES**.
-Он фиксирует:
-- границы ответственности governance
-- роли движков внутри семьи (FOUNDATION/BUILDER/VALIDATOR/BRIDGE/OUTPUT)
-- обязательные REG/XREF связи (чтобы не было hidden dependencies)
-- правила вывода в WORKSHOP L0–L3 (как governance живёт в проектах)
-- канонический порядок движков
+Семейство **GOVERNANCE_ENGINES** — это слой законов, контроля изменений и памяти системы.
 
-### EXISTENCE RULE (FAMILY)
-> Движок, не внесённый в CANON ORDER этой семьи + общий ENG INDEX — считается non-canon.
+GOVERNANCE:
+- определяет, что считается каноном
+- фиксирует правила и иерархию правил
+- управляет изменениями (change control)
+- обеспечивает консистентность
+- ведёт реестр зависимостей
+- управляет approvals/решениями
+- оценивает влияние и риски
+- ведёт журнал аудита
+- ведёт versioning + memory
+
+EXISTENCE RULE:
+> Любая правка канона без governance pipeline — недействительна.
 
 ---
 
 ## 1) FAMILY IDENTITY (MANDATORY)
 
-FAMILY_NAME: GOVERNANCE_ENGINES  
-FAMILY_CODE: GOV  
-FAMILY_CLASS: GOVERNANCE  
-FAMILY_LEVEL: L1  
+FAMILY_NAME: GOVERNANCE_ENGINES
+FAMILY_CODE: GOV
+FAMILY_CLASS: GOVERNANCE
+FAMILY_LEVEL: L1
 
-FAMILY_PATH: `10_ENG__ENGINES/00_GOVERNANCE_ENGINES/`  
-README_FILE: `00__README__GOVERNANCE_ENGINES.md`
+FAMILY_PATH:
+`03_SYSTEM_ENTITIES/10_ENG__ENGINES/00_GOVERNANCE_ENGINES/`
+
+README_FILE:
+`00__README__GOVERNANCE_ENGINES.md`
 
 ---
 
 ## 2) OWNERSHIP BOUNDARIES (ANTI-DUPLICATION)
 
-### 2.1 OWNS (this family owns)
-- Канон власти: кто имеет право фиксировать канон и правила системы
-- Иерархия правил: какие документы “старше/младше”
-- Контроль изменений: как вносить изменения в канон/шаблоны/пайплайны
-- Audit trail: как фиксируются решения, изменения и причины (WHY)
-- Dependency law: отсутствие скрытых зависимостей (no hidden deps)
-- Risk & Safety: оценка рисков изменений и безопасность системы
-- Versioning & memory: память версий, замены, миграции, обратная совместимость
+### 2.1 OWNS
+- каноническая власть (что является каноном и как фиксируется)
+- контроль изменений (порядок, approvals, миграции)
+- аудит-лог (история решений и правок)
+- иерархия правил (какие правила старше/младше)
+- консистентность (детект конфликтов и policy решения)
+- registry зависимостей (явные DEPENDS_ON)
+- оценка влияния (scope impact)
+- риск/безопасность (risk safety)
+- память системы (версионирование, immutable записи)
 
-### 2.2 DOES NOT OWN (belongs elsewhere)
-- Создание контента сущностей (CHR/LOC/OBJ/...) → CORE/DOMAIN families
-- Продакшн-выходы медиа (монтаж, звук, визуал) → PRODUCTION families
-- Художественные/жанровые решения → STYLE families
-- Глубокая музыка → SOUND families
-
+### 2.2 DOES NOT OWN (hard boundaries)
+- создание контента мира/персонажей/сюжета как фактов
+- создание медиа-артефактов (видео/картинки/монтаж)
+- создание музыки как произведения
 Rule:
-> Governance управляет **законом и контролем**, но не создаёт сюжет/персонажей/мир напрямую.
+> Governance управляет правилами и изменениями, но не “пишет историю” и не производит медиа.
 
 ---
 
 ## 3) ROLE MAP (MANDATORY)
 
-Каждый движок семьи обязан иметь роль:
+- FOUNDATION: аудит/иерархия/authority
+- BUILDER: change control + registry зависимостей
+- VALIDATOR: консистентность + риск/влияние
+- OUTPUT: versioning/memory + approvals
 
-- FOUNDATION — базовые законы (власть канона, иерархия правил)
-- BUILDER — оформляет изменения/версии/память системы
-- VALIDATOR — проверяет консистентность/риски/безопасность
-- BRIDGE — проводит решения и их утверждение через пайплайн
-- OUTPUT — делает “след”: журнал, отчёты, публичный слой фиксации
-
-### 3.1 Role completeness rule
-> В семье должны быть: минимум 1 FOUNDATION и 1 OUTPUT.  
-> VALIDATOR обязателен, потому что governance влияет на все слои.
-
-### 3.2 Role map table (canonical for this family)
+### 3.1 Canonical role map table
 | Engine NN | Engine Name | ROLE_IN_FAMILY | PIPELINE_STAGE |
 |---|---|---|---|
-| 01 | Audit Log Engine | OUTPUT | PRODUCE |
+| 01 | Audit Log Engine | FOUNDATION | PRODUCE |
 | 02 | Canon Authority Engine | FOUNDATION | DEFINE |
 | 03 | Rule Hierarchy Engine | FOUNDATION | DEFINE |
-| 04 | Change Control Engine | BUILDER | BUILD |
+| 04 | Change Control Engine | BUILDER | PACKAGE |
 | 05 | Consistency Engine | VALIDATOR | CHECK |
-| 06 | Dependency Registry Engine | BUILDER | BUILD |
-| 07 | Decision Approval Engine | BRIDGE | PACKAGE |
+| 06 | Dependency Registry Engine | BUILDER | PACKAGE |
+| 07 | Decision Approval Engine | OUTPUT | PRODUCE |
 | 08 | Scope Impact Engine | VALIDATOR | CHECK |
 | 09 | Risk Safety Engine | VALIDATOR | CHECK |
-| 10 | Versioning & Memory Engine | BUILDER | BUILD |
-
-PIPELINE_STAGE standard: DEFINE / BUILD / CHECK / PACKAGE / PRODUCE
+| 10 | Versioning & Memory Engine | OUTPUT | PRODUCE |
 
 ---
 
 ## 4) FAMILY OUTPUT POLICY (WORKSHOP L0–L3) — MANDATORY
 
-Governance тоже живёт в проектах, но как **управленческий контур**, а не “сюжет”.
+Governance outputs are primarily SYSTEM-level artifacts.
 
-DEFAULT_ENTITY_KIND: GENERIC  
-DEFAULT_OUTPUT_LEVEL: L1_DRAFT (по умолчанию)  
+Allowed targets:
+- SYSTEM scope (canonical):
+  - `03_SYSTEM_ENTITIES/<...>` (laws/templates)
+  - `00_REG__REGISTRIES/` (system registries)
+  - `90_XREF__CROSSREF/` (system crossrefs)
+- PROJECT scope (when governance is applied per-project):
+  - `05_PROJECTS/<PROJECT_ID>/01_WORKSHOP/99_META/<...>/`
 
-DEFAULT_PROJECT_OUTPUT_ROOT:
-- `05_PROJECTS/<PROJECT_ID>/01_WORKSHOP/`
-
-DEFAULT_CATEGORY_PATH:
-- `11_EXPERIMENTS/`   (временный стабильный контейнер для governance в проекте)
-
-DEFAULT_ENTITY_FOLDER:
-- `GENERIC_GOVERNANCE/` (один governance-root на проект)
-
-### 4.1 Level routing rules (strict)
-- L0_INTAKE: заявки/идеи/сырьё изменений (change requests)
-- L1_DRAFT: проекты решений, черновики правил, черновые зависимости
-- L2_CANON: утверждённые решения/изменения, канон-фиксации
-- L3_OUTPUT: release notes / canon packs / публичные сводки изменений
+Rule:
+> Governance engines are the exception: SYSTEM scope is allowed by design.
 
 ---
 
 ## 5) REQUIRED REGISTRIES (MANDATORY)
 
-Governance обязана регистрировать свои управленческие артефакты в проектах.
+System-scoped (core):
+- `00_REG__REGISTRIES/REG.SYS.AUDIT_LOG.md`
+- `00_REG__REGISTRIES/REG.SYS.DECISIONS.md`
+- `00_REG__REGISTRIES/REG.SYS.DEPENDENCIES.md`
+- `00_REG__REGISTRIES/REG.SYS.CANON_AUTHORITY.md`
+- `00_REG__REGISTRIES/REG.SYS.VERSIONING_MEMORY.md`
+- `00_REG__REGISTRIES/REG.SYS.CHANGE_CONTROL.md`
 
-REQUIRED_REGISTRIES (project-scoped placeholders):
-- `REG.PRJ.<PROJECT_ID>.GOV.CHANGES`
-- `REG.PRJ.<PROJECT_ID>.GOV.DECISIONS`
-- `REG.PRJ.<PROJECT_ID>.GOV.VERSIONS`
-
-Rule:
-> Любое L2_CANON governance-решение и любой L3_OUTPUT governance-пакет обязаны быть в REG.
+Project-scoped (optional if used):
+- `00_REG__REGISTRIES/REG.PRJ.<PROJECT_ID>.META_PROPOSALS.md`
 
 ---
 
 ## 6) REQUIRED XREF INDEXES (MANDATORY)
 
-Governance обязана фиксировать связи, чтобы не было скрытых причин и зависимостей.
+System-scoped:
+- `90_XREF__CROSSREF/XREF__DEPENDENCIES.md`
+- `90_XREF__CROSSREF/XREF__CHANGES.md`
+- `90_XREF__CROSSREF/XREF__PROVENANCE.md`
+- `90_XREF__CROSSREF/XREF__CANON_REFS.md` (if system canon refs tracked)
 
-REQUIRED_XREF (project-scoped placeholders):
-- Dependency graph:
-  - `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__DEPENDENCIES.md`
-- Changes / replacement / movement:
-  - `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__CHANGES.md`
-- Conflicts / duplicates:
-  - `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__CONFLICTS.md`
-- Canon references (если governance выпускает пакеты, ссылающиеся на канон):
-  - `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__CANON_REFS.md`
-
-Hard rule:
-> Любое DEPENDS_ON из mini-contract движков должно быть отражено в XREF__DEPENDENCIES.
+Project-scoped (optional):
+- `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__CHANGES.md`
+- `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__PROVENANCE.md`
 
 ---
 
-## 7) INTERFACES (INPUT / OUTPUT ARTIFACT TYPES)
+## 7) TEMPLATES (MANDATORY BLOCK)
 
-### 7.1 INPUT ARTIFACT TYPES (common)
-- CHANGE_REQUEST (L0)
-- DECISION_PROPOSAL (L1)
-- DEPENDENCY_DECLARATION (L1)
-- CONFLICT_REPORT (L1)
-- RISK_NOTE (L1)
-- VERSION_NOTE (L1)
-
-### 7.2 OUTPUT ARTIFACT TYPES (common)
-- APPROVED_DECISION (L2)
-- AUDIT_LOG_ENTRY (L2/L3)
-- DEPENDENCY_REGISTRY_UPDATE (L2)
-- VERSION_RECORD (L2)
-- RELEASE_NOTES / CANON_CHANGELOG (L3)
-
----
-
-## 8) TEMPLATES (MANDATORY BLOCK)
-
-- FAMILY README TEMPLATE (base) — `10_ENG__ENGINES/00__TEMPLATE__README__FAMILY__ENG.md`
-- ENGINE TEMPLATE (base) — `10_ENG__ENGINES/00__TEMPLATE__ENGINE__ENG.md`
+Base templates:
+- ENGINE TEMPLATE (base) — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/00__TEMPLATE__ENGINE__ENG.md
+- FAMILY README TEMPLATE (base) — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/00__TEMPLATE__README__FAMILY__ENG.md
 
 Family overlays:
-- README TEMPLATE (this file) — `10_ENG__ENGINES/00_GOVERNANCE_ENGINES/00__TEMPLATE__README__GOVERNANCE_ENGINES.md`
-- ENGINE TEMPLATE (family) — `10_ENG__ENGINES/00_GOVERNANCE_ENGINES/00__TEMPLATE__ENGINE__GOVERNANCE_ENGINES.md`
+- ENGINE TEMPLATE (family) — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/00_GOVERNANCE_ENGINES/00__TEMPLATE__ENGINE__GOVERNANCE_ENGINES.md
+- README TEMPLATE (family) — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/00_GOVERNANCE_ENGINES/00__TEMPLATE__README__GOVERNANCE_ENGINES.md
+
+Rule:
+> Family README must contain both base + overlay template links.
 
 ---
 
-## 9) CANON ORDER (MANDATORY)
+## 8) CANON ORDER (MANDATORY)
 
 00 — README (Realm)  
 01 — Audit Log Engine  
@@ -197,25 +172,28 @@ Family overlays:
 10 — Versioning & Memory Engine  
 
 Rule:
-> Номер в списке = номер в имени файла.
+> Engine NN in list must match file NN.
 
 ---
 
-## 10) GOVERNANCE COMPATIBILITY (MANDATORY)
+## 9) GOVERNANCE PIPELINE (MANDATORY)
 
-Изменения в этой семье = изменения закона системы.
-Обязательны:
-- Audit log запись (WHY + что менялось)
-- Change control решение
-- Version/memory обновление
-- XREF изменения (REPLACED_BY/MOVED_TO/RENAMED_TO, если применимо)
+Any change in canon, templates, registries, xref structure must go through:
+- 04 Change Control
+- 02 Canon Authority
+- 10 Versioning & Memory
+- 01 Audit Log
+
+---
+
+## 10) RAW LINK (MANDATORY)
+
+RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/00_GOVERNANCE_ENGINES/00__TEMPLATE__README__GOVERNANCE_ENGINES.md
 
 ---
 
 ## FINAL RULE (LOCK)
 
-> Этот README — закон семейства GOVERNANCE_ENGINES.  
-> Несоответствие роли/границам/обязательным REG/XREF = non-canon.
+> Governance defines legality of canon changes and keeps the system consistent.
 
-OWNER: Universe Engine  
 LOCK: FIXED

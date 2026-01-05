@@ -4,206 +4,171 @@ FILE: 00__TEMPLATE__README__CORE_ENGINES.md
 SCOPE: Universe Engine
 LAYER: ENG
 DOC_TYPE: TEMPLATE
-ENTITY_KIND: GENERIC
-PROJECT_SCOPE: GLOBAL
-OUTPUT_LEVEL: N/A
-ID: ENG.TPL.FAMILY.CORE.README
+ENTITY_GROUP: ENGINES (ENG)
+TEMPLATE_KIND: FAMILY_README_OVERLAY
+LEVEL: L1
 STATUS: ACTIVE
 VERSION: 2.0
-ROLE: Realm law + role map + interfaces + required REG/XREF + canon order for CORE family.
+ROLE: Family overlay for CORE realm README. Compatible with base family template v2 and base engine template v2.
+
+LOCK: FIXED
+OWNER: Universe Engine
 
 ---
 
 ## 0) PURPOSE (REALM LAW)
 
-Этот README — закон семейства **CORE_ENGINES**.
-CORE отвечает за “базовую сущность системы”:
-- кто мы / где мы / что живо
-- как устроено состояние, идентичность и жизненный цикл
-- минимальная модель существования сущностей и их статусов (без доменных деталей)
+Семейство **CORE_ENGINES** — базовая идентичность и “живое состояние” системы.
+CORE задаёт фундаментальные ответы:
+- кто/что является системой (identity)
+- что сейчас считается “живым” и актуальным (state)
+- как сущности рождаются/живут/умирают/фиксируются (lifecycle)
 
-### EXISTENCE RULE (FAMILY)
-> Любая сущность, не проходящая CORE-минимум (identity/state/lifecycle), считается incomplete для системы.
+EXISTENCE RULE:
+> Любая сущность/проект без CORE ID и состояния считается неинициализированной (не входит в активный канон).
 
 ---
 
 ## 1) FAMILY IDENTITY (MANDATORY)
 
-FAMILY_NAME: CORE_ENGINES  
-FAMILY_CODE: CORE  
-FAMILY_CLASS: CORE  
-FAMILY_LEVEL: L1  
+FAMILY_NAME: CORE_ENGINES
+FAMILY_CODE: CORE
+FAMILY_CLASS: CORE
+FAMILY_LEVEL: L1
 
-FAMILY_PATH: `10_ENG__ENGINES/01_CORE_ENGINES/`  
-README_FILE: `00__README__CORE_ENGINES.md`
+FAMILY_PATH:
+`03_SYSTEM_ENTITIES/10_ENG__ENGINES/01_CORE_ENGINES/`
+
+README_FILE:
+`00__README__CORE_ENGINES.md`
 
 ---
 
 ## 2) OWNERSHIP BOUNDARIES (ANTI-DUPLICATION)
 
-### 2.1 OWNS (this family owns)
-- Минимальная модель сущности: ID, kind, owner, status, lock, version
-- Core Identity: “кто/что это” в системе (без лора/характера/мира)
-- Core State: текущее состояние сущности (alive/dead/active/archived/etc.)
-- Core Lifecycle: переходы состояния, правила жизненного цикла
-- Базовые свойства трассируемости (provenance hooks), но не конкретные XREF записи (это governance/xref)
+### 2.1 OWNS
+- Core Identity: минимальная модель “кто мы / где мы / что считается системой”
+- Core State: актуальное состояние системы/проекта/сущностей (активно/архив/черновик/канон)
+- Core Lifecycle: жизненный цикл сущностей и артефактов (создание → draft → canon → output → archive)
 
-### 2.2 DOES NOT OWN (belongs elsewhere)
-- Лор, смысл, сюжет, темы → DOMAIN_NARRATIVE / EXPRESSION
-- Психология, мотивация, речь → DOMAIN_CHARACTER
-- Законы мира, цивилизации, экономика → DOMAIN_WORLD
-- Жанр/тон/символизм → GENRE_STYLE
-- Формат выпуска (книга/сериал) → PRODUCTION_FORMAT
-- Продакшн визуал/монтаж/звук → KNOWLEDGE_PRODUCTION
-- Глубокая музыка → SOUND_MUSIC
-- Решения “что канон” и change control → GOVERNANCE
-
+### 2.2 DOES NOT OWN (hard boundaries)
+- сюжет/сцены/драматургия (Narrative)
+- психология/мотивы персонажей (Character)
+- законы мира/цивилизации (World)
+- стиль/тон/атмосфера как художественный закон (Style)
+- формат выпуска и deliverables (Format)
+- производство медиа-артефактов (Production)
+- глубокая музыка (Music)
+- approvals и законность изменений (Governance)
 Rule:
-> CORE задаёт “скелет существования”, но не наполняет смыслом/историей.
+> CORE определяет “кто и в каком состоянии”, но не создаёт доменный контент.
 
 ---
 
 ## 3) ROLE MAP (MANDATORY)
 
-Роли движков внутри CORE:
+- FOUNDATION: identity/state/lifecycle как базовая сетка всей системы
+- VALIDATOR: проверка существования ID/state перед любыми L2/L3 операциями
+- OUTPUT: core registries (system/project/entity)
 
-- FOUNDATION — модель идентичности/сущности
-- BUILDER — формирует представление “state snapshot”
-- VALIDATOR — проверяет корректность переходов и обязательных полей
-- BRIDGE — связывает core-слой с domain-слоями (минимально)
-- OUTPUT — выдаёт core-card/manifest сущности как основу для других движков
-
-### 3.1 Role completeness rule
-> CORE обязан иметь FOUNDATION и OUTPUT.  
-> VALIDATOR обязателен для контроля состояния/переходов.
-
-### 3.2 Role map table (canonical for this family)
+### 3.1 Canonical role map table
 | Engine NN | Engine Name | ROLE_IN_FAMILY | PIPELINE_STAGE |
 |---|---|---|---|
 | 01 | Core Identity Engine | FOUNDATION | DEFINE |
-| 02 | Core State Engine | BUILDER | BUILD |
-| 03 | Core Lifecycle Engine | VALIDATOR | CHECK |
-
-Примечание:
-> OUTPUT для CORE проявляется как produced artifact “CORE_CARD / CORE_MANIFEST” каждым движком по необходимости (см. интерфейсы).
+| 02 | Core State Engine | VALIDATOR | CHECK |
+| 03 | Core Lifecycle Engine | OUTPUT | PRODUCE |
 
 ---
 
 ## 4) FAMILY OUTPUT POLICY (WORKSHOP L0–L3) — MANDATORY
 
-CORE работает **на сущностях** всех видов, поэтому по умолчанию пишет внутрь entity folders.
+CORE outputs live in two zones:
 
-DEFAULT_ENTITY_KIND: GENERIC (настраивается per entity)
-DEFAULT_OUTPUT_LEVEL: L1_DRAFT (по умолчанию)
+### A) SYSTEM scope (canonical)
+- базовые core-laws и system registries:
+  - `03_SYSTEM_ENTITIES/00_REG__REGISTRIES/REG.SYS.CORE.md` (если используете)
+  - `03_SYSTEM_ENTITIES/` (core rules only; governance compatible)
 
-DEFAULT_PROJECT_OUTPUT_ROOT:
-- `05_PROJECTS/<PROJECT_ID>/01_WORKSHOP/`
+### B) PROJECT / ENTITY scope (default operational)
+- `05_PROJECTS/<PROJECT_ID>/01_WORKSHOP/<DOMAIN>/<ENTITY_ID>/<LEVEL_FOLDER>/`
+- `05_PROJECTS/<PROJECT_ID>/01_WORKSHOP/03_PROJECT__L1/` etc (project-scope)
 
-DEFAULT_CATEGORY_PATH:
-- зависит от ENTITY_KIND (CHR/LOC/OBJ/...)
-
-DEFAULT_FILES (recommended):
-- L0: `01_INTAKE_L0/00__CORE_INTAKE.md`
-- L1: `02_DRAFT_L1/00__CORE_DRAFT.md`
-- L2: `03_CANON_L2/00__CORE_CANON.md` (или включить как секцию в `00__CANON.md`)
-- L3: `04_OUTPUT_L3/00__CORE_MANIFEST.md` (если нужно)
-
-### 4.1 Level routing rules
-- L0: сырьё/наброски core данных
-- L1: структурный черновик “кто/что это” + state snapshot
-- L2: утверждённый core-card (минимальный канон существования)
-- L3: manifest для продакшна/инструментов (если нужно)
+Rule:
+> Перед созданием L2 canon и L3 outputs CORE State должен быть валиден (entity exists + status allowed).
 
 ---
 
 ## 5) REQUIRED REGISTRIES (MANDATORY)
 
-CORE требует регистрации сущностей в проекте.
+Project-scoped (recommended minimum):
+- `00_REG__REGISTRIES/REG.PRJ.<PROJECT_ID>.ENTITIES.md`
+- `00_REG__REGISTRIES/REG.PRJ.<PROJECT_ID>.CANON_L2.md`
+- `00_REG__REGISTRIES/REG.PRJ.<PROJECT_ID>.OUTPUT_L3.md`
 
-REQUIRED_REGISTRIES (project-scoped):
-- Entities Registry:
-  - `REG.PRJ.<PROJECT_ID>.ENTITIES`
-
-Optional:
-- Canon artifacts registry (если core фиксируется отдельным файлом в L2):
-  - `REG.PRJ.<PROJECT_ID>.CANON_L2`
-
-Rule:
-> Любая сущность обязана быть в Entities Registry.  
-> Любой отдельный core canon file в L2 должен быть зарегистрирован как canon artifact.
+System-scoped (optional if you maintain system-wide core):
+- `00_REG__REGISTRIES/REG.SYS.ENTITIES.md`
+- `00_REG__REGISTRIES/REG.SYS.CORE_STATE.md`
+- `00_REG__REGISTRIES/REG.SYS.LIFECYCLE.md`
 
 ---
 
 ## 6) REQUIRED XREF INDEXES (MANDATORY)
 
-CORE обязателен к связям “сущность существует / связана / произошла из”.
+Project-scoped:
+- `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__CANON_REFS.md`
+- `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__DEPENDENCIES.md`
+- `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__PROVENANCE.md`
+- `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__ENTITY_GRAPH.md`
 
-REQUIRED_XREF (project-scoped):
-- Entity graph:
-  - `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__ENTITY_GRAPH.md`
-- Provenance:
-  - `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__PROVENANCE.md`
-- Canon refs (если L3 outputs ссылаются на core canon):
-  - `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__CANON_REFS.md`
-
-Hard rule:
-> Если core выводит отдельный L2 файл — provenance обязателен (DERIVED_FROM).
+System-scoped (optional):
+- `90_XREF__CROSSREF/XREF__CANON_REFS.md`
+- `90_XREF__CROSSREF/XREF__PROVENANCE.md`
 
 ---
 
-## 7) INTERFACES (INPUT / OUTPUT ARTIFACT TYPES)
-
-### 7.1 INPUT ARTIFACT TYPES
-- ENTITY_INTAKE (raw)
-- ENTITY_METADATA
-- PROJECT_CONTEXT
-- EXISTING_ENTITY_REG_ENTRY (if exists)
-
-### 7.2 OUTPUT ARTIFACT TYPES
-- CORE_CARD (identity)
-- STATE_SNAPSHOT (state)
-- LIFECYCLE_RULESET (transitions)
-- CORE_MANIFEST (optional L3)
-
----
-
-## 8) TEMPLATES (MANDATORY BLOCK)
+## 7) TEMPLATES (MANDATORY BLOCK)
 
 Base templates:
-- FAMILY README TEMPLATE (base) — `10_ENG__ENGINES/00__TEMPLATE__README__FAMILY__ENG.md`
-- ENGINE TEMPLATE (base) — `10_ENG__ENGINES/00__TEMPLATE__ENGINE__ENG.md`
+- ENGINE TEMPLATE (base) — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/00__TEMPLATE__ENGINE__ENG.md
+- FAMILY README TEMPLATE (base) — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/00__TEMPLATE__README__FAMILY__ENG.md
 
 Family overlays:
-- README TEMPLATE (this file) — `10_ENG__ENGINES/01_CORE_ENGINES/00__TEMPLATE__README__CORE_ENGINES.md`
-- ENGINE TEMPLATE (family) — `10_ENG__ENGINES/01_CORE_ENGINES/00__TEMPLATE__ENGINE__CORE_ENGINES.md`
+- ENGINE TEMPLATE (family) — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/01_CORE_ENGINES/00__TEMPLATE__ENGINE__CORE_ENGINES.md
+- README TEMPLATE (family) — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/01_CORE_ENGINES/00__TEMPLATE__README__CORE_ENGINES.md
+
+Rule:
+> Family README must contain both base + overlay template links.
 
 ---
 
-## 9) CANON ORDER (MANDATORY)
+## 8) CANON ORDER (MANDATORY)
 
 00 — README (Realm)  
 01 — Core Identity Engine  
 02 — Core State Engine  
 03 — Core Lifecycle Engine  
 
-Rule:
-> Номер в списке = номер в имени файла.
+---
+
+## 9) GOVERNANCE COMPATIBILITY (MANDATORY)
+
+Core rules and system registries are canon-sensitive.
+Any changes must go through governance pipeline:
+- Change Control
+- Canon Authority
+- Versioning & Memory
+- Audit Log
 
 ---
 
-## 10) GOVERNANCE COMPATIBILITY (MANDATORY)
+## 10) RAW LINK (MANDATORY)
 
-Изменения core-модели (обязательные поля, статусы, переходы) считаются системным изменением:
-- через change control
-- с audit log записью WHY
-- с versioning/memory фиксацией
+RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/01_CORE_ENGINES/00__TEMPLATE__README__CORE_ENGINES.md
 
 ---
 
 ## FINAL RULE (LOCK)
 
-> CORE — минимальная “конституция существования” для сущностей проекта.  
-> Без core identity/state/lifecycle сущность не может стать L2_CANON.
+> CORE defines identity/state/lifecycle and must be consulted before producing L2 canon or L3 output.
 
-OWNER: Universe Engine  
 LOCK: FIXED

@@ -4,187 +4,199 @@ FILE: 00__TEMPLATE__README__DOMAIN_WORLD_ENGINES.md
 SCOPE: Universe Engine
 LAYER: ENG
 DOC_TYPE: TEMPLATE
-ENTITY_KIND: WORLD
-PROJECT_SCOPE: GLOBAL
-OUTPUT_LEVEL: N/A
-ID: ENG.TPL.FAMILY.DOMAIN_WORLD.README
+ENTITY_GROUP: ENGINES (ENG)
+TEMPLATE_KIND: FAMILY_README_OVERLAY
+LEVEL: L2
 STATUS: ACTIVE
 VERSION: 2.0
-ROLE: Realm law + role map + interfaces + required REG/XREF + canon order for DOMAIN_WORLD family.
+ROLE: Family overlay for World (Domain) realm README. Compatible with base family template v2 and base engine template v2. Defines world-law canon boundaries, civilization/economy/tech/ecology constraints, and required world xref indexes.
+
+LOCK: FIXED
+OWNER: Universe Engine
 
 ---
 
 ## 0) PURPOSE (REALM LAW)
 
-Этот README — закон семейства **DOMAIN_WORLD_ENGINES**.
-Семейство отвечает за мир как систему:
-- структура мира (слои, карты, регионы, масштабы)
-- законы мира (физика/соц правила/ограничения)
+Семейство **DOMAIN_WORLD_ENGINES** отвечает за мир как систему:
+- структура мира (география/слои/среда)
+- законы мира (физика/метафизика/магия)
 - таймлайн и эпохи
-- цивилизации и их устройство
-- конфликты и власть на уровне мира (не сюжетный конфликт сцены)
+- цивилизации
+- конфликт и власть
 - геополитика
-- экономика/ресурсы (как устройство обмена/распределения)
-- технологии/магия
-- мифология/вера
-- среда/экология
+- экономика и ресурсы
+- технологии и магия
+- мифология и вера
+- экология и среда
 
-### EXISTENCE RULE (WORLD)
-> Любой проект обязан иметь World canon minimum: структура + законы + эпохи (хотя бы базово).
+EXISTENCE RULE:
+> Любой канон мира (L2) должен иметь: laws + epochs + civilization + resources + ecology связки.
 
 ---
 
 ## 1) FAMILY IDENTITY (MANDATORY)
 
-FAMILY_NAME: DOMAIN_WORLD_ENGINES  
-FAMILY_CODE: WLD  
-FAMILY_CLASS: DOMAIN  
-FAMILY_LEVEL: L2  
+FAMILY_NAME: DOMAIN_WORLD_ENGINES
+FAMILY_CODE: WLD
+FAMILY_CLASS: DOMAIN
+FAMILY_LEVEL: L2
 
-FAMILY_PATH: `10_ENG__ENGINES/04_DOMAIN_WORLD_ENGINES/`  
-README_FILE: `00__README__DOMAIN_WORLD_ENGINES.md`
+FAMILY_PATH:
+`03_SYSTEM_ENTITIES/10_ENG__ENGINES/04_DOMAIN_WORLD_ENGINES/`
+
+README_FILE:
+`00__README__DOMAIN_WORLD_ENGINES.md`
 
 ---
 
 ## 2) OWNERSHIP BOUNDARIES (ANTI-DUPLICATION)
 
 ### 2.1 OWNS
-- World structure: карта понятий/регионов/уровней
-- World law: правила, ограничения, “что возможно/невозможно”
-- Timeline & epoch: хронология, эпохи, переходы эпох
-- Civilization: социальные системы, институты, уровни развития
-- Conflict & power (world-level): силы, полюса, долгие напряжения
-- Geopolitics: территории, блоки, динамики
-- Economy & resource: ресурсы, логистика, распределение, scarcity/abundance
-- Technology & magic: технологические стеки/магсистемы
-- Mythology & belief: пантеоны/верования/культовые структуры
-- Environment & ecology: климат, биомы, циклы, экология
+- world laws (что возможно/невозможно)
+- таймлайн/эпохи как фактическая рамка мира
+- цивилизации как системные структуры (уровни, принципы)
+- экономика/ресурсы как механика обеспечения
+- технологии/магия как capabilities мира
+- экология как устойчивость среды
+- мифология/вера как мировоззренческая система мира
 
 ### 2.2 DOES NOT OWN (hard boundaries)
-- Сюжетное построение (структура истории/сцены/темп) → Narrative
-- Персонажная психология/мотивация/диалог → Character
-- Genre tone/atmosphere/symbolism → Genre/Style
-- Production outputs (арт/монтаж/звук) → Knowledge Production
-- Deep music → Sound Music
-- Governance: изменения канона и правила → Governance
-- “Атомы событий” (event/cause-effect/conflict/climax/resolution как формальные блоки) → Expression
-
-Boundary rule:
-> World defines constraints. Narrative/Character “играют внутри” этих границ.
+- сюжетные сцены/повороты/дуги → 02 Narrative
+- внутренний психопортрет персонажа → 03 Character
+- глобальный художественный тон/метафоры произведения → 06 Style (но world может иметь “культуру/эстетику” как факт)
+- монтаж/тайминг/план съёмки → 08 Production
+- музыка как произведение → 09 Music
+Rule:
+> World определяет факты и законы. Narrative/Production используют их как ограничения.
 
 ---
 
-## 3) WORLD AXIOMS (MANDATORY FAMILY RULES)
+## 3) WORLD-LAW CONSTRAINTS (MANDATORY)
 
-### 3.1 No currency in great civilizations (canon rule)
-CANON_RULE:
-- Great civilizations do not use currency.
-- Economic organization must be modeled as:
-  - allocation / access rights / resource governance / energy quotas / reputation / duty / distribution protocols
-- Currency may exist only in:
-  - low-tier периферии
-  - transitional societies
-  - black markets / collapse zones
-- Any appearance of currency must be flagged as:
-  - WORLD_EXCEPTION and linked via XREF__CHANGES / XREF__CONFLICTS if it contradicts canon.
+### 3.1 Currency constraint (project canon law)
+Великие цивилизации **не используют валюту**.
+- Разрешены механизмы: распределение, доступ, репутация, квоты, энергопакеты, дар/обмен, контракт доступа, логистика ресурсов.
+- Если появляется “валюта” — это маркер:
+  - либо низкоуровневая/переходная цивилизация
+  - либо локальный суррогат
+  - либо ошибка канона (фикс через governance)
 
 Rule:
-> Если “великая цивилизация” и “валюта” встречаются вместе — это либо ошибка, либо отдельный эксепшн с объяснением.
+> Любая экономическая модель должна явно указывать: есть ли валюта и почему.
 
 ---
 
 ## 4) ROLE MAP (MANDATORY)
 
-- FOUNDATION — структура мира + законы
-- BUILDER — эпохи/цивилизации/геополитика/тех
-- VALIDATOR — согласованность: экономика↔тех↔экология↔таймлайн
-- BRIDGE — стык мира с narrative constraints (что возможно в сюжетах)
-- OUTPUT — world bible / world canon pack / timeline pack
+- FOUNDATION: world structure + world law + epochs
+- BUILDER: civilization/conflict/geopolitics/economy/tech/ecology
+- VALIDATOR: mythology/belief coherence + eco consistency
+- OUTPUT: world bible packs / epoch packs / civ packs
 
 ### 4.1 Canonical role map table
 | Engine NN | Engine Name | ROLE_IN_FAMILY | PIPELINE_STAGE |
 |---|---|---|---|
 | 01 | World Structure Engine | FOUNDATION | DEFINE |
 | 02 | World Law Engine | FOUNDATION | DEFINE |
-| 03 | Timeline & Epoch Engine | BUILDER | BUILD |
+| 03 | Timeline & Epoch Engine | FOUNDATION | DEFINE |
 | 04 | Civilization Engine | BUILDER | BUILD |
 | 05 | Conflict & Power Engine | BUILDER | BUILD |
 | 06 | Geopolitics Engine | BUILDER | BUILD |
-| 07 | Economy & Resource Engine | VALIDATOR | CHECK |
+| 07 | Economy & Resource Engine | BUILDER | BUILD |
 | 08 | Technology & Magic Engine | BUILDER | BUILD |
-| 09 | Mythology & Belief Engine | BUILDER | BUILD |
+| 09 | Mythology & Belief Engine | VALIDATOR | CHECK |
 | 10 | Environment & Ecology Engine | VALIDATOR | CHECK |
 
 ---
 
 ## 5) FAMILY OUTPUT POLICY (WORKSHOP L0–L3) — MANDATORY
 
-DEFAULT_PROJECT_OUTPUT_ROOT:
-- `05_PROJECTS/<PROJECT_ID>/01_WORKSHOP/`
+Default root:
+`05_PROJECTS/<PROJECT_ID>/01_WORKSHOP/`
 
-Primary categories:
-- `04_SYSTEMS/` (если мир как система)
-- `02_LOCATIONS/` (если регионы как сущности)
-- `05_FACTIONS/` (если блоки/державы как сущности)
-- `07_CONCEPTS/` (если законы/магсистема/экономика как концепты)
-- Project-level world packs:
-  - `05_PROJECT__L3/`
+Recommended domain folders:
+- `04_SYSTEMS/SYS_<NAME>/<LEVEL_FOLDER>/` (world systems / laws packages)
+- `02_LOCATIONS/LOC_<NAME>/<LEVEL_FOLDER>/` (geo/world layers)
+- `05_FACTIONS/FAC_<NAME>/<LEVEL_FOLDER>/` (civilizations/factions)
+- `07_CONCEPTS/CPT_<NAME>/<LEVEL_FOLDER>/` (laws, tech tiers)
+- `05_PROJECT__L2/<LEVEL_FOLDER>/` (World Bible)
 
-Recommended:
-- L0: мировые заметки/референсы
-- L1: черновые карты/таблицы/правила
-- L2: world bible canon + timeline canon + rulesets
-- L3: output pack для продакшна (справочник, bible condensed)
+Rule:
+> World canon is entity-scoped (SYS/LOC/FAC/CPT) + project-scoped bible bundles.
 
 ---
 
 ## 6) REQUIRED REGISTRIES (MANDATORY)
 
-REQUIRED_REGISTRIES (project-scoped):
-- `REG.PRJ.<PROJECT_ID>.ENTITIES` (locations/factions/systems/concepts)
-- `REG.PRJ.<PROJECT_ID>.CANON_L2` (world canon packs)
-- `REG.PRJ.<PROJECT_ID>.OUTPUT_L3` (world output packs)
+Project-scoped:
+- `00_REG__REGISTRIES/REG.PRJ.<PROJECT_ID>.ENTITIES.md`
+- `00_REG__REGISTRIES/REG.PRJ.<PROJECT_ID>.CANON_L2.md`
+- `00_REG__REGISTRIES/REG.PRJ.<PROJECT_ID>.OUTPUT_L3.md` (if world packs delivered)
 
 ---
 
 ## 7) REQUIRED XREF INDEXES (MANDATORY)
 
-REQUIRED_XREF (project-scoped):
-- `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__ENTITY_GRAPH.md`
+Project-scoped (core):
+- `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__CANON_REFS.md`
 - `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__DEPENDENCIES.md`
 - `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__PROVENANCE.md`
-- `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__CANON_REFS.md`
-- `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__CONFLICTS.md` (world contradictions)
+- `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__ENTITY_GRAPH.md`
 
-Hard rule:
-> Любое правило мира, на которое опирается narrative/character, обязано быть DEPENDS_ON link.
-
----
-
-## 8) INTERFACES (INPUT / OUTPUT ARTIFACT TYPES)
-
-### 8.1 INPUT TYPES
-- CORE_CARD (existence)
-- NARRATIVE_REQUIREMENTS (what story needs)
-- CHARACTER_REQUIREMENTS (background constraints)
-- STYLE_CONSTRAINTS (tone may constrain world presentation)
-- EXPRESSION_ATOMS (event types as stress-tests; optional)
-
-### 8.2 OUTPUT TYPES
-- WORLD_BIBLE
-- WORLD_LAWSET
-- TIMELINE_PACK
-- EPOCH_MAP
-- CIVILIZATION_PROFILE_SET
-- GEOPOLITICS_MAP
-- ECON_RESOURCE_MODEL (non-currency for great civilizations)
-- TECH_MAGIC_STACK
-- MYTH_BELIEF_SYSTEM
-- ECOLOGY_PROFILE
-- WORLD_CONSTRAINTS_PACK (condensed constraints to be consumed by other families)
+World-specific (mandatory):
+- `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__WORLD_LAW_GRAPH.md`
+- `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__EPOCH_GRAPH.md` (recommended)
+- `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__RESOURCE_FLOW_GRAPH.md` (recommended)
+- `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__POWER_GRAPH.md` (recommended)
 
 ---
 
-## 9) TEMPLATES (MANDATORY BLOCK)
+## 8) TEMPLATES (MANDATORY BLOCK)
 
-Base
+Base templates:
+- ENGINE TEMPLATE (base) — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/00__TEMPLATE__ENGINE__ENG.md
+- FAMILY README TEMPLATE (base) — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/00__TEMPLATE__README__FAMILY__ENG.md
+
+Family overlays:
+- ENGINE TEMPLATE (family) — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/04_DOMAIN_WORLD_ENGINES/00__TEMPLATE__ENGINE__DOMAIN_WORLD_ENGINES.md
+- README TEMPLATE (family) — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/04_DOMAIN_WORLD_ENGINES/00__TEMPLATE__README__DOMAIN_WORLD_ENGINES.md
+
+---
+
+## 9) CANON ORDER (MANDATORY)
+
+00 — README (Realm)  
+01 — World Structure Engine  
+02 — World Law Engine  
+03 — Timeline & Epoch Engine  
+04 — Civilization Engine  
+05 — Conflict & Power Engine  
+06 — Geopolitics Engine  
+07 — Economy & Resource Engine  
+08 — Technology & Magic Engine  
+09 — Mythology & Belief Engine  
+10 — Environment & Ecology Engine  
+
+---
+
+## 10) GOVERNANCE COMPATIBILITY (MANDATORY)
+
+Governance required when:
+- world laws are modified (breaking constraints)
+- epoch/timeline refactors affect many entities
+- economy model violates currency constraint (unless justified as low-tier/local)
+
+---
+
+## 11) RAW LINK (MANDATORY)
+
+RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/04_DOMAIN_WORLD_ENGINES/00__TEMPLATE__README__DOMAIN_WORLD_ENGINES.md
+
+---
+
+## FINAL RULE (LOCK)
+
+> World defines facts and laws; everything else must obey them.
+
+LOCK: FIXED

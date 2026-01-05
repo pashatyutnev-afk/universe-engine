@@ -4,207 +4,226 @@ FILE: 00__TEMPLATE__ENGINE__DOMAIN_NARRATIVE_ENGINES.md
 SCOPE: Universe Engine
 LAYER: ENG
 DOC_TYPE: TEMPLATE
-ENTITY_KIND: GENERIC
-PROJECT_SCOPE: GLOBAL
-OUTPUT_LEVEL: N/A
-ID: ENG.TPL.ENGINE.NARRATIVE
+ENTITY_GROUP: ENGINES (ENG)
+TEMPLATE_KIND: ENGINE_FAMILY_OVERLAY
+LEVEL: L2
 STATUS: ACTIVE
 VERSION: 2.0
-ROLE: Family-specific overlay template for Narrative engines. Compatible with ENG ENGINE TEMPLATE v2 and adds narrative defaults (story-time outputs, boundary rules, REG/XREF requirements, format/style/world/character interfaces).
+ROLE: Narrative family overlay. Compatible with ENG ENGINE TEMPLATE (BASE v2). Adds narrative unit schemas (scene/beat/arc), story-time pacing boundary, and mandatory cause-effect xref.
+
+LOCK: FIXED
+OWNER: Universe Engine
 
 ---
 
 ## 0) ENGINE IDENTITY (MANDATORY)
 
 ENGINE_NAME: <UPPER_SNAKE_CASE>
-ENGINE_ID: <ENG.NAR.<NN>.<ENGINE_NAME>>
+ENGINE_ID: ENG.NAR.<NN>.<ENGINE_NAME>
 
 FAMILY_CODE: NAR
 ENGINE_NN_IN_FAMILY: <01..10>
 ENGINE_CLASS: DOMAIN
 ENGINE_LEVEL: L2
 
-ROLE_IN_FAMILY: <FOUNDATION|BUILDER|VALIDATOR|BRIDGE|OUTPUT>
-PIPELINE_STAGE: <DEFINE|BUILD|CHECK|PACKAGE|PRODUCE>
-
-OWNER: Universe Engine
-LOCK: OPEN
+ROLE_IN_FAMILY: <FOUNDATION|BUILDER|VALIDATOR|OUTPUT>
+PIPELINE_STAGE: <DEFINE|BUILD|CHECK|PRODUCE>
 
 ---
 
 ## 1) PURPOSE (WHAT THIS ENGINE DOES)
 
-One paragraph: what narrative capability it provides.
-
-### OWNERSHIP
-- story logic/structure/arc/scene/continuity/theme aspects (depending on engine)
-
-### DOES NOT OWN (hard)
-- event atoms (EXPRESSION)
-- editing rhythm (PRODUCTION/EDITING)
-- deep character psychology/dialogue craft (CHARACTER)
-- world law authoring (WORLD)
-- genre style authoring (STYLE)
+One paragraph:
+- which narrative unit it shapes (logic/structure/arc/scene/etc)
+- which artifacts it outputs (scene spec, arc spec, continuity notes, theme map)
 
 ---
 
-## 2) TRIGGERS (WHEN TO RUN)
+## 2) OWNERSHIP BOUNDARIES (ANTI-DUPLICATION)
+
+### 2.1 OWNS
+- story-time narrative design
+
+### 2.2 DOES NOT OWN (hard)
+- screen-time timing in seconds (belongs to 08)
+- visual style law (belongs to 06)
+- world law facts (belongs to 04; narrative may reference)
+Rule:
+> If you need seconds or shots — route to 08 Editing/Montage.
+
+---
+
+## 3) TRIGGERS (WHEN TO RUN)
 
 TRIGGERS:
-- new project narrative seed
-- new arc/season/book outline requested
-- format change (book → series/shorts/game)
-- world/character constraints changed
-- continuity conflict detected
-- pacing/tension adjustments requested
+- new arc planned
+- scene needs construction
+- continuity conflicts detected
+- pacing issues reported (story-time)
+- theme drift reported
 
 ---
 
-## 3) MINI-CONTRACT (MANDATORY)
+## 4) MINI-CONTRACT (MANDATORY)
 
-CONSUMES (examples):
-- CORE_CARD (entities involved)
-- WORLD_CONSTRAINTS
-- CHARACTER_ARC / MOTIVATION
-- FORMAT_CONSTRAINTS
-- STYLE_CONSTRAINTS
-- EXPRESSION_ATOMS (events/conflicts/resolutions as provided units)
+CONSUMES:
+- CORE_STATE_VALIDATION (entity exists, active)
+- WORLD_CONTEXT (optional)
+- CHARACTER_CONSTRAINTS (optional)
+- STYLE_CONSTRAINTS_PACK (optional)
+- existing arcs/scenes/events (if iterating)
 
-PRODUCES (examples):
-- STORY_BLUEPRINT
-- BEAT_SHEET
-- ARC_MAP
-- SCENE_LIST
-- CONTINUITY_MAP
+PRODUCES:
+- ARC_SPEC
+- SCENE_SPEC
+- BEAT_LIST
+- CONTINUITY_NOTES
 - THEME_MAP
-- FORMAT_ADAPTED_OUTLINE
 
 DEPENDS_ON:
-- []  (if depends → mirrored in XREF__DEPENDENCIES)
+- [] (or engine IDs)
 
-OUTPUT_ARTIFACT_TYPE:
-- <STORY_BLUEPRINT|BEAT_SHEET|ARC_MAP|SCENE_LIST|CONTINUITY_MAP|THEME_MAP|FORMAT_ADAPTED_OUTLINE>
+OUTPUT_TARGET (canonical defaults):
+- entity-scoped:
+  - arcs: `05_PROJECTS/<PROJECT_ID>/01_WORKSHOP/09_ARCS/ARC_<NAME>/<LEVEL_FOLDER>/`
+  - events/beats: `05_PROJECTS/<PROJECT_ID>/01_WORKSHOP/06_EVENTS/EVT_<NAME>/<LEVEL_FOLDER>/`
+  - scenes: `05_PROJECTS/<PROJECT_ID>/01_WORKSHOP/06_EVENTS/SCN_<NAME>/<LEVEL_FOLDER>/` (if you store scenes as events)
+- project-scoped:
+  - story bible: `05_PROJECTS/<PROJECT_ID>/01_WORKSHOP/05_PROJECT__L2/<LEVEL_FOLDER>/`
 
----
-
-## 4) SYSTEM INTERFACE (MANDATORY) — NARRATIVE DEFAULTS
-
-## SYSTEM INTERFACE
-- INPUTS:
-  - artifacts: [intake, drafts, canon constraints, expression atoms]
-  - sources:
-    - project registries
-    - project xref indexes
-    - family README boundary rules
-
-- OUTPUTS:
-  - artifacts: [narrative artifacts]
-  - output_level: <L0_INTAKE|L1_DRAFT|L2_CANON|L3_OUTPUT>
-  - entity_kind: <ARC|EVT|GENERIC>
-  - target_path_rule:
-    - base: `05_PROJECTS/<PROJECT_ID>/01_WORKSHOP/`
-    - category:
-      - ARC outputs: `09_ARCS/<ARC_NAME>/`
-      - project-level packs: `05_PROJECT__L3/`
-    - level_folder:
-      - L0: `01_INTAKE_L0/`
-      - L1: `02_DRAFT_L1/`
-      - L2: `03_CANON_L2/`
-      - L3: `04_OUTPUT_L3/`
-
-    - file examples:
-      - L0: `00__NARRATIVE_SEED.md`
-      - L1: `00__OUTLINE_DRAFT.md`
-      - L2: `00__OUTLINE_CANON.md` + `01__SCENE_LIST_CANON.md`
-      - L3: `00__FORMAT_PACK_<BOOK|SERIES|SHORT|GAME>.md`
-
-- REGISTRY_UPDATES:
-  - required: YES (for L2/L3)
-  - registries:
-    - `REG.PRJ.<PROJECT_ID>.CANON_L2`
-    - `REG.PRJ.<PROJECT_ID>.OUTPUT_L3`
-  - entries_to_add:
-    - <artifact id/path + level + status + produced_by>
-
-- XREF_UPDATES:
-  - required: YES
-  - record_types:
-    - [DEPENDS_ON, DERIVED_FROM, PRODUCED_BY, CANON_REF, ENTITY_LINK, CONFLICTS_WITH]
-  - xref_targets:
-    - `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__DEPENDENCIES.md`
-    - `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__PROVENANCE.md`
-    - `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__CANON_REFS.md`
-    - `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__ENTITY_GRAPH.md`
-    - `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__CONFLICTS.md`
-  - mandatory_links (examples):
-    - `L2_OUTLINE -> L1_OUTLINE_DRAFT | TYPE:DERIVED_FROM | SCOPE:PRJ:<PROJECT_ID> | WHY:Outline canonized | BY:ENG.NAR.<NN>.<ENGINE_NAME> | AT:<YYYY-MM-DD>`
-    - `L3_FORMAT_PACK -> L2_OUTLINE | TYPE:CANON_REF | SCOPE:PRJ:<PROJECT_ID> | WHY:Output derived from canon outline | BY:ENG.NAR.<NN>.<ENGINE_NAME> | AT:<YYYY-MM-DD>`
-    - `L2_OUTLINE -> WORLD_CANON | TYPE:DEPENDS_ON | SCOPE:PRJ:<PROJECT_ID> | WHY:World constraints | BY:ENG.NAR.<NN>.<ENGINE_NAME> | AT:<YYYY-MM-DD>`
-    - `L2_OUTLINE -> FORMAT_RULES | TYPE:DEPENDS_ON | SCOPE:PRJ:<PROJECT_ID> | WHY:Format constraints | BY:ENG.NAR.<NN>.<ENGINE_NAME> | AT:<YYYY-MM-DD>`
-
-- GATES:
-  - validators:
-    - `VAL.NAR.01.CONTINUITY_CHECK` (placeholder)
-    - `VAL.REG.02.CANON_ENTRY_CHECK` (placeholder)
-  - qa_checks:
-    - `QA.NAR.01.OUTLINE_USABILITY` (placeholder)
-    - `QA.XREF.01.LINK_INTEGRITY` (placeholder)
-
-- ORCHESTRATION:
-  - orc_owner: [<ORC.NAR.* if used>]
-  - ctl_enforcers:
-    - `CTL.WORKSHOP.PATH_ENFORCER` (placeholder)
-    - `CTL.WORKSHOP.LEVEL_ENFORCER` (placeholder)
-    - `CTL.XREF.NO_ORPHANS` (placeholder)
-    - `CTL.XREF.NO_HIDDEN_LINKS` (placeholder)
+Rule:
+> L2 canon outputs must be registered and xref-linked.
 
 ---
 
-## 5) PROCESS (HOW IT WORKS)
+## 5) NARRATIVE UNIT SCHEMAS (MANDATORY)
 
-1) Consume constraints (world/character/style/format) + expression atoms
-2) Build story blueprint (outline)
-3) Build arc map + scene list
-4) Validate continuity / pacing / stakes
-5) Canonize (L2) + register + provenance
-6) Produce format pack (L3) if needed (still story-time, no editing)
+### 5.1 ARC_SPEC
+
+ARC_ID: <ARC_<NAME>>
+PROJECT_ID: <PRJ_*>
+STATUS: <DRAFT|CANON>
+THEME_TAGS: [ ... ]
+LOG_LINE: ...
+START_STATE: ...
+END_STATE: ...
+KEY_TURNS: [ ... ]
+DEPENDENCIES:
+- WORLD_CANON_REFS: [ ... ]
+- CHARACTER_CANON_REFS: [ ... ]
+SCENES: [<SCN_ID>...]
 
 ---
 
-## 6) QUALITY (MANDATORY)
+### 5.2 SCENE_SPEC
+
+SCN_ID: <SCN_<NAME>>
+ARC_ID: <optional>
+SETTING: <where/when>
+POV: <who experiences>
+GOAL: ...
+CONFLICT: ...
+STAKE: ...
+TURN: <what changes>
+OUTCOME: ...
+FORESHADOW: <optional>
+REVEAL: <optional>
+NOTES:
+- pacing_story_time: <fast|medium|slow + reason>
+- continuity_risks: [ ... ]
+
+---
+
+### 5.3 CAUSE_EFFECT_ENTRY (for XREF graph)
+
+CE_ID: <unique>
+CAUSE: <event/decision>
+EFFECT: <consequence>
+SCOPE: <SCENE|ARC|WORLD>
+STRENGTH: <LOW|MED|HIGH>
+CANON_REF: <refs>
+
+Rule:
+> For any arc with >1 scene, cause-effect entries are required.
+
+---
+
+## 6) SYSTEM INTERFACE (MANDATORY) — ORC/CTL/VAL/QA/REG/XREF
+
+ORCHESTRATED_BY (ORC):
+- [] (or ORC IDs if used)
+
+CONTROLLED_BY (CTL):
+- [] (or CTL IDs)
+
+VALIDATED_BY (VAL):
+- <VAL.NAR.01.CONTINUITY> (placeholder) or []
+
+QA_BY (QA):
+- <QA.NAR.01.NARRATIVE_COHERENCE> (placeholder) or []
+
+REGISTRY_UPDATES:
+- REQUIRED: YES (for L2 canon)
+- TARGETS:
+  - `00_REG__REGISTRIES/REG.PRJ.<PROJECT_ID>.ENTITIES.md`
+  - `00_REG__REGISTRIES/REG.PRJ.<PROJECT_ID>.CANON_L2.md`
+
+XREF_UPDATES:
+- REQUIRED: YES
+- RECORD_TYPES:
+  - CANON_REF
+  - DEPENDS_ON
+  - DERIVED_FROM
+  - PRODUCED_BY
+  - CONFLICTS_WITH
+- TARGETS:
+  - `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__CANON_REFS.md`
+  - `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__DEPENDENCIES.md`
+  - `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__PROVENANCE.md`
+  - `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__CAUSE_EFFECT_GRAPH.md`
+  - `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__ENTITY_GRAPH.md`
+
+Rule:
+> If arc/scene impacts multiple entities — update ENTITY_GRAPH + CAUSE_EFFECT_GRAPH.
+
+---
+
+## 7) PROCESS (HOW TO EXECUTE)
+
+1) Validate CORE state of target entities (exists + allowed).
+2) Read world/character/style constraints (if listed).
+3) Produce ARC_SPEC / SCENE_SPEC / continuity notes.
+4) Write to OUTPUT_TARGET (routing law).
+5) Update REG + XREF (mandatory for L2).
+6) Run continuity validation + coherence QA.
+7) If changes affect locked canon — route through governance.
+
+---
+
+## 8) QUALITY GATES (MANDATORY)
 
 PASS if:
-- outline/scene list is complete and navigable
-- continuity conflicts resolved or logged
-- dependencies are explicit in XREF DEPENDS_ON
-- L3 outputs reference L2 canon via CANON_REF
-- boundaries respected (no event-atom authoring inside narrative file; reference EXPRESSION outputs)
+- scene/arc specs are structurally complete
+- cause-effect entries exist for multi-scene arcs
+- continuity notes included
+- REG + XREF updated
+- no screen-time seconds included
 
 FAIL if:
-- hidden dependencies
-- L2 without provenance
-- L3 without canon ref
-- mixing story-time rhythm with editing rhythm instructions
+- mixes montage timing / shot lists / second-by-second edit instructions
+- creates canon without xref/registry
+- hides dependencies
 
 ---
 
-## 7) FAILURE MODES
+## 9) RAW LINK (MANDATORY)
 
-- Continuity break detected → create XREF CONFLICTS_WITH + require fix
-- Format constraints change → require new L3 pack referencing same L2 outline or re-canonize outline if structural changes
-- Story-time vs screen-time confusion → route editing notes to 08 editing engine
-
----
-
-## 8) RAW LINK (MANDATORY)
-
-RAW: <raw github link to this template file>
+RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/02_DOMAIN_NARRATIVE_ENGINES/00__TEMPLATE__ENGINE__DOMAIN_NARRATIVE_ENGINES.md
 
 ---
 
 ## FINAL RULE (LOCK)
 
-> Narrative engines produce story-time structures. They must remain traceable and boundary-safe (EXPRESSION atoms, EDITING rhythm separated).
+> Narrative engines output story-time structures and canon refs. Screen-time and montage belong to Production.
 
-OWNER: Universe Engine  
-LOCK: OPEN
+LOCK: FIXED

@@ -4,179 +4,230 @@ FILE: 00__TEMPLATE__ENGINE__SOUND_MUSIC_ENGINES.md
 SCOPE: Universe Engine
 LAYER: ENG
 DOC_TYPE: TEMPLATE
-ENTITY_KIND: MUS
-PROJECT_SCOPE: GLOBAL
-OUTPUT_LEVEL: N/A
-ID: ENG.TPL.ENGINE.MUSIC
+ENTITY_GROUP: ENGINES (ENG)
+TEMPLATE_KIND: ENGINE_FAMILY_OVERLAY
+LEVEL: L3
 STATUS: ACTIVE
 VERSION: 2.0
-ROLE: Family-specific overlay template for Music engines. Compatible with ENG ENGINE TEMPLATE v2 and adds music pack schema + strict boundary with 08 production sound.
+ROLE: Music family overlay. Compatible with ENG ENGINE TEMPLATE (BASE v2). Adds track/cue schemas, music-to-scene contract, theme library, and run/provenance requirements.
+
+LOCK: FIXED
+OWNER: Universe Engine
 
 ---
 
 ## 0) ENGINE IDENTITY (MANDATORY)
 
 ENGINE_NAME: <UPPER_SNAKE_CASE>
-ENGINE_ID: <ENG.MUS.<NN>.<ENGINE_NAME>>
+ENGINE_ID: ENG.MUS.<NN>.<ENGINE_NAME>
 
 FAMILY_CODE: MUS
 ENGINE_NN_IN_FAMILY: <01..13>
 ENGINE_CLASS: SOUND
 ENGINE_LEVEL: L3
 
-ROLE_IN_FAMILY: <FOUNDATION|BUILDER|VALIDATOR|BRIDGE|OUTPUT>
-PIPELINE_STAGE: <DEFINE|BUILD|CHECK|PACKAGE|PRODUCE>
-
-OWNER: Universe Engine
-LOCK: OPEN
+ROLE_IN_FAMILY: <FOUNDATION|BUILDER|OUTPUT>
+PIPELINE_STAGE: <DEFINE|BUILD|CHECK|PRODUCE>
 
 ---
 
 ## 1) PURPOSE (WHAT THIS ENGINE DOES)
 
-One paragraph: which music capability it creates (composition/harmony/etc.) and what artifacts it outputs.
-
-### DOES NOT OWN (hard)
-- placement/sync/clarity in final video (08 sound production)
-- video montage timing (08 editing)
-
----
-
-## 2) TRIGGERS (WHEN TO RUN)
-
-TRIGGERS:
-- need theme/motif
-- need scoring for a scene
-- need consistent music style across episodes
-- need final masters/stems
-- style constraints updated
-- scene emotional targets updated
+One paragraph:
+- which musical component it defines (composition/harmony/melody/etc)
+- what artifacts it outputs (themes, stems, cue sheets, masters)
+- how Production Sound consumes outputs (placement/sync only)
 
 ---
 
-## 3) MINI-CONTRACT (MANDATORY)
+## 2) OWNERSHIP BOUNDARIES (ANTI-DUPLICATION)
 
-CONSUMES (examples):
-- STYLE_CONSTRAINTS_PACK
-- SCENE_CONTEXT / ARC_CONTEXT (if scoring)
-- WORLD_CULTURE_CONTEXT (optional)
-- existing motifs/tracks (if iterating)
+OWNS:
+- music creation decisions (notes/rhythm/arrangement/lyrics)
+- musical mix/master of the track
 
-PRODUCES (examples):
-- TRACK_SPEC
-- THEME_MOTIF_SET
-- MASTER_TRACK
-- STEMS_SET
-- ALT_VERSIONS
-- MUSIC_PACK
-
-DEPENDS_ON:
-- []  (if depends → mirror in XREF__DEPENDENCIES)
-
-OUTPUT_ARTIFACT_TYPE:
-- <TRACK_SPEC|MASTER_TRACK|STEMS_SET|MUSIC_PACK|MUSIC_BIBLE|...>
-
----
-
-## 4) MUSIC PACK SCHEMA (MANDATORY)
-
-MUSIC_PACK_ID: <unique>
-
-INPUT_CONSTRAINTS:
-  DEPENDS_ON_STYLE_PACK: <ref>
-  CANON_REF_SCENE: <ref or NONE>
-  DEPENDS_ON_WORLD_CONTEXT: <ref or NONE>
-
-TRACK_SPEC:
-  EMOTIONAL_TARGETS: [ ... ]
-  TEMPO_RANGE: <optional>
-  INSTRUMENT_PALETTE: [ ... ]
-  MOTIFS: [ ... ]
-  DURATION_HINT: <range, optional>
-
-DELIVERABLES:
-  MASTER: <path>
-  STEMS: <optional paths>
-  ALT_VERSIONS:
-    - <loop>
-    - <sting>
-    - <no-drums> (optional)
-
-NOTES:
-  MIX_NOTES: ...
-  MASTER_NOTES: ...
-  USAGE_NOTES: <for 08 placement>
-
-XREF_POINTERS:
-  - <xref links>
+DOES NOT OWN:
+- sync/placement in video timeline
+- dialogue cleanup or production audio tasks (PRD)
 
 Rule:
-> Must include DEPENDS_ON_STYLE_PACK and deliverable master reference.
+> If it's about timecode placement in edit — belongs to PRD.
 
 ---
 
-## 5) SYSTEM INTERFACE (MANDATORY) — MUSIC DEFAULTS
+## 3) TRIGGERS (WHEN TO RUN)
 
-## SYSTEM INTERFACE
-- OUTPUTS:
-  - output_level: <L1_DRAFT|L2_CANON|L3_OUTPUT>
-  - target_path_rule:
-    - base: `05_PROJECTS/<PROJECT_ID>/01_WORKSHOP/`
-    - category: `13_MUSIC/`
-    - subfolders:
-      - ideas: `01_IDEAS/`
-      - specs: `02_SPECS/`
-      - stems: `03_STEMS/`
-      - masters: `04_MASTERS/`
-    - level_folder:
-      - L1: `02_DRAFT_L1/`
-      - L2: `03_CANON_L2/`
-      - L3: `04_OUTPUT_L3/`
-
-- REGISTRY_UPDATES:
-  - required: YES
-  - registries:
-    - `REG.PRJ.<PROJECT_ID>.OUTPUT_L3`
-    - `REG.PRJ.<PROJECT_ID>.ASSETS`
-    - `REG.PRJ.<PROJECT_ID>.CANON_L2` (music bible/style consistency)
-
-- XREF_UPDATES:
-  - required: YES
-  - record_types:
-    - [DEPENDS_ON, CANON_REF, DERIVED_FROM, PRODUCED_BY, ASSET_LINK]
-  - xref_targets:
-    - `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__CANON_REFS.md`
-    - `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__DEPENDENCIES.md`
-    - `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__PROVENANCE.md`
-    - `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__ASSET_GRAPH.md`
-
-- GATES:
-  - validators:
-    - `VAL.MUS.01.STYLE_DEPENDENCY_PRESENT` (placeholder)
-    - `VAL.MUS.02.DELIVERABLE_MASTER_PRESENT` (placeholder)
-  - qa_checks:
-    - `QA.MUS.01.CONSISTENCY_WITH_STYLE` (placeholder)
-    - `QA.MUS.02.USABLE_FOR_08_PLACEMENT` (placeholder)
+TRIGGERS:
+- need new theme/cue for scene/arc
+- style consistency drift
+- arrangement required for emotional intent
+- final mastering required for release deliverables
 
 ---
 
-## 6) QUALITY (MANDATORY)
+## 4) MINI-CONTRACT (MANDATORY)
+
+CONSUMES:
+- FORMAT_SPEC (optional, for output targets)
+- STYLE_LAW_PACK (optional but common)
+- NARRATIVE_CONTEXT (optional)
+- MUSIC_THEME_LIBRARY (if exists)
+- existing tracks/stems (if iterating)
+
+PRODUCES:
+- TRACK_BLUEPRINT (composition/structure)
+- THEMES_MOTIFS
+- STEMS
+- CUES (music-to-scene mappings)
+- FINAL_MASTERS
+- PROVENANCE_RECORDS
+
+DEPENDS_ON:
+- [] (or engine IDs)
+
+OUTPUT_TARGET:
+- track workspace:
+  `05_PROJECTS/<PROJECT_ID>/01_WORKSHOP/03_AUDIO/MUS_<TRACK_NAME>/<LEVEL_FOLDER>/`
+- exports:
+  `05_PROJECTS/<PROJECT_ID>/02_OUTPUT/<FORMAT>/AUDIO/`
+  or `.../MUSIC_LIBRARY/`
+
+Rule:
+> Every exported master must have provenance and version tag.
+
+---
+
+## 5) MUSIC SCHEMAS (MANDATORY)
+
+### 5.1 THEME_ENTRY (library)
+
+THEME_ID: <THM_<NAME>>
+MOOD: <...>
+TEMPO_RANGE: <...>
+KEY_CENTER: <optional>
+MOTIF_DESC: <one line>
+ASSOCIATED_WITH:
+- characters: [CHR_*]
+- factions: [FAC_*]
+- concepts: [CPT_*]
+CANON_REFS: [ ... ]
+
+---
+
+### 5.2 TRACK_BLUEPRINT
+
+TRK_ID: <MUS_TRK_<NAME>>
+STYLE_TAGS: [ ... ]
+INSTRUMENTS: [ ... ]
+TEMPO: <bpm or range>
+METER: <...>
+HARMONY_PLAN: <...>
+MELODY_PLAN: <...>
+STRUCTURE:
+- intro
+- verse
+- chorus
+- bridge
+- outro
+STEMS_REQUIRED: [DRUMS|BASS|PAD|LEAD|VOCALS|FX|...]
+
+---
+
+### 5.3 CUE_SHEET (music to scene)
+
+CUE_ID: <CUE_<NAME>>
+SCENE_OR_EVENT_REFS: [SCN_*|EVT_*|ARC_*]
+FUNCTION: <tension|wonder|loss|victory|mystery|...>
+THEME_REFS: [THM_*]
+DURATION_INTENT: <short|medium|long> (no timecodes here)
+TRANSITIONS: <fade|hard_cut|rise|...> (intent only)
+NOTES: ...
+
+Rule:
+> Timecode placement belongs to PRD editing/sound; MUS provides cue intent.
+
+---
+
+### 5.4 MIX_MASTER_RECORD
+
+MM_ID: <MM_<NAME>>
+TARGETS_INTENT:
+- loudness: <intent target, not technical spec>
+- dynamics: <...>
+- clarity: <...>
+EXPORTS:
+- master_files: [ ...paths... ]
+- stems: [ ...paths... ]
+VERSION: <...>
+PROVENANCE_REF: <...>
+
+---
+
+## 6) SYSTEM INTERFACE (MANDATORY) — ORC/CTL/VAL/QA/REG/XREF
+
+ORCHESTRATED_BY (ORC): []
+CONTROLLED_BY (CTL): []
+
+VALIDATED_BY (VAL):
+- <VAL.MUS.01.STYLE_COHERENCE> (placeholder) or []
+- <VAL.MUS.02.CUE_FUNCTION> (placeholder) or []
+
+QA_BY (QA):
+- <QA.MUS.01.AUDIO_QUALITY> (placeholder) or []
+- <QA.MUS.02.CONSISTENCY> (placeholder) or []
+
+REGISTRY_UPDATES:
+- REQUIRED: YES for exported deliverables
+- TARGETS:
+  - `00_REG__REGISTRIES/REG.PRJ.<PROJECT_ID>.OUTPUT_L3.md`
+  - `00_REG__REGISTRIES/REG.PRJ.<PROJECT_ID>.RUNS.md` (recommended)
+
+XREF_UPDATES:
+- REQUIRED: YES
+- TARGETS:
+  - `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__MUSIC_CUES.md`
+  - `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__THEME_LIBRARY.md`
+  - `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__PROVENANCE.md`
+  - `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__DEPENDENCIES.md`
+  - `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__CANON_REFS.md`
+
+---
+
+## 7) PROCESS (HOW TO EXECUTE)
+
+1) Read style intent + narrative function (if any).
+2) Select/extend theme library entry.
+3) Draft blueprint (structure/harmony/melody/rhythm).
+4) Arrange + produce stems.
+5) Create cue sheet (intent mapping to scenes).
+6) Mix/master and export.
+7) Update registries + xref + provenance.
+
+---
+
+## 8) QUALITY GATES (MANDATORY)
 
 PASS if:
-- track has style dependency and (if scoring) scene canon reference
-- deliverables exist (master, optional stems)
-- no instructions about video montage timing included
+- cue function is explicit
+- theme library links to entities
+- exports have stems + masters + provenance
+- no timecode placement inside MUS docs
 
 FAIL if:
-- tries to do placement/sync as final mix for video (route to 08)
-- missing style dependency
-- outputs not registered/linked
+- music described only as “vibe”
+- no theme/cue mapping
+- missing provenance/version
+
+---
+
+## 9) RAW LINK (MANDATORY)
+
+RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/09_SOUND_MUSIC_ENGINES/00__TEMPLATE__ENGINE__SOUND_MUSIC_ENGINES.md
 
 ---
 
 ## FINAL RULE (LOCK)
 
-> Music engines create tracks and music systems. Placement is 08. Music must reference style and (when scoring) narrative scene context.
+> MUS defines musical content and cue intent. PRD handles timeline placement.
 
-OWNER: Universe Engine  
-LOCK: OPEN
+LOCK: FIXED

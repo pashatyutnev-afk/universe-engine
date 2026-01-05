@@ -4,197 +4,247 @@ FILE: 00__TEMPLATE__ENGINE__CORE_ENGINES.md
 SCOPE: Universe Engine
 LAYER: ENG
 DOC_TYPE: TEMPLATE
-ENTITY_KIND: GENERIC
-PROJECT_SCOPE: GLOBAL
-OUTPUT_LEVEL: N/A
-ID: ENG.TPL.ENGINE.CORE
+ENTITY_GROUP: ENGINES (ENG)
+TEMPLATE_KIND: ENGINE_FAMILY_OVERLAY
+LEVEL: L1
 STATUS: ACTIVE
 VERSION: 2.0
-ROLE: Family-specific overlay template for CORE engines. Compatible with ENG ENGINE TEMPLATE v2 and adds CORE defaults (entity routing, core artifact types, required REG/XREF).
+ROLE: Core family overlay. Compatible with ENG ENGINE TEMPLATE (BASE v2). Adds mandatory core identifiers, state gating, and lifecycle routing rules.
+
+LOCK: FIXED
+OWNER: Universe Engine
 
 ---
 
 ## 0) ENGINE IDENTITY (MANDATORY)
 
 ENGINE_NAME: <UPPER_SNAKE_CASE>
-ENGINE_ID: <ENG.CORE.<NN>.<ENGINE_NAME>>
+ENGINE_ID: ENG.CORE.<NN>.<ENGINE_NAME>
 
 FAMILY_CODE: CORE
 ENGINE_NN_IN_FAMILY: <01..03>
 ENGINE_CLASS: CORE
 ENGINE_LEVEL: L1
 
-ROLE_IN_FAMILY: <FOUNDATION|BUILDER|VALIDATOR|BRIDGE|OUTPUT>
-PIPELINE_STAGE: <DEFINE|BUILD|CHECK|PACKAGE|PRODUCE>
+ROLE_IN_FAMILY: <FOUNDATION|VALIDATOR|OUTPUT>
+PIPELINE_STAGE: <DEFINE|CHECK|PRODUCE>
 
-OWNER: Universe Engine
-LOCK: OPEN
+CANON_COMPAT:
+- INDEX: 02__INDEX_ALL_ENGINES.md
+- file name NN must match ENGINE_NN_IN_FAMILY
 
 ---
 
 ## 1) PURPOSE (WHAT THIS ENGINE DOES)
 
-CORE engine defines minimal existence data.
-
-### OWNERSHIP
-- identity fields OR state snapshot OR lifecycle rules (depending on engine)
-
-### DOES NOT OWN
-- lore/meaning/story/psychology/world rules
-- production assets and outputs
+One paragraph:
+- Identity: define minimal identity contract
+- State: define and validate current status
+- Lifecycle: define transitions and allowed moves between L0–L3 + archive
 
 ---
 
-## 2) TRIGGERS (WHEN TO RUN)
+## 2) OWNERSHIP BOUNDARIES (ANTI-DUPLICATION)
+
+### 2.1 OWNS
+- core identity/state/lifecycle records and gates
+
+### 2.2 DOES NOT OWN (hard)
+- narrative/character/world/style/format/production/music content
+- governance approvals
+Rule:
+> Core provides gates; it does not generate domain content.
+
+---
+
+## 3) TRIGGERS (WHEN TO RUN)
 
 TRIGGERS:
-- new entity created (folder initialized)
-- entity promoted to L1 draft
-- attempt to canonize L2
-- state change event (active/archived/deprecated)
-- merge/split entity request
-
-OUTPUT_CONFIDENCE_TARGET: HIGH for L2 core canon.
+- new entity created
+- entity state changes (draft→canon, canon→archive)
+- project starts a new output cycle
+- before producing any L2/L3 artifact
+- periodic integrity checks
 
 ---
 
-## 3) MINI-CONTRACT (MANDATORY)
+## 4) MINI-CONTRACT (MANDATORY)
 
-CONSUMES (examples):
-- ENTITY_INTAKE
-- ENTITY_METADATA
-- PROJECT_CONTEXT
-- EXISTING_ENTITY_REG_ENTRY (optional)
+CONSUMES:
+- ENTITY_REQUEST (create/update) OR PROJECT_CONTEXT
+- EXISTING_CORE_RECORDS (if updating)
+- GOVERNANCE_DECISION (if state change requires it) (optional)
 
-PRODUCES (examples):
-- CORE_CARD
-- STATE_SNAPSHOT
-- LIFECYCLE_RULESET
-- CORE_MANIFEST (optional)
+PRODUCES:
+- CORE_IDENTITY_RECORD
+- CORE_STATE_RECORD
+- LIFECYCLE_TRANSITION_RECORD
 
 DEPENDS_ON:
-- []  (if depends → must be mirrored in XREF DEPENDS_ON)
+- [] (or governance engines if enforced)
 
-OUTPUT_ARTIFACT_TYPE:
-- <CORE_CARD|STATE_SNAPSHOT|LIFECYCLE_RULESET|CORE_MANIFEST>
-
----
-
-## 4) SYSTEM INTERFACE (MANDATORY) — CORE DEFAULTS
-
-## SYSTEM INTERFACE
-- INPUTS:
-  - artifacts: [entity intake, drafts, existing canon]
-  - sources:
-    - project entities registry
-    - project xref indexes
-    - family README (core boundaries)
-
-- OUTPUTS:
-  - artifacts: [core artifacts]
-  - output_level: <L0_INTAKE|L1_DRAFT|L2_CANON|L3_OUTPUT>
-  - entity_kind: <CHR|LOC|OBJ|SYS|FAC|EVT|CPT|REL|ARC|STY|EXP|GENERIC>
-
-  - target_path_rule:
-    - base: `05_PROJECTS/<PROJECT_ID>/01_WORKSHOP/`
-    - category: <by entity_kind>
-    - entity_folder: `<KIND>_<ENTITY_NAME>`
-    - level_folder:
-      - L0: `01_INTAKE_L0/`
-      - L1: `02_DRAFT_L1/`
-      - L2: `03_CANON_L2/`
-      - L3: `04_OUTPUT_L3/`
-
-    - file examples:
-      - L0: `00__CORE_INTAKE.md`
-      - L1: `00__CORE_DRAFT.md`
-      - L2: `00__CORE_CANON.md` (или секция inside `00__CANON.md`)
-      - L3: `00__CORE_MANIFEST.md` (если нужно)
-
-- REGISTRY_UPDATES:
-  - required: YES (Entities registry всегда; L2 отдельный файл — в canon registry)
-  - registries:
-    - `REG.PRJ.<PROJECT_ID>.ENTITIES`
-    - `REG.PRJ.<PROJECT_ID>.CANON_L2` (optional)
-  - entries_to_add:
-    - <ENTITY_ID + path + status + owner + lock>
-
-- XREF_UPDATES:
-  - required: YES (для lineage/canon refs при нужных переходах)
-  - record_types:
-    - [ENTITY_LINK, DERIVED_FROM, PRODUCED_BY, CANON_REF, REPLACED_BY, SPLIT_INTO, MERGED_INTO]
-  - xref_targets:
-    - `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__ENTITY_GRAPH.md`
-    - `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__PROVENANCE.md`
-    - `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__CANON_REFS.md`
-    - `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__CHANGES.md` (for merge/split/replaced)
-  - mandatory_links (examples):
-    - `L2_CORE_CANON -> L1_CORE_DRAFT | TYPE:DERIVED_FROM | SCOPE:PRJ:<PROJECT_ID> | WHY:Core canonized | BY:ENG.CORE.<NN>.<ENGINE_NAME> | AT:<YYYY-MM-DD>`
-    - `L3_MANIFEST -> L2_CORE_CANON | TYPE:CANON_REF | SCOPE:PRJ:<PROJECT_ID> | WHY:Manifest uses core canon | BY:ENG.CORE.<NN>.<ENGINE_NAME> | AT:<YYYY-MM-DD>`
-
-- GATES:
-  - validators:
-    - `VAL.ENG.01.SCHEMA_HEADER_CHECK` (placeholder)
-    - `VAL.REG.01.ENTITY_REG_INTEGRITY` (placeholder)
-  - qa_checks:
-    - `QA.ENG.01.READABILITY_COMPLETENESS` (placeholder)
-    - `QA.XREF.01.LINK_INTEGRITY` (placeholder)
-
-- ORCHESTRATION:
-  - orc_owner:
-    - [<ORC.CORE.* if used>]
-  - ctl_enforcers:
-    - `CTL.WORKSHOP.PATH_ENFORCER` (placeholder)
-    - `CTL.WORKSHOP.LEVEL_ENFORCER` (placeholder)
-    - `CTL.REG.ENTRY_ENFORCER` (placeholder)
-    - `CTL.XREF.NO_ORPHANS` (placeholder)
+OUTPUT_TARGET:
+- ENTITY scope:
+  `05_PROJECTS/<PROJECT_ID>/01_WORKSHOP/<DOMAIN_FOLDER>/<ENTITY_ID>/<LEVEL_FOLDER>/`
+- PROJECT scope:
+  `05_PROJECTS/<PROJECT_ID>/01_WORKSHOP/03_PROJECT__L1/<LEVEL_FOLDER>/`
+- SYSTEM scope (only for core laws/registries):
+  `03_SYSTEM_ENTITIES/` (governance compatible)
 
 ---
 
-## 5) PROCESS (HOW IT WORKS)
+## 5) PARAMETERS (MANDATORY)
 
-1) Normalize intake → create minimal identity fields
-2) Create/update state snapshot
-3) Validate lifecycle transitions (if applicable)
-4) Write draft or canon depending on requested level
-5) Update Entities Registry
-6) Write provenance/canon_ref links when level >= L2 or outputs created
+PROJECT_ID: <PRJ_*>
+OUTPUT_SCOPE: <ENTITY|PROJECT|SYSTEM>
+
+DOMAIN_FOLDER:
+- one of entity domains (characters/locations/objects/systems/etc) if ENTITY scope
+
+ENTITY_ID:
+- required if ENTITY scope
+
+LEVEL_FOLDER:
+- L0 `01_INTAKE_L0`
+- L1 `02_DRAFT_L1`
+- L2 `03_CANON_L2`
+- L3 `04_OUTPUT_L3`
+
+CORE_STATUS:
+- <NEW|DRAFT|CANON|ACTIVE|ARCHIVED|DEPRECATED>
 
 ---
 
-## 6) QUALITY (MANDATORY)
+## 6) SYSTEM INTERFACE (MANDATORY) — ORC/CTL/VAL/QA/REG/XREF
+
+### 6.1 ORC/CTL/VAL/QA
+
+ORCHESTRATED_BY (ORC):
+- [] (or ORC IDs if used)
+
+CONTROLLED_BY (CTL):
+- [] (or CTL IDs)
+
+VALIDATED_BY (VAL):
+- <VAL.CORE.01.STATE_VALIDATION> (placeholder) or []
+
+QA_BY (QA):
+- <QA.CORE.01.CORE_INTEGRITY> (placeholder) or []
+
+Rule:
+> If the engine writes L2/L3 state changes — validation is required.
+
+---
+
+### 6.2 REGISTRY UPDATES (MANDATORY)
+
+REGISTRY_UPDATES:
+- REQUIRED: YES
+- TARGETS:
+  - `00_REG__REGISTRIES/REG.PRJ.<PROJECT_ID>.ENTITIES.md`
+  - `00_REG__REGISTRIES/REG.PRJ.<PROJECT_ID>.CANON_L2.md` (if canonized)
+  - `00_REG__REGISTRIES/REG.SYS.ENTITIES.md` (optional system mirror)
+
+---
+
+### 6.3 XREF UPDATES (MANDATORY)
+
+XREF_UPDATES:
+- REQUIRED: YES
+- RECORD_TYPES:
+  - CANON_REF
+  - DERIVED_FROM
+  - REPLACES
+  - BREAKS
+  - PRODUCED_BY
+- TARGETS:
+  - `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__ENTITY_GRAPH.md`
+  - `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__PROVENANCE.md`
+  - `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__CHANGES.md` (if lifecycle change is major)
+
+---
+
+## 7) CORE RECORD SCHEMAS (MANDATORY)
+
+### 7.1 CORE IDENTITY RECORD
+
+ENTITY_ID: <CHR_*|LOC_*|OBJ_*|EVT_*|ARC_*|...>
+ENTITY_TYPE: <CHARACTER|LOCATION|OBJECT|SYSTEM|FACTION|EVENT|CONCEPT|RELATIONSHIP|ARC|STYLE|...>
+DISPLAY_NAME: <human name>
+PROJECT_ID: <PRJ_*>
+CREATED_AT: <ISO>
+STATUS: <CORE_STATUS>
+NOTES: <optional>
+CANON_REF: <if canon exists>
+
+---
+
+### 7.2 CORE STATE RECORD
+
+ENTITY_ID: <...>
+STATE: <NEW|DRAFT|CANON|ACTIVE|ARCHIVED|DEPRECATED>
+LAST_UPDATED: <ISO>
+ALLOWED_ACTIONS:
+- <edit|canonize|output|archive|revive>
+REQUIRES_GOVERNANCE:
+- <true|false>
+GOV_DECISION_REF: <optional>
+
+---
+
+### 7.3 LIFECYCLE TRANSITION RECORD
+
+TRANSITION_ID: <unique>
+ENTITY_ID: <...>
+FROM: <state>
+TO: <state>
+REASON: ...
+TIMESTAMP: <ISO>
+AFFECTED_ARTIFACTS: [ ... ]
+MIGRATION_NOTES: <optional>
+GOV_DECISION_REF: <optional>
+
+Rule:
+> Any transition to CANON or ARCHIVED must be explicitly recorded.
+
+---
+
+## 8) PROCESS (HOW TO EXECUTE)
+
+1) Ensure ENTITY_ID exists (or create it).
+2) Validate state and allowed actions.
+3) If action requires governance — attach decision reference.
+4) Write identity/state/transition records to correct routing.
+5) Update registries.
+6) Update xref (entity graph + provenance).
+7) If canonized — lock relevant outputs.
+
+---
+
+## 9) QUALITY GATES (MANDATORY)
 
 PASS if:
-- entity has stable ID/kind/name/owner/status/lock/version
-- registry entry exists and path is correct
-- no duplicate entity root exists
-- if L2: provenance exists and gates PASS
+- entity has stable ID + type
+- state record is consistent with lifecycle transition
+- registries updated
+- xref updated
+- governance reference included when required
 
 FAIL if:
-- missing required identity fields
-- wrong path/level
-- L2 exists without DERIVED_FROM lineage
-- merge/split done without XREF records
+- entity produced outputs without identity/state
+- state jumps without transition record
+- canon changes without governance link
 
 ---
 
-## 7) FAILURE MODES
+## 10) RAW LINK (MANDATORY)
 
-- Duplicate entity folders → require MERGED_INTO or rename + changes xref
-- State transition invalid → block promotion and route to lifecycle rules
-- Registry mismatch (id/path) → block until synced
-
----
-
-## 8) RAW LINK (MANDATORY)
-
-RAW: <raw github link to this template file>
+RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/01_CORE_ENGINES/00__TEMPLATE__ENGINE__CORE_ENGINES.md
 
 ---
 
 ## FINAL RULE (LOCK)
 
-> CORE engines define minimal existence of entities. Without CORE compliance, no canon promotion is allowed.
+> CORE gates identity and state. No L2/L3 production without CORE validity.
 
-OWNER: Universe Engine  
-LOCK: OPEN
+LOCK: FIXED

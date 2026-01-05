@@ -4,187 +4,223 @@ FILE: 00__TEMPLATE__ENGINE__GENRE_STYLE_ENGINES.md
 SCOPE: Universe Engine
 LAYER: ENG
 DOC_TYPE: TEMPLATE
-ENTITY_KIND: STY
-PROJECT_SCOPE: GLOBAL
-OUTPUT_LEVEL: N/A
-ID: ENG.TPL.ENGINE.STYLE
+ENTITY_GROUP: ENGINES (ENG)
+TEMPLATE_KIND: ENGINE_FAMILY_OVERLAY
+LEVEL: L3
 STATUS: ACTIVE
 VERSION: 2.0
-ROLE: Family-specific overlay template for Style engines. Compatible with ENG ENGINE TEMPLATE v2 and adds style constraints schema + dependency requirements.
+ROLE: Style family overlay. Compatible with ENG ENGINE TEMPLATE (BASE v2). Adds Style Law Pack schema (tone/atmosphere/symbol/sensory), anti-style rules, and xref symbol maps.
+
+LOCK: FIXED
+OWNER: Universe Engine
 
 ---
 
 ## 0) ENGINE IDENTITY (MANDATORY)
 
 ENGINE_NAME: <UPPER_SNAKE_CASE>
-ENGINE_ID: <ENG.STY.<NN>.<ENGINE_NAME>>
+ENGINE_ID: ENG.STY.<NN>.<ENGINE_NAME>
 
 FAMILY_CODE: STY
 ENGINE_NN_IN_FAMILY: <01..06>
 ENGINE_CLASS: STYLE
 ENGINE_LEVEL: L3
 
-ROLE_IN_FAMILY: <FOUNDATION|BUILDER|VALIDATOR|BRIDGE|OUTPUT>
-PIPELINE_STAGE: <DEFINE|BUILD|CHECK|PACKAGE|PRODUCE>
-
-OWNER: Universe Engine
-LOCK: OPEN
+ROLE_IN_FAMILY: <FOUNDATION|BUILDER|OUTPUT>
+PIPELINE_STAGE: <DEFINE|BUILD|PRODUCE>
 
 ---
 
 ## 1) PURPOSE (WHAT THIS ENGINE DOES)
 
-One paragraph: which style axis it defines (tone/atmosphere/etc.) and how it becomes a constraint for other families.
-
-### OWNERSHIP
-- <style axis>
-
-### DOES NOT OWN (hard)
-- story structure (NAR)
-- event atoms (EXP)
-- character psychology/dialogue content (CHR)
-- world laws (WLD)
-- production technical params and montage timing (08)
-- deep music composition (09)
+One paragraph:
+- which style dimension it defines (tone/atmosphere/resonance/symbol/metaphor/sensory)
+- what style constraints it produces for other engines
 
 ---
 
-## 2) TRIGGERS (WHEN TO RUN)
+## 2) OWNERSHIP BOUNDARIES (ANTI-DUPLICATION)
+
+OWNS:
+- style intent and constraints packs
+
+DOES NOT OWN (hard):
+- character voice vocabulary rules (CHR owns; style may only set “degree of formality” globally)
+- montage timing and technical grading specs (PRD owns; style provides intent targets)
+Rule:
+> If you define LUTs, exact shot timing, or edit rules — that belongs to Production.
+
+---
+
+## 3) TRIGGERS (WHEN TO RUN)
 
 TRIGGERS:
-- project style needs definition or refinement
-- narrative asks for emotional path targets
-- character needs voice register constraints
-- production needs style constraints pack
-- style drift detected between outputs
+- new project style is being established
+- tone drift is detected
+- symbols become inconsistent across scenes
+- sensory description becomes generic or mismatched
 
 ---
 
-## 3) MINI-CONTRACT (MANDATORY)
+## 4) MINI-CONTRACT (MANDATORY)
 
-CONSUMES (examples):
-- WORLD_CONTEXT
-- NARRATIVE_REQUIREMENTS
-- CHARACTER_VOICE_REQUIREMENTS
-- existing style drafts/canon
+CONSUMES:
+- CORE_STATE_VALIDATION (required)
+- WORLD_CONTEXT (optional)
+- NARRATIVE_CONTEXT (optional)
+- existing style packs (if iterating)
 
-PRODUCES (examples):
-- TONE_RANGE
-- ATMOSPHERE_PROFILE
-- EMOTIONAL_PATH
-- SYMBOL_SET
-- METAPHOR_SET
-- SENSORY_PALETTES
-- STYLE_CONSTRAINTS_PACK
-- STYLE_BIBLE
+PRODUCES:
+- STYLE_LAW_PACK
+- SYMBOL_MAP
+- METAPHOR_RULES
+- SENSORY_PALETTE
+- ANTI_STYLE_RULES (what must not happen)
 
 DEPENDS_ON:
-- []  (if depends → mirror in XREF__DEPENDENCIES)
+- [] (or engine IDs)
 
-OUTPUT_ARTIFACT_TYPE:
-- <TONE_RANGE|ATMOSPHERE_PROFILE|STYLE_CONSTRAINTS_PACK|STYLE_BIBLE|...>
-
----
-
-## 4) STYLE SCHEMA (MANDATORY)
-
-STYLE_ID: <unique>
-TONE_RANGE:
-  ALLOWED: [ ... ]
-  FORBIDDEN: [ ... ]
-ATMOSPHERE_NOTES: ...
-EMOTIONAL_TARGETS: [ ... ]
-SYMBOL_SET:
-  - SYMBOL: ...
-    MEANING: ...
-METAPHOR_SET:
-  - METAPHOR: ...
-    PURPOSE: ...
-SENSORY_PALETTES:
-  TOUCH: [ ... ]
-  SMELL: [ ... ]
-  TEMP: [ ... ]
-  SOUND_AS_FEEL: [ ... ]
-  LIGHT_AS_FEEL: [ ... ]
-VOICE_GUIDE:
-  REGISTER: <formal|neutral|street|ritual|...>
-  RHYTHM_NOTES: <text only, no seconds>
-PRODUCTION_HINTS:
-  - <high-level, no numbers>
+OUTPUT_TARGET:
+- default:
+  `05_PROJECTS/<PROJECT_ID>/01_WORKSHOP/05_PROJECT__L2/<LEVEL_FOLDER>/STYLE_PACKS/`
 
 Rule:
-> Must include ALLOWED/FORBIDDEN, иначе это не constraint.
+> Style outputs are project-scoped canon unless explicitly marked as overlay.
 
 ---
 
-## 5) SYSTEM INTERFACE (MANDATORY) — STYLE DEFAULTS
+## 5) STYLE SCHEMAS (MANDATORY)
 
-## SYSTEM INTERFACE
-- OUTPUTS:
-  - output_level: <L0_INTAKE|L1_DRAFT|L2_CANON|L3_OUTPUT>
-  - target_path_rule:
-    - base: `05_PROJECTS/<PROJECT_ID>/01_WORKSHOP/`
-    - category: `10_STYLE/`
-    - level_folder:
-      - L0: `01_INTAKE_L0/`
-      - L1: `02_DRAFT_L1/`
-      - L2: `03_CANON_L2/`
-      - L3: `04_OUTPUT_L3/`
+### 5.1 STYLE_LAW_PACK
 
-    - file examples:
-      - L2: `00__STYLE_BIBLE_CANON.md`
-      - L3: `00__STYLE_CONSTRAINTS_PACK.md`
-
-- REGISTRY_UPDATES:
-  - required: YES (L2/L3)
-  - registries:
-    - `REG.PRJ.<PROJECT_ID>.CANON_L2`
-    - `REG.PRJ.<PROJECT_ID>.OUTPUT_L3`
-
-- XREF_UPDATES:
-  - required: YES
-  - record_types:
-    - [DERIVED_FROM, PRODUCED_BY, CANON_REF, DEPENDS_ON]
-  - xref_targets:
-    - `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__PROVENANCE.md`
-    - `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__CANON_REFS.md`
-    - `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__DEPENDENCIES.md`
-  - mandatory_links (examples):
-    - `L3_STYLE_PACK -> L2_STYLE_BIBLE | TYPE:CANON_REF | SCOPE:PRJ:<PROJECT_ID> | WHY:Consumers rely on canon style | BY:ENG.STY.<NN>.<ENGINE_NAME> | AT:<YYYY-MM-DD>`
+PACK_ID: <STY_PACK_<NAME>>
+PROJECT_ID: <PRJ_*>
+CANON_STATUS: <DRAFT|CANON>
+TONE_TARGETS:
+- baseline: <...>
+- under_threat: <...>
+- under_wonder: <...>
+- under_loss: <...>
+ATMOSPHERE:
+- textures: [ ... ]
+- temperature: <cold|warm|neutral>
+- density: <thin|thick|...>
+EMOTIONAL_RESONANCE:
+- primary: [ ... ]
+- secondary: [ ... ]
+SYMBOLS:
+- required: [ ... ]
+- forbidden: [ ... ]
+SENSORY_PALETTE:
+- sound: [ ... ]
+- smell: [ ... ]
+- tactile: [ ... ]
+- light: [ ... ]
+ANTI_STYLE_RULES:
+- do_not: [ ... ]
+CANON_REFS: [ ... ]
 
 ---
 
-## 6) QUALITY (MANDATORY)
+### 5.2 SYMBOL_MAP (xref-ready)
+
+SYMBOL_ID: <SYM_<NAME>>
+MEANING: <one line>
+POLARITY: <positive|negative|ambiguous>
+WHERE_USED: [<ARC_*|SCN_*|EVT_*>]
+EVOLUTION: <optional>
+CANON_REF: <refs>
+
+Rule:
+> Symbol meanings must be explicit, not “implied”.
+
+---
+
+### 5.3 METAPHOR_RULE
+
+MET_ID: <MET_<NAME>>
+TARGET_CONCEPT: <what concept>
+SOURCE_DOMAIN: <what metaphor domain>
+USAGE_RULES:
+- allowed_forms: [ ... ]
+- forbidden_forms: [ ... ]
+NOTES: ...
+
+---
+
+### 5.4 SENSORY_ENTRY
+
+SNS_ID: <SNS_<NAME>>
+CHANNEL: <sound|smell|tactile|light|taste|temperature>
+PALETTE: [ ... ]
+AVOID: [ ... ]
+SCENE_TAGS: [ ... ]
+
+---
+
+## 6) SYSTEM INTERFACE (MANDATORY) — ORC/CTL/VAL/QA/REG/XREF
+
+ORCHESTRATED_BY (ORC): []
+CONTROLLED_BY (CTL): []
+
+VALIDATED_BY (VAL):
+- <VAL.STY.01.COHERENCE> (placeholder) or []
+
+QA_BY (QA):
+- <QA.STY.01.CONSISTENCY> (placeholder) or []
+
+REGISTRY_UPDATES:
+- REQUIRED: YES for CANON packs
+- TARGETS:
+  - `00_REG__REGISTRIES/REG.PRJ.<PROJECT_ID>.CANON_L2.md`
+
+XREF_UPDATES:
+- REQUIRED: YES when symbols/metaphors are used
+- TARGETS:
+  - `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__STYLE_RULES.md`
+  - `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__SYMBOL_MAP.md`
+  - `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__PROVENANCE.md`
+  - `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__CANON_REFS.md`
+
+Rule:
+> If a symbol appears in canon scenes — update SYMBOL_MAP.
+
+---
+
+## 7) PROCESS (HOW TO EXECUTE)
+
+1) Validate CORE state for project.
+2) Define style law pack (tone+atmosphere+symbols+sensory).
+3) Declare anti-style rules (hard “NO”).
+4) Store pack into STYLE_PACKS routing.
+5) Update registry + xref maps.
+6) Validate coherence and run consistency QA.
+
+---
+
+## 8) QUALITY GATES (MANDATORY)
 
 PASS if:
-- style outputs are actionable constraints (allowed/forbidden + palettes)
-- packs are referenced by dependents (DEPENDS_ON exists)
-- no technical production numbers included
-- drift is detectable (clear constraints)
+- style pack has explicit targets + anti-rules
+- symbols have explicit meanings + usage references
+- sensory palette is concrete
+- no character-specific slang rules unless explicitly “global”
 
 FAIL if:
-- purely poetic text without constraint structure
-- hidden dependencies
-- montage timing/technical params included
+- “vibes only” without constraints
+- symbols without meanings
+- technical production instructions inside style pack
 
 ---
 
-## 7) FAILURE MODES
+## 9) RAW LINK (MANDATORY)
 
-- style drift across outputs → require validator pass + pack refresh
-- tone contradictions → log conflict + revise tone range
-
----
-
-## 8) RAW LINK (MANDATORY)
-
-RAW: <raw github link to this template file>
+RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/06_GENRE_STYLE_ENGINES/00__TEMPLATE__ENGINE__GENRE_STYLE_ENGINES.md
 
 ---
 
 ## FINAL RULE (LOCK)
 
-> Style must be consumable as constraints by other families. No technical production numbers, no montage timing.
+> Style defines intent and constraints. Production implements them.
 
-OWNER: Universe Engine  
-LOCK: OPEN
+LOCK: FIXED

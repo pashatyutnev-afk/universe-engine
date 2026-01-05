@@ -4,190 +4,283 @@ FILE: 00__TEMPLATE__ENGINE__EXPRESSION_ENGINES.md
 SCOPE: Universe Engine
 LAYER: ENG
 DOC_TYPE: TEMPLATE
-ENTITY_KIND: EXP
-PROJECT_SCOPE: GLOBAL
-OUTPUT_LEVEL: N/A
-ID: ENG.TPL.ENGINE.EXPRESSION
+ENTITY_GROUP: ENGINES (ENG)
+TEMPLATE_KIND: ENGINE_FAMILY_OVERLAY
+LEVEL: L3
 STATUS: ACTIVE
 VERSION: 2.0
-ROLE: Family-specific overlay template for Expression engines. Compatible with ENG ENGINE TEMPLATE v2 and adds atom standard + cause-effect graph enforcement + boundary rules (no montage timing).
+ROLE: Expression family overlay. Compatible with ENG ENGINE TEMPLATE (BASE v2). Adds event/beat/conflict/turn/climax/resolution schemas and mandatory cause-effect graph updates.
+
+LOCK: FIXED
+OWNER: Universe Engine
 
 ---
 
 ## 0) ENGINE IDENTITY (MANDATORY)
 
 ENGINE_NAME: <UPPER_SNAKE_CASE>
-ENGINE_ID: <ENG.EXP.<NN>.<ENGINE_NAME>>
+ENGINE_ID: ENG.EXP.<NN>.<ENGINE_NAME>
 
 FAMILY_CODE: EXP
 ENGINE_NN_IN_FAMILY: <01..09>
 ENGINE_CLASS: EXPRESSION
 ENGINE_LEVEL: L3
 
-ROLE_IN_FAMILY: <FOUNDATION|BUILDER|VALIDATOR|BRIDGE|OUTPUT>
-PIPELINE_STAGE: <DEFINE|BUILD|CHECK|PACKAGE|PRODUCE>
-
-OWNER: Universe Engine
-LOCK: OPEN
+ROLE_IN_FAMILY: <FOUNDATION|BUILDER|OUTPUT>
+PIPELINE_STAGE: <DEFINE|BUILD|PRODUCE>
 
 ---
 
 ## 1) PURPOSE (WHAT THIS ENGINE DOES)
 
-One paragraph: which atom type(s) it defines/validates and how.
-
-### OWNERSHIP
-- define/validate atom schemas and outputs
-
-### DOES NOT OWN (hard)
-- narrative arc/scene ordering (NAR)
-- editing timing/seconds/montage (08 editing)
-- character psychology/dialogue (CHR)
-- world law authoring (WLD)
-- style authoring (STYLE)
+One paragraph:
+- which expression atom it outputs (event/cause-effect/conflict/turning/climax/resolution/shock/scheduling/chaos)
+- how Narrative consumes it
 
 ---
 
-## 2) TRIGGERS (WHEN TO RUN)
+## 2) OWNERSHIP BOUNDARIES (ANTI-DUPLICATION)
+
+OWNS:
+- structured “mechanics units” and edges (cause/effect, conflict)
+
+DOES NOT OWN (hard):
+- arc/act structure (NAR)
+- montage timing (PRD)
+Rule:
+> If you see seconds/frames/shots — wrong layer.
+
+---
+
+## 3) TRIGGERS (WHEN TO RUN)
 
 TRIGGERS:
-- new arc/scene needs atoms
-- causality unclear
-- conflict needed for stakes
-- turning point/climax/resolution not explicit
-- scheduling needed (story logic)
-- randomness needed as controlled factor
+- scene requires a clear turning/climax/resolution
+- continuity needs explicit cause-effect edges
+- conflict feels flat or stakes unclear
+- schedule logic is required (world time, not screen time)
+- controlled chaos needed (randomness within constraints)
 
 ---
 
-## 3) MINI-CONTRACT (MANDATORY)
+## 4) MINI-CONTRACT (MANDATORY)
 
-CONSUMES (examples):
-- NARRATIVE_REQUIREMENTS
-- WORLD_CONSTRAINTS
-- CHARACTER_CONSTRAINTS
-- existing atom drafts/canon
-- style constraints (optional)
+CONSUMES:
+- CORE_STATE_VALIDATION (required)
+- NARRATIVE_CONTEXT (optional)
+- CHARACTER_CONSTRAINTS (optional)
+- WORLD_LAWS (optional)
 
-PRODUCES (examples):
-- EVENT_ATOM / CONFLICT_ATOM / ...
-- CAUSE_EFFECT_LINK_SET
-- EVENT_SCHEDULE
-- ATOM_PACK
+PRODUCES:
+- EXP_EVENT
+- EXP_CAUSE_EFFECT_EDGE
+- EXP_CONFLICT_UNIT
+- EXP_TURNING_POINT
+- EXP_CLIMAX
+- EXP_RESOLUTION
+- EXP_SYSTEM_SHOCK
+- EXP_SCHEDULE_LOGIC
+- EXP_CHAOS_POLICY
 
 DEPENDS_ON:
-- []  (if depends → mirror in XREF__DEPENDENCIES)
+- [] (or engine IDs)
 
-OUTPUT_ARTIFACT_TYPE:
-- <EVENT_ATOM|CAUSE_EFFECT_LINK_SET|CONFLICT_ATOM|TURNING_POINT_ATOM|CLIMAX_ATOM|RESOLUTION_ATOM|SYSTEM_SHOCK_ATOM|EVENT_SCHEDULE|ATOM_PACK>
-
----
-
-## 4) ATOM SCHEMA (MANDATORY)
-
-Each atom must include:
-
-ATOM_ID: <unique>
-ATOM_TYPE: <EVENT|CAUSE_EFFECT|CONFLICT|TURNING_POINT|CLIMAX|RESOLUTION|SYSTEM_SHOCK|SCHEDULE|RANDOMNESS>
-SUBJECTS: [<entity refs>]
-CONTEXT:
-  WHERE: <loc/system>
-  WHEN: <epoch/story time>
-TRIGGER: <what starts it>
-PRESSURE: <what increases>
-CHANGE: <what changes after>
-CONSEQUENCES:
-  - <cause-effect links>
-DEPENDS_ON:
-  - <world/character/narrative constraints>
-CANON_LEVEL: <L1_DRAFT|L2_CANON>
-XREF_POINTERS:
-  - <links to XREF indexes>
+OUTPUT_TARGET (canonical defaults):
+- `05_PROJECTS/<PROJECT_ID>/01_WORKSHOP/06_EVENTS/<ENTITY_ID>/<LEVEL_FOLDER>/`
+  where ENTITY_ID may be EVT_* / CON_* / SCN_* / SCH_* depending on your naming.
 
 Rule:
-> Atom without CHANGE + CONSEQUENCES is invalid.
+> For canon atoms: update REG and XREF.
 
 ---
 
-## 5) SYSTEM INTERFACE (MANDATORY) — EXPRESSION DEFAULTS
+## 5) EXPRESSION SCHEMAS (MANDATORY)
 
-## SYSTEM INTERFACE
-- OUTPUTS:
-  - output_level: <L0_INTAKE|L1_DRAFT|L2_CANON|L3_OUTPUT>
-  - entity_kind:
-    - if atoms stored under arc: ARC
-    - if stored as event entity: EVT/EXP
-  - target_path_rule:
-    - base: `05_PROJECTS/<PROJECT_ID>/01_WORKSHOP/`
-    - category:
-      - arc-local packs: `09_ARCS/ARC_<NAME>/`
-      - event entities: `06_EVENTS/EVT_<NAME>/`
-      - project packs: `05_PROJECT__L3/`
-    - level_folder:
-      - L0: `01_INTAKE_L0/`
-      - L1: `02_DRAFT_L1/`
-      - L2: `03_CANON_L2/`
-      - L3: `04_OUTPUT_L3/`
+### 5.1 EXP_EVENT
 
-- REGISTRY_UPDATES:
-  - required: YES (for L2/L3)
-  - registries:
-    - `REG.PRJ.<PROJECT_ID>.CANON_L2`
-    - `REG.PRJ.<PROJECT_ID>.OUTPUT_L3`
-    - `REG.PRJ.<PROJECT_ID>.ENTITIES` (if events are entities)
-
-- XREF_UPDATES:
-  - required: YES
-  - record_types:
-    - [CAUSES, LEADS_TO, DEPENDS_ON, DERIVED_FROM, PRODUCED_BY, CANON_REF, CONFLICTS_WITH]
-  - xref_targets:
-    - `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__CAUSE_EFFECT_GRAPH.md`
-    - `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__DEPENDENCIES.md`
-    - `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__PROVENANCE.md`
-    - `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__CANON_REFS.md`
-    - `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__CONFLICTS.md`
-
-- GATES:
-  - validators:
-    - `VAL.EXP.01.ATOM_SCHEMA_CHECK` (placeholder)
-    - `VAL.EXP.02.CAUSE_EFFECT_GRAPH_REQUIRED` (placeholder)
-  - qa_checks:
-    - `QA.EXP.01.ATOM_USABILITY_FOR_NARRATIVE` (placeholder)
+EVT_ID: <EVT_<NAME>>
+TYPE: <INCIDENT|DECISION|ACTION|DISCOVERY|LOSS|GAIN|MEETING|BATTLE|REVEAL|...>
+WHO: [<CHR_*|FAC_*|SYS_*>]
+WHERE: [<LOC_*>]
+WHEN: <world-time label or epoch ref>
+CHANGE: <what changed?>
+BEFORE_STATE: <...>
+AFTER_STATE: <...>
+STAKE: <optional>
+CANON_STATUS: <DRAFT|CANON>
+CANON_REFS: [ ... ]
 
 ---
 
-## 6) QUALITY (MANDATORY)
+### 5.2 EXP_CAUSE_EFFECT_EDGE (mandatory for multi-event chains)
+
+CE_ID: <unique>
+CAUSE_EVT: <EVT_*>
+EFFECT_EVT: <EVT_*>
+MECHANISM: <why does it cause it?>
+LATENCY: <immediate|short|long>
+STRENGTH: <LOW|MED|HIGH>
+SCOPE: <CHARACTER|WORLD|NARRATIVE>
+CANON_REF: <refs>
+
+---
+
+### 5.3 EXP_CONFLICT_UNIT
+
+CON_ID: <CON_<NAME>>
+FORCES:
+- side_A: <who/what>
+- side_B: <who/what>
+GOALS:
+- A: ...
+- B: ...
+STAKE: ...
+PRESSURE: <what escalates?>
+RESOLUTION_PATHS: [ ... ]
+CANON_REFS: [ ... ]
+
+---
+
+### 5.4 EXP_TURNING_POINT
+
+TURN_ID: <TURN_<NAME>>
+EVENT_REF: <EVT_* or SCN_*>
+BEFORE: <expected path>
+AFTER: <new path>
+PRICE: <what is paid?>
+SIGNAL: <how audience learns?>
+CANON_REFS: [ ... ]
+
+---
+
+### 5.5 EXP_CLIMAX
+
+CLX_ID: <CLX_<NAME>>
+CONFLICT_REF: <CON_*>
+PEAK_ACTION: ...
+DECISIVE_CHOICE: ...
+IRREVERSIBILITY: <what cannot be undone?>
+CANON_REFS: [ ... ]
+
+---
+
+### 5.6 EXP_RESOLUTION
+
+RES_ID: <RES_<NAME>>
+WHAT_IS_CLOSED: ...
+NEW_NORMAL: ...
+LEFT_OPEN: [ ... ]
+CANON_REFS: [ ... ]
+
+---
+
+### 5.7 EXP_SYSTEM_SHOCK
+
+SHK_ID: <SHK_<NAME>>
+TARGET: <WORLD|CIV|CHARACTER|SYSTEM>
+TRIGGER_EVT: <EVT_*>
+DELTA: <what drastically shifts?>
+AFTERSHOCKS: [ ... ]
+CANON_REFS: [ ... ]
+
+---
+
+### 5.8 EXP_SCHEDULE_LOGIC (world-time, not screen-time)
+
+SCH_ID: <SCH_<NAME>>
+TIME_MODEL: <epoch|calendar|sequence|resource-cycle>
+CONSTRAINTS: [ ... ]
+WINDOWS: [ ... ]
+TRIGGERS: [ ... ]
+NOTES: ...
+
+---
+
+### 5.9 EXP_CHAOS_POLICY
+
+CHS_ID: <CHS_<NAME>>
+RANDOM_SOURCE: <dice|noise|agent|unknown>
+BOUNDS:
+- allowed_outcomes: [ ... ]
+- forbidden_outcomes: [ ... ]
+WEIGHTS: <optional>
+SAFETY: <how chaos won't break canon>
+NOTES: ...
+
+Rule:
+> Chaos is constrained. If it breaks world laws — it's invalid.
+
+---
+
+## 6) SYSTEM INTERFACE (MANDATORY) — ORC/CTL/VAL/QA/REG/XREF
+
+ORCHESTRATED_BY (ORC): []
+CONTROLLED_BY (CTL): []
+
+VALIDATED_BY (VAL):
+- <VAL.EXP.01.CAUSALITY> (placeholder) or []
+
+QA_BY (QA):
+- <QA.EXP.01.MECHANICS_COHERENCE> (placeholder) or []
+
+REGISTRY_UPDATES:
+- REQUIRED: YES for L2 canon atoms
+- TARGETS:
+  - `00_REG__REGISTRIES/REG.PRJ.<PROJECT_ID>.ENTITIES.md`
+  - `00_REG__REGISTRIES/REG.PRJ.<PROJECT_ID>.CANON_L2.md`
+
+XREF_UPDATES:
+- REQUIRED: YES for cause-effect/conflict/turn
+- TARGETS:
+  - `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__CAUSE_EFFECT_GRAPH.md`
+  - `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__CONFLICT_GRAPH.md`
+  - `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__TURNING_POINTS.md`
+  - `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__ENTITY_GRAPH.md`
+  - `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__PROVENANCE.md`
+  - `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__CANON_REFS.md`
+
+Rule:
+> Cause-effect edges must always update XREF__CAUSE_EFFECT_GRAPH.
+
+---
+
+## 7) PROCESS (HOW TO EXECUTE)
+
+1) Validate CORE state for involved entities.
+2) Define events and changes (before/after).
+3) Create cause-effect edges for chains.
+4) Define conflict and turning/climax/resolution as needed.
+5) Store in routing paths.
+6) Update REG + XREF graphs.
+7) Validate causality and mechanics coherence.
+
+---
+
+## 8) QUALITY GATES (MANDATORY)
 
 PASS if:
-- atoms include CHANGE + CONSEQUENCES
-- cause-effect edges are in XREF graph
-- dependencies explicit (DEPENDS_ON)
-- no montage timing included
+- event has clear change and state delta
+- cause-effect edges exist for chains
+- conflict/turn/climax/resolution are structured
+- chaos is bounded and lawful
+- no montage timing inside
 
 FAIL if:
-- atoms are only “описание” without change
-- cause-effect exists only in prose
-- hidden constraints
+- pure prose without units
+- missing CE edges in chains
+- seconds/shots/frames appear
+- chaos violates world laws
 
 ---
 
-## 7) FAILURE MODES
+## 9) RAW LINK (MANDATORY)
 
-- causality loop unclear → log conflict + require clarification
-- scheduling tries to use seconds/timing → route to 08 editing
-- atom contradicts world law → XREF CONFLICTS_WITH + route to world/governance
-
----
-
-## 8) RAW LINK (MANDATORY)
-
-RAW: <raw github link to this template file>
+RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/05_EXPRESSION_ENGINES/00__TEMPLATE__ENGINE__EXPRESSION_ENGINES.md
 
 ---
 
 ## FINAL RULE (LOCK)
 
-> Expression outputs must be formal atoms with explicit change and explicit cause-effect graph.
+> Expression units are structured mechanics, not story structure and not montage.
 
-OWNER: Universe Engine  
-LOCK: OPEN
+LOCK: FIXED

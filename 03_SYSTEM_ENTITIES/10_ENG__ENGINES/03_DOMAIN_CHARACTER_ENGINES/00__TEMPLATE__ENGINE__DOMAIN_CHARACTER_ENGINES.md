@@ -4,213 +4,305 @@ FILE: 00__TEMPLATE__ENGINE__DOMAIN_CHARACTER_ENGINES.md
 SCOPE: Universe Engine
 LAYER: ENG
 DOC_TYPE: TEMPLATE
-ENTITY_KIND: CHR
-PROJECT_SCOPE: GLOBAL
-OUTPUT_LEVEL: N/A
-ID: ENG.TPL.ENGINE.CHARACTER
+ENTITY_GROUP: ENGINES (ENG)
+TEMPLATE_KIND: ENGINE_FAMILY_OVERLAY
+LEVEL: L2
 STATUS: ACTIVE
 VERSION: 2.0
-ROLE: Family-specific overlay template for Character engines. Compatible with ENG ENGINE TEMPLATE v2 and adds character defaults (CHR routing, output artifacts, boundary rules, REG/XREF requirements).
+ROLE: Character family overlay. Compatible with ENG ENGINE TEMPLATE (BASE v2). Adds character record schemas, relationship edges, and dialogue/speech constraints with required xref updates.
+
+LOCK: FIXED
+OWNER: Universe Engine
 
 ---
 
 ## 0) ENGINE IDENTITY (MANDATORY)
 
 ENGINE_NAME: <UPPER_SNAKE_CASE>
-ENGINE_ID: <ENG.CHR.<NN>.<ENGINE_NAME>>
+ENGINE_ID: ENG.CHR.<NN>.<ENGINE_NAME>
 
 FAMILY_CODE: CHR
 ENGINE_NN_IN_FAMILY: <01..10>
 ENGINE_CLASS: DOMAIN
 ENGINE_LEVEL: L2
 
-ROLE_IN_FAMILY: <FOUNDATION|BUILDER|VALIDATOR|BRIDGE|OUTPUT>
-PIPELINE_STAGE: <DEFINE|BUILD|CHECK|PACKAGE|PRODUCE>
-
-OWNER: Universe Engine
-LOCK: OPEN
+ROLE_IN_FAMILY: <FOUNDATION|BUILDER|VALIDATOR|OUTPUT>
+PIPELINE_STAGE: <DEFINE|BUILD|CHECK|PRODUCE>
 
 ---
 
 ## 1) PURPOSE (WHAT THIS ENGINE DOES)
 
-One paragraph: what character capability it produces.
-
-### OWNERSHIP
-- <specific character aspect>
-
-### DOES NOT OWN (hard)
-- story structure / scene ordering (NAR)
-- event atoms formalization (EXP)
-- world law authoring (WORLD)
-- genre/style authoring (STYLE)
-- timing/editing/seconds (08 editing)
-- production sound placement (08 sound production)
-- deep music (09)
+One paragraph:
+- what part of character model it defines (core/motivation/value/psychology/behavior/relationships/dialogue/speech/growth/evolution)
+- what artifacts it outputs (character sheet, constraints, graph edges)
 
 ---
 
-## 2) TRIGGERS (WHEN TO RUN)
+## 2) OWNERSHIP BOUNDARIES (ANTI-DUPLICATION)
+
+OWNS:
+- internal character model + relationships + speech constraints
+
+DOES NOT OWN (hard):
+- story events and scene structure (NAR)
+- world law facts (WLD)
+- global tone/atmosphere (STY)
+- montage timing (PRD)
+
+Rule:
+> Character outputs constraints. Narrative consumes constraints to build scenes.
+
+---
+
+## 3) TRIGGERS (WHEN TO RUN)
 
 TRIGGERS:
-- new character entity created
-- update to world constraints (culture/tech)
-- update to narrative constraints (role in arc)
-- dialogue/voice style needed
-- relationship network change
-- character growth pivot requested
+- new character introduced
+- contradictions found in behavior/motivation
+- relationship changes
+- dialogue feels “not them”
+- trauma/growth needs coherence over time
 
 ---
 
-## 3) MINI-CONTRACT (MANDATORY)
+## 4) MINI-CONTRACT (MANDATORY)
 
-CONSUMES (examples):
-- CORE_CARD (entity existence)
-- WORLD_CONSTRAINTS
-- NARRATIVE_CONSTRAINTS
-- STYLE_CONSTRAINTS
-- RELATION_CONTEXT (xref links)
-- previous drafts/canon (if any)
+CONSUMES:
+- CORE_IDENTITY + CORE_STATE (required)
+- WORLD_CONTEXT (optional)
+- NARRATIVE_CONTEXT (optional)
+- STYLE_CONSTRAINTS_PACK (optional)
+- existing character canon (if iterating)
 
-PRODUCES (examples):
-- CHARACTER_BIBLE
+PRODUCES:
+- CHARACTER_PROFILE
 - MOTIVATION_MAP
-- VALUE_COMPASS
-- PSYCH_PROFILE
+- VALUE_SYSTEM
+- PSYCHO_MODEL
 - BEHAVIOR_RULES
-- RELATIONSHIP_MAP
-- DIALOGUE_PACK
+- RELATIONSHIP_EDGES
+- DIALOGUE_CONSTRAINTS
 - SPEECH_PROFILE
-- GROWTH_TRAUMA_MAP
-- EVOLUTION_ARC
+- TRAUMA_GROWTH_NOTES
+- EVOLUTION_TRACK
 
 DEPENDS_ON:
-- []  (if depends → mirror in XREF__DEPENDENCIES)
+- [] (or engine IDs)
 
-OUTPUT_ARTIFACT_TYPE:
-- <CHARACTER_BIBLE|DIALOGUE_PACK|RELATIONSHIP_MAP|SPEECH_PROFILE|EVOLUTION_ARC|...>
+OUTPUT_TARGET (canonical defaults):
+- character entity:
+  `05_PROJECTS/<PROJECT_ID>/01_WORKSHOP/01_CHARACTERS/<ENTITY_ID>/<LEVEL_FOLDER>/`
+- relationship entity (if separated):
+  `05_PROJECTS/<PROJECT_ID>/01_WORKSHOP/08_RELATIONSHIPS/REL_<NAME>/<LEVEL_FOLDER>/`
+- project bible pack:
+  `05_PROJECTS/<PROJECT_ID>/01_WORKSHOP/05_PROJECT__L2/<LEVEL_FOLDER>/`
 
----
-
-## 4) SYSTEM INTERFACE (MANDATORY) — CHARACTER DEFAULTS
-
-## SYSTEM INTERFACE
-- INPUTS:
-  - artifacts: [intake notes, drafts, canon constraints]
-  - sources:
-    - project entities registry
-    - project xref indexes
-    - family README boundary rules
-
-- OUTPUTS:
-  - artifacts: [character artifacts]
-  - output_level: <L0_INTAKE|L1_DRAFT|L2_CANON|L3_OUTPUT>
-  - entity_kind: CHR
-
-  - target_path_rule:
-    - base: `05_PROJECTS/<PROJECT_ID>/01_WORKSHOP/`
-    - category: `01_CHARACTERS`
-    - entity_folder: `CHR_<CHARACTER_NAME>`
-    - level_folder:
-      - L0: `01_INTAKE_L0/`
-      - L1: `02_DRAFT_L1/`
-      - L2: `03_CANON_L2/`
-      - L3: `04_OUTPUT_L3/`
-
-    - file examples:
-      - L0: `00__VOICE_NOTES.md`
-      - L1: `00__CHARACTER_BIBLE_DRAFT.md`
-      - L2: `00__CANON.md` (preferred single canon card)
-      - L3: `00__DIALOGUE_PACK.md` / `01__RELATIONSHIP_SNAPSHOT.md`
-
-- REGISTRY_UPDATES:
-  - required: YES (entity exists; L2/L3 artifacts registered when separate)
-  - registries:
-    - `REG.PRJ.<PROJECT_ID>.ENTITIES`
-    - `REG.PRJ.<PROJECT_ID>.CANON_L2` (if separate artifacts)
-    - `REG.PRJ.<PROJECT_ID>.OUTPUT_L3` (if outputs registered)
-  - entries_to_add:
-    - <ENTITY_ID + path + status + lock>
-
-- XREF_UPDATES:
-  - required: YES
-  - record_types:
-    - [ENTITY_LINK, RELATES_TO, DERIVED_FROM, PRODUCED_BY, CANON_REF, DEPENDS_ON, REPLACED_BY, MERGED_INTO, SPLIT_INTO]
-  - xref_targets:
-    - `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__ENTITY_GRAPH.md`
-    - `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__PROVENANCE.md`
-    - `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__CANON_REFS.md`
-    - `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__DEPENDENCIES.md`
-    - `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__CHANGES.md`
-    - `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__RELATIONSHIPS.md` (optional)
-  - mandatory_links (examples):
-    - `L2_CANON -> L1_DRAFT | TYPE:DERIVED_FROM | SCOPE:PRJ:<PROJECT_ID> | WHY:Canonized character | BY:ENG.CHR.<NN>.<ENGINE_NAME> | AT:<YYYY-MM-DD>`
-    - `L3_DIALOGUE_PACK -> L2_CANON | TYPE:CANON_REF | SCOPE:PRJ:<PROJECT_ID> | WHY:Dialogue pack derived from canon | BY:ENG.CHR.<NN>.<ENGINE_NAME> | AT:<YYYY-MM-DD>`
-    - `CHR_A -> CHR_B | TYPE:RELATES_TO | SCOPE:PRJ:<PROJECT_ID> | WHY:Relationship link | BY:ENG.CHR.06.RELATIONSHIP_ENG | AT:<YYYY-MM-DD>`
-
-- GATES:
-  - validators:
-    - `VAL.CHR.01.MOTIVATION_COHERENCE` (placeholder)
-    - `VAL.XREF.02.RELATIONSHIP_LINKS` (placeholder)
-  - qa_checks:
-    - `QA.CHR.01.DIALOGUE_USABILITY` (placeholder)
-    - `QA.XREF.01.LINK_INTEGRITY` (placeholder)
-
-- ORCHESTRATION:
-  - orc_owner: [<ORC.CHR.* if used>]
-  - ctl_enforcers:
-    - `CTL.WORKSHOP.PATH_ENFORCER` (placeholder)
-    - `CTL.WORKSHOP.LEVEL_ENFORCER` (placeholder)
-    - `CTL.XREF.NO_ORPHANS` (placeholder)
-    - `CTL.XREF.NO_HIDDEN_LINKS` (placeholder)
+Rule:
+> L2 canon requires REG + XREF updates.
 
 ---
 
-## 5) PROCESS (HOW IT WORKS)
+## 5) CHARACTER SCHEMAS (MANDATORY)
 
-1) Consume core + constraints (world/narrative/style)
-2) Build character bible draft (identity, values, motives)
-3) Build behavior rules + relationship map
-4) Produce dialogue packs and speech profile (no timing)
-5) Validate coherence + naturalness
-6) Canonize and register + provenance + links
+### 5.1 CHARACTER_PROFILE (core)
+
+ENTITY_ID: <CHR_<NAME>>
+DISPLAY_NAME: <...>
+ARCHETYPE: <optional>
+ROLE_IN_STORY: <protagonist|antagonist|support|...>
+CORE_WOUND: <optional>
+CORE_NEED: <optional>
+CORE_LIE: <optional>
+CORE_TRUTH: <optional>
+BOUNDARIES:
+- will_never_do: [ ... ]
+- will_always_do: [ ... ]
+CANON_STATUS: <DRAFT|CANON>
+CANON_REFS: [ ... ]
 
 ---
 
-## 6) QUALITY (MANDATORY)
+### 5.2 MOTIVATION_MAP
+
+ENTITY_ID: <CHR_*>
+DESIRES:
+- short_term: [ ... ]
+- long_term: [ ... ]
+FEARS: [ ... ]
+DRIVERS: [ ... ]
+CONFLICTS_INTERNAL: [ ... ]
+PRIORITIES: [ ... ]
+
+---
+
+### 5.3 VALUE_SYSTEM (moral/value)
+
+ENTITY_ID: <CHR_*>
+VALUES: [ ... ]
+TABOOS: [ ... ]
+JUSTIFICATIONS: [ ... ]
+RED_LINES: [ ... ]
+
+---
+
+### 5.4 PSYCHO_MODEL (psychology)
+
+ENTITY_ID: <CHR_*>
+TEMPERAMENT: <...>
+COPING_STRATEGIES: [ ... ]
+ATTACHMENT_STYLE: <optional>
+TRIGGERS: [ ... ]
+SOOTHERS: [ ... ]
+
+---
+
+### 5.5 BEHAVIOR_RULES
+
+ENTITY_ID: <CHR_*>
+DEFAULT_BEHAVIOR: [ ... ]
+UNDER_STRESS: [ ... ]
+UNDER_POWER: [ ... ]
+UNDER_LOSS: [ ... ]
+HABITS: [ ... ]
+
+---
+
+### 5.6 RELATIONSHIP_EDGE (graph entry)
+
+EDGE_ID: <unique>
+FROM: <CHR_*>
+TO: <CHR_*|FAC_*|SYS_*|OBJ_*>
+REL_TYPE: <ALLY|ENEMY|LOVE|RIVAL|MENTOR|FAMILY|DEBT|FEAR|CONTROL|DEPENDENCY|...>
+INTENSITY: <LOW|MED|HIGH>
+TRUST: <0..1>
+POWER_BALANCE: <TO->FROM|FROM->TO|BALANCED>
+HISTORY_NOTE: <short>
+CANON_REF: <refs>
+
+Rule:
+> Relationships are edges. No prose-only relationships in canon.
+
+---
+
+### 5.7 DIALOGUE_CONSTRAINTS
+
+ENTITY_ID: <CHR_*>
+SPEECH_TONE: <dry|warm|cold|sarcastic|formal|...>
+VOCABULARY:
+- likes: [ ... ]
+- avoids: [ ... ]
+SENTENCE_STYLE:
+- short_vs_long: <...>
+- questions_rate: <...>
+- swear_level: <...>
+TOPICS:
+- loves: [ ... ]
+- avoids: [ ... ]
+DEFAULT_INTENTIONS:
+- persuade|deflect|attack|bond|test|hide|...
+
+---
+
+### 5.8 SPEECH_PROFILE (naturalization)
+
+ENTITY_ID: <CHR_*>
+DIALECT: <optional>
+FILLERS: [ ... ]
+RHYTHM: <fast|measured|...>
+SIGNATURE_PHRASES: [ ... ]
+NONVERBAL: [ ... ]
+
+---
+
+### 5.9 EVOLUTION_TRACK
+
+ENTITY_ID: <CHR_*>
+ARC_LINKS: [<ARC_*...>]
+STATE_OVER_TIME:
+- <epoch/act/season>: <core changes>
+TRAUMA_EVENTS: [<EVT_*...>]
+GROWTH_MARKERS: [ ... ]
+
+---
+
+## 6) SYSTEM INTERFACE (MANDATORY) — ORC/CTL/VAL/QA/REG/XREF
+
+ORCHESTRATED_BY (ORC):
+- [] (or ORC IDs)
+
+CONTROLLED_BY (CTL):
+- [] (or CTL IDs)
+
+VALIDATED_BY (VAL):
+- <VAL.CHR.01.COHERENCE> (placeholder) or []
+
+QA_BY (QA):
+- <QA.CHR.01.VOICE_CONSISTENCY> (placeholder) or []
+
+REGISTRY_UPDATES:
+- REQUIRED: YES (for L2)
+- TARGETS:
+  - `00_REG__REGISTRIES/REG.PRJ.<PROJECT_ID>.ENTITIES.md`
+  - `00_REG__REGISTRIES/REG.PRJ.<PROJECT_ID>.CANON_L2.md`
+
+XREF_UPDATES:
+- REQUIRED: YES
+- RECORD_TYPES:
+  - CANON_REF
+  - DEPENDS_ON
+  - DERIVED_FROM
+  - PRODUCED_BY
+  - CONFLICTS_WITH
+- TARGETS:
+  - `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__RELATIONSHIP_GRAPH.md`
+  - `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__DIALOGUE_CONSTRAINTS.md`
+  - `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__ENTITY_GRAPH.md`
+  - `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__PROVENANCE.md`
+  - `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__DEPENDENCIES.md`
+  - `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__CANON_REFS.md`
+
+Rule:
+> Relationship edges MUST be recorded in XREF__RELATIONSHIP_GRAPH.
+
+---
+
+## 7) PROCESS (HOW TO EXECUTE)
+
+1) Validate CORE identity/state of character (exists + allowed).
+2) Read narrative/world/style constraints as needed.
+3) Produce structured character artifacts (no pure prose).
+4) Write outputs to character entity folder (routing).
+5) Update REG + XREF.
+6) Run coherence validator + voice QA.
+7) If modifying locked canon — route through governance.
+
+---
+
+## 8) QUALITY GATES (MANDATORY)
 
 PASS if:
-- motives match values and behavior (no contradictions)
-- speech profile consistent with background and style constraints
-- relationships are explicit in XREF (not only in prose)
-- L3 packs reference L2 canon (CANON_REF)
-- boundaries respected (no editing timing, no event atom authoring)
+- core + motivation + behavior + relationships exist
+- dialogue constraints consistent with profile
+- relationship edges graph-like and typed
+- REG + XREF updated
 
 FAIL if:
+- only prose, no structured artifacts
+- relationships described without edges
+- dialogue rules contradict core values
 - hidden dependencies
-- missing relationship links
-- L2 without lineage
-- mixing montage/timing into dialogue packs
 
 ---
 
-## 7) FAILURE MODES
+## 9) RAW LINK (MANDATORY)
 
-- Character contradiction → log conflict + revise motivation/value/behavior triangle
-- Relationship drift without XREF update → block promotion
-- Voice feels “generic” → run speech naturalization and tie to background constraints
-
----
-
-## 8) RAW LINK (MANDATORY)
-
-RAW: <raw github link to this template file>
+RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/03_DOMAIN_CHARACTER_ENGINES/00__TEMPLATE__ENGINE__DOMAIN_CHARACTER_ENGINES.md
 
 ---
 
 ## FINAL RULE (LOCK)
 
-> Character engines build internal truth of персонажа. Outputs must be usable, traceable, and boundary-safe.
+> Character outputs constraints and models. Narrative consumes them to build story events.
 
-OWNER: Universe Engine  
-LOCK: OPEN
+LOCK: FIXED

@@ -4,208 +4,280 @@ FILE: 00__TEMPLATE__ENGINE__GOVERNANCE_ENGINES.md
 SCOPE: Universe Engine
 LAYER: ENG
 DOC_TYPE: TEMPLATE
-ENTITY_KIND: GENERIC
-PROJECT_SCOPE: GLOBAL
-OUTPUT_LEVEL: N/A
-ID: ENG.TPL.ENGINE.GOVERNANCE
+ENTITY_GROUP: ENGINES (ENG)
+TEMPLATE_KIND: ENGINE_FAMILY_OVERLAY
+LEVEL: L1
 STATUS: ACTIVE
 VERSION: 2.0
-ROLE: Family-specific overlay template for GOV engines. Compatible with ENG ENGINE TEMPLATE v2 and adds governance defaults (roles, REG/XREF checkpoints, workshop routing).
+ROLE: Governance family overlay. Must be compatible with ENG ENGINE TEMPLATE (BASE v2). Adds governance record schemas, approvals, and allows SYSTEM scope outputs by design.
+
+LOCK: FIXED
+OWNER: Universe Engine
 
 ---
 
 ## 0) ENGINE IDENTITY (MANDATORY)
 
 ENGINE_NAME: <UPPER_SNAKE_CASE>
-ENGINE_ID: <ENG.GOV.<NN>.<ENGINE_NAME>>
+ENGINE_ID: ENG.GOV.<NN>.<ENGINE_NAME>
 
 FAMILY_CODE: GOV
 ENGINE_NN_IN_FAMILY: <01..10>
 ENGINE_CLASS: GOVERNANCE
 ENGINE_LEVEL: L1
 
-ROLE_IN_FAMILY: <FOUNDATION|BUILDER|VALIDATOR|BRIDGE|OUTPUT>
-PIPELINE_STAGE: <DEFINE|BUILD|CHECK|PACKAGE|PRODUCE>
+ROLE_IN_FAMILY: <FOUNDATION|BUILDER|VALIDATOR|OUTPUT>
+PIPELINE_STAGE: <DEFINE|PACKAGE|CHECK|PRODUCE>
 
-OWNER: Universe Engine
-LOCK: OPEN
+CANON_COMPAT:
+- INDEX: 02__INDEX_ALL_ENGINES.md
+- NAMING_RULE: file name NN must match ENGINE_NN_IN_FAMILY
 
 ---
 
 ## 1) PURPOSE (WHAT THIS ENGINE DOES)
 
 One paragraph:
-- что именно этот engine фиксирует/проверяет/разрешает
-- какие решения он “владеет”
-- что он не делает (boundary)
-
-### OWNERSHIP
-- <1–5 bullets>
-
-### DOES NOT OWN
-- <1–5 bullets + pointers>
+- what governance artifact it governs (audit/authority/rules/change/consistency/deps/decision/impact/risk/memory)
+- what records it produces
+- what systems consume it (ENG families + ORC/CTL/VAL/QA layers)
 
 ---
 
-## 2) TRIGGERS (WHEN TO RUN)
+## 2) OWNERSHIP BOUNDARIES (ANTI-DUPLICATION)
+
+### 2.1 OWNS
+- governance records and policies of its domain
+
+### 2.2 DOES NOT OWN (hard)
+- domain canon content (world/character/narrative facts)
+- production media assets
+- deep music creation
+Rule:
+> Governance does not create content; it manages legality, consistency, and changes.
+
+---
+
+## 3) TRIGGERS (WHEN TO RUN)
 
 TRIGGERS:
-- new change request (L0)
-- governance decision needed (L1)
-- canon/templating update requested
-- conflict or duplication detected
-- dependency change proposed
-- version bump required
-
-OUTPUT_CONFIDENCE_TARGET: HIGH (для L2 решений) / MEDIUM (для черновиков)
+- new canon change proposed
+- conflict detected by Consistency Engine
+- new dependency introduced
+- new engine/template introduced
+- risk/scope review required
+- version snapshot required
 
 ---
 
-## 3) MINI-CONTRACT (MANDATORY)
+## 4) MINI-CONTRACT (MANDATORY)
 
-CONSUMES:
-- CHANGE_REQUEST
-- DECISION_PROPOSAL
-- DEPENDENCY_DECLARATION
-- CONFLICT_REPORT
-- VERSION_NOTE
+CONSUMES: (1–5)
+- CHANGE_PROPOSAL (CP) (if applicable)
+- CANON_TARGETS (files/engines affected)
+- DEPENDENCY_SNAPSHOT (if applicable)
+- CONSISTENCY_REPORT (if applicable)
+- PROJECT_OUTPUT_SIGNALS (optional)
 
-PRODUCES:
-- APPROVED_DECISION
-- AUDIT_LOG_ENTRY
+PRODUCES: (1–5)
+- AUDIT_ENTRY
+- APPROVAL_DECISION
+- POLICY_UPDATE
 - DEPENDENCY_REGISTRY_UPDATE
-- VERSION_RECORD
-- RELEASE_NOTES / CANON_CHANGELOG (если OUTPUT)
+- VERSION_SNAPSHOT
 
 DEPENDS_ON:
-- []  (если есть зависимости — обязаны быть отражены в XREF DEPENDS_ON)
+- [] (or list engine IDs; always mirrored to XREF__DEPENDENCIES)
 
-OUTPUT_ARTIFACT_TYPE:
-- <APPROVED_DECISION|AUDIT_LOG_ENTRY|DEPENDENCY_REGISTRY_UPDATE|VERSION_RECORD|RELEASE_NOTES>
+OUTPUT_TARGET:
+- SYSTEM (allowed): `03_SYSTEM_ENTITIES/` and/or `00_REG__REGISTRIES/` and/or `90_XREF__CROSSREF/`
+- PROJECT (optional): `05_PROJECTS/<PROJECT_ID>/01_WORKSHOP/99_META/<LEVEL_FOLDER>/`
 
----
-
-## 4) SYSTEM INTERFACE (MANDATORY) — GOVERNANCE DEFAULTS
-
-## SYSTEM INTERFACE
-- INPUTS:
-  - artifacts: [change requests, draft decisions, dependency proposals, conflict reports]
-  - sources:
-    - ENG INDEX + family README
-    - relevant REG registries
-    - project XREF indexes
-
-- OUTPUTS:
-  - artifacts: [governance artifacts]
-  - output_level: <L0_INTAKE|L1_DRAFT|L2_CANON|L3_OUTPUT>
-  - entity_kind: GENERIC
-
-  - target_path_rule (project-scoped governance workspace):
-    - base: `05_PROJECTS/<PROJECT_ID>/01_WORKSHOP/`
-    - category: `11_EXPERIMENTS`
-    - entity_folder: `GENERIC_GOVERNANCE`
-    - level_folder:
-      - L0: `01_INTAKE_L0/`
-      - L1: `02_DRAFT_L1/`
-      - L2: `03_CANON_L2/`
-      - L3: `04_OUTPUT_L3/`
-    - file examples:
-      - `00__CHANGE_REQUEST.md` (L0)
-      - `00__DECISION_DRAFT.md` (L1)
-      - `00__APPROVED_DECISION.md` (L2)
-      - `00__RELEASE_NOTES.md` (L3)
-
-- REGISTRY_UPDATES:
-  - required: YES (for L2/L3; optional for L0/L1)
-  - registries:
-    - `REG.PRJ.<PROJECT_ID>.GOV.CHANGES`
-    - `REG.PRJ.<PROJECT_ID>.GOV.DECISIONS`
-    - `REG.PRJ.<PROJECT_ID>.GOV.VERSIONS`
-  - entries_to_add:
-    - <artifact id/path + level + status + created_by>
-
-- XREF_UPDATES:
-  - required: YES
-  - record_types:
-    - [DEPENDS_ON, DERIVED_FROM, PRODUCED_BY, REPLACED_BY, MOVED_TO, RENAMED_TO, CONFLICTS_WITH, DUPLICATES, CANON_REF]
-  - xref_targets:
-    - `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__DEPENDENCIES.md`
-    - `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__CHANGES.md`
-    - `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__CONFLICTS.md`
-    - `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__CANON_REFS.md`
-  - mandatory_links (examples; adapt per engine):
-    - `L2_DECISION_ID -> L1_DRAFT_ID | TYPE:DERIVED_FROM | SCOPE:PRJ:<PROJECT_ID> | WHY:Decision approved from draft | BY:ENG.GOV.<NN>.<ENGINE_NAME> | AT:<YYYY-MM-DD>`
-    - `NEW_CANON_ID -> OLD_CANON_ID | TYPE:REPLACED_BY | SCOPE:GLOBAL | WHY:Canon updated by governance decision | BY:ENG.GOV.<NN>.<ENGINE_NAME> | AT:<YYYY-MM-DD>`
-
-- GATES:
-  - validators:
-    - `VAL.XREF.02.INDEX_CONSISTENCY` (placeholder)
-    - `VAL.REG.01.SCHEMA_CHECK` (placeholder)
-  - qa_checks:
-    - `QA.ENG.01.READABILITY_COMPLETENESS` (placeholder)
-    - `QA.XREF.01.LINK_INTEGRITY` (placeholder)
-
-- ORCHESTRATION:
-  - orc_owner: [<ORC.GOV.* if used>]
-  - ctl_enforcers:
-    - `CTL.XREF.NO_HIDDEN_LINKS` (placeholder)
-    - `CTL.REG.ENTRY_ENFORCER` (placeholder)
-    - `CTL.WORKSHOP.LEVEL_ENFORCER` (placeholder)
-
-If SYSTEM INTERFACE is missing → engine invalid.
+Rule:
+> Governance engines may use SYSTEM scope by design.
 
 ---
 
-## 5) PROCESS (HOW IT WORKS)
+## 5) PARAMETERS (MANDATORY)
 
-1) Intake: принять request/проблему/конфликт (L0)
-2) Draft: сформировать вариант решения + последствия (L1)
-3) Check: проверить scope impact + consistency + risks (VAL/QA) (L1)
-4) Canonize: утвердить решение (L2) и зарегистрировать его (REG)
-5) Link: записать XREF (dependencies/changes/conflicts/canon refs)
-6) Output: при необходимости собрать release notes / changelog (L3)
+SCOPE_MODE: <SYSTEM|PROJECT>
+PROJECT_ID: <optional if PROJECT mode>
+OUTPUT_LEVEL (if PROJECT): <L0|L1|L2|L3>
+
+GOV_RECORD_TYPE:
+- <AUDIT|AUTHORITY|RULE_HIERARCHY|CHANGE_CONTROL|CONSISTENCY|DEPENDENCY_REGISTRY|DECISION|SCOPE_IMPACT|RISK_SAFETY|VERSIONING_MEMORY>
 
 ---
 
-## 6) QUALITY (MANDATORY)
+## 6) SYSTEM INTERFACE (MANDATORY) — ORC/CTL/VAL/QA/REG/XREF
 
-### Checklist
-- WHY exists for each decision
-- No scope leaks (governance не пишет domain-canon напрямую)
-- No hidden dependencies (DEPENDS_ON mirrored in XREF)
-- Traceability: L2 decision has provenance; replacements logged
+### 6.1 ORCHESTRATION / CONTROL / VALIDATION
 
-### Acceptance
+ORCHESTRATED_BY (ORC):
+- [] (or explicit ORC IDs if you have them)
+
+CONTROLLED_BY (CTL):
+- [] (or explicit CTL IDs)
+
+VALIDATED_BY (VAL):
+- [] (or explicit VAL IDs)
+
+QA_BY (QA):
+- [] (or explicit QA IDs)
+
+Rule:
+> For governance outputs, validation may be internal to governance (Decision Approval + Consistency). If external validators exist — list them.
+
+---
+
+### 6.2 REGISTRY UPDATES (MANDATORY)
+
+REGISTRY_UPDATES:
+- REQUIRED: YES
+- TARGETS (system):
+  - `00_REG__REGISTRIES/REG.SYS.AUDIT_LOG.md` (for AUDIT_ENTRY)
+  - `00_REG__REGISTRIES/REG.SYS.DECISIONS.md` (for APPROVAL_DECISION)
+  - `00_REG__REGISTRIES/REG.SYS.DEPENDENCIES.md` (for dependency registry)
+  - `00_REG__REGISTRIES/REG.SYS.VERSIONING_MEMORY.md` (for snapshots)
+  - `00_REG__REGISTRIES/REG.SYS.CHANGE_CONTROL.md` (for CP lifecycle)
+
+---
+
+### 6.3 XREF UPDATES (MANDATORY)
+
+XREF_UPDATES:
+- REQUIRED: YES
+- RECORD_TYPES:
+  - CANON_REF
+  - DEPENDS_ON
+  - DERIVED_FROM
+  - PRODUCED_BY
+  - REPLACES
+  - BREAKS
+  - CONFLICTS_WITH
+- TARGETS (system):
+  - `90_XREF__CROSSREF/XREF__CHANGES.md`
+  - `90_XREF__CROSSREF/XREF__DEPENDENCIES.md`
+  - `90_XREF__CROSSREF/XREF__PROVENANCE.md`
+  - `90_XREF__CROSSREF/XREF__CANON_REFS.md` (if used)
+
+Rule:
+> Any governance decision impacting canon must be recorded in XREF__CHANGES + Audit Log.
+
+---
+
+## 7) GOVERNANCE RECORD SCHEMAS (MANDATORY)
+
+### 7.1 CHANGE PROPOSAL (CP) — if applicable
+
+CP_ID: <unique>
+TARGET_SCOPE: <ENG_TEMPLATES|ENG_FAMILY_RULES|REGISTRY|XREF|PROJECT_PIPELINE|SYSTEM_POLICY>
+PROBLEM: ...
+EVIDENCE: [ ... ]
+PROPOSED_CHANGE: ...
+IMPACT:
+  AFFECTED_FILES: [ ... ]
+  BREAKING: true|false
+MIGRATION_PLAN:
+  STEPS: [ ... ]
+  ROLLBACK: [ ... ]
+RISK: [ ... ]
+REQUIRED_APPROVALS:
+  - ENG.GOV.04.CHANGE_CONTROL
+  - ENG.GOV.02.CANON_AUTHORITY
+STATUS: <DRAFT|PROPOSED|APPROVED|REJECTED>
+
+---
+
+### 7.2 AUDIT ENTRY (always when canon/system changes)
+
+AUDIT_ID: <unique>
+TIMESTAMP: <ISO>
+ACTOR: <user/system>
+ACTION: <created|modified|approved|rejected|migrated>
+TARGETS: [<file refs>]
+SUMMARY: <short>
+LINKS:
+  - CP_ID: <optional>
+  - DECISION_ID: <optional>
+
+---
+
+### 7.3 DECISION / APPROVAL RECORD
+
+DECISION_ID: <unique>
+SCOPE: <SYSTEM|PROJECT>
+DECISION_TYPE: <APPROVE|REJECT|DEFER>
+RATIONALE: ...
+CONDITIONS: [ ... ]  # required changes before approval
+AFFECTED_TARGETS: [ ... ]
+SIGNED_BY: <authority>
+TIMESTAMP: <ISO>
+
+---
+
+### 7.4 DEPENDENCY REGISTRY ENTRY
+
+DEP_ID: <unique>
+SUBJECT: <engine/file>
+DEPENDS_ON: [ ... ]
+REASON: ...
+CYCLE: <true|false>
+NOTES: ...
+
+---
+
+### 7.5 VERSIONING / MEMORY SNAPSHOT
+
+SNAPSHOT_ID: <unique>
+SCOPE: <SYSTEM|PROJECT>
+INCLUDES: [ ... ]  # files/registries/xref
+CHANGESET: [ ... ] # references to CP/decisions
+TIMESTAMP: <ISO>
+NOTES: ...
+
+Rule:
+> Governance records must be structured (not essays) and must reference affected targets.
+
+---
+
+## 8) PROCESS (HOW TO EXECUTE)
+
+STEPS:
+1) Receive CP or trigger signal.
+2) Validate completeness (impact + migration + approvals list).
+3) Run consistency/risk/scope checks as needed.
+4) Produce decision record (approve/reject/defer).
+5) Write audit entry.
+6) Update registries + xref.
+7) If approved, route implementation to correct layer (ENG family / ORC/CTL/VAL/QA).
+
+---
+
+## 9) QUALITY GATES (MANDATORY)
+
 PASS if:
-- REG updated correctly for L2/L3
-- XREF updated for dependencies/changes/conflicts
-- CTL checks do not reject paths/levels
+- CP complete (impact + migration + approvals)
+- decision recorded + audit logged
+- registries updated
+- xref updated (changes/deps/provenance)
+- no hidden dependencies
 
 FAIL if:
-- any L2/L3 without REG entry
-- any dependency without XREF
-- any replacement without REPLACED_BY/MOVED_TO/RENAMED_TO
+- canon changed without governance decision
+- missing audit entry
+- missing xref/registry updates
 
 ---
 
-## 7) FAILURE MODES
+## 10) RAW LINK (MANDATORY)
 
-- Hidden dependency discovered → FAIL + require XREF DEPENDS_ON
-- Conflicting canon claims → create XREF CONFLICTS_WITH + route to decision approval
-- Wrong path/level → CTL rejects; move artifact to correct folder
-- No WHY / no approver → cannot be L2
-
----
-
-## 8) RAW LINK (MANDATORY)
-
-RAW: <raw github link to this template file>
+RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/00_GOVERNANCE_ENGINES/00__TEMPLATE__ENGINE__GOVERNANCE_ENGINES.md
 
 ---
 
 ## FINAL RULE (LOCK)
 
-> Governance engines enforce system law. Any canon-impacting action must be traceable via REG + XREF + Audit/Decision.
+> Governance engines are allowed to write SYSTEM-level artifacts. They must log every canon/system-impacting change.
 
-OWNER: Universe Engine  
-LOCK: OPEN
+LOCK: FIXED

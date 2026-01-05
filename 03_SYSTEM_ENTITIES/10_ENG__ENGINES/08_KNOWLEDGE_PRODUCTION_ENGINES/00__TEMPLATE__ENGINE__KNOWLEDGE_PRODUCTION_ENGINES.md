@@ -4,181 +4,216 @@ FILE: 00__TEMPLATE__ENGINE__KNOWLEDGE_PRODUCTION_ENGINES.md
 SCOPE: Universe Engine
 LAYER: ENG
 DOC_TYPE: TEMPLATE
-ENTITY_KIND: PRD
-PROJECT_SCOPE: GLOBAL
-OUTPUT_LEVEL: N/A
-ID: ENG.TPL.ENGINE.PRODUCTION
+ENTITY_GROUP: ENGINES (ENG)
+TEMPLATE_KIND: ENGINE_FAMILY_OVERLAY
+LEVEL: L3
 STATUS: ACTIVE
 VERSION: 2.0
-ROLE: Family-specific overlay template for Production engines. Compatible with ENG ENGINE TEMPLATE v2 and adds production pack schema + asset/edit xref requirements.
+ROLE: Production family overlay. Compatible with ENG ENGINE TEMPLATE (BASE v2). Adds production run schema, asset provenance contract, and strict boundary rules vs Narrative and Music.
+
+LOCK: FIXED
+OWNER: Universe Engine
 
 ---
 
 ## 0) ENGINE IDENTITY (MANDATORY)
 
 ENGINE_NAME: <UPPER_SNAKE_CASE>
-ENGINE_ID: <ENG.PRD.<NN>.<ENGINE_NAME>>
+ENGINE_ID: ENG.PRD.<NN>.<ENGINE_NAME>
 
 FAMILY_CODE: PRD
 ENGINE_NN_IN_FAMILY: <01..08>
 ENGINE_CLASS: PRODUCTION
 ENGINE_LEVEL: L3
 
-ROLE_IN_FAMILY: <FOUNDATION|BUILDER|VALIDATOR|BRIDGE|OUTPUT>
-PIPELINE_STAGE: <DEFINE|BUILD|CHECK|PACKAGE|PRODUCE>
-
-OWNER: Universe Engine
-LOCK: OPEN
+ROLE_IN_FAMILY: <FOUNDATION|BUILDER|OUTPUT>
+PIPELINE_STAGE: <DEFINE|BUILD|PRODUCE>
 
 ---
 
 ## 1) PURPOSE (WHAT THIS ENGINE DOES)
 
-One paragraph: what production capability it defines (composition/style/camera/light/gen/edit/sound) and which artifacts it produces.
-
-### DOES NOT OWN (hard)
-- deep music composition (09)
-- story-time rhythm (NAR pacing)
-- canon story/world/character decisions
+One paragraph:
+- what production capability this engine provides
+- what artifact types it outputs
+- which upstream packs it obeys (Format/Style/Narrative/World/Character)
 
 ---
 
-## 2) TRIGGERS (WHEN TO RUN)
+## 2) OWNERSHIP BOUNDARIES (ANTI-DUPLICATION)
 
-TRIGGERS:
-- need to produce assets for an episode/short/chapter adaptation
-- style/format constraints updated
-- narrative pack updated
-- montage pass required
-- sound pass required
+OWNS:
+- implementation of style intent into assets
+- screen-time montage rules (ONLY inside Editing engine)
+- production sound (sync/clarity/placement)
 
----
-
-## 3) MINI-CONTRACT (MANDATORY)
-
-CONSUMES (examples):
-- NARRATIVE_OUTLINE / NARRATIVE_OUTPUT_PACK
-- STYLE_CONSTRAINTS_PACK
-- FORMAT_CONSTRAINTS_PACK + DELIVERY_SPEC
-- WORLD_CONSTRAINTS_PACK
-- CHARACTER_CANON (if needed)
-
-PRODUCES (examples):
-- SHOTLIST
-- ASSET_SET
-- EDIT_PLAN
-- SOUND_PLAN
-- EXPORT_SPEC
-- FINAL_EXPORTS
-- PRODUCTION_PACK
-
-DEPENDS_ON:
-- []  (if depends → mirror in XREF__DEPENDENCIES)
-
-OUTPUT_ARTIFACT_TYPE:
-- <SHOTLIST|ASSET_SET|EDIT_PLAN|SOUND_PLAN|FINAL_EXPORTS|PRODUCTION_PACK>
-
----
-
-## 4) PRODUCTION PACK SCHEMA (MANDATORY)
-
-PROD_PACK_ID: <unique>
-INPUT_CANON_REFS:
-  - <CANON_REF to narrative L2/L3>
-  - <DEPENDS_ON to format delivery spec>
-  - <DEPENDS_ON to style pack>
-  - <DEPENDS_ON to world constraints>
-ASSET_LIST:
-  IMAGES: [ ... ]
-  VIDEO: [ ... ]
-  AUDIO: [ ... ]
-SHOTLIST:
-  - SHOT_ID: ...
-    SOURCE: <scene/beat reference>
-    NOTES: <non-canon production notes>
-EDIT_PLAN:
-  RHYTHM: <screen-time rhythm notes>
-  CUT_RULES: [ ... ]
-SOUND_PLAN:
-  SYNC_NOTES: ...
-  CLARITY_NOTES: ...
-  MUSIC_PLACEMENT_NOTES: <placement only, not composition>
-EXPORT_SPEC:
-  DELIVERABLES: [ ... ]
-PROVENANCE:
-  DERIVED_FROM: [ ... ]
-XREF_POINTERS:
-  - <xref links>
+DOES NOT OWN:
+- story-time pacing (NAR)
+- deep music composition (MUS)
+- world facts, character psyche, narrative canon
 
 Rule:
-> PROD_PACK must include INPUT_CANON_REFS and EXPORT_SPEC.
+> If output changes canon meaning, it must be declared as retcon and go governance.
 
 ---
 
-## 5) SYSTEM INTERFACE (MANDATORY) — PRODUCTION DEFAULTS
+## 3) TRIGGERS (WHEN TO RUN)
 
-## SYSTEM INTERFACE
-- OUTPUTS:
-  - output_level: <L1_DRAFT|L2_CANON|L3_OUTPUT>
-  - target_path_rule:
-    - base: `05_PROJECTS/<PROJECT_ID>/01_WORKSHOP/`
-    - category: `12_PRODUCTION/`
-    - subfolders:
-      - plans: `01_PLANS/`
-      - assets: `02_ASSETS/`
-      - edits: `03_EDITS/`
-      - exports: `04_EXPORTS/`
-    - level_folder:
-      - L1: `02_DRAFT_L1/`
-      - L2: `03_CANON_L2/`
-      - L3: `04_OUTPUT_L3/`
-
-- REGISTRY_UPDATES:
-  - required: YES
-  - registries:
-    - `REG.PRJ.<PROJECT_ID>.OUTPUT_L3`
-    - `REG.PRJ.<PROJECT_ID>.ASSETS` (if used)
-    - `REG.PRJ.<PROJECT_ID>.CANON_L2` (if plan canonized)
-
-- XREF_UPDATES:
-  - required: YES
-  - record_types:
-    - [DEPENDS_ON, CANON_REF, DERIVED_FROM, PRODUCED_BY, ASSET_LINK, EDIT_DECISION]
-  - xref_targets:
-    - `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__CANON_REFS.md`
-    - `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__DEPENDENCIES.md`
-    - `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__PROVENANCE.md`
-    - `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__ASSET_GRAPH.md`
-    - `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__EDIT_DECISIONS.md`
-
-- GATES:
-  - validators:
-    - `VAL.PRD.01.CANON_LINKS_PRESENT` (placeholder)
-    - `VAL.PRD.02.EXPORT_SPEC_PRESENT` (placeholder)
-  - qa_checks:
-    - `QA.PRD.01.DELIVERABLES_MATCH_FORMAT` (placeholder)
-    - `QA.PRD.02.MONTAGE_COHERENCE` (placeholder)
+TRIGGERS:
+- deliverable required by format spec
+- new scene/sequence needs assets
+- quality/consistency failure in previous output
+- re-render / re-edit / re-mix requested
 
 ---
 
-## 6) QUALITY (MANDATORY)
+## 4) MINI-CONTRACT (MANDATORY)
+
+CONSUMES:
+- FORMAT_SPEC (required)
+- STYLE_LAW_PACK (required)
+- NARRATIVE_PACK / SCENE_SPECS (optional but typical)
+- WORLD_CANON_REFS (optional)
+- CHARACTER_CONSTRAINTS (optional)
+- existing assets (if iterating)
+
+PRODUCES:
+- ASSET_PACK (images/video/audio/subtitles/metadata)
+- EDIT_SEQUENCE (if editing)
+- AUDIO_STEMS (if sound)
+- DELIVERY_BUNDLE (final deliverables)
+- PROVENANCE_RECORDS
+
+DEPENDS_ON:
+- [] (or engine IDs)
+
+OUTPUT_TARGET:
+- runs:
+  `05_PROJECTS/<PROJECT_ID>/01_WORKSHOP/05_PROJECT__L3/PRODUCTION_RUNS/RUN_<ID>/`
+- intermediate outputs:
+  `05_PROJECTS/<PROJECT_ID>/01_WORKSHOP/05_PROJECT__L3/04_OUTPUT_L3/PRODUCTION/`
+- final outputs:
+  `05_PROJECTS/<PROJECT_ID>/02_OUTPUT/<FORMAT>/`
+
+Rule:
+> Every output must have provenance and mapping to inputs.
+
+---
+
+## 5) PRODUCTION RUN SCHEMAS (MANDATORY)
+
+### 5.1 RUN_RECORD
+
+RUN_ID: <RUN_<YYYYMMDD>_<NN>>
+ENGINE_ID: <ENG.PRD.*>
+FORMAT_REF: <FMT_*>
+STYLE_PACK_REF: <STY_PACK_*>
+INPUT_REFS:
+- scene_or_arc_refs: [ ... ]
+- canon_refs: [ ... ]
+PARAMS:
+- version: <...>
+- notes: <...>
+OUTPUTS:
+- assets: [ ... ] (file ids/paths)
+- deliverables: [ ... ]
+QA_RESULTS:
+- passed: <true|false>
+- issues: [ ... ]
+PROVENANCE_REF: <XREF__PROVENANCE entry id>
+
+---
+
+### 5.2 ASSET_RECORD
+
+ASSET_ID: <AST_<NAME>>
+TYPE: <IMG|VID|AUD|SUB|META|PROJECT_FILE>
+SOURCE:
+- generated_by: <engine/tool>
+- derived_from: [ ... ]
+CANON_SCOPE: <L0|L1|L2|L3>
+PATH: <repo path>
+LICENSE: <optional>
+NOTES: ...
+
+Rule:
+> No asset without PATH + derived_from.
+
+---
+
+## 6) SYSTEM INTERFACE (MANDATORY) — ORC/CTL/VAL/QA/REG/XREF
+
+ORCHESTRATED_BY (ORC):
+- [] (or ORC IDs)
+
+CONTROLLED_BY (CTL):
+- [] (or CTL IDs)
+
+VALIDATED_BY (VAL):
+- <VAL.PRD.01.PROVENANCE> (placeholder) or []
+- <VAL.PRD.02.FORMAT_COMPLIANCE> (placeholder) or []
+
+QA_BY (QA):
+- <QA.PRD.01.VISUAL_QUALITY> (placeholder) or []
+- <QA.PRD.02.AUDIO_QUALITY> (placeholder) or []
+- <QA.PRD.03.CONSISTENCY> (placeholder) or []
+
+REGISTRY_UPDATES:
+- REQUIRED: YES (deliverables)
+- TARGETS:
+  - `00_REG__REGISTRIES/REG.PRJ.<PROJECT_ID>.OUTPUT_L3.md`
+  - `00_REG__REGISTRIES/REG.PRJ.<PROJECT_ID>.RUNS.md` (recommended)
+
+XREF_UPDATES:
+- REQUIRED: YES
+- TARGETS:
+  - `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__PROVENANCE.md`
+  - `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__ASSET_GRAPH.md`
+  - `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__DELIVERABLE_MAP.md`
+  - `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__DEPENDENCIES.md`
+  - `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__CANON_REFS.md`
+
+Rule:
+> Provenance is mandatory for every production output.
+
+---
+
+## 7) PROCESS (HOW TO EXECUTE)
+
+1) Read FORMAT_SPEC + STYLE_LAW_PACK.
+2) Pull scene/arc specs (if any).
+3) Produce assets or edits under engine specialization.
+4) Store outputs in RUN folder + intermediate/final paths.
+5) Update registry (deliverables/runs).
+6) Update provenance + asset graph.
+7) Run validators + QA gates.
+8) If output changes canon meaning (retcon) → governance.
+
+---
+
+## 8) QUALITY GATES (MANDATORY)
 
 PASS if:
-- has CANON_REF/DEPENDS_ON to narrative/style/format/world
-- export spec matches delivery spec
-- edit plan is explicit (screen-time)
-- sound plan is placement/clarity (no deep composition)
+- deliverable matches format spec
+- style intent is respected
+- provenance exists and complete
+- no narrative canon edits inside production docs
 
 FAIL if:
-- production pack “changes canon”
-- missing xref links
-- includes deep music composition tasks (route to 09)
+- missing provenance
+- contains story-time pacing decisions (belongs to NAR)
+- tries to “compose music” (belongs to MUS)
+
+---
+
+## 9) RAW LINK (MANDATORY)
+
+RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/08_KNOWLEDGE_PRODUCTION_ENGINES/00__TEMPLATE__ENGINE__KNOWLEDGE_PRODUCTION_ENGINES.md
 
 ---
 
 ## FINAL RULE (LOCK)
 
-> Production engines produce media artifacts and screen-time rhythm. They must remain linked to canon constraints and not rewrite canon.
+> Production outputs must be traceable and format-compliant. Canon stays upstream.
 
-OWNER: Universe Engine  
-LOCK: OPEN
+LOCK: FIXED

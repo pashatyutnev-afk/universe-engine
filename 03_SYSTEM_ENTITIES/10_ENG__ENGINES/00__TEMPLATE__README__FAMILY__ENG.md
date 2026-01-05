@@ -1,216 +1,174 @@
-# ENG FAMILY README TEMPLATE — UNIVERSAL
+# ENG FAMILY README TEMPLATE (BASE v2)
 FILE: 00__TEMPLATE__README__FAMILY__ENG.md
 
 SCOPE: Universe Engine
 LAYER: ENG
 DOC_TYPE: TEMPLATE
-ENTITY_KIND: GENERIC
-PROJECT_SCOPE: GLOBAL
-OUTPUT_LEVEL: N/A
-ID: ENG.TEMPLATE.FAMILY_README
+ENTITY_GROUP: ENGINES (ENG)
+TEMPLATE_KIND: FAMILY_README_BASE
+LEVEL: L1
 STATUS: ACTIVE
 VERSION: 2.0
-ROLE: Universal template for ENG family realm README. Defines boundaries, role map, required registries/xrefs, default output policies, and canon order for engines in the family.
+ROLE: Canonical base template for any ENG family README (Realm). Enforces ownership boundaries, canon order, required templates block, and integration with REG/XREF.
+
+LOCK: FIXED
+OWNER: Universe Engine
 
 ---
 
 ## 0) PURPOSE (REALM LAW)
 
-Этот README — **конституция семейства**.
-Он фиксирует:
-- границы (OWN / DOES NOT OWN)
-- роли движков внутри семейства (FOUNDATION / BUILDER / VALIDATOR / BRIDGE / OUTPUT)
-- обязательные интерфейсы (input/output артефакты)
-- правила вывода в WORKSHOP L0–L3
-- обязательные обновления REG и XREF
-- канонический порядок движков
+This README defines:
+- what the family owns (and does not own)
+- how the family is used as a navigation/roadmap
+- mandatory template links (base + family overlays)
+- required registries and xref indexes
+- the canon order of engines inside the family
 
-### EXISTENCE RULE (FAMILY)
-> Движок, не внесённый в семейный CANON ORDER + общий ENG INDEX — считается **non-canon**.
+Existence rule:
+> If an engine is not listed in the family README canon order — it does not exist for this family.
 
 ---
 
 ## 1) FAMILY IDENTITY (MANDATORY)
 
-FAMILY_NAME: <e.g., DOMAIN_NARRATIVE_ENGINES>
-FAMILY_CODE: <e.g., NARR>
+FAMILY_NAME: <UPPER_SNAKE_CASE>
+FAMILY_CODE: <GOV|CORE|NAR|CHR|WLD|EXP|STY|FMT|PRD|MUS|MET>
 FAMILY_CLASS: <GOVERNANCE|CORE|DOMAIN|EXPRESSION|STYLE|PRODUCTION|SOUND|META>
 FAMILY_LEVEL: <L1|L2|L3|L4>
 
-FAMILY_PATH: `10_ENG__ENGINES/<FAMILY_FOLDER>/`
-README_FILE: `00__README__<FAMILY>_ENGINES.md`
+FAMILY_PATH:
+`03_SYSTEM_ENTITIES/10_ENG__ENGINES/<NN_<FAMILY_NAME>_ENGINES>/`
+
+README_FILE:
+`00__README__<FAMILY_NAME>_ENGINES.md`
 
 ---
 
 ## 2) OWNERSHIP BOUNDARIES (ANTI-DUPLICATION)
 
-### 2.1 OWNS (this family owns)
-- <list what this family is responsible for>
-- <what artifacts are produced here>
-- <what decisions belong here>
+### 2.1 OWNS
+- <what this family owns>
 
-### 2.2 DOES NOT OWN (belongs elsewhere)
-- <explicit exclusions + pointer links to other families/layers>
-Examples:
-- Narrative rhythm vs Editing rhythm
-- Production sound vs Deep music
+### 2.2 DOES NOT OWN (hard boundaries)
+- <what this family does NOT own>
 
 Rule:
-> If something belongs to DOES NOT OWN, it MUST be redirected, not duplicated.
+> Families must explicitly carve boundaries to prevent duplication with other families.
 
 ---
 
 ## 3) ROLE MAP (MANDATORY)
 
-Каждый движок семьи обязан иметь роль:
+Explain roles in the family:
+- FOUNDATION
+- BUILDER
+- VALIDATOR
+- BRIDGE
+- OUTPUT
 
-- FOUNDATION — определяет базовые правила/модель/язык
-- BUILDER — строит артефакты на основе foundation
-- VALIDATOR — проверяет и ловит противоречия
-- BRIDGE — переводит в следующий слой/формат/пайплайн
-- OUTPUT — собирает итоговый пакет артефактов семейства
-
-### 3.1 Family role completeness rule
-> В каждой семье должен существовать минимум:
-> - 1 FOUNDATION
-> - 1 OUTPUT
-> - 1 VALIDATOR (если семья производит L2_CANON)
-> При отсутствии — семья считается incomplete.
-
-### 3.2 Role map table (fill)
+### 3.1 Canonical role map table
 | Engine NN | Engine Name | ROLE_IN_FAMILY | PIPELINE_STAGE |
 |---|---|---|---|
-| 01 | <...> | FOUNDATION | DEFINE |
-| 02 | <...> | BUILDER | BUILD |
-| 03 | <...> | VALIDATOR | CHECK |
-| 04 | <...> | BRIDGE | PACKAGE |
-| 05 | <...> | OUTPUT | PRODUCE |
-
-PIPELINE_STAGE standard:
-- DEFINE / BUILD / CHECK / PACKAGE / PRODUCE
+| 01 | ... | ... | ... |
 
 ---
 
 ## 4) FAMILY OUTPUT POLICY (WORKSHOP L0–L3) — MANDATORY
 
-DEFAULT_ENTITY_KIND: <CHR|LOC|...|GENERIC>
-DEFAULT_OUTPUT_LEVEL: <L0_INTAKE|L1_DRAFT|L2_CANON|L3_OUTPUT>
 DEFAULT_PROJECT_OUTPUT_ROOT:
-- `05_PROJECTS/<PROJECT_ID>/01_WORKSHOP/`
+`05_PROJECTS/<PROJECT_ID>/01_WORKSHOP/`
 
-DEFAULT_CATEGORY_PATH (choose one or more):
-- `01_CHARACTERS/`
-- `02_LOCATIONS/`
-- `03_OBJECTS/`
-- `04_SYSTEMS/`
-- `05_FACTIONS/`
-- `06_EVENTS/`
-- `07_CONCEPTS/`
-- `08_RELATIONSHIPS/`
-- `09_ARCS/`
-- `10_STYLES/`
-- `11_EXPERIMENTS/`
-- `05_PROJECT__L3/` (media outputs)
+Routing law reference:
+- Outputs must follow ENG Engine Base routing (ENTITY/PROJECT scope).
 
-### 4.1 Level routing rules (strict)
-- L0_INTAKE: raw notes, fragments, references
-- L1_DRAFT: structured drafts, not approved
-- L2_CANON: only after validator + QA + REG/XREF updates
-- L3_OUTPUT: must reference L2_CANON via XREF (CANON_REF)
+Recommended:
+- L0: intake
+- L1: drafts
+- L2: canon
+- L3: output packs
 
 ---
 
 ## 5) REQUIRED REGISTRIES (MANDATORY)
 
-This family MUST declare which registries it updates.
+Project-scoped (typical):
+- `00_REG__REGISTRIES/REG.PRJ.<PROJECT_ID>.ENTITIES.md` (if entity outputs exist)
+- `00_REG__REGISTRIES/REG.PRJ.<PROJECT_ID>.CANON_L2.md`
+- `00_REG__REGISTRIES/REG.PRJ.<PROJECT_ID>.OUTPUT_L3.md`
+- `00_REG__REGISTRIES/REG.PRJ.<PROJECT_ID>.ASSETS.md` (if media/assets exist)
 
-REQUIRED_REGISTRIES:
-- Entities: <REG ids/paths>
-- Artifacts (L2/L3): <REG ids/paths>
-- Engines (optional): <REG ids/paths>
-
-Rule:
-> If a family produces L2_CANON or L3_OUTPUT, registries are mandatory.
+System-scoped (only with governance):
+- `00_REG__REGISTRIES/REG.SYS.<NAME>.md`
 
 ---
 
 ## 6) REQUIRED XREF INDEXES (MANDATORY)
 
-This family MUST declare xref indexes it writes to.
+Project-scoped (typical):
+- `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__CANON_REFS.md`
+- `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__DEPENDENCIES.md`
+- `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__PROVENANCE.md`
 
-REQUIRED_XREF:
-- Dependency graph: <xref index path/id>
-- Canon refs: <xref index path/id>
-- Entity graph (if relevant): <xref index path/id>
-- Change/replacement (if relevant): <xref index path/id>
+Optional by family nature:
+- `XREF__CAUSE_EFFECT_GRAPH.md` (Expression/Narrative)
+- `XREF__ASSET_GRAPH.md` (Production/Music)
+- `XREF__EDIT_DECISIONS.md` (Production)
+- `XREF__CHANGES.md` (Meta/Governance)
+
+---
+
+## 7) TEMPLATES (MANDATORY BLOCK)
+
+Base templates (required for every family):
+- ENGINE TEMPLATE (base) — 🔗 <raw link to 00__TEMPLATE__ENGINE__ENG.md>
+- FAMILY README TEMPLATE (base) — 🔗 <raw link to 00__TEMPLATE__README__FAMILY__ENG.md>
+
+Family overlays (required for this family):
+- ENGINE TEMPLATE (family) — 🔗 <raw link to 00__TEMPLATE__ENGINE__<FAMILY>_ENGINES.md>
+- README TEMPLATE (family) — 🔗 <raw link to 00__TEMPLATE__README__<FAMILY>_ENGINES.md>
 
 Rule:
-> Any DEPENDS_ON in engines must be mirrored in XREF dependency index.
+> Every family README must contain both base template links + its overlay template links.
 
 ---
 
-## 7) INTERFACES (INPUT / OUTPUT ARTIFACT TYPES)
+## 8) CANON ORDER (MANDATORY)
 
-Define the standard artifact “language” for this family.
-
-### 7.1 INPUT ARTIFACT TYPES
-- <type 1>
-- <type 2>
-
-### 7.2 OUTPUT ARTIFACT TYPES
-- <type 1>
-- <type 2>
-
-### 7.3 OUTPUT_ARTIFACT_TYPE STANDARD
-Engines in this family must label their main output:
-- CANON_SPEC / CANON_MODEL / CANON_CARD / STYLE_BIBLE / FORMAT_SPEC / SHOTLIST / EDIT_PLAN / MUSIC_STEMS / ...
-
----
-
-## 8) TEMPLATES (MANDATORY BLOCK)
-
-Every family must expose template links.
-
-- ENGINE TEMPLATE — 🔗 <raw link or canonical path to engine template used>
-- README TEMPLATE — 🔗 <raw link or canonical path to this readme template>
-
-Optional overlays:
-- OVERLAY TEMPLATE(S) — 🔗 <links>
-
----
-
-## 9) CANON ORDER (MANDATORY)
-
-List engines in strict order. README (00) is not an engine.
-
-00 — README (Realm) — 🔗 <raw link>
-01 — <Engine name> — 🔗 <raw link>
-02 — <Engine name> — 🔗 <raw link>
+00 — README (Realm)  
+01 — <Engine 01>  
+02 — <Engine 02>  
 ...
 
 Rule:
-> Engine NN in filename MUST match NN in this order list.
+> Engine NN in this list must match the NN in engine file name.
 
 ---
 
-## 10) GOVERNANCE COMPATIBILITY (MANDATORY)
+## 9) GOVERNANCE COMPATIBILITY (MANDATORY)
 
-Any change to:
-- this README
-- engine order
-- required registries/xrefs
-- output policy
-must go through governance pipeline:
-- `ENG.GOV.04.CHANGE_CONTROL`
-- `ENG.GOV.01.AUDIT_LOG`
-- `ENG.GOV.10.VERSIONING_MEMORY`
+Any change in:
+- ownership boundaries
+- canon order
+- template requirements
+- registries/xref requirements
+
+Must go through governance pipeline:
+- Change Control
+- Canon Authority
+- Versioning & Memory
+- Audit Log
+
+---
+
+## 10) RAW LINK (MANDATORY)
+
+RAW: <raw github link to this file>
 
 ---
 
 ## FINAL RULE (LOCK)
 
-> Этот README является законом конкретного семейства.  
-> Несоответствие движков этому README = non-canon.
+> This family README is the realm law of the family and the navigation contract.
 
-OWNER: Universe Engine  
 LOCK: FIXED

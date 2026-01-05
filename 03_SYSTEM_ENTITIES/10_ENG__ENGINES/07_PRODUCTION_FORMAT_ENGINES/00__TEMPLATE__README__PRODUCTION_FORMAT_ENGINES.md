@@ -4,183 +4,136 @@ FILE: 00__TEMPLATE__README__PRODUCTION_FORMAT_ENGINES.md
 SCOPE: Universe Engine
 LAYER: ENG
 DOC_TYPE: TEMPLATE
-ENTITY_KIND: FMT
-PROJECT_SCOPE: GLOBAL
-OUTPUT_LEVEL: N/A
-ID: ENG.TPL.FAMILY.PRODUCTION_FORMAT.README
+ENTITY_GROUP: ENGINES (ENG)
+TEMPLATE_KIND: FAMILY_README_OVERLAY
+LEVEL: L3
 STATUS: ACTIVE
 VERSION: 2.0
-ROLE: Realm law + role map + interfaces + required REG/XREF + canon order for PRODUCTION_FORMAT family.
+ROLE: Family overlay for Production Format realm README. Compatible with base family template v2 and base engine template v2. Defines format laws, deliverable specs, and routing to L3 outputs.
+
+LOCK: FIXED
+OWNER: Universe Engine
 
 ---
 
 ## 0) PURPOSE (REALM LAW)
 
-Этот README — закон семейства **PRODUCTION_FORMAT_ENGINES**.
-Семейство отвечает за форматную упаковку проекта:
-- жанр как категория выпуска (Genre Engine) — именно “формат жанра” как упаковка/market label, не стиль атмосферы
-- смешение жанров как правило упаковки
-- адаптацию истории под формат
-- правила книги
-- правила сериала/эпизодов
-- правила короткого контента
-- правила YouTube longform
-- правила игры (нарративные ограничения формата игры)
+Семейство **PRODUCTION_FORMAT_ENGINES** отвечает за форму выпуска:
+- жанр как упаковка ожиданий аудитории
+- смешение жанров
+- адаптация формата под носитель
+- формат книги
+- формат сериала/эпизодов
+- формат короткого контента
+- формат YouTube longform
+- формат игры (нарратив)
 
-### EXISTENCE RULE (FORMAT)
-> Любой проект обязан выбрать формат и иметь форматный constraints pack.  
-> Без формата нельзя валидировать deliverables и структуру выпуска.
+EXISTENCE RULE:
+> Пока формат не выбран и не зафиксирован — production не имеет валидного target deliverable.
 
 ---
 
 ## 1) FAMILY IDENTITY (MANDATORY)
 
-FAMILY_NAME: PRODUCTION_FORMAT_ENGINES  
-FAMILY_CODE: FMT  
-FAMILY_CLASS: PRODUCTION  
-FAMILY_LEVEL: L3  
+FAMILY_NAME: PRODUCTION_FORMAT_ENGINES
+FAMILY_CODE: FMT
+FAMILY_CLASS: PRODUCTION
+FAMILY_LEVEL: L3
 
-FAMILY_PATH: `10_ENG__ENGINES/07_PRODUCTION_FORMAT_ENGINES/`  
-README_FILE: `00__README__PRODUCTION_FORMAT_ENGINES.md`
+FAMILY_PATH:
+`03_SYSTEM_ENTITIES/10_ENG__ENGINES/07_PRODUCTION_FORMAT_ENGINES/`
+
+README_FILE:
+`00__README__PRODUCTION_FORMAT_ENGINES.md`
 
 ---
 
 ## 2) OWNERSHIP BOUNDARIES (ANTI-DUPLICATION)
 
 ### 2.1 OWNS
-- Форматные правила: единицы выпуска, deliverables, структура пакетов
-- Требования к длительности/объёму на уровне “диапазонов” (не секунды монтажа)
-- Правила сериализации: сезоны/эпизоды, cliffhangers как форматный паттерн
-- Адаптация структуры под формат (через интерфейсы к Narrative)
+- форматные ограничения (длина, эпизодность, структура deliverables)
+- требования к “пакету выпуска” (что должно быть на выходе)
+- mapping format → production pipeline targets
 
 ### 2.2 DOES NOT OWN (hard boundaries)
-- Story logic/scene ordering/arc design → Narrative
-- Event atoms → Expression
-- Style/атмосфера/символизм → Genre/Style (06)
-- Монтаж/секунды/тайминг кадра → 08 Editing
-- Визуальный арт-дирекшн и камера/свет → 08
-- Глубокая музыка → 09
-- Законы мира/экономика → 04
-- Психология персонажа/диалог → 03
-
-Boundary rule:
-> Format говорит “каким пакетом и в каких единицах выпускать”, но не пишет историю и не монтирует.
+- сюжетная логика/арки/сцены → 02 Narrative
+- стиль/атмосфера → 06 Style
+- монтаж/кадры/съёмка/звук как процесс → 08 Production
+Rule:
+> Format задаёт требования к deliverables; Production реализует.
 
 ---
 
 ## 3) ROLE MAP (MANDATORY)
 
-- FOUNDATION — жанр/жанровое смешение (как упаковка)
-- BUILDER — адаптация под формат (mapping narrative → format)
-- VALIDATOR — проверка deliverables/структуры выпуска
-- BRIDGE — интерфейс между narrative canon (L2) и production outputs (08)
-- OUTPUT — format constraints pack + delivery spec
+- FOUNDATION: genre + blending + adaptation
+- OUTPUT: book/series/short/youtube/game specs
 
 ### 3.1 Canonical role map table
 | Engine NN | Engine Name | ROLE_IN_FAMILY | PIPELINE_STAGE |
 |---|---|---|---|
 | 01 | Genre Engine | FOUNDATION | DEFINE |
 | 02 | Genre Blending Engine | FOUNDATION | DEFINE |
-| 03 | Format Adaptation Engine | BRIDGE | PACKAGE |
-| 04 | Book Format Engine | BUILDER | BUILD |
-| 05 | Series & Episode Engine | BUILDER | BUILD |
-| 06 | Short Content Engine | BUILDER | BUILD |
-| 07 | YouTube Longform Engine | BUILDER | BUILD |
-| 08 | Game Narrative Engine | BUILDER | BUILD |
+| 03 | Format Adaptation Engine | FOUNDATION | DEFINE |
+| 04 | Book Format Engine | OUTPUT | PRODUCE |
+| 05 | Series & Episode Engine | OUTPUT | PRODUCE |
+| 06 | Short Content Engine | OUTPUT | PRODUCE |
+| 07 | YouTube Longform Engine | OUTPUT | PRODUCE |
+| 08 | Game Narrative Engine | OUTPUT | PRODUCE |
 
 ---
 
-## 4) FORMAT CONSTRAINTS STANDARD (MANDATORY)
+## 4) FAMILY OUTPUT POLICY (WORKSHOP L0–L3) — MANDATORY
 
-Каждый форматный pack обязан иметь:
-- FORMAT_ID
-- FORMAT_TYPE (BOOK|SERIES|SHORT|YTLONG|GAME)
-- UNIT_DEFINITION (chapter/episode/short/quest)
-- DELIVERABLES (что сдаём)
-- STRUCTURE_RULES (например “эпизод: intro→push→turn→cliff” как pattern, не как сюжет)
-- LENGTH_RANGE (диапазон, не монтажные секунды)
-- CADENCE (release cadence optional)
-- HANDOFFS:
-  - to Narrative (что требовать от outline)
-  - to Production (что производить)
+Default root:
+`05_PROJECTS/<PROJECT_ID>/01_WORKSHOP/`
+
+Format-spec storage (project-scoped):
+- `05_PROJECT__L2/<LEVEL_FOLDER>/FORMAT_SPECS/`
+
+Deliverables routing (L3 outputs):
+- `05_PROJECTS/<PROJECT_ID>/02_OUTPUT/<FORMAT>/...`
+or if staying inside Workshop:
+- `05_PROJECTS/<PROJECT_ID>/01_WORKSHOP/05_PROJECT__L3/04_OUTPUT_L3/<FORMAT>/...`
 
 Rule:
-> Format pack обязан быть “машиночитаемым” constraints документом, не эссе.
+> Format specs live in L2. Actual release artifacts live in L3 Output.
 
 ---
 
-## 5) FAMILY OUTPUT POLICY (WORKSHOP L0–L3) — MANDATORY
+## 5) REQUIRED REGISTRIES (MANDATORY)
 
-DEFAULT_PROJECT_OUTPUT_ROOT:
-- `05_PROJECTS/<PROJECT_ID>/01_WORKSHOP/`
-
-Primary categories:
-- `11_FORMAT/`
-- `05_PROJECT__L3/` (delivery specs)
-
-Recommended:
-- L0: идеи формата
-- L1: черновые constraints
-- L2: format canon pack
-- L3: delivery spec для production
-
-File examples:
-- L2: `03_CANON_L2/00__FORMAT_CONSTRAINTS_CANON.md`
-- L3: `04_OUTPUT_L3/00__DELIVERY_SPEC.md`
+Project-scoped:
+- `00_REG__REGISTRIES/REG.PRJ.<PROJECT_ID>.CANON_L2.md` (format spec as canon)
+- `00_REG__REGISTRIES/REG.PRJ.<PROJECT_ID>.OUTPUT_L3.md` (deliverables)
 
 ---
 
-## 6) REQUIRED REGISTRIES (MANDATORY)
+## 6) REQUIRED XREF INDEXES (MANDATORY)
 
-REQUIRED_REGISTRIES (project-scoped):
-- `REG.PRJ.<PROJECT_ID>.CANON_L2` (format canon)
-- `REG.PRJ.<PROJECT_ID>.OUTPUT_L3` (delivery spec)
-
----
-
-## 7) REQUIRED XREF INDEXES (MANDATORY)
-
-REQUIRED_XREF (project-scoped):
-- `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__DEPENDENCIES.md`
+Project-scoped:
 - `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__CANON_REFS.md`
+- `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__DEPENDENCIES.md`
 - `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__PROVENANCE.md`
 
-Hard rule:
-> Любой narrative output pack (L3) должен ссылаться на FORMAT_CONSTRAINTS_PACK, и любой production plan (08) тоже.
+Format-specific (recommended):
+- `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__DELIVERABLE_MAP.md`
 
 ---
 
-## 8) INTERFACES (INPUT / OUTPUT ARTIFACT TYPES)
-
-### 8.1 INPUT TYPES
-- NARRATIVE_CANON_OUTLINE (L2)
-- STYLE_CONSTRAINTS_PACK (06)
-- WORLD_CONSTRAINTS_PACK (04)
-- PRODUCTION_CAPABILITIES (optional)
-- target platform constraints (optional)
-
-### 8.2 OUTPUT TYPES
-- FORMAT_CONSTRAINTS_PACK
-- DELIVERY_SPEC
-- UNIT_TEMPLATE (chapter/episode/short skeleton)
-- ADAPTATION_MAP (narrative→format)
-- RELEASE_CADENCE (optional)
-
----
-
-## 9) TEMPLATES (MANDATORY BLOCK)
+## 7) TEMPLATES (MANDATORY BLOCK)
 
 Base templates:
-- FAMILY README TEMPLATE (base) — `10_ENG__ENGINES/00__TEMPLATE__README__FAMILY__ENG.md`
-- ENGINE TEMPLATE (base) — `10_ENG__ENGINES/00__TEMPLATE__ENGINE__ENG.md`
+- ENGINE TEMPLATE (base) — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/00__TEMPLATE__ENGINE__ENG.md
+- FAMILY README TEMPLATE (base) — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/00__TEMPLATE__README__FAMILY__ENG.md
 
 Family overlays:
-- README TEMPLATE (this file) — `10_ENG__ENGINES/07_PRODUCTION_FORMAT_ENGINES/00__TEMPLATE__README__PRODUCTION_FORMAT_ENGINES.md`
-- ENGINE TEMPLATE (family) — `10_ENG__ENGINES/07_PRODUCTION_FORMAT_ENGINES/00__TEMPLATE__ENGINE__PRODUCTION_FORMAT_ENGINES.md`
+- ENGINE TEMPLATE (family) — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/07_PRODUCTION_FORMAT_ENGINES/00__TEMPLATE__ENGINE__PRODUCTION_FORMAT_ENGINES.md
+- README TEMPLATE (family) — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/07_PRODUCTION_FORMAT_ENGINES/00__TEMPLATE__README__PRODUCTION_FORMAT_ENGINES.md
 
 ---
 
-## 10) CANON ORDER (MANDATORY)
+## 8) CANON ORDER (MANDATORY)
 
 00 — README (Realm)  
 01 — Genre Engine  
@@ -194,10 +147,23 @@ Family overlays:
 
 ---
 
+## 9) GOVERNANCE COMPATIBILITY (MANDATORY)
+
+Governance required when:
+- changing format spec after L3 production started
+- changing episode length rules that impact editing pipeline
+- switching primary format mid-project
+
+---
+
+## 10) RAW LINK (MANDATORY)
+
+RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/07_PRODUCTION_FORMAT_ENGINES/00__TEMPLATE__README__PRODUCTION_FORMAT_ENGINES.md
+
+---
+
 ## FINAL RULE (LOCK)
 
-> Format family задаёт упаковку и deliverables.  
-> Он должен быть dependency для Narrative outputs и Production plans.
+> Format defines deliverables and constraints. It does not create story content and does not edit media.
 
-OWNER: Universe Engine  
 LOCK: FIXED
