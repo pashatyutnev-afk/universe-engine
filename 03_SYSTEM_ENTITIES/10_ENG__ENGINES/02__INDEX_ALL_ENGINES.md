@@ -193,6 +193,11 @@ ROLE: Canonical navigation law + roadmap for all ENG engine families and instanc
 🔗 **REALM FILE:** https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/00_GOVERNANCE_ENGINES/00__README__GOVERNANCE_ENGINES.md  
 **Family Path:** `00_GOVERNANCE_ENGINES/`
 
+🧩 **TEMPLATES:**
+- ENGINE TEMPLATE — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/00_GOVERNANCE_ENGINES/00__TEMPLATE__ENGINE__GOVERNANCE_ENGINES.md
+- README TEMPLATE — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/00_GOVERNANCE_ENGINES/00__TEMPLATE__README__GOVERNANCE_ENGINES.md
+
+
 01 — Audit Log Engine — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/00_GOVERNANCE_ENGINES/01__AUDIT_LOG_ENG.md  
 02 — Canon Authority Engine — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/00_GOVERNANCE_ENGINES/02__CANON_AUTHORITY_ENG.md  
 03 — Rule Hierarchy Engine — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/00_GOVERNANCE_ENGINES/03__RULE_HIERARCHY_ENG.md  
@@ -211,6 +216,11 @@ ROLE: Canonical navigation law + roadmap for all ENG engine families and instanc
 🔗 **REALM FILE:** https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/01_CORE_ENGINES/00__README__CORE_ENGINES.md  
 **Family Path:** `01_CORE_ENGINES/`
 
+🧩 **TEMPLATES:**
+- ENGINE TEMPLATE — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/01_CORE_ENGINES/00__TEMPLATE__ENGINE__CORE_ENGINES.md
+- README TEMPLATE — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/01_CORE_ENGINES/00__TEMPLATE__README__CORE_ENGINES.md
+
+
 01 — Core Identity Engine — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/01_CORE_ENGINES/01__CORE_IDENTITY_ENG.md  
 02 — Core State Engine — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/01_CORE_ENGINES/02__CORE_STATE_ENG.md  
 03 — Core Lifecycle Engine — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/01_CORE_ENGINES/03__CORE_LIFECYCLE_ENG.md  
@@ -221,6 +231,11 @@ ROLE: Canonical navigation law + roadmap for all ENG engine families and instanc
 **CLASS:** DOMAIN (L2)  
 🔗 **REALM FILE:** https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/02_DOMAIN_NARRATIVE_ENGINES/00__README__DOMAIN_NARRATIVE_ENGINES.md  
 **Family Path:** `02_DOMAIN_NARRATIVE_ENGINES/`
+
+🧩 **TEMPLATES:**
+- ENGINE TEMPLATE — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/02_DOMAIN_NARRATIVE_ENGINES/00__TEMPLATE__ENGINE__DOMAIN_NARRATIVE_ENGINES.md
+- README TEMPLATE — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/02_DOMAIN_NARRATIVE_ENGINES/00__TEMPLATE__README__DOMAIN_NARRATIVE_ENGINES.md
+
 
 01 — Narrative Logic Engine — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/02_DOMAIN_NARRATIVE_ENGINES/01__NARRATIVE_LOGIC_ENG.md  
 02 — Story Structure Engine — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/02_DOMAIN_NARRATIVE_ENGINES/02__STORY_STRUCTURE_ENG.md  
@@ -240,6 +255,11 @@ ROLE: Canonical navigation law + roadmap for all ENG engine families and instanc
 🔗 **REALM FILE:** https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/03_DOMAIN_CHARACTER_ENGINES/00__README__DOMAIN_CHARACTER_ENGINES.md  
 **Family Path:** `03_DOMAIN_CHARACTER_ENGINES/`
 
+🧩 **TEMPLATES:**
+- ENGINE TEMPLATE — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/03_DOMAIN_CHARACTER_ENGINES/00__TEMPLATE__ENGINE__DOMAIN_CHARACTER_ENGINES.md
+- README TEMPLATE — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/03_DOMAIN_CHARACTER_ENGINES/00__TEMPLATE__README__DOMAIN_CHARACTER_ENGINES.md
+
+
 01 — Character Core Engine — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/03_DOMAIN_CHARACTER_ENGINES/01__CHARACTER_CORE_ENG.md  
 02 — Motivation & Desire Engine — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/03_DOMAIN_CHARACTER_ENGINES/02__MOTIVATION_DESIRE_ENG.md  
 03 — Moral & Value Engine — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/03_DOMAIN_CHARACTER_ENGINES/03__MORAL_VALUE_ENG.md  
@@ -257,6 +277,11 @@ ROLE: Canonical navigation law + roadmap for all ENG engine families and instanc
 **CLASS:** DOMAIN (L2)  
 🔗 **REALM FILE:** https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/04_DOMAIN_WORLD_ENGINES/00__README__DOMAIN_WORLD_ENGINES.md  
 **Family Path:** `04_DOMAIN_WORLD_ENGINES/`
+
+🧩 **TEMPLATES:**
+- ENGINE TEMPLATE — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/04_DOMAIN_WORLD_ENGINES/00__TEMPLATE__ENGINE__DOMAIN_WORLD_ENGINES.md
+- README TEMPLATE — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/04_DOMAIN_WORLD_ENGINES/00__TEMPLATE__README__DOMAIN_WORLD_ENGINES.md
+
 
 01 — World Structure Engine — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/04_DOMAIN_WORLD_ENGINES/01__WORLD_STRUCTURE_ENG.md  
 02 — World Law Engine — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/04_DOMAIN_WORLD_ENGINES/02__WORLD_LAW_ENG.md  
@@ -276,6 +301,11 @@ ROLE: Canonical navigation law + roadmap for all ENG engine families and instanc
 🔗 **REALM FILE:** https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/05_EXPRESSION_ENGINES/00__README__EXPRESSION_ENGINES.md  
 **Family Path:** `05_EXPRESSION_ENGINES/`
 
+🧩 **TEMPLATES:**
+- ENGINE TEMPLATE — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/05_EXPRESSION_ENGINES/00__TEMPLATE__ENGINE__EXPRESSION_ENGINES.md
+- README TEMPLATE — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/05_EXPRESSION_ENGINES/00__TEMPLATE__README__EXPRESSION_ENGINES.md
+
+
 01 — Event Engine — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/05_EXPRESSION_ENGINES/01__EVENT_ENG.md  
 02 — Cause–Effect Engine — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/05_EXPRESSION_ENGINES/02__CAUSE_EFFECT_ENG.md  
 03 — Conflict Engine — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/05_EXPRESSION_ENGINES/03__CONFLICT_ENG.md  
@@ -287,6 +317,11 @@ ROLE: Canonical navigation law + roadmap for all ENG engine families and instanc
 09 — Randomness & Chaos Engine — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/05_EXPRESSION_ENGINES/09__RANDOMNESS_CHAOS_ENG.md  
 
 ---
+
+🧩 **TEMPLATES:**
+- ENGINE TEMPLATE — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/06_GENRE_STYLE_ENGINES/00__TEMPLATE__ENGINE__GENRE_STYLE_ENGINES.md
+- README TEMPLATE — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/06_GENRE_STYLE_ENGINES/00__TEMPLATE__README__GENRE_STYLE_ENGINES.md
+
 
 ## 06_GENRE_STYLE_ENGINES
 **CLASS:** STYLE (L3)  
@@ -301,6 +336,11 @@ ROLE: Canonical navigation law + roadmap for all ENG engine families and instanc
 06 — Sensory Detail Engine — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/06_GENRE_STYLE_ENGINES/06__SENSORY_DETAIL_ENG.md  
 
 ---
+
+🧩 **TEMPLATES:**
+- ENGINE TEMPLATE — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/07_PRODUCTION_FORMAT_ENGINES/00__TEMPLATE__ENGINE__PRODUCTION_FORMAT_ENGINES.md
+- README TEMPLATE — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/07_PRODUCTION_FORMAT_ENGINES/00__TEMPLATE__README__PRODUCTION_FORMAT_ENGINES.md
+
 
 ## 07_PRODUCTION_FORMAT_ENGINES
 **CLASS:** PRODUCTION (L3)  
@@ -317,6 +357,11 @@ ROLE: Canonical navigation law + roadmap for all ENG engine families and instanc
 08 — Game Narrative Engine — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/07_PRODUCTION_FORMAT_ENGINES/08__GAME_NARRATIVE_ENG.md  
 
 ---
+
+🧩 **TEMPLATES:**
+- ENGINE TEMPLATE — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/08_KNOWLEDGE_PRODUCTION_ENGINES/00__TEMPLATE__ENGINE__KNOWLEDGE_PRODUCTION_ENGINES.md
+- README TEMPLATE — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/08_KNOWLEDGE_PRODUCTION_ENGINES/00__TEMPLATE__README__KNOWLEDGE_PRODUCTION_ENGINES.md
+
 
 ## 08_KNOWLEDGE_PRODUCTION_ENGINES
 **CLASS:** PRODUCTION (L3)  
@@ -339,6 +384,11 @@ ROLE: Canonical navigation law + roadmap for all ENG engine families and instanc
 🔗 **REALM FILE:** https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/09_SOUND_MUSIC_ENGINES/00__README__SOUND_MUSIC_ENGINES.md  
 **Family Path:** `09_SOUND_MUSIC_ENGINES/`
 
+🧩 **TEMPLATES:**
+- ENGINE TEMPLATE — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/09_SOUND_MUSIC_ENGINES/00__TEMPLATE__ENGINE__SOUND_MUSIC_ENGINES.md
+- README TEMPLATE — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/09_SOUND_MUSIC_ENGINES/00__TEMPLATE__README__SOUND_MUSIC_ENGINES.md
+
+
 01 — Music Composition Engine — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/09_SOUND_MUSIC_ENGINES/01__MUSIC_COMPOSITION_ENG.md  
 02 — Song Structure Engine — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/09_SOUND_MUSIC_ENGINES/02__SONG_STRUCTURE_ENG.md  
 03 — Harmony / Chord Engine — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/09_SOUND_MUSIC_ENGINES/03__HARMONY_CHORD_ENG.md  
@@ -360,6 +410,11 @@ ROLE: Canonical navigation law + roadmap for all ENG engine families and instanc
 🔗 **REALM FILE:** https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/10_META_EVOLUTION_ENGINES/00__README__META_EVOLUTION_ENGINES.md  
 **Family Path:** `10_META_EVOLUTION_ENGINES/`
 
+🧩 **TEMPLATES:**
+- ENGINE TEMPLATE — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/10_META_EVOLUTION_ENGINES/00__TEMPLATE__ENGINE__META_EVOLUTION_ENGINES.md
+- README TEMPLATE — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/10_META_EVOLUTION_ENGINES/00__TEMPLATE__README__META_EVOLUTION_ENGINES.md
+
+
 01 — Learning Engine — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/10_META_EVOLUTION_ENGINES/01__LEARNING_ENG.md  
 02 — Pattern Extraction Engine — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/10_META_EVOLUTION_ENGINES/02__PATTERN_EXTRACTION_ENG.md  
 03 — Optimization Engine — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/10_META_EVOLUTION_ENGINES/03__OPTIMIZATION_ENG.md  
@@ -367,6 +422,7 @@ ROLE: Canonical navigation law + roadmap for all ENG engine families and instanc
 05 — Future Projection Engine — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/10_META_EVOLUTION_ENGINES/05__FUTURE_PROJECTION_ENG.md  
 
 ---
+- У каждой FAMILY обязателен блок **TEMPLATES** (ENGINE TEMPLATE + README TEMPLATE) с прямыми raw-ссылками.
 
 ## FINAL RULE (LOCK)
 
