@@ -1,115 +1,179 @@
-# ENG PRODUCTION FORMAT ENGINE — TEMPLATE
-FILE: NN__<ENGINE_NAME>_ENG.md
+# ENG ENGINE TEMPLATE — PRODUCTION_FORMAT_ENGINES (FAMILY OVERLAY v2)
+FILE: 00__TEMPLATE__ENGINE__PRODUCTION_FORMAT_ENGINES.md
 
 SCOPE: Universe Engine
-ENTITY_GROUP: ENGINES (ENG)
-FAMILY: 07_PRODUCTION_FORMAT_ENGINES
-CLASS: PRODUCTION (L3)
-ENGINE_ID: ENG.FORMAT.NN.<ENGINE_NAME>
+LAYER: ENG
+DOC_TYPE: TEMPLATE
+ENTITY_KIND: FMT
+PROJECT_SCOPE: GLOBAL
+OUTPUT_LEVEL: N/A
+ID: ENG.TPL.ENGINE.FORMAT
 STATUS: ACTIVE
+VERSION: 2.0
+ROLE: Family-specific overlay template for Format engines. Compatible with ENG ENGINE TEMPLATE v2 and adds format constraints schema + handoff rules.
+
+---
+
+## 0) ENGINE IDENTITY (MANDATORY)
+
+ENGINE_NAME: <UPPER_SNAKE_CASE>
+ENGINE_ID: <ENG.FMT.<NN>.<ENGINE_NAME>>
+
+FAMILY_CODE: FMT
+ENGINE_NN_IN_FAMILY: <01..08>
+ENGINE_CLASS: PRODUCTION
+ENGINE_LEVEL: L3
+
+ROLE_IN_FAMILY: <FOUNDATION|BUILDER|VALIDATOR|BRIDGE|OUTPUT>
+PIPELINE_STAGE: <DEFINE|BUILD|CHECK|PACKAGE|PRODUCE>
+
+OWNER: Universe Engine
 LOCK: OPEN
-VERSION: 1.0
-ROLE: <one-line purpose of this format engine>
 
 ---
 
-## 0) PURPOSE (LAW)
+## 1) PURPOSE (WHAT THIS ENGINE DOES)
 
-Этот движок определяет/адаптирует формат выпуска:
-- какие правила упаковки материала применяются
-- какие артефакты должен выдать формат
-- какие ограничения формат накладывает на story/style/production
+One paragraph: what format rule-set it outputs and who consumes it.
 
----
+### OWNERSHIP
+- format constraints and delivery specification
 
-## 1) OWNERSHIP (BOUNDARIES)
-
-### OWNS
-- <что именно решает движок в рамках формата>
-
-### DOES NOT OWN
-- Story structure laws (02_DOMAIN_NARRATIVE_ENGINES)
-- Event mechanics (05_EXPRESSION_ENGINES)
-- Style language (06_GENRE_STYLE_ENGINES)
-- Production execution (08_KNOWLEDGE_PRODUCTION_ENGINES)
-- Deep music (09_SOUND_MUSIC_ENGINES)
+### DOES NOT OWN (hard)
+- story arc/scene ordering (NAR)
+- event atoms (EXP)
+- style authoring (STY)
+- editing timing/seconds (08)
+- world law authoring (WLD)
+- character psychology/dialogue (CHR)
 
 ---
 
-## 2) WHEN TO USE (TRIGGERS)
+## 2) TRIGGERS (WHEN TO RUN)
 
-Используй когда:
-- [ ] нужно выбрать формат выпуска проекта
-- [ ] нужно адаптировать историю под другой формат
-- [ ] нужен “скелет артефактов” под платформу
-- [ ] нужно зафиксировать требования к длительности/объёму/структуре выпуска
+TRIGGERS:
+- project selects or changes format
+- need delivery spec for production
+- narrative outline must be adapted to format units
+- platform constraints change
 
 ---
 
 ## 3) MINI-CONTRACT (MANDATORY)
 
-CONSUMES:
-- <PROJECT_INTENT>
-- <AUDIENCE_TARGET>
-- <NARRATIVE_MATERIAL>
+CONSUMES (examples):
+- NARRATIVE_CANON_OUTLINE (L2)
+- STYLE_CONSTRAINTS_PACK
+- WORLD_CONSTRAINTS_PACK
+- constraints from production capacity (optional)
 
-PRODUCES:
-- <FORMAT_SPEC>
-- <BLUEPRINT/STRUCTURE_DOC>
+PRODUCES (examples):
+- FORMAT_CONSTRAINTS_PACK
+- DELIVERY_SPEC
+- UNIT_TEMPLATE
+- ADAPTATION_MAP
 
 DEPENDS_ON:
-- []  # допускаются read-only зависимости на narrative/style
+- []  (if depends → mirror in XREF__DEPENDENCIES)
 
-OUTPUT_TARGET:
-- `04_PROJECTS/<project>/01_PRODUCTION/FORMAT/`
-
----
-
-## 4) FORMAT PARAMETERS (CONTROL SURFACE)
-
-Пример параметров (подставь свои):
-- platform: book / series / short / youtube / game
-- duration_or_volume: pages | minutes | episodes_count
-- structure: chapters | episodes | beats | loops
-- density: low/med/high (плотность событий/информации)
-- hook_requirement: none/soft/hard (для short/youtube)
-- continuity_mode: serial/episodic/hybrid
-- output_bundle: какие документы обязаны быть выданы
+OUTPUT_ARTIFACT_TYPE:
+- <FORMAT_CONSTRAINTS_PACK|DELIVERY_SPEC|UNIT_TEMPLATE|ADAPTATION_MAP>
 
 ---
 
-## 5) PROCESS (HOW IT WORKS)
+## 4) FORMAT SCHEMA (MANDATORY)
 
-1) Read intent + platform + constraints
-2) Choose format baseline (canonical)
-3) Adapt narrative material into format container
-4) Emit FORMAT_SPEC + blueprint(s)
-5) Emit risks/impacts for governance
+FORMAT_ID: <unique>
+FORMAT_TYPE: <BOOK|SERIES|SHORT|YTLONG|GAME>
+
+UNIT_DEFINITION:
+  UNIT_NAME: <chapter|episode|short|quest>
+  REQUIRED_FIELDS: [title, hook, turn, payoff, ...]  # pattern fields
+  OPTIONAL_FIELDS: [...]
+
+DELIVERABLES:
+  - <deliverable name + expected file kind>
+
+STRUCTURE_RULES:
+  - <pattern rules, no plot content, no seconds>
+
+LENGTH_RANGE:
+  - <min..max>  # units: pages/minutes/words (choose), no montage timing
+
+CADENCE:
+  OPTIONAL: true|false
+  RULES: <release cadence rules if used>
+
+HANDOFF_TO_NARRATIVE:
+  REQUIRED_FROM_OUTLINE:
+    - <what narrative must provide>
+
+HANDOFF_TO_PRODUCTION:
+  REQUIRED_ARTIFACTS:
+    - <what production must produce>
+
+Rule:
+> format schema must be explicit, иначе его нельзя использовать как constraints.
 
 ---
 
-## 6) QUALITY CHECKS
+## 5) SYSTEM INTERFACE (MANDATORY) — FORMAT DEFAULTS
 
-- [ ] Формат соответствует цели и платформе
-- [ ] Артефакты формата полные (FORMAT_SPEC + blueprint)
-- [ ] Нет конфликта с каноном narrative
-- [ ] Явно описаны ограничения и компромиссы
-- [ ] Указаны downstream последствия для production
+## SYSTEM INTERFACE
+- OUTPUTS:
+  - output_level: <L1_DRAFT|L2_CANON|L3_OUTPUT>
+  - target_path_rule:
+    - base: `05_PROJECTS/<PROJECT_ID>/01_WORKSHOP/`
+    - category: `11_FORMAT/`
+    - level_folder:
+      - L1: `02_DRAFT_L1/`
+      - L2: `03_CANON_L2/`
+      - L3: `04_OUTPUT_L3/`
+
+- REGISTRY_UPDATES:
+  - required: YES
+  - registries:
+    - `REG.PRJ.<PROJECT_ID>.CANON_L2`
+    - `REG.PRJ.<PROJECT_ID>.OUTPUT_L3`
+
+- XREF_UPDATES:
+  - required: YES
+  - record_types:
+    - [DEPENDS_ON, DERIVED_FROM, CANON_REF, PRODUCED_BY]
+  - xref_targets:
+    - `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__DEPENDENCIES.md`
+    - `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__PROVENANCE.md`
+    - `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__CANON_REFS.md`
+  - mandatory_links (examples):
+    - `L2_FORMAT_CANON -> STYLE_PACK | TYPE:DEPENDS_ON | ...`
+    - `L3_DELIVERY_SPEC -> L2_FORMAT_CANON | TYPE:CANON_REF | ...`
+
+- GATES:
+  - validators:
+    - `VAL.FMT.01.DELIVERABLES_PRESENT` (placeholder)
+    - `VAL.FMT.02.UNIT_TEMPLATE_VALID` (placeholder)
 
 ---
 
-## 7) FAILURE MODES
+## 6) QUALITY (MANDATORY)
 
-- Failure 1 → симптом → как чинить
-- Failure 2 → симптом → как чинить
+PASS if:
+- deliverables clear
+- unit template explicit
+- length range defined (no montage seconds)
+- handoffs to narrative/production explicit
+- dependencies explicit
+
+FAIL if:
+- format doc becomes story outline
+- missing deliverables or unit schema
+- timing/montage instructions included
 
 ---
 
-## 8) RAW LINK (MANDATORY)
+## FINAL RULE (LOCK)
 
-🔗 RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/07_PRODUCTION_FORMAT_ENGINES/NN__<ENGINE_NAME>_ENG.md
+> Format engines define packaging constraints and deliverables, not plot.
 
----
-
-OWNER: Universe Engine
+OWNER: Universe Engine  
 LOCK: OPEN

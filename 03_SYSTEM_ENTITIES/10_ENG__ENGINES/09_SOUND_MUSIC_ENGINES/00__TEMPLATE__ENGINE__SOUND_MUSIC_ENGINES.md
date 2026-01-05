@@ -1,122 +1,182 @@
-# ENG SOUND & MUSIC ENGINE — TEMPLATE
-FILE: NN__<ENGINE_NAME>_ENG.md
+# ENG ENGINE TEMPLATE — SOUND_MUSIC_ENGINES (FAMILY OVERLAY v2)
+FILE: 00__TEMPLATE__ENGINE__SOUND_MUSIC_ENGINES.md
 
 SCOPE: Universe Engine
-ENTITY_GROUP: ENGINES (ENG)
-FAMILY: 09_SOUND_MUSIC_ENGINES
-CLASS: SOUND (L3)
-ENGINE_ID: ENG.SOUND.NN.<ENGINE_NAME>
+LAYER: ENG
+DOC_TYPE: TEMPLATE
+ENTITY_KIND: MUS
+PROJECT_SCOPE: GLOBAL
+OUTPUT_LEVEL: N/A
+ID: ENG.TPL.ENGINE.MUSIC
 STATUS: ACTIVE
+VERSION: 2.0
+ROLE: Family-specific overlay template for Music engines. Compatible with ENG ENGINE TEMPLATE v2 and adds music pack schema + strict boundary with 08 production sound.
+
+---
+
+## 0) ENGINE IDENTITY (MANDATORY)
+
+ENGINE_NAME: <UPPER_SNAKE_CASE>
+ENGINE_ID: <ENG.MUS.<NN>.<ENGINE_NAME>>
+
+FAMILY_CODE: MUS
+ENGINE_NN_IN_FAMILY: <01..13>
+ENGINE_CLASS: SOUND
+ENGINE_LEVEL: L3
+
+ROLE_IN_FAMILY: <FOUNDATION|BUILDER|VALIDATOR|BRIDGE|OUTPUT>
+PIPELINE_STAGE: <DEFINE|BUILD|CHECK|PACKAGE|PRODUCE>
+
+OWNER: Universe Engine
 LOCK: OPEN
-VERSION: 1.0
-ROLE: <one-line purpose of this deep music engine>
 
 ---
 
-## 0) PURPOSE (LAW)
+## 1) PURPOSE (WHAT THIS ENGINE DOES)
 
-Этот движок создаёт музыкальный артефакт(ы) как часть Deep Music слоя:
-- композиционная функция (что музыка делает)
-- музыкальная форма (как устроено)
-- воспроизводимый результат (sheets/spec/stems)
+One paragraph: which music capability it creates (composition/harmony/etc.) and what artifacts it outputs.
 
----
-
-## 1) OWNERSHIP (BOUNDARIES)
-
-### OWNS
-- <что именно создаёт движок в музыке: motif/harmony/lyrics/arrangement/vocals/etc>
-
-### DOES NOT OWN
-- Production audio sync/placement/clarity → `08_KNOWLEDGE_PRODUCTION_ENGINES/08__SOUND_MUSIC_ENG.md`
-- Narrative structure decisions → `02_DOMAIN_NARRATIVE_ENGINES/*`
-- Authorial style definitions → `06_GENRE_STYLE_ENGINES/*`
+### DOES NOT OWN (hard)
+- placement/sync/clarity in final video (08 sound production)
+- video montage timing (08 editing)
 
 ---
 
-## 2) WHEN TO USE (TRIGGERS)
+## 2) TRIGGERS (WHEN TO RUN)
 
-Используй когда:
-- [ ] нужно создать/обновить музыкальную палитру/мотивы
-- [ ] нужно собрать структуру/гармонию/мелодии
-- [ ] нужно написать текст/вокальную линию
-- [ ] нужно собрать аранжировку
-- [ ] нужно обеспечить консистентность
-- [ ] нужно привязать музыку к сценам
-- [ ] нужно финализировать миксом/мастером
+TRIGGERS:
+- need theme/motif
+- need scoring for a scene
+- need consistent music style across episodes
+- need final masters/stems
+- style constraints updated
+- scene emotional targets updated
 
 ---
 
 ## 3) MINI-CONTRACT (MANDATORY)
 
-CONSUMES:
-- <MUSICAL_REFERENCES>
-- <FORMAT_SPEC>
-- <PRODUCTION_CONSTRAINTS>
-- <NARRATIVE_MATERIAL (READ-ONLY)>
-- <STYLE_PROFILE (READ-ONLY)>
+CONSUMES (examples):
+- STYLE_CONSTRAINTS_PACK
+- SCENE_CONTEXT / ARC_CONTEXT (if scoring)
+- WORLD_CULTURE_CONTEXT (optional)
+- existing motifs/tracks (if iterating)
 
-PRODUCES:
-- <SHEET/SPEC/GUIDE>
-- <STEMS/EXPORTS/MAPS>
+PRODUCES (examples):
+- TRACK_SPEC
+- THEME_MOTIF_SET
+- MASTER_TRACK
+- STEMS_SET
+- ALT_VERSIONS
+- MUSIC_PACK
 
 DEPENDS_ON:
-- []  # при необходимости перечисли другие движки 09_* (или boundary refs)
+- []  (if depends → mirror in XREF__DEPENDENCIES)
 
-OUTPUT_TARGET:
-- `04_PROJECTS/<project>/02_MUSIC/`
-
----
-
-## 4) CONTROL SURFACE (PARAMETERS)
-
-Пример параметров:
-- deliverable_mode: sketch | draft | production | final
-- target_use: theme | cue | montage | song | trailer
-- duration: (sec/min)
-- tempo_bpm: (range or fixed)
-- key_center: (optional)
-- mood_profile: (tags)
-- instrumentation_palette: (list)
-- vocal_mode: none | lead | choir | adlibs
-- consistency_profile: strict | flexible
+OUTPUT_ARTIFACT_TYPE:
+- <TRACK_SPEC|MASTER_TRACK|STEMS_SET|MUSIC_PACK|MUSIC_BIBLE|...>
 
 ---
 
-## 5) PROCESS (HOW IT WORKS)
+## 4) MUSIC PACK SCHEMA (MANDATORY)
 
-1) Read constraints + narrative/style (read-only)
-2) Define musical goal (function)
-3) Generate core material (motif/harmony/melody/rhythm/lyrics)
-4) Arrange + orchestrate
-5) Produce exports (stems/sheets/spec)
-6) QA + versioning notes
+MUSIC_PACK_ID: <unique>
+
+INPUT_CONSTRAINTS:
+  DEPENDS_ON_STYLE_PACK: <ref>
+  CANON_REF_SCENE: <ref or NONE>
+  DEPENDS_ON_WORLD_CONTEXT: <ref or NONE>
+
+TRACK_SPEC:
+  EMOTIONAL_TARGETS: [ ... ]
+  TEMPO_RANGE: <optional>
+  INSTRUMENT_PALETTE: [ ... ]
+  MOTIFS: [ ... ]
+  DURATION_HINT: <range, optional>
+
+DELIVERABLES:
+  MASTER: <path>
+  STEMS: <optional paths>
+  ALT_VERSIONS:
+    - <loop>
+    - <sting>
+    - <no-drums> (optional)
+
+NOTES:
+  MIX_NOTES: ...
+  MASTER_NOTES: ...
+  USAGE_NOTES: <for 08 placement>
+
+XREF_POINTERS:
+  - <xref links>
+
+Rule:
+> Must include DEPENDS_ON_STYLE_PACK and deliverable master reference.
 
 ---
 
-## 6) QUALITY CHECKS
+## 5) SYSTEM INTERFACE (MANDATORY) — MUSIC DEFAULTS
 
-- [ ] Цель музыки определена (function)
-- [ ] Есть мотив/палитра (или осознанное отсутствие)
-- [ ] Структура соответствует назначению
-- [ ] Консистентность соблюдена (если часть пакета)
-- [ ] Артефакты воспроизводимы (sheets/spec + stems)
-- [ ] Нет нарушения границ (production sound не захвачен)
+## SYSTEM INTERFACE
+- OUTPUTS:
+  - output_level: <L1_DRAFT|L2_CANON|L3_OUTPUT>
+  - target_path_rule:
+    - base: `05_PROJECTS/<PROJECT_ID>/01_WORKSHOP/`
+    - category: `13_MUSIC/`
+    - subfolders:
+      - ideas: `01_IDEAS/`
+      - specs: `02_SPECS/`
+      - stems: `03_STEMS/`
+      - masters: `04_MASTERS/`
+    - level_folder:
+      - L1: `02_DRAFT_L1/`
+      - L2: `03_CANON_L2/`
+      - L3: `04_OUTPUT_L3/`
+
+- REGISTRY_UPDATES:
+  - required: YES
+  - registries:
+    - `REG.PRJ.<PROJECT_ID>.OUTPUT_L3`
+    - `REG.PRJ.<PROJECT_ID>.ASSETS`
+    - `REG.PRJ.<PROJECT_ID>.CANON_L2` (music bible/style consistency)
+
+- XREF_UPDATES:
+  - required: YES
+  - record_types:
+    - [DEPENDS_ON, CANON_REF, DERIVED_FROM, PRODUCED_BY, ASSET_LINK]
+  - xref_targets:
+    - `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__CANON_REFS.md`
+    - `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__DEPENDENCIES.md`
+    - `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__PROVENANCE.md`
+    - `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__ASSET_GRAPH.md`
+
+- GATES:
+  - validators:
+    - `VAL.MUS.01.STYLE_DEPENDENCY_PRESENT` (placeholder)
+    - `VAL.MUS.02.DELIVERABLE_MASTER_PRESENT` (placeholder)
+  - qa_checks:
+    - `QA.MUS.01.CONSISTENCY_WITH_STYLE` (placeholder)
+    - `QA.MUS.02.USABLE_FOR_08_PLACEMENT` (placeholder)
 
 ---
 
-## 7) FAILURE MODES
+## 6) QUALITY (MANDATORY)
 
-- Failure 1 → симптом → как чинить
-- Failure 2 → симптом → как чинить
+PASS if:
+- track has style dependency and (if scoring) scene canon reference
+- deliverables exist (master, optional stems)
+- no instructions about video montage timing included
+
+FAIL if:
+- tries to do placement/sync as final mix for video (route to 08)
+- missing style dependency
+- outputs not registered/linked
 
 ---
 
-## 8) RAW LINK (MANDATORY)
+## FINAL RULE (LOCK)
 
-🔗 RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/09_SOUND_MUSIC_ENGINES/NN__<ENGINE_NAME>_ENG.md
+> Music engines create tracks and music systems. Placement is 08. Music must reference style and (when scoring) narrative scene context.
 
----
-
-OWNER: Universe Engine
+OWNER: Universe Engine  
 LOCK: OPEN

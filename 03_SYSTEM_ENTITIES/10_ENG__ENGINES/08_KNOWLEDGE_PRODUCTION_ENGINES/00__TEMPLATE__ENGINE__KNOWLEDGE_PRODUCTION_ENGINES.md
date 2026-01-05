@@ -1,114 +1,184 @@
-# ENG KNOWLEDGE PRODUCTION ENGINE — TEMPLATE
-FILE: NN__<ENGINE_NAME>_ENG.md
+# ENG ENGINE TEMPLATE — KNOWLEDGE_PRODUCTION_ENGINES (FAMILY OVERLAY v2)
+FILE: 00__TEMPLATE__ENGINE__KNOWLEDGE_PRODUCTION_ENGINES.md
 
 SCOPE: Universe Engine
-ENTITY_GROUP: ENGINES (ENG)
-FAMILY: 08_KNOWLEDGE_PRODUCTION_ENGINES
-CLASS: PRODUCTION (L3)
-ENGINE_ID: ENG.PROD.NN.<ENGINE_NAME>
+LAYER: ENG
+DOC_TYPE: TEMPLATE
+ENTITY_KIND: PRD
+PROJECT_SCOPE: GLOBAL
+OUTPUT_LEVEL: N/A
+ID: ENG.TPL.ENGINE.PRODUCTION
 STATUS: ACTIVE
+VERSION: 2.0
+ROLE: Family-specific overlay template for Production engines. Compatible with ENG ENGINE TEMPLATE v2 and adds production pack schema + asset/edit xref requirements.
+
+---
+
+## 0) ENGINE IDENTITY (MANDATORY)
+
+ENGINE_NAME: <UPPER_SNAKE_CASE>
+ENGINE_ID: <ENG.PRD.<NN>.<ENGINE_NAME>>
+
+FAMILY_CODE: PRD
+ENGINE_NN_IN_FAMILY: <01..08>
+ENGINE_CLASS: PRODUCTION
+ENGINE_LEVEL: L3
+
+ROLE_IN_FAMILY: <FOUNDATION|BUILDER|VALIDATOR|BRIDGE|OUTPUT>
+PIPELINE_STAGE: <DEFINE|BUILD|CHECK|PACKAGE|PRODUCE>
+
+OWNER: Universe Engine
 LOCK: OPEN
-VERSION: 1.0
-ROLE: <one-line purpose of this production engine>
 
 ---
 
-## 0) PURPOSE (LAW)
+## 1) PURPOSE (WHAT THIS ENGINE DOES)
 
-Этот движок производит production-артефакт(ы) для медиа:
-- превращает входной материал (read-only канон) в план/гайд/спеки
-- задаёт воспроизводимые правила исполнения
-- выдаёт проверяемый результат для пайплайна
+One paragraph: what production capability it defines (composition/style/camera/light/gen/edit/sound) and which artifacts it produces.
 
----
-
-## 1) OWNERSHIP (BOUNDARIES)
-
-### OWNS
-- <что именно решает движок в рамках production исполнения>
-
-### DOES NOT OWN
-- Story laws / narrative decisions (02_DOMAIN_NARRATIVE_ENGINES)
-- Event mechanics (05_EXPRESSION_ENGINES)
-- Authorial style language (06_GENRE_STYLE_ENGINES)
-- Deep music composition/mix/master (09_SOUND_MUSIC_ENGINES)
+### DOES NOT OWN (hard)
+- deep music composition (09)
+- story-time rhythm (NAR pacing)
+- canon story/world/character decisions
 
 ---
 
-## 2) WHEN TO USE (TRIGGERS)
+## 2) TRIGGERS (WHEN TO RUN)
 
-Используй когда:
-- [ ] нужен production-план/гайд/спеки по сценам
-- [ ] нужно подготовить промпты/параметры для генерации
-- [ ] нужно стандартизировать исполнение (чтобы было повторяемо)
-- [ ] надо выпустить asset pack под формат
+TRIGGERS:
+- need to produce assets for an episode/short/chapter adaptation
+- style/format constraints updated
+- narrative pack updated
+- montage pass required
+- sound pass required
 
 ---
 
 ## 3) MINI-CONTRACT (MANDATORY)
 
-CONSUMES:
-- <ASSET_REQUIREMENTS>
-- <PRODUCTION_CONSTRAINTS>
-- <NARRATIVE_MATERIAL (READ-ONLY)>
-- <STYLE_PROFILE (READ-ONLY)>
+CONSUMES (examples):
+- NARRATIVE_OUTLINE / NARRATIVE_OUTPUT_PACK
+- STYLE_CONSTRAINTS_PACK
+- FORMAT_CONSTRAINTS_PACK + DELIVERY_SPEC
+- WORLD_CONSTRAINTS_PACK
+- CHARACTER_CANON (if needed)
 
-PRODUCES:
-- <PLAN/SPEC/GUIDE>
-- <ASSET_PACK or PROMPT_SPEC>
+PRODUCES (examples):
+- SHOTLIST
+- ASSET_SET
+- EDIT_PLAN
+- SOUND_PLAN
+- EXPORT_SPEC
+- FINAL_EXPORTS
+- PRODUCTION_PACK
 
 DEPENDS_ON:
-- []  # допускаются read-only зависимости на narrative/style/format
+- []  (if depends → mirror in XREF__DEPENDENCIES)
 
-OUTPUT_TARGET:
-- `04_PROJECTS/<project>/01_PRODUCTION/ASSETS/` (или уточни папку: VISUAL/EDIT/AUDIO)
-
----
-
-## 4) CONTROL SURFACE (PARAMETERS)
-
-Пример параметров (подставь свои):
-- output_type: guide | plan | prompt_spec | asset_pack
-- quality_level: draft | production | final
-- scene_scope: all | selected_scenes | shot_range
-- consistency_mode: strict | flexible
-- toolchain: (какие инструменты/генераторы используются)
-- deliverables: список обязательных выходов
+OUTPUT_ARTIFACT_TYPE:
+- <SHOTLIST|ASSET_SET|EDIT_PLAN|SOUND_PLAN|FINAL_EXPORTS|PRODUCTION_PACK>
 
 ---
 
-## 5) PROCESS (HOW IT WORKS)
+## 4) PRODUCTION PACK SCHEMA (MANDATORY)
 
-1) Read requirements + constraints
-2) Pull read-only canon inputs (narrative/style/format)
-3) Build production spec/plan
-4) Generate prompts / asset checklist
-5) Emit outputs + QA checks
+PROD_PACK_ID: <unique>
+INPUT_CANON_REFS:
+  - <CANON_REF to narrative L2/L3>
+  - <DEPENDS_ON to format delivery spec>
+  - <DEPENDS_ON to style pack>
+  - <DEPENDS_ON to world constraints>
+ASSET_LIST:
+  IMAGES: [ ... ]
+  VIDEO: [ ... ]
+  AUDIO: [ ... ]
+SHOTLIST:
+  - SHOT_ID: ...
+    SOURCE: <scene/beat reference>
+    NOTES: <non-canon production notes>
+EDIT_PLAN:
+  RHYTHM: <screen-time rhythm notes>
+  CUT_RULES: [ ... ]
+SOUND_PLAN:
+  SYNC_NOTES: ...
+  CLARITY_NOTES: ...
+  MUSIC_PLACEMENT_NOTES: <placement only, not composition>
+EXPORT_SPEC:
+  DELIVERABLES: [ ... ]
+PROVENANCE:
+  DERIVED_FROM: [ ... ]
+XREF_POINTERS:
+  - <xref links>
+
+Rule:
+> PROD_PACK must include INPUT_CANON_REFS and EXPORT_SPEC.
 
 ---
 
-## 6) QUALITY CHECKS
+## 5) SYSTEM INTERFACE (MANDATORY) — PRODUCTION DEFAULTS
 
-- [ ] Есть чёткие deliverables (что именно выдаём)
-- [ ] Read-only канон не переписан и не искажён
-- [ ] Спеки воспроизводимы (не “на глаз”)
-- [ ] Совместимо с форматом выпуска
-- [ ] Есть критерии готовности (Definition of Done)
+## SYSTEM INTERFACE
+- OUTPUTS:
+  - output_level: <L1_DRAFT|L2_CANON|L3_OUTPUT>
+  - target_path_rule:
+    - base: `05_PROJECTS/<PROJECT_ID>/01_WORKSHOP/`
+    - category: `12_PRODUCTION/`
+    - subfolders:
+      - plans: `01_PLANS/`
+      - assets: `02_ASSETS/`
+      - edits: `03_EDITS/`
+      - exports: `04_EXPORTS/`
+    - level_folder:
+      - L1: `02_DRAFT_L1/`
+      - L2: `03_CANON_L2/`
+      - L3: `04_OUTPUT_L3/`
+
+- REGISTRY_UPDATES:
+  - required: YES
+  - registries:
+    - `REG.PRJ.<PROJECT_ID>.OUTPUT_L3`
+    - `REG.PRJ.<PROJECT_ID>.ASSETS` (if used)
+    - `REG.PRJ.<PROJECT_ID>.CANON_L2` (if plan canonized)
+
+- XREF_UPDATES:
+  - required: YES
+  - record_types:
+    - [DEPENDS_ON, CANON_REF, DERIVED_FROM, PRODUCED_BY, ASSET_LINK, EDIT_DECISION]
+  - xref_targets:
+    - `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__CANON_REFS.md`
+    - `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__DEPENDENCIES.md`
+    - `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__PROVENANCE.md`
+    - `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__ASSET_GRAPH.md`
+    - `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__EDIT_DECISIONS.md`
+
+- GATES:
+  - validators:
+    - `VAL.PRD.01.CANON_LINKS_PRESENT` (placeholder)
+    - `VAL.PRD.02.EXPORT_SPEC_PRESENT` (placeholder)
+  - qa_checks:
+    - `QA.PRD.01.DELIVERABLES_MATCH_FORMAT` (placeholder)
+    - `QA.PRD.02.MONTAGE_COHERENCE` (placeholder)
 
 ---
 
-## 7) FAILURE MODES
+## 6) QUALITY (MANDATORY)
 
-- Failure 1 → симптом → как чинить
-- Failure 2 → симптом → как чинить
+PASS if:
+- has CANON_REF/DEPENDS_ON to narrative/style/format/world
+- export spec matches delivery spec
+- edit plan is explicit (screen-time)
+- sound plan is placement/clarity (no deep composition)
+
+FAIL if:
+- production pack “changes canon”
+- missing xref links
+- includes deep music composition tasks (route to 09)
 
 ---
 
-## 8) RAW LINK (MANDATORY)
+## FINAL RULE (LOCK)
 
-🔗 RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/08_KNOWLEDGE_PRODUCTION_ENGINES/NN__<ENGINE_NAME>_ENG.md
+> Production engines produce media artifacts and screen-time rhythm. They must remain linked to canon constraints and not rewrite canon.
 
----
-
-OWNER: Universe Engine
+OWNER: Universe Engine  
 LOCK: OPEN

@@ -1,12 +1,12 @@
 # ENG ENGINES INDEX — GLOBAL REGISTRY (CANON ROADMAP)
 FILE: 02__INDEX_ALL_ENGINES.md
 
-SCOPE: Universe Engine
-ENTITY_GROUP: ENGINES (ENG)
-INDEX_TYPE: GLOBAL_ENGINE_REGISTRY
-LEVEL: L1
-STATUS: ACTIVE
-VERSION: 4.0
+SCOPE: Universe Engine  
+ENTITY_GROUP: ENGINES (ENG)  
+INDEX_TYPE: GLOBAL_ENGINE_REGISTRY  
+LEVEL: L1  
+STATUS: ACTIVE  
+VERSION: 4.1  
 ROLE: Canonical navigation law + roadmap for all ENG engine families and instances
 
 ---
@@ -24,10 +24,11 @@ ROLE: Canonical navigation law + roadmap for all ENG engine families and instanc
 Этот INDEX — **единая точка истины** для всех **ENG-движков** Universe Engine.
 
 Он фиксирует:
-- полный список семейств (папок) внутри `03_SYSTEM_ENTITIES/10_ENG__ENGINES/`
+- полный список семейств (FAMILY folders) внутри `03_SYSTEM_ENTITIES/10_ENG__ENGINES/`
 - строгий порядок движков внутри каждого семейства
 - обязательную нумерацию, именование и канонические пути
 - обязательные cross-links (стыки) между слоями
+- минимальные стандарты статуса, блокировок и зависимостей
 
 ### EXISTENCE RULE (ABSOLUTE)
 > Если движка нет в этом INDEX — он **не существует** для ENG слоя.  
@@ -94,6 +95,37 @@ ROLE: Canonical navigation law + roadmap for all ENG engine families and instanc
 
 ---
 
+## 3.1 QUICK NAV (ENGINE MAP JUMP)
+
+- [00 — Governance](#eng-family-00-governance)
+- [01 — Core](#eng-family-01-core)
+- [02 — Domain Narrative](#eng-family-02-narrative)
+- [03 — Domain Character](#eng-family-03-character)
+- [04 — Domain World](#eng-family-04-world)
+- [05 — Expression](#eng-family-05-expression)
+- [06 — Genre & Style](#eng-family-06-style)
+- [07 — Production Format](#eng-family-07-format)
+- [08 — Knowledge Production](#eng-family-08-production)
+- [09 — Sound & Music](#eng-family-09-sound)
+- [10 — Meta Evolution](#eng-family-10-meta)
+
+---
+
+## 3.2 FAMILY BLOCK STANDARD (MANDATORY)
+
+Каждое семейство (FAMILY) **обязано** иметь в этом INDEX один и тот же блок-скелет:
+
+1) `## <FAMILY_NAME>`  
+2) `CLASS:`  
+3) `REALM FILE:` (raw-link)  
+4) `Family Path:`  
+5) `TEMPLATES:` (ENGINE TEMPLATE + README TEMPLATE — raw-links)  
+6) Список движков по номерам (raw-links)
+
+Если в семейном блоке не хватает пункта — семейство считается **incomplete**.
+
+---
+
 ## 4) NAMING + NUMBERING RULES (MANDATORY)
 
 ### 4.1 Folder naming (family)
@@ -111,26 +143,39 @@ ROLE: Canonical navigation law + roadmap for all ENG engine families and instanc
 - Канонический путь для всех ENG:
   `03_SYSTEM_ENTITIES/10_ENG__ENGINES/<FAMILY_PATH>/<FILE>`
 
+### 4.4 BASE PATH (short alias)
+- BASE_PATH:
+  `03_SYSTEM_ENTITIES/10_ENG__ENGINES/`
+
 ---
 
 ## 5) STATUS / LOCK STANDARD (MANDATORY)
 
-В каждом README и каждом Engine файле:
-- В шапке допускается только один статус: `STATUS: ACTIVE` (или другой при необходимости)
-- В конце файла НЕ допускается второй `STATUS: ...`
-- Для фиксации применяется:
-  - `LOCK: FIXED` (канонически зафиксирован)
-  - `LOCK: OPEN` (в разработке)
+### 5.1 Allowed STATUS (strict set)
+В шапке каждого README и каждого Engine файла допускается **только один** `STATUS:` и только из списка:
+- `STATUS: DRAFT` — в разработке (ещё не канон)
+- `STATUS: ACTIVE` — канон, рабочий
+- `STATUS: DEPRECATED` — устарел, заменён
+- `STATUS: ARCHIVED` — выведен из оборота, хранится как история
+
+### 5.2 LOCK (strict set)
+- `LOCK: OPEN` — допускает правки
+- `LOCK: FIXED` — зафиксирован (канон/закон)
+
+### 5.3 Anti-duplication rule
+- В конце файла **НЕ допускается** второй `STATUS: ...`
+- LOCK допускается только один (обычно внизу файла)
 
 ---
 
 ## 6) ENGINE MINI-CONTRACT LAW (MANDATORY)
 
 Каждый движок обязан иметь mini-contract блок:
-- CONSUMES: (1–5 типов входных артефактов)
-- PRODUCES: (1–5 типов выходных артефактов)
-- DEPENDS_ON: (список движков-предпосылок или [])
-- OUTPUT_TARGET: (куда кладётся результат в проектах/артефактах)
+
+- `CONSUMES:` (1–5 типов входных артефактов)
+- `PRODUCES:` (1–5 типов выходных артефактов)
+- `DEPENDS_ON:` (список движков-предпосылок или `[]`)
+- `OUTPUT_TARGET:` (куда кладётся результат в проектах/артефактах)
 
 Если mini-contract отсутствует — движок считается **incomplete**.
 
@@ -139,7 +184,8 @@ ROLE: Canonical navigation law + roadmap for all ENG engine families and instanc
 ## 7) LINK RULE (REGISTRY STANDARD)
 
 - У каждой FAMILY обязателен **REALM FILE** (README) со ссылкой.
-- У каждого движка обязателен **прямой линк** на raw-файл.
+- У каждой FAMILY обязателен блок **TEMPLATES** (ENGINE TEMPLATE + README TEMPLATE) со ссылками.
+- У каждого движка обязателен **прямой raw-link**.
 - Заглушки вида “список без изменений” запрещены.
 - INDEX должен быть читаем **без открытия репозитория**.
 
@@ -153,6 +199,15 @@ ROLE: Canonical navigation law + roadmap for all ENG engine families and instanc
 - Запрещены “скрытые зависимости” без указания.
 - Циклические зависимости допускаются только при явном описании и причинах.
 
+### 8.1 Dependency Registry record format (standard)
+Запись в реестре зависимостей должна быть в форме:
+
+`<FAMILY>/<NN__ENGINE_A_ENG>  ->  <FAMILY>/<NN__ENGINE_B_ENG>  | TYPE:<HARD|SOFT> | WHY:<short reason>`
+
+Пример:
+`02_DOMAIN_NARRATIVE_ENGINES/04__SCENE_CONSTRUCTION_ENG  ->  02_DOMAIN_NARRATIVE_ENGINES/02__STORY_STRUCTURE_ENG  | TYPE:HARD | WHY:scenes require structure`
+
+### 8.2 Governance owner
 Рекомендуемый владелец правил зависимостей:
 - `00_GOVERNANCE_ENGINES/06__DEPENDENCY_REGISTRY_ENG.md`
 
@@ -182,12 +237,17 @@ ROLE: Canonical navigation law + roadmap for all ENG engine families and instanc
 - `00_GOVERNANCE_ENGINES/10__VERSIONING_MEMORY_ENG.md`
 - `00_GOVERNANCE_ENGINES/01__AUDIT_LOG_ENG.md`
 
+### 10.1 Audit Log enforcement (hard rule)
+> Любая правка этого INDEX (включая порядок, ссылки, статусы, новые движки)  
+> **обязана** создавать запись в `Audit Log Engine`.
+
 ---
 
 # ENGINE MAP (ENG) — CANON ORDER
 
 ---
 
+<a id="eng-family-00-governance"></a>
 ## 00_GOVERNANCE_ENGINES
 **CLASS:** GOVERNANCE (L1)  
 🔗 **REALM FILE:** https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/00_GOVERNANCE_ENGINES/00__README__GOVERNANCE_ENGINES.md  
@@ -196,7 +256,6 @@ ROLE: Canonical navigation law + roadmap for all ENG engine families and instanc
 🧩 **TEMPLATES:**
 - ENGINE TEMPLATE — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/00_GOVERNANCE_ENGINES/00__TEMPLATE__ENGINE__GOVERNANCE_ENGINES.md
 - README TEMPLATE — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/00_GOVERNANCE_ENGINES/00__TEMPLATE__README__GOVERNANCE_ENGINES.md
-
 
 01 — Audit Log Engine — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/00_GOVERNANCE_ENGINES/01__AUDIT_LOG_ENG.md  
 02 — Canon Authority Engine — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/00_GOVERNANCE_ENGINES/02__CANON_AUTHORITY_ENG.md  
@@ -211,6 +270,7 @@ ROLE: Canonical navigation law + roadmap for all ENG engine families and instanc
 
 ---
 
+<a id="eng-family-01-core"></a>
 ## 01_CORE_ENGINES
 **CLASS:** CORE (L1)  
 🔗 **REALM FILE:** https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/01_CORE_ENGINES/00__README__CORE_ENGINES.md  
@@ -220,13 +280,13 @@ ROLE: Canonical navigation law + roadmap for all ENG engine families and instanc
 - ENGINE TEMPLATE — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/01_CORE_ENGINES/00__TEMPLATE__ENGINE__CORE_ENGINES.md
 - README TEMPLATE — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/01_CORE_ENGINES/00__TEMPLATE__README__CORE_ENGINES.md
 
-
 01 — Core Identity Engine — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/01_CORE_ENGINES/01__CORE_IDENTITY_ENG.md  
 02 — Core State Engine — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/01_CORE_ENGINES/02__CORE_STATE_ENG.md  
 03 — Core Lifecycle Engine — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/01_CORE_ENGINES/03__CORE_LIFECYCLE_ENG.md  
 
 ---
 
+<a id="eng-family-02-narrative"></a>
 ## 02_DOMAIN_NARRATIVE_ENGINES
 **CLASS:** DOMAIN (L2)  
 🔗 **REALM FILE:** https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/02_DOMAIN_NARRATIVE_ENGINES/00__README__DOMAIN_NARRATIVE_ENGINES.md  
@@ -235,7 +295,6 @@ ROLE: Canonical navigation law + roadmap for all ENG engine families and instanc
 🧩 **TEMPLATES:**
 - ENGINE TEMPLATE — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/02_DOMAIN_NARRATIVE_ENGINES/00__TEMPLATE__ENGINE__DOMAIN_NARRATIVE_ENGINES.md
 - README TEMPLATE — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/02_DOMAIN_NARRATIVE_ENGINES/00__TEMPLATE__README__DOMAIN_NARRATIVE_ENGINES.md
-
 
 01 — Narrative Logic Engine — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/02_DOMAIN_NARRATIVE_ENGINES/01__NARRATIVE_LOGIC_ENG.md  
 02 — Story Structure Engine — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/02_DOMAIN_NARRATIVE_ENGINES/02__STORY_STRUCTURE_ENG.md  
@@ -250,6 +309,7 @@ ROLE: Canonical navigation law + roadmap for all ENG engine families and instanc
 
 ---
 
+<a id="eng-family-03-character"></a>
 ## 03_DOMAIN_CHARACTER_ENGINES
 **CLASS:** DOMAIN (L2)  
 🔗 **REALM FILE:** https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/03_DOMAIN_CHARACTER_ENGINES/00__README__DOMAIN_CHARACTER_ENGINES.md  
@@ -258,7 +318,6 @@ ROLE: Canonical navigation law + roadmap for all ENG engine families and instanc
 🧩 **TEMPLATES:**
 - ENGINE TEMPLATE — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/03_DOMAIN_CHARACTER_ENGINES/00__TEMPLATE__ENGINE__DOMAIN_CHARACTER_ENGINES.md
 - README TEMPLATE — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/03_DOMAIN_CHARACTER_ENGINES/00__TEMPLATE__README__DOMAIN_CHARACTER_ENGINES.md
-
 
 01 — Character Core Engine — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/03_DOMAIN_CHARACTER_ENGINES/01__CHARACTER_CORE_ENG.md  
 02 — Motivation & Desire Engine — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/03_DOMAIN_CHARACTER_ENGINES/02__MOTIVATION_DESIRE_ENG.md  
@@ -273,6 +332,7 @@ ROLE: Canonical navigation law + roadmap for all ENG engine families and instanc
 
 ---
 
+<a id="eng-family-04-world"></a>
 ## 04_DOMAIN_WORLD_ENGINES
 **CLASS:** DOMAIN (L2)  
 🔗 **REALM FILE:** https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/04_DOMAIN_WORLD_ENGINES/00__README__DOMAIN_WORLD_ENGINES.md  
@@ -281,7 +341,6 @@ ROLE: Canonical navigation law + roadmap for all ENG engine families and instanc
 🧩 **TEMPLATES:**
 - ENGINE TEMPLATE — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/04_DOMAIN_WORLD_ENGINES/00__TEMPLATE__ENGINE__DOMAIN_WORLD_ENGINES.md
 - README TEMPLATE — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/04_DOMAIN_WORLD_ENGINES/00__TEMPLATE__README__DOMAIN_WORLD_ENGINES.md
-
 
 01 — World Structure Engine — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/04_DOMAIN_WORLD_ENGINES/01__WORLD_STRUCTURE_ENG.md  
 02 — World Law Engine — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/04_DOMAIN_WORLD_ENGINES/02__WORLD_LAW_ENG.md  
@@ -296,6 +355,7 @@ ROLE: Canonical navigation law + roadmap for all ENG engine families and instanc
 
 ---
 
+<a id="eng-family-05-expression"></a>
 ## 05_EXPRESSION_ENGINES
 **CLASS:** EXPRESSION (L3)  
 🔗 **REALM FILE:** https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/05_EXPRESSION_ENGINES/00__README__EXPRESSION_ENGINES.md  
@@ -304,7 +364,6 @@ ROLE: Canonical navigation law + roadmap for all ENG engine families and instanc
 🧩 **TEMPLATES:**
 - ENGINE TEMPLATE — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/05_EXPRESSION_ENGINES/00__TEMPLATE__ENGINE__EXPRESSION_ENGINES.md
 - README TEMPLATE — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/05_EXPRESSION_ENGINES/00__TEMPLATE__README__EXPRESSION_ENGINES.md
-
 
 01 — Event Engine — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/05_EXPRESSION_ENGINES/01__EVENT_ENG.md  
 02 — Cause–Effect Engine — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/05_EXPRESSION_ENGINES/02__CAUSE_EFFECT_ENG.md  
@@ -318,15 +377,15 @@ ROLE: Canonical navigation law + roadmap for all ENG engine families and instanc
 
 ---
 
-🧩 **TEMPLATES:**
-- ENGINE TEMPLATE — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/06_GENRE_STYLE_ENGINES/00__TEMPLATE__ENGINE__GENRE_STYLE_ENGINES.md
-- README TEMPLATE — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/06_GENRE_STYLE_ENGINES/00__TEMPLATE__README__GENRE_STYLE_ENGINES.md
-
-
+<a id="eng-family-06-style"></a>
 ## 06_GENRE_STYLE_ENGINES
 **CLASS:** STYLE (L3)  
 🔗 **REALM FILE:** https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/06_GENRE_STYLE_ENGINES/00__README__GENRE_STYLE_ENGINES.md  
 **Family Path:** `06_GENRE_STYLE_ENGINES/`
+
+🧩 **TEMPLATES:**
+- ENGINE TEMPLATE — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/06_GENRE_STYLE_ENGINES/00__TEMPLATE__ENGINE__GENRE_STYLE_ENGINES.md
+- README TEMPLATE — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/06_GENRE_STYLE_ENGINES/00__TEMPLATE__README__GENRE_STYLE_ENGINES.md
 
 01 — Tone & Mood Engine — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/06_GENRE_STYLE_ENGINES/01__TONE_MOOD_ENG.md  
 02 — Atmosphere Engine — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/06_GENRE_STYLE_ENGINES/02__ATMOSPHERE_ENG.md  
@@ -337,15 +396,15 @@ ROLE: Canonical navigation law + roadmap for all ENG engine families and instanc
 
 ---
 
-🧩 **TEMPLATES:**
-- ENGINE TEMPLATE — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/07_PRODUCTION_FORMAT_ENGINES/00__TEMPLATE__ENGINE__PRODUCTION_FORMAT_ENGINES.md
-- README TEMPLATE — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/07_PRODUCTION_FORMAT_ENGINES/00__TEMPLATE__README__PRODUCTION_FORMAT_ENGINES.md
-
-
+<a id="eng-family-07-format"></a>
 ## 07_PRODUCTION_FORMAT_ENGINES
 **CLASS:** PRODUCTION (L3)  
 🔗 **REALM FILE:** https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/07_PRODUCTION_FORMAT_ENGINES/00__README__PRODUCTION_FORMAT_ENGINES.md  
 **Family Path:** `07_PRODUCTION_FORMAT_ENGINES/`
+
+🧩 **TEMPLATES:**
+- ENGINE TEMPLATE — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/07_PRODUCTION_FORMAT_ENGINES/00__TEMPLATE__ENGINE__PRODUCTION_FORMAT_ENGINES.md
+- README TEMPLATE — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/07_PRODUCTION_FORMAT_ENGINES/00__TEMPLATE__README__PRODUCTION_FORMAT_ENGINES.md
 
 01 — Genre Engine — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/07_PRODUCTION_FORMAT_ENGINES/01__GENRE_ENG.md  
 02 — Genre Blending Engine — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/07_PRODUCTION_FORMAT_ENGINES/02__GENRE_BLENDING_ENG.md  
@@ -358,15 +417,15 @@ ROLE: Canonical navigation law + roadmap for all ENG engine families and instanc
 
 ---
 
-🧩 **TEMPLATES:**
-- ENGINE TEMPLATE — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/08_KNOWLEDGE_PRODUCTION_ENGINES/00__TEMPLATE__ENGINE__KNOWLEDGE_PRODUCTION_ENGINES.md
-- README TEMPLATE — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/08_KNOWLEDGE_PRODUCTION_ENGINES/00__TEMPLATE__README__KNOWLEDGE_PRODUCTION_ENGINES.md
-
-
+<a id="eng-family-08-production"></a>
 ## 08_KNOWLEDGE_PRODUCTION_ENGINES
 **CLASS:** PRODUCTION (L3)  
 🔗 **REALM FILE:** https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/08_KNOWLEDGE_PRODUCTION_ENGINES/00__README__KNOWLEDGE_PRODUCTION_ENGINES.md  
 **Family Path:** `08_KNOWLEDGE_PRODUCTION_ENGINES/`
+
+🧩 **TEMPLATES:**
+- ENGINE TEMPLATE — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/08_KNOWLEDGE_PRODUCTION_ENGINES/00__TEMPLATE__ENGINE__KNOWLEDGE_PRODUCTION_ENGINES.md
+- README TEMPLATE — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/08_KNOWLEDGE_PRODUCTION_ENGINES/00__TEMPLATE__README__KNOWLEDGE_PRODUCTION_ENGINES.md
 
 01 — Visual Composition Engine — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/08_KNOWLEDGE_PRODUCTION_ENGINES/01__VISUAL_COMPOSITION_ENG.md  
 02 — Art Style Engine — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/08_KNOWLEDGE_PRODUCTION_ENGINES/02__ART_STYLE_ENG.md  
@@ -379,6 +438,7 @@ ROLE: Canonical navigation law + roadmap for all ENG engine families and instanc
 
 ---
 
+<a id="eng-family-09-sound"></a>
 ## 09_SOUND_MUSIC_ENGINES
 **CLASS:** SOUND (L3)  
 🔗 **REALM FILE:** https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/09_SOUND_MUSIC_ENGINES/00__README__SOUND_MUSIC_ENGINES.md  
@@ -387,7 +447,6 @@ ROLE: Canonical navigation law + roadmap for all ENG engine families and instanc
 🧩 **TEMPLATES:**
 - ENGINE TEMPLATE — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/09_SOUND_MUSIC_ENGINES/00__TEMPLATE__ENGINE__SOUND_MUSIC_ENGINES.md
 - README TEMPLATE — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/09_SOUND_MUSIC_ENGINES/00__TEMPLATE__README__SOUND_MUSIC_ENGINES.md
-
 
 01 — Music Composition Engine — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/09_SOUND_MUSIC_ENGINES/01__MUSIC_COMPOSITION_ENG.md  
 02 — Song Structure Engine — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/09_SOUND_MUSIC_ENGINES/02__SONG_STRUCTURE_ENG.md  
@@ -405,6 +464,7 @@ ROLE: Canonical navigation law + roadmap for all ENG engine families and instanc
 
 ---
 
+<a id="eng-family-10-meta"></a>
 ## 10_META_EVOLUTION_ENGINES
 **CLASS:** META (L4)  
 🔗 **REALM FILE:** https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/10_META_EVOLUTION_ENGINES/00__README__META_EVOLUTION_ENGINES.md  
@@ -414,7 +474,6 @@ ROLE: Canonical navigation law + roadmap for all ENG engine families and instanc
 - ENGINE TEMPLATE — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/10_META_EVOLUTION_ENGINES/00__TEMPLATE__ENGINE__META_EVOLUTION_ENGINES.md
 - README TEMPLATE — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/10_META_EVOLUTION_ENGINES/00__TEMPLATE__README__META_EVOLUTION_ENGINES.md
 
-
 01 — Learning Engine — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/10_META_EVOLUTION_ENGINES/01__LEARNING_ENG.md  
 02 — Pattern Extraction Engine — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/10_META_EVOLUTION_ENGINES/02__PATTERN_EXTRACTION_ENG.md  
 03 — Optimization Engine — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/10_META_EVOLUTION_ENGINES/03__OPTIMIZATION_ENG.md  
@@ -422,12 +481,12 @@ ROLE: Canonical navigation law + roadmap for all ENG engine families and instanc
 05 — Future Projection Engine — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/10_META_EVOLUTION_ENGINES/05__FUTURE_PROJECTION_ENG.md  
 
 ---
-- У каждой FAMILY обязателен блок **TEMPLATES** (ENGINE TEMPLATE + README TEMPLATE) с прямыми raw-ссылками.
 
 ## FINAL RULE (LOCK)
 
 > Этот INDEX — единственная точка истины о составе и порядке ENG-движков системы.  
-> Любая правка INDEX считается изменением канона и проходит governance pipeline.
+> Любая правка INDEX считается изменением канона и проходит governance pipeline.  
+> Любая правка INDEX обязана фиксироваться через Audit Log Engine.
 
 OWNER: Universe Engine  
 LOCK: FIXED
