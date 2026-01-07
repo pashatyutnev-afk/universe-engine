@@ -1,5 +1,5 @@
 # KB DOC CONTROL (GOVERNANCE)
-FILE: 04_KNOWLEDGE_BASE/00_KB_GOVERNANCE/07__KB_DOC_CONTROL
+FILE: 04_KNOWLEDGE_BASE/00_KB_GOVERNANCE/07__KB_DOC_CONTROL.md
 
 SCOPE: Universe Engine
 LAYER: 04_KNOWLEDGE_BASE
@@ -11,53 +11,33 @@ LOCK: FIXED
 VERSION: 1.0.0
 UID: UE.KB.SYS.DOC_CONTROL.001
 OWNER: SYSTEM
-ROLE: KB-layer doc control: required header fields, allowed values, naming ranges, and alias policy
-
-CHANGE_NOTE:
-- DATE: 2026-01-08
-- TYPE: MAJOR
-- SUMMARY: "Зафиксирован Doc Control KB: обязательная шапка, SemVer, status/lock, naming ranges, alias policy"
-- REASON: "Без Doc Control KB невалидируем и расползается"
-- IMPACT: "Все KB файлы: governance/realms/topics/aliases"
+ROLE: KB-layer doc control: required header fields, allowed values, naming ranges, alias policy, root exceptions
 
 ---
 
 ## REQUIRED HEADER (MANDATORY)
-Каждый канонический KB-файл обязан иметь шапку (в начале файла):
-
 SCOPE / LAYER / DOC_TYPE / LEVEL / STATUS / LOCK / VERSION / UID / OWNER / ROLE
 
-Допускается добавлять поля типа `INDEX_TYPE`, `REALM`, `SYSTEM_OBJ`, если это уместно.
-
----
-
 ## ALLOWED VALUES (STRICT)
-STATUS: DRAFT | ACTIVE | DEPRECATED | ARCHIVED  
-LOCK: OPEN | FIXED  
-VERSION: X.Y.Z (SemVer)
-
----
+STATUS: DRAFT | ACTIVE | DEPRECATED | ARCHIVED
+LOCK: OPEN | FIXED
+VERSION: X.Y.Z
 
 ## NAMING RANGES (HARD)
-- Governance: `04_KNOWLEDGE_BASE/00_KB_GOVERNANCE/NN__*` (00..99)
-- Realms (root): `04_KNOWLEDGE_BASE/01__*` .. `04_KNOWLEDGE_BASE/08__*`
-- Topics: `04_KNOWLEDGE_BASE/10_TOPICS/NN__*` (00..99)
-- Aliases (non-canon): `04_KNOWLEDGE_BASE/98__*` и `04_KNOWLEDGE_BASE/99__*` только
-
----
+- Root entrypoint (only one allowed):
+  - `04_KNOWLEDGE_BASE/00__INDEX__KNOWLEDGE_BASE.md`
+- Governance:
+  - `04_KNOWLEDGE_BASE/00_KB_GOVERNANCE/NN__*.md`
+  - system dictionaries: `90__*..99__*` inside governance
+- Realms:
+  - `04_KNOWLEDGE_BASE/01__*..08__*.md`
+- Topics:
+  - `04_KNOWLEDGE_BASE/10_TOPICS/NN__*.md`
+  - existence SoT: `10_TOPICS/00__INDEX__TOPICS.md`
+- Aliases (non-canon):
+  - `04_KNOWLEDGE_BASE/98__*.md` and `04_KNOWLEDGE_BASE/99__*.md` only
 
 ## ALIAS POLICY (HARD)
-Alias-файлы (98/99):
-- НЕ канон
-- содержат только CANON_TARGET (path + raw)
-- запрещено хранить правила, списки, контент, реестры
-
----
-
-## NO DUPLICATION (HARD)
-Запрещено дублировать OWNER/LOCK/VERSION/STATUS в конце файла отдельными строками.
-Одна истина — в шапке.
-
----
+Alias-файлы содержат только pointer на master-index. Никакого контента/правил.
 
 --- END.

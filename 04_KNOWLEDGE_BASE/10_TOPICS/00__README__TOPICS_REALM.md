@@ -1,5 +1,5 @@
-# KB TOPICS REALM — README (KB)
-FILE: 04_KNOWLEDGE_BASE/10_TOPICS/00__README__TOPICS_REALM
+# TOPICS REALM — README (KB)
+FILE: 04_KNOWLEDGE_BASE/10_TOPICS/00__README__TOPICS_REALM.md
 
 SCOPE: Universe Engine
 LAYER: 04_KNOWLEDGE_BASE
@@ -9,35 +9,21 @@ LEVEL: L2
 STATUS: ACTIVE
 LOCK: FIXED
 VERSION: 1.0.0
-UID: UE.KB.TOPICS.README.001
+UID: UE.KB.TOPICS.REALM.README.001
 OWNER: SYSTEM
-ROLE: Rules + boundaries + usage for KB Topics subtree
+ROLE: Definition + boundaries for KB Topics subtree (practical articles)
 
 ---
 
-## WHAT ARE TOPICS
-Topics — это короткие “пакеты знаний / статьи”, которые:
+## WHAT IS TOPICS
+Topics — практические статьи/пакеты знаний, которые:
 - дополняют realms,
 - не дублируют их целиком,
-- фиксируются через existence registry: `10_TOPICS/00__INDEX__TOPICS`.
-
----
+- регистрируются через `00__INDEX__TOPICS.md`.
 
 ## RULES (HARD)
-- Один topic = один смысловой блок.
-- Дубли с realms запрещены без явного XREF/REL.
-- Topic обязан иметь:
-  - шапку Doc Control (UID/SemVer/STATUS/LOCK),
-  - секцию “SCOPE / WHAT IT SOLVES”,
-  - ссылки (XREF) на realm/engine при необходимости.
+- Один смысл → один topic.
+- Если нужно в нескольких местах — XREF, не копипаст.
+- Каждый topic обязан иметь шапку Doc Control (UID/SemVer/STATUS/LOCK).
 
----
-
-## CANON ENTRY
-- Existence и порядок Topics фиксируются в:
-  `04_KNOWLEDGE_BASE/10_TOPICS/00__INDEX__TOPICS`
-
----
-
-## FINAL RULE (LOCK)
 --- END.
