@@ -1,0 +1,95 @@
+# OUT PASSPORT — TEMPLATE (UNIVERSAL)
+FILE: 06_OUTPUT/00_OUT_GOVERNANCE/04__TEMPLATE__OUT_PASSPORT.md
+
+SCOPE: Universe Engine / Output
+LEVEL: L1
+STATUS: ACTIVE
+LOCK: FIXED
+VERSION: 1.0
+OWNER: SYSTEM
+ROLE: Универсальный шаблон паспорта OUT-объекта (STACK/SCRIPT/AUDIO/VIDEO/IMAGE). Только UID.
+
+SOURCE OF TRUTH:
+- UID: `02_STANDARDS/01_SPECIFICATIONS/UID_AND_MARKING_SPEC.md`
+- OUT Realm: `06_OUTPUT/00_OUT_GOVERNANCE/00__README__OUT_REALM.md`
+- OUT Registry: `06_OUTPUT/00_OUT_GOVERNANCE/01__INDEX__OUT_GLOBAL_REGISTRY.md`
+- Scene Stack Standard: `02_STANDARDS/06_MARKING_STANDARDS/06__SCENE_STACK_4TRACK.md`
+- REL/XREF: `02_STANDARDS/06_MARKING_STANDARDS/05__REL_POLICY_XREF.md`
+
+---
+
+## 0) HEADER (REQUIRED)
+UID: <UE.OUT.<CATEGORY>.<FAMILY>.<NAME>>
+CATEGORY: <STACK|SCRIPT|AUDIO|VIDEO|IMAGE>
+FAMILY: <GEN|NAR|VIS|SND|...>
+STATUS: <DRAFT|ACTIVE|ARCHIVED|DEPRECATED>
+LOCK: <OPEN|FIXED>
+VERSION: <1.0>
+OWNER: <SYSTEM|YOU>
+
+---
+
+## 1) REF (REQUIRED)
+REF_UID: <UE.PRJ.SCENE... | UE.PRJ.EP... | UE.PRJ.PACK...>
+(что именно этот OUT объект обслуживает)
+
+---
+
+## 2) SUMMARY (REQUIRED)
+1–5 строк: что это за артефакт и зачем нужен.
+
+---
+
+## 3) MAIN CONTENT (BY CATEGORY)
+### 3.1 STACK (4TRACK)
+SCENE_REF: <REF_UID>
+DURATION: <MM:SS.mmm>
+GRID: <seconds|fps:N>
+ANCHORS: []
+TRACKS:
+  A_FOCUS: []
+  B_BG_LIFE: []
+  C_ENV: []
+  D_AUDIO: []
+
+### 3.2 SCRIPT
+CONTENT:
+- текст/структура/битшит/диалоги
+
+### 3.3 AUDIO
+CUES: []
+ASSET_REFS: []
+
+### 3.4 VIDEO
+RENDER_NOTES:
+- формат/темп/монтаж/правила
+SOURCE_ASSET_REFS: []
+
+### 3.5 IMAGE
+PROMPT_REF: <UID or NONE>
+ASSET_REFS: []
+
+---
+
+## 4) LINKS (OPTIONAL)
+KB_REFS: []
+XREFS: []
+DEPENDS_ON: []
+
+---
+
+## 5) QUALITY / GATES (OPTIONAL)
+NATURALNESS_GATES_REF: <UID or NONE>
+DOC_CONTROL: <PASS|FAIL|N/A>
+
+---
+
+## 6) CHECKLIST (RECOMMENDED)
+- [ ] UID valid
+- [ ] registered in OUT Global Registry
+- [ ] REF_UID set
+- [ ] storage path correct
+- [ ] (STACK) has 4 tracks
+
+---
+END.

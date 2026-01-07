@@ -1,0 +1,29 @@
+# OUT STORAGE MAP — CANON FOLDERS
+FILE: 06_OUTPUT/00_OUT_GOVERNANCE/03__OUT_STORAGE_MAP.md
+
+SCOPE: Universe Engine / Output Storage
+LEVEL: L1
+STATUS: ACTIVE
+LOCK: OPEN
+VERSION: 1.0
+OWNER: SYSTEM
+ROLE: Карта папок OUT.
+
+---
+
+## 0) CORE LAW
+- OUT хранит результаты и сборочные артефакты.
+- OUT файл = UID.md (или UID + расширение для медиа).
+
+---
+
+## 1) CANON STRUCTURE (PROPOSED)
+- `06_OUTPUT/00_OUT_GOVERNANCE/`
+- `06_OUTPUT/01_STACKS/`
+- `06_OUTPUT/02_SCRIPTS/`
+- `06_OUTPUT/03_AUDIO/`
+- `06_OUTPUT/04_VIDEO/`
+- `06_OUTPUT/05_IMAGES/`
+
+---
+END.

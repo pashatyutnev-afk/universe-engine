@@ -1,0 +1,24 @@
+# TEMPLATE — TRACK EVENT
+FILE: 02_STANDARDS/01_SPECIFICATIONS/05B__TEMPLATE__TRACK_EVENT.md
+
+SCOPE: Universe Engine / Templates
+LEVEL: L0
+STATUS: ACTIVE
+LOCK: FIXED
+VERSION: 1.0
+OWNER: SYSTEM
+ROLE: Единый формат EVENT для любой дорожки.
+
+---
+
+EVENT:
+  ID: <T01>
+  TIME: <NONE>
+  FOCUS: <NONE>
+  ACTION: ""
+  CONSTRAINTS: []
+  ASSETS: []
+  NOTES: ""
+
+---
+END.

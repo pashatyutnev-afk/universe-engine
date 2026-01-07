@@ -1,0 +1,25 @@
+# UNIVERSE ENGINE — DOC REGISTRY (SoT)
+FILE: 02_STANDARDS/00__DOC_REGISTRY.md
+
+SCOPE: Universe Engine / Registry
+LEVEL: L0
+STATUS: ACTIVE
+LOCK: OPEN
+VERSION: 1.0
+OWNER: SYSTEM
+ROLE: Единый реестр документов. 1 строка = 1 документ.
+
+STANDARD:
+- `02_STANDARDS/01_SPECIFICATIONS/07__DOC_REGISTRY_STANDARD.md`
+
+---
+
+## REGISTRY (1 row = 1 doc)
+
+FORMAT:
+DOC_ID | DATE | TITLE | TYPE | OWNER | STATUS | LOCK | FILE_PATH | UID | OUTPUT_TARGET | NOTE
+
+(начинай заполнять ниже)
+
+---
+END.

@@ -1,0 +1,31 @@
+# VAL GLOBAL REGISTRY — ALL VALIDATORS (SoT)
+FILE: 03_SYSTEM_ENTITIES/50_VAL__VALIDATORS/02__INDEX_ALL_VALIDATORS.md
+
+SCOPE: Universe Engine / VAL Registry
+ENTITY_GROUP: ENT
+CATEGORY: VAL
+INDEX_TYPE: GLOBAL_VAL_REGISTRY
+LEVEL: L1
+STATUS: ACTIVE
+LOCK: OPEN
+VERSION: 1.0
+OWNER: SYSTEM
+ROLE: Реестр всех валидаторов. 1 строка = 1 VAL.
+
+---
+
+## 0) EXISTENCE RULE
+> Если VAL нет в этом реестре — он не существует.
+
+---
+
+## 1) ROW FORMAT
+`NN | <VAL_NAME> | <UID> | <FAMILY> | <STATUS> | <LOCK> | <RAW_LINK> | <NOTE>`
+
+---
+
+## 2) REGISTRY (EMPTY — TO BE FILLED)
+(пока пусто)
+
+---
+END.

@@ -1,0 +1,72 @@
+# CTL — READINESS CHECK (SCENE_PACK)
+FILE: 03_SYSTEM_ENTITIES/40_CTL__CONTROLLERS/01__READINESS_CHECK_CTL.md
+
+SCOPE: Universe Engine / CTL
+ENTITY_GROUP: ENT
+CATEGORY: CTL
+LEVEL: L1
+STATUS: ACTIVE
+LOCK: OPEN
+VERSION: 1.0
+OWNER: SYSTEM
+ROLE: Gate-контроллер готовности SCENE_PACK: проверяет наличие 4 дорожек, минимальную заполненность и базовые обязательные поля.
+
+UID: UE.ENT.CTL.GEN.READINESS_CHECK
+
+REFERENCES (SoT):
+- Marking: `02_STANDARDS/01_SPECIFICATIONS/01__UID_AND_MARKING_STANDARD.md`
+- Scene 4Track: `02_STANDARDS/01_SPECIFICATIONS/05__SCENE_STACK_4TRACK_STANDARD.md`
+- Storage Map: `02_STANDARDS/01_SPECIFICATIONS/02__STORAGE_MAP_STANDARD.md`
+
+---
+
+## MINI-CONTRACT (MANDATORY)
+CONSUMES:
+- PRJ: SCENE_PACK
+PRODUCES:
+- READINESS_REPORT (PASS/FAIL)
+- MISSING_LIST (what is missing)
+DEPENDS_ON:
+- []
+OUTPUT_TARGET:
+- LOG
+
+---
+
+## REQUIRED CHECKS (MANDATORY)
+S0 FAIL if any:
+- missing TRACK NAR
+- missing TRACK VIS
+- missing TRACK SND
+- missing TRACK MOT
+- any track exists but has 0 events
+- missing META.GOAL
+
+S1 FAIL (or WARN) if:
+- META.TONE empty
+- CONSTRAINTS empty (allowed, but warn if финальный прогон)
+- LINKS missing when required by brief (optional)
+
+---
+
+## OUTPUT FORMAT (MANDATORY)
+RESULT: <PASS|FAIL>
+TARGET: <SCENE_PACK>
+MISSING:
+- <item>
+NOTES: "<short>"
+
+---
+
+## RELATIONS (MANDATORY)
+CALLS: []
+CONSUMES: [PRJ]
+PRODUCES: [LOG]
+DEPENDS_ON: [SoT standards]
+VALIDATES: []
+QUALITY_GATES: []
+GOVERNS: []
+REFERENCES: []
+
+---
+END.

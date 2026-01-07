@@ -1,0 +1,29 @@
+# TEMPLATE — SCENE PACK (4TRACK)
+FILE: 02_STANDARDS/01_SPECIFICATIONS/05A__TEMPLATE__SCENE_PACK.md
+
+SCOPE: Universe Engine / Templates
+LEVEL: L0
+STATUS: ACTIVE
+LOCK: FIXED
+VERSION: 1.0
+OWNER: SYSTEM
+ROLE: Шаблон SCENE_PACK для хранения дорожек сцены.
+
+---
+
+SCENE_PACK:
+  SCENE_UID: <UE.PRJ.SCENE...|NONE>
+  META:
+    GOAL: ""
+    TONE: ""
+    CONSTRAINTS: []
+  TRACKS:
+    NAR: []
+    VIS: []
+    SND: []
+    MOT: []
+  LINKS: []
+  VERSION: 1.0
+
+---
+END.

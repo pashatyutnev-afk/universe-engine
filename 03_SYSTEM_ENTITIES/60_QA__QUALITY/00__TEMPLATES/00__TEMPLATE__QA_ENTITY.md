@@ -1,0 +1,71 @@
+# QA ENTITY — TEMPLATE
+FILE: 03_SYSTEM_ENTITIES/60_QA__QUALITY/00__TEMPLATES/00__TEMPLATE__QA_ENTITY.md
+
+SCOPE: Universe Engine / QA Template
+ENTITY_GROUP: ENT
+CATEGORY: QA
+LEVEL: L1
+STATUS: ACTIVE
+LOCK: FIXED
+VERSION: 1.0
+OWNER: SYSTEM
+ROLE: Шаблон QA сущности: контракт + правила оценки + формат отчёта.
+
+SOURCE OF TRUTH:
+- UID Standard: `02_STANDARDS/01_SPECIFICATIONS/UID_AND_MARKING_SPEC.md`
+- QA Rules: `03_SYSTEM_ENTITIES/60_QA__QUALITY/01__RULES__QA.md`
+
+---
+
+## 0) HEADER (REQUIRED)
+UID: <UE.ENT.QA.<FAMILY>.<NAME>>
+FAMILY: <NAT|STY|TXT|AUD|VIS|GEN>
+STATUS: <DRAFT|ACTIVE|DEPRECATED|ARCHIVED>
+LOCK: <OPEN|FIXED>
+VERSION: <1.0>
+OWNER: <SYSTEM|YOU>
+ROLE: <что оценивает, 1 строка>
+
+---
+
+## 1) PURPOSE (REQUIRED)
+- что именно проверяет
+- где применяется (какие outputs / какие ORC gates)
+
+---
+
+## 2) MINI-CONTRACT (MANDATORY)
+CONSUMES:
+- []
+PRODUCES:
+- []
+DEPENDS_ON:
+- []
+OUTPUT_TARGET:
+- <OUT|PRJ|LOG>
+
+---
+
+## 3) QUALITY CHECKS (MANDATORY)
+### REQUIRED CHECKS
+- CHECK_01: <описание>
+- CHECK_02: <описание>
+
+### OPTIONAL CHECKS
+- CHECK_X: <описание>
+
+---
+
+## 4) REPORT FORMAT (MANDATORY)
+RESULT: <PASS|FAIL>
+TARGET_UID: <...|NONE>
+SCORE: <0..100>
+ISSUES: []
+RED_FLAGS: []
+
+---
+
+## 5) NOTES (OPTIONAL)
+
+---
+END.

@@ -1,0 +1,23 @@
+# QA ISSUE — TEMPLATE
+FILE: 03_SYSTEM_ENTITIES/60_QA__QUALITY/00__TEMPLATES/00__TEMPLATE__QA_ISSUE.md
+
+SCOPE: Universe Engine / QA Issue
+ENTITY_GROUP: ENT
+CATEGORY: QA
+LEVEL: L1
+STATUS: ACTIVE
+LOCK: FIXED
+VERSION: 1.0
+OWNER: SYSTEM
+ROLE: Единый формат issue записи для QA отчётов.
+
+---
+
+ISSUE:
+  CODE: <SHORT_CODE>
+  SEVERITY: <S0|S1|S2|S3>
+  MESSAGE: "<что не так>"
+  FIX_SUGGESTION: "<как исправить>"
+
+---
+END.
