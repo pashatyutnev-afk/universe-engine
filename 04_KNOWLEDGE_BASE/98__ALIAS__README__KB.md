@@ -1,0 +1,19 @@
+# KB README (ALIAS POINTER)
+FILE: 04_KNOWLEDGE_BASE/98__ALIAS__README__KB
+
+SCOPE: Universe Engine
+LAYER: 04_KNOWLEDGE_BASE
+DOC_TYPE: ALIAS
+LEVEL: L3
+STATUS: DEPRECATED
+LOCK: FIXED
+VERSION: 1.0.0
+UID: UE.KB.ALIAS.README.001
+OWNER: SYSTEM
+ROLE: Legacy entrypoint pointer. Not canon. Use KB master-index.
+
+CANON_TARGET:
+- PATH: 04_KNOWLEDGE_BASE/00__INDEX__KNOWLEDGE_BASE
+- RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/04_KNOWLEDGE_BASE/00__INDEX__KNOWLEDGE_BASE.md
+
+--- END.
