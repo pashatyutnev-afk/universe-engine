@@ -1,100 +1,211 @@
-# UNIVERSE ENGINE — ARTIFACT SCHEMA REGISTRY (LAW)
+# ARTIFACT SCHEMA REGISTRY (CANON)
 FILE: 01_SYSTEM_LAW/05__ARTIFACT_SCHEMA_REGISTRY.md
 
 SCOPE: Universe Engine
-LAYER: SYSTEM LAW
-LEVEL: L0
+LAYER: 01_SYSTEM_LAW
+DOC_TYPE: REGISTRY
+LEVEL: L1
 STATUS: ACTIVE
-LOCK: OPEN
-VERSION: 1.0
+LOCK: FIXED
+VERSION: 1.1.0
+UID: UE.REG.ARTIFACT.SCHEMA.MASTER.005
 OWNER: SYSTEM
-ROLE: Закон-реестр артефактов. Фиксирует список допустимых типов артефактов (artifacts) и указывает, где живёт их формат (SoT). Если типа нет в реестре — он не существует.
+ROLE: Canonical registry of artifact schemas/types used by the Universe Engine. UID is primary. Type keys are optional human-friendly aliases.
+
+CHANGE_NOTE:
+- DATE: 2026-01-07
+- TYPE: MINOR
+- SUMMARY: "Единый реестр схем артефактов: UID-first, валидные type keys, совместимость с пайплайнами, запрет конфликтующих форматов"
+- REASON: "Устранение ART: vs ART. конфликтов и формализация схем"
+- IMPACT: "Pipelines, standards, KB governance, validation"
 
 ---
 
-## 0) PURPOSE
-Artifact Schema Registry нужен чтобы:
-- все процессы говорили на одном языке (одни и те же типы входов/выходов)
-- не возникало “двух SCENE_PACK” разного вида
-- было понятно, что создаёт ORC/ENG/SPC и куда складывается
+## 0) PRIME LAW (ABSOLUTE)
+- Любой артефакт, который участвует в пайплайнах/реестрах/каноне, обязан иметь **тип**.
+- Тип артефакта определяется **UID схемы** (primary).
+- Человеко-читаемый `TYPE_KEY` — вторичен (alias), не заменяет UID.
 
 ---
 
-## 1) EXISTENCE RULE (ABSOLUTE)
-> Если артефакт-тип не зарегистрирован в этом реестре — он не считается допустимым типом системы.
-
-Любой новый artifact type:
-1) сначала регистрируется здесь
-2) затем получает SoT-описание формата в STANDARDS
-3) затем начинает использоваться сущностями
+## 1) TERMINOLOGY
+**Artifact** — экземпляр выходного объекта (doc/pack/event/passport/registry/scene-pack/etc).  
+**Schema** — описание формата артефакта (поля, правила, валидатор).  
+**TYPE_UID** — UID схемы (канонический идентификатор типа).  
+**TYPE_KEY** — короткий алиас (удобно для людей/папок), но не системный идентификатор.
 
 ---
 
-## 2) ARTIFACT TYPE ID (CANON)
-Тип артефакта записывается как:
+## 2) TYPE_KEY FORMAT (ALIAS, OPTIONAL)
+Если используется `TYPE_KEY`, то формат такой:
 
-ART.<GROUP>.<NAME>
+`UE.<DOMAIN>.<NAME>`
 
 Где:
-- GROUP: DOC | PRJ | KB | AST | OUT | LOG | DB
-- NAME: UPPER_SNAKE_CASE
+- `UE` — константа
+- `<DOMAIN>` — DOC | KB | STD | PIPE | ART | ENT | PRJ | OUT
+- `<NAME>` — UPPER_SNAKE_CASE
 
 Примеры:
-- ART.PRJ.SCENE_PACK
-- ART.OUT.OUT_SCENE
-- ART.DOC.SCENE_BRIEF
-- ART.LOG.PIPELINE_REPORT
+- `UE.DOC.MASTER_INDEX`
+- `UE.KB.REALM`
+- `UE.KB.ENTITY_PASSPORT`
+- `UE.STD.SPEC`
+- `UE.ART.SCENE_PACK`
+- `UE.ART.TRACK_EVENT`
+- `UE.REG.TABLE`
 
----
-
-## 3) REGISTRY ROW FORMAT (MANDATORY)
-Одна строка:
-
-ART_TYPE | PURPOSE | PRODUCED_BY | CONSUMED_BY | SoT_SCHEMA | STORAGE_GROUP | NOTES
-
-Где:
-- PRODUCED_BY / CONSUMED_BY: ENG/ORC/SPC/CTL/VAL/QA (или конкретный UID если нужно)
-- SoT_SCHEMA: путь на стандарт (без дублей)
-- STORAGE_GROUP: KB/PRJ/OUT/AST/LOG/DB
-
----
-
-## 4) CANON ARTIFACT REGISTRY (START SET)
-
-### A) SCENE PIPELINE ARTIFACTS
-ART.PRJ.SCENE_PACK | Сборка сцены в 4 дорожках | ORC | CTL/VAL/QA/ORC | `02_STANDARDS/01_SPECIFICATIONS/05__SCENE_STACK_4TRACK_STANDARD.md` | PRJ | input to merge  
-ART.OUT.OUT_SCENE | Финальный текст сцены (+опц. заметки) | ORC | OUT consumers | `02_STANDARDS/01_SPECIFICATIONS/05__SCENE_STACK_4TRACK_STANDARD.md` | OUT | merged result  
-ART.DOC.SCENE_BRIEF | Цель/ограничения сцены | PRJ/KB | ORC/ENG/SPC | `02_STANDARDS/01_SPECIFICATIONS/05__SCENE_STACK_4TRACK_STANDARD.md` | PRJ | minimal brief  
-ART.LOG.PIPELINE_REPORT | Отчёт прогонов gates | ORC/CTL/VAL/QA | humans/system | `02_STANDARDS/01_SPECIFICATIONS/03__DOC_CONTROL_STANDARD.md` | LOG | pass/fail + issues  
-
-### B) CONTEXT ARTIFACTS (OPTIONAL INPUTS)
-ART.KB.WORLD_CONTEXT | Справка о мире | KB | ORC/ENG/SPC | `02_STANDARDS/01_SPECIFICATIONS/02__STORAGE_MAP_STANDARD.md` | KB | optional  
-ART.KB.CHARACTER_CONTEXT | Справка о персонажах | KB | ORC/ENG/SPC | `02_STANDARDS/01_SPECIFICATIONS/02__STORAGE_MAP_STANDARD.md` | KB | optional  
-ART.KB.STYLE_CONTEXT | Справка о стиле/тональности | KB | QA/ORC | `02_STANDARDS/01_SPECIFICATIONS/06__NATURALNESS_GATES_STANDARD.md` | KB | optional  
-
-### C) GOVERNANCE / CONTROL ARTIFACTS
-ART.DOC.STANDARD | Стандарт SoT документ | SYSTEM | all | `02_STANDARDS/01_SPECIFICATIONS/*` | STD | SoT  
-ART.DOC.INDEX | Индекс/реестр | SYSTEM | all | `02_STANDARDS/01_SPECIFICATIONS/04__REL_POLICY_XREF_STANDARD.md` | STD | navigation  
-ART.DOC.ENTITY | ENT файл | SYSTEM | all | `02_STANDARDS/01_SPECIFICATIONS/01__UID_AND_MARKING_STANDARD.md` | ENT | must have mini-contract  
-
----
-
-## 5) NO DUPLICATION RULE
 Запрещено:
-- создавать новый тип артефакта, если уже есть эквивалентный
-- называть один и тот же тип разными именами
-
-Если нужно расширение:
-- добавляется версия/поле внутри SoT_SCHEMA, а не новый тип.
+- `ART:...`
+- `ART.PRJ....` (смешение доменов без правила)
+- точки/двоеточия вразнобой без единого формата
 
 ---
 
-## 6) FINAL LAW
-> Артефакт-тип — это контракт пайплайна.  
-> Нет типа в реестре — нет права использовать его в сущностях.
+## 3) REGISTRY RECORD (MANDATORY FIELDS)
+Каждая схема в реестре обязана иметь:
 
-OWNER: Universe Engine  
-LOCK: FIXED
+- `TYPE_UID` (primary, required)
+- `TYPE_KEY` (optional alias)
+- `STATUS` (ACTIVE | DEPRECATED | DRAFT)
+- `VERSION` (SemVer)
+- `SCOPE/LAYER` (где применяется)
+- `ROLE` (что это)
+- `SOURCE_DOC` (канонический документ, который описывает схему — путь/raw)
+- `VALIDATION` (как валидировать: human/manual/CI/script name)
 
 ---
-END.
+
+## 4) MASTER REGISTRY (SCHEMAS)
+NOTE: Этот список — минимальный старт. Он расширяется только по Canon Protocol.
+
+### A) Core document artifacts
+1) MASTER INDEX (Layer Index)
+- TYPE_UID: UE.ART.DOC.MASTER_INDEX.001
+- TYPE_KEY: UE.DOC.MASTER_INDEX
+- STATUS: ACTIVE
+- VERSION: 1.0.0
+- SCOPE/LAYER: any (all layers)
+- ROLE: Entry-point index that defines existence/order for a layer
+- SOURCE_DOC: 01_SYSTEM_LAW/00__SYSTEM_LAW.md (defines)
+- VALIDATION: CI (index-link validator)
+
+2) REGISTRY TABLE
+- TYPE_UID: UE.ART.DOC.REGISTRY_TABLE.002
+- TYPE_KEY: UE.REG.TABLE
+- STATUS: ACTIVE
+- VERSION: 1.0.0
+- SCOPE/LAYER: any
+- ROLE: Canonical registry listing typed items (schemas/entities/pipelines/etc.)
+- SOURCE_DOC: 01_SYSTEM_LAW/05__ARTIFACT_SCHEMA_REGISTRY.md
+- VALIDATION: CI/manual
+
+3) LAW DOCUMENT
+- TYPE_UID: UE.ART.DOC.LAW.003
+- TYPE_KEY: UE.DOC.LAW
+- STATUS: ACTIVE
+- VERSION: 1.0.0
+- SCOPE/LAYER: 01_SYSTEM_LAW
+- ROLE: System law document (normative)
+- SOURCE_DOC: 01_SYSTEM_LAW/00__SYSTEM_LAW.md
+- VALIDATION: manual/CI (doc control lints)
+
+4) STANDARD (SoT / SPEC)
+- TYPE_UID: UE.ART.STD.SPEC.010
+- TYPE_KEY: UE.STD.SPEC
+- STATUS: ACTIVE
+- VERSION: 1.0.0
+- SCOPE/LAYER: 02_STANDARDS
+- ROLE: Source-of-Truth specification
+- SOURCE_DOC: 02_STANDARDS/01_SPECIFICATIONS/* (SoT docs)
+- VALIDATION: manual/CI (no-dup gates)
+
+5) STANDARD MODULE (detail)
+- TYPE_UID: UE.ART.STD.MODULE.011
+- TYPE_KEY: UE.STD.MODULE
+- STATUS: ACTIVE
+- VERSION: 1.0.0
+- SCOPE/LAYER: 02_STANDARDS/06_MARKING_STANDARDS
+- ROLE: Module that extends a SoT spec (no SoT claims)
+- SOURCE_DOC: 02_STANDARDS/06_MARKING_STANDARDS/*
+- VALIDATION: manual/CI (must reference SoT)
+
+---
+
+### B) KB artifacts
+6) KB REALM DOCUMENT
+- TYPE_UID: UE.ART.KB.REALM.020
+- TYPE_KEY: UE.KB.REALM
+- STATUS: ACTIVE
+- VERSION: 1.0.0
+- SCOPE/LAYER: 04_KNOWLEDGE_BASE
+- ROLE: Realm knowledge doc (domain knowledge)
+- SOURCE_DOC: 04_KNOWLEDGE_BASE/00__INDEX__KNOWLEDGE_BASE.md
+- VALIDATION: doc control + UID presence
+
+7) KB ENTITY PASSPORT
+- TYPE_UID: UE.ART.KB.ENTITY_PASSPORT.021
+- TYPE_KEY: UE.KB.ENTITY_PASSPORT
+- STATUS: ACTIVE
+- VERSION: 1.0.0
+- SCOPE/LAYER: 04_KNOWLEDGE_BASE
+- ROLE: Passport describing an entity with UID and mappings (local ids -> uid)
+- SOURCE_DOC: 04_KNOWLEDGE_BASE/00_KB_GOVERNANCE/05__TEMPLATE__KB_ENTITY_PASSPORT.md
+- VALIDATION: schema checks (manual/CI)
+
+8) KB TAGS DICTIONARY
+- TYPE_UID: UE.ART.KB.TAGS.022
+- TYPE_KEY: UE.KB.TAGS
+- STATUS: ACTIVE
+- VERSION: 1.0.0
+- SCOPE/LAYER: 04_KNOWLEDGE_BASE
+- ROLE: SoT dictionary of KB tags (if governance chooses tag system)
+- SOURCE_DOC: 04_KNOWLEDGE_BASE/02__KB_TAGS.md
+- VALIDATION: manual/CI (no duplicates)
+
+---
+
+### C) Scene system artifacts (initial set)
+9) SCENE PACK
+- TYPE_UID: UE.ART.SCENE.PACK.030
+- TYPE_KEY: UE.ART.SCENE_PACK
+- STATUS: DRAFT
+- VERSION: 0.1.0
+- SCOPE/LAYER: 02_STANDARDS (Scene Stack family)
+- ROLE: Container describing a scene with tracks/metadata
+- SOURCE_DOC: 02_STANDARDS/01_SPECIFICATIONS/05A__TEMPLATE__SCENE_PACK.md
+- VALIDATION: to-be-defined
+
+10) TRACK EVENT
+- TYPE_UID: UE.ART.SCENE.TRACK_EVENT.031
+- TYPE_KEY: UE.ART.TRACK_EVENT
+- STATUS: DRAFT
+- VERSION: 0.1.0
+- SCOPE/LAYER: 02_STANDARDS (Scene Stack family)
+- ROLE: Atomic event within a track
+- SOURCE_DOC: 02_STANDARDS/01_SPECIFICATIONS/05B__TEMPLATE__TRACK_EVENT.md
+- VALIDATION: to-be-defined
+
+---
+
+## 5) CHANGE RULES (REGISTRY GOVERNANCE)
+- Добавление нового TYPE_UID или изменение роли/формата существующего — минимум MINOR.
+- Несовместимое изменение схемы — MAJOR + миграционный план.
+- Удалять тип из registry запрещено без deprecation (сначала DEPRECATED, потом ARCHIVED).
+
+---
+
+## 6) VALIDATION GATES (MUST PASS)
+Для каждого зарегистрированного schema record:
+- TYPE_UID уникален
+- VERSION валиден (SemVer)
+- STATUS валиден
+- SOURCE_DOC существует и каноничен (registered в соответствующем index)
+- TYPE_KEY (если есть) соответствует формату
+
+---
+
+## FINAL RULE (LOCK)
+Этот реестр — канонический справочник типов/схем артефактов.
+Любая правка — изменение канона и проходит Canon Protocol.
+--- END.

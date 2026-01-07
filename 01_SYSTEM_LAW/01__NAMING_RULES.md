@@ -1,146 +1,161 @@
-# UNIVERSE ENGINE — NAMING RULES (LAW)
+# NAMING RULES — FILES / FOLDERS / IDENTIFIERS (CANON)
 FILE: 01_SYSTEM_LAW/01__NAMING_RULES.md
 
 SCOPE: Universe Engine
-LAYER: SYSTEM LAW
-LEVEL: L0
+LAYER: 01_SYSTEM_LAW
+DOC_TYPE: LAW
+LEVEL: L1
 STATUS: ACTIVE
-LOCK: OPEN
-VERSION: 1.0
+LOCK: FIXED
+VERSION: 1.1.0
+UID: UE.LAW.NAMING.001
 OWNER: SYSTEM
-ROLE: Закон именования. Фиксирует обязательные форматы имен файлов/папок/индексов/шаблонов во всей системе.
+ROLE: Defines canonical naming patterns for folders/files, index rules, numbering alignment, allowed exceptions, and legacy alias handling.
+
+CHANGE_NOTE:
+- DATE: 2026-01-07
+- TYPE: MINOR
+- SUMMARY: "Нормализованы правила именования: единый паттерн, связь индекса и имени файла, legacy-алиасы, запрет alt-index как канон"
+- REASON: "Устранение коллизий и обеспечение машинной навигации"
+- IMPACT: "Все слои и реестры"
 
 ---
 
-## 0) PURPOSE
-Naming Rules нужны чтобы:
-- исключить хаос и дубли
-- обеспечить строгую сортировку и навигацию
-- обеспечить совместимость индексов и процессов
+## 0) PRIME GOAL
+Именование должно обеспечивать:
+- однозначную навигацию (человек + машина),
+- соответствие индексу (номер/путь),
+- совместимость с registry/index валидаторами,
+- отсутствие дублей и “скрытых алиасов”.
 
 ---
 
-## 1) UNIVERSAL LAWS (ABSOLUTE)
-### 1.1 ASCII ONLY
-Имена файлов/папок: только латиница, цифры, `_` и `-`.
-
-### 1.2 NO SPACES
-Пробелы запрещены.
-
-### 1.3 STABLE ORDER
-Порядок задаётся номером в начале имени.
-
----
-
-## 2) FOLDER NAMING (CANON)
-Формат папки:
-
-NN_<NAME>
-
-Где:
-- NN — двухзначный порядок: 00..99
-- NAME — UPPER_SNAKE_CASE или MIXED_CASE (но стабильно внутри слоя)
-
-Примеры:
-- `01_SYSTEM_LAW`
-- `02_STANDARDS`
-- `03_SYSTEM_ENTITIES`
-- `10_ENG__ENGINES`
-
-Запрещено:
-- папки без номера, если это уровень с сортировкой по порядку
-- “misc”, “temp”, “new”, если это канон-слой
-
----
-
-## 3) FILE NAMING (CANON)
-### 3.1 Standard file
-Формат:
-
-NN__NAME.md
-
-Примеры:
-- `00__SYSTEM_LAW.md`
-- `04__CANON_PROTOCOL.md`
-- `01__SCENE_PIPELINE_ORC.md`
-
-### 3.2 README file (special)
-README всегда имеет номер `00` и формат:
-
-00__README__<SCOPE>.md
-
-Примеры:
-- `00__README__ENGINES_REALM.md`
-- `00__README__CORE_ENGINES.md`
-
----
-
-## 4) INDEX NAMING (CANON)
-### 4.1 Master index
-Формат:
-
-00__INDEX__<SCOPE>.md
-
-Примеры:
-- `01_SYSTEM_LAW/00__INDEX__SYSTEM_LAW.md`
-
-### 4.2 Registry index (all items)
-Формат:
-
-02__INDEX_ALL_<SCOPE>.md
-
-Примеры:
-- `10_ENG__ENGINES/02__INDEX_ALL_ENGINES.md`
-- `20_ORC__ORCHESTRATORS/02__INDEX_ALL_ORCHESTRATORS.md`
-
----
-
-## 5) TEMPLATE NAMING (CANON)
-Шаблон всегда помечается как TEMPLATE:
-
-NN__TEMPLATE__<TYPE>__<SCOPE>.md
-
-Примеры:
-- `00__TEMPLATE__ENGINE__CORE_ENGINES.md`
-- `00__TEMPLATE__README__CORE_ENGINES.md`
-
-Малые шаблоны (вспомогательные) допускают формат:
-NNX__TEMPLATE__<NAME>.md  
-(например 06A, если это мини-шаблон рядом со стандартом)
-
----
-
-## 6) ENTITY FILE NAMING (ENT)
-ENT файлы обязаны содержать суффикс группы:
-
-- `_ENG.md` для engines
-- `_ORC.md` для orchestrators
-- `_SPC.md` для specialists
-- `_CTL.md` для controllers
-- `_VAL.md` для validators
-- `_QA.md`  для quality
+## 1) CANONICAL FILE NAME PATTERN
+### 1.1 Базовый паттерн (рекомендуемый и канонический)
+**`NN__NAME.md`**
+- `NN` — двухзначный номер (00..99)
+- `__` — двойное подчёркивание (разделитель)
+- `NAME` — UPPER_SNAKE_CASE (A–Z, 0–9, `_`)
+- расширение `.md`
 
 Пример:
-- `01__SCENE_PIPELINE_ORC.md`
-- `01__READINESS_CHECK_CTL.md`
+- `00__INDEX__SYSTEM_LAW.md`
+- `03__VERSIONING_CHANGE_POLICY.md`
+
+### 1.2 Папки-слои
+Папки слоёв и подслоёв — UPPER_SNAKE_CASE, допускаются цифры и `_`:
+- `01_SYSTEM_LAW`
+- `02_STANDARDS`
+- `04_KNOWLEDGE_BASE`
+- `00_KB_GOVERNANCE`
 
 ---
 
-## 7) NUMBERING RULE (MANDATORY)
-- Нумерация начинается с `01` внутри реестра сущностей (если `00` занят под README/шаблоны).
-- Номер в индексе и номер в имени файла должны совпадать.
-- При вставке нового элемента в середину:
-  - запрещено “ломать” всю нумерацию без причины
-  - допускается только через Canon Protocol (если реально надо)
+## 2) INDEX ↔ FILE NUMBER ALIGNMENT (ABSOLUTE)
+### 2.1 Закон совпадения номера
+Номер в индексе и номер в имени файла обязаны совпадать.
+
+Пример (валидно):
+- INDEX: `02 — UID Rules`
+- FILE: `02__UID_RULES.md`
+
+Пример (невалидно):
+- INDEX: `02 — ...`
+- FILE: `01__...md`
+
+### 2.2 Один канонический entrypoint index на слой
+На слой допускается **ровно один** канонический master-index (L1):
+- `00__INDEX__<LAYER>.md` или иной формат, но он должен быть единственным зарегистрированным entrypoint.
+
+Любые “alt index / legacy index”:
+- либо удаляются,
+- либо фиксируются как **NON-CANON ALIASES** (см. раздел 6).
 
 ---
 
-## 8) FINAL LAW
-> Имя = навигация.  
-> Нарушение naming rules считается дефектом системы и исправляется в первую очередь.
+## 3) SUFFIX RULES (A/B/…)
+### 3.1 Когда разрешены буквенные суффиксы
+Формат `NN[A-Z]__NAME.md` разрешён **только** для:
+- TEMPLATE
+- APPENDIX
+- EXAMPLE
 
-OWNER: Universe Engine  
-LOCK: FIXED
+То есть: `05A__TEMPLATE__SCENE_PACK.md` допустимо, если это явно TEMPLATE/APPENDIX.
+
+### 3.2 Запрет “бесконечных суффиксов”
+Суффиксы не используются для “дробления SoT”.
+Если нужен новый SoT — создаётся новый номер (NN) и регистрируется по Canon Protocol.
 
 ---
-END.
+
+## 4) KB REALMS & SPECIAL CASES
+### 4.1 Realm-файлы (KB)
+Для realm-файлов Knowledge Base допускаются два режима:
+
+**MODE A (рекомендуется):**
+- `NN__REALM__NAME.md` (строго по общему паттерну)
+
+**MODE B (временно допустим для миграции):**
+- `NN_REALM_NAME.md` (одиночные `_` вместо `__`), но должен быть миграционный план и фикс в ближайшем MINOR.
+
+### 4.2 Запрет конфликтов номеров в одной папке (ABSOLUTE)
+В одной папке не может существовать два канонических файла, начинающихся с одного и того же `NN`, если они оба зарегистрированы в master-index.
+
+Пример конфликта:
+- `02_CHARACTER_CRAFT.md`
+- `02__KB_TAGS.md`
+
+Решение:
+- либо переименовать один файл на другой номер,
+- либо вынести в подпапку,
+- либо зафиксировать исключение в этом документе (раздел 5) и описать мост в реестрах.
+
+---
+
+## 5) EXCEPTIONS REGISTRY (CONTROLLED)
+Исключения допускаются только если:
+- они перечислены в этом документе (в этом разделе),
+- и имеют MIGRATION PLAN или постоянное обоснование.
+
+### 5.1 CURRENT APPROVED EXCEPTIONS
+(пусто — по умолчанию никаких исключений)
+
+---
+
+## 6) LEGACY / ALIAS HANDLING (NON-CANON)
+### 6.1 Что такое legacy alias
+Legacy/alias — файл, который существует для обратной совместимости, но:
+- не является каноническим entrypoint,
+- не может определять состав слоя,
+- не может противоречить master-index.
+
+### 6.2 Как оформлять legacy alias
+Legacy alias должен быть:
+- либо редиректом/указателем на канонический файл (кратко),
+- либо удалён.
+
+Запрещено:
+- держать legacy alias как “второй индекс” и считать его равноправным.
+
+---
+
+## 7) CONTENT NAMING (HEADERS / SECTIONS)
+- Заголовки H1 в документах должны совпадать по смыслу с названием документа.
+- Разделы внутри файла именуются последовательно (0..N), где `0)` — purpose/law.
+
+---
+
+## 8) ENFORCEMENT (VALIDATION)
+Нарушение Naming Rules = документ не может считаться каноничным, пока не исправлен:
+- несоответствие номера,
+- два master-index в одном слое,
+- конфликт номеров в одной папке,
+- неразрешённые суффиксы,
+- “legacy index” зарегистрирован как канон.
+
+---
+
+## FINAL RULE (LOCK)
+Эти правила обязательны для всех слоёв Universe Engine.
+Любая правка — изменение канона и проходит Canon Protocol.
+--- END.
