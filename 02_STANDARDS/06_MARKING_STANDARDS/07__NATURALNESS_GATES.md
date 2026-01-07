@@ -1,82 +1,144 @@
-# NATURALNESS GATES — STANDARD
+# NATURALNESS GATES (MARKING MODULE) (CANON)
 FILE: 02_STANDARDS/06_MARKING_STANDARDS/07__NATURALNESS_GATES.md
 
-SCOPE: Universe Engine / Quality Gates
-LEVEL: L1
+SCOPE: Universe Engine
+LAYER: 02_STANDARDS
+DOC_TYPE: MODULE
+MODULE_TYPE: MARKING
+LEVEL: L2
 STATUS: ACTIVE
-LOCK: OPEN
-VERSION: 1.0
+LOCK: FIXED
+VERSION: 1.1.0
+UID: UE.STD.MOD.MARKING.NAT_GATES.607
 OWNER: SYSTEM
-ROLE: Стандарт “естественности” (правдоподобие формы/движения/речи/стиля) с PASS/FAIL форматом.
+ROLE: Marking module providing conventions for recording Naturalness Gates evaluations (PASS/WARN/FAIL), where to place NAT results, how to link results to targets, and optional NAT scoring. Extends Naturalness Gates SoT.
 
-SOURCE OF TRUTH:
-- Gate-набор, профили формы, формат отчёта — здесь.
-
----
-
-## 0) CORE LAW
-- Gates применяются к сценам/шотам перед фиксацией в CANON.
-- Gates завязаны на FORM_PROFILE сущности (BIO/MECH/ETHR/HYBRID).
-- Gate FAIL оформляется как FIX с PRIORITY.
+CHANGE_NOTE:
+- DATE: 2026-01-07
+- TYPE: MINOR
+- SUMMARY: "Модуль NAT: разметка результатов гейтов, формат записи, привязка к UID целей, политика хранения и score"
+- REASON: "Чтобы NAT проверки были одинаково записаны и читались везде"
+- IMPACT: "Scene Packs, Track Events, Character docs, pipelines"
 
 ---
 
-## 1) FORM_PROFILE (canonical)
-- BIO — биология (человек/животное)
-- MECH — механика (робот/дрон/техника)
-- ETHR — эфирное (призрак/энергия)
-- HYBRID — смесь (обязано быть описано)
+## XREF (UID-first)
+XREF: UE.STD.SPEC.NAT_GATES.106 | extends | marking details for NAT results | 02_STANDARDS/01_SPECIFICATIONS/06__NATURALNESS_GATES_STANDARD.md
+XREF: UE.STD.TPL.NAT_PROFILE.106A | references | NAT Profile instance structure | 02_STANDARDS/01_SPECIFICATIONS/06A__TEMPLATE__NAT_PROFILE.md
+XREF: UE.STD.SPEC.REL_XREF.104 | depends_on | UID-first links to targets | 02_STANDARDS/01_SPECIFICATIONS/04__REL_POLICY_XREF_STANDARD.md
 
 ---
 
-## 2) GATES (minimum set)
-- FORM_GATE — допустимые признаки носителя (что “может быть”)
-- MOTION_GATE — контакт/инерция/локомоция/масса
-- SPEECH_GATE — речь/лексика/манера (или N/A)
-- STYLE_GATE — стиль/тон/детализация в рамках жанра/сцены
+## 0) PURPOSE
+Этот модуль задаёт:
+- где хранить результаты NAT проверок
+- как оформлять записи PASS/WARN/FAIL
+- как ссылать результаты на конкретную цель (scene/event/entity) через UID
+- как (опционально) считать NAT_SCORE
 
 ---
 
-## 3) REPORT FORMAT (canonical YAML block)
+## 1) WHERE TO STORE NAT RESULTS (RECOMMENDED)
+Варианты (по приоритету):
 
-NATURALNESS_GATES:
-  TARGET:
-    SCOPE: "SCENE|SHOT|CHARACTER|ASSET"
-    ID: "<ID>"
-  FORM_PROFILE: "BIO|MECH|ETHR|HYBRID"
+1) **Внутри целевого документа** (если результат важен для чтения)
+   - пример: Scene Pack включает блок NAT_EVALUATION
+2) **В отдельном артефакте “NAT Evaluation”** (если проверок много)
+   - рекомендуется для массовых проверок пайплайна
+3) **Внутри NAT Profile как “sample”** (только примеры, не как основное хранилище)
 
-  FORM_GATE: "PASS|FAIL"
-  MOTION_GATE: "PASS|FAIL"
-  SPEECH_GATE: "PASS|FAIL|N/A"
-  STYLE_GATE: "PASS|FAIL"
+---
 
-  FAILS:
-    - GATE: "MOTION_GATE"
-      CODE: "NO_GROUND_CONTACT"
-      PRIORITY: "S1"
-      NOTE: "ходьба без контакта/следа"
-      FIX_OWNER: "<SPC or ENG>"
-4) S0 FAIL CODES (минимальный список)
-FORM_IMPOSSIBLE — признаки формы против профиля без объяснения
+## 2) NAT EVALUATION BLOCK (STANDARD)
+Рекомендуемый блок для вставки в документ:
 
-MOTION_PHYSICS_BREAK — физика полностью ломается без правила мира
+`## NAT_EVALUATION`
+- PROFILE_UID: <NAT_PROFILE_UID or null>
+- DATE: YYYY-MM-DD
+- TARGET_UID: <UID of scene/event/entity>
+- RESULTS:
+  - GATE_ID: G-01 | OUTCOME: PASS|WARN|FAIL | COMMENT: "<short>"
+  - GATE_ID: G-02 | OUTCOME: PASS|WARN|FAIL | COMMENT: "<short>"
+- NAT_SCORE: <0-100 or null>
+- OVERALL: PASS|WARN|FAIL
+- NOTES: "<optional>"
 
-STYLE_CONTRACT_BREAK — стиль ломает договор сцены/жанра
+---
 
-5) QUICK RULES (по профилям)
-BIO
-контакт с поверхностью обязателен при ходьбе
+## 3) OUTCOME RULES (PRACTICAL)
+- PASS: гейт удовлетворён
+- WARN: допустимо, но нужен комментарий (почему ок/что поправить)
+- FAIL: блокер в зависимости от политики профиля
 
-дыхание/усталость допустимы
+Правило:
+- WARN/FAIL обязаны иметь `COMMENT` (не пустой).
 
-MECH
-нет “человеческой” дыхалки/микромимики без причины
+---
 
-механическая инерция/звук допускаются и желательно консистентны
+## 4) LINKING RULES (UID-FIRST)
+`TARGET_UID` обязателен.
+Если цель имеет путь:
+- допускается `TARGET_PATH` как доп. поле, но не вместо UID.
 
-ETHR
-физический контакт только если есть правило/способ
+Если проверяется сцена:
+- `TARGET_UID = SCENE_UID` (сущность)
+Если проверяется документ:
+- `TARGET_UID = DOC_UID` (документ)
+(Выбирай один режим и держи консистентно в области.)
 
-аномальная траектория допустима, но должна быть стабильна
+---
 
-END.
+## 5) OPTIONAL NAT SCORE (STANDARDIZED IF USED)
+Если считаешь score:
+- `NAT_SCORE = 100 - (FAIL*20 + WARN*5)` (min 0)
+
+Если не считаешь:
+- `NAT_SCORE: null`
+
+---
+
+## 6) OVERALL DECISION RULE (SIMPLE)
+Если включена строгая политика:
+- если есть FAIL → OVERALL = FAIL
+- иначе если есть WARN → OVERALL = WARN
+- иначе PASS
+
+Если политика профиля разрешает FAIL:
+- OVERALL всё равно отражает факт FAIL, даже если пайплайн не блокируется.
+
+---
+
+## 7) PRIORITY VS STRICTNESS (DO NOT CONFUSE)
+- `PRIORITY S0–S3` — критичность проблемы (см. Priority module)
+- `NAT_STRICTNESS S0–S3` — строгость профиля NAT
+
+Если нужно писать оба:
+- `PRIORITY: S1`
+- `NAT_STRICTNESS: S2`
+
+---
+
+## 8) COMMON PATTERNS
+### 8.1 Scene Pack inline
+В конце Scene Pack:
+- вставить `## NAT_EVALUATION` для важной сцены
+
+### 8.2 Pipeline batch
+Создать отдельный документ:
+- `ARTIFACT_TYPE: NAT_EVALUATION_REPORT`
+- таблица по TARGET_UID + результаты
+
+---
+
+## 9) MIGRATION NOTES
+S0:
+- привести все NAT записи к единому блоку NAT_EVALUATION
+S1:
+- внедрить обязательные комментарии для WARN/FAIL
+
+---
+
+## FINAL RULE (LOCK)
+Этот модуль расширяет NAT Gates SoT и задаёт стандарт записи результатов.
+Изменение формата NAT_EVALUATION блока = MAJOR по умолчанию.
+--- END.

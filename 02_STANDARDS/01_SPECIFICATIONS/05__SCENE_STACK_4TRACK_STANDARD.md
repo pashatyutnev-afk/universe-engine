@@ -1,123 +1,179 @@
-# SCENE STACK 4TRACK STANDARD (SoT)
+# SCENE STACK 4TRACK STANDARD (SoT) (CANON)
 FILE: 02_STANDARDS/01_SPECIFICATIONS/05__SCENE_STACK_4TRACK_STANDARD.md
 
-SCOPE: Universe Engine / Standards
-LEVEL: L0
+SCOPE: Universe Engine
+LAYER: 02_STANDARDS
+DOC_TYPE: SPEC
+SPEC_TYPE: SoT
+LEVEL: L1
 STATUS: ACTIVE
-LOCK: OPEN
-VERSION: 1.0
+LOCK: FIXED
+VERSION: 1.1.0
+UID: UE.STD.SPEC.SCENE_4TRACK.105
 OWNER: SYSTEM
-ROLE: Единый формат 4 дорожек сцены (NAR/VIS/SND/MOT) + правила сборки в финальный OUT.
+ROLE: Source-of-Truth specification for Scene Stack "4Track": defines 4 canonical tracks, event concept, ordering rules, and interfaces to Scene Pack and Track Event templates.
 
-REFERENCES:
-- Marking SoT: `02_STANDARDS/01_SPECIFICATIONS/01__UID_AND_MARKING_STANDARD.md`
-- Rel Policy SoT: `02_STANDARDS/01_SPECIFICATIONS/04__REL_POLICY_XREF_STANDARD.md`
-- Storage Map: `02_STANDARDS/01_SPECIFICATIONS/02__STORAGE_MAP_STANDARD.md`
-
----
-
-## 0) PURPOSE
-Сцена описывается не “одним текстом”, а стеком дорожек.
-Это даёт живость и контроль: каждая линия независима и потом склеивается.
+CHANGE_NOTE:
+- DATE: 2026-01-07
+- TYPE: MINOR
+- SUMMARY: "Нормализован Scene Stack 4Track SoT: 4 канонических трека, event модель, таймлайн/порядок, интерфейс к шаблонам"
+- REASON: "Нужен единый контракт сцены и событий для KB/production без хаоса"
+- IMPACT: "Narrative/Character/Visual/Sound workflows, templates 05A/05B"
 
 ---
 
-## 1) THE 4 TRACKS (CANON MINIMUM)
-Каждая сцена обязана иметь 4 дорожки:
+## 0) PURPOSE (LAW)
+Этот документ — SoT-спека, определяющая:
+- что такое Scene Stack в системе Universe Engine,
+- какие 4 трека являются каноническими,
+- что такое Track Event и как он связывается с треками,
+- какие минимальные поля обязаны быть у Scene Pack и Track Event,
+- какие правила порядка/конфликтов обязательны.
 
-1) NAR — Narrative Track
-- что происходит по смыслу: событие/действие/конфликт/поворот
-
-2) VIS — Visual Track
-- что видно: композиция, окружение, свет, камеры, ключевые кадры
-
-3) SND — Sound Track
-- что слышно: атмосфера, SFX, музыка, тишина, ритм аудио
-
-4) MOT — Motion/Behavior Track
-- как двигаются/ведут себя: мимика, жесты, походка, темп, микро-движения, поведение фона
+Формат документов и поля в деталях задаются шаблонами:
+- `05A__TEMPLATE__SCENE_PACK.md`
+- `05B__TEMPLATE__TRACK_EVENT.md`
 
 ---
 
-## 2) SCENE PACK (CANON CONTAINER)
-Результат работы над сценой хранится как SCENE_PACK:
+## 1) AUTHORITY & XREF (UID-first)
+Primary authority:
+- `01_SYSTEM_LAW/02__UID_RULES.md`
+- `02_STANDARDS/01_SPECIFICATIONS/04__REL_POLICY_XREF_STANDARD.md`
+- `02_STANDARDS/01_SPECIFICATIONS/03__DOC_CONTROL_STANDARD.md`
 
-SCENE_PACK:
-- SCENE_ID / SCENE_UID (если есть)
-- META (цель сцены, ограничения, тон)
-- TRACKS:
-  - NAR: [...]
-  - VIS: [...]
-  - SND: [...]
-  - MOT: [...]
-- LINKS (xref на источники/решения)
-- QA_NOTES (если есть)
-- VERSION
+XREF:
+- XREF: UE.LAW.UID.002 | depends_on | UID-first identity for scenes/events | 01_SYSTEM_LAW/02__UID_RULES.md
+- XREF: UE.STD.SPEC.REL_XREF.104 | depends_on | linking rules between scene/event/entities | 02_STANDARDS/01_SPECIFICATIONS/04__REL_POLICY_XREF_STANDARD.md
+- XREF: UE.STD.SPEC.DOC_CONTROL.103 | depends_on | doc header + compliance | 02_STANDARDS/01_SPECIFICATIONS/03__DOC_CONTROL_STANDARD.md
+- XREF: UE.STD.TPL.SCENE_PACK.105A | implements | scene pack template interface | 02_STANDARDS/01_SPECIFICATIONS/05A__TEMPLATE__SCENE_PACK.md
+- XREF: UE.STD.TPL.TRACK_EVENT.105B | implements | track event template interface | 02_STANDARDS/01_SPECIFICATIONS/05B__TEMPLATE__TRACK_EVENT.md
 
 ---
 
-## 3) TRACK EVENT FORMAT (MANDATORY)
-Любая дорожка состоит из EVENT блоков:
-
-EVENT:
-  ID: <TNN>            # локальный номер в дорожке (T01, T02…)
-  TIME: <story-time>   # OPTIONAL: если есть тайминг в истории
-  FOCUS: <who/what>    # на что внимание
-  ACTION: "<что происходит>"
-  CONSTRAINTS: []      # что нельзя нарушать
-  ASSETS: []           # что надо сгенерить/подготовить
-  NOTES: ""            # доп. пояснение
+## 2) DEFINITIONS
+- **Scene Stack** — контейнер описания сцены как набора согласованных треков.
+- **Track** — слой событий одного типа (канонически: 4).
+- **Track Event** — атомарное событие на треке, с временем/порядком и связями.
+- **Scene Pack** — документ-контейнер сцены (метаданные + 4 трека + ссылки на события).
+- **Event Order** — порядок событий внутри сцены (временной или логический).
 
 ---
 
-## 4) LAYERING RULE (живость)
-Сцена обязана иметь одновременно:
-- Foreground (главное)
-- Background (фон/мир)
-- Ambient (атмосфера/жизнь мира)
+## 3) CANONICAL 4 TRACKS (ABSOLUTE)
+Scene Stack всегда состоит из 4 канонических треков:
 
-Это реализуется через события в VIS/SND/MOT.
-Запрещено “пустая сцена без фона”.
+1) **NARRATIVE (Story)**
+   - смысл: что происходит как история (beats, turns, stakes)
+2) **CHARACTER (Agents)**
+   - смысл: действия/решения персонажей, мотивации, внутренние состояния
+3) **VISUAL (Cinema)**
+   - смысл: визуальные события, мизансцены, кадры, постановка
+4) **SOUND (Audio/Music)**
+   - смысл: звук, музыка, шумы, темп, акценты
 
----
+Запрещено:
+- вводить “пятый канонический трек” без MAJOR изменения SoT.
 
-## 5) ASSET OUTPUT (AST)
-Если в EVENT указан ASSETS — оно обязано быть оформлено как AST deliverable:
-- тип ассета (image/sfx/music/shotlist/animation)
-- краткий payload
-- output target: AST
-
----
-
-## 6) MERGE RULE (как склеиваем в OUT)
-Сборка в OUT делается так:
-
-OUT_SCENE (финальная сцена) строится по порядку:
-1) NAR skeleton (каркас смысла)
-2) VIS overlay (визуальные уточнения)
-3) MOT overlay (поведение и движения)
-4) SND overlay (звук/музыка/тишина)
-
-Результат OUT должен содержать:
-- SCENE TEXT (читабельный)
-- VIS SHOT NOTES (если нужно)
-- SND CUES (если нужно)
-- MOT CUES (если нужно)
+Допускается:
+- локальные под-треки внутри одного из 4 (как вложенная структура), но они не считаются отдельным каноническим треком.
 
 ---
 
-## 7) ORC PIPELINE HOOK (минимум)
-ORC для сцены обязан:
-- собрать 4 дорожки (SPC/ENG outputs)
-- прогнать CTL readiness gate (все дорожки заполнены)
-- прогнать VAL (формат/шапки/ссылки)
-- прогнать QA (естественность/тон/стиль/анти-ИИ)
-- собрать OUT_SCENE
+## 4) SCENE PACK (MINIMUM CONTRACT)
+Scene Pack — это артефакт, который обязан содержать минимум:
+
+### 4.1 Identity
+- `SCENE_UID` (UID сцены)
+- `SCENE_TITLE`
+- `SCENE_SCOPE` (где используется: episode/arc/chapter/etc — как строка, без жёсткого enum пока)
+- `VERSION` (SemVer для scene pack как документа, если он каноничен)
+
+### 4.2 Tracks presence (required)
+- `TRACK_NARRATIVE`
+- `TRACK_CHARACTER`
+- `TRACK_VISUAL`
+- `TRACK_SOUND`
+
+Каждый трек может быть:
+- inline (события прямо внутри Scene Pack),
+- или ссылочным (список ссылок на Track Event entries).
+
+Но наличие 4 треков обязательно.
+
+### 4.3 Links
+- XREF/REL на связанные сущности (персонажи, локации, объекты) — UID-first.
 
 ---
 
-## 8) FINAL LAW
-> Если нет 4 дорожек — сцена incomplete.
+## 5) TRACK EVENT (MINIMUM CONTRACT)
+Track Event — атомарное событие и обязано содержать минимум:
+
+### 5.1 Identity
+- `EVENT_UID`
+- `EVENT_TRACK` (одно из: NARRATIVE | CHARACTER | VISUAL | SOUND)
+- `EVENT_TITLE`
+
+### 5.2 Positioning
+Event обязан иметь способ упорядочивания:
+- `ORDER` (целое число) — обязательное поле минимального стандарта  
+Опционально:
+- `TIME_CODE` (если используется таймкод)
+- `BEAT` (если используется beat-структура)
+
+### 5.3 Content
+- `SUMMARY` (one-line)
+- `DETAIL` (optional text)
+
+### 5.4 Relations
+- `XREF/REL` на сущности/другие события — UID-first.
 
 ---
-END.
+
+## 6) ORDERING RULES (ABSOLUTE)
+### 6.1 Primary ordering
+Основной порядок внутри сцены — `ORDER` (integer ascending).
+
+### 6.2 Cross-track synchronization
+Если события на разных треках описывают один момент:
+- они должны иметь одинаковый `ORDER`, или
+- быть связаны через XREF `maps_to`/`references` (если order не совпадает).
+
+Запрещено:
+- иметь два события на одном треке с одинаковым `ORDER` без явного правила “same-order group”.
+
+---
+
+## 7) CONSISTENCY RULES (QUALITY GATES)
+Scene Stack считается согласованным, если:
+- у всех треков есть события или явно указано “empty track”
+- нет “событий-сирот” без track принадлежности
+- все XREF используют UID-first
+- нет конфликтов order
+
+---
+
+## 8) INTERFACE TO TEMPLATES (05A / 05B)
+Шаблоны обязаны реализовать контракт:
+- Scene Pack template включает 4 трека и метаданные
+- Track Event template включает identity + track + order + content + xref
+
+Шаблоны могут расширять (добавлять поля), но не могут:
+- менять смысл 4 треков
+- убирать обязательные поля
+- вводить новые канонические треки
+
+---
+
+## 9) MIGRATION NOTES
+S0:
+- привести 05A/05B шаблоны к этому контракту (identity/track/order/xref)
+S1:
+- определить controlled enums для `SCENE_SCOPE` (если потребуется) через отдельную спеку/модуль
+
+---
+
+## FINAL RULE (LOCK)
+Scene Stack 4Track — SoT контракт сцены/событий.
+Любое изменение количества треков или обязательных полей = MAJOR по умолчанию.
+--- END.

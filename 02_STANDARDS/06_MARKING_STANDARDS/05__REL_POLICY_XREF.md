@@ -1,108 +1,151 @@
-# REL POLICY + XREF — STANDARD
+# REL POLICY + XREF (MARKING MODULE) (CANON)
 FILE: 02_STANDARDS/06_MARKING_STANDARDS/05__REL_POLICY_XREF.md
 
-SCOPE: Universe Engine / Linking & Dependencies
-LEVEL: L1
+SCOPE: Universe Engine
+LAYER: 02_STANDARDS
+DOC_TYPE: MODULE
+MODULE_TYPE: MARKING
+LEVEL: L2
 STATUS: ACTIVE
-LOCK: OPEN
-VERSION: 1.0
+LOCK: FIXED
+VERSION: 1.1.0
+UID: UE.STD.MOD.MARKING.REL_XREF.605
 OWNER: SYSTEM
-ROLE: Единый стандарт: (1) кто с кем может связываться, (2) как оформляются ссылки и зависимости.
+ROLE: Marking module that provides practical guidance and patterns for writing XREF/REL records in documents, including edge cases (external refs, alias pointers, deprecation chains). Extends REL/XREF SoT.
 
-SOURCE OF TRUTH:
-- REL_POLICY, XREF, DEPENDS_ON, PRODUCES_LINKS, CONSUMES_LINKS — описаны здесь.
-
----
-
-## 0) CORE LAW
-- Любая реальная зависимость должна быть явной: `DEPENDS_ON`.
-- Любая ссылка на объект должна указывать его `ID`.
-- Скрытые зависимости запрещены.
-- Нарушение REL_POLICY (NEVER) = S0.
+CHANGE_NOTE:
+- DATE: 2026-01-07
+- TYPE: MINOR
+- SUMMARY: "Модуль XREF: практические паттерны, мини-шаблоны, внешние ссылки, alias pointers, deprecation цепочки"
+- REASON: "Нужен единый стиль ссылок и меньше ошибок"
+- IMPACT: "All docs with relations"
 
 ---
 
-## 1) REL POLICY (WHO MAY LINK TO WHOM)
-REL_POLICY задаётся в паспорте объекта (ENG/SPC/ENT/ART/DB/…).
+## XREF (UID-first)
+XREF: UE.STD.SPEC.REL_XREF.104 | extends | practical marking details for XREF | 02_STANDARDS/01_SPECIFICATIONS/04__REL_POLICY_XREF_STANDARD.md
+XREF: UE.STD.MOD.MARKING.STORAGE_MAP.602 | references | alias pointer marking | 02_STANDARDS/06_MARKING_STANDARDS/02__STORAGE_MAP.md
 
-### 1.1 Modes
-- ALWAYS — разрешено всегда
-- SOMETIMES — разрешено при условиях
-- NEVER — запрещено
+---
 
-### 1.2 Format (canonical)
+## 0) PURPOSE
+Этот модуль отвечает на вопрос “как писать XREF правильно в реальных файлах”:
+- где размещать XREF блок
+- как делать короткие XREF без лишнего шума
+- как оформлять внешние источники
+- как оформлять alias pointers и deprecation цепочки
+- как избегать “битых” ссылок и двусмысленности
 
-REL_POLICY:
-  - TARGET: "<selector>"
-    MODE: "ALWAYS|SOMETIMES|NEVER"
-    CONDITIONS: "<only for SOMETIMES or empty>"
-    REASON: "<why>"
-1.3 TARGET selector rules
-TARGET может быть:
+---
 
-по PREFIX: ENT:*, ART:*, DB:*, LOG:*, ENG:*, SPC:* …
+## 1) WHERE TO PUT XREF
+Рекомендуемое место:
+- сразу после Purpose/Authority (верхняя часть документа)
 
-по TYPE: ENT:CHR:*, ART:SCENE_STACK:* …
+Стандартный заголовок:
+- `## XREF (UID-first)`
 
-по конкретному ID: ENT:SCENE:ep01_scn_003
+---
 
-2) LINK TYPES (все связи стандартизированы)
-2.1 Structural links (navigation)
-XREF — одиночная ссылка
+## 2) MINIMAL XREF LINE (PREFERRED)
+Минимальная корректная строка:
+- `XREF: <UID_TARGET> | <REL_TYPE> | <WHY>`
 
-XREFS — список ссылок
-Назначение: “см. также”, навигация, привязки без обязательности.
+Добавления (опционально):
+- `| <PATH>`
+- `| <RAW>`
 
-Формат:
+Рекомендация:
+- PATH лучше RAW, RAW только как reference.
 
-XREF: <ID>
+---
 
-XREFS: [<ID>, <ID>, ...]
+## 3) MINI-PATTERNS (COPY)
+### 3.1 depends_on (common)
+`XREF: <UID> | depends_on | <why> | <path>`
 
-2.2 Dependency links (required to build)
-DEPENDS_ON — обязательные зависимости (сборка невозможна без них)
+### 3.2 governs (law → doc)
+`XREF: <LAW_UID> | governs | <why> | <path>`
 
-Формат:
+### 3.3 extends (module → SoT) (mandatory for modules)
+`XREF: <SOT_UID> | extends | details module | <path>`
 
-DEPENDS_ON: [<ID>, ...]
+### 3.4 references (soft link)
+`XREF: <UID> | references | background/context | <path>`
 
-если нет: DEPENDS_ON: []
+### 3.5 deprecated_by (mandatory for deprecated)
+`XREF: <UID_NEW> | deprecated_by | migration target | <path>`
 
-2.3 Production links (inputs/outputs)
-CONSUMES — типы входов (не ссылки)
+### 3.6 non_canon_alias_of (legacy pointers)
+`XREF: <UID_CANON> | non_canon_alias_of | legacy filename alias | <path>`
 
-CONSUMES_LINKS — конкретные входные ID
+---
 
-PRODUCES — типы выходов (не ссылки)
+## 4) EXTERNAL REFERENCES (ALLOWED EDGE CASE)
+Если ссылка на внешний источник (вне системы):
+- UID отсутствует, поэтому используем формат “EXTERNAL_REF” блоком, а не XREF строкой.
 
-PRODUCES_LINKS — конкретные выходные ID (если уже известны)
+Рекомендуемый формат:
+`EXTERNAL_REF: <url> | TYPE: <paper|site|video|...> | WHY: "<...>"`
 
-Формат:
+Правило:
+- Внутренние связи — только XREF UID-first.
+- Внешние — только через EXTERNAL_REF.
 
-yaml
-Копировать код
-CONSUMES: ["<type>", "<type>"]
-CONSUMES_LINKS: ["<ID>", "<ID>"]
-PRODUCES: ["<type>", "<type>"]
-PRODUCES_LINKS: ["<ID>", "<ID>"]
-3) VALIDATION (что считается ошибкой)
+---
+
+## 5) ALIAS POINTER FILES (LEGACY)
+Alias pointer файл обязан:
+- иметь `CANON_TARGET_UID` и `CANON_TARGET`
+- иметь XREF `non_canon_alias_of`
+- не содержать “контент стандарта”
+
+Минимальный XREF:
+`XREF: <UID_CANON> | non_canon_alias_of | legacy alias pointer | <path-to-canon>`
+
+---
+
+## 6) DEPRECATION CHAINS (RULE)
+Если A deprecated_by B, и B deprecated_by C:
+- A должен ссылаться напрямую на B (as immediate target)
+- допускается доп. ссылкой указать C как “final target”, но only references
+
+Пример:
+- `XREF: UID_B | deprecated_by | immediate migration | path_B`
+- `XREF: UID_C | references | final target (chain) | path_C`
+
+---
+
+## 7) LINK HYGIENE RULES
+### 7.1 WHY field must be meaningful
+WHY не должен быть пустым или “see above”.
+
+### 7.2 Avoid path-only links
+Если есть UID — всегда ставим UID.
+
+### 7.3 Raw links are brittle
+RAW links разрешены, но не обязательны и не являются SoT.
+
+---
+
+## 8) COMMON FAILURES (ANTI-PATTERNS)
+Запрещено:
+- `XREF: <path only>` (без UID, если это внутренний объект)
+- “references” вместо “extends” для module→SoT
+- “supersedes” без MAJOR причины
+- circular authority: SoT depends_on module
+
+---
+
+## 9) MIGRATION NOTES
 S0:
-
-DEPENDS_ON указывает на объект, который нарушает REL_POLICY (NEVER)
-
-DEPENDS_ON содержит невалидный ID
-
-DEPENDS_ON используется как “см. также” (для этого XREF)
-
+- во всех mark modules добавить обязательный `extends` на их SoT
 S1:
+- внешние ссылки вынести в EXTERNAL_REF блоки, а не смешивать с XREF
 
-есть XREF, но нет смысла/описания контекста (пустая связь)
+---
 
-4) MINIMUM REQUIRED (для разных документов)
-ENG/SPC должны иметь: DEPENDS_ON, CONSUMES, PRODUCES
-
-ENT:SCENE должен иметь STACK_REF (см. SCENE_STACK стандарт)
-
-ART артефакты должны иметь DEPENDS_ON если зависят от пакета/сцены/шота
-
-END.
+## FINAL RULE (LOCK)
+Этот модуль расширяет REL/XREF SoT и задаёт практику записи ссылок.
+Изменения формата строки XREF = MAJOR по умолчанию.
+--- END.

@@ -1,92 +1,161 @@
-# SCENE STACK — 4TRACK STANDARD
+# SCENE STACK 4TRACK (MARKING MODULE) (CANON)
 FILE: 02_STANDARDS/06_MARKING_STANDARDS/06__SCENE_STACK_4TRACK.md
 
-SCOPE: Universe Engine / Production Scene System
-LEVEL: L1
+SCOPE: Universe Engine
+LAYER: 02_STANDARDS
+DOC_TYPE: MODULE
+MODULE_TYPE: MARKING
+LEVEL: L2
 STATUS: ACTIVE
-LOCK: OPEN
-VERSION: 1.0
+LOCK: FIXED
+VERSION: 1.1.0
+UID: UE.STD.MOD.MARKING.SCENE_4TRACK.606
 OWNER: SYSTEM
-ROLE: Канонический формат “DAW-сцены” (Scene Stack): 4 дорожки + синхронизация + связи.
+ROLE: Marking module that provides practical conventions for writing Scene Stack 4Track content: track section names, event block format, ORDER usage, sync rules, and cross-track mappings. Extends Scene Stack 4Track SoT.
 
-SOURCE OF TRUTH:
-- Определение дорожек, формат записей, обязательные поля — здесь.
-
----
-
-## 0) CORE LAW
-- Каждая сцена (ENT:SCENE) обязана иметь соответствующий артефакт SCENE_STACK.
-- SCENE_STACK — это не “описание сцены”, а “таймлайновая партитура” (как многодорожка).
-- Minimum 4 tracks обязателен всегда.
+CHANGE_NOTE:
+- DATE: 2026-01-07
+- TYPE: MINOR
+- SUMMARY: "Модуль Scene 4Track: маркировка треков, событий, ORDER, sync и maps_to между треками"
+- REASON: "Нужна единая практическая разметка сцен, чтобы они читались одинаково"
+- IMPACT: "All Scene Packs and Track Events"
 
 ---
 
-## 1) REQUIRED TRACKS (MINIMUM)
-- A_FOCUS — главный фокус (персонаж/объект/ключевое действие)
-- B_BG_LIFE — фоновые сущности и “жизнь”
-- C_ENV — среда (погода, свет, вода, шум мира, природа, физика)
-- D_AUDIO — звук (реплики, шумы, музыка, ключевые cues)
-
-Доп. дорожки разрешены, но не заменяют 4 минимальные.
+## XREF (UID-first)
+XREF: UE.STD.SPEC.SCENE_4TRACK.105 | extends | marking details for scene/event writing | 02_STANDARDS/01_SPECIFICATIONS/05__SCENE_STACK_4TRACK_STANDARD.md
+XREF: UE.STD.TPL.SCENE_PACK.105A | references | canonical scene pack template | 02_STANDARDS/01_SPECIFICATIONS/05A__TEMPLATE__SCENE_PACK.md
+XREF: UE.STD.TPL.TRACK_EVENT.105B | references | canonical track event template | 02_STANDARDS/01_SPECIFICATIONS/05B__TEMPLATE__TRACK_EVENT.md
+XREF: UE.STD.SPEC.REL_XREF.104 | depends_on | maps_to/references rules | 02_STANDARDS/01_SPECIFICATIONS/04__REL_POLICY_XREF_STANDARD.md
 
 ---
 
-## 2) REQUIRED HEADER FIELDS (SCENE_STACK DOC)
-SCENE_STACK документ обязан содержать:
-- ID: `ART:SCENE_STACK:<scene_key>:<scope>:vNN`
-- SCENE_ID: `<ENT:SCENE:...>`
-- PACK_ID: `<ENT:PACK:...>` или `NONE`
-- DURATION: `MM:SS.mmm`
-- GRID: `seconds` или `fps:<N>`
-- ANCHORS: список якорей (минимум 2: START/END)
+## 0) PURPOSE
+Этот модуль задаёт практику “разметки” сцен:
+- как называть секции треков
+- как оформлять блок события
+- как использовать ORDER
+- как фиксировать sync по трекам
+- как связывать события между треками (maps_to/references)
 
 ---
 
-## 3) ANCHORS (canonical)
-Формат:
+## 1) TRACK SECTION NAMES (CANON)
+Использовать ровно такие заголовки (или их эквивалент в шаблоне):
+- `TRACK_NARRATIVE`
+- `TRACK_CHARACTER`
+- `TRACK_VISUAL`
+- `TRACK_SOUND`
 
-ANCHORS:
-  - AT: "00:00.000"
-    TAG: "START"
-    NOTE: ""
-  - AT: "00:12.500"
-    TAG: "TURN"
-    NOTE: "поворот/событие"
-  - AT: "00:24.000"
-    TAG: "END"
-    NOTE: ""
-4) TRACK ENTRY FORMAT (canonical)
-Каждая запись:
+Запрещено:
+- переименовывать треки в “Story/Agents/Cinema/Audio” без явного alias в заголовке.
+Если хочется, допустимо:
+- `TRACK_NARRATIVE (Story)` — но ключевое имя должно сохраняться.
 
-TIME RANGE: [MM:SS.mmm–MM:SS.mmm]
+---
 
-ACTION: коротко что происходит
+## 2) EVENT BLOCK (PREFERRED MARKUP)
+Рекомендуемый единый блок события:
 
-LINKS (optional): XREFS на сущности/артефакты
+- `ORDER: <int>`
+- `EVENT_UID: <uid-or-placeholder>`
+- `TITLE: "<...>"`
+- `SUMMARY: "<one line>"`
+- `DETAIL: | <optional>`
+- `XREF: ...` (optional)
 
-Рекомендуемый формат строки:
-[00:02.000–00:08.500] <action> | XREFS: [<ID>, <ID>]
+Минимум для канона:
+- ORDER + EVENT_TRACK (если это отдельный Track Event) + SUMMARY
 
-5) LINKING RULES
-5.1 Scene → Stack
-В документе ENT:SCENE обязательно:
+---
 
-STACK_REF: <ART:SCENE_STACK...>
+## 3) ORDER CONVENTION (PRACTICAL)
+### 3.1 Recommended stepping
+Рекомендуется шагать по 10:
+- 10, 20, 30...
+Чтобы можно было вставлять “между” (15, 25) без перестройки.
 
-5.2 Stack → Entities
-SCENE_STACK должен ссылаться на ключевые сущности через XREFS (не DEPENDS), если это не сборочная зависимость.
+### 3.2 Same-order groups (allowed with explicit mark)
+Если на треке несколько элементов на одном ORDER:
+- обязателен маркер группы:
 
-6) STORAGE RULE
-Черновики: WORK
+Пример:
+- ORDER: 20
+  GROUP: true
+  ITEMS:
+  - ...
+  - ...
 
-Канон: OUTPUT_TARGET
-Версии: v01, v02…
+Без `GROUP: true` одинаковый ORDER на одном треке считается ошибкой.
 
-7) OPTIONAL EXTENSIONS (добавочные дорожки)
-E_MOTION (движения/анимация)
+---
 
-F_CAMERA_EDIT (камера/монтаж)
+## 4) SYNC BETWEEN TRACKS
+### 4.1 Primary sync method
+Синхронизация треков делается:
+- одинаковым ORDER (предпочтительно)
 
-G_FX (VFX/частицы/магия)
+### 4.2 Secondary sync method (maps_to)
+Если одинаковый ORDER невозможен:
+- использовать `maps_to` XREF между событиями.
 
-END.
+Пример:
+- `XREF: <EVENT_UID_TARGET> | maps_to | "same moment different representation" | <path(optional)>`
+
+### 4.3 Notes on sync table (recommended)
+Рекомендуется иметь блок:
+`SYNC_ORDERS:`
+- ORDER: 10 | N:yes | C:yes | V:yes | S:yes | NOTE:"..."
+
+---
+
+## 5) EVENT UID POLICY (PRACTICAL)
+- если event живёт только внутри Scene Pack: допустим placeholder или local-style token
+- если event нужен для внешних ссылок: обязан иметь настоящий UID и/или отдельный Track Event документ
+
+Рекомендуемая практика:
+- “важные” события, на которые будут ссылаться другие документы → Track Event artifact (105B template)
+
+---
+
+## 6) CROSS-TRACK LINKING RULES (COMMON)
+Типовые связи:
+- NARRATIVE → CHARACTER: `references` (мотивация/действие)
+- CHARACTER → VISUAL: `maps_to` (как действие проявляется в постановке)
+- VISUAL → SOUND: `references` (синхронизированные акценты)
+
+Запрещено:
+- ссылаться без UID, если событие вынесено наружу и является внутренним объектом системы.
+
+---
+
+## 7) EMPTY TRACK MARKING
+Если трек пуст:
+- `EMPTY: true`
+- `EVENTS: []` или явная строка “no events”
+
+Запрещено:
+- просто “не писать трек”.
+
+---
+
+## 8) COMMON MISTAKES (ANTI-PATTERNS)
+- разные названия треков в разных сценах
+- ORDER перескакивает без причины (10 → 999)
+- события без SUMMARY
+- “телепорт” синхронизации без maps_to или общего ORDER
+
+---
+
+## 9) MIGRATION NOTES
+S0:
+- привести все Scene Packs к единому именованию треков и формату ORDER
+S1:
+- важные внешне-ссылаемые события вынести в Track Event artifacts
+
+---
+
+## FINAL RULE (LOCK)
+Этот модуль расширяет Scene Stack 4Track SoT и задаёт практику маркировки сцены.
+Изменение обязательных правил ORDER/track naming = MAJOR по умолчанию.
+--- END.

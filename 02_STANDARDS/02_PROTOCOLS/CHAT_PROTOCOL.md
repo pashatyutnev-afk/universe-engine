@@ -1,175 +1,157 @@
-# UNIVERSE ENGINE — CHAT PROTOCOL
-## Протокол работы с чатами и сессиями
-## Уровень: L1 · Mandatory
+# CHAT PROTOCOL (UNIVERSE ENGINE) (CANON)
+FILE: 02_STANDARDS/02_PROTOCOLS/CHAT_PROTOCOL.md
+
+SCOPE: Universe Engine
+LAYER: 02_STANDARDS
+DOC_TYPE: PROTOCOL
+LEVEL: L1
+STATUS: ACTIVE
+LOCK: FIXED
+VERSION: 1.1.0
+UID: UE.STD.PROTOCOL.CHAT.201
+OWNER: SYSTEM
+ROLE: Operational protocol for chat-based work on Universe Engine: how chat produces canon-ready docs, how decisions are recorded, how to proceed by indices, and how to avoid duplicates.
+
+CHANGE_NOTE:
+- DATE: 2026-01-07
+- TYPE: MINOR
+- SUMMARY: "Нормализован Chat Protocol: работа через master-index, UID-first ссылки, порядок переписывания, фиксация решений и change packages"
+- REASON: "Чат — основной интерфейс редактирования системы, нужен единый рабочий закон"
+- IMPACT: "All chat-based doc creation/editing flows"
 
 ---
 
-## 0. НАЗНАЧЕНИЕ ДОКУМЕНТА
-
-Этот документ определяет:
-- как запускаются новые чаты
-- как чаты получают контекст
-- как избегается перегруз и путаница
-- как фиксируются изменения через INDEX
-
-Цель протокола:
-> любой новый чат должен работать так,
-> как будто система развивалась в одном чате годами.
+## XREF (UID-first)
+XREF: UE.LAW.CANON.PROTOCOL.004 | implements | chat work must follow canon protocol | 01_SYSTEM_LAW/04__CANON_PROTOCOL.md
+XREF: UE.LAW.VERSIONING.003 | depends_on | SemVer change policy | 01_SYSTEM_LAW/03__VERSIONING_CHANGE_POLICY.md
+XREF: UE.STD.SPEC.DOC_CONTROL.103 | depends_on | doc header + change note format | 02_STANDARDS/01_SPECIFICATIONS/03__DOC_CONTROL_STANDARD.md
+XREF: UE.STD.SPEC.REL_XREF.104 | depends_on | UID-first linking rules | 02_STANDARDS/01_SPECIFICATIONS/04__REL_POLICY_XREF_STANDARD.md
+XREF: UE.STD.PROTOCOL.CHANGE_MGMT.200 | depends_on | standards change workflow | 02_STANDARDS/02_PROTOCOLS/CHANGE_MANAGEMENT_PROTOCOL.md
 
 ---
 
-## 1. РОЛЬ ЧАТА В СИСТЕМЕ
-
-Чат — это:
-- интерфейс взаимодействия человека и системы
-- аналитический инструмент
-- навигатор по INDEX
-
-Чат **НЕ** является:
-- памятью системы
-- источником истины
-- местом хранения решений
-
-Истина живёт в:
-- SYSTEM CANON
-- _STANDARDS
-- INDEX-файлах
+## 0) PURPOSE
+Этот протокол задаёт “как работать через чат”, чтобы результат был:
+- каноничным (или явно non-canon draft),
+- согласованным (без дублей),
+- навигируемым (через индексы),
+- быстро применимым (copy/paste готовые файлы).
 
 ---
 
-## 2. CHAT_BOOT (ЗАПУСК ЧАТА)
+## 1) PRIME RULES (ABSOLUTE)
+### 1.1 Work by index (always)
+Любая работа начинается с master-index соответствующего слоя.
+Если файла нет в master-index — он не существует для слоя.
 
-Каждый новый чат обязан начинаться с блока CHAT_BOOT.
+### 1.2 UID-first always
+Любые связи/ссылки/упоминания делаются UID-first:
+- сначала UID
+- потом путь (если надо)
+- потом raw link (опционально)
 
-### CHAT_BOOT содержит:
-- краткое описание Universe Engine
-- ссылку на SYSTEM CANON
-- ссылку на главный INDEX
-- базовые правила общения
-- список актуальных UID (если есть)
+### 1.3 No duplication
+Один смысл → один SoT.
+Если нужна детализация → module/template внутри контракта SoT.
 
-### Пример CHAT_BOOT:
-SYSTEM: Universe Engine active.  
-CANON: SYSTEM_CANON.md  
-INDEX: INDEX__UNIVERSE_ENGINE.md  
-MODE: analysis / build  
-ACTIVE_UID:
-
-- UE.ENT.ENG.NAR.DRAMATIC_ARC
-    
-- UE.MOD.NAR.ARC_STRUCTURE
-  
-Без CHAT_BOOT чат считается неподготовленным.
+### 1.4 Canon vs Draft separation
+- Канон: `LOCK: FIXED`, зарегистрирован в master-index.
+- Черновик: `LOCK: OPEN`, не регистрируется.
 
 ---
 
-## 3. ACTIVE_MAP (АКТИВНЫЙ КОНТЕКСТ)
+## 2) CHAT ROLES (WHO DOES WHAT)
+### 2.1 User (Operator)
+- задаёт цель/приоритет
+- подтверждает порядок (“го дальше”)
+- вставляет текущие файлы/скриншоты/контекст
 
-ACTIVE_MAP — это оперативный срез текущей работы.
-
-### ACTIVE_MAP включает:
-- активные проекты
-- активные сущности
-- проблемные узлы
-- ближайшие задачи
-
-ACTIVE_MAP:
-- хранится в INDEX
-- обновляется по мере работы
-- используется для фокуса чата
-
-Чат работает **только** с тем, что указано в ACTIVE_MAP,
-если не указано иное.
+### 2.2 Assistant (Builder)
+- выдаёт готовые self-contained тексты файлов
+- не дробит на “кусочки”
+- соблюдает Doc Control header + UID + SemVer
+- отслеживает коллизии имен/номеров и чинит через alias/migration
 
 ---
 
-## 4. ПРАВИЛА ОБЩЕНИЯ В ЧАТЕ
+## 3) CANON WORKFLOW (CHAT FLOW)
+### STEP A — Select target by index
+Открываем master-index → берём следующий файл по списку.
 
-### Обязательные правила:
-- использовать UID при обсуждении элементов
-- ссылаться на INDEX или _STANDARDS
-- чётко разделять факт / предложение / анализ
-- не вводить новые сущности без регистрации
+### STEP B — Build / rewrite file
+Ассистент выдаёт полный файл.
+Поля:
+- FILE path — точный
+- UID — уникальный
+- VERSION — SemVer
+- CHANGE_NOTE — актуальный
 
-### Допустимые формулировки:
-- «Проблема в UE.ENT.VAL.QLT.STRUCTURE_CHECK»
-- «Предлагаю добавить сущность (planned)»
-- «В INDEX отсутствует связь между …»
+### STEP C — Fix collisions
+Если в папке конфликт `00__*` или `NN*`:
+- создаём новый канонический файл с правильным номером
+- старый превращаем в legacy alias pointer (non-canon)
 
-### Запрещено:
-- обсуждать элементы без UID
-- принимать решения без фиксации
-- полагаться на «помним из прошлого чата»
+### STEP D — Update registries
+При изменении состава/путей:
+- обновить master-index
+- обновить doc registry
 
----
-
-## 5. ФИКСАЦИЯ ИЗМЕНЕНИЙ
-
-Любое значимое изменение проходит путь:
-
-1. Обсуждение в чате
-2. Формулировка изменения
-3. Проверка на соответствие канону
-4. Фиксация в INDEX
-5. Обновление ACTIVE_MAP (если нужно)
-
-Чат не считается источником изменений,
-пока изменение не зафиксировано в INDEX.
+### STEP E — Proceed sequentially
+Переходим к следующему файлу “по очереди”.
 
 ---
 
-## 6. ПЕРЕГРУЗ И СТАБИЛЬНОСТЬ
+## 4) DECISION RECORDING (CHAT DECISIONS)
+Любое решение, влияющее на канон, должно быть записано как минимум в `CHANGE_NOTE` изменённых файлов.
 
-Для предотвращения перегруза:
-
-- большой объём знаний хранится вне чатов
-- в чат передаётся только нужный контекст
-- используется ACTIVE_MAP
-- используется UID вместо длинных описаний
-
-Принцип:
-> Чат — рабочая память,
-> INDEX — долговременная память.
+Если решение крупное:
+- формируется mini change package (см. Change Management Protocol):
+  - что меняем
+  - почему
+  - что ломается
+  - миграция
 
 ---
 
-## 7. МНОЖЕСТВЕННЫЕ ЧАТЫ
-
-Допускается работа с несколькими чатами параллельно.
-
-Условие:
-- все чаты используют один SYSTEM CANON
-- все чаты читают один главный INDEX
-- изменения фиксируются централизованно
-
-Чаты не синхронизируются друг с другом напрямую,
-они синхронизируются через INDEX.
-
----
-
-## 8. ДИАГНОСТИКА ЧЕРЕЗ ЧАТ
-
-Любая проблема формулируется через UID и слой.
+## 5) LINKING RULES IN CHAT (HOW TO REFERENCE)
+### 5.1 When referencing a doc
+Формат:
+- `UID: <...> | PATH: <...>`
 
 Пример:
-> Конфликт между UE.MOD.NAR.ARC_STRUCTURE и UE.ENT.ENG.NAR.DRAMATIC_ARC
+- `UID: UE.STD.SPEC.DOC_CONTROL.103 | PATH: 02_STANDARDS/01_SPECIFICATIONS/03__DOC_CONTROL_STANDARD.md`
 
-Это позволяет:
-- быстро локализовать проблему
-- избежать лишнего контекста
-- перейти к решению напрямую
-
----
-
-## 9. ФИНАЛЬНОЕ ПРАВИЛО
-
-> Чаты думают,  
-> INDEX помнит,  
-> CANON решает.
+### 5.2 When referencing an entity/artifact
+Формат:
+- `ENTITY_UID: <...> | NOTE: <...>`
 
 ---
 
-## СТАТУС
+## 6) “GO” MODE (SEQUENTIAL REWRITE MODE)
+Если пользователь говорит “го/го дальше/по очереди”:
+- ассистент берёт следующий файл в индексе
+- выдаёт его целиком
+- в конце говорит: “следующий файл: <path>”
 
-CHAT PROTOCOL v1.0  
-КАНОН ЗАФИКСИРОВАН
+Без вопросов, без пауз.
+
+---
+
+## 7) ERROR HANDLING (WHEN SOMETHING DOESN’T MATCH)
+Если обнаружены:
+- отсутствующий файл
+- битая raw-ссылка
+- коллизия номера
+- дубликат смысла
+
+То чат обязан:
+1) пометить проблему как S0/S1
+2) предложить исправление через migration/alias
+3) продолжить по очереди
+
+---
+
+## FINAL RULE (LOCK)
+Этот протокол обязателен для chat-based работы над Universe Engine.
+Любая правка протокола = изменение канона.
+--- END.

@@ -1,139 +1,135 @@
-# INDEX — <NAME>
-## Навигационный и сценарный INDEX
-## Тип: <UNIVERSE | DOMAIN | PROJECT>
-## Уровень: L1 · Template
+# INDEX TEMPLATE (CANON)
+FILE: 02_STANDARDS/03_TECHNICAL/INDEX_TEMPLATE.md
+
+SCOPE: Universe Engine
+LAYER: 02_STANDARDS
+DOC_TYPE: TEMPLATE
+LEVEL: L1
+STATUS: ACTIVE
+LOCK: FIXED
+VERSION: 1.1.0
+UID: UE.STD.TPL.INDEX_TEMPLATE.301
+OWNER: SYSTEM
+ROLE: Canonical template for creating Index documents (master-indexes, sub-indexes, registries indexes). Defines required sections, existence rule, ordering, and link policy.
+
+CHANGE_NOTE:
+- DATE: 2026-01-07
+- TYPE: MINOR
+- SUMMARY: "Унифицирован INDEX template: purpose, existence, how-to-use, tree map, link policy, lock rule"
+- REASON: "Нужен единый формат индексов, чтобы канон был навигируемым"
+- IMPACT: "All layers, KB realms, standards registries"
 
 ---
 
-## 0. STATUS
-
-- INDEX_TYPE:
-- SCOPE:
-- OWNER:
-- LAST_UPDATE:
-- VERSION:
+## XREF (UID-first)
+XREF: UE.STD.SPEC.DOC_CONTROL.103 | depends_on | header + required fields | 02_STANDARDS/01_SPECIFICATIONS/03__DOC_CONTROL_STANDARD.md
+XREF: UE.STD.SPEC.STORAGE_MAP.102 | references | placement and entrypoint rules | 02_STANDARDS/01_SPECIFICATIONS/02__STORAGE_MAP_STANDARD.md
+XREF: UE.STD.SPEC.REL_XREF.104 | depends_on | UID-first references | 02_STANDARDS/01_SPECIFICATIONS/04__REL_POLICY_XREF_STANDARD.md
 
 ---
 
-## 1. PURPOSE
-
-Краткое описание назначения данного INDEX:
-- зачем он существует
-- какую область или проект покрывает
-- что считается входом и выходом
+# INDEX — COPY TEMPLATE (INSTANCE)
+> Инструкция: копируй и заполняй.
+> Индекс — это навигационный закон. Он определяет существование объектов в своей области.
 
 ---
 
-## 2. SCOPE
+## DOC CONTROL (INSTANCE HEADER)
+FILE: <path-to-your-index.md>
+SCOPE: Universe Engine
+LAYER: <layer-name>
+DOC_TYPE: INDEX
+INDEX_TYPE: <MASTER|SUB|REGISTRY_INDEX|MAP>
+LEVEL: L1
+STATUS: <ACTIVE|DEPRECATED>
+LOCK: FIXED
+VERSION: 1.0.0
+UID: <INDEX_UID>
+OWNER: <owner/team>
+ROLE: Canonical navigation + registry entrypoint for <scope>
 
-Границы действия INDEX.
-
-Включает:
-- какие процессы описывает
-- какие элементы может использовать
-
-Исключает:
-- что находится вне его ответственности
-
----
-
-## 3. USED_ENTITIES
-
-Список сущностей, используемых в рамках данного INDEX.  
-Указывать **только UID**.
-
-- 
-- 
-
----
-
-## 4. USED_MODELS
-
-Список моделей, применяемых в рамках INDEX.  
-Указывать **только UID**.
-
-- 
-- 
+CHANGE_NOTE:
+- DATE: YYYY-MM-DD
+- TYPE: PATCH|MINOR|MAJOR
+- SUMMARY: "..."
+- REASON: "..."
+- IMPACT: "..."
 
 ---
 
-## 5. USED_KNOWLEDGE
+## 0) PURPOSE (LAW)
+Этот INDEX — единая точка истины для области `<scope>`.
 
-Список источников знаний, на которые опирается INDEX.  
-Указывать **только UID или ссылки**.
-
-- 
-- 
-
----
-
-## 6. FILE_MAP
-
-Карта реальных файлов и их назначения.
-
-Формат:
-FILE:  
-PATH:  
-ROLE:  
-USED_BY:
-
-Пример:
-FILE: screenplay_v1.md  
-PATH: /projects/mars/script/  
-ROLE: draft screenplay  
-USED_BY: UE.ENT.SPC.NAR.SCREENWRITER
+Он фиксирует:
+- полный список объектов (файлов/реалмов/шаблонов/протоколов) в зоне действия
+- строгий порядок навигации (by folder + number)
+- канонические пути (FILE/PATH) и (опционально) raw-ссылки
+- правило существования объектов
 
 ---
 
-## 7. EVENTS / STATES
-
-Описание событий или состояний,
-которые отслеживаются в рамках INDEX.
-
-Примеры:
-- scene_ready
-- validation_failed
-- approved_for_production
+## 1) EXISTENCE RULE (ABSOLUTE)
+> Если объекта нет в этом INDEX — он **не существует** для области `<scope>`.  
+> Если файл есть, но не зарегистрирован здесь — **ignored / non-canon**.
 
 ---
 
-## 8. ACTIVE_MAP (ЕСЛИ ПРИМЕНИМО)
-
-Текущий активный контекст:
-- активные проекты
-- активные сущности
-- текущие проблемы
-- ближайшие шаги
-
----
-
-## 9. CONSTRAINTS
-
-Ограничения, применимые в рамках данного INDEX.
-
-Примеры:
-- использовать только утверждённые модели
-- не изменять канон
-- не вводить новые сущности
+## 2) HOW TO USE (MANDATORY FLOW)
+1) Сначала читаешь entrypoint/overview (если есть).
+2) Затем выбираешь нужный раздел (SPEC / PROTOCOL / TEMPLATE / TERMS / REALMS).
+3) Любой новый объект:
+   - сначала добавляется в этот INDEX,
+   - потом создаётся файл/папка,
+   - потом фиксируется через Canon Protocol / change policy.
 
 ---
 
-## 10. NOTES
+## 3) ORDER OF AUTHORITY (PRIORITY) (OPTIONAL)
+> Если индекс управляет сложной областью — зафиксируй приоритет.
 
-Любые дополнительные пояснения,
-которые помогают навигации,
-но не являются правилами.
-
----
-
-## ФИНАЛЬНОЕ ПРАВИЛО
-
-> INDEX — это карта и сценарий,
-> а не место хранения данных.
+1) `<core law / governance>`
+2) `<master-index>`
+3) `<registries>`
+4) `<content artifacts>`
 
 ---
 
-## СТАТУС
+## 4) CANON MAP — TREE
+> Здесь дерево объектов. Стиль: папка → список файлов по номеру.
+> Используй одинаковый формат везде.
 
-INDEX TEMPLATE v1.0  
-READY FOR USE
+# <SECTION NAME 1> (folder/file)
+**Folder:** `<path>/`  
+**Rule:** `<one-line rule>`
+
+00 — <Title> — PATH: <path> — RAW: <raw(optional)>
+01 — <Title> — PATH: <path> — RAW: <raw(optional)>
+
+---
+
+# <SECTION NAME 2>
+**File:** `<path/file.md>`  
+UID: <UID optional>  
+ROLE: <one line>
+
+---
+
+## 5) LINK POLICY (STANDARD)
+- Primary reference: `PATH` (repo path)
+- UID-first: если это внутренняя связь, всегда приоритет UID
+- RAW links — опционально (reference), но не источник истины
+
+---
+
+## 6) NO-DUPLICATION RULE
+- Один смысл → один SoT/объект.
+- Дубли запрещены.
+- Детализация — через modules/sections, а не через второй “такой же” файл.
+
+---
+
+## FINAL RULE (LOCK)
+> Этот INDEX — единственная точка истины о составе и порядке `<scope>`.  
+> Любая правка INDEX = изменение канона и проходит Canon Protocol.
+
+--- END OF TEMPLATE
