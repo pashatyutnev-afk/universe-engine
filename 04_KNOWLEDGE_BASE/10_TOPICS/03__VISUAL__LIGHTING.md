@@ -1,61 +1,52 @@
-# TOPIC — VISUAL: LIGHTING
-FILE: 04_KNOWLEDGE_BASE/10_TOPICS/03__VISUAL__LIGHTING
+# TOPIC — LIGHTING (CANON)
+FILE: 04_KNOWLEDGE_BASE/10_TOPICS/03__VISUAL__LIGHTING.md
 
 SCOPE: Universe Engine
 LAYER: 04_KNOWLEDGE_BASE
-SUBLAYER: 10_TOPICS
+SUBTREE: 10_TOPICS
 DOC_TYPE: TOPIC
+TOPIC_DOMAIN: VISUAL
 LEVEL: L3
 STATUS: DRAFT
 LOCK: OPEN
 VERSION: 0.1.0
-UID: UE.KB.TOPIC.VIS.LIGHTING.001
+UID: UE.KB.TOPIC.VISUAL.LIGHTING.001
 OWNER: SYSTEM
-ROLE: Practical topic pack: свет как смысл (intent), separation, readability, continuity checks
+ROLE: Lighting rules for mood, readability, and story emphasis
+
+CHANGE_NOTE:
+- DATE: 2026-01-08
+- TYPE: CREATE
+- SUMMARY: "Topic skeleton created."
+- REASON: "Need canonical placeholder under Topics index."
+- IMPACT: "Enables linking from realms and future expansion."
 
 ---
 
-## XREF
-XREF: 04_KNOWLEDGE_BASE/03__VISUAL_CINEMA | WHY:realm source for visual craft
-XREF: 04_KNOWLEDGE_BASE/05__PRODUCTION_PIPELINE | WHY:lighting must pass production gates
+## PURPOSE
+Как свет управляет смыслом кадра: читаемость, настроение, акцент.
 
 ---
 
-## LIGHTING INTENT (3 QUESTIONS)
-1) что подсветить? (subject)
-2) что скрыть? (noise control)
-3) какое чувство дать? (mood)
+## CORE RULES
+- Readability first:
+- Contrast control:
+- Motivated light:
+- Color temperature logic (если используете):
+- Accent = story beat:
 
 ---
 
-## PRACTICES
-### 1) Value separation
-Главный объект должен отделяться по тону:
-- светлее фона или темнее фона
-- но не “тон-в-тон”
-
-### 2) Single dominant + support
-- один доминантный источник (по смыслу)
-- остальное — поддержка, не конкуренция
-
-### 3) Readability first
-Если кадр не читается — стиль не спасёт.
+## EXAMPLES
+1 сцена: где ключевой акцент и как его “вытащить” светом.
 
 ---
 
-## CONTINUITY CHECKS
-- источник света не прыгает без причины
-- направление теней/акцентов стабильно
-- важные элементы не “исчезают” из света случайно
+## XREF / REL
+XREF:
+- `04_KNOWLEDGE_BASE/03__VISUAL_CINEMA.md`
 
----
-
-## CHECKLIST (PASS/FAIL)
-- [ ] есть intent (что/почему подсвечиваем)
-- [ ] главный объект отделён по тону
-- [ ] фон не спорит с главным
-- [ ] continuity выдержан (свет не прыгает)
-
----
+REL:
+- (позже) `UE.KB.TOPIC.NARRATIVE.SCENE_CRAFT.001`
 
 --- END.

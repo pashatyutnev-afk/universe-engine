@@ -1,25 +1,51 @@
-# TOPIC — NARRATIVE: SCENE CRAFT
-FILE: 04_KNOWLEDGE_BASE/10_TOPICS/01__NARRATIVE__SCENE_CRAFT
+# TOPIC — SCENE CRAFT (CANON)
+FILE: 04_KNOWLEDGE_BASE/10_TOPICS/01__NARRATIVE__SCENE_CRAFT.md
 
 SCOPE: Universe Engine
 LAYER: 04_KNOWLEDGE_BASE
-SUBLAYER: 10_TOPICS
+SUBTREE: 10_TOPICS
 DOC_TYPE: TOPIC
+TOPIC_DOMAIN: NARRATIVE
 LEVEL: L3
 STATUS: DRAFT
 LOCK: OPEN
 VERSION: 0.1.0
-UID: UE.KB.TOPIC.NARR.SCENE_CRAFT.001
+UID: UE.KB.TOPIC.NARRATIVE.SCENE_CRAFT.001
 OWNER: SYSTEM
-ROLE: Practical KB topic pack (scenes) linked to KB realms/engines
+ROLE: Practical rules for building strong scenes (structure + intent + payoff)
+
+CHANGE_NOTE:
+- DATE: 2026-01-08
+- TYPE: CREATE
+- SUMMARY: "Topic skeleton created."
+- REASON: "Need canonical placeholder under Topics index."
+- IMPACT: "Enables linking from realms and future expansion."
 
 ---
 
-## LINKS (XREF)
-- Realm: `04_KNOWLEDGE_BASE/01__NARRATIVE_CRAFT`
-- Engines: (если нужно позже) `03_SYSTEM_ENTITIES/10_ENG__ENGINES/02_DOMAIN_NARRATIVE_ENGINES/*`
+## PURPOSE
+Зачем существует этот topic и какую проблему решает.
 
 ---
 
-## CONTENT (TODO)
-TBD
+## CORE RULES
+- Rule 1:
+- Rule 2:
+- Rule 3:
+
+---
+
+## EXAMPLES
+Пример сцены (коротко) + почему это работает.
+
+---
+
+## XREF / REL
+XREF:
+- `04_KNOWLEDGE_BASE/01__NARRATIVE_CRAFT.md`
+
+REL:
+- (позже) `UE.KB.TOPIC.CHARACTER.MOTIVATION.001`
+- (позже) `UE.KB.TOPIC.VISUAL.LIGHTING.001`
+
+--- END.
