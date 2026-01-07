@@ -1,9 +1,8 @@
 # TOPICS REALM — README (CANON)
-FILE: 04_KNOWLEDGE_BASE/10_TOPICS/00__README__TOPICS_REALM.md
+FILE: 04_KNOWLEDGE_BASE/10_TOPICS/99__README__TOPICS_REALM.md
 
 SCOPE: Universe Engine
 LAYER: 04_KNOWLEDGE_BASE
-SUBTREE: 10_TOPICS
 DOC_TYPE: README
 LEVEL: L2
 STATUS: ACTIVE
@@ -11,67 +10,36 @@ LOCK: FIXED
 VERSION: 1.0.0
 UID: UE.KB.TOPICS.README.001
 OWNER: SYSTEM
-ROLE: Definition + rules of Topics subtree (how topics differ from realms, how to create and link)
+ROLE: How to use Topics subtree + rules for topic content boundaries
 
 CHANGE_NOTE:
 - DATE: 2026-01-08
 - TYPE: MAJOR
-- SUMMARY: "Topics subtree defined as KB article packs: narrow, reusable, cross-realm knowledge units."
-- REASON: "Нужно отделить topics (атомарные статьи) от realms (канонические области)."
-- IMPACT: "Creation flow + linking rules + existence delegation clarity"
+- SUMMARY: "Topics subtree introduced: rules, purpose, and workflow."
+- REASON: "Need expandable KB articles without breaking realms."
+- IMPACT: "KB authorsing workflow"
 
 ---
 
-## PURPOSE
-`10_TOPICS` — это **атомарные статьи/пакеты знаний**, которые:
-- узкие (1 тема = 1 файл),
-- переиспользуемые между realms,
-- не заменяют realms, а **подпитывают** их.
-
-### TOPICS vs REALMS
-- **REALMS (01..08)** = “области знания” (большие канонические документы-реалмы).
-- **TOPICS (10_TOPICS/01..99)** = “атомарные модули” (конкретные техники/правила/паттерны/разборы).
+## WHAT IS TOPICS
+`10_TOPICS` — это KB-статьи/пакеты по конкретным темам.
+Они:
+- расширяют realms (но не дублируют их)
+- живут отдельными файлами
+- всегда имеют XREF на realm-источник
 
 ---
 
-## EXISTENCE RULE (HARD)
-- Subtree `10_TOPICS` существует **только через**:
+## CANON ENTRY
+- Existence всего subtree определяется индексом:
   `04_KNOWLEDGE_BASE/10_TOPICS/00__INDEX__TOPICS.md`
-- Любой topic-файл, которого нет в `00__INDEX__TOPICS.md` = **NON-CANON / ignored**.
 
 ---
 
-## NAMING (HARD)
-Формат topic-файла:
-`NN__DOMAIN__TOPIC_NAME.md`
-
-DOMAIN фиксируем из набора (минимум):
-- `NARRATIVE`
-- `CHARACTER`
-- `VISUAL`
-- `SOUND`
-- `PRODUCTION`
-- `MARKETING`
-- `GLOSSARY`
-- `RESEARCH`
-
-`00__*` зарезервировано под README/INDEX.
-
----
-
-## TOPIC STRUCTURE (MINIMAL TEMPLATE)
-Каждый topic должен иметь:
-1) HEADER (Doc Control)
-2) PURPOSE (что решает)
-3) CORE RULES (пункты/правила)
-4) EXAMPLES (минимум 1)
-5) XREF / REL (ссылки на связанные topics/realms)
-
----
-
-## LINKING RULES (MINIMAL)
-- Если realm использует topic — realm обязан иметь XREF на topic.
-- Если topic уточняет realm — topic обязан иметь XREF на realm.
-- Дубли смысла запрещены: расширяй существующий topic или делай новый только если это реально другой смысл.
+## RULES (HARD)
+- Topic = один фокус. Если больше 1 фокуса — дели.
+- Любой пересекающийся смысл → XREF вместо копирования.
+- Topic обязан иметь XREF на основной realm (если тема “из realm-а”).
+- Нумерация в папке уникальна. Meta-доки в 00/99, topic-файлы в 01..99.
 
 --- END.

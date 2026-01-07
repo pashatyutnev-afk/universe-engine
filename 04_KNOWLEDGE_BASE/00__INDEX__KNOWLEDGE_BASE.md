@@ -8,28 +8,28 @@ INDEX_TYPE: MASTER
 LEVEL: L1
 STATUS: ACTIVE
 LOCK: FIXED
-VERSION: 3.0.0
+VERSION: 3.0.1
 UID: UE.KB.IDX.MASTER.001
 OWNER: SYSTEM
 ROLE: Single canonical entrypoint + existence registry for Knowledge Base layer
 
 CHANGE_NOTE:
 - DATE: 2026-01-08
-- TYPE: MAJOR
-- SUMMARY: "Rebuilt from scratch to match current KB tree (governance + topics subtree + realms + aliases). All RAW links use .md."
-- REASON: "Index drift + 404 noise; нужен один чистый SoT под фактическое дерево"
+- TYPE: PATCH
+- SUMMARY: "Fixed formatting + topics subtree normalized (README renumbered, RAW links enforced as .md)."
+- REASON: "Remove 404/noise + keep numbering rules inside folders."
 - IMPACT: "KB navigation + existence rule enforcement"
 
 ---
 
 ## PURPOSE (LAW)
-Этот INDEX — **единственная точка истины** для слоя `04_KNOWLEDGE_BASE`.
+Этот INDEX — единственная точка истины для слоя `04_KNOWLEDGE_BASE`.
 
 ### EXISTENCE RULE (ABSOLUTE)
-- Канон существует только по спискам в этом файле (**CANON MAP**).
-- Subtree `10_TOPICS` делегирован: существование topics определяется файлом
+- Канон существует только по спискам в этом файле (CANON MAP).
+- Subtree `10_TOPICS` делегирован: существование topics определяется файлом:
   `04_KNOWLEDGE_BASE/10_TOPICS/00__INDEX__TOPICS.md`.
-- Файл в репо без регистрации в соответствующем index = **NON-CANON / ignored**.
+- Файл в репо без регистрации в соответствующем index = NON-CANON / ignored.
 
 ---
 
@@ -98,9 +98,9 @@ Folder: `04_KNOWLEDGE_BASE/10_TOPICS/`
 PATH: `04_KNOWLEDGE_BASE/10_TOPICS/00__INDEX__TOPICS.md`  
 RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/04_KNOWLEDGE_BASE/10_TOPICS/00__INDEX__TOPICS.md
 
-00 — README: Topics Realm  
-PATH: `04_KNOWLEDGE_BASE/10_TOPICS/00__README__TOPICS_REALM.md`  
-RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/04_KNOWLEDGE_BASE/10_TOPICS/00__README__TOPICS_REALM.md
+99 — README: Topics Realm  
+PATH: `04_KNOWLEDGE_BASE/10_TOPICS/99__README__TOPICS_REALM.md`  
+RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/04_KNOWLEDGE_BASE/10_TOPICS/99__README__TOPICS_REALM.md
 
 NOTE:
 Все topic-файлы (01..99) регистрируются внутри `00__INDEX__TOPICS.md` и не перечисляются здесь.
