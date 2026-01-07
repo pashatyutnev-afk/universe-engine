@@ -1,140 +1,201 @@
-# NARRATIVE CRAFT (KB REALM) (CANON)
-FILE: 04_KNOWLEDGE_BASE/01_NARRATIVE_CRAFT.md
+# NARRATIVE CRAFT (KB REALM)
+FILE: 04_KNOWLEDGE_BASE/01__NARRATIVE_CRAFT.md
 
 SCOPE: Universe Engine
 LAYER: 04_KNOWLEDGE_BASE
-DOC_TYPE: REALM
-REALM: NARRATIVE_CRAFT
+DOC_TYPE: KB_REALM
+REALM: NARRATIVE
 LEVEL: L1
 STATUS: ACTIVE
-LOCK: FIXED
+LOCK: OPEN
 VERSION: 1.0.0
-UID: UE.KB.REALM.NARRATIVE.101
+UID: UE.KB.REALM.NARRATIVE.001
 OWNER: SYSTEM
-ROLE: Knowledge realm for narrative craft: story structure, arcs, pacing, themes, scene logic, continuity, and narrative constraints. Provides methods and rules; does not replace entity passports.
+ROLE: Canonical knowledge realm for narrative craft: story logic, structure, scenes, pacing, tension, reveals, continuity, theme (practices + checklists + examples pointers)
 
 CHANGE_NOTE:
-- DATE: 2026-01-07
+- DATE: 2026-01-08
 - TYPE: MAJOR
-- SUMMARY: "Нормализован realm Narrative: добавлен Doc Control header + каркас разделов + правила no-dup и UID-first"
-- REASON: "Realm должен быть каноническим документом и читаться как методология"
-- IMPACT: "All narrative knowledge placement"
-
----
-
-## XREF (UID-first)
-XREF: UE.KB.IDX.MASTER.001 | depends_on | KB existence and navigation | 04_KNOWLEDGE_BASE/00__INDEX__KNOWLEDGE_BASE.md
-XREF: UE.KB.GOV.RULES.011 | governs | KB entity vs knowledge rules | 04_KNOWLEDGE_BASE/00_KB_GOVERNANCE/01__RULES__KB.md
-XREF: UE.STD.SPEC.REL_XREF.104 | depends_on | UID-first linking | 02_STANDARDS/01_SPECIFICATIONS/04__REL_POLICY_XREF_STANDARD.md
-XREF: UE.STD.SPEC.SCENE_4TRACK.105 | references | scene structure standard | 02_STANDARDS/01_SPECIFICATIONS/05__SCENE_STACK_4TRACK_STANDARD.md
+- SUMMARY: "Realm Narrative Craft канонизирован: Doc Control + границы + практики + чеклисты + XREF на движки/стандарты"
+- REASON: "Раньше realm был контентом без канона; нужен единый вход по нарративному ремеслу"
+- IMPACT: "Все narrative-практики и ссылки на ENG движки/scene стандарты"
 
 ---
 
 ## 0) PURPOSE
-Этот realm хранит **методики и правила повествования**:
-- структура истории и арок
-- причинно-следственная логика
-- темп/пейсинг
-- драматургические инструменты
-- continuity и ограничения мира
+Этот realm — база знаний “как писать историю” внутри Universe Engine.
 
-Realm НЕ хранит паспорта сущностей.
-Все сущности описываются паспортами в `04_KNOWLEDGE_BASE/10_ENTITIES/*` и связываются UID-first.
+Он содержит:
+- практики и приёмы
+- чеклисты и гейты качества
+- рекомендации по структуре сцен/эпизодов/арок
+- XREF на системные движки и стандарты (без копирования SoT)
 
 ---
 
-## 1) CORE PRINCIPLES (SoT внутри realm)
-- Причина → следствие важнее “красивых сцен”
-- Каждая сцена меняет состояние (мира/персонажа/отношений)
-- Конфликт должен быть проверяемым (видимым в действиях)
-- Темп строится управлением “плотности событий” и “информационного давления”
+## 1) BOUNDARIES (HARD)
+### 1.1 This realm IS
+- narrative logic: причинно-следственные цепочки
+- story structure: актность/эпизодность/арки
+- scene craft: построение сцены, повороты, ставки, напряжение
+- pacing: ритм в “story time”
+- reveals: фоreshadowing, твисты, раскрытия
+- continuity: непротиворечивость истории
+- theme/meaning: смысловые оси
+
+### 1.2 This realm IS NOT
+- монтаж/темп экрана (это production/editing engines)
+- музыка как композиция/аранж/микс (это sound/music engines)
+- правила канона/версий/UID (это System Law + Standards)
 
 ---
 
-## 2) STORY STRUCTURE (MODELS)
-### 2.1 Arc / Season / Episode models
-- Model list (expand):
-  - 3-act
-  - 5-act
-  - hero’s journey
-  - mystery spiral
-  - escalation ladder
+## 2) PRIMARY XREF (WHERE THE TRUTH LIVES)
+### 2.1 Engines (execution logic)
+- Domain Narrative Engines (ENG): narrative logic / structure / arc / scenes / pacing / stakes / foreshadow / twist / continuity / theme
+- Expression Engines (ENG): event / cause-effect / conflict / turning point / climax / resolution / shock / scheduling
 
-### 2.2 Beats (beat sheets)
-- Beat definition
-- Beat types
-- Beat density rules
+### 2.2 Standards (formats)
+- Scene stack / track standards + templates (Scene Pack, Track Event)
+- Doc Control / UID / naming standards
+
+> В этом realm мы НЕ копируем стандарты и движки. Мы даём практики и ссылки.
 
 ---
 
-## 3) SCENE LOGIC (CAUSE/EFFECT)
-### 3.1 Scene purpose contract
-Каждая сцена должна иметь:
-- цель (goal)
-- препятствие (obstacle)
-- действие (action)
-- изменение (delta)
+## 3) CORE MODEL (MINIMUM NARRATIVE SET)
+Если ты строишь историю и не знаешь, с чего начать — минимум всегда такой:
 
-### 3.2 Scene delta types
-- information delta
-- relationship delta
-- power delta
-- location delta
-- capability delta
+1) **Goal / Want**: чего герой/система хочет
+2) **Obstacle**: что мешает
+3) **Choice**: какое решение принимается
+4) **Cost**: что это стоит (ставки)
+5) **Change**: что меняется после решения
+
+Любая сцена/эпизод, который не содержит хотя бы 3 пункта из 5, часто ощущается “пустым”.
 
 ---
 
-## 4) PACING (TEMPO CONTROL)
-- compression vs expansion
-- tension waves
-- micro-beats inside scenes
-- silence as tool (negative space)
+## 4) SCENE CRAFT (PRACTICES)
+### 4.1 Scene contract (минимум)
+Сцена обязана ответить:
+- Что происходит? (event)
+- Почему это происходит? (cause)
+- Что на кону? (stakes)
+- Что изменилось к финалу? (delta)
+
+### 4.2 Types of scenes (рабочая классификация)
+- Setup: вводит правила/контекст
+- Pressure: усиливает препятствия
+- Reveal: раскрывает скрытое
+- Choice: заставляет выбрать
+- Turn: поворот направления/плана
+- Payoff: выплата обещаний
+
+### 4.3 Turning points (повороты)
+Поворот — это не “новая инфа”, а **смена траектории**:
+- герой меняет план
+- угроза меняет форму
+- цель становится дороже/сложнее
+- альянс рушится/создаётся
 
 ---
 
-## 5) THEME & MEANING
-- theme statement
-- motif system
-- symbol economy (no-overuse)
+## 5) TENSION & STAKES (PRACTICES)
+### 5.1 Stakes ladder
+Ставки растут по лестнице:
+- личное неудобство → риск потери → разрушение смысла → экзистенциальная угроза
+
+Если ставки растут скачком, объясняй “почему именно сейчас”.
+
+### 5.2 Tension tools (быстрые)
+- таймер
+- ресурс на исходе
+- ложный выбор (оба варианта плохие)
+- наблюдатель/свидетель
+- секрет, который вот-вот вскроется
 
 ---
 
-## 6) CONTINUITY & CONSISTENCY
-### 6.1 Continuity checklist
-- timeline coherence
-- geography consistency
-- tech/rules consistency
-- character intent consistency
+## 6) PACING & RHYTHM (STORY-TIME)
+Ритм истории управляется:
+- частотой поворотов (turn density)
+- длиной связок “setup → payoff”
+- чередованием типов сцен (pressure/reveal/choice)
 
-### 6.2 Retcon policy (within narrative)
-- when retcon allowed
-- how to mark retcon as knowledge (XREF to affected entities/scenes)
+Правило:
+- если 3 сцены подряд одного типа — вставь смену режима (reveal или choice).
 
 ---
 
-## 7) WORLD CONSTRAINTS (NARRATIVE-LEVEL)
-- hard constraints from system/world laws
-- “forbidden moves” (things that break the world contract)
+## 7) FORESHADOWING / TWIST / REVEAL
+### 7.1 Foreshadowing rule
+Подсказка должна быть:
+- заметна при пересмотре
+- но не бросаться в глаза в первый раз
+
+### 7.2 Twist rule (честный твист)
+Честный твист:
+- меняет интерпретацию прошлого
+- не ломает причинность
+- был возможен по правилам мира
 
 ---
 
-## 8) LINKING TO ENTITIES (UID-FIRST)
-Если правило ссылается на конкретную сущность/событие/локацию:
-- использовать XREF на ENTITY_UID (или SCENE_UID, если сцена вынесена как объект)
-
-Pattern:
-XREF:
-- XREF: <ENTITY_UID> | references | "example / usage" | <passport-path(optional)>
-
----
-
-## 9) EXAMPLES (OPTIONAL)
-> Здесь храним примеры применения методов.
-> Каждый пример должен ссылаться UID-first на сущности/сцены, если они внутренние.
+## 8) CONTINUITY (ANTI-CONTRADICTION)
+Перед фиксацией (канонизацией) сцены/эпизода проверяй:
+- причинность не рвётся
+- мотивации соответствуют
+- время/география сходятся
+- обещания (setup) имеют выплату (payoff) или отложены явно
 
 ---
 
-## 10) OPEN QUESTIONS / TODO (OPTIONAL)
-- (list)
+## 9) THEME & MEANING (PRACTICE)
+Тема — это не “о чём история”, а “что она доказывает”.
+Быстрый тест темы:
+- Сформулируй 1 фразой “мир так устроен, что…”
+- Проверь, что ключевые решения героев подтверждают/опровергают эту фразу
+
+---
+
+## 10) CHECKLISTS (KB)
+### 10.1 Scene checklist (pass/fail)
+- [ ] есть событие
+- [ ] есть причина и следствие
+- [ ] есть ставки
+- [ ] есть выбор/давление/поворот (хотя бы одно)
+- [ ] есть изменение к финалу сцены
+- [ ] есть связь с соседними сценами (setup/payoff или цель/препятствие)
+
+### 10.2 Episode/Chapter checklist
+- [ ] есть центральный конфликт
+- [ ] есть 2–4 поворота
+- [ ] ставка растёт или уточняется
+- [ ] финал оставляет вопрос/цель на следующий блок
+- [ ] нет “пустых” сцен без функции
+
+---
+
+## 11) OUTPUT POINTERS (WHAT THIS REALM PRODUCES)
+Этот realm обычно “производит”:
+- список сцен (scene list)
+- scene packs (по стандарту)
+- арки персонажей/эпизодов (в связке с character realm)
+
+---
+
+## 12) XREF (MANDATORY POINTERS)
+XREF_DOC: 04_KNOWLEDGE_BASE/02__CHARACTER_CRAFT.md | WHY:мотивы/поведение героя определяют выборы и повороты
+XREF_DOC: 04_KNOWLEDGE_BASE/05__PRODUCTION_PIPELINE.md | WHY:переход от истории к производству (без копирования монтажа сюда)
+
+---
+
+## 13) NEXT EXTENSIONS (CONTROLLED)
+Добавлять сюда можно:
+- конкретные практики как подпункты
+- ссылки на KB entity passports (если выделяем приём как сущность)
+
+Если приём становится “повторяемой сущностью” → делаем паспорт `KB_PRACTICE` и связываем XREF.
 
 --- END.

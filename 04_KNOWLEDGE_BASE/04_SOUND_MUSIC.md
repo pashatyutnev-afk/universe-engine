@@ -1,130 +1,165 @@
-# SOUND & MUSIC (KB REALM) (CANON)
-FILE: 04_KNOWLEDGE_BASE/04_SOUND_MUSIC.md
+# SOUND & MUSIC (KB REALM)
+FILE: 04_KNOWLEDGE_BASE/04__SOUND_MUSIC.md
 
 SCOPE: Universe Engine
 LAYER: 04_KNOWLEDGE_BASE
-DOC_TYPE: REALM
-REALM: SOUND_MUSIC
+DOC_TYPE: KB_REALM
+REALM: SOUND
 LEVEL: L1
 STATUS: ACTIVE
-LOCK: FIXED
+LOCK: OPEN
 VERSION: 1.0.0
-UID: UE.KB.REALM.SOUND.104
+UID: UE.KB.REALM.SOUND.001
 OWNER: SYSTEM
-ROLE: Knowledge realm for sound and music: sound design, leitmotifs, ambience, rhythm, mix principles, sync with visuals/narrative, and audio continuity. Knowledge only, not asset storage.
+ROLE: Canonical knowledge realm for sound & music usage: production sound intent, placement, clarity, scene support, and pointers to deep music composition engines (practices + checklists + boundaries)
 
 CHANGE_NOTE:
-- DATE: 2026-01-07
+- DATE: 2026-01-08
 - TYPE: MAJOR
-- SUMMARY: "Нормализован realm Sound: Doc Control header + каркас разделов + правила UID-first ссылок"
-- REASON: "Звук/музыка как методология должны быть структурированы"
-- IMPACT: "All sound/music knowledge placement"
-
----
-
-## XREF (UID-first)
-XREF: UE.KB.IDX.MASTER.001 | depends_on | KB existence and navigation | 04_KNOWLEDGE_BASE/00__INDEX__KNOWLEDGE_BASE.md
-XREF: UE.KB.GOV.RULES.011 | governs | entity vs knowledge rules | 04_KNOWLEDGE_BASE/00_KB_GOVERNANCE/01__RULES__KB.md
-XREF: UE.STD.SPEC.SCENE_4TRACK.105 | references | scene track structure | 02_STANDARDS/01_SPECIFICATIONS/05__SCENE_STACK_4TRACK_STANDARD.md
-XREF: UE.STD.SPEC.REL_XREF.104 | depends_on | UID-first linking | 02_STANDARDS/01_SPECIFICATIONS/04__REL_POLICY_XREF_STANDARD.md
+- SUMMARY: "Realm Sound & Music канонизирован: границы production-audio vs deep-music + практики + чеклисты + XREF"
+- REASON: "Без границ звук и музыка дублируются, и система путает монтаж/саунд/композицию"
+- IMPACT: "Sound practices, linkage to production and sound/music engines"
 
 ---
 
 ## 0) PURPOSE
-Этот realm хранит **методики и правила звука/музыки**:
-- саунд-дизайн и фоли
-- музыкальные темы и мотивы
-- атмосферы и акустическое пространство
-- ритм и темп
-- микс и динамика
-- синхронизация со сценой (N/V tracks)
-- audio continuity
+Этот realm — база знаний “как звук и музыка работают на сцену”.
 
-Realm не хранит wav/ stems / проекты — только знание.
+Он содержит:
+- практики по использованию звука в сценах (ясность, акценты, ритм внимания)
+- практики по роли музыки (функция, место, конфликт с диалогом)
+- чёткую границу: production-audio vs deep-music
+- XREF на ENG движки (sound/music production + deep music)
 
 ---
 
-## 1) SOUND LANGUAGE (CORE)
-- “что должен чувствовать зритель” через звук
-- звук как фокус внимания (mask/unmask)
-- тишина как инструмент (negative audio space)
+## 1) BOUNDARIES (HARD)
+### 1.1 This realm IS
+- sound intent: зачем звук в сцене
+- приоритеты: диалог/фоли/атмосфера/эффекты/музыка
+- читабельность (clarity) и “не мешает ли”
+- placement: где и когда включать/убирать
+- базовые принципы динамики (громче/тише как смысл, не как цифры)
+
+### 1.2 This realm IS NOT
+- глубокая композиция/гармония/аранж/вокал/микс-мастер (это `09_SOUND_MUSIC_ENGINES`)
+- монтажные правила картинки (это production/editing)
+- правила канона/версий/UID (system law + standards)
 
 ---
 
-## 2) AMBIENCE & SPACE
-- room tone / world tone
-- distance cues
-- reverb as geography
-- layering rules (foreground vs background)
+## 2) PRIMARY XREF (WHERE THE TRUTH LIVES)
+### 2.1 Production sound
+- `08_KNOWLEDGE_PRODUCTION_ENGINES/08__SOUND_MUSIC_ENG.md` (production layer: sync/design/placement/clarity)
+
+### 2.2 Deep music
+- `09_SOUND_MUSIC_ENGINES/*` (composition/harmony/arrangement/vocal/mix/master)
 
 ---
 
-## 3) FOLEY & TEXTURE
-- material libraries (conceptual, не файлы)
-- micro-details as realism
-- exaggeration caps (чтоб не мультяшно)
+## 3) CORE AUDIO MODEL (MINIMUM)
+Чтобы сцена “звучала” без бардака:
+
+1) FOCUS: что важнее всего сейчас (обычно диалог/действие)
+2) LAYERS: какие слои нужны (атмосфера / фоли / эффекты / музыка)
+3) PRIORITY: кто уступает место (музыка часто уступает диалогу)
+4) DYNAMICS: где усилить/снять напряжение
+5) SILENCE: где убрать звук, чтобы подчеркнуть
 
 ---
 
-## 4) MUSIC (LEITMOTIF SYSTEM)
-- motif assignment (character/faction/place/theme)
-- motif evolution across arcs
-- frequency cap (не “задушить” повтором)
-- diegetic vs non-diegetic rules
+## 4) PRODUCTION SOUND (PRACTICES)
+### 4.1 Clarity rule (слышно главное)
+Если зритель не понимает смысл сцены из-за звука — звук неправ.
+
+Практика:
+- сначала фиксируешь “главный слой”
+- остальные подчиняешь (тише/реже/проще)
+
+### 4.2 Layer discipline
+- атмосфера: держит пространство, не мешает
+- фоли: добавляет физичность
+- эффекты: акцентируют событие
+- музыка: управляет чувством/темой
+
+### 4.3 Perspective rule
+Дистанция и пространство должны ощущаться:
+- близко = больше деталей/присутствия
+- далеко = меньше деталей/больше комнаты/эхо
 
 ---
 
-## 5) RHYTHM & DYNAMICS
-- rhythm sync with cuts
-- tension waves (build/release)
-- dynamic range policy (quiet vs loud)
+## 5) MUSIC USAGE (PRACTICES)
+### 5.1 Music function rule
+Музыка должна делать минимум одно:
+- усилить эмоцию
+- дать тему/смысл
+- подчеркнуть ритм/поворот
+- связать эпизоды
+
+Если музыка “просто фон” — часто лучше атмосфера/тишина.
+
+### 5.2 Dialogue conflict rule
+Если есть важный диалог:
+- музыка либо минимальная, либо вообще нет
+- либо музыка работает как контрапункт и не конкурирует по частотам/ритму (на практике: проще убрать)
+
+### 5.3 Motif / recall
+Повтор мотива работает, если связан с:
+- персонажем
+- идеей
+- местом
+И возвращается в моменты выбора/платы/раскрытия.
 
 ---
 
-## 6) MIX PRINCIPLES
-- clarity first (dialogue intelligibility)
-- frequency slotting
-- sidechain rules (если надо)
-- loudness target (если будет задан проектом)
+## 6) SILENCE (TOOL)
+Тишина — это не “нет звука”, а “контроль”.
+Используй тишину:
+- перед ударом/поворотом
+- после шока
+- чтобы усилить интимность
 
 ---
 
-## 7) SYNC WITH 4TRACK SCENES
-Рекомендуемая практика:
-- на Scene Pack указывать SOUND события с ORDER синхронизированным с N/V
+## 7) CHECKLISTS (KB)
+### 7.1 Scene audio readability (pass/fail)
+- [ ] понятно, что главное (диалог/действие)
+- [ ] слои не спорят между собой
+- [ ] атмосфера поддерживает место
+- [ ] эффекты есть только там, где нужны
+- [ ] музыка не мешает смыслу
+- [ ] есть динамика (не всё одной громкостью)
+- [ ] есть места тишины/паузы
 
-Если нужно maps_to:
-XREF:
-- XREF: <EVENT_UID_TARGET> | maps_to | "audio sync moment" | <path(optional)>
-
----
-
-## 8) AUDIO CONTINUITY
-Checklist:
-- ambience continuity across scene boundaries
-- motif continuity (не ставить “чужую тему” без причины)
-- geography consistency (пространство звучит одинаково)
-- volume continuity across cuts
+### 7.2 Music placement check
+- [ ] музыка имеет функцию (эмоция/тема/поворот)
+- [ ] музыка не перекрывает диалог
+- [ ] музыка не устает (не висит слишком долго без смысла)
 
 ---
 
-## 9) LINKING TO ENTITIES / SCENES (UID-FIRST)
-Если пример про:
-- персонажа/фракцию/локацию → XREF на ENTITY_UID
-- сцену/ивент → XREF на SCENE_UID/EVENT_UID (если есть)
-
-Pattern:
-XREF:
-- XREF: <TARGET_UID> | references | "sound/music example" | <path(optional)>
+## 8) OUTPUT POINTERS
+Этот realm обычно “производит”:
+- sound intent notes для сцен
+- список слоёв по сценам (audio layers)
+- подсказки по месту музыки (music cues)
+- XREF на deep music задачи (если нужно композить)
 
 ---
 
-## 10) EXAMPLES (OPTIONAL)
-> Примеры “как делаем” (ссылки UID-first на сцены/сущности).
+## 9) XREF (MANDATORY POINTERS)
+XREF_DOC: 04_KNOWLEDGE_BASE/05__PRODUCTION_PIPELINE.md | WHY:звук/музыка — часть пайплайна производства
+XREF_DOC: 04_KNOWLEDGE_BASE/01__NARRATIVE_CRAFT.md | WHY:звук усиливает повороты/ставки/раскрытия
 
 ---
 
-## 11) OPEN QUESTIONS / TODO (OPTIONAL)
-- (list)
+## 10) NEXT EXTENSIONS (CONTROLLED)
+Добавлять сюда можно:
+- практики sound intent
+- чеклисты читаемости
+- ссылки на KB entity passports (например чеклист “dialogue clarity” как объект)
+
+Глубокие музыкальные методики (гармония/аранж/микс) сюда НЕ копировать — только XREF на `09_SOUND_MUSIC_ENGINES`.
 
 --- END.

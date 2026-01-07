@@ -1,4 +1,4 @@
-# UID RULES — SYSTEM IDENTIFICATION LANGUAGE (CANON)
+# UID RULES — GLOBAL ID LAW (SoT)
 FILE: 01_SYSTEM_LAW/02__UID_RULES.md
 
 SCOPE: Universe Engine
@@ -7,185 +7,180 @@ DOC_TYPE: LAW
 LEVEL: L1
 STATUS: ACTIVE
 LOCK: FIXED
-VERSION: 1.1.0
-UID: UE.LAW.UID.002
+VERSION: 1.2.0
+UID: UE.LAW.UID.RULES.001
 OWNER: SYSTEM
-ROLE: Defines UID as the canonical system identification language, including format, namespaces, stability rules, and usage in registries and cross-references.
+ROLE: Single source of truth for UID format, namespaces, uniqueness, stability, and UID migration rules used across all layers
 
 CHANGE_NOTE:
-- DATE: 2026-01-07
+- DATE: 2026-01-08
 - TYPE: MINOR
-- SUMMARY: "Единый формат UID + области (namespace) + мост для локальных ID + правила XREF/REL"
-- REASON: "Устранение коллизий ID/UID и обеспечение однозначной навигации"
-- IMPACT: "Все слои, реестры, артефакты, пайплайны"
+- SUMMARY: "Зафиксирован единый UID-формат + пространства имён для INDEX/REGISTRY/TEMPLATE/ENTITY, правило уникальности, стабильности и миграции UID"
+- REASON: "UID — базовый якорь ссылок и пайплайнов; без единого формата канон не машиночитаем"
+- IMPACT: "Все канонические документы и сущности обязаны иметь валидный UID"
 
 ---
 
-## 0) PRIME LAW (ABSOLUTE)
-UID — единственный канонический язык идентификации системы Universe Engine.
+## 0) PURPOSE (LAW)
+UID — это **канонический системный идентификатор** документа/сущности, используемый для:
+- ссылок между документами (REL/XREF)
+- existence rule в master-index слоя
+- dependency записей
+- пайплайнов валидации
+- audit/change логов
 
-UID обязателен для:
-- любых канонических документов (LAW/STANDARDS/KB governance и т.п.)
-- любых INDEX/REGISTRY
-- артефакт-типов и схем
-- пайплайнов
-- системных сущностей (entities) и их паспортов
-- кросс-ссылок между объектами системы (REL/XREF)
+Если UID невалиден или неуникален → документ/сущность считается **NON-CANON**.
 
 ---
 
-## 1) UID FORMAT (CANON)
-### 1.1 Canonical UID syntax
-UID — строка в формате UPPERCASE_TOKENS, разделённых точками:
+## 1) UID FORMAT (STRICT)
 
-`<NS>.<CLASS>.<SUBCLASS>.<NAME>.<NNN>`
+### 1.1 General pattern
+UID строится из сегментов, разделённых точками:
+
+`UE.<DOMAIN>.<GROUP>.<NAME>.<NNN>`
 
 Где:
-- `<NS>` — корневой namespace (UE)
-- `<CLASS>` — область системы (LAW / STD / KB / ART / ENT / PIPE / IDX / REG / TPL / PRJ / OUT)
-- `<SUBCLASS>` — подтип/контекст (например CORE, SPEC, MODULE, REALM, GOV, TYPE, SCHEMA)
-- `<NAME>` — смысловой идентификатор (A–Z, 0–9, `_`)
-- `<NNN>` — числовой хвост (обычно 3 цифры) для уникальности/серийности
+- `UE` — фиксированный префикс Universe Engine
+- `<DOMAIN>` — класс пространства имён (см. §2)
+- `<GROUP>` — подгруппа/категория внутри домена (см. §2)
+- `<NAME>` — короткое имя (см. §1.2)
+- `<NNN>` — трёхзначный номер `000..999` для уникальности серии
 
-Примеры (валидные):
-- `UE.LAW.CORE.SYSTEM.000`
-- `UE.LAW.NAMING.RULES.001`
-- `UE.LAW.UID.RULES.002`
+### 1.2 Allowed characters (hard)
+- В UID разрешены только: `A-Z`, `0-9`, `_`, `.`
+- `<NAME>` и `<GROUP>` должны быть в `UPPER_SNAKE_CASE`
+- Запрещено: пробелы, дефисы `-`, кириллица, скобки, спецсимволы
+
+---
+
+## 2) UID NAMESPACE MAP (CANON)
+
+### 2.1 Master Index / Layer Indexes
+Формат:
+`UE.IDX.<LAYER_ALIAS>.MASTER.<NNN>`
+
+Примеры:
 - `UE.IDX.LAW.MASTER.000`
+- `UE.IDX.STD.MASTER.000`
+- `UE.IDX.ENG.MASTER.000`
 - `UE.IDX.KB.MASTER.000`
-- `UE.STD.SPEC.UID_MARKING.001`
-- `UE.KB.REALM.CHARACTER_CRAFT.002`
+- `UE.IDX.PRJ.MASTER.000`
+- `UE.IDX.AST.MASTER.000`
+- `UE.IDX.DB.MASTER.000`
 
-### 1.2 Allowed characters
-Только:
-- `A–Z`
-- `0–9`
-- `_`
-- `.`
-Запрещено:
-- пробелы
-- `: / \ -` (в UID запрещены)
-- кириллица
+`<LAYER_ALIAS>` — краткий алиас слоя (LAW/STD/ENG/KB/PRJ/AST/DB/MODEL/OUT/LOG).
 
 ---
 
-## 2) UID SCOPE (NAMESPACES / AREAS)
-### 2.1 Canonical classes (recommended set)
-- `LAW` — законы системы
-- `STD` — стандарты (SoT / SPEC / MODULE)
-- `KB` — knowledge base (governance/realms/entities)
-- `ART` — артефакты (конкретные экземпляры, если нужны)
-- `ENT` — системные сущности (entity model)
-- `PIPE` — пайплайны
-- `IDX` — master-index слоёв
-- `REG` — реестры (registry tables)
-- `TPL` — шаблоны
-- `PRJ` — проектные контейнеры/пространства (если используется)
-- `OUT` — выходные сборки/экспорты (если используется)
+### 2.2 Laws (System Law)
+Формат:
+`UE.LAW.<TOPIC>.<NAME>.<NNN>`
 
-### 2.2 Stable vs Local contexts
-UID всегда **GLOBAL** внутри Universe Engine (не зависит от папки/времени/ветки).
-Если объект локальный (внутри проекта/сцены) — он может иметь local id, но UID остаётся системой (см. раздел 6).
+Примеры:
+- `UE.LAW.UID.RULES.001`
+- `UE.LAW.NAMING.RULES.001`
 
 ---
 
-## 3) UID ASSIGNMENT RULES
-### 3.1 Кто получает UID (обязательно)
-UID обязателен для:
-- любого файла, зарегистрированного в master-index
-- любого INDEX/REGISTRY
-- любого документа уровня L0/L1 (особенно CORE и master indexes)
-- любой схемы артефакта в `ARTIFACT_SCHEMA_REGISTRY`
-- любой сущности, которая используется в REL/XREF за пределами локального контекста
+### 2.3 Standards / Specs (SoT внутри STANDARDS)
+Формат:
+`UE.STD.<TOPIC>.<GROUP>.<NNN>`
 
-### 3.2 Кто может не иметь UID (временно / non-canon)
-- черновики (`LOCK: OPEN`) до регистрации
-- личные заметки вне канона
-- временные файлы миграции (но они НЕ должны быть зарегистрированы в индексах)
+Примеры:
+- `UE.STD.DOC_CONTROL.SOT.001`
+- `UE.STD.STORAGE_MAP.SOT.001`
 
----
-
-## 4) UID STABILITY (IMMUTABILITY)
-### 4.1 UID неизменяем
-UID нельзя менять без Canon Protocol.
-Если смысл объекта меняется настолько, что это другой объект — создаётся новый UID.
-
-### 4.2 Переименование файла не меняет UID
-Имя файла/путь может меняться (по Naming Rules), но UID остаётся прежним.
-
-### 4.3 Один UID — один объект
-Запрещено использовать один UID для разных смыслов/файлов.
-Запрещено дублировать UID в двух разных файлах.
+Где `<GROUP>` обычно один из:
+- `SOT`
+- `MODULE`
+- `PROTO`
+- `TEMPLATE`
 
 ---
 
-## 5) UID IN DOCUMENT HEADER (MANDATORY)
-Каждый канонический документ обязан иметь в шапке:
-- `UID: ...`
-и этот UID является единственным источником истины для идентификации документа.
+### 2.4 Registries (реестры типов/сущностей/связей)
+Формат:
+`UE.REG.<DOMAIN>.<NAME>.<NNN>`
 
-Запрещено:
-- дублировать UID внизу файла как отдельную “вторую шапку”
-- иметь два UID в одном документе
-
----
-
-## 6) LOCAL ID BRIDGE (UID vs PROJECT IDs)
-### 6.1 Local IDs разрешены
-Local IDs (например: сцены, шоты, внутренние элементы) разрешены внутри ограниченного контекста.
-
-### 6.2 Local IDs НЕ заменяют UID
-Local ID не может:
-- использоваться как идентификатор в system registries
-- выступать как SoT идентификатор для объектов вне локального контекста
-- использоваться как единственная ссылка в REL/XREF между слоями
-
-### 6.3 Bridge rule (обязательный мост)
-Если local id должен быть использован в системной навигации/ссылках — нужен мост:
-
-`LOCAL_ID -> UID`
-
-Мост фиксируется одним из способов:
-- Entity Passport (рекомендуется)
-- Registry (таблица соответствий)
-- Explicit mapping block в документе (если это описательный документ)
+Примеры:
+- `UE.REG.ENG.DEPENDENCY.001`
+- `UE.REG.DOC.ALL.001`
+- `UE.REG.PATH.MAP.001`
 
 ---
 
-## 7) CROSS-REFERENCES (REL / XREF) — UID FIRST
-### 7.1 Rule
-Любая междокументная/межслойная ссылка должна использовать UID как первичный идентификатор.
+### 2.5 Templates (шаблоны)
+Формат:
+`UE.TPL.<CLASS>.<NAME>.<NNN>`
 
-### 7.2 Minimal XREF record (format)
-Рекомендуемый минимальный формат записи:
+Примеры:
+- `UE.TPL.ENG.ENGINE_BASE.001`
+- `UE.TPL.ENG.FAMILY_README_BASE.001`
+- `UE.TPL.REGISTRY.BASE.001`
 
-- `XREF: <UID_TARGET> | <REL_TYPE> | <WHY> | <PATH_OR_RAW(optional)>`
-
-Пример:
-- `XREF: UE.LAW.NAMING.RULES.001 | governs | Naming constraints for KB realms | 01_SYSTEM_LAW/01__NAMING_RULES.md`
-
-### 7.3 REL types (minimal set)
-- `defines` — определяет сущность/правило
-- `governs` — управляет/регулирует
-- `depends_on` — зависит от
-- `extends` — расширяет (module -> SoT)
-- `implements` — реализует (protocol/pipeline)
-- `references` — справочная ссылка
-- `deprecated_by` — заменён/устарел из-за
+`<CLASS>` — целевой класс: `ENG`, `ORC`, `SPC`, `CTL`, `VAL`, `QA`, `KB`, `PRJ`, `AST`, `DOC`.
 
 ---
 
-## 8) ENFORCEMENT (VALIDATION)
-UID нарушение = документ неканоничен, пока не исправлен:
-- нет UID в шапке у зарегистрированного файла
-- UID меняют без Canon Protocol
-- два разных файла имеют одинаковый UID
-- UID содержит запрещённые символы
-- REL/XREF используют local id как единственную межслойную ссылку
+### 2.6 Entities (сущности системы)
+Формат:
+`UE.<CLASS>.<FAMILY>.<NAME>.<NNN>`
+
+Примеры:
+- `UE.ENG.GOVERNANCE.AUDIT_LOG.001`
+- `UE.ENG.CORE.CORE_IDENTITY.001`
+- `UE.ORC.CORE.PIPELINE_ORCHESTRATOR.001`
+- `UE.SPC.NARRATIVE.HEAD_WRITER.001`
+
+Где:
+- `<CLASS>` ∈ `ENG|ORC|SPC|CTL|VAL|QA|KB|PRJ|AST`
+- `<FAMILY>` — семейство/категория внутри класса (`GOVERNANCE`, `CORE`, `NARRATIVE`, `WORLD`, и т.п.)
+- `<NAME>` — имя сущности
+
+---
+
+## 3) UNIQUENESS RULE (GLOBAL HARD)
+UID должен быть **глобально уникальным** во всём репозитории.
+
+Если один и тот же UID встречается в двух разных файлах:
+- оба файла считаются **NON-CANON**
+- исправление обязано пройти через Canon Protocol + запись в audit/release (если затрагивает канон)
+
+---
+
+## 4) STABILITY RULE (HARD)
+UID **не меняется** при:
+- правках текста
+- правках структуры документа
+- переименовании файла
+- переносе файла между папками
+
+UID меняется **только** когда:
+- создаётся **новая сущность/документ**, замещающий старый по смыслу
+- выполняется официальная миграция UID (см. §5)
+
+---
+
+## 5) UID MIGRATION RULE (CONTROLLED)
+Если требуется смена UID (редко):
+1) Новый документ получает новый UID.
+2) Старый документ переводится в `STATUS: DEPRECATED` и остаётся доступным.
+3) Создаётся XREF запись вида: `OLD_UID -> NEW_UID` (в каноническом реестре XREF).
+4) Все индексы/реестры/пайплайны обновляются на новый UID.
+5) Старый документ можно перевести в `ARCHIVED` только после стабилизации.
+
+Запрещено “тихо” менять UID внутри файла без миграции.
+
+---
+
+## 6) UID ASSIGNMENT RULE (PRACTICE)
+- Для MASTER INDEX / реестров: использовать зарезервированные серии `...MASTER.000`, `...REG....001` и т.д.
+- Для сущностей: номер `<NNN>` должен отражать серию/порядок внутри семейства, но **не обязан совпадать** с номером `NN__` в имени файла.
+  - (Имя файла отвечает за порядок в папке, UID — за глобальную уникальность.)
 
 ---
 
 ## FINAL RULE (LOCK)
-UID — фундаментальный закон идентификации системы.
-Любая правка — изменение канона и проходит Canon Protocol.
+LOCK: FIXED
 --- END.

@@ -1,143 +1,149 @@
-# KB CREATE FLOW (OPERATIONAL GUIDE) (CANON)
+# KB CREATE FLOW (GOVERNANCE PIPELINE)
 FILE: 04_KNOWLEDGE_BASE/00_KB_GOVERNANCE/06__KB_CREATE_FLOW.md
 
 SCOPE: Universe Engine
 LAYER: 04_KNOWLEDGE_BASE
-DOC_TYPE: GUIDE
-GUIDE_TYPE: OPERATIONAL_FLOW
+DOC_TYPE: FLOW
+FLOW_TYPE: CREATE
 LEVEL: L1
 STATUS: ACTIVE
 LOCK: FIXED
-VERSION: 1.1.0
-UID: UE.KB.GOV.CREATE_FLOW.016
+VERSION: 1.0.0
+UID: UE.KB.GOV.FLOW.CREATE.001
 OWNER: SYSTEM
-ROLE: Operational step-by-step flow for adding KB entities and KB knowledge (realm content). Ensures registry-first, UID-first, and no-dup compliance.
+ROLE: Canonical pipeline for creating KB artifacts: realm updates, system KB docs, and KB entity passports (prevents duplication and chaos)
 
 CHANGE_NOTE:
-- DATE: 2026-01-07
-- TYPE: MINOR
-- SUMMARY: "KB Create Flow: два потока (Entity vs Knowledge), шаги, проверки, миграции дублей"
-- REASON: "Чтобы KB пополнялась без хаоса и дублей"
-- IMPACT: "Daily KB operations"
-
----
-
-## XREF (UID-first)
-XREF: UE.KB.GOV.RULES.011 | governs | KB creation rules | 04_KNOWLEDGE_BASE/00_KB_GOVERNANCE/01__RULES__KB.md
-XREF: UE.KB.GOV.REGISTRY.012 | depends_on | registry-first existence | 04_KNOWLEDGE_BASE/00_KB_GOVERNANCE/02__INDEX__KB_GLOBAL_REGISTRY.md
-XREF: UE.KB.GOV.ENTITY_TYPES.013 | depends_on | choose valid entity type | 04_KNOWLEDGE_BASE/00_KB_GOVERNANCE/03__INDEX__KB_ENTITY_TYPES.md
-XREF: UE.KB.TPL.ENTITY_PASSPORT.015 | depends_on | passport template | 04_KNOWLEDGE_BASE/00_KB_GOVERNANCE/05__TEMPLATE__KB_ENTITY_PASSPORT.md
+- DATE: 2026-01-08
+- TYPE: MAJOR
+- SUMMARY: "KB create flow: decision tree (realm vs entity), registry steps, naming/UID gates, storage map compliance"
+- REASON: "Нужен единый способ создавать KB, иначе всё ломается на уровне структуры"
+- IMPACT: "Все новые KB документы и сущности"
 
 ---
 
 ## 0) PURPOSE
-Этот документ — рабочий протокол создания:
-- KB Entity (через паспорт + реестр)
-- KB Knowledge (через realm-файлы)
+Этот flow определяет:
+- что именно создавать (realm update / entity passport / system ref)
+- куда класть (storage map)
+- как регистрировать (master-index + global registry)
+- какие гейты пройти перед канонизацией
 
 ---
 
-## 1) QUICK DECISION (ENTITY OR KNOWLEDGE?)
-Если ты добавляешь:
-- конкретный объект мира (персонаж/локация/фракция/объект/событие) → **ENTITY FLOW**
-- правило/методику/справочник/системное знание → **KNOWLEDGE FLOW**
+## 1) DECISION TREE (WHAT TO CREATE)
+### Step 1 — Это “контент домена” без уникальной идентичности?
+Да → обновляй соответствующий `KB REALM` файл (01..08)
+
+Примеры:
+- общий список приёмов диалога
+- чеклист сцены “внутри” Narrative realm
+- советы по свету в Visual realm
+
+### Step 2 — Это объект, который должен быть переиспользуемым и иметь UID?
+Да → создавай `KB ENTITY PASSPORT`
+
+Примеры:
+- конкретный паттерн как самостоятельная сущность
+- конкретный процесс пайплайна
+- отдельный валидатор/чеклист как объект
+
+### Step 3 — Это системный справочник KB (например теги)?
+Да → создавай `KB SYSTEM DOC` в `04_KNOWLEDGE_BASE/90__*.md`
 
 ---
 
-## 2) ENTITY FLOW (PASSPORT + REGISTRY) (MANDATORY)
-### Step E0 — Check for duplicates (no-dup)
-1) Ищи по имени/алиасам:
-   - уже есть паспорт?
-   - уже есть запись в Global Registry?
-2) Если есть — НЕ создавай новую сущность. Обновляй существующую.
-
-### Step E1 — Choose type
-- выбери `ENTITY_TYPE` из KB Entity Types
-
-### Step E2 — Create passport file
-1) создай файл в:
-   - `04_KNOWLEDGE_BASE/10_ENTITIES/<ENTITY_TYPE>/`
-2) скопируй шаблон `KB Entity Passport`
-3) заполни REQUIRED поля:
-   - ENTITY_UID
-   - ENTITY_TYPE
-   - ENTITY_NAME
-   - ENTITY_STATUS
-   - ONE_LINE_SUMMARY
-
-### Step E3 — Register entity (registry-first)
-Добавь строку в:
-- `00_KB_GOVERNANCE/02__INDEX__KB_GLOBAL_REGISTRY.md`
-
-Заполни минимум:
-- ENTITY_UID
-- ENTITY_NAME
-- ENTITY_TYPE
-- ENTITY_STATUS
-- PASSPORT_PATH
-
-### Step E4 — Add relations (UID-first)
-Добавь XREF связи в паспорте:
-- member_of / located_in / relates_to / opposes / etc.
-
-### Step E5 — Optional: add realm knowledge
-Если нужно:
-- упомяни сущность в соответствующем realm-файле
-- обязательно через UID-first
-
----
-
-## 3) KNOWLEDGE FLOW (REALM CONTENT)
-### Step K0 — Choose realm
-Определи realm:
+## 2) FLOW A — REALM UPDATE (CONTENT)
+1) Найди подходящий realm:
 - Narrative / Character / Visual / Sound / Production / Marketing / Glossary / Research
 
-### Step K1 — Check for duplication
-- Не повторяй уже существующее правило в другом месте.
-- Если нужно повторить — делай XREF/ссылку.
+2) Проверь anti-dup:
+- нет ли уже этого же пункта в другом realm → если есть, добавь XREF вместо копирования
 
-### Step K2 — Add structured section
-- Добавь секцию с понятным заголовком
-- Внутри: тезисы/правила/примеры
-- Если упоминаются сущности → ссылаться UID-first
+3) Внеси правку:
+- добавь секцию или расширь существующую
+- не переписывай стандарты/законы, только практику
 
-### Step K3 — If new entities discovered
-Если по ходу знания появилась новая сущность:
-- остановись
-- пройди ENTITY FLOW
-- вернись и добавь XREF
+4) Обнови CHANGE_NOTE внутри файла (если ведёшь историю) или через систему версий — по ruleset.
 
 ---
 
-## 4) DEPRECATION / MERGE FLOW (WHEN DUPLICATES FOUND)
-Если обнаружены 2 сущности с одинаковым смыслом:
-1) выбрать каноническую (оставить ACTIVE)
-2) дубль → ENTITY_STATUS: deprecated
-3) дубль должен иметь:
-   - DEPRECATED_BY_ENTITY_UID
-   - XREF deprecated_by → канон
-4) Global Registry обновить:
-   - для дубля поставить deprecated + NOTE с DEPRECATED_BY
+## 3) FLOW B — KB ENTITY PASSPORT (OBJECT)
+### B1) Pre-check (anti-dup)
+1) Проверь master-index KB: существует ли уже похожая сущность по смыслу
+2) Проверь global registry: нет ли похожей сущности/UID
+
+Если дубль найден → делай XREF/REL, НЕ создавай новый паспорт.
+
+### B2) Choose type
+Выбери `ENTITY_TYPE` из:
+`03__INDEX__KB_ENTITY_TYPES.md`
+
+### B3) Choose storage path
+По storage map:
+`04_KNOWLEDGE_BASE/10_ENTITIES/<ENTITY_TYPE>/`
+
+Если папки нет — создаём (один раз).
+
+### B4) Naming + UID
+- Filename: `NN__<NAME>.md` (NN = следующий свободный номер в папке)
+- UID: `UE.KB.ENT.<TYPE>.<NNN>` (NNN = уникальный числовой id, 3 цифры)
+
+Правило:
+- номер файла (NN) и UID.NNN не обязаны совпадать,
+  но UID обязан быть уникальным в системе.
+
+### B5) Create from template
+Копируй:
+`05__TEMPLATE__KB_ENTITY_PASSPORT.md`
+и заполни.
+
+### B6) Registry updates (MANDATORY)
+1) Добавь запись в:
+`02__INDEX__KB_GLOBAL_REGISTRY.md`
+2) Добавь регистрацию в master-index KB, если сущность канонизируется как “существующая в KB”
+(иначе оставь как draft и зарегистрируй позже)
+
+### B7) XREF back to realm (MANDATORY)
+Добавь минимум 1 ссылку XREF:
+- из паспорта → на realm, где это применяется
+- и/или из realm → на паспорт (предпочтительно обе стороны)
 
 ---
 
-## 5) VALIDATION CHECK (BEFORE COMMIT)
-Для сущности:
-- есть паспорт
-- паспорт заполнен минимумом
-- есть строка в Global Registry
-- тип валиден
-- нет второго UID на тот же смысл
-
-Для знания:
-- секция структурирована
-- нет дубля смысла
-- внутренние связи через UID-first
+## 4) FLOW C — KB SYSTEM DOC (HELPER)
+1) Имя файла:
+`04_KNOWLEDGE_BASE/90__<NAME>.md`
+2) Doc Control шапка + UID + SemVer
+3) Регистрация:
+- master-index KB
+- global registry KB
 
 ---
 
-## 6) SHORT OPERATING LOOP (DAILY)
-- добавил сущность → зарегистрировал → связал → (опционально) описал в realm
-- добавил знание → проверил no-dup → добавил XREF на сущности
+## 5) CANONIZATION GATES (BEFORE STATUS ACTIVE)
+Перед переводом любого KB объекта в `STATUS: ACTIVE`:
 
+- [ ] зарегистрирован в master-index (если должен “существовать”)
+- [ ] Doc Control корректен
+- [ ] UID уникален
+- [ ] naming соответствует правилам
+- [ ] storage map соблюдён
+- [ ] нет дубля смысла
+- [ ] XREF/REL оформлены
+
+---
+
+## 6) PROHIBITIONS (HARD)
+Запрещено:
+- создавать KB entity без паспорта
+- создавать сущности без регистрации в registry (хотя бы как DRAFT)
+- класть паспорта в корень KB
+- плодить “ещё один индекс” вместо правки master-index/registry
+
+---
+
+## FINAL RULE (LOCK)
+Этот flow обязателен для создания любых KB-артефактов.
+LOCK: FIXED
 --- END.

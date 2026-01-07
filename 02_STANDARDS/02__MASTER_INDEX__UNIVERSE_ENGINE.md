@@ -1,4 +1,4 @@
-# UNIVERSE ENGINE — MASTER INDEX (GLOBAL MAP) (CANON)
+# MASTER INDEX — UNIVERSE ENGINE (GLOBAL MAP)
 FILE: 02_STANDARDS/02__MASTER_INDEX__UNIVERSE_ENGINE.md
 
 SCOPE: Universe Engine
@@ -8,105 +8,117 @@ INDEX_TYPE: GLOBAL_MASTER_MAP
 LEVEL: L0
 STATUS: ACTIVE
 LOCK: FIXED
-VERSION: 1.1.0
-UID: UE.IDX.STD.MASTER_MAP.002
+VERSION: 1.0.0
+UID: UE.IDX.GLOBAL.MASTER.001
 OWNER: SYSTEM
-ROLE: Global navigation map of the Universe Engine. Single entrypoint for locating layer master-indexes, registries, and canonical flows.
+ROLE: Global canonical map of the repo: official entrypoints to all layers + existence roots (single navigation start)
 
 CHANGE_NOTE:
-- DATE: 2026-01-07
-- TYPE: MAJOR
-- SUMMARY: "Нормализован GLOBAL MASTER INDEX под System Law: Doc Control header, UID/SemVer, корректные канонические entrypoints, устранение конфликтного имени 00__*"
-- REASON: "Конфликт '00__*' в корне слоя + необходимость согласования с System Law"
-- IMPACT: "Глобальная навигация по всем слоям"
+- DATE: 2026-01-08
+- TYPE: MINOR
+- SUMMARY: "Создан канонический глобальный master-index с Doc Control шапкой и стабильными entrypoints; подготовлено для полной перестройки индексов"
+- REASON: "Нужен один глобальный навигационный старт + устранение 00__ коллизий в 02_STANDARDS"
+- IMPACT: "Единая карта проекта, удобная точка входа"
 
 ---
 
 ## 0) PURPOSE (LAW)
-Этот файл — глобальная карта системы Universe Engine.
+Этот документ — глобальная карта Universe Engine: **куда идти** и **что является entrypoint**.
 
-Он определяет:
-- где находятся канонические entrypoints слоёв (master-index)
-- как работает правило существования (existence via index)
-- как человек и чат навигируют по системе без путаницы
-
----
-
-## 1) EXISTENCE LAW (ABSOLUTE)
-1) Любой слой “существует” через свой master-index (L1).
-2) Если объекта/файла нет в соответствующем master-index слоя — он NON-CANON (ignored).
-3) Любая “альтернативная точка входа” (alt-index) запрещена как канон.
+Правило:
+- Этот файл НЕ дублирует содержимое слоёв.
+- Он даёт только канонические входные точки (entrypoints) и их raw-ссылки.
 
 ---
 
-## 2) ID LAW (GLOBAL)
-Единственный язык идентификации системы — UID.
+## 1) GLOBAL ENTRYPOINTS (CANON)
 
-- UID обязателен для всех канонических документов/реестров/пайплайнов.
-- Межслойные ссылки (REL/XREF) должны использовать UID как primary.
+### 00_INDEX (Repo root entrypoints)
+- ROOT INDEX
+  PATH: `00_INDEX/00__ROOT_INDEX.md`
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/00_INDEX/00__ROOT_INDEX.md
 
----
-
-## 3) SYSTEM LAYERS (GLOBAL MAP)
-Ниже — карта слоёв. Для каждого слоя указан entrypoint (master-index).
-
-### 3.1 CORE LAW (System)
-- Layer: 01_SYSTEM_LAW
-- Entrypoint (Master Index): `01_SYSTEM_LAW/00__INDEX__SYSTEM_LAW.md`
-
-### 3.2 STANDARDS
-- Layer: 02_STANDARDS
-- Entrypoint (Master Index): `02_STANDARDS/00__INDEX__STANDARDS.md`
-- Doc Registry (Standards): `02_STANDARDS/01__DOC_REGISTRY.md`
-
-Key SoT specs (entry references):
-- UID & Marking SoT: `02_STANDARDS/01_SPECIFICATIONS/01__UID_AND_MARKING_STANDARD.md`
-- Doc Control SoT: `02_STANDARDS/01_SPECIFICATIONS/03__DOC_CONTROL_STANDARD.md`
-- REL/XREF SoT: `02_STANDARDS/01_SPECIFICATIONS/04__REL_POLICY_XREF_STANDARD.md`
-
-### 3.3 KNOWLEDGE BASE
-- Layer: 04_KNOWLEDGE_BASE
-- Entrypoint (Master Index): `04_KNOWLEDGE_BASE/00__INDEX__KNOWLEDGE_BASE.md`
-- Governance core: `04_KNOWLEDGE_BASE/00_KB_GOVERNANCE/00__README__KB_REALM.md`
-
-### 3.4 OTHER LAYERS (PLANNED / OPTIONAL)
-Следующие слои могут быть подключены, но считаются каноничными только после появления их master-index и регистрации:
-- ENT (System Entities)
-- PRJ (Projects)
-- AST (Assets)
-- OUT (Output)
-- LOG (Audit/Logs)
+- REPO TREE (structure map)
+  PATH: `00_INDEX/01__REPO_TREE__UNIVERSE_ENGINE.md`
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/00_INDEX/01__REPO_TREE__UNIVERSE_ENGINE.md
 
 ---
 
-## 4) SOURCE OF TRUTH — REGISTRIES (PRIMARY RULE)
-Если два файла претендуют на одну истину:
-- истина = зарегистрированный SoT/Registry (по master-index)
-- всё остальное = производные/копии/представления и не может переопределять SoT
+### 01_SYSTEM_LAW (Core system laws)
+- SYSTEM LAW MASTER INDEX
+  PATH: `01_SYSTEM_LAW/00__INDEX__SYSTEM_LAW.md`
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01_SYSTEM_LAW/00__INDEX__SYSTEM_LAW.md
+
+- CORE LAW (highest authority inside layer)
+  PATH: `01_SYSTEM_LAW/00__SYSTEM_LAW.md`
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01_SYSTEM_LAW/00__SYSTEM_LAW.md
 
 ---
 
-## 5) NAVIGATION FLOW (HOW TO USE)
-### 5.1 Если решаем системные вопросы
-01_SYSTEM_LAW → master-index → нужный LAW → применяем
+### 02_STANDARDS (Standards / Specs / Protocols / Templates)
+- STANDARDS MASTER INDEX (entrypoint)
+  PATH: `02_STANDARDS/00__INDEX__STANDARDS.md`
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/02_STANDARDS/00__INDEX__STANDARDS.md
 
-### 5.2 Если работаем со стандартами
-02_STANDARDS → master-index → SPEC (SoT) → MODULE (если нужно детализация) → применяем
-
-### 5.3 Если строим знания о мире
-04_KNOWLEDGE_BASE → master-index → governance → realm → сущности → регистрация в KB registry
+- DOC REGISTRY (SoT registry)
+  PATH: `02_STANDARDS/01__DOC_REGISTRY.md`
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/02_STANDARDS/01__DOC_REGISTRY.md
 
 ---
 
-## 6) CHANGE RULE (CANON)
-Любая правка этого файла меняет глобальную навигацию и считается изменением канона:
-- проходит Canon Protocol
-- требует SemVer version bump
-- требует актуализации ссылок на entrypoints
+### 03_SYSTEM_ENTITIES (System entities: ENG/ORC/SPC/CTL/VAL/QA + registries/templates)
+- SYSTEM ENTITIES README
+  PATH: `03_SYSTEM_ENTITIES/00__README__SYSTEM_ENTITIES.md`
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/00__README__SYSTEM_ENTITIES.md
+
+- SYSTEM ENTITIES INDEX
+  PATH: `03_SYSTEM_ENTITIES/02__INDEX__SYSTEM_ENTITIES.md`
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/02__INDEX__SYSTEM_ENTITIES.md
+
+- ENG (Engines) GLOBAL REGISTRY
+  PATH: `03_SYSTEM_ENTITIES/10_ENG__ENGINES/02__INDEX_ALL_ENGINES.md`
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/02__INDEX_ALL_ENGINES.md
+
+---
+
+### 04_KNOWLEDGE_BASE (KB layer)
+- KB MASTER INDEX (entrypoint)
+  PATH: `04_KNOWLEDGE_BASE/00__INDEX__KNOWLEDGE_BASE.md`
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/04_KNOWLEDGE_BASE/00__INDEX__KNOWLEDGE_BASE.md
+
+---
+
+### 05_PROJECTS (Project layer)
+- PRJ Governance README
+  PATH: `05_PROJECTS/00_PRJ_GOVERNANCE/00__README__PRJ_REALM.md`
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/05_PROJECTS/00_PRJ_GOVERNANCE/00__README__PRJ_REALM.md
+
+---
+
+### 06_ASSETS (Assets layer)
+- AST Governance README
+  PATH: `06_ASSETS/00_AST_GOVERNANCE/00__README__AST_REALM.md`
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/06_ASSETS/00_AST_GOVERNANCE/00__README__AST_REALM.md
+
+---
+
+### 08_DATABASES (Databases)
+- DB ENTITY TYPES
+  PATH: `08_DATABASES/DB__ENTITY_TYPES.md`
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/08_DATABASES/DB__ENTITY_TYPES.md
+
+- DB DOC REGISTRY
+  PATH: `08_DATABASES/DB__DOC_REGISTRY.md`
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/08_DATABASES/DB__DOC_REGISTRY.md
+
+---
+
+## 2) EXISTENCE NOTE (STRICT)
+Этот файл — глобальная карта.  
+Existence rules живут в master-index каждого слоя (например `01_SYSTEM_LAW/00__INDEX__SYSTEM_LAW.md`, `02_STANDARDS/00__INDEX__STANDARDS.md`, `04_KNOWLEDGE_BASE/00__INDEX__KNOWLEDGE_BASE.md`).
 
 ---
 
 ## FINAL RULE (LOCK)
-Этот документ — глобальная карта системы.
-Любая правка структуры entrypoints/реестров = изменение канона.
+LOCK: FIXED
 --- END.

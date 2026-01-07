@@ -1,114 +1,119 @@
-# KB ENTITY TYPES — INDEX (CANON)
+# KB ENTITY TYPES (INDEX)
 FILE: 04_KNOWLEDGE_BASE/00_KB_GOVERNANCE/03__INDEX__KB_ENTITY_TYPES.md
 
 SCOPE: Universe Engine
 LAYER: 04_KNOWLEDGE_BASE
-DOC_TYPE: REGISTRY
-REGISTRY_TYPE: KB_ENTITY_TYPES
+DOC_TYPE: INDEX
+INDEX_TYPE: ENTITY_TYPES
 LEVEL: L1
 STATUS: ACTIVE
 LOCK: FIXED
-VERSION: 1.1.0
-UID: UE.KB.GOV.ENTITY_TYPES.013
+VERSION: 1.0.0
+UID: UE.KB.GOV.IDX.ENTITY_TYPES.001
 OWNER: SYSTEM
-ROLE: Canonical controlled registry of KB entity types (enum). KB entities must declare ENTITY_TYPE from this list.
+ROLE: Canonical registry of KB entity types used by KB Entity Passports and KB registries (standardizes classification)
 
 CHANGE_NOTE:
-- DATE: 2026-01-07
-- TYPE: MINOR
-- SUMMARY: "Нормализован реестр типов сущностей KB: controlled enum, правила именования, обязательность для Global Registry и паспортов"
-- REASON: "Чтобы типизация была единая и не плодились синонимы"
-- IMPACT: "KB passports + KB Global Registry + realm references"
+- DATE: 2026-01-08
+- TYPE: MAJOR
+- SUMMARY: "Справочник типов KB-сущностей: введён каноничный набор типов + правила выбора типа"
+- REASON: "Без типов паспорта становятся несопоставимыми и ломают реестры/поиск"
+- IMPACT: "Все KB entity passports, KB registry, KB create flow"
 
 ---
 
-## XREF (UID-first)
-XREF: UE.KB.GOV.RULES.011 | governs | entity typing is mandatory | 04_KNOWLEDGE_BASE/00_KB_GOVERNANCE/01__RULES__KB.md
-XREF: UE.KB.GOV.REGISTRY.012 | depends_on | registry requires valid entity types | 04_KNOWLEDGE_BASE/00_KB_GOVERNANCE/02__INDEX__KB_GLOBAL_REGISTRY.md
-XREF: UE.KB.TPL.ENTITY_PASSPORT.015 | depends_on | passport uses ENTITY_TYPE | 04_KNOWLEDGE_BASE/00_KB_GOVERNANCE/05__TEMPLATE__KB_ENTITY_PASSPORT.md
+## 0) PURPOSE
+Этот документ фиксирует **канонический набор типов KB-сущностей**.
+
+Важно:
+- Это справочник типов для KB-паспортов.
+- Он НЕ объявляет existence для слоя (это делает master-index KB).
 
 ---
 
-## 0) PURPOSE (LAW)
-Этот реестр — единая точка истины по типам сущностей KB.
+## 1) HOW TO CHOOSE ENTITY_TYPE (RULE)
+Выбирай тип по намерению:
 
-### TYPE EXISTENCE RULE (ABSOLUTE)
-> Если типа нет в этом реестре — он **не существует** для KB.  
-> Любой `ENTITY_TYPE` в паспорте/реестре обязан быть из этого списка.
-
----
-
-## 1) NAMING RULES (TYPE KEYS)
-Каждый тип имеет:
-- TYPE_KEY: UPPER_SNAKE_CASE
-- TYPE_NAME: человекочитаемое имя
-- SCOPE_NOTE: что входит/не входит
-
-Правила:
-- TYPE_KEY уникален
-- не использовать синонимы как отдельные типы (делай ALIAS внутри записи)
-- если нужно дробить типы — сначала проверить, не решается ли это TAGS/ATTRIBUTES
+- Хочу описать **практику/приём/паттерн** → `KB_PRACTICE`
+- Хочу описать **процесс/пайплайн** → `KB_PROCESS`
+- Хочу описать **чеклист/гейт/валидатор** → `KB_CHECKLIST`
+- Хочу описать **понятие/термин** → `KB_CONCEPT`
+- Хочу описать **артефакт/выход** (шаблон результата) → `KB_ARTIFACT`
+- Хочу описать **пример/кейс** → `KB_CASE`
+- Хочу описать **инструмент/метод** (в широком смысле) → `KB_METHOD`
+- Хочу описать **системный справочник** KB → `KB_SYSTEM_REF`
 
 ---
 
-## 2) CONTROLLED ENTITY TYPES (CANON LIST)
-> Это базовый набор. Расширения допускаются только через правку этого реестра (canon change).
+## 2) CANON ENTITY TYPES (STRICT SET)
+Формат записи:
+`ENTITY_TYPE: <CODE> — <one-line meaning>`
 
-| TYPE_KEY | TYPE_NAME | SCOPE_NOTE | ALIASES |
-|---|---|---|---|
-| CHARACTER | Character | Персонажи/акторы мира (люди/существа/индивиды) | PERSON, HERO |
-| FACTION | Faction | Группы/организации/ордена/корпорации/армии | ORG, GROUP |
-| LOCATION | Location | География: города, зоны, базы, планеты, точки | PLACE |
-| EVENT | Event | События мира (исторические/сюжетные), не сцены | INCIDENT |
-| SCENE | Scene | Сцена как единица повествования/постановки | SEQUENCE |
-| OBJECT | Object | Уникальные предметы/артефакты мира (не ассеты продакшна) | ITEM, ARTIFACT |
-| CONCEPT | Concept | Абстрактные понятия/законы/идеи внутри мира | IDEA |
-| TECHNOLOGY | Technology | Технологии/системы/устройства мира | TECH |
-| SPECIES | Species | Виды/расы/классы существ | RACE |
-| CULTURE | Culture | Культурные пласты/традиции/этика | TRADITION |
-| LANGUAGE | Language | Языки/диалекты/коды | DIALECT |
-| TIMELINE | Timeline | Линии времени/эры/периоды/календарные системы | ERA |
-| RELATIONSHIP | Relationship | Отношения между сущностями как отдельный объект (если нужно) | LINK |
-| RULESET | Ruleset | Набор правил мира/физики/магии как сущность KB | SYSTEM_RULES |
-| DOCUMENT_REF | Document Reference | Ссылочная сущность на внешний/внутренний документ (если нужно как объект) | REF |
+### 2.1 Core KB types
+ENTITY_TYPE: KB_PRACTICE — практика/паттерн “как делать” (повторяемый приём)
+ENTITY_TYPE: KB_PROCESS — процесс/поток шагов (create/review/qa)
+ENTITY_TYPE: KB_CHECKLIST — чеклист/гейт/критерии проверки
+ENTITY_TYPE: KB_CONCEPT — понятие/термин/концепт (без лишней философии)
+ENTITY_TYPE: KB_METHOD — метод/техника (набор действий, применимый в разных местах)
+ENTITY_TYPE: KB_ARTIFACT — описание результата/выходного артефакта (структура/формат)
+ENTITY_TYPE: KB_CASE — кейс/пример (конкретная ситуация + выводы)
+
+### 2.2 System reference KB types
+ENTITY_TYPE: KB_SYSTEM_REF — системный справочник KB (словарь/таблица/каталог)
 
 ---
 
-## 3) WHEN TO CREATE A NEW TYPE (GATES)
-Новый TYPE нужен только если:
-- это новый класс сущностей, который нельзя выразить комбинацией существующего TYPE + TAGS/ATTRIBUTES
-- тип будет использоваться минимум в нескольких сущностях
-- тип не дублирует существующий смысл
+## 3) RECOMMENDED FIELDS BY TYPE (GUIDE)
+Это рекомендации (не закон), но помогают унифицировать паспорта.
 
-Если сомневаешься:
-- используй существующий TYPE
-- добавь TAGS и ATTRIBUTES
+### KB_PRACTICE
+- purpose
+- steps
+- do/dont
+- examples
+- xref to realms
+
+### KB_PROCESS
+- входы/выходы
+- шаги
+- роли (кто делает)
+- gate criteria
+- где применяется
+
+### KB_CHECKLIST
+- checklist items
+- severity / priority
+- pass/fail rules
+- common failures
+
+### KB_CONCEPT
+- definition
+- boundaries (in/out)
+- examples
+- common confusion
+
+### KB_ARTIFACT
+- schema / structure
+- required sections
+- validation rules
+- storage target
+
+### KB_CASE
+- context
+- decision
+- outcome
+- lessons learned
 
 ---
 
-## 4) TYPE EXTENSIONS VS TAGS
-- TYPE = “что это по природе”
-- TAG = “какое оно/к чему относится/в какой арке/в каком стиле”
-- ATTRIBUTE = структурное свойство
-
-Пример:
-- TYPE: CHARACTER
-- TAGS: ["Architects", "Season_1", "Antihero"]
-- ATTRIBUTES: role="mentor"
-
----
-
-## 5) CHANGE RULE (CANON)
-Любое изменение списка типов:
-- проходит governance/change policy
-- требует SemVer bump:
-  - PATCH: исправление описания/alias
-  - MINOR: добавлен новый тип (без breaking)
-  - MAJOR: переименование TYPE_KEY или удаление типа (breaking)
+## 4) VALIDATION RULES (HARD)
+- ENTITY_TYPE в паспорте обязан быть одним из списка (раздел 2)
+- один паспорт = один ENTITY_TYPE
+- если смысл не подходит ни под один тип — это ошибка: нужно либо уточнить смысл, либо расширить справочник через governance change
 
 ---
 
 ## FINAL RULE (LOCK)
-Этот реестр — SoT для ENTITY_TYPE в KB.
-Любые типы вне списка считаются невалидными.
+Этот индекс — SoT по типам KB-сущностей для паспортов.
+LOCK: FIXED
 --- END.

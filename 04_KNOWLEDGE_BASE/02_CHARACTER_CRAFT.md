@@ -1,155 +1,192 @@
-# CHARACTER CRAFT (KB REALM) (CANON)
-FILE: 04_KNOWLEDGE_BASE/02_CHARACTER_CRAFT.md
+# CHARACTER CRAFT (KB REALM)
+FILE: 04_KNOWLEDGE_BASE/02__CHARACTER_CRAFT.md
 
 SCOPE: Universe Engine
 LAYER: 04_KNOWLEDGE_BASE
-DOC_TYPE: REALM
-REALM: CHARACTER_CRAFT
+DOC_TYPE: KB_REALM
+REALM: CHARACTER
 LEVEL: L1
 STATUS: ACTIVE
-LOCK: FIXED
+LOCK: OPEN
 VERSION: 1.0.0
-UID: UE.KB.REALM.CHARACTER.102
+UID: UE.KB.REALM.CHARACTER.001
 OWNER: SYSTEM
-ROLE: Knowledge realm for character craft: identity, motivation, arcs, behaviors, voice, relationships, and character consistency. Provides methods and rules; does not replace KB entity passports.
+ROLE: Canonical knowledge realm for character craft: goals, motivations, values, psychology, behavior, relationships, dialogue, growth/trauma, evolution (practices + checklists + pointers)
 
 CHANGE_NOTE:
-- DATE: 2026-01-07
+- DATE: 2026-01-08
 - TYPE: MAJOR
-- SUMMARY: "Нормализован realm Character: Doc Control header + каркас разделов + правила связи с паспортами (registry-first, UID-first)"
-- REASON: "Realm должен быть методологией и не превращаться в паспорта"
-- IMPACT: "All character knowledge placement"
-
----
-
-## XREF (UID-first)
-XREF: UE.KB.IDX.MASTER.001 | depends_on | KB existence and navigation | 04_KNOWLEDGE_BASE/00__INDEX__KNOWLEDGE_BASE.md
-XREF: UE.KB.GOV.RULES.011 | governs | entity vs knowledge rules | 04_KNOWLEDGE_BASE/00_KB_GOVERNANCE/01__RULES__KB.md
-XREF: UE.KB.TPL.ENTITY_PASSPORT.015 | references | how character entities are recorded | 04_KNOWLEDGE_BASE/00_KB_GOVERNANCE/05__TEMPLATE__KB_ENTITY_PASSPORT.md
-XREF: UE.KB.GOV.REGISTRY.012 | references | entity existence via registry | 04_KNOWLEDGE_BASE/00_KB_GOVERNANCE/02__INDEX__KB_GLOBAL_REGISTRY.md
-XREF: UE.STD.SPEC.REL_XREF.104 | depends_on | UID-first linking | 02_STANDARDS/01_SPECIFICATIONS/04__REL_POLICY_XREF_STANDARD.md
-XREF: UE.STD.SPEC.NAT_GATES.106 | references | character naturalness checks | 02_STANDARDS/01_SPECIFICATIONS/06__NATURALNESS_GATES_STANDARD.md
+- SUMMARY: "Realm Character Craft канонизирован: Doc Control + границы + практики + чеклисты + XREF"
+- REASON: "Персонажи без единого ремесленного слоя дают хаос мотиваций и ломают сцену/смысл"
+- IMPACT: "Все персонажные практики, связка с narrative realm и ENG character engines"
 
 ---
 
 ## 0) PURPOSE
-Этот realm хранит **методики и правила создания персонажей**:
-- идентичность и ядро персонажа
-- мотивации и внутренние конфликты
-- арки и изменения
-- поведение и выбор
-- голос (voice) и речевые паттерны
-- отношения и социальная динамика
-- consistency и naturalness
+Этот realm — база знаний “как делать персонажей живыми и последовательными”.
 
-Realm НЕ является паспортом персонажа.
-Персонажи как сущности живут в:
-- `04_KNOWLEDGE_BASE/10_ENTITIES/CHARACTER/*`
-и существуют только если зарегистрированы в KB Global Registry.
+Он содержит:
+- практики построения мотивации, ценностей, поведения
+- чеклисты правдоподобия
+- правила отношений и речи
+- XREF на движки персонажей (ENG) и на narrative realm (контекст сцен)
 
 ---
 
-## 1) CHARACTER AS A SYSTEM (CORE MODEL)
-### 1.1 Identity ядро
-- Кто он (самоопределение)
-- Чего он хочет (want)
-- В чём нуждается (need)
-- Чего боится/избегает (avoid)
+## 1) BOUNDARIES (HARD)
+### 1.1 This realm IS
+- core персонажа (идентичность, роль, архетип как инструмент)
+- желание/мотив, цели, страхи, потребности
+- ценности/мораль (почему “так правильно”)
+- психология и поведение (привычки, реакции, триггеры)
+- отношения (динамика, власть, привязанность)
+- речь/диалог (голос персонажа)
+- рост/травма/эволюция (изменения во времени)
 
-### 1.2 Contradiction (обязательная “трещина”)
-- Внутреннее противоречие = источник движения
-- Поведение должно быть объяснимым, но не линейным
-
----
-
-## 2) MOTIVATION & DRIVE
-- primary drive
-- secondary drives
-- cost of desire
-- values hierarchy (что не продаст)
+### 1.2 This realm IS NOT
+- структура истории/сцен (это narrative realm)
+- правила канона/версий/UID (system law + standards)
+- монтаж/темп экрана/саунд-дизайн (production)
 
 ---
 
-## 3) ARC DESIGN
-### 3.1 Arc types
-- growth arc
-- fall arc
-- flat arc
-- revelation arc
+## 2) PRIMARY XREF (WHERE THE TRUTH LIVES)
+### 2.1 Engines (execution logic)
+- Domain Character Engines (ENG): core, motivation, moral/value, psychology, behavior, relationship, dialogue, speech naturalization, growth/trauma, evolution
 
-### 3.2 Arc checkpoints
-- baseline state
-- rupture (inciting)
-- escalation
-- choice under pressure
-- new equilibrium
+### 2.2 Standards
+- Doc control, UID/naming (как оформлять паспорта/реестры)
+- REL/XREF правила (как связывать сущности)
 
 ---
 
-## 4) BEHAVIOR & DECISIONS (SHOW, DON’T TELL)
-- decision rules
-- stress behaviors
-- coping mechanisms
-- micro-habits that reveal core
+## 3) CORE MODEL (MINIMUM CHARACTER SET)
+Минимум, без которого персонаж “плоский”:
+
+1) WANT (чего хочет)
+2) WHY (почему хочет)
+3) FEAR (чего боится потерять)
+4) LIMIT (что не может/не умеет/не позволит себе)
+5) COST (какую цену готов платить)
+
+Если хочешь быстро проверить сцену:
+- выбор персонажа должен вытекать из WANT/WHY/FEAR/LIMIT.
 
 ---
 
-## 5) VOICE (DIALOGUE + INTERNAL LOGIC)
-- diction level
-- rhythm/tempo
-- taboo words / preferred words
-- default emotional mask
-- truth vs performance (что говорит vs что делает)
+## 4) MOTIVATION & DESIRE (PRACTICES)
+### 4.1 Desire stack
+Желания лучше держать в 3 слоя:
+- внешний (цель в сюжете)
+- внутренний (психологическая нужда)
+- скрытый (то, что персонаж сам себе не признаёт)
+
+### 4.2 Contradiction rule
+Живые персонажи часто противоречивы, но:
+- противоречия должны иметь причину (травма, выгода, слепое пятно)
+- и проявляться стабильно (паттерном), а не “как удобно автору”
 
 ---
 
-## 6) RELATIONSHIPS (NETWORK)
-- attachment types
-- power dynamics
-- trust economy
-- conflict vectors
+## 5) VALUES & MORAL (PRACTICES)
+Ценности — это “за что я готов страдать/драться/терять”.
 
-Если отношения важны как объект:
-- можно заводить отдельную сущность типа RELATIONSHIP (если реально нужно),
-иначе — XREF между паспортами персонажей.
+Быстрый тест:
+- если у персонажа нет ценности, которая конфликтует с желанием — он будет слишком лёгким.
 
 ---
 
-## 7) CONSISTENCY RULES (CHARACTER CONTINUITY)
-Checklist:
-- мотивация → действие согласованы
-- изменения арки объяснимы “цепью событий”
-- персонаж не обладает знаниями “из воздуха”
-- эмоциональные реакции соответствуют истории
+## 6) PSYCHOLOGY → BEHAVIOR (BRIDGE)
+Правило:
+- психология без поведения — пустые слова
+- поведение без психологии — случайность
+
+Сделай связку:
+- TRIGGER → EMOTION → IMPULSE → ACTION → AFTERTHOUGHT
 
 ---
 
-## 8) NATURALNESS (QUALITY GATES)
-Рекомендуется при написании:
-- применять NAT gates и фиксировать “провалы” как правки, а не как “особенность”
+## 7) RELATIONSHIPS (DYNAMICS)
+### 7.1 Relationship axes
+Любые отношения описывай 3 осями:
+- близость (далеко/близко)
+- власть (кто сильнее)
+- доверие (верю/не верю)
 
-Если делаешь оценку:
-- использовать формат `NAT_EVALUATION` (см. NAT marking module)
+Динамика = изменения по осям от сцены к сцене.
 
----
-
-## 9) LINKING TO CHARACTER ENTITIES (UID-FIRST)
-Если правило/пример про конкретного персонажа:
-- ссылка только через ENTITY_UID (или через паспортный путь как доп.)
-
-Pattern:
-XREF:
-- XREF: <CHAR_ENTITY_UID> | references | "example usage" | <passport-path(optional)>
+### 7.2 Conflict inside relationship
+Хорошие отношения держатся на:
+- общей цели + скрытом конфликте
 
 ---
 
-## 10) EXAMPLES (OPTIONAL)
-> Примеры методов на конкретных персонажах.
-> Внутренние ссылки — UID-first.
+## 8) DIALOGUE & VOICE
+### 8.1 Voice markers (быстро)
+У голоса персонажа должен быть набор маркеров:
+- длина фраз (коротко/длинно)
+- словарь (простые/термины)
+- прямота (говорит прямо/намёками)
+- юмор/сарказм/официальность
+
+### 8.2 Dialogue function rule
+Каждая реплика должна делать минимум одно:
+- двигать решение/конфликт
+- раскрывать цель/страх/ценность
+- менять отношения
 
 ---
 
-## 11) OPEN QUESTIONS / TODO (OPTIONAL)
-- (list)
+## 9) GROWTH / TRAUMA / EVOLUTION
+Рост персонажа — это смена:
+- убеждения
+- стратегии
+- границы дозволенного
+
+Травма — это:
+- “место”, где логика персонажа ломается, и он выбирает защитный паттерн
+
+---
+
+## 10) CHECKLISTS (KB)
+### 10.1 Character consistency (pass/fail)
+- [ ] WANT/WHY/FEAR/LIMIT определены
+- [ ] ключевые выборы объяснимы через эти параметры
+- [ ] ценность(и) конфликтуют с желанием хотя бы иногда
+- [ ] есть повторяемые поведенческие паттерны (не случайность)
+- [ ] отношения описаны осями (близость/власть/доверие)
+- [ ] голос персонажа имеет маркеры
+
+### 10.2 Scene character check
+Перед сценой:
+- [ ] что персонаж хочет в этой сцене?
+- [ ] чего боится потерять?
+- [ ] какую цену готов платить?
+После сцены:
+- [ ] что изменилось в его стратегии/отношениях/самооценке?
+
+---
+
+## 11) OUTPUT POINTERS
+Этот realm обычно “производит”:
+- character briefs / character sheets
+- набор маркеров голоса
+- список конфликтов/страхов/границ
+- карту отношений (relationship map)
+
+---
+
+## 12) XREF (MANDATORY POINTERS)
+XREF_DOC: 04_KNOWLEDGE_BASE/01__NARRATIVE_CRAFT.md | WHY:выборы персонажей создают повороты и причинность сцен
+XREF_DOC: 04_KNOWLEDGE_BASE/07__REFERENCE_GLOSSARY.md | WHY:термины (желание/ценности/триггер) должны быть едины
+
+---
+
+## 13) NEXT EXTENSIONS (CONTROLLED)
+Добавлять сюда можно:
+- практики и чеклисты
+- ссылки на KB entity passports (если приём выделяется как объект)
+
+Если нужна отдельная сущность (например “Desire Stack” как метод) → делаем паспорт `KB_METHOD` и связываем XREF/REL.
 
 --- END.

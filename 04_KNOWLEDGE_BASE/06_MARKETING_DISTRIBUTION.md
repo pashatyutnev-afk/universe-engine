@@ -1,124 +1,166 @@
-# MARKETING & DISTRIBUTION (KB REALM) (CANON)
-FILE: 04_KNOWLEDGE_BASE/06_MARKETING_DISTRIBUTION.md
+# MARKETING & DISTRIBUTION (KB REALM)
+FILE: 04_KNOWLEDGE_BASE/06__MARKETING_DISTRIBUTION.md
 
 SCOPE: Universe Engine
 LAYER: 04_KNOWLEDGE_BASE
-DOC_TYPE: REALM
-REALM: MARKETING_DISTRIBUTION
+DOC_TYPE: KB_REALM
+REALM: MARKETING
 LEVEL: L1
 STATUS: ACTIVE
-LOCK: FIXED
+LOCK: OPEN
 VERSION: 1.0.0
-UID: UE.KB.REALM.MARKETING.106
+UID: UE.KB.REALM.MARKETING.001
 OWNER: SYSTEM
-ROLE: Knowledge realm for marketing and distribution: positioning, messaging, audience models, channel strategy, release planning, content funnel, and measurement. Knowledge only; not a campaign asset folder.
+ROLE: Canonical knowledge realm for marketing & distribution: positioning, audience, packaging, discovery, release cadence, channel-fit (practices + checklists + pointers)
 
 CHANGE_NOTE:
-- DATE: 2026-01-07
+- DATE: 2026-01-08
 - TYPE: MAJOR
-- SUMMARY: "Нормализован realm Marketing: Doc Control header + каркас позиционирования/каналов/релизов/метрик + UID-first linking"
-- REASON: "Маркетинг должен быть описан как система, а не разрозненные заметки"
-- IMPACT: "All marketing knowledge placement"
-
----
-
-## XREF (UID-first)
-XREF: UE.KB.IDX.MASTER.001 | depends_on | KB existence and navigation | 04_KNOWLEDGE_BASE/00__INDEX__KNOWLEDGE_BASE.md
-XREF: UE.KB.GOV.RULES.011 | governs | KB boundaries and no-dup | 04_KNOWLEDGE_BASE/00_KB_GOVERNANCE/01__RULES__KB.md
-XREF: UE.STD.SPEC.REL_XREF.104 | depends_on | UID-first linking | 02_STANDARDS/01_SPECIFICATIONS/04__REL_POLICY_XREF_STANDARD.md
+- SUMMARY: "Realm Marketing & Distribution канонизирован: практики упаковки, каналы, гейты релиза, XREF на marketing engines"
+- REASON: "Без упаковки и дистрибуции даже сильный продукт не находит аудиторию"
+- IMPACT: "Release packaging, channel strategy, metadata discipline"
 
 ---
 
 ## 0) PURPOSE
-Этот realm хранит **методики маркетинга и дистрибуции**:
-- позиционирование и сообщения
-- аудитория и сегменты
-- каналы и формат контента
-- релиз-план
-- воронка контента
-- метрики и обратная связь
+Этот realm — база знаний “как выпускать и находить аудиторию”.
 
-Realm не хранит рекламные креативы/ролики/баннеры как файлы — только знание и правила.
-
----
-
-## 1) POSITIONING (CORE)
-- unique promise (что мы обещаем)
-- differentiation (почему мы другие)
-- proof points (что подтверждает)
-- tone & voice (как звучим)
+Он содержит:
+- практики позиционирования и аудитории
+- практики упаковки (title/thumbnail/description/CTA)
+- правила соответствия каналу (channel-fit)
+- релизные гейты и ритм выпуска
+- XREF на ENG marketing specialists/engines (когда они формализованы)
 
 ---
 
-## 2) AUDIENCE MODELS
-- segments
-- intents (зачем смотрят)
-- barriers (почему не смотрят)
-- hooks (что цепляет)
+## 1) BOUNDARIES (HARD)
+### 1.1 This realm IS
+- аудитория и потребность (job-to-be-done)
+- позиционирование (что это и для кого)
+- упаковка (метаданные, превью, тизер)
+- каналы и дистрибуция (куда и как)
+- релизные стратегии (cadence, серии, сезоны)
+
+### 1.2 This realm IS NOT
+- создание контента (это production realm и production engines)
+- законы канона/UID/версий (system law + standards)
+- нарративная структура (narrative realm)
 
 ---
 
-## 3) MESSAGING SYSTEM
-- message hierarchy (top → sub)
-- taglines / one-liners
-- forbidden claims (чего не обещаем)
+## 2) CORE MODEL (MINIMUM MARKETING SET)
+Минимум, чтобы продукт был “находим”:
+
+1) WHO: для кого
+2) WHAT: что получит
+3) WHY NOW: почему сейчас/почему важно
+4) PROOF: чем доказать (примеры/сигналы качества)
+5) CTA: что сделать дальше
 
 ---
 
-## 4) CHANNEL STRATEGY
-- channels list (platforms)
-- per-channel format rules
-- cadence (частота)
-- adaptation policy (как один материал перерабатывается под разные каналы)
+## 3) POSITIONING (PRACTICES)
+### 3.1 One sentence positioning
+Сформулируй:
+> “Это <формат>, который даёт <выгода> для <аудитории> через <уникальность>.”
+
+Если не помещается в 1 предложение — позиционирование размыто.
+
+### 3.2 Avoid “everything”
+Нельзя быть “для всех”.
+Выбирай главный сегмент, остальные — вторично.
 
 ---
 
-## 5) CONTENT FUNNEL
-- awareness
-- interest
-- conversion
-- retention
+## 4) PACKAGING (PRACTICES)
+### 4.1 Title rule
+Название должно:
+- говорить выгоду/интригу
+- быть ясным без контекста
+- не быть “внутренней терминологией”
 
-Для каждого этапа:
-- content types
-- KPI
-- “what success looks like”
+### 4.2 Thumbnail / cover rule (если применимо)
+Обложка должна:
+- передавать один главный смысл
+- быть читабельной в маленьком размере
+- не перегружаться мелкими деталями
 
----
-
-## 6) RELEASE PLANNING
-- release calendar concepts
-- teaser → trailer → drop → follow-up
-- launch checklist
-- crisis plan (если фидбек негативный)
-
----
-
-## 7) MEASUREMENT (METRICS)
-- north star metric
-- supporting metrics
-- experiment rules (A/B если нужно)
-- feedback loop into KB (что считаем знанием после релиза)
+### 4.3 Description rule
+Описание:
+- 1–2 строки “что это”
+- 3–5 буллетов “что внутри”
+- 1 CTA
 
 ---
 
-## 8) LINKING TO ENTITIES / SEASONS (UID-FIRST)
-Если маркетинг привязан к:
-- сезону/арке/проекту (если это сущность) → UID
-- персонажу/фракции/локации → ENTITY_UID
+## 5) CHANNEL-FIT (WHERE IT BELONGS)
+Каждый канал требует своего:
+- короткие платформы → 1 идея, 1 удар, 1 эмоция
+- YouTube longform → удержание/структура/темп
+- книга → глубина, внутренняя логика, арки
+- сериал → клиффхэнгеры, эпизодные дуги
 
-Pattern:
-XREF:
-- XREF: <TARGET_UID> | references | "marketing usage" | <path(optional)>
-
----
-
-## 9) EXAMPLES / PLAYBOOKS (OPTIONAL)
-> Примеры конкретных стратегий, но с ссылками UID-first на сущности.
+Не пытайся “один и тот же продукт” без адаптации.
 
 ---
 
-## 10) OPEN QUESTIONS / TODO (OPTIONAL)
-- (list)
+## 6) RELEASE STRATEGY (PRACTICES)
+### 6.1 Cadence rule
+Ритм важнее “идеальности”:
+- лучше стабильный выпуск, чем редкий шедевр без продолжения
+
+### 6.2 Series logic
+Если это серия:
+- каждый выпуск автономен (даёт ценность)
+- но ведёт в общий “мир/ось” (причина подписаться)
+
+---
+
+## 7) DISCOVERY (PRACTICES)
+Что помогает находиться:
+- ясные ключевые слова (без мусора)
+- понятные категории/теги
+- регулярность и “пакеты” (playlist/collections)
+- социальное доказательство (отзывы/примеры/кейсы)
+
+---
+
+## 8) CHECKLISTS (KB)
+### 8.1 Release packaging (pass/fail)
+- [ ] ясно “для кого”
+- [ ] ясно “что получит”
+- [ ] есть proof (пример/результат/сигнал)
+- [ ] заголовок понятен без контекста
+- [ ] описание короткое и структурное
+- [ ] есть CTA
+- [ ] выбран канал и формат адаптирован под него
+
+### 8.2 Series check (если серия)
+- [ ] выпуск даёт автономную ценность
+- [ ] есть причина продолжить (hook)
+- [ ] есть понятный порядок просмотра/чтения
+
+---
+
+## 9) OUTPUT POINTERS
+Этот realm обычно “производит”:
+- positioning statement
+- packaging pack (title/description/cover notes)
+- release plan (cadence + channel list)
+
+---
+
+## 10) XREF (MANDATORY POINTERS)
+XREF_DOC: 04_KNOWLEDGE_BASE/05__PRODUCTION_PIPELINE.md | WHY:маркетинг начинается до релиза и влияет на пайплайн/упаковку
+XREF_DOC: 04_KNOWLEDGE_BASE/07__REFERENCE_GLOSSARY.md | WHY:термины упаковки/аудитории должны быть едины
+
+---
+
+## 11) NEXT EXTENSIONS (CONTROLLED)
+Добавлять сюда можно:
+- практики по конкретным платформам (как секции)
+- чеклисты упаковки как KB entities
+- словарь “канал → требования” как отдельный system doc (90__)
 
 --- END.

@@ -1,4 +1,4 @@
-# TEMPLATE — KB ENTITY PASSPORT (CANON)
+# TEMPLATE: KB ENTITY PASSPORT
 FILE: 04_KNOWLEDGE_BASE/00_KB_GOVERNANCE/05__TEMPLATE__KB_ENTITY_PASSPORT.md
 
 SCOPE: Universe Engine
@@ -8,152 +8,190 @@ TEMPLATE_TYPE: KB_ENTITY_PASSPORT
 LEVEL: L1
 STATUS: ACTIVE
 LOCK: FIXED
-VERSION: 1.1.0
-UID: UE.KB.TPL.ENTITY_PASSPORT.015
+VERSION: 1.0.0
+UID: UE.KB.GOV.TPL.PASSPORT.001
 OWNER: SYSTEM
-ROLE: Canonical template for KB entity passports. Defines required entity identity fields, registry binding, and UID-first linkage patterns. Does not replace the base system passport template; it specializes it for KB.
+ROLE: Canonical template for KB entity passports (objects): identity, classification, tags, relations, content, and validation gates
 
 CHANGE_NOTE:
-- DATE: 2026-01-07
-- TYPE: MINOR
-- SUMMARY: "Шаблон KB Entity Passport: разделение DOC_UID vs ENTITY_UID, обязательные поля идентичности, registry-binding, XREF паттерны"
-- REASON: "Чтобы сущности KB были строго управляемыми и ссылочными"
-- IMPACT: "All KB entities"
+- DATE: 2026-01-08
+- TYPE: MAJOR
+- SUMMARY: "Шаблон паспорта KB: Doc Control, типизация, теги, REL/XREF, валидация"
+- REASON: "Единый формат нужен для реестров, поиска, reuse в проектах"
+- IMPACT: "Все KB entity passports"
 
 ---
 
-## XREF (UID-first)
-XREF: UE.KB.GOV.RULES.011 | depends_on | entity creation rules | 04_KNOWLEDGE_BASE/00_KB_GOVERNANCE/01__RULES__KB.md
-XREF: UE.KB.GOV.REGISTRY.012 | depends_on | registry binding required | 04_KNOWLEDGE_BASE/00_KB_GOVERNANCE/02__INDEX__KB_GLOBAL_REGISTRY.md
-XREF: UE.KB.GOV.ENTITY_TYPES.013 | depends_on | controlled entity typing | 04_KNOWLEDGE_BASE/00_KB_GOVERNANCE/03__INDEX__KB_ENTITY_TYPES.md
-XREF: UE.STD.TPL.ENTITY_PASSPORT.300 | references | base entity passport template | 02_STANDARDS/03_TECHNICAL/ENTITY_PASSPORT_TEMPLATE.md
-XREF: UE.STD.MOD.MARKING.ID.601 | references | UID vs local/human ids | 02_STANDARDS/06_MARKING_STANDARDS/01__ID_STANDARD.md
-XREF: UE.STD.SPEC.REL_XREF.104 | depends_on | UID-first linking | 02_STANDARDS/01_SPECIFICATIONS/04__REL_POLICY_XREF_STANDARD.md
+# 0) COPY RULE (MANDATORY)
+- Этот файл НЕ редактируется при создании сущности.
+- При создании нового паспорта копируешь шаблон целиком и заполняешь поля.
+- Если нужно изменить формат — это делается правкой шаблона через governance change.
 
 ---
 
-# KB ENTITY PASSPORT — COPY TEMPLATE (INSTANCE)
-> Инструкция: копируй и заполняй.
-> Паспорт = SoT о сущности. Realm-файлы не заменяют паспорт.
+# 1) DOC CONTROL (REQUIRED HEADER)
+Заполни шапку:
 
----
-
-## DOC CONTROL (DOCUMENT HEADER)
-FILE: <path-to-passport.md>
-
+TITLE: <Human name>
+FILE: <Path>
 SCOPE: Universe Engine
 LAYER: 04_KNOWLEDGE_BASE
-DOC_TYPE: ARTIFACT
-ARTIFACT_TYPE: KB_ENTITY_PASSPORT
+DOC_TYPE: KB_ENTITY
+ENTITY_TYPE: <one of: KB_PRACTICE|KB_PROCESS|KB_CHECKLIST|KB_CONCEPT|KB_METHOD|KB_ARTIFACT|KB_CASE|KB_SYSTEM_REF>
 LEVEL: L2
-STATUS: ACTIVE
-LOCK: FIXED
-VERSION: 1.0.0
-UID: <DOC_UID>
-OWNER: <owner>
-ROLE: KB Entity Passport for <ENTITY_NAME>
+STATUS: <DRAFT|ACTIVE|DEPRECATED|ARCHIVED>
+LOCK: <OPEN|FIXED>
+VERSION: <X.Y.Z>
+UID: <UE.KB.ENT.<TYPE>.<NNN>>
+OWNER: SYSTEM
+ROLE: <1 line what this entity is for>
 
 CHANGE_NOTE:
-- DATE: YYYY-MM-DD
-- TYPE: PATCH|MINOR|MAJOR
-- SUMMARY: "Created/updated KB entity passport"
-- REASON: "..."
-- IMPACT: "..."
+- DATE: <YYYY-MM-DD>
+- TYPE: <MAJOR|MINOR|PATCH>
+- SUMMARY: "<short>"
+- REASON: "<short>"
+- IMPACT: "<short>"
 
 ---
 
-## 0) ENTITY IDENTITY (REQUIRED)
-ENTITY_UID: <ENTITY_UID>            # immutable primary key for the entity
-ENTITY_TYPE: <TYPE_KEY>             # must exist in KB Entity Types registry
-ENTITY_NAME: <Name>                 # display name
-ENTITY_STATUS: active               # active|draft|deprecated|retired|unknown
-PRIMARY_REALM: <optional realm>     # e.g., CHARACTER, LOCATION, etc.
+# 2) IDENTITY
+## 2.1 Name
+- CANON_NAME: `<snake_case_name>` (unique within its type folder)
+- ALIASES: [optional list]
 
-HUMAN_ID: <optional>                # readable alias, not a key
-ALIASES: [<optional list>]          # alt names
+## 2.2 Scope
+- KB_REALM_PRIMARY: <NARRATIVE|CHARACTER|VISUAL|SOUND|PRODUCTION|MARKETING|GLOSSARY|RESEARCH>
+- KB_REALM_SECONDARY: [optional list]
 
-ONE_LINE_SUMMARY: "<one sentence truth>"
-
----
-
-## 1) REGISTRY BINDING (MANDATORY)
-REGISTRY:
-- REGISTRY_UID: UE.KB.GOV.REGISTRY.012
-- REGISTRY_PATH: 04_KNOWLEDGE_BASE/00_KB_GOVERNANCE/02__INDEX__KB_GLOBAL_REGISTRY.md
-- REGISTRY_RECORD: required
-- RECORD_STATUS: expected
-
-RULE:
-- Эта сущность считается существующей только если есть строка в Global Registry с PASSPORT_PATH на этот файл.
+## 2.3 Tags
+- TAGS: [a,b,c] (только из `04_KNOWLEDGE_BASE/90__KB_TAGS.md`)
+- MAX_TAGS: 12
 
 ---
 
-## 2) CANON FACTS (SoT)
-> Здесь — факты, которые считаются истинными про сущность.
-> Пиши структурировано.
-
-FACTS:
-- <Fact 1>
-- <Fact 2>
-
-CONSTRAINTS:
-- <Hard rule 1>
-- <Hard rule 2>
-
-UNKNOWN / OPEN QUESTIONS:
-- <Unknown 1>
-- <Unknown 2>
+# 3) SUMMARY (ONE SCREEN)
+- PROBLEM: (1–3 lines)
+- SOLUTION: (1–3 lines)
+- WHEN_TO_USE: (bullets)
+- WHEN_NOT_TO_USE: (bullets)
 
 ---
 
-## 3) ATTRIBUTES (STRUCTURED)
-> Структурные поля. Заполняй только нужное.
+# 4) BODY (BY ENTITY_TYPE)
+> Заполни только релевантные секции; пустые секции удаляй.
 
-ATTRIBUTES:
-- role: <optional>
-- era: <optional>
-- affiliation: <optional>
-- traits: [<optional>]
-- capabilities: [<optional>]
-- resources: [<optional>]
+## 4.A) KB_PRACTICE
+- PURPOSE
+- STEPS (numbered)
+- DO / DONT
+- COMMON_FAILURES
+- EXAMPLES
+- VARIATIONS
+
+## 4.B) KB_PROCESS
+- INPUTS
+- OUTPUTS
+- ROLES
+- STEPS (numbered)
+- GATES (what must be true to pass)
+- FAILURE_MODES
+- STORAGE_TARGET (where outputs go)
+
+## 4.C) KB_CHECKLIST
+- CHECKLIST_ITEMS (bullets)
+- PASS_FAIL_RULE
+- SEVERITY (S0..S3 if used)
+- COMMON_MISTAKES
+
+## 4.D) KB_CONCEPT
+- DEFINITION (strict)
+- BOUNDARIES (in/out)
+- COMMON_CONFUSIONS
+- EXAMPLES
+- COUNTEREXAMPLES
+
+## 4.E) KB_METHOD
+- PURPOSE
+- PROCEDURE
+- TOOLS (optional)
+- TRADEOFFS
+- EXAMPLES
+
+## 4.F) KB_ARTIFACT
+- ARTIFACT_NAME
+- STRUCTURE (required sections)
+- VALIDATION_RULES
+- STORAGE_TARGET
+- EXAMPLES (optional)
+
+## 4.G) KB_CASE
+- CONTEXT
+- CONSTRAINTS
+- DECISION
+- OUTCOME
+- LESSONS
+- WHAT_CHANGED (if iterative)
+
+## 4.H) KB_SYSTEM_REF
+- DESCRIPTION
+- FORMAT (table/list)
+- UPDATE_RULE (how it’s maintained)
+- USED_BY (what depends on it)
 
 ---
 
-## 4) RELATIONS (UID-FIRST)
-> Все связи — через XREF.
+# 5) RELATIONSHIPS (REL) (MANDATORY)
+Формат записи:
 
-XREF:
-- XREF: <TARGET_ENTITY_UID> | relates_to | "<why>" | <passport-path(optional)>
-- XREF: <TARGET_ENTITY_UID> | member_of | "<why>" | <passport-path(optional)>
-- XREF: <TARGET_ENTITY_UID> | located_in | "<why>" | <passport-path(optional)>
-- XREF: <TARGET_ENTITY_UID> | opposes | "<why>" | <passport-path(optional)>
+`REL: <TYPE> -> <TARGET_UID> | WHY:<short>`
 
-NOTE:
-- REL типы можешь фиксировать по мере роста, главное — UID-first и смысл в WHY.
+Где TYPE ∈:
+- `depends_on`
+- `related_to`
+- `part_of`
+- `supports`
+- `replaces`
+- `deprecated_by`
 
----
+Пример:
+`REL: depends_on -> UE.KB.ENT.KB_CONCEPT.012 | WHY:practice uses this concept`
 
-## 5) APPEARANCES / USAGE (OPTIONAL)
-> Где сущность появляется (сцены/ивенты/арки). Только через UID, если это внутренние объекты.
-
-APPEARS_IN:
-- UID: <SCENE_UID> | NOTE: "<optional>"
-
----
-
-## 6) DEPRECATION (ONLY IF ENTITY_STATUS=deprecated)
-DEPRECATED_BY_ENTITY_UID: <ENTITY_UID_CANON>
-DEPRECATION_REASON: "<why merged/renamed>"
-MIGRATION_NOTE: "Use <ENTITY_UID_CANON> instead."
-
-XREF:
-- XREF: <ENTITY_UID_CANON> | deprecated_by | "replacement entity" | <path(optional)>
+Если нет связей:
+- `REL: []`
 
 ---
 
-## 7) META (OPTIONAL)
-TAGS: [<optional tags>]
-SOURCES: [<optional sources list>]
-NOTES: "<optional>"
+# 6) CROSS-REFERENCES (XREF) (MANDATORY)
+Формат:
+- `XREF_DOC: <PATH> | WHY:<short>`
+- `XREF_UID: <UID> | WHY:<short>`
 
---- END OF TEMPLATE
+Если нет:
+- `XREF: []`
+
+---
+
+# 7) VALIDATION GATES (KB)
+Перед переводом в `STATUS: ACTIVE` должно быть true:
+
+- [ ] UID уникален и соответствует типу
+- [ ] ENTITY_TYPE из канонического списка
+- [ ] TAGS существуют в `90__KB_TAGS.md`
+- [ ] Нет дубля смысла (anti-dup check)
+- [ ] Есть минимум 1 XREF в realm (если сущность не purely-system)
+- [ ] REL/XREF оформлены по формату
+- [ ] VERSION = X.Y.Z
+
+---
+
+# 8) OUTPUT TARGET (OPTIONAL)
+Если сущность производит reusable output, укажи:
+- OUTPUT_TARGET: <path or project layer target>
+
+---
+
+## FINAL RULE (LOCK)
+Этот шаблон обязателен для всех KB entity passports.
+LOCK: FIXED
+--- END.

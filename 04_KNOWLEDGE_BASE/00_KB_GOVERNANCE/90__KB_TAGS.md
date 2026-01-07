@@ -1,111 +1,157 @@
-# KB TAGS (SYSTEM REFERENCE) (CANON)
+# KB TAGS (SYSTEM)
 FILE: 04_KNOWLEDGE_BASE/00_KB_GOVERNANCE/90__KB_TAGS.md
 
 SCOPE: Universe Engine
 LAYER: 04_KNOWLEDGE_BASE
-DOC_TYPE: REGISTRY
-REGISTRY_TYPE: KB_TAGS
+DOC_TYPE: KB_SYSTEM
+SYSTEM_OBJ: TAGS
 LEVEL: L1
 STATUS: ACTIVE
 LOCK: FIXED
 VERSION: 1.0.0
-UID: UE.KB.GOV.TAGS.090
+UID: UE.KB.SYS.TAGS.001
 OWNER: SYSTEM
-ROLE: Canonical registry of KB tags used for classification and filtering across KB entities and realm knowledge. Tags do not define essence (TYPE does), tags are metadata.
+ROLE: Canonical tag taxonomy for Knowledge Base + projects: naming, allowed classes, usage rules, and minimum tagging requirements
 
 CHANGE_NOTE:
-- DATE: 2026-01-07
+- DATE: 2026-01-08
 - TYPE: MAJOR
-- SUMMARY: "KB tags вынесены в governance (90+ namespace) для устранения коллизии с realm 02_CHARACTER_CRAFT; введён controlled tag registry"
-- REASON: "Убрать номерную коллизию и стандартизировать теги"
-- IMPACT: "KB entities tagging + realm tagging + registries"
-
----
-
-## XREF (UID-first)
-XREF: UE.KB.GOV.STORAGE_MAP.014 | governs | KB system refs live in 90+ namespace | 04_KNOWLEDGE_BASE/00_KB_GOVERNANCE/04__KB_STORAGE_MAP.md
-XREF: UE.KB.GOV.RULES.011 | governs | tags are metadata, no-dup, typing | 04_KNOWLEDGE_BASE/00_KB_GOVERNANCE/01__RULES__KB.md
+- SUMMARY: "Введена каноническая таксономия тегов KB: формат, классы, правила применения, минимальный набор"
+- REASON: "Без единой таксономии теги превращаются в мусор и ломают поиск/навигацию"
+- IMPACT: "KB passports, KB realms, project artifacts using tags"
 
 ---
 
 ## 0) PURPOSE
-Этот файл — единый справочник тегов KB.
-
-Теги используются:
-- в паспортах сущностей (поле TAGS)
-- в реестре сущностей (колонка TAGS)
-- в realm-знаниях (как метки секций/примеров)
+Этот файл задаёт единую систему тегов для:
+- KB realms и KB entity passports
+- проектных артефактов, если они используют KB-теги
+- поиска/группировки/фильтрации
 
 ---
 
-## 1) PRIME RULES (ABSOLUTE)
-- TAG ≠ TYPE  
-  TYPE определяет “что это” (CHARACTER/LOCATION/…), TAG — метаданные.
-- Один смысл → один TAG_KEY (no-dup)
-- Тег не должен конфликтовать по смыслу с ENTITY_TYPE.
-- Если тег не в этом реестре — он считается **non-standard** (разрешено временно, но нежелательно).
+## 1) TAG FORMAT (HARD)
+### 1.1 Canon tag string
+Тег — строка формата:
+
+`KB.<CLASS>.<NAME>`
+
+Где:
+- `KB` — фиксированный префикс слоя знаний
+- `<CLASS>` — класс тега (строго из списка ниже)
+- `<NAME>` — имя тега (UPPER_SNAKE_CASE, без пробелов)
+
+Примеры:
+- `KB.REALM.NARRATIVE`
+- `KB.TYPE.CHECKLIST`
+- `KB.TOPIC.CONFLICT`
+- `KB.QA.READABILITY`
+
+### 1.2 Forbidden
+- пробелы, кириллица в тегах (только латиница/цифры/underscore)
+- смешивание двух смыслов в одном теге
+- “супер-общие” теги типа `KB.TOPIC.GENERAL`
 
 ---
 
-## 2) TAG FORMAT (CONTROLLED)
-Каждый тег имеет:
-- TAG_KEY: UpperCamelCase или UPPER_SNAKE_CASE (выбери один стиль и держи)
-- TAG_NAME: человекочитаемое имя
-- DOMAIN: WORLD|NARRATIVE|CHARACTER|VISUAL|SOUND|PRODUCTION|MARKETING|RESEARCH|SYSTEM
-- DESCRIPTION: кратко “что помечает”
-- ALIASES: optional
+## 2) TAG CLASSES (ALLOWED SET)
+Допустимы только эти классы:
 
-Рекомендация (для чистоты): TAG_KEY = UpperCamelCase.
+### 2.1 REALM (куда относится)
+- `KB.REALM.NARRATIVE`
+- `KB.REALM.CHARACTER`
+- `KB.REALM.VISUAL`
+- `KB.REALM.SOUND`
+- `KB.REALM.PRODUCTION`
+- `KB.REALM.MARKETING`
+- `KB.REALM.GLOSSARY`
+- `KB.REALM.RESEARCH`
+
+### 2.2 TYPE (что это за артефакт/сущность)
+- `KB.TYPE.PRACTICE`
+- `KB.TYPE.METHOD`
+- `KB.TYPE.CHECKLIST`
+- `KB.TYPE.TEMPLATE`
+- `KB.TYPE.REFERENCE`
+- `KB.TYPE.CASE`
+- `KB.TYPE.GUIDE`
+
+### 2.3 TOPIC (о чём)
+Примеры (расширяем по мере необходимости, но осмысленно):
+- `KB.TOPIC.SCENE`
+- `KB.TOPIC.EVENT`
+- `KB.TOPIC.CONFLICT`
+- `KB.TOPIC.STAKES`
+- `KB.TOPIC.TENSION`
+- `KB.TOPIC.PACING`
+- `KB.TOPIC.DIALOGUE`
+- `KB.TOPIC.LIGHTING`
+- `KB.TOPIC.COMPOSITION`
+- `KB.TOPIC.SOUND_DESIGN`
+- `KB.TOPIC.MUSIC_USAGE`
+- `KB.TOPIC.RELEASE`
+
+### 2.4 QA (какой quality gate/проверка)
+- `KB.QA.COHERENCE`
+- `KB.QA.CONSISTENCY`
+- `KB.QA.READABILITY`
+- `KB.QA.CLARITY`
+- `KB.QA.CONTINUITY`
+
+### 2.5 CONF (уверенность — для research claims)
+- `KB.CONF.C0`
+- `KB.CONF.C1`
+- `KB.CONF.C2`
+- `KB.CONF.C3`
+
+### 2.6 STATUS (жизненный статус контента KB)
+- `KB.STATUS.DRAFT`
+- `KB.STATUS.ACTIVE`
+- `KB.STATUS.DEPRECATED`
+- `KB.STATUS.ARCHIVED`
 
 ---
 
-## 3) CONTROLLED DOMAINS
-- WORLD
-- NARRATIVE
-- CHARACTER
-- VISUAL
-- SOUND
-- PRODUCTION
-- MARKETING
-- RESEARCH
-- SYSTEM
+## 3) TAGGING RULES (MANDATORY)
+### 3.1 Minimum tags for KB entity passport
+Каждый KB Entity Passport обязан иметь минимум:
+- 1 тег REALM (`KB.REALM.*`)
+- 1 тег TYPE (`KB.TYPE.*`)
+- 1–3 тега TOPIC (`KB.TOPIC.*`)
+- 0–2 тега QA (`KB.QA.*`) если применимо
+- 0–1 тег CONF (`KB.CONF.*`) только если это research claim/факт
+
+### 3.2 Anti-spam limits
+- максимум 8 тегов на один объект (иначе это не теги, а свалка)
+- если хочется больше — делай нормальные поля/структуру в паспорте
+
+### 3.3 No duplication by synonyms
+Если есть `KB.TOPIC.PACING`, нельзя рядом вводить `KB.TOPIC.RHYTHM` как дубль.
+Один смысл → один тег.
 
 ---
 
-## 4) TAG REGISTRY TABLE (CANON)
-| TAG_KEY | TAG_NAME | DOMAIN | DESCRIPTION | ALIASES |
-|---|---|---|---|---|
-| Season_1 | Season 1 | WORLD | Относится к материалам/сущностям 1 сезона | S1 |
-| Season_2 | Season 2 | WORLD | Относится к материалам/сущностям 2 сезона | S2 |
-| Arc_Main | Main Arc | NARRATIVE | Главная сюжетная дуга | MainArc |
-| Arc_Side | Side Arc | NARRATIVE | Побочная дуга | SideArc |
-| Tone_Dark | Dark Tone | NARRATIVE | Мрачный тон | Dark |
-| Tone_Light | Light Tone | NARRATIVE | Лёгкий тон | Light |
-| Style_Realistic | Realistic Style | VISUAL | Реалистичная стилистика | Realism |
-| Style_Stylized | Stylized Style | VISUAL | Стилизованная подача | Stylized |
-| Canon_Core | Core Canon | SYSTEM | Ядро канона (нельзя менять без протокола) | Core |
-| Canon_Legacy | Legacy | SYSTEM | Устаревшее/историческое, сохранено как legacy | Legacy |
-
-> Заполни дальше под свои нужды. Главное — не плодить синонимы.
+## 4) EXTENSION RULE (HOW TO ADD NEW TAGS)
+Добавление новых тегов допускается только если:
+- у тега есть чёткая цель (фильтрация/поиск/группировка)
+- тег не дублирует существующий
+- тег будет использоваться минимум в 3 объектах (иначе он не нужен)
 
 ---
 
-## 5) TAG USAGE PATTERNS
-### 5.1 In entity passports
-TAGS: [Season_1, Arc_Main, Tone_Dark]
+## 5) EXAMPLES (REFERENCE)
+### 5.1 Visual checklist example
+- `KB.REALM.VISUAL`
+- `KB.TYPE.CHECKLIST`
+- `KB.TOPIC.COMPOSITION`
+- `KB.QA.READABILITY`
+- `KB.STATUS.ACTIVE`
 
-### 5.2 In Global Registry
-TAGS: Season_1; Arc_Main; Tone_Dark
+### 5.2 Research note example
+- `KB.REALM.RESEARCH`
+- `KB.TYPE.REFERENCE`
+- `KB.TOPIC.HISTORY` (если введёте такой топик)
+- `KB.CONF.C2`
+- `KB.STATUS.DRAFT`
 
----
-
-## 6) CHANGE POLICY
-- PATCH: описание/alias исправления
-- MINOR: добавлен новый тег
-- MAJOR: переименование/удаление тега (breaking)
-
----
-
-## FINAL RULE (LOCK)
-Этот реестр — SoT по стандартным тегам KB.
 --- END.
