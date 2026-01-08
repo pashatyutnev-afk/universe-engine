@@ -10,50 +10,75 @@ LOCK: FIXED
 VERSION: 1.2.0
 UID: UE.STD.SPEC.INDEX_STRUCTURE.001
 OWNER: SYSTEM
-ROLE: Allowed index models + compatibility rules (flex vs strict)
+ROLE: Defines what an index is, what is SoT for existence/navigation, and how to avoid index proliferation
 
 CHANGE_NOTE:
 - DATE: 2026-01-08
-- TYPE: MINOR
-- SUMMARY: "Added STRICT SINGLE-INDEX model as compatible option. Clarified sub-indexes optional and may be banned by a layer."
-- REASON: "Устранение конфликтов Standards vs KB strict mode."
-- IMPACT: "Layers can choose strict or flex without breaking global rules."
+- TYPE: PATCH
+- SUMMARY: "Added STRICT SINGLE-INDEX model. Clarified 'registry/readme' vs 'index'. Banned sub-indexes in strict layers."
+- REASON: "Совместить стандарты с режимом KB: один индекс — единственный SoT."
+- IMPACT: "Индексы больше не размножаются как паразиты."
 
 ---
 
-## PURPOSE
-Определяет допустимые модели индексирования в слоях Universe Engine.
+## 0) PURPOSE
+Дать строгие определения:
+- что такое INDEX (SoT для NAV/EXISTENCE)
+- что такое REGISTRY/CATALOG (справочник, не SoT)
+- что такое README (локальное описание, не SoT)
+и как запрещать sub-indexes.
 
 ---
 
-## INDEX TYPES (DEFINITIONS)
-- MASTER INDEX (ENTRYPOINT): единая точка входа слоя
-- REGISTRY (CATALOG): справочник, не existence/nav
-- DICTIONARY (VOCABULARY): словарь терминов/типов
-- SUB-INDEX: локальное оглавление (опционально)
+## 1) DEFINITIONS
+
+### 1.1 MASTER INDEX (SoT)
+INDEX документ, который:
+- является единственным SoT для NAV/EXISTENCE в своём слое/области
+- содержит CANON MAP (список файлов) и правила существования
+
+### 1.2 REGISTRY / CATALOG (NOT SoT)
+Документ-справочник/словарь, который:
+- не вводит файлы в канон
+- не определяет NAV/EXISTENCE
+- может перечислять типы/теги/таблицы/категории
+Рекомендуемое имя: REGISTRY / CATALOG, НЕ INDEX.
+
+### 1.3 README (NOT SoT)
+Локальное описание папки/подсистемы:
+- предназначено для людей
+- не вводит файлы в канон
+Рекомендуемое имя: README.
 
 ---
 
-## TWO COMPATIBLE MODELS
+## 2) MODELS
 
-### MODEL A — FLEX (MULTI-INDEX)
-- master index + registries/dictionaries
-- sub-indexes могут существовать
+### 2.1 DEFAULT MODEL (MULTI-FOLDER ALLOWED)
+Слой может иметь:
+- 1 master-index слоя
+- локальные README в подпапках
+- registry/словари
+НО только master-index определяет NAV/EXISTENCE.
 
-Условие:
-- один SoT по existence/nav, явно объявленный.
-
-### MODEL B — STRICT (SINGLE-INDEX / NO-SUB-INDEX)
-- один master-index = единственный SoT по existence/nav
-- sub-indexes запрещены
-- ссылки/пути могут быть запрещены вне master-index
-
-Это валидная и совместимая модель при соблюдении UID-first.
+### 2.2 STRICT SINGLE-INDEX MODEL (NO SUB-INDEX) — RECOMMENDED FOR KB
+Правила:
+1) В слое ровно один master-index (единственный SoT).
+2) Sub-indexes запрещены:
+   - любые `*/00__INDEX__*.md`
+   - любые `*/INDEX*.md` как попытка создать второй entrypoint
+3) В подпапках допускаются только:
+   - README (локальное объяснение)
+   - REGISTRY/CATALOG (словари)
+4) Любые “старые индексы” должны быть:
+   - удалены, или
+   - превращены в POINTER (DEPRECATED) на master-index.
 
 ---
 
-## GLOBAL MINIMUM (MUST)
-- XREF UID-first: `XREF: <UID> | WHY: ...`
-- REL UID-first: `REL: <TYPE> | TARGET: <UID> | WHY: ...`
+## 3) NAMING POLICY (RECOMMENDED)
+- NAV/EXISTENCE index: `00__INDEX__<LAYER>.md` или `00__MASTER_INDEX__<NAME>.md` (один)
+- справочники: `__REGISTRY__`, `__CATALOG__`
+- README: `00__README__*.md`
 
 --- END.

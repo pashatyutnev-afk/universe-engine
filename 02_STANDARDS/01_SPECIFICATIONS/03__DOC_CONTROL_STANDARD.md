@@ -7,17 +7,17 @@ DOC_TYPE: SPEC
 LEVEL: L1
 STATUS: ACTIVE
 LOCK: FIXED
-VERSION: 1.2.1
+VERSION: 1.3.0
 UID: UE.STD.SPEC.DOC_CONTROL.001
 OWNER: SYSTEM
-ROLE: Doc header + lifecycle + minimal XREF/REL contract (UID-first) + anti-dup rules
+ROLE: Doc header + lifecycle + anti-dup rules + strict single-index compatibility
 
 CHANGE_NOTE:
 - DATE: 2026-01-08
 - TYPE: PATCH
-- SUMMARY: "Made FILE field explicitly allowed. Removed footer meta duplication pattern. Added strict single-index compatibility clause."
-- REASON: "Убрать конфликт: документы используют FILE, а стандарт его не признавал. Запретить дубли LOCK/STATUS/VERSION внизу."
-- IMPACT: "Единый Doc Control без самопротиворечий."
+- SUMMARY: "FILE field explicitly allowed. Absolute ban on footer meta duplication. Added strict single-index mode clause."
+- REASON: "Убрать конфликт: FILE используется в шапках, а стандарт его не признавал; запретить 'LOCK внизу'."
+- IMPACT: "Doc Control больше не может противоречить сам себе."
 
 ---
 
@@ -25,15 +25,15 @@ CHANGE_NOTE:
 Этот стандарт определяет:
 - обязательную шапку документа (Doc Control header)
 - правила статусов/локов/версий
-- минимальный формат XREF/REL (UID-first)
 - запрет на дубли метаданных вне шапки
-- совместимость со строгими режимами (single-index)
+- совместимость со строгим режимом single-index
 
 ---
 
 ## 1) MANDATORY HEADER (REQUIRED)
-Каждый документ обязан иметь шапку (ровно один раз, в начале файла):
+Каждый документ обязан иметь ровно одну шапку в начале файла.
 
+REQUIRED FIELDS (строго):
 FILE
 SCOPE
 LAYER
@@ -46,19 +46,21 @@ UID
 OWNER
 ROLE
 
-Optional (recommended):
+OPTIONAL (recommended):
 CHANGE_NOTE
 
 ---
 
 ## 2) STRICT NO-DUP RULE (ABSOLUTE)
 Запрещено дублировать метаданные шапки где-либо ниже в тексте, включая:
-STATUS / LOCK / VERSION / UID / OWNER / FILE / LAYER / DOC_TYPE / LEVEL / SCOPE
+FILE / SCOPE / LAYER / DOC_TYPE / LEVEL / STATUS / LOCK / VERSION / UID / OWNER / ROLE
 
-Одна истина метаданных — в шапке.
+Запрещённые паттерны (примеры):
+- "FINAL RULE (LOCK) LOCK: FIXED"
+- "LOCK: FIXED" в конце
+- "STATUS: ACTIVE" повтором внизу
 
-Запрещённый паттерн (пример):
-"FINAL RULE (LOCK) LOCK: FIXED"  ← это дубль LOCK и нарушает стандарт.
+Одна истина метаданных — только в шапке.
 
 ---
 
@@ -73,27 +75,16 @@ SemVer: X.Y.Z
 
 ---
 
-## 6) MINIMUM CROSS-REFERENCE CONTRACT (GLOBAL)
-
-### XREF (UID-FIRST)
-Формат:
-- XREF: <UID> | WHY: <reason>
-
-### REL (UID-FIRST)
-Формат:
-- REL: <REL_TYPE> | TARGET: <UID> | WHY: <reason>
-
-PATH/URL допускаются только если слой это разрешает.
-Слой имеет право быть строже и полностью запретить ссылки вне одного master-index.
-
----
-
-## 7) STRICT SINGLE-INDEX MODE (COMPATIBLE)
+## 6) STRICT SINGLE-INDEX MODE (COMPATIBLE)
 Слой может объявить режим:
 - один master-index = единственный SoT по NAV/EXISTENCE
 - sub-indexes запрещены
-- PATH/RAW/URL разрешены только в master-index
+- ссылки PATH/RAW допускаются только в master-index
+Это совместимо с данным стандартом.
 
-Это совместимо с данным стандартом при соблюдении UID-first.
+## 7) RAW-ONLY NAV RULE (RECOMMENDED FOR INDEXES)
+Для INDEX документов навигация должна быть оформлена как RAW ссылки.
+PATH допускается только как человеческая подпись и не считается навигацией.
+
 
 --- END.
