@@ -10,131 +10,179 @@ CLASS: GOVERNANCE (L1)
 LEVEL: L1
 STATUS: ACTIVE
 LOCK: FIXED
-VERSION: 1.0.1
+VERSION: 2.0.0
 UID: UE.ENG.GOV.REALM.001
 OWNER: SYSTEM
-ROLE: Family scope law + boundaries + mandatory governance workflow + quality bar
+ROLE: Family law + boundaries + mandatory workflow for canon governance. Explains how governance engines work together (no existence authority).
 
 CHANGE_NOTE:
 - DATE: 2026-01-08
-- TYPE: HOTFIX
-- SUMMARY: "Normalized governance realm: UID assigned, header standardized, RAW-only references, removed footer duplicates."
-- REASON: "Align governance docs with marking standards + raw-only navigation rule."
-- IMPACT: "Governance family becomes fully compliant with Doc Control + navigation rules."
-- CHANGE_ID: UE.CHG.2026-01-08.001
+- TYPE: MAJOR
+- SUMMARY: "README made etalon: strict boundaries, shared vocabulary, mandatory governance pipeline, storage targets, and anti-duplication laws."
+- REASON: "Stop scaffold drift. Governance family must be executable as a deterministic system."
+- IMPACT: "Governance usage becomes unambiguous and consistent across the repo."
+- CHANGE_ID: UE.CHG.2026-01-08.GOV.REALM.003
 
 ---
 
 ## 0) PURPOSE (LAW)
 
-Это REALM README семейства `00_GOVERNANCE_ENGINES`.
-
-Он фиксирует:
-- границы семейства governance (что делает / чего не делает)
-- обязательный пайплайн для изменений канона
-- обязательные стандарты качества для движков family
-- правило: канонический состав/порядок движков хранится только в `02__INDEX_ALL_ENGINES.md`
+Этот README описывает семейство `00_GOVERNANCE_ENGINES`:
+- **что оно такое**
+- **что оно контролирует**
+- **как им пользоваться**
+- **где хранятся записи**
 
 IMPORTANT:
-- Canon roster/order живёт в `03_SYSTEM_ENTITIES/10_ENG__ENGINES/02__INDEX_ALL_ENGINES.md` (raw-link в REFERENCES).
-- Здесь любые списки — только reference и не создают “существование”.
+- README **не вводит** новые сущности в канон.
+- Состав семейства (что существует) определяется только глобальными индексами/реестрами ENG.
 
 ---
 
-## 1) SCOPE — WHAT THIS FAMILY OWNS
+## 1) FAMILY MISSION (ONE SENTENCE)
 
-Governance family owns:
-- Audit logging (фиксировать факт изменений)
-- Canon authority (решение accept/reject)
-- Rule hierarchy (кто побеждает при конфликте правил)
-- Change control (пайплайн изменения)
-- Consistency inspection (диагностика конфликтов/битых ссылок/нарушений стандартов)
-- Dependency registry (реестр зависимостей)
-- Decision approval (процедуры апрувов)
-- Scope impact (blast-radius анализа)
-- Risk safety (safety gates / blockers)
-- Versioning & memory (версионирование + память изменений)
-
-Governance family strictly does NOT own:
-- доменный контент (сюжет/персонажи/мир)
-- production outputs (визуал/видео/монтаж/звук как медиа)
-- deep music composition (это семейство 09)
+Governance Engines = система, которая превращает изменения канона в **управляемый, проверяемый и воспроизводимый** процесс.
 
 ---
 
-## 2) FAMILY BOUNDARIES (ANTI-DUP)
+## 2) WHAT THIS FAMILY OWNS (STRICT)
 
-### 2.1 Governance stops here
-Governance определяет правила, контроль, записи, решения и проверку целостности — но не создаёт “контент вселенной”.
+OWNED (в зоне ответственности):
+- Canon change pipeline (пакет изменений + гейты + закрытие)
+- Canon decision gate (ACCEPT/REJECT/CONDITIONAL)
+- Approval procedure (quorum/veto/emergency)
+- Audit (append-only след)
+- Consistency (проверка целостности канона)
+- Scope impact (blast-radius + required updates + migration law)
+- Risk safety (blockers + mitigation)
+- Dependency registry (no hidden deps)
+- Rule hierarchy (resolution of conflicts)
+- Versioning & memory (bump rules + memory packs + snapshots)
 
-### 2.2 Overlaps to avoid
-- QA/VAL не дублируем: governance может требовать отчёты, но не подменяет валидаторы.
-- PRJ слой не дублируем: governance задаёт рамки, но не ведёт проектные сущности вместо PRJ.
-
-### 2.3 Conflict resolution (mandatory)
-Если 2 документа/движка конфликтуют:
-1) применяем Rule Hierarchy (03)
-2) фиксируем Change Package (04)
-3) принимаем решение (02 + при необходимости 07)
-4) обязательно Audit (01)
-5) проверка Consistency (05)
-6) фиксируем Versioning/Memory (10)
+NOT OWNED (запрещено забирать сюда):
+- создание контента домена (narrative/character/world)
+- производство медиаконтента как результата (визуал/звук/монтаж как творчество)
+- фактчекинг реальности/науки (это валидаторы/исследовательские движки)
+- хранение сущностей проекта (это Projects/Databases)
 
 ---
 
-## 3) MANDATORY GOVERNANCE WORKFLOW (CANON CHANGE)
+## 3) NON-NEGOTIABLE META RULES (FAMILY)
 
-Default pipeline:
-1) S0 PROPOSE (Change Control)
-2) S1 PRE-CHECK (Change Control + Consistency checks as needed)
-3) S2 DECISION (Canon Authority + Decision Approval if required)
-4) S3 APPLY (Change Control records application)
-5) S4 AUDIT (Audit Log mandatory)
-6) S5 POST-VERIFY (Consistency mandatory)
-7) S6 CLOSE + MEMORY (Versioning & Memory)
+### 3.1 RAW-ONLY LINK LAW
+Внутри governance-доков любые переходы должны быть **raw-links**.
+Никаких “кликабельных путей” как навигации в смысле SoT.
+
+### 3.2 HEADER SINGLE-TRUTH LAW
+STATUS/LOCK/VERSION/UID/OWNER/ROLE существуют **только в шапке**.
+Запрещено дублировать эти поля внизу файла.
+
+### 3.3 NO HIDDEN AUTHORITY LAW
+Ни один документ семьи не может объявлять себя “единственной точкой истины о существовании” вне своего домена.
+Existence определяется каноническими индексами/реестрами верхнего уровня.
+
+---
+
+## 4) SHARED ARTIFACT VOCABULARY (CANON)
+
+Эти имена артефактов используются одинаково во всех governance engines.
+
+### INPUT ARTIFACTS
+- CHANGE_PROPOSAL
+- CHANGE_NOTE
+- TARGET_LIST
+- AFFECTED_FILES_LIST
+- DIFF_SUMMARY
+- CHANGE_PACKAGE_RECORD
+- DECISION_RECORD
+- APPROVAL_RECORD
+- CONSISTENCY_REPORT
+- SCOPE_IMPACT_REPORT
+- SAFETY_ASSESSMENT_REPORT
+- DEPENDENCY_DECLARATIONS
+- DEPENDENCY_RECORDS
+- MIGRATION_MAP
+- REQUIRED_UPDATES_LIST
+- VERSION_DECISION_RECORD
+- COMPATIBILITY_CONTRACT
+- SNAPSHOT_RECORD
+- MEMORY_PACK_RECORD
+
+### OUTPUT ARTIFACTS
+- AUDIT_RECORD
+- DECISION_RECORD
+- APPROVAL_RECORD
+- CONSISTENCY_REPORT
+- SCOPE_IMPACT_REPORT
+- SAFETY_ASSESSMENT_REPORT
+- DEPENDENCY_VALIDATION_REPORT
+- VERSION_DECISION_RECORD
+- MEMORY_PACK_RECORD
+- SNAPSHOT_RECORD
 
 Hard rule:
-- No canon change is considered complete without DECISION + AUDIT + POST-VERIFY PASS.
+- если движок вводит новый термин — он должен быть согласован со словарём и добавлен через change pipeline.
 
 ---
 
-## 4) TEMPLATES (MANDATORY)
+## 5) MANDATORY GOVERNANCE PIPELINE (CANON FLOW)
 
-- Engine template:
-  `03_SYSTEM_ENTITIES/10_ENG__ENGINES/00_GOVERNANCE_ENGINES/00__TEMPLATE__ENGINE__GOVERNANCE_ENGINES.md`
-- README template:
-  `03_SYSTEM_ENTITIES/10_ENG__ENGINES/00_GOVERNANCE_ENGINES/00__TEMPLATE__README__GOVERNANCE_ENGINES.md`
+Стандартный порядок для canon-impacting change:
+
+1) **Change Control** — формирует change package и гейты
+2) **Rule Hierarchy** — определяет приоритеты, фиксирует конфликт/резолв (если есть)
+3) **Scope Impact** — required updates + migration map (если структурно)
+4) **Risk Safety** — blockers + mitigation + safety decision
+5) **Decision Approval** — процедура утверждения (quorum/veto)
+6) **Canon Authority** — финальное решение (ACCEPT/REJECT/CONDITIONAL)
+7) **Apply** — применение изменений строго в рамках пакета
+8) **Audit Log** — запись APPLY + CLOSE (append-only)
+9) **Consistency (POST-VERIFY)** — PASS как условие закрытия
+10) **Versioning & Memory** — version decision + memory pack (+ snapshot при MAJOR)
+
+### Close rule (hard)
+Canon-impacting change считается “закрытым” только если есть:
+- DECISION_RECORD
+- AUDIT_RECORD (APPLY + CLOSE)
+- CONSISTENCY_REPORT (POST-VERIFY PASS / PASS_WITH_WARN policy)
+- MEMORY_PACK_RECORD
 
 ---
 
-## 5) FAMILY QUALITY BAR (WHAT “DONE” MEANS)
+## 6) STORAGE TARGETS (WHERE RECORDS LIVE)
 
-Governance engine считается “готовым”, только если:
-- header: полный Doc Control + CHANGE_NOTE
-- mini-contract: CONSUMES/PRODUCES/DEPENDS_ON/OUTPUT_TARGET
-- минимум 5 hard gates
-- есть good/bad examples
-- есть failure modes / edge cases
-- зависимости прозрачны + отражаются в dependency registry при изменениях
-- изменения канона → Audit record обязательно
+- AUDIT storage:
+  `99_LOGS/LOG__AUDIT.md`
+
+- CHANGES storage (packages / dependency edges / exception records):
+  `99_LOGS/LOG__CHANGES.md`
+
+Если нужно новое хранилище — это отдельное canon-impacting изменение.
 
 ---
 
-## 6) REFERENCES (RAW ONLY)
+## 7) QUALITY BAR (ETALON DEFINITION)
 
-ENG INDEX (canon roster/order):
-- UE.ENG.INDEX.ALL_ENGINES — https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/02__INDEX_ALL_ENGINES.md
+Governance engine считается “эталонным”, только если:
+- полная шапка + UID не пустой
+- mini-contract заполнен реальными артефактами
+- определены modes + gates + severity/result mapping
+- определены canonical output formats (records/reports)
+- есть примеры good/bad + edge cases
+- raw-only references
+- нет дублирования authority/existence законов
 
-GOVERNANCE engines:
-- UE.ENG.GOV.AUDIT_LOG.001 — https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/00_GOVERNANCE_ENGINES/01__AUDIT_LOG_ENG.md
-- UE.ENG.GOV.CANON_AUTHORITY.001 — https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/00_GOVERNANCE_ENGINES/02__CANON_AUTHORITY_ENG.md
-- UE.ENG.GOV.RULE_HIERARCHY.001 — https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/00_GOVERNANCE_ENGINES/03__RULE_HIERARCHY_ENG.md
-- UE.ENG.GOV.CHANGE_CONTROL.001 — https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/00_GOVERNANCE_ENGINES/04__CHANGE_CONTROL_ENG.md
-- UE.ENG.GOV.CONSISTENCY.001 — https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/00_GOVERNANCE_ENGINES/05__CONSISTENCY_ENG.md
-- UE.ENG.GOV.DEPENDENCY_REGISTRY.001 — https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/00_GOVERNANCE_ENGINES/06__DEPENDENCY_REGISTRY_ENG.md
-- UE.ENG.GOV.DECISION_APPROVAL.001 — https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/00_GOVERNANCE_ENGINES/07__DECISION_APPROVAL_ENG.md
-- UE.ENG.GOV.SCOPE_IMPACT.001 — https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/00_GOVERNANCE_ENGINES/08__SCOPE_IMPACT_ENG.md
-- UE.ENG.GOV.RISK_SAFETY.001 — https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/00_GOVERNANCE_ENGINES/09__RISK_SAFETY_ENG.md
-- UE.ENG.GOV.VERSIONING_MEMORY.001 — https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/00_GOVERNANCE_ENGINES/10__VERSIONING_MEMORY_ENG.md
+---
+
+## 8) REFERENCES (RAW ONLY)
+
+ENG index (roster):
+- https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/02__INDEX_ALL_ENGINES.md
+
+Audit log storage:
+- https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/99_LOGS/LOG__AUDIT.md
+
+Changes log storage:
+- https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/99_LOGS/LOG__CHANGES.md
 
 --- END.
