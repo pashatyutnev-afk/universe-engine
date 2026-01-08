@@ -7,51 +7,64 @@ DOC_TYPE: DICTIONARY
 LEVEL: L2
 STATUS: ACTIVE
 LOCK: FIXED
-VERSION: 1.0.0
+VERSION: 1.1.0
 UID: UE.KB.DICT.XREF_RULES.001
 OWNER: SYSTEM
-ROLE: Правила перекрёстных ссылок XREF (без URL/путей, только UID)
+ROLE: Canonical KB cross-reference rules (UID-only, no navigation)
+
+CHANGE_NOTE:
+- DATE: 2026-01-08
+- TYPE: MINOR
+- SUMMARY: "XREF made UID-only. Removed PATH/RAW/URL. Enforced WHY requirement."
+- REASON: "Под закон KB: никакой навигации/промежуточных ссылок вне master-index."
+- IMPACT: "All KB cross-references are stable and path-independent."
 
 ---
 
-## PURPOSE
-Закрепляет формат перекрёстных ссылок между документами KB без “промежуточной навигации”.
+## PURPOSE (LAW)
+Закрепляет формат перекрёстных ссылок (XREF) в KB без промежуточной навигации.
 
-Главный принцип:
-- Навигация по файлам (PATH/RAW/URL) разрешена только в главном индексе.
-- Везде остальное — только UID.
+Ключевое:
+- XREF НЕ содержит PATH/RAW/URL.
+- XREF указывает только UID.
+- WHY обязателен.
 
 ---
 
-## XREF FORMAT (MANDATORY)
-- XREF: <UID> | WHY: <reason>
+## FORMAT (ABSOLUTE)
+Единственный допустимый формат:
 
-Пример:
-- XREF: UE.KB.CTRL.DOC.001 | WHY: doc formatting and link bans
+XREF: <UID> | WHY: <reason>
+
+RULES:
+- WHY обязателен (конкретика, 1 строка).
+- UID обязателен.
+- Никаких путей, ссылок, raw, URL.
 
 ---
 
 ## WHEN TO USE XREF
 Используй XREF, когда:
-- документ опирается на правило/словарь/шаблон
-- нужно указать “см. базовую норму”
-- нужно явно связать темы, не создавая навигации по путям
+- нужно сослаться на правило/словарь/шаблон/реалм/топик
+- нужно объявить зависимость или контекст, не создавая навигацию
 
 ---
 
-## WHAT IS FORBIDDEN
+## WHAT IS FORBIDDEN (HARD BAN)
 Запрещено:
-- URL на репозиторий/Raw
-- PATH к файлу
-- “перейди по ссылке”
-- любые “цепочки ссылок”
+- URL любого вида
+- RAW ссылки
+- PATH как “куда перейти”
+- “смотри документ X по ссылке”
+- цепочки навигации документ → документ → документ
 
 ---
 
-## UID MENTION POLICY
-Можно упоминать:
-- UID
-- имя документа (только name)
-Но нельзя добавлять путь/ссылку.
+## NAVIGATION RULE (KB)
+Навигация по файлам (PATH/RAW) разрешена только в:
+- `04_KNOWLEDGE_BASE/00__INDEX__KNOWLEDGE_BASE.md`
+
+В любых других документах KB:
+- только UID и WHY.
 
 --- END.

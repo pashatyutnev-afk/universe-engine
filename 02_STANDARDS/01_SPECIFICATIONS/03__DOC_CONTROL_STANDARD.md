@@ -1,173 +1,103 @@
-# DOC CONTROL STANDARD (SoT) — CANON HEADER + METADATA LAW
+# DOC CONTROL STANDARD (CANON)
 FILE: 02_STANDARDS/01_SPECIFICATIONS/03__DOC_CONTROL_STANDARD.md
 
 SCOPE: Universe Engine
 LAYER: 02_STANDARDS
-DOC_TYPE: STANDARD
-STANDARD_TYPE: DOC_CONTROL
+DOC_TYPE: SPEC
 LEVEL: L1
 STATUS: ACTIVE
 LOCK: FIXED
-VERSION: 1.2.0
-UID: UE.STD.DOC_CONTROL.SOT.001
+VERSION: 1.1.0
+UID: UE.STD.SPEC.DOC_CONTROL.001
 OWNER: SYSTEM
-ROLE: Single source of truth for canonical document header format, required metadata, allowed values, and anti-duplication rules across all layers
+ROLE: Doc header, lifecycle, versioning, and minimal cross-reference contract (UID-first)
 
 CHANGE_NOTE:
 - DATE: 2026-01-08
 - TYPE: MINOR
-- SUMMARY: "Зафиксирован единый машиночитаемый формат шапки, список обязательных/разрешённых полей, SemVer enforcement, запрет дублей метаданных вне шапки"
-- REASON: "Усилить фундамент: единый формат канона для индексов/реестров/шаблонов/сущностей"
-- IMPACT: "Все канонические документы обязаны соответствовать"
+- SUMMARY: "XREF/REL minimum contract changed to UID+WHY. PATH/URL are optional. Added compatibility rule: layers may enforce stricter no-link policies."
+- REASON: "Совместимость с KB strict mode (no intermediate links) и устранение path-dependency."
+- IMPACT: "Docs can remain stable even if file paths change."
 
 ---
 
-## 0) PURPOSE (SoT)
-Этот стандарт определяет **единую каноническую форму документа** Universe Engine.
-
-Он фиксирует:
-- единый формат шапки (header)
-- обязательные и разрешённые поля
-- допустимые множества значений (STATUS/LOCK)
-- строгий формат версии (SemVer)
-- запрет дублей метаданных вне шапки
-- минимальные правила “каноничности” (валидность формы)
-
-Если документ не соответствует этому стандарту — он считается **NON-CANON** до исправления.
+## PURPOSE (LAW)
+Определяет стандарт оформления документов: шапка, статусы, версии, контроль ссылок.
 
 ---
 
-## 1) CANON HEADER FORMAT (HARD LAW)
+## MANDATORY HEADER (REQUIRED)
+Каждый документ должен иметь шапку:
 
-### 1.1 Header block (mandatory)
-Шапка документа — это набор строк формата:
+SCOPE
+LAYER
+DOC_TYPE
+LEVEL
+STATUS
+LOCK
+VERSION
+UID
+OWNER
+ROLE
 
-`KEY: VALUE`
-
-Правила:
-- один пробел после двоеточия `:`
-- KEY — только `A-Z`, `0-9`, `_`
-- VALUE — любая строка без управляющих символов
-
-### 1.2 Placement (mandatory)
-- Шапка обязана идти **сразу после первой строки заголовка `# ...`**
-- После шапки — пустая строка и дальше контент
-
-### 1.3 Single source of truth (hard)
-Поля `STATUS`, `LOCK`, `VERSION`, `UID`, `OWNER` **должны существовать только в шапке**.
-
-Запрещено:
-- повторять эти поля внизу файла отдельными строками
-- включать вторые “STATUS/LOCK/VERSION” в блоках `FINAL RULE`, `FOOTER`, `META`, и т.п.
-
-Если дубли обнаружены → документ **NON-CANON**.
+Optional (if needed):
+CHANGE_NOTE (recommended for FIXED docs)
 
 ---
 
-## 2) REQUIRED FIELDS (STRICT SET)
-Каждый канонический документ обязан иметь следующие поля шапки:
+## STATUS (ENUM)
+DRAFT | ACTIVE | DEPRECATED | ARCHIVED
 
-- `SCOPE:`
-- `LAYER:`
-- `STATUS:`
-- `LOCK:`
-- `VERSION:`
-- `UID:`
-- `OWNER:`
-- `ROLE:`
-
-Отсутствие любого из REQUIRED полей → документ **NON-CANON**.
+## LOCK (ENUM)
+OPEN | FIXED
 
 ---
 
-## 3) OPTIONAL FIELDS (WHITELIST)
-Допускаются только следующие optional-поля (по необходимости):
-
-- `DOC_TYPE:` (см. §5)
-- `INDEX_TYPE:` (если документ — индекс/реестр)
-- `STANDARD_TYPE:` (если документ — стандарт/спека)
-- `ENTITY_GROUP:` (если документ описывает класс сущностей)
-- `ENTITY_CLASS:` (ENG/ORC/SPC/CTL/VAL/QA/KB/PRJ/AST/DB/LOG)
-- `LEVEL:` (L0..L5 — если используется уровневость)
-- `TAGS:` (comma-separated)
-- `RELATES_TO:` (список UID через запятую)
-- `CANON_PATH:` (канонический путь в репозитории)
-- `RAW:` (raw-ссылка для чтения без репозитория)
-- `CHANGE_NOTE:` (блок изменений; обязателен для L1 master-index и system laws)
-
-Любые другие поля запрещены, пока не добавлены в этот whitelist через Canon Protocol.
+## VERSIONING (SEMVER)
+X.Y.Z
+- MAJOR: изменение принципов/совместимости
+- MINOR: добавление правил/полей без слома
+- PATCH: правки без смены смысла
 
 ---
 
-## 4) STATUS / LOCK (STRICT VALUES)
-
-### 4.1 STATUS allowed (global)
-Допускаются только:
-- `STATUS: DRAFT`
-- `STATUS: ACTIVE`
-- `STATUS: DEPRECATED`
-- `STATUS: ARCHIVED`
-
-### 4.2 LOCK allowed (global)
-Допускаются только:
-- `LOCK: OPEN`
-- `LOCK: FIXED`
+## UID (REQUIRED)
+UID:
+- уникальный
+- стабильный
+- не зависит от PATH
+- используется для XREF/REL
 
 ---
 
-## 5) DOC TYPE TAXONOMY (STRICT)
-Поле `DOC_TYPE:` (если используется) допускается только из множества:
+## CROSS-REFERENCE MINIMUM CONTRACT (GLOBAL)
+Чтобы все слои были совместимы, фиксируем минимум:
 
-- `DOC_TYPE: LAW`
-- `DOC_TYPE: STANDARD`
-- `DOC_TYPE: INDEX`
-- `DOC_TYPE: TEMPLATE`
-- `DOC_TYPE: ENTITY`
-- `DOC_TYPE: REGISTRY`
-- `DOC_TYPE: PROTOCOL`
-- `DOC_TYPE: GUIDE`
-- `DOC_TYPE: LOG`
+### XREF (UID-FIRST)
+Минимальный формат (обязательный минимум):
+- XREF: <UID> | WHY: <reason>
 
-Если нужен новый тип — сначала добавляется сюда через Canon Protocol.
+PATH/URL поля (если слой их допускает) — строго опциональны.
+Слой может полностью запретить PATH/URL.
 
----
-
-## 6) VERSION FORMAT (SemVer HARD)
-`VERSION:` должен быть строго в формате SemVer:
-
-`X.Y.Z`
-
-Где:
-- `X` — MAJOR
-- `Y` — MINOR
-- `Z` — PATCH
-
-Запрещено:
-- `1.0`
-- `4.1`
-- `v1.2.3`
+### REL (UID-FIRST)
+Минимальный формат (обязательный минимум):
+- REL: <REL_TYPE> | TARGET: <UID> | WHY: <reason>
 
 ---
 
-## 7) MINIMUM CANON VALIDATION (GATES)
-Документ считается каноничным по форме, если:
-1) соблюдён формат шапки (§1)
-2) присутствуют все REQUIRED поля (§2)
-3) значения STATUS/LOCK валидны (§4)
-4) VERSION валиден SemVer (§6)
-5) отсутствуют дубли метаданных вне шапки (§1.3)
+## LINK POLICY (COMPATIBILITY)
+- Базовый стандарт допускает, что некоторые слои используют PATH/URL в индексах/картах.
+- Слой имеет право быть строже и запретить любые ссылки вне одного master-index (strict mode).
+- Это считается совместимым, если минимум UID+WHY соблюдён.
 
 ---
 
-## 8) MIGRATION RULE
-Любой документ без шапки, без SemVer, без UID или с дублями метаданных — **NON-CANON** до нормализации.
-Нормализация проходит через:
-- Canon Protocol
-- Versioning & Change Policy
-- Audit Log (если требуется governance)
+## RECOMMENDED SECTIONS (CONTENT)
+- PURPOSE
+- DEFINITIONS (если нужно)
+- RULES / CONSTRAINTS
+- XREF / REL (UID-first)
+- CHANGELOG (для FIXED/важных документов)
 
----
-
-## FINAL RULE (LOCK)
-LOCK: FIXED
 --- END.

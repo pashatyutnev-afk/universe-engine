@@ -1,125 +1,96 @@
-# INDEX STRUCTURE SPEC (SoT)
+# INDEX STRUCTURE SPEC (CANON)
 FILE: 02_STANDARDS/01_SPECIFICATIONS/09__INDEX_STRUCTURE_SPEC.md
 
 SCOPE: Universe Engine
 LAYER: 02_STANDARDS
 DOC_TYPE: SPEC
-SPEC_TYPE: INDEX_STRUCTURE
-LEVEL: L2
-STATUS: DRAFT
-LOCK: OPEN
-VERSION: 0.1.0
+LEVEL: L1
+STATUS: ACTIVE
+LOCK: FIXED
+VERSION: 1.1.0
 UID: UE.STD.SPEC.INDEX_STRUCTURE.001
 OWNER: SYSTEM
-ROLE: Single source of truth for index structure patterns (master-index, registry-index, realm-index), required blocks, numbering, and existence rules
+ROLE: Defines allowed index models (multi-index vs strict single-index) and compatibility rules
 
 CHANGE_NOTE:
 - DATE: 2026-01-08
-- TYPE: MAJOR
-- SUMMARY: "Нормализация legacy-spec: Doc Control + SemVer + UID + naming с номером"
-- REASON: "Файл без номера запрещён; нужен SoT по структуре индексов"
-- IMPACT: "Все индексы во всех слоях: LAW/STANDARDS/ENTITIES/KB/PROJECTS/ASSETS"
+- TYPE: MINOR
+- SUMMARY: "Introduced STRICT SINGLE-INDEX mode as compatible option. Clarified that sub-indexes are optional and may be banned by a layer."
+- REASON: "Совместимость с KB (single-index, no intermediate links) и устранение конфликтов 'standards vs strict layers'."
+- IMPACT: "Layers can choose strict or flexible indexing without breaking global rules."
 
 ---
 
-## 0) PURPOSE
-Этот spec фиксирует **как должны выглядеть индексы** в системе:
-- какие бывают типы индексов
-- какие блоки обязаны присутствовать
-- какие правила нумерации применяются
-- как работает existence rule
+## PURPOSE (LAW)
+Определяет допустимые модели индексирования в слоях Universe Engine.
+
+Важно:
+- “INDEX” бывает разного типа (master-map, registry, dictionary).
+- Слой может выбрать строгую модель (single-index) или гибкую (multi-index).
 
 ---
 
-## 1) INDEX TYPES (CANON SET)
-### 1.1 MASTER INDEX
-Роль: единственная точка истины о **составе и существовании** в слое.
-Обязателен в каждом слое.
+## INDEX TYPES (DEFINITIONS)
 
-### 1.2 REGISTRY INDEX
-Роль: учёт сущностей/документов/типов (UID/версии/статусы/связи).
-Не всегда обязателен, но если есть — должен быть зарегистрирован.
+### MASTER INDEX (ENTRYPOINT)
+Единая точка входа слоя.
+- Может быть единственным SoT по existence/nav.
 
-### 1.3 REALM INDEX / REALM FILE
-Роль: карта и правила внутри поддомена (realm/family).
-Используется в KB и в SYSTEM_ENTITIES семействах.
+### REGISTRY (CATALOG)
+Справочный список сущностей/доков, не обязательно навигация.
+- Не должен конкурировать с master-index по existence.
 
----
+### DICTIONARY (VOCABULARY)
+Словари терминов/типов/перечислений.
+- Не nav и не existence.
 
-## 2) REQUIRED BLOCKS (MINIMUM)
-Любой индекс обязан содержать:
-
-### 2.1 Doc Control Header (mandatory)
-`SCOPE / LAYER / DOC_TYPE: INDEX / INDEX_TYPE / LEVEL / STATUS / LOCK / VERSION / UID / OWNER / ROLE`
-
-### 2.2 PURPOSE (LAW)
-- 1–5 строк: “что этот индекс фиксирует”
-- existence rule
-
-### 2.3 HOW TO USE (mandatory flow)
-- пошаговая навигация (3–7 шагов)
-- где entrypoint и куда идти дальше
-
-### 2.4 ORDER OF AUTHORITY (priority)
-- при конфликтах внутри scope индекса
-
-### 2.5 CANON MAP (REGISTERED)
-- список документов/сущностей, которые “существуют”
-- строгий порядок (by number)
-
-### 2.6 FINAL RULE (LOCK)
-- короткое закрепление, что индекс — SoT по existence
+### SUB-INDEX (OPTIONAL)
+Локальное оглавление/карта внутри зоны.
+- Разрешено только если слой это допускает.
+- В strict mode запрещено.
 
 ---
 
-## 3) NUMBERING RULES (STRICT)
-### 3.1 Внутри папки
-- если папка использует `NN__` — то **все файлы** должны иметь `NN__`
-- README/realm-file допускается как `00__README__...` (если стандарт слоя это разрешает)
+## TWO COMPATIBLE MODELS
 
-### 3.2 Внутри master-index
-- порядок применяется “по номеру”
-- номер в master-index и номер в имени файла должны совпадать, если используется нумерация
+### MODEL A — FLEX (MULTI-INDEX)
+Допускаются:
+- master index слоя (entrypoint)
+- registry / dictionaries
+- локальные sub-indexes (по необходимости)
 
----
+Условия совместимости:
+- master index должен явно определять authority по existence/nav
+- registry не должен заявлять, что он SoT по existence
 
-## 4) EXISTENCE RULE (SYSTEM)
-Правило existence для любого слоя:
+### MODEL B — STRICT (SINGLE-INDEX / NO-SUB-INDEX)
+Запрещены:
+- любые sub-indexes как оглавления/реестры
+- любые промежуточные навигационные ссылки вне одного master-index (если слой так решил)
 
-- если сущности нет в master-index слоя → сущности не существует для слоя
-- если файл есть физически, но не зарегистрирован → это ошибка/мусор/вне канона
+Разрешено:
+- один master-index = единственный SoT по existence/nav
+- dictionaries внутри governance (без навигации)
 
----
-
-## 5) RAW LINKS (OPTIONAL POLICY)
-Если индекс является публичной навигацией (для чтения без репо) — допускаются raw-ссылки.
-Если индекс внутренний — достаточно PATH.
-
-Рекомендация:
-- master-index слоёв: PATH + RAW
-- registry index: PATH (RAW опционально)
+Это валидная модель и считается совместимой со стандартами при соблюдении UID-first.
 
 ---
 
-## 6) ANTI-DUPLICATION (INDEX LEVEL)
-Запрещено:
-- два master-index одного слоя
-- два индекса, которые оба объявляют existence для одного и того же scope
+## GLOBAL COMPATIBILITY RULE (MINIMUM)
+Независимо от модели:
+- XREF и REL должны быть UID-first:
+  - XREF: <UID> | WHY: ...
+  - REL: <TYPE> | TARGET: <UID> | WHY: ...
 
-Если нужен “быстрый доступ” — это делается как:
-- ссылки в master-index
-- или отдельный “map” файл, но он НЕ объявляет existence и НЕ SoT
-
----
-
-## 7) OPEN ITEMS (DRAFT TODO)
-- закрепить единый формат секции CANON MAP (таблица vs список)
-- закрепить правила anchor/jump-секций (Quick Nav)
-- связать INDEX_TEMPLATE и этот spec через UID/XREF
+PATH/URL могут быть:
+- опциональны (flex model)
+- запрещены (strict model)
 
 ---
 
-## FINAL RULE
-Этот spec является SoT по структуре индексов.
-Пока STATUS: DRAFT — допускает правки.
+## ANTI-CONFLICT RULES
+- Нельзя иметь два SoT по existence внутри одного слоя.
+- Нельзя, чтобы registry/index объявлял existence, если слой выбрал strict single-index.
+- Любой слой обязан документально объявить свою модель (A или B) в governance.
+
 --- END.

@@ -52,6 +52,13 @@ ROLE: Справочник типов сущностей KB (НЕ навигац
 - Используется для doc control, quality control.
 
 ---
+3) Любые другие index-файлы как NAV/EXISTENCE реестр ЗАПРЕЩЕНЫ.
+   - Запрещено: любые sub-indexes в любых подпапках (особенно вне `00_KB_GOVERNANCE/`),
+     которые пытаются быть оглавлением/реестром существования/навигацией.
+   - Примеры запрещённого: `*/00__INDEX__*.md`, `*/_index.md`, `*/00_INDEX*.md`,
+     и любые `INDEX*.md` вне `00_KB_GOVERNANCE/` если они не DICTIONARY.
+   - Разрешено: governance-словари внутри `00_KB_GOVERNANCE/` (в т.ч. с `INDEX` в имени),
+     но они НЕ имеют authority по existence/nav.
 
 ## REQUIRED FIELDS (WHEN PASSPORT IS USED)
 Если сущность оформляется паспортом (см. шаблон), обязательны:

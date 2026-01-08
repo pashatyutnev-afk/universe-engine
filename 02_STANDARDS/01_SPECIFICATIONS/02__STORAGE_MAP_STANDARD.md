@@ -1,176 +1,87 @@
-# STORAGE MAP STANDARD (SoT) (CANON)
+# STORAGE MAP STANDARD (CANON)
 FILE: 02_STANDARDS/01_SPECIFICATIONS/02__STORAGE_MAP_STANDARD.md
 
 SCOPE: Universe Engine
 LAYER: 02_STANDARDS
 DOC_TYPE: SPEC
-SPEC_TYPE: SoT
 LEVEL: L1
 STATUS: ACTIVE
 LOCK: FIXED
 VERSION: 1.1.0
-UID: UE.STD.SPEC.STORAGE_MAP.102
+UID: UE.STD.SPEC.STORAGE_MAP.001
 OWNER: SYSTEM
-ROLE: Source-of-Truth specification for canonical storage layout: layer folders, subfolders, entrypoint indexes, and placement rules for artifacts.
+ROLE: Defines how layers describe allowed storage topology + prohibited zones
 
 CHANGE_NOTE:
-- DATE: 2026-01-07
+- DATE: 2026-01-08
 - TYPE: MINOR
-- SUMMARY: "Нормализован Storage Map SoT: слои/папки/entrypoints, правила размещения, запрет коллизий, связка с индексами"
-- REASON: "Согласование с System Law и устранение путаницы 'где что лежит'"
-- IMPACT: "All layers, master-index navigation, KB governance, pipelines"
+- SUMMARY: "Removed reference to non-existing 02_STANDARDS/00__INDEX__STANDARDS.md. Added strict-layer compatibility (Single-Index mode) and clarified entrypoint for 02_STANDARDS."
+- REASON: "Синхронизация стандарта с реальной структурой 02_STANDARDS и строгим режимом KB."
+- IMPACT: "No broken entrypoint examples; layers may be stricter than baseline."
 
 ---
 
-## 0) PURPOSE (LAW)
-Этот документ — SoT-спека о том:
-- какие корневые папки составляют Universe Engine,
-- что означает “слой” (layer) как единица структуры,
-- где обязаны лежать entrypoints (master-index),
-- как размещать документы/реестры/модули/шаблоны,
-- какие коллизии структуры запрещены.
+## PURPOSE (LAW)
+Стандарт определяет, как описывать карту хранения (Storage Map) для слоя:
+- разрешённые зоны (whitelist)
+- запрещённые зоны (banlist)
+- правила существования и навигации (если слой вводит строгий режим)
 
 ---
 
-## 1) AUTHORITY & XREF (UID-first)
-Primary authority:
-- `01_SYSTEM_LAW/00__SYSTEM_LAW.md`
-- `01_SYSTEM_LAW/01__NAMING_RULES.md`
-- `01_SYSTEM_LAW/02__UID_RULES.md`
-- `01_SYSTEM_LAW/06__CONSTRAINTS_REGISTRY.md`
-
-XREF:
-- XREF: UE.LAW.CORE.000 | governs | existence/authority | 01_SYSTEM_LAW/00__SYSTEM_LAW.md
-- XREF: UE.LAW.NAMING.001 | governs | naming patterns | 01_SYSTEM_LAW/01__NAMING_RULES.md
-- XREF: UE.LAW.UID.002 | defines | UID rules | 01_SYSTEM_LAW/02__UID_RULES.md
-- XREF: UE.REG.CONSTRAINTS.MASTER.006 | enforces | hard constraints | 01_SYSTEM_LAW/06__CONSTRAINTS_REGISTRY.md
+## BASE DEFINITIONS
+- ROOT: корневая папка слоя.
+- ZONE: логическая область хранения (папка или диапазон файлов).
+- STORAGE MAP DOC: документ, который описывает зоны и запреты слоя.
+- EXISTENCE MAP: список “что существует” (обычно индекс слоя).
 
 ---
 
-## 2) CANONICAL ROOT STRUCTURE (LAYERS)
-Universe Engine хранится в корне репозитория как набор слоёв.
+## ENTRYPOINT EXAMPLE (02_STANDARDS)
+Канонический вход в слой 02_STANDARDS задаётся master-index’ом слоя:
+- `02_STANDARDS/00__MASTER_INDEX__UNIVERSE_ENGINE.md`
 
-### 2.1 Root layers (minimum set)
-- `01_SYSTEM_LAW/` — ядро законов (L0/L1)
-- `02_STANDARDS/` — стандарты, спеки, протоколы, шаблоны (SoT)
-- `04_KNOWLEDGE_BASE/` — знания (governance + realms + passports)
-
-### 2.2 Optional / planned layers (allowed when indexed)
-Следующие слои допускаются, но считаются каноничными только после появления master-index и регистрации:
-- `03_<...>/` — зарезервировано (например production systems, assets, etc.)
-- `05_<...>/` — outputs/builds/export
-- `06_<...>/` — logs/audit
-(конкретизация — через Canon Protocol)
+NOTE:
+Если в слое есть legacy/alias entrypoints — они не должны быть источником истины по существованию.
 
 ---
 
-## 3) ENTRYPOINT RULE (MASTER INDEX)
-### 3.1 Один entrypoint на слой (ABSOLUTE)
-Каждый слой обязан иметь ровно один master-index (L1), обычно:
-- `00__INDEX__<LAYER>.md`
+## MINIMUM STORAGE MAP STRUCTURE (REQUIRED)
+Каждый Storage Map документа слоя должен содержать:
 
-Пример:
-- `01_SYSTEM_LAW/00__INDEX__SYSTEM_LAW.md`
-- `02_STANDARDS/00__INDEX__STANDARDS.md`
-- `04_KNOWLEDGE_BASE/00__INDEX__KNOWLEDGE_BASE.md`
-
-### 3.2 Запрет альтернативных индексов
-Alt/legacy index не может быть каноном.
-Допускается только как NON-CANON alias pointer (короткий указатель на канон).
+1) ROOT
+2) ALLOWED ZONES (WHITELIST)
+3) PROHIBITED (HARD BAN)
+4) CHANGE POLICY (как добавляются зоны)
+5) COMPATIBILITY NOTES (если слой строже стандарта)
 
 ---
 
-## 4) PLACEMENT RULES (WHERE THINGS LIVE)
-### 4.1 What goes into 01_SYSTEM_LAW
-Только системные законы/реестры системы (authority, naming, uid, versioning, canon protocol, schema registry, constraints, pipelines).
+## STRICT LAYER COMPATIBILITY (IMPORTANT)
+Слой может быть строже базового стандарта.
 
-Запрещено:
-- контент мира
-- “спеки мира”
-- KB контент
+### STRICT MODE: SINGLE-INDEX / NO-SUB-INDEX
+Если слой объявляет строгий режим:
+- existence и навигация определяются только одним master-index файла слоя
+- любые sub-indexes запрещены
+- навигационные ссылки (PATH/RAW/URL) могут быть разрешены только в master-index
 
-### 4.2 What goes into 02_STANDARDS
-- SoT specs (как должно быть)
-- Modules (детализация SoT)
-- Protocols (операционка для стандартов)
-- Templates (формы документов/артефактов)
-- Terms (глоссарий)
-- Requirements/TZ (если это стандартизированное ТЗ)
-
-### 4.3 What goes into 04_KNOWLEDGE_BASE
-- governance (правила KB, карты, типы сущностей, шаблоны паспортов)
-- realms (доменные знания)
-- passports (описания сущностей)
+Это валидный режим и считается совместимым со стандартами.
 
 ---
 
-## 5) SUBFOLDER CONVENTIONS (STANDARDIZED)
-Это рекомендуемые подпапки внутри слоя (если слой их использует).  
-Внутри одного слоя допускаются свои подсистемы, но их структура должна быть зарегистрирована в master-index.
-
-### 5.1 Standards subfolders (canonical)
-- `00_CANON/` — обзор/канон стандарта слоя (reference)
-- `01_SPECIFICATIONS/` — SoT спеки
-- `02_PROTOCOLS/` — протоколы
-- `03_TECHNICAL/` — шаблоны/формы
-- `04_TERMS_DEFINITIONS/` — глоссарий/термины
-- `05_REQUIREMENTS_TZ/` — требования/ТЗ
-- `06_MARKING_STANDARDS/` — модули маркировки (детализация)
-
-### 5.2 KB subfolders (canonical)
-- `00_KB_GOVERNANCE/` — правила/карты/реестры KB (не контент)
-- `01..08 realms` — либо файлами, либо папками (решается governance, но должно быть единообразно)
+## RECOMMENDED ZONE DESCRIPTION FORMAT
+- ZONE: <name>
+- TYPE: <folder | range | file>
+- INTENT: <why it exists>
+- RULES: <must/ban list, short>
 
 ---
 
-## 6) NUMBERING & COLLISION RULES (HARD)
-### 6.1 No collisions in folder (ABSOLUTE)
-В одной папке запрещено иметь два канонических файла с одинаковым префиксом `NN*`.
+## PROHIBITED PATTERNS (RECOMMENDED)
+Storage Map должен явно запрещать:
+- “локальные реестры существования” (sub-indexes) если слой в strict mode
+- неучтённые папки/диапазоны
+- дублирование SoT по existence (два разных индекса)
 
-Пример конфликта (нельзя):
-- `02_CHARACTER_CRAFT.md`
-- `02__KB_TAGS.md`
-
-Решение:
-- перенумеровать один файл
-- вынести в подпапку
-- или объявить controlled exception (через Naming Rules + Canon Protocol)
-
-### 6.2 Root-level `00__*` collisions
-Если `00__INDEX__...` уже существует в папке слоя, то другие `00__*` в той же папке не могут быть каноном.
-Они должны:
-- быть переименованы на `01__...`, `02__...` и т.д.,
-- или стать NON-CANON alias pointers.
-
----
-
-## 7) RAW LINK POLICY (REFERENCE ONLY)
-Raw-ссылки в индексах допустимы как reference, но канон определяется:
-- путём (FILE) + регистрацией в master-index
-- UID в шапке
-
-Если raw-ссылка ломается, но файл существует — чинится ссылка (PATCH/MINOR), а не “перепридумывается” структура.
-
----
-
-## 8) OUTPUT / BUILD STORAGE (IF USED)
-Если система производит выходные сборки/экспорты, рекомендуется:
-- хранить их отдельно от SoT/KB, в выделенном слое (например `05_OUTPUT/`),
-- и регистрировать этот слой отдельным master-index, когда он становится каноничным.
-
----
-
-## 9) MIGRATION NOTES (CURRENT REPO)
-S0:
-- устранить корневые коллизии `00__*` в `02_STANDARDS/` (уже начато: `01__DOC_REGISTRY.md`, `02__MASTER_INDEX__...md`)
-- привести документы к Doc Control header + UID + SemVer
-
-S1:
-- нормализовать имена файлов в подпапках протоколов/шаблонов/терминов под Naming Rules
-
----
-
-## FINAL RULE (LOCK)
-Storage Map — это SoT по размещению и структуре.
-Любая правка, меняющая слои/entrypoints/placement rules = изменение канона (Canon Protocol).
 --- END.
