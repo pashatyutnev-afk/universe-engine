@@ -7,22 +7,32 @@ DOC_TYPE: SPEC
 LEVEL: L1
 STATUS: ACTIVE
 LOCK: FIXED
-VERSION: 1.2.0
+VERSION: 1.2.1
 UID: UE.STD.SPEC.DOC_CONTROL.001
 OWNER: SYSTEM
-ROLE: Doc header + lifecycle + minimal cross-reference contract (UID-first)
+ROLE: Doc header + lifecycle + minimal XREF/REL contract (UID-first) + anti-dup rules
 
 CHANGE_NOTE:
 - DATE: 2026-01-08
-- TYPE: MINOR
-- SUMMARY: "Enforced UID-first XREF/REL contract. Clarified: PATH/URL optional; strict layers may ban links outside a single master-index. Banned metadata duplication."
-- REASON: "Совместимость с KB strict mode и стабильность при изменении путей."
-- IMPACT: "Docs stay valid even if paths change."
+- TYPE: PATCH
+- SUMMARY: "Made FILE field explicitly allowed. Removed footer meta duplication pattern. Added strict single-index compatibility clause."
+- REASON: "Убрать конфликт: документы используют FILE, а стандарт его не признавал. Запретить дубли LOCK/STATUS/VERSION внизу."
+- IMPACT: "Единый Doc Control без самопротиворечий."
 
 ---
 
-## MANDATORY HEADER (REQUIRED)
-Каждый документ обязан иметь шапку:
+## 0) PURPOSE (LAW)
+Этот стандарт определяет:
+- обязательную шапку документа (Doc Control header)
+- правила статусов/локов/версий
+- минимальный формат XREF/REL (UID-first)
+- запрет на дубли метаданных вне шапки
+- совместимость со строгими режимами (single-index)
+
+---
+
+## 1) MANDATORY HEADER (REQUIRED)
+Каждый документ обязан иметь шапку (ровно один раз, в начале файла):
 
 FILE
 SCOPE
@@ -36,41 +46,54 @@ UID
 OWNER
 ROLE
 
-Optional (recommended for FIXED docs):
+Optional (recommended):
 CHANGE_NOTE
 
 ---
 
-## STRICT NO-DUP RULE
-Запрещено дублировать метаданные из шапки внизу файла:
-- STATUS / LOCK / VERSION / UID / OWNER / FILE
+## 2) STRICT NO-DUP RULE (ABSOLUTE)
+Запрещено дублировать метаданные шапки где-либо ниже в тексте, включая:
+STATUS / LOCK / VERSION / UID / OWNER / FILE / LAYER / DOC_TYPE / LEVEL / SCOPE
 
 Одна истина метаданных — в шапке.
 
+Запрещённый паттерн (пример):
+"FINAL RULE (LOCK) LOCK: FIXED"  ← это дубль LOCK и нарушает стандарт.
+
 ---
 
-## STATUS (ENUM)
+## 3) STATUS (ENUM)
 DRAFT | ACTIVE | DEPRECATED | ARCHIVED
 
-## LOCK (ENUM)
+## 4) LOCK (ENUM)
 OPEN | FIXED
 
-## VERSIONING
+## 5) VERSIONING
 SemVer: X.Y.Z
 
 ---
 
-## MINIMUM CROSS-REFERENCE CONTRACT (GLOBAL)
+## 6) MINIMUM CROSS-REFERENCE CONTRACT (GLOBAL)
 
 ### XREF (UID-FIRST)
-Минимальный формат:
+Формат:
 - XREF: <UID> | WHY: <reason>
 
 ### REL (UID-FIRST)
-Минимальный формат:
+Формат:
 - REL: <REL_TYPE> | TARGET: <UID> | WHY: <reason>
 
 PATH/URL допускаются только если слой это разрешает.
 Слой имеет право быть строже и полностью запретить ссылки вне одного master-index.
+
+---
+
+## 7) STRICT SINGLE-INDEX MODE (COMPATIBLE)
+Слой может объявить режим:
+- один master-index = единственный SoT по NAV/EXISTENCE
+- sub-indexes запрещены
+- PATH/RAW/URL разрешены только в master-index
+
+Это совместимо с данным стандартом при соблюдении UID-first.
 
 --- END.
