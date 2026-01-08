@@ -1,19 +1,25 @@
-# ALIAS POINTER (NON-CANON)
+# ALIAS — KB INDEX POINTER (NON-CANON)
 FILE: 04_KNOWLEDGE_BASE/99__ALIAS__KB_INDEX.md
 
 SCOPE: Universe Engine
 LAYER: 04_KNOWLEDGE_BASE
-DOC_TYPE: ALIAS_POINTER
-LEVEL: L9
-STATUS: ARCHIVED
+DOC_TYPE: ALIAS
+LEVEL: L2
+STATUS: ACTIVE
 LOCK: FIXED
 VERSION: 1.0.0
 UID: UE.KB.ALIAS.INDEX.001
 OWNER: SYSTEM
-ROLE: Legacy pointer to canonical KB entrypoint (NON-CANON)
+ROLE: Legacy pointer to the single KB index (no content)
 
-TARGET:
-- PATH: 04_KNOWLEDGE_BASE/00__INDEX__KNOWLEDGE_BASE.md
-- RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/04_KNOWLEDGE_BASE/00__INDEX__KNOWLEDGE_BASE.md
+---
+
+## POINTER
+Single KB index:
+- FILE: 00__INDEX__KNOWLEDGE_BASE.md
+- UID: UE.KB.IDX.MASTER.001
+
+NOTE:
+This alias contains no content by design.
 
 --- END.

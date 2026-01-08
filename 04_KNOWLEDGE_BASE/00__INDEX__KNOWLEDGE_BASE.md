@@ -8,35 +8,53 @@ INDEX_TYPE: MASTER
 LEVEL: L1
 STATUS: ACTIVE
 LOCK: FIXED
-VERSION: 3.0.1
+VERSION: 4.0.0
 UID: UE.KB.IDX.MASTER.001
 OWNER: SYSTEM
 ROLE: Single canonical entrypoint + existence registry for Knowledge Base layer
 
 CHANGE_NOTE:
 - DATE: 2026-01-08
-- TYPE: PATCH
-- SUMMARY: "10_TOPICS README закреплён как 99__README__TOPICS_REALM.md; master-index синхронизирован с topics sub-index."
-- REASON: "Убрать несоответствия/поиск несуществующих файлов."
-- IMPACT: "KB navigation + existence rule enforcement."
+- TYPE: HARD-RESET
+- SUMMARY: "ONE-FOLDER / ONE-INDEX LAW. All sub-indexes deprecated and must be deleted. Global Index is the only registry and navigation map."
+- REASON: "Убрать двойные источники истины, делегирование и паразитные индексы."
+- IMPACT: "Absolute navigation + existence determinism. No sub-indexes allowed."
 
 ---
 
 ## PURPOSE (LAW)
-Этот INDEX — единственная точка истины для слоя `04_KNOWLEDGE_BASE`.
+Этот INDEX — единственная точка истины для Knowledge Base.
 
-### EXISTENCE RULE (ABSOLUTE)
+---
+
+## ONE-FOLDER / ONE-INDEX LAW (ABSOLUTE)
+1) Единственная каноническая папка KB: `04_KNOWLEDGE_BASE/`
+2) Единственный канонический индекс KB: `04_KNOWLEDGE_BASE/00__INDEX__KNOWLEDGE_BASE.md`
+3) Любые другие index-файлы (любого уровня, в любых подпапках) ЗАПРЕЩЕНЫ.
+   - Примеры запрещённого: `*/00__INDEX__*.md`, `*/INDEX*.md`, `*/_index.md`, `*/00_INDEX*.md`
+4) Любые попытки “делегировать subtree” (topics/realms/entities/что угодно) ЗАПРЕЩЕНЫ.
+5) Ссылки внутри любых документов НЕ создают существование и НЕ расширяют канон.
+
+ENFORCEMENT:
+- Если найден любой под-индекс (sub-index) — он должен быть удалён.
+- Если файл не перечислен в CANON MAP ниже — он NON-CANON / ignored.
+
+---
+
+## EXISTENCE RULE (ABSOLUTE)
 - Канон существует только по спискам в этом файле (CANON MAP).
-- Subtree `10_TOPICS` делегирован: existence topics определяется файлом
-  `04_KNOWLEDGE_BASE/10_TOPICS/00__INDEX__TOPICS.md`.
-- Файл в репо без регистрации в соответствующем index = NON-CANON / ignored.
+- Любой файл в репо, не перечисленный здесь, считается NON-CANON / ignored.
 
 ---
 
 ## ORDER OF AUTHORITY (KB)
-1) `04_KNOWLEDGE_BASE/00_KB_GOVERNANCE/*`
-2) `04_KNOWLEDGE_BASE/00__INDEX__KNOWLEDGE_BASE.md`
-3) `04_KNOWLEDGE_BASE/*` (realms) + `04_KNOWLEDGE_BASE/10_TOPICS/*` (topics)
+1) `04_KNOWLEDGE_BASE/00_KB_GOVERNANCE/*`  (контент-правила)
+2) `04_KNOWLEDGE_BASE/00__INDEX__KNOWLEDGE_BASE.md` (существование + навигация)
+3) `04_KNOWLEDGE_BASE/*` (контент KB)
+
+NOTE:
+Authority в пунктах (1) и (3) относится к содержанию/нормам.
+EXISTENCE и NAV определяются только этим INDEX.
 
 ---
 
@@ -91,22 +109,6 @@ RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/hea
 
 ---
 
-### 10_TOPICS (delegated subtree)
-Folder: `04_KNOWLEDGE_BASE/10_TOPICS/`
-
-00 — INDEX: Topics (SoT for topics existence)
-PATH: `04_KNOWLEDGE_BASE/10_TOPICS/00__INDEX__TOPICS.md`
-RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/04_KNOWLEDGE_BASE/10_TOPICS/00__INDEX__TOPICS.md
-
-99 — README: Topics Realm
-PATH: `04_KNOWLEDGE_BASE/10_TOPICS/99__README__TOPICS_REALM.md`
-RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/04_KNOWLEDGE_BASE/10_TOPICS/99__README__TOPICS_REALM.md
-
-NOTE:
-Все topic-файлы (01..98) регистрируются внутри `00__INDEX__TOPICS.md` и не перечисляются здесь.
-
----
-
 ### KB REALMS (01..08)
 Folder: `04_KNOWLEDGE_BASE/`
 
@@ -141,6 +143,31 @@ RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/hea
 08 — Research & Fact Checking
 PATH: `04_KNOWLEDGE_BASE/08__RESEARCH_FACT_CHECKING.md`
 RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/04_KNOWLEDGE_BASE/08__RESEARCH_FACT_CHECKING.md
+
+---
+
+### TOPICS (registered directly in GLOBAL INDEX)
+Folder: `04_KNOWLEDGE_BASE/10_TOPICS/`
+
+00 — README: Topics Realm
+PATH: `04_KNOWLEDGE_BASE/10_TOPICS/00__README__TOPICS_REALM.md`
+RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/04_KNOWLEDGE_BASE/10_TOPICS/00__README__TOPICS_REALM.md
+
+01 — Topic: Narrative — Scene Craft
+PATH: `04_KNOWLEDGE_BASE/10_TOPICS/01__NARRATIVE__SCENE_CRAFT.md`
+RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/04_KNOWLEDGE_BASE/10_TOPICS/01__NARRATIVE__SCENE_CRAFT.md
+
+02 — Topic: Character — Motivation
+PATH: `04_KNOWLEDGE_BASE/10_TOPICS/02__CHARACTER__MOTIVATION.md`
+RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/04_KNOWLEDGE_BASE/10_TOPICS/02__CHARACTER__MOTIVATION.md
+
+03 — Topic: Visual — Lighting
+PATH: `04_KNOWLEDGE_BASE/10_TOPICS/03__VISUAL__LIGHTING.md`
+RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/04_KNOWLEDGE_BASE/10_TOPICS/03__VISUAL__LIGHTING.md
+
+NOTE:
+Любой topic-файл, не перечисленный здесь, считается NON-CANON / ignored.
+Sub-indexes запрещены. Никаких 00__INDEX__TOPICS.md быть не должно.
 
 ---
 

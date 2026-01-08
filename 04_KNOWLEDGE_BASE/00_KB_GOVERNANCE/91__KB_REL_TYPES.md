@@ -1,94 +1,61 @@
-# KB REL TYPES (SYSTEM)
-FILE: 04_KNOWLEDGE_BASE/00_KB_GOVERNANCE/91__KB_REL_TYPES
+# KB REL TYPES (DICTIONARY, CANON)
+FILE: 04_KNOWLEDGE_BASE/00_KB_GOVERNANCE/91__KB_REL_TYPES.md
 
 SCOPE: Universe Engine
 LAYER: 04_KNOWLEDGE_BASE
-DOC_TYPE: KB_SYSTEM
-SYSTEM_OBJ: REL_TYPES
-LEVEL: L1
+DOC_TYPE: DICTIONARY
+LEVEL: L2
 STATUS: ACTIVE
 LOCK: FIXED
 VERSION: 1.0.0
-UID: UE.KB.SYS.REL_TYPES.001
+UID: UE.KB.DICT.REL_TYPES.001
 OWNER: SYSTEM
-ROLE: Canonical list of allowed relationship types (REL) for KB documents and KB entity passports
-
-CHANGE_NOTE:
-- DATE: 2026-01-08
-- TYPE: MAJOR
-- SUMMARY: "Введён канонический набор REL типов для KB: строгий список + смысл + когда применять"
-- REASON: "Без фиксированного словаря REL появляются дубли и несовместимые связи"
-- IMPACT: "KB passports, topics XREF/REL, KB registry consistency"
+ROLE: Словарь типов отношений между сущностями KB (UID-only)
 
 ---
 
-## PURPOSE (LAW)
-Этот документ — **единственная точка истины** для списка REL типов внутри KB слоя.
-
-Правило:
-- REL TYPE обязан быть только из списка ниже.
-- Новый REL TYPE добавляется только правкой этого файла (SemVer MINOR/MAJOR).
+## PURPOSE
+Определяет стандартные типы связей (REL) для паспортов и перекрёстных указаний.
+REL — это семантика связи, не ссылка.
 
 ---
 
-## REL FORMAT (STANDARD)
-Запись REL оформляется так:
-
-`REL: <TYPE> -> <TARGET> | WHY:<short>`
-
-Где `<TARGET>` = PATH или UID.
-
-Пример:
-`REL: depends_on -> UE.KB.TOPIC.NARR.SCENE_CRAFT.001 | WHY:uses scene model`
+## REL FORMAT (MANDATORY)
+- REL: <REL_TYPE> | TARGET: <UID> | WHY: <reason>
 
 ---
 
-## CANON REL TYPES (ALLOWED SET)
+## REL TYPES (BASE SET)
 
-### 1) depends_on
-Смысл: объект A требует объект B для корректной работы/понимания.  
-Когда: A без B ломается.
+### DEFINES
+Этот документ определяет правила/словарь для TARGET.
 
-### 2) supports
-Смысл: объект B усиливает/поддерживает A, но без него A всё равно работает.  
-Когда: B — усилитель/оптимизация.
+### DEPENDS_ON
+Этот документ зависит от TARGET (без него смысл ломается).
 
-### 3) part_of
-Смысл: A — часть B (иерархия).  
-Когда: нужно связать модуль/подтему с большим пакетом.
+### EXTENDS
+Этот документ расширяет TARGET (добавляет слой/часть).
 
-### 4) related_to
-Смысл: есть тематическая связь без зависимости.  
-Когда: “рядом по смыслу”.
+### CONFLICTS_WITH
+Этот документ конфликтует с TARGET (нужно разрешение конфликта).
 
-### 5) xref_to
-Смысл: A явно ссылается на B как на источник/подробности (без копирования).  
-Когда: вместо дублирования текста.
+### REPLACES
+Этот документ заменяет TARGET.
 
-### 6) produces
-Смысл: A производит артефакт/выход B.  
-Когда: процесс/метод выдаёт результат.
+### DEPRECATES
+Этот документ объявляет TARGET устаревшим.
 
-### 7) consumes
-Смысл: A требует вход B (как ресурс/артефакт).  
-Когда: процесс/метод принимает на вход.
+### IMPLEMENTS
+Этот документ реализует норму/требование, описанное в TARGET.
 
-### 8) replaces
-Смысл: A заменяет B (B становится deprecated).  
-Когда: миграция смыслов/методов.
-
-### 9) deprecated_by
-Смысл: A устарел и заменён B (обратная связь к replaces).  
-Когда: оформляем депрекацию.
+### EXAMPLE_FOR
+Этот документ служит примером для TARGET.
 
 ---
 
-## FORBIDDEN
-Запрещено придумывать новые типы на месте.
-Если не хватает — расширяем этот файл.
+## RULES
+- REL всегда указывает TARGET по UID.
+- REL не содержит URL/путей.
+- REL не является навигацией по файлам.
 
----
-
-## FINAL RULE (LOCK)
-Этот документ — SoT по REL типам KB слоя.
 --- END.

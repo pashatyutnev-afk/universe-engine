@@ -1,116 +1,59 @@
-# KB REALM (GOVERNANCE README)
+# KB REALM — README (CANON)
 FILE: 04_KNOWLEDGE_BASE/00_KB_GOVERNANCE/00__README__KB_REALM.md
 
 SCOPE: Universe Engine
 LAYER: 04_KNOWLEDGE_BASE
 DOC_TYPE: README
-REALM: KB_GOVERNANCE
-LEVEL: L1
+LEVEL: L2
 STATUS: ACTIVE
 LOCK: FIXED
 VERSION: 1.0.0
-UID: UE.KB.GOV.README.001
+UID: UE.KB.README.REALM.001
 OWNER: SYSTEM
-ROLE: Governance realm overview for Knowledge Base: boundaries, entrypoints, rules of existence, and how KB is maintained
-
-CHANGE_NOTE:
-- DATE: 2026-01-08
-- TYPE: MAJOR
-- SUMMARY: "KB governance README приведён к канону: Doc Control + UID + SemVer + жёсткие границы governance vs realms"
-- REASON: "Без README-гранниц KB расползается и начинает дублировать стандарты/законы"
-- IMPACT: "Вся навигация и дисциплина слоя 04_KNOWLEDGE_BASE"
+ROLE: Описание слоя Knowledge Base и правила входа
 
 ---
 
-## 0) PURPOSE
-Этот файл — **README реальма управления KB** (не контент).
-
-Он объясняет:
-- где находится **единственная точка истины** по составу KB
-- чем governance отличается от realm-контента
-- как добавлять/изменять KB-документы без дублей
+## PURPOSE
+KB — слой знаний, правил и практик для Universe Engine.
 
 ---
 
-## 1) CORE PRINCIPLE (KB IS NOT SYSTEM LAW)
-KB — это **база знаний и практик**, а не законы системы.
+## SINGLE ENTRYPOINT (ABSOLUTE)
+Единственная точка входа в KB:
+- `00__INDEX__KNOWLEDGE_BASE.md`
+- UID: UE.KB.IDX.MASTER.001
 
-При конфликте:
-- System Law (01_SYSTEM_LAW) выше всего
-- Standards (02_STANDARDS) задают “как должно быть”
-- KB описывает ремесло/подходы/примеры и подчиняется стандартам
-
----
-
-## 2) ENTRYPOINTS (WHERE TO START)
-Единственные официальные входы в KB:
-
-1) MASTER INDEX (existence rule)
-- `04_KNOWLEDGE_BASE/00__INDEX__KNOWLEDGE_BASE.md`
-
-2) KB governance rules
-- `04_KNOWLEDGE_BASE/00_KB_GOVERNANCE/01__RULES__KB.md`
+Вся навигация по файлам, любые списки существования и любые “куда перейти” — только там.
 
 ---
 
-## 3) GOVERNANCE VS REALMS (BOUNDARIES)
-### 3.1 Governance (this folder)
-`04_KNOWLEDGE_BASE/00_KB_GOVERNANCE/` содержит:
-- правила и карты KB
-- реестры KB
-- storage map KB
-- create flow KB
-- шаблоны KB-паспортов
-
-Governance **не содержит** “контент-практику” (ремесло).
-
-### 3.2 Realms (content knowledge)
-Файлы `04_KNOWLEDGE_BASE/NN__*.md` (Narrative/Character/Visual/...) содержат:
-- знания, принципы, примеры, чеклисты
-- но не объявляют existence для слоя (это делает master-index)
-- и не дублируют стандарты/законы
+## WHAT YOU CAN DO HERE
+- Хранить правила, словари и контрольные документы KB.
+- Поддерживать стандарты оформления и контроля.
+- НЕ вводить существование (это делает только главный индекс).
 
 ---
 
-## 4) EXISTENCE RULE (KB)
-Для слоя KB действует жёсткое правило:
-
-- если KB-документа нет в `00__INDEX__KNOWLEDGE_BASE.md` → он не существует для KB
-- файлы вне реестра считаются NON-CANON
-
----
-
-## 5) NO-DUPLICATION (KB)
-- Один смысл → один KB-артефакт.
-- Если нужна детализация:
-  - расширяй существующий realm (если это “контент”)
-  - или создавай KB Entity Passport + XREF/REL (если это сущность/карточка)
-
+## HARD BANS (REMINDER)
 Запрещено:
-- копировать один и тот же контент в разные realm-файлы
-- создавать “второй главный” документ по теме
+- создавать под-индексы/локальные реестры (topics-index, entities-index и т.п.)
+- вставлять PATH/RAW/URL ссылки (в любые документы кроме главного индекса)
+- делать “цепочку навигации” документ → документ → документ
+
+Разрешено:
+- XREF на документ по UID без ссылок:
+  `XREF: <UID> | WHY: <reason>`
 
 ---
 
-## 6) CHANGE FLOW (KB MAINTENANCE)
-Как добавлять новый KB-документ:
+## GOVERNANCE SET (WHAT IS INSIDE)
+Этот realm содержит:
+- RULES / MAP / FLOW / CONTROL
+- системные словари: TAGS / REL TYPES / XREF RULES
+- шаблоны документов
 
-1) Проверить, что смысл не существует (anti-dup).
-2) Добавить запись в `00__INDEX__KNOWLEDGE_BASE.md`.
-3) Создать файл по naming `NN__...` и Doc Control.
-4) Если это сущность — оформить паспорт по шаблону.
-5) Зафиксировать изменение по общим правилам изменений системы.
+Все эти документы — контент-правила.
+EXISTENCE и NAV — только главный индекс.
 
----
-
-## 7) STATUS / LOCK POLICY (KB)
-- Governance файлы: обычно `STATUS: ACTIVE`, `LOCK: FIXED`
-- Realm-контент: допускается `STATUS: DRAFT`, пока не стабилизирован
-- Файл без Doc Control шапки считается неканоничным (ошибка)
-
----
-
-## FINAL RULE (LOCK)
-Этот README закрепляет границы KB и порядок работы.
-LOCK: FIXED
 --- END.

@@ -1,149 +1,80 @@
-# KB CREATE FLOW (GOVERNANCE PIPELINE)
+# KB CREATE FLOW (CANON)
 FILE: 04_KNOWLEDGE_BASE/00_KB_GOVERNANCE/06__KB_CREATE_FLOW.md
 
 SCOPE: Universe Engine
 LAYER: 04_KNOWLEDGE_BASE
 DOC_TYPE: FLOW
-FLOW_TYPE: CREATE
-LEVEL: L1
+LEVEL: L2
 STATUS: ACTIVE
 LOCK: FIXED
 VERSION: 1.0.0
-UID: UE.KB.GOV.FLOW.CREATE.001
+UID: UE.KB.FLOW.CREATE.001
 OWNER: SYSTEM
-ROLE: Canonical pipeline for creating KB artifacts: realm updates, system KB docs, and KB entity passports (prevents duplication and chaos)
-
-CHANGE_NOTE:
-- DATE: 2026-01-08
-- TYPE: MAJOR
-- SUMMARY: "KB create flow: decision tree (realm vs entity), registry steps, naming/UID gates, storage map compliance"
-- REASON: "Нужен единый способ создавать KB, иначе всё ломается на уровне структуры"
-- IMPACT: "Все новые KB документы и сущности"
+ROLE: Процесс создания новых KB документов (без под-индексов и промежуточных ссылок)
 
 ---
 
-## 0) PURPOSE
-Этот flow определяет:
-- что именно создавать (realm update / entity passport / system ref)
-- куда класть (storage map)
-- как регистрировать (master-index + global registry)
-- какие гейты пройти перед канонизацией
+## PURPOSE (LAW)
+Дать один корректный путь создания новых документов KB.
+Этот flow НЕ создаёт локальные индексы и НЕ использует навигационные ссылки, кроме главного индекса.
 
 ---
 
-## 1) DECISION TREE (WHAT TO CREATE)
-### Step 1 — Это “контент домена” без уникальной идентичности?
-Да → обновляй соответствующий `KB REALM` файл (01..08)
+## RULES (MUST)
 
-Примеры:
-- общий список приёмов диалога
-- чеклист сцены “внутри” Narrative realm
-- советы по свету в Visual realm
+### R1 — Register Only in Main Index
+Новый документ считается каноном только после регистрации в:
+- `04_KNOWLEDGE_BASE/00__INDEX__KNOWLEDGE_BASE.md`
 
-### Step 2 — Это объект, который должен быть переиспользуемым и иметь UID?
-Да → создавай `KB ENTITY PASSPORT`
+### R2 — No Sub-Indexes
+Запрещено создавать любые локальные индексы/реестры “для удобства”.
 
-Примеры:
-- конкретный паттерн как самостоятельная сущность
-- конкретный процесс пайплайна
-- отдельный валидатор/чеклист как объект
-
-### Step 3 — Это системный справочник KB (например теги)?
-Да → создавай `KB SYSTEM DOC` в `04_KNOWLEDGE_BASE/90__*.md`
+### R3 — No Intermediate Links
+Запрещено добавлять PATH/RAW/URL ссылки в любой документ кроме главного индекса.
+Внутри контент-доков разрешены только XREF по UID (без ссылок).
 
 ---
 
-## 2) FLOW A — REALM UPDATE (CONTENT)
-1) Найди подходящий realm:
-- Narrative / Character / Visual / Sound / Production / Marketing / Glossary / Research
+## CREATE STEPS (STANDARD)
 
-2) Проверь anti-dup:
-- нет ли уже этого же пункта в другом realm → если есть, добавь XREF вместо копирования
+### STEP 1 — Choose type
+Выбери тип документа:
+- REALM (крупная область) → файл в корне `04_KNOWLEDGE_BASE/` в диапазоне 01..08
+- TOPIC (конкретная тема) → файл в `04_KNOWLEDGE_BASE/10_TOPICS/`
+- GOVERNANCE (правила/контроль) → файл в `04_KNOWLEDGE_BASE/00_KB_GOVERNANCE/`
+- ALIAS (legacy pointer) → файл 98/99 в корне
 
-3) Внеси правку:
-- добавь секцию или расширь существующую
-- не переписывай стандарты/законы, только практику
+### STEP 2 — Name file
+Имя файла:
+- читаемое, стабильное, без “временных” названий
+- префиксы диапазонов соблюдать (01..08, 10_TOPICS, 98/99)
 
-4) Обнови CHANGE_NOTE внутри файла (если ведёшь историю) или через систему версий — по ruleset.
+### STEP 3 — Fill mandatory header
+Каждый новый документ должен иметь шапку:
+SCOPE / LAYER / DOC_TYPE / LEVEL / STATUS / LOCK / VERSION / UID / OWNER / ROLE
 
----
+### STEP 4 — Content rules
+- Не вставлять PATH/RAW/URL ссылки.
+- Для перекрёстных ссылок использовать XREF по UID:
+  `XREF: <UID> | WHY: <reason>`
 
-## 3) FLOW B — KB ENTITY PASSPORT (OBJECT)
-### B1) Pre-check (anti-dup)
-1) Проверь master-index KB: существует ли уже похожая сущность по смыслу
-2) Проверь global registry: нет ли похожей сущности/UID
+### STEP 5 — Register in main index
+Добавить в `00__INDEX__KNOWLEDGE_BASE.md`:
+- NAME (человеческое имя)
+- PATH (путь)
+- RAW (ссылка на raw) — ТОЛЬКО здесь разрешена навигация
 
-Если дубль найден → делай XREF/REL, НЕ создавай новый паспорт.
+Без регистрации в главном индексе файл считается NON-CANON.
 
-### B2) Choose type
-Выбери `ENTITY_TYPE` из:
-`03__INDEX__KB_ENTITY_TYPES.md`
-
-### B3) Choose storage path
-По storage map:
-`04_KNOWLEDGE_BASE/10_ENTITIES/<ENTITY_TYPE>/`
-
-Если папки нет — создаём (один раз).
-
-### B4) Naming + UID
-- Filename: `NN__<NAME>.md` (NN = следующий свободный номер в папке)
-- UID: `UE.KB.ENT.<TYPE>.<NNN>` (NNN = уникальный числовой id, 3 цифры)
-
-Правило:
-- номер файла (NN) и UID.NNN не обязаны совпадать,
-  но UID обязан быть уникальным в системе.
-
-### B5) Create from template
-Копируй:
-`05__TEMPLATE__KB_ENTITY_PASSPORT.md`
-и заполни.
-
-### B6) Registry updates (MANDATORY)
-1) Добавь запись в:
-`02__INDEX__KB_GLOBAL_REGISTRY.md`
-2) Добавь регистрацию в master-index KB, если сущность канонизируется как “существующая в KB”
-(иначе оставь как draft и зарегистрируй позже)
-
-### B7) XREF back to realm (MANDATORY)
-Добавь минимум 1 ссылку XREF:
-- из паспорта → на realm, где это применяется
-- и/или из realm → на паспорт (предпочтительно обе стороны)
+### STEP 6 — Optional: alias
+Если нужен alias (legacy):
+- он не содержит контент
+- он содержит только pointer на главный индекс
 
 ---
 
-## 4) FLOW C — KB SYSTEM DOC (HELPER)
-1) Имя файла:
-`04_KNOWLEDGE_BASE/90__<NAME>.md`
-2) Doc Control шапка + UID + SemVer
-3) Регистрация:
-- master-index KB
-- global registry KB
+## DEPRECATION NOTE
+Любые исторические локальные индексы должны быть удалены.
+Главный индекс — единственный entrypoint.
 
----
-
-## 5) CANONIZATION GATES (BEFORE STATUS ACTIVE)
-Перед переводом любого KB объекта в `STATUS: ACTIVE`:
-
-- [ ] зарегистрирован в master-index (если должен “существовать”)
-- [ ] Doc Control корректен
-- [ ] UID уникален
-- [ ] naming соответствует правилам
-- [ ] storage map соблюдён
-- [ ] нет дубля смысла
-- [ ] XREF/REL оформлены
-
----
-
-## 6) PROHIBITIONS (HARD)
-Запрещено:
-- создавать KB entity без паспорта
-- создавать сущности без регистрации в registry (хотя бы как DRAFT)
-- класть паспорта в корень KB
-- плодить “ещё один индекс” вместо правки master-index/registry
-
----
-
-## FINAL RULE (LOCK)
-Этот flow обязателен для создания любых KB-артефактов.
-LOCK: FIXED
 --- END.

@@ -1,43 +1,106 @@
-# KB DOC CONTROL (GOVERNANCE)
+# KB DOC CONTROL (CANON)
 FILE: 04_KNOWLEDGE_BASE/00_KB_GOVERNANCE/07__KB_DOC_CONTROL.md
 
 SCOPE: Universe Engine
 LAYER: 04_KNOWLEDGE_BASE
-DOC_TYPE: KB_SYSTEM
-SYSTEM_OBJ: DOC_CONTROL
-LEVEL: L1
+DOC_TYPE: CONTROL
+LEVEL: L2
 STATUS: ACTIVE
 LOCK: FIXED
 VERSION: 1.0.0
-UID: UE.KB.SYS.DOC_CONTROL.001
+UID: UE.KB.CTRL.DOC.001
 OWNER: SYSTEM
-ROLE: KB-layer doc control: required header fields, allowed values, naming ranges, alias policy, root exceptions
+ROLE: Стандарты документов KB: шапка, статусы, версии, запреты на ссылки
 
 ---
 
-## REQUIRED HEADER (MANDATORY)
-SCOPE / LAYER / DOC_TYPE / LEVEL / STATUS / LOCK / VERSION / UID / OWNER / ROLE
+## PURPOSE (LAW)
+Задает стандарт оформления и контроля документов KB.
+Фиксирует запрет на промежуточные ссылки/навигацию вне главного индекса.
 
-## ALLOWED VALUES (STRICT)
-STATUS: DRAFT | ACTIVE | DEPRECATED | ARCHIVED
-LOCK: OPEN | FIXED
-VERSION: X.Y.Z
+---
 
-## NAMING RANGES (HARD)
-- Root entrypoint (only one allowed):
-  - `04_KNOWLEDGE_BASE/00__INDEX__KNOWLEDGE_BASE.md`
-- Governance:
-  - `04_KNOWLEDGE_BASE/00_KB_GOVERNANCE/NN__*.md`
-  - system dictionaries: `90__*..99__*` inside governance
-- Realms:
-  - `04_KNOWLEDGE_BASE/01__*..08__*.md`
-- Topics:
-  - `04_KNOWLEDGE_BASE/10_TOPICS/NN__*.md`
-  - existence SoT: `10_TOPICS/00__INDEX__TOPICS.md`
-- Aliases (non-canon):
-  - `04_KNOWLEDGE_BASE/98__*.md` and `04_KNOWLEDGE_BASE/99__*.md` only
+## MANDATORY HEADER (MUST)
+Каждый KB документ обязан иметь шапку:
 
-## ALIAS POLICY (HARD)
-Alias-файлы содержат только pointer на master-index. Никакого контента/правил.
+- SCOPE
+- LAYER
+- DOC_TYPE
+- LEVEL
+- STATUS
+- LOCK
+- VERSION
+- UID
+- OWNER
+- ROLE
+
+---
+
+## STATUS (ENUM)
+Допустимые значения:
+- DRAFT
+- ACTIVE
+- DEPRECATED
+- ARCHIVED
+
+---
+
+## LOCK (ENUM)
+- OPEN — допускает правки
+- FIXED — правки только через осознанный апдейт версии и CHANGE_NOTE (если используется)
+
+---
+
+## VERSIONING
+- Семвер: `X.Y.Z`
+- Любое изменение смысла/правил → повышает MINOR или MAJOR (на усмотрение оператора)
+- Мелкие правки/опечатки → PATCH
+
+---
+
+## UID (RULE)
+UID должен быть:
+- уникальный
+- стабильный
+- читаемый
+- не зависеть от пути/ссылок
+
+---
+
+## LINK POLICY (HARD BAN)
+
+### LP1 — Main Index is the only navigation surface
+Единственный документ, где разрешены навигационные ссылки (PATH/RAW/URL):
+- `04_KNOWLEDGE_BASE/00__INDEX__KNOWLEDGE_BASE.md`
+
+### LP2 — Everywhere else: NO LINKS
+Во всех остальных документах запрещены:
+- PATH/RAW/URL на файлы репозитория
+- “перейди/открой” через ссылки
+- любые “цепочки навигации”
+
+Разрешено:
+- XREF по UID без URL:
+  `XREF: <UID> | WHY: <reason>`
+
+---
+
+## INDEX POLICY (HARD BAN)
+Запрещены любые под-индексы/локальные реестры существования/навигации.
+Если где-то появляется “topics index / entities index / registry” — это нарушение и файл удаляется.
+
+Допускаются governance-словари внутри `00_KB_GOVERNANCE`,
+но они НЕ являются навигацией и НЕ определяют существование.
+
+---
+
+## ALIAS POLICY
+Алиасы (98/99) — только pointer на главный индекс, без контента.
+
+---
+
+## CANON ENFORCEMENT
+- Файл каноничен только если он зарегистрирован в главном индексе.
+- Иначе: NON-CANON / ignored.
 
 --- END.
