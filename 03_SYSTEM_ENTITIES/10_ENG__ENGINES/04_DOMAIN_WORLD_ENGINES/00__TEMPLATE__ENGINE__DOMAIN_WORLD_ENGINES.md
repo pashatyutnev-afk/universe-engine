@@ -1,172 +1,209 @@
-# ENGINE TEMPLATE — DOMAIN WORLD ENGINES (ENG)
+# DOMAIN WORLD ENGINES — ENGINE TEMPLATE (ENG) — CANON
 FILE: 03_SYSTEM_ENTITIES/10_ENG__ENGINES/04_DOMAIN_WORLD_ENGINES/00__TEMPLATE__ENGINE__DOMAIN_WORLD_ENGINES.md
 
 SCOPE: Universe Engine
 LAYER: 03_SYSTEM_ENTITIES
+ENTITY_GROUP: ENGINES (ENG)
 DOC_TYPE: TEMPLATE
-ENTITY_CLASS: ENG
-ENGINE_FAMILY: 04_DOMAIN_WORLD_ENGINES
-LEVEL: L3
+FAMILY: 04_DOMAIN_WORLD_ENGINES
+CLASS: DOMAIN (L2)
+LEVEL: L2
 STATUS: ACTIVE
-LOCK: FIXED
+LOCK: OPEN
 VERSION: 1.0.0
-UID: UE.TPL.ENG.DOMAIN.WORLD.ENGINE.001
+UID: UE.ENG.DOM.WORLD.TPL.ENGINE.001
 OWNER: SYSTEM
-ROLE: Canonical template for world-domain ENG engines (world structure/laws/epochs/civilizations/economy/tech/ecology)
+ROLE: Mandatory template for DOMAIN WORLD engines. Enforces canonical header schema, mini-contract law, world-domain boundaries, output schemas, and raw-only references to prevent drift.
+
+CHANGE_NOTE:
+- DATE: 2026-01-08
+- TYPE: MAJOR
+- SUMMARY: "Domain World engine template standardized: governance-style header, strict mini-contract, boundaries, outputs, and S0 blockers."
+- REASON: "Prevent drift and stop overlaps with Narrative/Character/Expression/Production and Governance/CORE."
+- IMPACT: "All world engines become uniform, composable, and compatible with CORE + GOVERNANCE."
+- CHANGE_ID: UE.CHG.2026-01-08.DOM.WORLD.TPL.ENGINE.001
 
 ---
 
-## 0) IDENTITY (REQUIRED)
-ENGINE_NAME: <DISPLAY_NAME>
-ENGINE_CODE: <SHORT_CODE>                          # e.g., WORLD_STRUCTURE, ECONOMY_RESOURCE
-ENGINE_NUMBER: <NN>                                # must match filename NN__
-ENGINE_FILE_NAME: <NN__NAME_ENG.md>
-ENGINE_UID: <UE.ENG.DOM.WORLD.<CODE>.NNN>
+## 0) HOW TO USE (MANDATORY)
 
-WORLD_OBJECT:
-- What world object it owns (1 line): (laws/epochs/civilization/economy/tech/ecology)
-- What it guarantees (1 line)
+1) Copy this template to create a new engine file in this family.
+2) Replace placeholders strictly (title, FILE path, UID, ROLE).
+3) Fill MINI-CONTRACT with concrete artifacts (no vague words).
+4) Declare boundaries to avoid overlap with:
+   - CORE (system identity/state/lifecycle)
+   - GOVERNANCE (authority/pipeline/audit)
+   - NARRATIVE (story structure/continuity as primary)
+   - CHARACTER (psychology/motivation/dialogue as primary)
+   - EXPRESSION (event mechanics primitives)
+   - PRODUCTION (media implementation)
+5) Add raw-only references where index navigation requires it.
 
----
-
-## 1) PURPOSE (LAW)
-Зачем этот движок существует:
-- какую часть мира делает определённой/канонической
-- какие противоречия предотвращает
-- что даёт сценариям/персонажам как “твёрдую почву”
+Rule:
+- Missing required sections => engine is incomplete (non-canon).
 
 ---
 
-## 2) DOMAIN BOUNDARY (ANTI-DUP) — REQUIRED
-OWNED HERE:
-- <what this engine owns>
+## 1) ENGINE FILE TEMPLATE (COPY FROM HERE)
 
-NOT OWNED HERE:
-- plot/scene structure (02_DOMAIN_NARRATIVE_ENGINES)
-- character psychology/motivation/voice (03_DOMAIN_CHARACTER_ENGINES)
-- expression primitives (05_EXPRESSION_ENGINES)
-- production/media pipeline (08_KNOWLEDGE_PRODUCTION_ENGINES)
+# <ENGINE TITLE> (ENG) — CANON
+FILE: 03_SYSTEM_ENTITIES/10_ENG__ENGINES/04_DOMAIN_WORLD_ENGINES/NN__<ENGINE_NAME>_ENG.md
 
-INTERFACES:
-- Narrative interface: <what narrative can assume as constraints>
-- Character interface: <how characters are affected by this world logic>
-- Project interface: <what project artifacts should contain>
+SCOPE: Universe Engine
+LAYER: 03_SYSTEM_ENTITIES
+ENTITY_GROUP: ENGINES (ENG)
+DOC_TYPE: ENGINE
+FAMILY: 04_DOMAIN_WORLD_ENGINES
+CLASS: DOMAIN (L2)
+LEVEL: L2
+STATUS: DRAFT
+LOCK: OPEN
+VERSION: 0.1.0
+UID: UE.ENG.DOM.WORLD.<ENGINE_KEY>.001
+OWNER: SYSTEM
+ROLE: <one sentence: what world capability this engine defines and guarantees>
+
+CHANGE_NOTE:
+- DATE: YYYY-MM-DD
+- TYPE: PATCH|MINOR|MAJOR|MIGRATION|EMERGENCY
+- SUMMARY: "<what changed / what was defined>"
+- REASON: "<why>"
+- IMPACT: "<what this affects>"
+- CHANGE_ID: UE.CHG.YYYY-MM-DD.DOM.WORLD.<ENGINE_KEY>.<SEQ>
 
 ---
 
-## 3) INPUTS / OUTPUTS (MINI-CONTRACT) — REQUIRED
+## 0) PURPOSE (LAW)
+
+- Define the world capability this engine owns (strict).
+- Define guarantees (bullets).
+- Define non-goals (explicit).
+
+---
+
+## 1) NON-GOALS (HARD)
+
+This engine does NOT:
+- define system identity/state/lifecycle (CORE)
+- define authority/approvals/pipeline/audit/memory (GOVERNANCE)
+- define narrative macro-structure/continuity as primary (NARRATIVE owns)
+- define character psychology/motivation/dialogue as primary (CHARACTER owns)
+- define event mechanics primitives (EXPRESSION owns)
+- define media implementation (camera/editing/sound) as primary (PRODUCTION owns)
+
+---
+
+## 2) MINI-CONTRACT (MANDATORY)
+
 CONSUMES:
-- <ARTIFACT_TYPE or UID>
-- ...
+- <1–7 inputs; named artifacts>
+  - Example: WORLD_CONSTRAINTS, TIMELINE_CONTEXT, FACTION_MAP, TECH_LEVEL_RULES
 
 PRODUCES:
-- <ARTIFACT_TYPE or UID>
-- ...
-
-WORLD_OUTPUT (REQUIRED):
-- OUTPUT_OBJECT: <e.g., World Ruleset | Epoch Timeline | Economy Model | Tech Tree | Civilization Map>
-- OUTPUT_SCHEMA (short): <fields/structure bullets>
-- OUTPUT_INVARIANTS: <what must always be true about world>
+- <1–7 outputs; reusable artifacts>
+  - Example: WORLD_RULES, CIVILIZATION_MODEL, ECONOMY_RESOURCE_MODEL, ECOLOGY_MODEL
 
 DEPENDS_ON:
-- <ENG_UID>
-- ...
+- <engine paths> or []
+  - Prefer CORE prereqs where required.
 
 OUTPUT_TARGET:
-- <where in projects the output should live> (descriptive, no path-nav)
+MANDATORY:
+- <project storage targets, e.g. 05_PROJECTS/...>
+
+OPTIONAL:
+- <assistive notes; never overrides canon>
+
+Rule:
+- If MINI-CONTRACT is vague → INVALID.
 
 ---
 
-## 4) WORLD MODEL CONTRACT (HARD) — REQUIRED
-WORLD STRUCTURE (if relevant):
-- Regions / scales:
-- Key locations:
-- Travel / distance rules:
+## 3) DEFINITIONS (STRICT)
 
-WORLD LAWS (if relevant):
-- Physics/baseline rules:
-- Magic/tech rules (if any):
-- Constraints (hard bans):
-
-TIME & EPOCHS (if relevant):
-- Epoch list:
-- Key transitions:
-- Calendar/timekeeping:
-
-CIVILIZATION & SOCIETY (if relevant):
-- Social structure:
-- Institutions:
-- Culture norms:
-
-ECONOMY & RESOURCES (if relevant):
-- Resource sources:
-- Production/flow:
-- Scarcity rules:
-- (NOTE: в вашей вселенной цивилизации могут быть без валюты — фиксируй как инвариант, если применимо)
-
-POWER & CONFLICT (if relevant):
-- Power centers:
-- Conflict drivers:
-- Balance rules:
-
-TECHNOLOGY / MAGIC (if relevant):
-- Capability tiers:
-- Limitations/costs:
-- Side effects:
-
-ECOLOGY & ENVIRONMENT (if relevant):
-- Biomes/climate:
-- Survival constraints:
-- Long-term stability:
+- Define only terms this engine owns.
+- If a term belongs to another family, reference it (do not redefine).
 
 ---
 
-## 5) PLAUSIBILITY & CONSISTENCY GATES (HARD) — REQUIRED
-GATE LIST:
-- GATE: <name>
-  CHECK: <how to verify>
-  FAIL SIGNAL: <what indicates failure>
-  FIX STRATEGY: <how to fix>
+## 4) BOUNDARIES (ANTI-DUPLICATION)
 
-MINIMUM WORLD GATES (default set):
-- internal consistency (rules don’t contradict)
-- causality (institutions/economy follow constraints)
-- scalability (local rules hold at global scale)
-- narrative usability (rules are usable in scenes)
-- timeline coherence (epochs/events order makes sense)
+IN SCOPE:
+- <owned world domain>
+
+OUT OF SCOPE (HARD):
+- <forbidden overlaps>
+
+COLLISION RULE:
+- If overlap exists, declare owner family/engine and how to route work.
 
 ---
 
-## 6) FAILURE MODES & EDGE CASES
-FAILURES:
-- Failure:
-  CAUSE:
-  RECOVERY:
+## 5) RULESET (THE LAW)
 
-EDGE CASES:
-- Case:
-  Handling:
+Write numbered rules using MUST/FORBIDDEN/ALLOWED:
+- R1 (HARD): ...
+- R2 (HARD): ...
+- R3 (SOFT): ...
 
----
-
-## 7) REL / XREF (UID-FIRST)
-REL:
-- REL: <REL_TYPE> | TARGET: <UID> | WHY: <reason>
-
-XREF:
-- XREF: <UID> | WHY: <reason>
-
-RULE:
-- No PATH navigation inside content.
-- If clickable references are needed, keep them in registries/indexes as RAW.
+Include:
+- strict sets (allowed values)
+- invariants
+- stop conditions (blockers)
 
 ---
 
-## 8) CHANGE NOTES (OPTIONAL)
-- DATE: YYYY-MM-DD
-- TYPE: PATCH|MINOR|MAJOR
-- SUMMARY:
-- REASON:
-- IMPACT:
+## 6) REQUIRED OUTPUT SCHEMAS (MINIMUM)
+
+For each produced artifact:
+
+ARTIFACT: <NAME>
+- MUST: <fields list>
+- OPTIONAL: <fields list>
+- VALIDATION: <how to detect missing/invalid>
+- STORAGE: <target path rule>
+
+---
+
+## 7) PIPELINE (DETERMINISTIC)
+
+1) Input validation
+2) Construct models/rulesets
+3) Output formatting
+4) Integration hooks (dependencies/xrefs if used)
+
+---
+
+## 8) S0 BLOCKERS (STOP)
+
+- S0-1: Output contradicts CORE invariants.
+- S0-2: Engine duplicates governance authority/pipeline rules.
+- S0-3: Engine claims ownership of character-domain or narrative-structure primitives.
+- S0-4: Engine outputs missing required schema fields.
+
+---
+
+## 9) INTEGRATION (SYSTEM FIT)
+
+- Which engines consume these outputs
+- How this engine plugs into ORC pipelines (if applicable)
+- When governance pipeline is required
+
+---
+
+## 10) REFERENCES (RAW ONLY) (OPTIONAL)
+
+- <raw links>
 
 --- END.
+
+---
+
+## 2) TEMPLATE QUALITY CHECK (FAST)
+
+Before setting a new engine ACTIVE:
+- [ ] Header schema correct
+- [ ] MINI-CONTRACT concrete
+- [ ] Boundaries explicit
+- [ ] Output schemas defined
+- [ ] S0 blockers listed

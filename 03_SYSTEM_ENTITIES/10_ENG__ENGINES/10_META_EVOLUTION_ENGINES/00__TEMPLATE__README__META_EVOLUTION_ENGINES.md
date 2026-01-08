@@ -1,93 +1,191 @@
-# README TEMPLATE — META EVOLUTION ENGINES (ENG FAMILY)
+# META EVOLUTION ENGINES — README TEMPLATE (ENG) — CANON
 FILE: 03_SYSTEM_ENTITIES/10_ENG__ENGINES/10_META_EVOLUTION_ENGINES/00__TEMPLATE__README__META_EVOLUTION_ENGINES.md
 
 SCOPE: Universe Engine
-ENTITY_GROUP: ENGINES (ENG)
 LAYER: 03_SYSTEM_ENTITIES
+ENTITY_GROUP: ENGINES (ENG)
 DOC_TYPE: TEMPLATE
-ENGINE_FAMILY: 10_META_EVOLUTION_ENGINES
+FAMILY: 10_META_EVOLUTION_ENGINES
+CLASS: META (L4)
 LEVEL: L4
 STATUS: ACTIVE
-VERSION: 1.0.1
-ROLE: Canonical template for META family README (scope, boundary, gates, roster policy)
+LOCK: OPEN
+VERSION: 1.0.0
+UID: UE.ENG.META.TPL.README.001
+OWNER: SYSTEM
+ROLE: Mandatory realm README template for META EVOLUTION family. Defines meta-layer scope, governance-safe boundaries, output contract, canonical engine order, routing rules, and S0 blockers to prevent meta engines from becoming a second authority.
 
-LOCK: FIXED
-UID: <UE.TPL.ENG.META.FAMILY_README.###>       # MUST follow UID_RULES
-
----
-
-## 0) FAMILY IDENTITY (REQUIRED)
-FAMILY_NAME: 10_META_EVOLUTION_ENGINES
-CLASS: META (L4)
-FAMILY_UID: <UE.ENG.FAMILY.META.###>
-
----
-
-## 1) PURPOSE (LAW)
-Семейство мета-движков улучшает систему поверх всех слоёв:
-- learning (обучение на истории/логах/результатах)
-- pattern extraction (извлечение повторяемых паттернов)
-- optimization (оптимизация правил/процессов/пайплайна)
-- creative mutation (контролируемые эксперименты)
-- future projection (прогнозы/сценарии/риски)
-
-Цель: ускорять и улучшать систему без разрушения канона.
+CHANGE_NOTE:
+- DATE: 2026-01-08
+- TYPE: MAJOR
+- SUMMARY: "Meta family README template standardized: advisory-only scope, routing to governance for canon changes, outputs with evidence, and canonical map skeleton."
+- REASON: "Prevent silent canon rewrites and authority collisions introduced by meta engines."
+- IMPACT: "Meta family becomes safe, auditable, and deterministic."
+- CHANGE_ID: UE.CHG.2026-01-08.META.TPL.README.001
 
 ---
 
-## 2) CRITICAL BOUNDARY (ANTI-DUP) — ABSOLUTE
-OWNED HERE:
-- system-level improvements, proposals, experiments, forecasts
+## 0) PURPOSE (LAW)
 
-NOT OWNED HERE:
-- финальные доменные артефакты (сюжет/сцены/персы/мир/музыка/визуал)
-Они принадлежат DOMAIN / EXPRESSION / PRODUCTION семействам.
+This realm README defines `10_META_EVOLUTION_ENGINES`:
+- what META engines are allowed to do (learn/optimize/propose/forecast)
+- what META engines are forbidden to do (approve/change canon directly)
+- canonical order of META engines
+- expected output artifact schemas (evidence-based)
+- routing rules for any change proposal into governance pipeline
 
----
-
-## 3) FAMILY GATES (MANDATORY)
-Каждый engine в этом семействе обязан иметь минимум:
-- evidence grounded
-- scope safety
-- reversibility
-- impact clarity
-- boundary compliance
+META is optimization/advisory layer, never authority layer.
 
 ---
 
-## 4) TEMPLATE LINKS (POLICY)
-RAW links хранятся в:
-- 02__INDEX_ALL_ENGINES.md (канонично)
-- реестрах/индексах (канонично)
+## 1) FAMILY DEFINITION (WHAT META OWNS)
 
-Внутри README/engine-файлов предпочитаем UID-first, чтобы не плодить “второй индекс”.
+META family owns system improvement functions:
+- learning from outcomes (what worked/failed)
+- pattern extraction (reusable insights)
+- optimization proposals (workflow/schema improvements)
+- creative mutations (controlled variants)
+- future projections (risk and consequence forecasting)
 
----
-
-## 5) ROSTER (NON-CANON MIRROR) — OPTIONAL
-Этот список НЕ является каноном.
-Канонный состав/порядок движков хранится только в 02__INDEX_ALL_ENGINES.md.
-
-- 01 — Learning Engine (UID: <...>)
-- 02 — Pattern Extraction Engine (UID: <...>)
-- 03 — Optimization Engine (UID: <...>)
-- 04 — Creative Mutation Engine (UID: <...>)
-- 05 — Future Projection Engine (UID: <...>)
+META outputs are always **proposals/reports**, not direct edits to canon.
 
 ---
 
-## 6) NUMBERING POLICY
-- Engine files: `NN__<NAME>_ENG.md` (NN starts at 01)
-- README: `00__README__META_EVOLUTION_ENGINES.md`
-- Templates: `00__TEMPLATE__...`
+## 2) HARD BOUNDARIES (GOVERNANCE-SAFE)
+
+META family MUST NOT own:
+- approvals or canon acceptance (Decision Approval / Canon Authority)
+- change execution pipeline (Change Control)
+- authority hierarchy definitions (Rule Hierarchy)
+- audit/memory/versioning ownership
+- becoming a second “single source of truth” for any layer
+
+META must not replace domain families:
+- narrative/character/world/expression/style/production
+
+Rule:
+- If META proposes a canon change → it must produce a change proposal and route to governance.
 
 ---
 
-## 7) REL / XREF (UID-FIRST)
-REL:
-- REL: <REL_TYPE> | TARGET_UID: <UID> | WHY: <reason>
+## 3) CANON OUTPUT CONTRACT (ARTIFACT TYPES)
 
-XREF:
-- XREF_UID: <UID> | WHY: <reason>
+META engines should produce structured artifacts with schemas, e.g.:
+- LEARNING_NOTES
+- PATTERN_REPORT
+- OPTIMIZATION_PROPOSAL
+- MUTATION_CANDIDATES
+- FUTURE_RISK_FORECAST
+- COMPARATIVE_EVALUATION
+- ROADMAP_SUGGESTION
+
+Mandatory fields for meta outputs:
+- evidence[]
+- assumptions[]
+- recommendation
+- risk_level
+- next_action_route
+
+Forbidden outputs:
+- direct edits to canon docs as primary output
+- “approved” decisions
+- silent overwrites of indexes/laws/templates
+
+---
+
+## 4) ROUTING RULE (META → GOVERNANCE)
+
+If a meta output implies any of the following:
+- change to LAW/INDEX/FIXED/ACTIVE docs
+- rename/move/delete canon files
+- change to templates or registries
+- change to existence rules
+
+Then META must route via:
+- Change Control Engine (governance)
+and must produce:
+- CHANGE_PROPOSAL / CHANGE_PACKAGE draft (as an artifact)
+
+META does not execute; governance decides and executes.
+
+---
+
+## 5) ENGINE ORDER (CANON MAP SKELETON)
+
+Real README must list engines in strict order exactly as in `02__INDEX_ALL_ENGINES.md`:
+
+01 — Learning Engine — 🔗 <raw link>  
+02 — Pattern Extraction Engine — 🔗 <raw link>  
+03 — Optimization Engine — 🔗 <raw link>  
+04 — Creative Mutation Engine — 🔗 <raw link>  
+05 — Future Projection Engine — 🔗 <raw link>  
+
+Rule:
+- Order change = canon change → Change Control required.
+
+---
+
+## 6) USAGE FLOW (DETERMINISTIC)
+
+Typical META workflow:
+1) Collect evidence inputs (audit/memory/logs/output packs/QA reports)
+2) Learning Engine: extract signals, failures, successes
+3) Pattern Extraction: convert signals into reusable patterns
+4) Optimization: propose improvements (schema/workflow ordering)
+5) Creative Mutation: generate controlled alternatives (with risk + rollback hints)
+6) Future Projection: forecast consequences and risks
+7) Route proposals to governance if canon change is implicated
+
+---
+
+## 7) DEPENDENCY RULES (STRICT)
+
+Allowed dependencies:
+- Governance engines (as references/inputs/routers)
+- QA/Validation outputs (as evidence)
+- Any family outputs as evidence inputs (not as authority)
+
+Forbidden dependencies:
+- META engines must not depend on a downstream “approval” to self-approve
+- META engines must not introduce hidden dependencies (must be declared)
+
+All dependencies must be declared in each engine MINI-CONTRACT.
+
+---
+
+## 8) QUALITY GATES (FAMILY LEVEL)
+
+Family engines must enforce:
+- Governance Safety Gate (no direct canon writes)
+- Evidence Gate (evidence + assumptions required)
+- Actionability Gate (clear next action route)
+- Compatibility Gate (backward/breaking/mixed when relevant)
+
+---
+
+## 9) S0 BLOCKERS (FAMILY STOP CONDITIONS)
+
+S0-1: META output claims authority to approve canon changes  
+S0-2: META output modifies canon artifacts directly  
+S0-3: META output lacks evidence/assumptions fields  
+S0-4: Hidden dependencies not declared  
+S0-5: Engine numbering mismatch vs index/filename  
+S0-6: META introduces competing single source of truth for any scope  
+
+---
+
+## 10) TEMPLATE LINKS (RAW ONLY)
+
+ENGINE TEMPLATE (this family):
+- <raw link to 00__TEMPLATE__ENGINE__META_EVOLUTION_ENGINES.md>
+
+README TEMPLATE (this family):
+- <raw link to this file>
+
+Global ENG index:
+- <raw link to 03_SYSTEM_ENTITIES/10_ENG__ENGINES/02__INDEX_ALL_ENGINES.md>
+
+Governance routing reference (Change Control):
+- <raw link to 00_GOVERNANCE_ENGINES/04__CHANGE_CONTROL_ENG.md>
 
 --- END.

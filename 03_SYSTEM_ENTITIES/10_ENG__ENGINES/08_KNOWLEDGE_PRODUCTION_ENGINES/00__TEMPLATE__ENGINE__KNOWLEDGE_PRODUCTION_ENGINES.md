@@ -1,180 +1,286 @@
-# ENGINE TEMPLATE — KNOWLEDGE PRODUCTION ENGINES (ENG)
+# KNOWLEDGE PRODUCTION ENGINE (ENG) — TEMPLATE — CANON
 FILE: 03_SYSTEM_ENTITIES/10_ENG__ENGINES/08_KNOWLEDGE_PRODUCTION_ENGINES/00__TEMPLATE__ENGINE__KNOWLEDGE_PRODUCTION_ENGINES.md
 
 SCOPE: Universe Engine
 LAYER: 03_SYSTEM_ENTITIES
+ENTITY_GROUP: ENGINES (ENG)
 DOC_TYPE: TEMPLATE
-ENTITY_CLASS: ENG
-ENGINE_FAMILY: 08_KNOWLEDGE_PRODUCTION_ENGINES
+FAMILY: 08_KNOWLEDGE_PRODUCTION_ENGINES
+CLASS: PRODUCTION (L3)
 LEVEL: L3
 STATUS: ACTIVE
-LOCK: FIXED
+LOCK: OPEN
 VERSION: 1.0.0
-UID: UE.TPL.ENG.PROD.ENGINE.001
+UID: UE.ENG.PROD.KP.TPL.ENGINE.001
 OWNER: SYSTEM
-ROLE: Canonical template for media production ENG engines (visual, camera, lighting, image/video generation, editing, production audio)
+ROLE: Canonical template for any engine in Knowledge Production family. Defines strict boundaries (implementation vs meaning), mandatory mini-contract, output specs, quality gates, and integration rules.
+
+CHANGE_NOTE:
+- DATE: 2026-01-08
+- TYPE: MAJOR
+- SUMMARY: "Knowledge Production engine template standardized: execution-only ownership, artifact schemas, quality gates, safety blockers, and cross-family boundaries."
+- REASON: "Stop mixing content meaning with production implementation; prevent overlap with Style and Deep Music families."
+- IMPACT: "All production engines become auditable, comparable, and pipeline-compatible."
+- CHANGE_ID: UE.CHG.2026-01-08.PROD.KP.TPL.ENGINE.001
 
 ---
 
-## 0) IDENTITY (REQUIRED)
-ENGINE_NAME: <DISPLAY_NAME>
-ENGINE_CODE: <SHORT_CODE>                       # VISUAL_COMPOSITION | ART_STYLE | CAMERA_CINEMATOGRAPHY | LIGHTING | IMAGE_GENERATION | VIDEO_GENERATION | EDITING_MONTAGE | SOUND_MUSIC_PROD
-ENGINE_NUMBER: <NN>                             # must match filename NN__
-ENGINE_FILE_NAME: <NN__NAME_ENG.md>
-ENGINE_UID: <UE.ENG.PROD.<CODE>.NNN>
+## 0) ENGINE IDENTITY (FILL REQUIRED)
 
-PRODUCTION_OBJECT:
-- what this engine controls (1 line)
-- what it guarantees downstream (1 line)
+ENGINE_NAME: <NN__ENGINE_NAME_ENG.md>
+ENGINE_NUMBER: <NN>
+ENGINE_TITLE: <Human-readable title>
+ENGINE_FAMILY: 08_KNOWLEDGE_PRODUCTION_ENGINES
+ENGINE_CLASS: PRODUCTION (L3)
+
+CANONICAL_PATH:
+- 03_SYSTEM_ENTITIES/10_ENG__ENGINES/08_KNOWLEDGE_PRODUCTION_ENGINES/<NN__ENGINE_NAME_ENG.md>
+
+ENGINE_UID:
+- <UE.ENG.PROD.KP.<ENGINE_KEY>.NNN>
+
+OWNER:
+- SYSTEM
+
+STATUS:
+- DRAFT | ACTIVE | DEPRECATED | ARCHIVED
+
+LOCK:
+- OPEN | FIXED
+
+ROLE (one line):
+- <What this engine does in the system in one sentence>
 
 ---
 
 ## 1) PURPOSE (LAW)
-Зачем этот движок существует:
-- какой слой производства он задаёт (визуал/камера/свет/генерация/монтаж/прод-звук)
-- какие решения он фиксирует как “контракт”
-- какие deliverables выдаёт (шот-листы, промпты, style frames, монтажные карты и т.д.)
+
+This engine exists to implement (execute) production decisions in its domain:
+- visual composition / art style / camera / lighting
+- image/video generation
+- editing/montage
+- production audio layer (sync/design/clarity/placement — NOT deep composition)
+
+Golden rule:
+- Knowledge Production engines produce **implementation artifacts** (how to make the media), not meaning.
 
 ---
 
-## 2) DOMAIN BOUNDARY (ANTI-DUP) — REQUIRED
-OWNED HERE:
-- media production design (visual language, camera grammar, lighting, generation specs)
-- editing decisions as screen-time rhythm (not story-time)
-- production audio (sync/design/placement/clarity) — NOT deep music composition
-- generation prompts/specs + constraints + QA gates for outputs
+## 2) HARD BOUNDARIES (ANTI-DUPLICATION)
 
-NOT OWNED HERE:
-- narrative structure & story-time pacing (02_DOMAIN_NARRATIVE_ENGINES)
-- character psychology/voice (03_DOMAIN_CHARACTER_ENGINES)
-- world laws & lore (04_DOMAIN_WORLD_ENGINES)
-- deep music composition/harmony/arrangement/vocal/mix-master (09_SOUND_MUSIC_ENGINES)
+This engine MUST NOT:
+- decide narrative meaning as primary (belongs to Domain Narrative engines)
+- rewrite character psychology/dialogue as primary (Character engines)
+- invent world law/economy/tech as primary (World engines)
+- own tone/mood/atmosphere/symbolism as primary (Style engines)
+- own deep music composition/harmony/arrangement/mix as primary (Sound & Music family)
 
-INTERFACES (REQUIRED):
-- FORMAT INTERFACE (07_PRODUCTION_FORMAT_ENGINES): what the format demands from production
-- NARRATIVE INTERFACE (02): what story provides as content inputs (scenes/beats)
-- OUTPUT INTERFACE (projects/output layer): how deliverables are packaged
-- QA/VAL interface: which checks are enforced and where violations go
+Allowed:
+- consume constraints from those families and convert them into execution plans.
+
+Critical boundary reminders:
+- Story-time rhythm = `02_DOMAIN_NARRATIVE_ENGINES/05__PACING_RHYTHM_ENG`
+- Screen-time rhythm (cut/tempo) = `08_KNOWLEDGE_PRODUCTION_ENGINES/07__EDITING_MONTAGE_ENG`
+- Production audio (sync/design/placement) = `08_KNOWLEDGE_PRODUCTION_ENGINES/08__SOUND_MUSIC_ENG`
+- Deep music (composition/harmony/mix) = `09_SOUND_MUSIC_ENGINES/*`
 
 ---
 
-## 3) INPUTS / OUTPUTS (MINI-CONTRACT) — REQUIRED
+## 3) MINI-CONTRACT (MANDATORY)
+
 CONSUMES:
-- <ARTIFACT_TYPE or UID>
-- ...
+- <1–5 input artifact types + optional constraints>
+- Example: SCENE_PACK, STYLE_GUIDE, CAMERA_RULES, AUDIO_CONSTRAINTS
 
 PRODUCES:
-- <ARTIFACT_TYPE or UID>
-- ...
-
-OUTPUT_PACK (REQUIRED):
-- PACK_NAME: <name>
-- PACK_OBJECT: <what is delivered>
-- PACK_SCHEMA (hard):
-  - field: <name> | type: <type> | required: <yes/no> | rules: <short>
-  - ...
-- PACK_INVARIANTS (hard):
-  - <invariant 1>
-  - <invariant 2>
+- <1–5 output artifact types (implementation artifacts)>
 
 DEPENDS_ON:
-- <ENG_UID>
-- ...
+- <List engines required as prerequisites, or []>
+- Use canonical references: 08_KNOWLEDGE_PRODUCTION_ENGINES/NN__...
 
 OUTPUT_TARGET:
-- <where projects store production packs> (descriptive, no path-nav)
+- <Where project outputs go>
+- Example:
+  - 05_PROJECTS/<project>/05_PROJECT__L3/ART.md
+  - 06_ASSETS/<project>/... (if applicable)
+  - 05_PROJECTS/<project>/06_OUTPUT/<format>.md
 
 ---
 
-## 4) DELIVERABLE CONTRACTS (HARD) — REQUIRED
-DELIVERABLE SET:
-- DELIVERABLE: <name>
-  PURPOSE:
-  FORMAT:
-  REQUIRED FIELDS:
-  ACCEPTANCE RULES:
+## 4) INPUT SPEC (WHAT IT ACCEPTS)
 
-Recommended deliverables by engine code:
-- VISUAL_COMPOSITION: shot composition rules, framing grid, lens language, staging notes
-- ART_STYLE: style bible, palette rules (conceptual), texture/material language, references
-- CAMERA_CINEMATOGRAPHY: camera grammar, movement rules, shot list plan
-- LIGHTING: lighting bible, key/fill/back logic, mood mapping, time-of-day mapping
-- IMAGE_GENERATION: prompt spec, negative constraints, seed policy, batch policy, upscaling policy
-- VIDEO_GENERATION: shot-to-shot continuity policy, motion constraints, duration caps, interpolation rules
-- EDITING_MONTAGE: edit map, pacing by screen-time, transitions grammar, montage patterns
-- SOUND_MUSIC_PROD: production audio plan, sync rules, dialogue clarity rules, placement rules
+### 4.1 Required Inputs
+- INPUT_A: <type> — minimum fields:
+  - <field list>
 
----
+### 4.2 Optional Inputs
+- INPUT_B?: <type> — used when:
+  - <conditions>
 
-## 5) PRODUCTION GATES (HARD) — REQUIRED
-GATE LIST:
-- GATE: <name>
-  CHECK: <how to verify>
-  FAIL SIGNAL: <what indicates failure>
-  FIX STRATEGY: <how to fix>
-  SEVERITY: <S0|S1|S2|S3>
+### 4.3 Constraints it MUST respect
+- Narrative constraints:
+  - <list>
+- Style constraints:
+  - <list>
+- Format constraints:
+  - <list>
+- Technical constraints:
+  - <list>
 
-MINIMUM FAMILY GATES (default set):
-- coherence gate (style/camera/light consistent)
-- continuity gate (shot-to-shot / scene-to-scene continuity)
-- format compliance gate (respects 07 format constraints)
-- technical viability gate (resolution, duration, codec/asset constraints if any)
-- naturalness gate (if relevant; coordinate with QA layer)
-- anti-dup gate (no deep music composition claims in production audio engine)
+If a constraint conflicts:
+- do NOT override silently
+- escalate through governance (Change Control / Rule Hierarchy) or output a Conflict Report artifact.
 
 ---
 
-## 6) WORKFLOW (PIPELINE) — REQUIRED
-PIPELINE STEPS:
-1) intake inputs
-2) produce draft deliverables
-3) run gates
-4) fix loop
-5) output pack
-6) handoff to next engine / output layer
+## 5) OUTPUT SPEC (WHAT IT PRODUCES)
+
+### 5.1 Primary Outputs (implementation artifacts)
+Define exact artifact names/types this engine emits, for example:
+- CAMERA_PLAN
+- SHOT_LIST
+- LIGHTING_PLAN
+- EDIT_DECISIONS (EDL-like)
+- VISUAL_STYLE_GUIDE (implementation version)
+- GENERATION_PROMPT_PACK (image/video)
+- AUDIO_PLACEMENT_PLAN (production layer)
+
+For each output:
+- Output Name:
+- Artifact Type:
+- Schema/fields (minimum):
+  - <fields>
+- Acceptance criteria:
+  - <criteria>
+
+### 5.2 Forbidden Outputs (S0 if primary)
+- storyline meaning changes
+- character arc rewrites
+- deep music composition sheets
+- world lawsets
+- unstructured “just text” without schema for a production plan
 
 ---
 
-## 7) EXAMPLES (REQUIRED)
-GOOD EXAMPLE:
-- <example pack fragment + why passes gates>
+## 6) PROCESS (HOW IT WORKS)
 
-BAD EXAMPLE:
-- <counterexample>
-- fails because: <gate list>
+Describe deterministic steps:
 
----
+Step 1 — Intake & validation
+- verify required inputs exist
+- verify constraints are present
+- reject if ambiguous target format or missing style/format budgets
 
-## 8) FAILURE MODES & EDGE CASES
-FAILURES:
-- Failure:
-  CAUSE:
-  RECOVERY:
+Step 2 — Translation (constraints → execution)
+- convert style constraints to production parameters
+- convert narrative beats to shot/edit requirements (without changing meaning)
 
-EDGE CASES:
-- Case:
-  Handling:
+Step 3 — Planning / generation packaging
+- produce structured plans OR prompt packs OR technical sheets
 
----
+Step 4 — QA checks
+- run quality gates (Section 7)
+- produce issue list if failing
 
-## 9) REL / XREF (UID-FIRST)
-REL:
-- REL: <REL_TYPE> | TARGET: <UID> | WHY: <reason>
-
-XREF:
-- XREF: <UID> | WHY: <reason>
-
-RULE:
-- No PATH navigation inside content.
-- If clickable references are needed, keep them in registries/indexes as RAW.
+Step 5 — Publish
+- write outputs to OUTPUT_TARGET locations
 
 ---
 
-## 10) CHANGE NOTES (OPTIONAL)
-- DATE: YYYY-MM-DD
-- TYPE: PATCH|MINOR|MAJOR
-- SUMMARY:
-- REASON:
-- IMPACT:
+## 7) QUALITY GATES (MANDATORY)
+
+### GATE Q1 — Schema Gate
+- All outputs conform to declared schema
+- No “freeform plans” where schema is required
+
+### GATE Q2 — Boundary Gate
+- Engine does not own meaning decisions
+- Any meaning change triggers S0 blocker
+
+### GATE Q3 — Constraint Compliance Gate
+- style/format constraints applied
+- if not possible → explicit exception record required
+
+### GATE Q4 — Consistency Gate
+- internal naming/UID/version rules satisfied
+- references are canonical and non-duplicate
+
+### GATE Q5 — Handoff Gate
+- outputs are consumable by downstream engines/ORC steps
+- no missing required fields
+
+---
+
+## 8) FAILURE MODES (KNOWN FAILURES)
+
+- FM1: Missing constraints → stop and request missing artifact
+- FM2: Conflicting constraints → produce CONFLICT_REPORT, do not override silently
+- FM3: Output not schema-valid → reject
+- FM4: Engine tries to edit meaning (narrative/character/world) → S0 breach
+
+---
+
+## 9) S0 BLOCKERS (ABSOLUTE STOP)
+
+S0-1: Primary output modifies story meaning / plot structure (domain ownership breach)  
+S0-2: Primary output defines tone/mood as meaning authority (Style breach)  
+S0-3: Engine outputs deep music composition/mix sheets as primary (Sound family breach)  
+S0-4: Outputs have no schema where required  
+S0-5: Hidden dependencies not listed in DEPENDS_ON  
+S0-6: Engine numbering/filename mismatch vs index  
+S0-7: Two engines compete as “single owner” for same execution capability without tiering
+
+---
+
+## 10) INTEGRATION (SYSTEM FIT)
+
+Upstream (typical):
+- Domain Narrative engines (beats/scene intent)
+- Style engines (tone/atmosphere constraints)
+- Production Format engines (budgets/segment limits)
+
+Downstream (typical):
+- Assets layer or Output layer assembly
+- ORC pipelines that sequence production steps
+
+This engine is an implementation bridge:
+Meaning/constraints → production instructions/artifacts.
+
+---
+
+## 11) DEPENDENCY + XREF RULES
+
+- Any dependency must be:
+  - listed in DEPENDS_ON
+  - registered in Dependency Registry Engine when introduced/changed
+
+- Any cross-layer links required by standards must be raw-links (if index requires).
+
+---
+
+## 12) CHANGE CONTROL & VERSIONING
+
+- If STATUS ACTIVE and/or LOCK FIXED:
+  - changes must follow Change Control pipeline
+  - audit + memory entries required for canon changes
+- Version changes must follow repo versioning policy:
+  - PATCH/MINOR/MAJOR semantics as defined by standards
+
+---
+
+## 13) REFERENCES (RAW ONLY)
+
+- Family README (realm):
+  - <raw link to 08_KNOWLEDGE_PRODUCTION_ENGINES/00__README__KNOWLEDGE_PRODUCTION_ENGINES.md>
+
+- Global ENG index:
+  - <raw link to 03_SYSTEM_ENTITIES/10_ENG__ENGINES/02__INDEX_ALL_ENGINES.md>
+
+- Related boundaries:
+  - <raw link to 02_DOMAIN_NARRATIVE_ENGINES/05__PACING_RHYTHM_ENG.md>
+  - <raw link to 08_KNOWLEDGE_PRODUCTION_ENGINES/07__EDITING_MONTAGE_ENG.md>
+  - <raw link to 08_KNOWLEDGE_PRODUCTION_ENGINES/08__SOUND_MUSIC_ENG.md>
+  - <raw link to 09_SOUND_MUSIC_ENGINES/13__MIX_MASTER_ENG.md>
 
 --- END.

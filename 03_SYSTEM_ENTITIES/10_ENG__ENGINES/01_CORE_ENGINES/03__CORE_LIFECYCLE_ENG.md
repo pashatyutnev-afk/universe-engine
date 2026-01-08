@@ -1,303 +1,318 @@
-# CORE LIFECYCLE ENGINE (CANON)
+# CORE LIFECYCLE ENGINE (ENG) — CANON
 FILE: 03_SYSTEM_ENTITIES/10_ENG__ENGINES/01_CORE_ENGINES/03__CORE_LIFECYCLE_ENG.md
 
 SCOPE: Universe Engine
 LAYER: 03_SYSTEM_ENTITIES
 ENTITY_GROUP: ENGINES (ENG)
-FAMILY: 01_CORE_ENGINES
 DOC_TYPE: ENGINE
+FAMILY: 01_CORE_ENGINES
+CLASS: CORE (L1)
 LEVEL: L1
 STATUS: ACTIVE
-VERSION: 1.0.0
+LOCK: OPEN
+VERSION: 0.1.0
 UID: UE.ENG.CORE.LIFECYCLE.001
 OWNER: SYSTEM
-ROLE: Defines canonical lifecycle for all system entities, documents, indexes, and artifacts (birth → draft → active → deprecated → archived), with strict gates, transitions, and audit enforcement
+ROLE: Defines the canonical lifecycle model for canon artifacts and system entities: allowed states, transitions, required records, and blockers. Prevents “half-born” canon and silent deprecations.
+
+CHANGE_NOTE:
+- DATE: 2026-01-08
+- TYPE: MAJOR
+- SUMMARY: "Lifecycle model standardized: states, transition law, deprecation/archival protocol, minimal lifecycle records, and S0 blockers."
+- REASON: "Stop unmanaged renames/deletes, orphan artifacts, and drifting status/lock semantics."
+- IMPACT: "Every canon object gets a traceable birth → active → change → deprecate → archive path."
+- CHANGE_ID: UE.CHG.2026-01-08.CORE.LC.001
 
 ---
 
-## 0) ENGINE HEADER (REQUIRED)
+## 0) PURPOSE (LAW)
 
-ENGINE_NAME: 03__CORE_LIFECYCLE_ENG
-ENGINE_CLASS: CORE
-ENGINE_FAMILY: 01_CORE_ENGINES
-ENGINE_NUMBER: 03
-ENGINE_UID: UE.ENG.CORE.LIFECYCLE.001
-ENGINE_STATUS: ACTIVE
+Core Lifecycle Engine — закон “как живут объекты” в системе.
 
----
+Он фиксирует:
+- допустимые **состояния жизненного цикла** (lifecycle states)
+- допустимые **переходы** (transitions) и что для них обязательно
+- **минимальный набор записей**, без которых переход недействителен
+- правила **deprecate/archive/migration**, чтобы канон не ломался
 
-## 1) PURPOSE (WHAT THIS ENGINE SOLVES)
-
-Этот движок определяет **единый канонический жизненный цикл** для всего, что существует в Universe Engine:
-- документы
-- индексы
-- сущности (ENG/ORC/SPC/CTL/VAL/QA/KB/PRJ/AST/DB/LOG)
-- артефакты проекта
-
-Он решает главную боль: **как правильно переводить “нечто” из состояния в состояние**, чтобы:
-- не ломать канон
-- не плодить “полуживые” файлы
-- не терять историю
-- не создавать скрытых конфликтов и несостыковок
-
-Ключ: **жизненный цикл — это закон, а не пожелание**.
+Ключевая мысль:
+> **STATUS/LOCK** — это *метаданные документа*,  
+> а **LIFECYCLE** — это *жизненный цикл объекта/артефакта/сущности* как единицы канона.
 
 ---
 
-## 2) SCOPE & BOUNDARIES (ANTI-CONFLICT)
+## 1) SCOPE (WHAT THIS ENGINE GOVERNS)
 
-### IN SCOPE
-- Универсальная модель жизненного цикла (states + transitions)
-- Стандарты переходов: кто может инициировать, какие условия, какие записи обязательны
-- Gates (OK/WARN/BLOCK) для промоушена в канон
-- Правила деприкации, архивирования, замены, миграции и алиасов
-- Привязка к Audit/Change Control/Canon Authority
+Governs (in-scope):
+- Canon artifacts: LAW / STANDARD / INDEX / REGISTRY / ENGINE / TEMPLATE / XREF maps
+- System entities (ENG/ORC/SPC/CTL/VAL/QA) как объекты канона
+- Project artifacts (PRJ L0–L3 outputs) — только на уровне правил переходов и записей
 
-### OUT OF SCOPE
-- Определение “что такое система” (это `01__CORE_IDENTITY_ENG`)
-- Определение “состояния системы прямо сейчас” (это `02__CORE_STATE_ENG`)
-- Доменная логика (Narrative/Character/World и т.д.)
-- Фактчекинг/качество текста/культура/научность (это VAL/QA)
-- Частные инструкции по каждому семейству (они в README семействах и governance)
+Out-of-scope (non-goals):
+- “кто главный” и приоритет правил (Rule Hierarchy)
+- “что есть канон” (Canon Authority)
+- проверка структуры/имен/UID (Consistency делает; Lifecycle требует прохождения)
+- текущее здоровье системы (Core State Engine)
+- факт- и качество-проверки (VAL/QA)
 
 ---
 
-## 3) MINI-CONTRACT (MANDATORY)
+## 2) MINI-CONTRACT (MANDATORY)
 
 CONSUMES:
-- SYS_IDENTITY (core identity anchors lifecycle law)
-- SYS_STATE_SNAPSHOT (для безопасных переходов: нельзя промоутить при BLOCK)
-- CHANGE_REQUEST (если переход затрагивает канон/структуру/порядок)
-- ENTITY_OR_DOC_TARGET (описание, что именно переводим)
+- CANON_OBJECT (path + UID + declared role)
+- CURRENT_METADATA (STATUS/LOCK/VERSION header snapshot)
+- STATE_SNAPSHOT (from Core State Engine, optional but recommended)
+- CHANGE_PACKAGE? (required if transition touches FIXED/INDEX/LAW or is MIGRATION)
+- IMPACT_REPORT? (required for MAJOR/MIGRATION)
+- RISK_REPORT? (required for risky transitions)
+- DEPENDENCY_CONTEXT? (if object has downstream dependents)
 
 PRODUCES:
-- LIFECYCLE_MODEL (универсальная модель состояний/переходов)
-- TRANSITION_CHECKLISTS (чеклисты по ключевым переходам)
-- TRANSITION_RECORD (аудит-запись о переходе)
-- DEPRECATION_MAP (замены/алиасы/куда переехало)
+- LIFECYCLE_STATE (LC_STATE)
+- LIFECYCLE_EVENT (LC_EVENT record)
+- TRANSITION_PLAN (LC_PLAN)
+- MIGRATION_MAP? (if rename/move/delete)
+- AUDIT_LOG_ENTRY (required for canon transitions)
+- VERSION_MEMORY_ENTRY? (required if versions/paths changed)
 
 DEPENDS_ON:
-- 01_CORE_ENGINES/01__CORE_IDENTITY_ENG (HARD)
-- 01_CORE_ENGINES/02__CORE_STATE_ENG (HARD)
-- 00_GOVERNANCE_ENGINES/01__AUDIT_LOG_ENG (HARD)
-- 00_GOVERNANCE_ENGINES/04__CHANGE_CONTROL_ENG (HARD for canon-impact transitions)
-- 00_GOVERNANCE_ENGINES/02__CANON_AUTHORITY_ENG (SOFT, when disputes)
-- 00_GOVERNANCE_ENGINES/07__DECISION_APPROVAL_ENG (SOFT, approvals)
-- 00_GOVERNANCE_ENGINES/05__CONSISTENCY_ENG (HARD for structure-affecting moves)
+- 01_CORE_ENGINES/01__CORE_IDENTITY_ENG
+- 01_CORE_ENGINES/02__CORE_STATE_ENG
+- 00_GOVERNANCE_ENGINES/01__AUDIT_LOG_ENG
+- 00_GOVERNANCE_ENGINES/02__CANON_AUTHORITY_ENG
+- 00_GOVERNANCE_ENGINES/03__RULE_HIERARCHY_ENG
+- 00_GOVERNANCE_ENGINES/04__CHANGE_CONTROL_ENG
+- 00_GOVERNANCE_ENGINES/05__CONSISTENCY_ENG
+- 00_GOVERNANCE_ENGINES/06__DEPENDENCY_REGISTRY_ENG
+- 00_GOVERNANCE_ENGINES/10__VERSIONING_MEMORY_ENG
 
 OUTPUT_TARGET:
-- 01_SYSTEM_LAW/ (если lifecycle закреплён как закон верхнего уровня)
-- 99_LOGS/LOG__AUDIT.md (обязательная запись о переходах)
-- 03_SYSTEM_ENTITIES/* (используется каждым семейством как обязательная опора)
-- 08_DATABASES/DB__RELEASE_LOG.md (pointer на актуальные состояния/релизы)
+MANDATORY:
+- 99_LOGS/LOG__AUDIT.md (LC_EVENT + summary)
+- 99_LOGS/LOG__CHANGES.md (if transition came from change package)
+OPTIONAL:
+- 08_DATABASES/DB__RELEASE_LOG.md (release markers)
+- Entity passport (if entity-type supports passport storage)
 
 ---
 
-## 4) LIFECYCLE MODEL (CANONICAL STATES)
+## 3) CORE DEFINITIONS
 
-### 4.1 Canon state set (strict)
-Базовый жизненный цикл должен быть совместим со стандартом статусов:
-
-- `DRAFT` — в разработке, не канон, может быть неполным
-- `ACTIVE` — канон, рабочее, допускается развитие только через правила
-- `DEPRECATED` — устарело, заменено, сохраняется ради совместимости/истории
-- `ARCHIVED` — выведено из оборота, трогать нельзя, только хранить
-
-> Важное: `STATUS` — не “настроение”, а юридическое состояние объекта.
-
-### 4.2 Supplement flags (non-status)
-Для уточнения, без расширения списка STATUS, используются “теги жизненного цикла” внутри тела документа:
-
-- `LIFECYCLE_TAGS: [WIP|CANON_READY|MIGRATING|LOCKED_HISTORY]`
-- `REPLACED_BY: <canonical path or UID>`
-- `MIGRATION_FROM: <old path>`
-- `SUNSET_DATE: YYYY-MM-DD` (если применимо)
-- `COMPAT_LEVEL: <OK|WARN|BREAK>` (для совместимости)
+- **Canon Object** — единица канона, которая обязана быть управляемой индексами/правилами.
+- **Lifecycle State** — состояние объекта в процессе жизни (не путать с STATUS документа).
+- **Transition** — допустимый переход между lifecycle states.
+- **Gate** — обязательная проверка/условие перед переходом.
+- **Downstream** — объекты, зависящие от данного (dependency registry).
 
 ---
 
-## 5) TRANSITIONS (CANONICAL MOVES)
+## 4) LIFECYCLE STATES (STRICT SET)
 
-### 5.1 Allowed transitions (strict)
-- T1: `DRAFT -> ACTIVE`
-- T2: `ACTIVE -> DEPRECATED`
-- T3: `DEPRECATED -> ARCHIVED`
-- T4: `DRAFT -> ARCHIVED` (только если признано мусором/ошибкой и зафиксировано в логе)
+LC_STATE:
+- `BIRTH`        — объект создан/зарегистрирован, ещё не введён в эксплуатацию
+- `ACTIVE`       — объект используется как часть канона/пайплайна
+- `MAINTENANCE`  — объект активен, но допускает корректировки/улучшения
+- `FROZEN`       — объект активен, но запрещены смысловые изменения (только patch/clarity)
+- `DEPRECATED`   — объект заменён, использование запрещено/не рекомендуется, но ещё нужен для совместимости
+- `ARCHIVED`     — объект выведен из обращения и хранится только как история
+- `RETIRED`      — объект удалён из актуальной структуры (оставлен только через ссылки на архив/историю)
 
-### 5.2 Forbidden transitions
-- `ARCHIVED -> anything` (архив не воскресает)
-- `DEPRECATED -> ACTIVE` (нельзя “вернуть” без новой сущности/версии; делай новый объект)
-- “тишина” (переход без записи в Audit Log)
-
----
-
-## 6) GATES (QUALITY / READINESS)
-
-### 6.1 Global gate severity
-- `OK` — можно переходить
-- `WARN` — можно переходить только если риск понятен и записан
-- `BLOCK` — нельзя переходить, сначала лечить
-
-### 6.2 Gate dependency
-Если `SYS_STATE_SNAPSHOT` имеет `SEVERITY: BLOCK` — любые канон-изменения **запрещены**.
+Правило:
+> Canon object не может “исчезнуть” без перехода через `DEPRECATED`/`ARCHIVED`/`RETIRED` и записей.
 
 ---
 
-## 7) CHECKLISTS (MANDATORY FOR KEY TRANSITIONS)
+## 5) TRANSITIONS (ALLOWED GRAPH)
 
-### 7.1 T1 — DRAFT -> ACTIVE (Canon Promotion Checklist)
-MUST:
-1) Объект зарегистрирован в каноническом INDEX (existence via index)
-2) Название/нумерация/путь соблюдены (naming/numbering rules)
-3) Есть UID, VERSION, STATUS, LOCK (и они валидны)
-4) Нет дублирующих “точек истины” (не объявляет себя master index если не должен)
-5) Есть Mini-Contract (CONSUMES/PRODUCES/DEPENDS_ON/OUTPUT_TARGET)
-6) Все ссылки на канон-ресурсы резолвятся (нет битых raw-links / путей)
-7) Для файла определены границы (scope & out-of-scope)
-8) Добавлена запись в Audit Log (promotion record)
-9) Если затрагивает структуру/порядок/канон-правила → Change Control record
+Allowed transitions:
+- BIRTH → ACTIVE
+- ACTIVE → MAINTENANCE
+- MAINTENANCE → ACTIVE
+- ACTIVE/MAINTENANCE → FROZEN
+- FROZEN → MAINTENANCE (только через approval, если FIXED-семантика нарушена)
+- ACTIVE/MAINTENANCE/FROZEN → DEPRECATED
+- DEPRECATED → ARCHIVED
+- ARCHIVED → RETIRED (только если допускается удаление физического файла или вынос в history storage)
 
-SHOULD:
-- Есть минимум 1 пример применения
-- Есть failure modes / риски
-- Есть mapping на слои/реестры (если нужно)
-
-### 7.2 T2 — ACTIVE -> DEPRECATED (Sunset Checklist)
-MUST:
-1) Указан `REPLACED_BY` (что заменяет) или причина “no replacement”
-2) В индексах отмечено состояние (если индекс хранит статусы/заметки)
-3) Сохранена совместимость: где применялось — там есть указание миграции
-4) Запись в Audit Log
-5) Если спор/конфликт → Canon Authority decision
-
-SHOULD:
-- Указана дата sunset (SUNSET_DATE)
-- Добавлен DEPRECATION_MAP record
-
-### 7.3 T3 — DEPRECATED -> ARCHIVED (Archive Checklist)
-MUST:
-1) Доказано, что объект больше не нужен для совместимости
-2) Везде где ссылались — ссылки обновлены/удалены
-3) Объект помечен как `ARCHIVED` и `LOCK: FIXED`
-4) Запись в Audit Log
-5) Consistency check подтверждает: битых ссылок не осталось
+Forbidden (invalid):
+- BIRTH → DEPRECATED (нельзя “родить и сразу похоронить” — значит ошибочная регистрация)
+- ACTIVE → RETIRED (нельзя удалять активный объект без deprecate+archive path)
+- Любой переход, если Core State = BLOCK (см. раздел 9)
 
 ---
 
-## 8) LIFECYCLE RECORDS (STANDARD FORMAT)
+## 6) TRANSITION GATES (MANDATORY ORDER)
 
-### 8.1 Transition Record (audit payload)
-Каждый переход создаёт запись (минимум) формата:
+G0 — Identity Gate (always)
+- объект должен иметь корректный путь/UID/роль (baseline invariants)
 
-TRANSITION_RECORD:
-- TIMESTAMP: <ISO>
-- TARGET: <path or UID>
-- FROM_STATUS: <DRAFT|ACTIVE|DEPRECATED|ARCHIVED>
-- TO_STATUS: <...>
-- TRIGGER: <who/what инициировал>
-- REASON: <short>
-- IMPACT: <short>
-- REFERENCES:
-  - INDEX_CHANGE: <link/path or NONE>
-  - CHANGE_CONTROL: <link/path or NONE>
-  - CANON_AUTHORITY: <link/path or NONE>
-- RESULT: <OK|WARN|BLOCK>
+G1 — Existence Gate (always)
+- объект обязан быть зарегистрирован в каноническом индексе (если он канон)
+- иначе: либо это non-canon (не управляем), либо ошибка (stop)
 
----
+G2 — Consistency Gate (always for canon)
+- naming/UID/version header legality (Consistency Engine)
 
-## 9) MIGRATION & ALIAS LAW (RENAMES / MOVES)
+G3 — Dependency Gate (conditional)
+- если есть downstream dependents:
+  - нужен план совместимости
+  - запись в dependency registry обязательна
 
-### 9.1 Rename/move is a lifecycle event
-Переименование/перенос = всегда событие жизненного цикла, даже если STATUS не меняется.
+G4 — Change Control Gate (conditional)
+- если затрагиваем FIXED/LAW/INDEX или делаем MIGRATION:
+  - нужен CHANGE_PACKAGE (CHG) и прохождение pipeline
 
-MUST:
-- `MIGRATION_FROM` + новый канонический путь
-- Обновление индексов (старые ссылки не должны жить)
-- Audit Log запись “MIGRATION”
-- Consistency check (битые ссылки запрещены)
+G5 — Authority/Approval Gate (conditional)
+- если переход меняет поведение, ломает совместимость, или трогает FIXED:
+  - требуется approval (Decision Approval + Canon Authority)
 
-### 9.2 Deprecation Map
-Если что-то переехало или заменилось, фиксируется:
+G6 — Audit + Memory Gate (always for canon transitions)
+- LC_EVENT обязателен
+- если менялись версии/пути: VERSION_MEMORY_ENTRY обязателен
 
-DEPRECATION_MAP record:
-- OLD: <old path or UID>
-- NEW: <new path or UID>
-- TYPE: <RENAME|MOVE|REPLACE|MERGE|SPLIT>
-- WHY: <short>
-- COMPAT: <OK|WARN|BREAK>
+Ни один gate нельзя “перепрыгнуть”.
 
 ---
 
-## 10) ENTITY CLASSES (WHAT THIS APPLIES TO)
+## 7) REQUIRED RECORDS (MINIMUM SCHEMAS)
 
-Этот lifecycle применяется одинаково к:
-- INDEX docs (master indexes, family indexes)
-- ENGINE docs (ENG)
-- Orchestrators / Specialists / Controllers / Validators / QA entities
-- KB entities / KB governance docs
-- Project passports / outputs
-- Asset passports / asset governance
-- DB registries
-- Logs (с оговоркой: логи обычно ACTIVE+FIXED как историческая фиксация)
+### 7.1 LIFECYCLE_EVENT (LC_EVENT) — mandatory for any canon transition
+LC_EVENT:
+- DATE:
+- OBJECT_PATH:
+- OBJECT_UID:
+- FROM_STATE:
+- TO_STATE:
+- TYPE: PATCH | MINOR | MAJOR | MIGRATION | EMERGENCY
+- REASON:
+- IMPACT: short
+- COMPATIBILITY: backward|breaking|mixed|n/a
+- DEPENDENTS: none|listed
+- REQUIRED_GATES: [list]
+- LINKS: [indexes/records]
+- APPROVAL_REF?: (if required)
+- CHG_REF?: (if change package exists)
 
----
+### 7.2 TRANSITION_PLAN (LC_PLAN) — mandatory for MAJOR/MIGRATION/DEPRECATION
+LC_PLAN:
+- TARGET_STATE:
+- STEPS: [ordered]
+- AFFECTED_INDEXES: [list]
+- DEPENDENCY_UPDATES: [list]
+- MIGRATION_MAP?: (if rename/move/delete)
+- ROLLBACK_PLAN?: (if hard/breaking)
+- OWNER:
 
-## 11) GOVERNANCE INTEGRATION (MANDATORY)
-
-### 11.1 When Change Control is required (HARD)
-Change Control обязателен, если переход:
-- меняет структуру репозитория (пути/папки/семейства)
-- меняет порядок/состав канонических индексов
-- меняет “точки истины”
-- вводит/удаляет обязательные зависимости
-- переводит критический документ в DEPRECATED/ARCHIVED
-
-### 11.2 Canon Authority triggers
-Canon Authority подключается, если:
-- есть спор о каноне
-- есть конфликт индексов
-- есть риск “двойной истины”
-- нужно разрешить исключение из правил
-
----
-
-## 12) FAILURE MODES (KNOWN RISKS)
-
-- FM1: “Промоутнули в ACTIVE без регистрации в индексе”
-  - EFFECT: сущность “живая”, но не существует по канону
-  - FIX: откат/деприк + регистрация + audit
-
-- FM2: “Удалили/переименовали без миграции”
-  - EFFECT: битые ссылки, развал навигации
-  - FIX: migration record + обновление индексов + consistency run
-
-- FM3: “DEPRECATED без REPLACED_BY”
-  - EFFECT: система не знает, куда идти дальше
-  - FIX: добавить replacement или объяснение отсутствия, плюс карта миграции
-
-- FM4: “Archive prematurely”
-  - EFFECT: ломается совместимость (старые пайпы/проекты)
-  - FIX: восстановить как DEPRECATED (если возможно) или создать новый compatibility shim
+### 7.3 MIGRATION_MAP — mandatory for rename/move/delete
+MIGRATION_MAP:
+- OLD_PATH:
+- NEW_PATH: (or RETIRED/DELETED)
+- OLD_UID:
+- NEW_UID: (usually same; change requires justification)
+- WHY:
+- REFERENCES_TO_UPDATE: [indexes/xrefs/registries]
+- MEMORY_REF: required
 
 ---
 
-## 13) EXAMPLES (MINIMUM 2)
+## 8) STATUS/LOCK vs LIFECYCLE (NO CONFUSION LAW)
 
-### Example A — Promotion to ACTIVE
-TARGET: новый индекс семейства
-- DRAFT -> ACTIVE
-- Выполнены пункты T1 checklist
-- В audit: запись promotion + ссылка на изменение в индексе
+- `STATUS` и `LOCK` — свойства **файла документа** (header).
+- `LC_STATE` — состояние **канонического объекта** (может быть документом, но смысл шире).
 
-### Example B — Deprecation due to rename
-TARGET: файл переехал в другую папку
-- ACTIVE -> DEPRECATED (старый путь)
-- Новый путь становится ACTIVE
-- DEPRECATION_MAP: TYPE= MOVE, COMPAT=WARN (если есть внешние ссылки)
-- Consistency check подтверждает отсутствие битых ссылок
+Пример:
+- Документ может иметь `STATUS: ACTIVE`, но объект может быть `LC_STATE: MAINTENANCE`.
+- Документ может быть `LOCK: FIXED`, но объект может быть `LC_STATE: FROZEN` (жёстко).
+
+Rule:
+> Нельзя использовать STATUS вместо LIFECYCLE, иначе всё начнёт “гулять”.
 
 ---
 
-## FINAL RULE (LOCK)
+## 9) SYSTEM STATE PRECONDITION (HARD)
 
-LOCK: FIXED
+Если `Core State Engine` выдаёт `SEVERITY: BLOCK`:
+- любые lifecycle transitions для канона **запрещены**
+- допускается только emergency fix (по Change Control emergency path)
+
+Если `WARN`:
+- transitions разрешены, но LC_EVENT обязан отметить WARN.
+
+---
+
+## 10) DEPRECATION LAW (NO SILENT DEATH)
+
+DEPRECATED означает:
+- есть **замена** (successor) или причина, почему замены нет
+- индекс существования обновлён так, чтобы:
+  - старый объект либо остаётся как deprecated, либо переезжает в архив, но не пропадает
+- есть migration mapping (если переезд)
+- dependents либо мигрированы, либо явно закреплены на deprecated объекте (временно)
+
+Required fields on deprecate:
+- SUCCESSOR_PATH? (если есть)
+- MIGRATION_WINDOW (если используется)
+- COMPATIBILITY_NOTE
+
+---
+
+## 11) ARCHIVE / RETIRE LAW
+
+ARCHIVED:
+- объект больше не используется пайплайнами
+- остаётся доступным для истории и ссылок (raw-links, если требуется)
+
+RETIRED:
+- допускается только если:
+  - ссылки закрыты/переведены
+  - migration map записан
+  - индексы не содержат ссылок на retired путь
+  - memory содержит mapping, чтобы навигация не ломалась
+
+---
+
+## 12) S0 BLOCKERS (ABSOLUTE)
+
+S0-1: Canon object не зарегистрирован в каноническом индексе, но объявлен каноном
+S0-2: Переход выполнен без LC_EVENT
+S0-3: Rename/move/delete без MIGRATION_MAP + memory entry
+S0-4: Есть downstream dependents, но нет dependency updates
+S0-5: Core State = BLOCK, но transition выполнен (policy breach)
+S0-6: Два объекта конкурируют за одну роль “single source of truth” без решения authority
+
+Если S0 → STOP / REVERT / EMERGENCY only.
+
+---
+
+## 13) HOW THIS ENGINE FITS THE SYSTEM (INTEGRATION)
+
+- Core Identity: задаёт инварианты и базовую идентичность системы
+- Core State: говорит “можно ли сейчас менять”
+- Change Control: задаёт pipeline для опасных/канон-правок
+- Consistency: проверяет легальность структуры/шапок/UID/версий
+- Dependency Registry: фиксирует downstream и миграции зависимостей
+- Audit Log + Versioning Memory: делает жизнь объекта трассируемой
+
+Lifecycle — это **единый закон управления жизнью**, чтобы канон не превращался в кладбище без табличек.
+
+---
+
+## 14) REFERENCES (RAW ONLY)
+
+CORE:
+- https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/01_CORE_ENGINES/01__CORE_IDENTITY_ENG.md
+- https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/01_CORE_ENGINES/02__CORE_STATE_ENG.md
+
+GOVERNANCE:
+- https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/00_GOVERNANCE_ENGINES/04__CHANGE_CONTROL_ENG.md
+- https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/00_GOVERNANCE_ENGINES/05__CONSISTENCY_ENG.md
+- https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/00_GOVERNANCE_ENGINES/06__DEPENDENCY_REGISTRY_ENG.md
+- https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/00_GOVERNANCE_ENGINES/01__AUDIT_LOG_ENG.md
+- https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/00_GOVERNANCE_ENGINES/10__VERSIONING_MEMORY_ENG.md
+
+STANDARDS / LAW:
+- https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01_SYSTEM_LAW/04__CANON_PROTOCOL.md
+- https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/02_STANDARDS/01_SPECIFICATIONS/03__DOC_CONTROL_STANDARD.md
+
+--- END.

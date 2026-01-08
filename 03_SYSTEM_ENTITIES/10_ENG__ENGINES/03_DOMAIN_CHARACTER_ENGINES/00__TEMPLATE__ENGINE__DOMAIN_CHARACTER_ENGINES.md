@@ -1,179 +1,209 @@
-# ENGINE TEMPLATE — DOMAIN CHARACTER ENGINES (ENG)
+# DOMAIN CHARACTER ENGINES — ENGINE TEMPLATE (ENG) — CANON
 FILE: 03_SYSTEM_ENTITIES/10_ENG__ENGINES/03_DOMAIN_CHARACTER_ENGINES/00__TEMPLATE__ENGINE__DOMAIN_CHARACTER_ENGINES.md
 
 SCOPE: Universe Engine
 LAYER: 03_SYSTEM_ENTITIES
+ENTITY_GROUP: ENGINES (ENG)
 DOC_TYPE: TEMPLATE
-ENTITY_CLASS: ENG
-ENGINE_FAMILY: 03_DOMAIN_CHARACTER_ENGINES
-LEVEL: L3
+FAMILY: 03_DOMAIN_CHARACTER_ENGINES
+CLASS: DOMAIN (L2)
+LEVEL: L2
 STATUS: ACTIVE
-LOCK: FIXED
+LOCK: OPEN
 VERSION: 1.0.0
-UID: UE.TPL.ENG.DOMAIN.CHARACTER.ENGINE.001
+UID: UE.ENG.DOM.CHARACTER.TPL.ENGINE.001
 OWNER: SYSTEM
-ROLE: Canonical template for character-domain ENG engines (identity, motivation, psychology, behavior, dialogue, relationships, growth)
+ROLE: Mandatory template for DOMAIN CHARACTER engines. Enforces canonical header schema, mini-contract law, character-domain boundaries, output schemas, and raw-only references to prevent drift.
+
+CHANGE_NOTE:
+- DATE: 2026-01-08
+- TYPE: MAJOR
+- SUMMARY: "Domain Character engine template standardized: governance-style header, strict mini-contract, boundaries, outputs, and S0 blockers."
+- REASON: "Prevent template drift and stop overlaps with Narrative/World/Expression/Production and Governance/CORE."
+- IMPACT: "All character engines become uniform, composable, and compatible with CORE + GOVERNANCE."
+- CHANGE_ID: UE.CHG.2026-01-08.DOM.CHR.TPL.ENGINE.001
 
 ---
 
-## 0) IDENTITY (REQUIRED)
-ENGINE_NAME: <DISPLAY_NAME>
-ENGINE_CODE: <SHORT_CODE>                         # e.g., CHARACTER_CORE, MOTIVATION_DESIRE
-ENGINE_NUMBER: <NN>                               # must match filename NN__
-ENGINE_FILE_NAME: <NN__NAME_ENG.md>
-ENGINE_UID: <UE.ENG.DOM.CHR.<CODE>.NNN>
+## 0) HOW TO USE (MANDATORY)
 
-CHARACTER_OBJECT:
-- What character object it owns (1 line): (identity / motivation / values / psyche / behavior / relationship / dialogue / growth)
-- What it guarantees (1 line)
+1) Copy this template to create a new engine file in this family.
+2) Replace placeholders strictly (title, FILE path, UID, ROLE).
+3) Fill MINI-CONTRACT with concrete artifacts (no vague words).
+4) Declare boundaries to avoid overlap with:
+   - CORE (identity/state/lifecycle)
+   - GOVERNANCE (authority/pipeline/audit)
+   - NARRATIVE (structure/continuity)
+   - WORLD (laws/economy/tech/ecology)
+   - EXPRESSION (event mechanics)
+   - PRODUCTION (media implementation)
+5) Add raw-only references where index navigation requires it.
 
----
-
-## 1) PURPOSE (LAW)
-Зачем этот движок существует:
-- какую “дыру” в персонаже он закрывает
-- какие типовые ошибки персонажей предотвращает (картон / нелогичность / непоследовательность)
-- что он делает каноном и фиксирует
+Rule:
+- Missing required sections => engine is incomplete (non-canon).
 
 ---
 
-## 2) DOMAIN BOUNDARY (ANTI-DUP) — REQUIRED
-OWNED HERE:
-- <what this engine owns>
+## 1) ENGINE FILE TEMPLATE (COPY FROM HERE)
 
-NOT OWNED HERE:
-- plot/scene structure (02_DOMAIN_NARRATIVE_ENGINES)
-- world laws/economy/epochs (04_DOMAIN_WORLD_ENGINES)
-- media production timing/editing (08_KNOWLEDGE_PRODUCTION_ENGINES)
+# <ENGINE TITLE> (ENG) — CANON
+FILE: 03_SYSTEM_ENTITIES/10_ENG__ENGINES/03_DOMAIN_CHARACTER_ENGINES/NN__<ENGINE_NAME>_ENG.md
 
-INTERFACES:
-- Upstream expectations: <what must exist before>
-- Downstream outputs: <what can rely on this>
+SCOPE: Universe Engine
+LAYER: 03_SYSTEM_ENTITIES
+ENTITY_GROUP: ENGINES (ENG)
+DOC_TYPE: ENGINE
+FAMILY: 03_DOMAIN_CHARACTER_ENGINES
+CLASS: DOMAIN (L2)
+LEVEL: L2
+STATUS: DRAFT
+LOCK: OPEN
+VERSION: 0.1.0
+UID: UE.ENG.DOM.CHARACTER.<ENGINE_KEY>.001
+OWNER: SYSTEM
+ROLE: <one sentence: what character capability this engine defines and guarantees>
+
+CHANGE_NOTE:
+- DATE: YYYY-MM-DD
+- TYPE: PATCH|MINOR|MAJOR|MIGRATION|EMERGENCY
+- SUMMARY: "<what changed / what was defined>"
+- REASON: "<why>"
+- IMPACT: "<what this affects>"
+- CHANGE_ID: UE.CHG.YYYY-MM-DD.DOM.CHR.<ENGINE_KEY>.<SEQ>
 
 ---
 
-## 3) INPUTS / OUTPUTS (MINI-CONTRACT) — REQUIRED
+## 0) PURPOSE (LAW)
+
+- Define the character capability this engine owns (strict).
+- Define guarantees (bullets).
+- Define non-goals (explicit).
+
+---
+
+## 1) NON-GOALS (HARD)
+
+This engine does NOT:
+- define system identity/state/lifecycle (CORE)
+- define authority/approvals/pipeline/audit/memory (GOVERNANCE)
+- define narrative macro-structure or continuity as primary (NARRATIVE owns)
+- define world laws/economy/tech/ecology as primary (WORLD owns)
+- define event mechanics primitives (EXPRESSION owns)
+- define media implementation (acting/camera/editing/sound) as primary (PRODUCTION owns)
+
+---
+
+## 2) MINI-CONTRACT (MANDATORY)
+
 CONSUMES:
-- <ARTIFACT_TYPE or UID>
-- ...
+- <1–7 inputs; named artifacts>
+  - Example: CHARACTER_PROFILE, ARC_CONSTRAINTS, RELATIONSHIP_MAP, SCENE_BLUEPRINT
 
 PRODUCES:
-- <ARTIFACT_TYPE or UID>
-- ...
-
-CHARACTER_OUTPUT (REQUIRED):
-- OUTPUT_OBJECT: <e.g., Character Sheet | Motivation Map | Values Matrix | Dialogue Rules | Relationship Graph>
-- OUTPUT_SCHEMA (short): <fields/structure bullets>
-- OUTPUT_INVARIANTS: <what must always be true about character>
+- <1–7 outputs; reusable artifacts>
+  - Example: MOTIVATION_MODEL, BEHAVIOR_RULESET, DIALOGUE_STYLE_GUIDE, RELATIONSHIP_TENSIONS
 
 DEPENDS_ON:
-- <ENG_UID>
-- ...
+- <engine paths> or []
+  - Prefer CORE prereqs where required.
 
 OUTPUT_TARGET:
-- <where in projects the output should live> (descriptive, no path-nav)
+MANDATORY:
+- <project storage targets, e.g. 05_PROJECTS/...>
+
+OPTIONAL:
+- <assistive notes; never overrides canon>
+
+Rule:
+- If MINI-CONTRACT is vague → INVALID.
 
 ---
 
-## 4) CHARACTER CONTRACT (HARD) — REQUIRED
-IDENTITY CORE:
-- Name/Role: <...>
-- Core wound / core need (if applicable): <...>
-- Primary desire: <...>
-- Primary fear: <...>
+## 3) DEFINITIONS (STRICT)
 
-VALUES & MORALS:
-- Non-negotiables: <...>
-- Taboo lines: <...>
-- Trade-offs: <...>
-
-PSYCHO-LOGIC:
-- Trigger → Emotion → Thought → Action chain (pattern):
-  - Trigger:
-  - Emotion:
-  - Thought:
-  - Action:
-
-BEHAVIORAL INVARIANTS:
-- Always:
-- Never:
-- Under pressure:
-
-RELATIONSHIP RULES (if relevant):
-- Attachment pattern:
-- Conflict pattern:
-- Trust / betrayal rules:
-
-DIALOGUE RULES (if relevant):
-- Voice: <tone/lexicon>
-- Rhythm: <short/long, interruptions, pauses>
-- Forbidden phrases / tells:
-
-GROWTH TRACK (if relevant):
-- Before → After:
-- Growth driver:
-- Relapse risk:
+- Define only terms this engine owns.
+- If a term belongs to another family, reference it (do not redefine).
 
 ---
 
-## 5) CORE MECHANISM (HOW IT WORKS)
-MECHANISM:
-- Step 1:
-- Step 2:
-- Step 3:
+## 4) BOUNDARIES (ANTI-DUPLICATION)
 
-TOOLS / MODELS (OPTIONAL):
-- Model:
-  WHY:
+IN SCOPE:
+- <owned character domain>
 
----
+OUT OF SCOPE (HARD):
+- <forbidden overlaps>
 
-## 6) QUALITY GATES (HARD) — REQUIRED
-GATE LIST:
-- GATE: <name>
-  CHECK: <how to verify>
-  FAIL SIGNAL: <what indicates failure>
-  FIX STRATEGY: <how to fix>
-
-MINIMUM CHARACTER GATES (default set):
-- consistency (actions match motives/values)
-- believability (human/agent-like causal psychology)
-- continuity (no contradictions across scenes)
-- voice stability (dialogue style holds)
-- growth logic (change has cause and cost)
+COLLISION RULE:
+- If overlap exists, declare owner family/engine and how to route work.
 
 ---
 
-## 7) FAILURE MODES & EDGE CASES
-FAILURES:
-- Failure:
-  CAUSE:
-  RECOVERY:
+## 5) RULESET (THE LAW)
 
-EDGE CASES:
-- Case:
-  Handling:
+Write numbered rules using MUST/FORBIDDEN/ALLOWED:
+- R1 (HARD): ...
+- R2 (HARD): ...
+- R3 (SOFT): ...
 
----
-
-## 8) REL / XREF (UID-FIRST)
-REL:
-- REL: <REL_TYPE> | TARGET: <UID> | WHY: <reason>
-
-XREF:
-- XREF: <UID> | WHY: <reason>
-
-RULE:
-- No PATH navigation inside content.
-- If clickable references are needed, keep them in registries/indexes as RAW.
+Include:
+- strict sets (allowed values)
+- invariants
+- stop conditions (blockers)
 
 ---
 
-## 9) CHANGE NOTES (OPTIONAL)
-- DATE: YYYY-MM-DD
-- TYPE: PATCH|MINOR|MAJOR
-- SUMMARY:
-- REASON:
-- IMPACT:
+## 6) REQUIRED OUTPUT SCHEMAS (MINIMUM)
+
+For each produced artifact:
+
+ARTIFACT: <NAME>
+- MUST: <fields list>
+- OPTIONAL: <fields list>
+- VALIDATION: <how to detect missing/invalid>
+- STORAGE: <target path rule>
+
+---
+
+## 7) PIPELINE (DETERMINISTIC)
+
+1) Input validation
+2) Construct models/rulesets
+3) Output formatting
+4) Integration hooks
+
+---
+
+## 8) S0 BLOCKERS (STOP)
+
+- S0-1: Output contradicts CORE invariants.
+- S0-2: Engine duplicates governance authority/pipeline rules.
+- S0-3: Engine claims ownership of narrative continuity or world-law primitives.
+- S0-4: Outputs missing required schema fields.
+
+---
+
+## 9) INTEGRATION (SYSTEM FIT)
+
+- Which engines consume these outputs
+- How this engine plugs into ORC pipelines (if applicable)
+- When governance pipeline is required
+
+---
+
+## 10) REFERENCES (RAW ONLY) (OPTIONAL)
+
+- <raw links>
 
 --- END.
+
+---
+
+## 2) TEMPLATE QUALITY CHECK (FAST)
+
+Before setting a new engine ACTIVE:
+- [ ] Header schema correct
+- [ ] MINI-CONTRACT concrete
+- [ ] Boundaries explicit
+- [ ] Output schemas defined
+- [ ] S0 blockers listed

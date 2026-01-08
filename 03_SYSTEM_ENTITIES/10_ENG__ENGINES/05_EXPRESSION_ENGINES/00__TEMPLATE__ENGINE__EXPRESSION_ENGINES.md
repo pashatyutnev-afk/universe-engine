@@ -1,166 +1,225 @@
-# ENGINE TEMPLATE — EXPRESSION ENGINES (ENG)
+# EXPRESSION ENGINES — ENGINE TEMPLATE (ENG) — CANON
 FILE: 03_SYSTEM_ENTITIES/10_ENG__ENGINES/05_EXPRESSION_ENGINES/00__TEMPLATE__ENGINE__EXPRESSION_ENGINES.md
 
 SCOPE: Universe Engine
 LAYER: 03_SYSTEM_ENTITIES
+ENTITY_GROUP: ENGINES (ENG)
 DOC_TYPE: TEMPLATE
-ENTITY_CLASS: ENG
-ENGINE_FAMILY: 05_EXPRESSION_ENGINES
+FAMILY: 05_EXPRESSION_ENGINES
+CLASS: EXPRESSION (L3)
 LEVEL: L3
 STATUS: ACTIVE
-LOCK: FIXED
+LOCK: OPEN
 VERSION: 1.0.0
-UID: UE.TPL.ENG.EXPR.ENGINE.001
+UID: UE.ENG.EXP.TPL.ENGINE.001
 OWNER: SYSTEM
-ROLE: Canonical template for expression ENG engines (event primitives, causality, conflict, turning points, climax, resolution, shocks, scheduling, randomness)
+ROLE: Mandatory template for EXPRESSION engines. Defines event-mechanics primitives (event/cause-effect/conflict/turning points), enforces strict boundaries, mini-contract law, output schemas, and prevents overlaps with Narrative/Character/World/Production and Governance/CORE.
+
+CHANGE_NOTE:
+- DATE: 2026-01-08
+- TYPE: MAJOR
+- SUMMARY: "Expression engine template standardized: canonical header schema, strict mini-contract, event-mechanics boundaries, output schemas, and S0 blockers."
+- REASON: "Stop confusion between story structure (Narrative) and event mechanics (Expression)."
+- IMPACT: "Expression engines become deterministic building blocks for ORC pipelines and production outputs."
+- CHANGE_ID: UE.CHG.2026-01-08.EXP.TPL.ENGINE.001
 
 ---
 
-## 0) IDENTITY (REQUIRED)
-ENGINE_NAME: <DISPLAY_NAME>
-ENGINE_CODE: <SHORT_CODE>                          # e.g., EVENT, CAUSE_EFFECT, CONFLICT, TURNING_POINT
-ENGINE_NUMBER: <NN>                                # must match filename NN__
-ENGINE_FILE_NAME: <NN__NAME_ENG.md>
-ENGINE_UID: <UE.ENG.EXPR.<CODE>.NNN>
+## 0) HOW TO USE (MANDATORY)
 
-PRIMITIVE_OWNERSHIP:
-- Owns primitive type: <EVENT|CAUSE_EFFECT|CONFLICT|TURNING_POINT|CLIMAX|RESOLUTION|SYSTEM_SHOCK|SCHEDULING|RANDOMNESS>
-- What it guarantees (1 line)
+1) Copy this template to create a new engine file in this family.
+2) Replace placeholders strictly (title, FILE path, UID, ROLE).
+3) Fill MINI-CONTRACT with concrete artifacts (no vague words).
+4) Declare boundaries to avoid overlap with:
+   - CORE (system identity/state/lifecycle)
+   - GOVERNANCE (authority/pipeline/audit)
+   - NARRATIVE (meaning/structure/continuity)
+   - CHARACTER (psychology/motivation/dialogue)
+   - WORLD (laws/economy/tech/ecology)
+   - PRODUCTION (camera/editing/sound implementation)
+5) Add raw-only references where index navigation requires it.
 
----
-
-## 1) PURPOSE (LAW)
-Этот движок описывает **примитив выражения**: правила формы, минимальные поля, валидность, сборку и проверку.
-
-Ограничение:
-- движок НЕ пишет историю и НЕ “придумывает сюжет”
-- он даёт **структурированный блок**, который можно вставлять в narrative/scene/character pipelines
+Rule:
+- Missing required sections => engine is incomplete (non-canon).
 
 ---
 
-## 2) DOMAIN BOUNDARY (ANTI-DUP) — REQUIRED
-OWNED HERE:
-- формальные primitives (структура события, причинность, конфликт и т.д.)
-- минимальные правила валидности (gates)
-- выходные схемы (output schema)
+## 1) ENGINE FILE TEMPLATE (COPY FROM HERE)
 
-NOT OWNED HERE:
-- сюжетная архитектура / арки / эпизоды (02_DOMAIN_NARRATIVE_ENGINES)
-- мотивации/психология/отношения (03_DOMAIN_CHARACTER_ENGINES)
-- мир/законы/эпохи/цивилизации (04_DOMAIN_WORLD_ENGINES)
-- производство медиа (08_KNOWLEDGE_PRODUCTION_ENGINES)
+# <ENGINE TITLE> (ENG) — CANON
+FILE: 03_SYSTEM_ENTITIES/10_ENG__ENGINES/05_EXPRESSION_ENGINES/NN__<ENGINE_NAME>_ENG.md
 
-INTERFACES:
-- Narrative interface: как narrative использует primitive
-- Character interface: как primitive цепляется к персонажам (только ссылки/поля, без психологии)
-- World interface: какие world constraints надо учитывать (как входные ограничения)
+SCOPE: Universe Engine
+LAYER: 03_SYSTEM_ENTITIES
+ENTITY_GROUP: ENGINES (ENG)
+DOC_TYPE: ENGINE
+FAMILY: 05_EXPRESSION_ENGINES
+CLASS: EXPRESSION (L3)
+LEVEL: L3
+STATUS: DRAFT
+LOCK: OPEN
+VERSION: 0.1.0
+UID: UE.ENG.EXP.<ENGINE_KEY>.001
+OWNER: SYSTEM
+ROLE: <one sentence: what event-mechanics capability this engine defines and guarantees>
+
+CHANGE_NOTE:
+- DATE: YYYY-MM-DD
+- TYPE: PATCH|MINOR|MAJOR|MIGRATION|EMERGENCY
+- SUMMARY: "<what changed / what was defined>"
+- REASON: "<why>"
+- IMPACT: "<what this affects>"
+- CHANGE_ID: UE.CHG.YYYY-MM-DD.EXP.<ENGINE_KEY>.<SEQ>
 
 ---
 
-## 3) INPUTS / OUTPUTS (MINI-CONTRACT) — REQUIRED
+## 0) PURPOSE (LAW)
+
+- Define the mechanics capability this engine owns (strict).
+- Define guarantees (bullets).
+- Define non-goals (explicit).
+
+---
+
+## 1) NON-GOALS (HARD)
+
+This engine does NOT:
+- define story meaning/structure/continuity as primary (NARRATIVE owns)
+- define character psyche/motivation/dialogue as primary (CHARACTER owns)
+- define world laws/constraints as primary (WORLD owns)
+- define production implementation (camera/editing/sound) as primary (PRODUCTION owns)
+- define authority/approvals/pipeline/audit/memory (GOVERNANCE owns)
+- define system identity/state/lifecycle (CORE owns)
+
+---
+
+## 2) MINI-CONTRACT (MANDATORY)
+
 CONSUMES:
-- <ARTIFACT_TYPE or UID>
-- ...
+- <1–7 inputs; named artifacts>
+  - Example: SCENE_BLUEPRINT, CHARACTER_CONSTRAINTS, WORLD_RULES, TIMELINE_CONTEXT
 
 PRODUCES:
-- <ARTIFACT_TYPE or UID>
-- ...
-
-PRIMITIVE_OUTPUT (REQUIRED):
-- OUTPUT_OBJECT: <Primitive name>
-- OUTPUT_SCHEMA (hard):
-  - field: <name> | type: <type> | required: <yes/no> | rules: <short>
-  - ...
-- OUTPUT_INVARIANTS (hard):
-  - <invariant 1>
-  - <invariant 2>
+- <1–7 outputs; reusable mechanics artifacts>
+  - Example: EVENT_LIST, CAUSE_EFFECT_GRAPH, CONFLICT_MODEL, TURNING_POINT_SET
 
 DEPENDS_ON:
-- <ENG_UID>
-- ...
+- <engine paths> or []
+  - (Expression may consume Narrative/Character/World outputs, but must not redefine them)
 
 OUTPUT_TARGET:
-- <where projects store these primitives> (descriptive, no path-nav)
+MANDATORY:
+- <project storage targets, e.g. 05_PROJECTS/...>
+
+OPTIONAL:
+- <assistive notes; never overrides canon>
+
+Rule:
+- If MINI-CONTRACT is vague → INVALID.
 
 ---
 
-## 4) PRIMITIVE SPEC (HARD) — REQUIRED
-### 4.1 Primitive definition
-- Definition (1–2 lines):
-- Goal (what it achieves):
-- Preconditions (what must already be true):
-- Postconditions (what becomes true after):
+## 3) DEFINITIONS (STRICT)
 
-### 4.2 Minimal fields (required)
-- <field list>
+Expression defines mechanics primitives:
+- EVENT (atomic happening)
+- CAUSE_EFFECT (causal relationship)
+- CONFLICT (opposing forces over a stake)
+- TURNING_POINT (state-changing event)
+- CLIMAX / RESOLUTION (mechanical phases, not meaning by themselves)
 
-### 4.3 Optional fields
-- <field list>
-
-### 4.4 Assembly rules
-- How this primitive composes with others:
-  - compatible with:
-  - incompatible with:
-  - ordering constraints:
+Do not redefine narrative meaning or theme: that belongs to Narrative family.
 
 ---
 
-## 5) VALIDATION GATES (HARD) — REQUIRED
-GATE LIST:
-- GATE: <name>
-  CHECK: <how to verify>
-  FAIL SIGNAL: <what indicates failure>
-  FIX STRATEGY: <how to fix>
+## 4) BOUNDARIES (ANTI-DUPLICATION)
 
-MINIMUM EXPRESSION GATES (default set):
-- clarity (примитив читается однозначно)
-- causality coherence (если причинность заявлена — она корректна)
-- stakes integrity (если ставки заявлены — они измеримы/понятны)
-- reversibility / cost (изменение имеет цену или след)
-- continuity compatibility (не ломает continuity при вставке)
+IN SCOPE:
+- mechanics of events, causality, conflict dynamics, escalation/de-escalation
+- scheduling/ordering constraints (as mechanics)
 
----
+OUT OF SCOPE (HARD):
+- “why it matters” (theme/meaning) → Narrative
+- “who the person is” (psyche) → Character
+- “what the world allows” (laws) → World
+- “how it looks/sounds on screen” → Production
 
-## 6) EXAMPLES (REQUIRED)
-GOOD EXAMPLE:
-- <structured example using schema fields>
-
-BAD EXAMPLE:
-- <structured counterexample>
-- why fails: <gate>
+Collision rule:
+- If a mechanic requires meaning, accept meaning as an input artifact, not a definition.
 
 ---
 
-## 7) FAILURE MODES & EDGE CASES
-FAILURES:
-- Failure:
-  CAUSE:
-  RECOVERY:
+## 5) RULESET (THE LAW)
 
-EDGE CASES:
-- Case:
-  Handling:
+Write numbered rules using MUST/FORBIDDEN/ALLOWED:
+- R1 (HARD): ...
+- R2 (HARD): ...
+- R3 (SOFT): ...
 
----
-
-## 8) REL / XREF (UID-FIRST)
-REL:
-- REL: <REL_TYPE> | TARGET: <UID> | WHY: <reason>
-
-XREF:
-- XREF: <UID> | WHY: <reason>
-
-RULE:
-- No PATH navigation inside content.
-- If clickable references are needed, keep them in registries/indexes as RAW.
+Include:
+- strict sets (allowed event types if any)
+- invariants (graph must be acyclic unless justified)
+- stop conditions (blockers)
 
 ---
 
-## 9) CHANGE NOTES (OPTIONAL)
-- DATE: YYYY-MM-DD
-- TYPE: PATCH|MINOR|MAJOR
-- SUMMARY:
-- REASON:
-- IMPACT:
+## 6) REQUIRED OUTPUT SCHEMAS (MINIMUM)
+
+For each produced artifact:
+
+ARTIFACT: <NAME>
+- MUST: <fields list>
+- OPTIONAL: <fields list>
+- VALIDATION: <how to detect missing/invalid>
+- STORAGE: <target path rule>
+
+Examples:
+ARTIFACT: CAUSE_EFFECT_GRAPH
+- MUST: nodes[], edges[], edge_type, assumptions[], confidence?
+- VALIDATION: missing nodes => invalid; dangling edges => invalid
+
+---
+
+## 7) PIPELINE (DETERMINISTIC)
+
+1) Validate inputs (constraints from Narrative/Character/World)
+2) Generate mechanics structure (events/edges/conflicts)
+3) Validate mechanics invariants
+4) Emit output artifacts with schema
+5) Provide integration notes for ORC sequencing (optional)
+
+---
+
+## 8) S0 BLOCKERS (STOP)
+
+- S0-1: Engine claims ownership of narrative meaning/structure.
+- S0-2: Engine outputs violate world law constraints (must be rejected or routed).
+- S0-3: Output artifacts missing required schema fields.
+- S0-4: Hidden dependencies not declared in MINI-CONTRACT.
+
+---
+
+## 9) INTEGRATION (SYSTEM FIT)
+
+- Inputs typically come from Narrative/Character/World families.
+- Outputs feed Narrative continuity checks and Production realization steps.
+- ORC pipelines often sequence Expression after Narrative blueprints.
+
+---
+
+## 10) REFERENCES (RAW ONLY) (OPTIONAL)
+
+- <raw links>
 
 --- END.
+
+---
+
+## 2) TEMPLATE QUALITY CHECK (FAST)
+
+Before setting a new engine ACTIVE:
+- [ ] Header schema correct
+- [ ] MINI-CONTRACT concrete
+- [ ] Boundaries explicit (Narrative vs Expression clearly separated)
+- [ ] Output schemas defined
+- [ ] S0 blockers listed

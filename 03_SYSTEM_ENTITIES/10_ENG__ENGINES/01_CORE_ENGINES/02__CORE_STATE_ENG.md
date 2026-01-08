@@ -1,339 +1,315 @@
-# CORE STATE ENGINE (CANON)
+# CORE STATE ENGINE (ENG) — CANON
 FILE: 03_SYSTEM_ENTITIES/10_ENG__ENGINES/01_CORE_ENGINES/02__CORE_STATE_ENG.md
 
 SCOPE: Universe Engine
 LAYER: 03_SYSTEM_ENTITIES
 ENTITY_GROUP: ENGINES (ENG)
-FAMILY: 01_CORE_ENGINES
 DOC_TYPE: ENGINE
+FAMILY: 01_CORE_ENGINES
+CLASS: CORE (L1)
 LEVEL: L1
 STATUS: ACTIVE
+LOCK: FIXED
 VERSION: 1.0.0
 UID: UE.ENG.CORE.STATE.001
 OWNER: SYSTEM
-ROLE: Defines and enforces canonical system state model + produces authoritative state snapshots and drift reports
+ROLE: Defines canonical system state model and produces deterministic state snapshots + drift reports (OK/WARN/BLOCK) for safe canon work.
+
+CHANGE_NOTE:
+- DATE: 2026-01-08
+- TYPE: MAJOR
+- SUMMARY: "Core state standardized: state model, snapshot schema, drift taxonomy, severity gates, and audit hooks."
+- REASON: "Stop silent drift after renames/deletes and prevent working on broken canon."
+- IMPACT: "System becomes observable: you always know if canon is healthy before editing."
+- CHANGE_ID: UE.CHG.2026-01-08.CORE.STATE.001
 
 ---
 
-## 0) ENGINE HEADER (REQUIRED)
+## 0) PURPOSE (LAW)
 
-ENGINE_NAME: 02__CORE_STATE_ENG
-ENGINE_CLASS: CORE
-ENGINE_FAMILY: 01_CORE_ENGINES
-ENGINE_NUMBER: 02
-ENGINE_UID: UE.ENG.CORE.STATE.001
-ENGINE_STATUS: ACTIVE
+Core State Engine определяет **состояние системы сейчас** (не история) и делает его проверяемым.
 
----
+Он:
+- задаёт **SYS_STATE_MODEL** (что считается состоянием)
+- выпускает **SYS_STATE_SNAPSHOT** (слепок “как есть сейчас”)
+- выпускает **SYS_STATE_DRIFT_REPORT** (что расходится и насколько критично)
 
-## 1) PURPOSE (WHAT THIS ENGINE SOLVES)
-
-Этот движок определяет **каноническое состояние системы “прямо сейчас”** и правила, как оно фиксируется.
-
-Он отвечает за:
-- что считается “текущим состоянием” (не история, а факт на данный момент)
-- какие параметры состояния обязаны быть явными (канон, версии, блокировки, активные слои, индексы, реестры)
-- как выявлять **state drift** (когда фактическая структура/индексы/статусы расходятся с каноном)
-- как формировать **state snapshot** — один понятный “слепок” для контроля совместимости
-
-Результат: можно жить и развивать систему без неожиданностей — ты всегда знаешь, “что сейчас реально считается каноном”.
+Система может развиваться безопасно только если состояние не BLOCK.
 
 ---
 
-## 2) SCOPE & BOUNDARIES (ANTI-CONFLICT)
+## 1) NON-GOALS (HARD)
 
-### IN SCOPE
-- Каноническая модель “System State”
-- State Snapshot как артефакт (обязательная структура)
-- Список “активных” компонентов системы (слои/семейства/ключевые реестры)
-- Статусы/локи критических файлов и индексов
-- Drift detection: конфликты индексов, битые ссылки, несогласованные версии, лишние “точки истины”
-
-### OUT OF SCOPE
-- Определение “кто мы” (это `01__CORE_IDENTITY_ENG`)
-- Полный жизненный цикл (рождение→активация→деприкация→архив) — это `03__CORE_LIFECYCLE_ENG`
-- Принятие решений о каноне — это governance (Canon Authority / Decision Approval)
-- Валидация содержания (язык/факты/научность) — это VAL/QA
+Этот движок НЕ:
+- не определяет идентичность (это `01__CORE_IDENTITY_ENG`)
+- не определяет жизненный цикл объектов (это `03__CORE_LIFECYCLE_ENG`)
+- не принимает governance-решения (это governance engines)
+- не валидирует качество текста/фактов (это VAL/QA)
+- не заменяет индексы: он только проверяет их согласованность и факт существования
 
 ---
 
-## 3) MINI-CONTRACT (MANDATORY)
+## 2) MINI-CONTRACT (MANDATORY)
 
 CONSUMES:
-- SYS_IDENTITY (из Core Identity Engine / root index section)
-- CANON_INDEX_SET (набор канонических индексов по слоям)
-- REGISTRY_SET (ключевые реестры/БД-реестры типов/доков)
-- REPO_TREE_SNAPSHOT (фактическая структура путей)
+- SYS_IDENTITY (identity contract + signature keys baseline)
+- CANON_INDEX_SET (list of canonical indexes/registries that define existence)
+- REPO_TREE_SNAPSHOT (observed structure / paths)
+- OPTIONAL_DB_MIRRORS (assistive registries if used; never authority)
 
 PRODUCES:
-- SYS_STATE_MODEL (определение “что такое состояние” + поля)
-- SYS_STATE_SNAPSHOT (слепок текущего состояния системы)
-- SYS_STATE_DRIFT_REPORT (отчёт о расхождениях/ошибках/блокерах)
+- SYS_STATE_MODEL (SYSTEM_SPEC)
+- SYS_STATE_SNAPSHOT (SYSTEM_SNAPSHOT)
+- SYS_STATE_DRIFT_REPORT (SYSTEM_REPORT)
+- STATE_RECORD (LOG_RECORD, audit-compatible)
 
 DEPENDS_ON:
-- 01_CORE_ENGINES/01__CORE_IDENTITY_ENG (HARD)
-- 00_GOVERNANCE_ENGINES/01__AUDIT_LOG_ENG (HARD)
-- 00_GOVERNANCE_ENGINES/03__RULE_HIERARCHY_ENG (HARD)
-- 00_GOVERNANCE_ENGINES/05__CONSISTENCY_ENG (HARD)
-- 00_GOVERNANCE_ENGINES/02__CANON_AUTHORITY_ENG (SOFT)
-- 00_GOVERNANCE_ENGINES/04__CHANGE_CONTROL_ENG (SOFT)
+- 01_CORE_ENGINES/01__CORE_IDENTITY_ENG
+- 00_GOVERNANCE_ENGINES/01__AUDIT_LOG_ENG
+- 00_GOVERNANCE_ENGINES/03__RULE_HIERARCHY_ENG
+- 00_GOVERNANCE_ENGINES/05__CONSISTENCY_ENG
+- 00_GOVERNANCE_ENGINES/02__CANON_AUTHORITY_ENG (on dispute)
 
 OUTPUT_TARGET:
-- 00_INDEX/00__ROOT_INDEX.md (раздел SYSTEM_STATE)
-- 08_DATABASES/DB__RELEASE_LOG.md (state snapshot pointer + compatibility line)
-- 99_LOGS/LOG__AUDIT.md (обязательная запись о state snapshot / drift)
+MANDATORY:
+- 00_INDEX/00__ROOT_INDEX.md (section: SYSTEM_STATE)
+- 99_LOGS/LOG__AUDIT.md (STATE_RECORD + drift summary)
+
+OPTIONAL:
+- 08_DATABASES/DB__RELEASE_LOG.md (snapshot pointer / compatibility tag)
+- 99_LOGS/LOG__CHANGES.md (if drift caused by change packages)
 
 ---
 
-## 4) STATE MODEL (CANONICAL DEFINITION)
+## 3) DEFINITIONS
 
-### 4.1 What is “System State”
-System State = **наблюдаемое текущее каноническое положение** системы, определённое:
-- каноническими индексами (existence via index)
-- статусами и блокировками критических документов
-- активными семействами сущностей (ENG/ORC/SPC/CTL/VAL/QA/KB/PRJ/AST/DB/LOG)
-- актуальными версиями ключевых реестров
+- **System State** — наблюдаемое текущее каноническое положение системы, определяемое индексами и критическими артефактами.
+- **Snapshot** — единый слепок состояния по фиксированной схеме.
+- **Drift** — расхождение между каноном (indexes/laws/required structure) и наблюдаемым состоянием.
+- **Severity** — OK | WARN | BLOCK (см. раздел 7).
 
-State не равен “истории”. История живёт в LOGS и governance.
+---
 
-### 4.2 State Layers (min)
-- STATE.CANON: корневой канон + master indexes
-- STATE.STRUCTURE: слои/папки/канонические пути
-- STATE.REGISTRIES: DB/registries (doc/entity/artifact/track types)
-- STATE.ENTITIES: какие классы сущностей активны (ENG/ORC/…)
-- STATE.PROJECTS: активные правила проектов (PRJ governance)
-- STATE.ASSETS: активные правила ассетов (AST governance)
-- STATE.LOGGING: аудит/изменения и доступность логов
+## 4) STATE MODEL (CANONICAL)
+
+### 4.1 State facets (minimum)
+SYS_STATE_MODEL обязан покрывать:
+
+STATE.CANON:
+- CANON_ROOT
+- existence-by-index baseline
+
+STATE.STRUCTURE:
+- layer base paths (exist + not mixed)
+
+STATE.INDEXES:
+- canonical indexes resolved and reachable
+
+STATE.REGISTRIES:
+- optional DB mirrors (if used)
+
+STATE.ENTITIES:
+- active system entity groups (ENG/ORC/SPC/CTL/VAL/QA/XREF)
+
+STATE.KB/PRJ/AST:
+- governance entrypoints existence (not their contents)
+
+STATE.LOGS:
+- audit log reachable (for traceability)
+
+### 4.2 Source of truth
+- Источник истины о существовании: **канонические индексы**.
+- DB mirrors / списки / заметки — только assistive.
 
 ---
 
 ## 5) INPUTS (STRICT)
 
-### 5.1 Required inputs
-- SYS_IDENTITY  
-  WHY: state невозможен без identity (что считать системой).
-- CANON_INDEX_SET  
-  WHY: existence via index определяет состав канона.
-- REGISTRY_SET  
-  WHY: типы/реестры задают допустимые сущности и документы.
-- REPO_TREE_SNAPSHOT  
-  WHY: нужен факт структуры для drift detection.
+### Required
+- SYS_IDENTITY: baseline invariants (single root, raw-only, existence-by-index)
+- CANON_INDEX_SET: список индексов, управляющих существованием
+- REPO_TREE_SNAPSHOT: факт структуры
 
-### 5.2 Optional inputs
-- VERSION_MEMORY (если ведётся отдельно)  
-  WHEN: нужна сверка “какая версия считалась текущей”.
-- MIGRATION_NOTES / LEGACY_MAP  
-  WHEN: идут переименования/сдвиги путей.
+### Optional
+- OPTIONAL_DB_MIRRORS: только как справочник/ускоритель
 
-### 5.3 Forbidden inputs
-- Любые списки “как было раньше” без фиксации в логах  
-  WHY: state ≠ история.
-- “Сторонние индексы” не зарегистрированные в каноне  
-  WHY: создают ложное состояние.
+### Forbidden
+- “посторонние индексы”, не зарегистрированные каноном
+- любые списки “в чатах” как источник существования
 
 ---
 
-## 6) OUTPUTS (STRICT)
+## 6) OUTPUT SCHEMAS (MINIMUM FORMS)
 
-### 6.1 SYS_STATE_MODEL
-- TYPE: SYSTEM_SPEC
-- MIN_FIELDS:
-  - STATE_FIELDS (полный список полей)
-  - SEVERITY_SCALE (OK|WARN|BLOCK)
-  - SOURCE_OF_TRUTH (индексы)
-  - UPDATE_RULES (как обновлять state snapshot)
-- FORMAT: Markdown, sectioned
+### 6.1 SYS_STATE_SNAPSHOT (SYSTEM_SNAPSHOT)
+MUST:
+- TIMESTAMP
+- CANON_ROOT
+- SEVERITY: OK|WARN|BLOCK
+- ACTIVE_LAYERS: [list]
+- CANON_INDEX_SET: [list]
+- CRITICAL_ARTIFACTS: (status summary)
+- DRIFT_COUNT: N
+- BLOCKERS: [list] (if any)
 
-### 6.2 SYS_STATE_SNAPSHOT
-- TYPE: SYSTEM_SNAPSHOT
-- MIN_FIELDS:
-  - TIMESTAMP
-  - CANON_ROOT
-  - ACTIVE_INDEXES (list)
-  - ACTIVE_LAYERS (list)
-  - CRITICAL_FILES_STATUS (status/lock/version)
-  - REGISTRIES_VERSIONS (list)
-  - COMPATIBILITY_TAG (например: “STATE_OK”)
-- FORMAT: Markdown record (строгие ключи)
-- STORAGE:
-  - Root index section `SYSTEM_STATE`
-  - pointer в release log
+### 6.2 SYS_STATE_DRIFT_REPORT (SYSTEM_REPORT)
+MUST:
+- TIMESTAMP
+- SEVERITY
+- DRIFTS: [records]
+- FIX_ACTIONS: [ordered list]
+- ESCALATION: NONE | CONSISTENCY | CANON_AUTHORITY
 
-### 6.3 SYS_STATE_DRIFT_REPORT
-- TYPE: SYSTEM_REPORT
-- MIN_FIELDS:
-  - TIMESTAMP
-  - DRIFTS (list)
-  - SEVERITY
-  - BLOCKERS (list)
-  - FIX_ACTIONS (list)
-- STORAGE:
-  - LOG__AUDIT (обязательно)
-  - при необходимости отдельный отчётный файл
+### 6.3 STATE_RECORD (LOG_RECORD, audit-compatible)
+MUST:
+- DATE
+- SNAPSHOT_REF (path/anchor)
+- SEVERITY
+- DRIFT_SUMMARY
+- NOTES (optional)
 
 ---
 
-## 7) OPERATION (ALGORITHM / STEPS)
+## 7) DRIFT TAXONOMY (STANDARD)
 
-1) **Load SYS_IDENTITY**
-   - взять CANON_ROOT, existence rule, base paths, law hierarchy
+D1 (BLOCK) — Broken canon index reference  
+Индекс ссылается на несуществующий файл.
 
-2) **Resolve Canon Index Set**
-   - собрать список канонических индексов слоёв:
-     - root index
-     - master registries/indexes (ENG/ORC/SPC/CTL/VAL/QA/KB/PRJ/AST/DB)
-   - убедиться: каждый “существующий компонент” присутствует в своём индексе
+D2 (WARN) — Orphan file detected  
+Файл существует на диске, но не зарегистрирован в каноническом индексе.
+(Это не ломает канон, но создаёт мусор/риск путаницы.)
 
-3) **Extract Critical File State**
-   - для каждого критического файла: STATUS, LOCK, VERSION, UID (если обязателен)
-   - проверить “anti-duplication” по статусам/локам (не два раза в документе)
+D3 (BLOCK) — Duplicate canon entrypoint claim  
+Два документа в одном scope заявляют “единственную точку истины”.
 
-4) **Registry & DB health**
-   - сверить наличие ключевых DB файлов:
-     - doc registry / entity types / artifact types / track types / release log
-   - сопоставить версии/ссылки (если ведутся)
+D4 (BLOCK) — Illegal STATUS/LOCK values  
+STATUS/LOCK не из allowed set.
 
-5) **Detect Drift**
-   - DRIFT TYPES:
-     - D1: index references missing file (broken canon)
-     - D2: file exists but not in index (non-canon stray)
-     - D3: duplicate canon root claim
-     - D4: status/lock illegal value
-     - D5: conflicting versions across critical registries
-   - присвоить severity: OK/WARN/BLOCK
+D5 (WARN→BLOCK) — Registry/DB mirror divergence  
+DB mirror расходится с каноном.
+BLOCK если mirror используется как зависимость пайплайна (нельзя).
 
-6) **Emit Snapshot**
-   - сформировать SYS_STATE_SNAPSHOT
-   - сформировать SYS_STATE_DRIFT_REPORT
-
-7) **Governance logging**
-   - запись в audit log обязательно:
-     - snapshot created/updated
-     - drift findings (если есть)
-   - если BLOCK: инициировать canon authority / change control
-
-Return:
-- OK: можно продолжать разработку без стопов
-- WARN: можно продолжать, но есть “долги”
-- BLOCK: нельзя продолжать, канон сломан (лечить через governance)
+D6 (BLOCK) — Layer role mixing  
+Документ закона/стандарта/индекса находится в неправильном слое или пытается менять роль слоя.
 
 ---
 
-## 8) CONSTRAINTS (MUST ALWAYS HOLD)
+## 8) SEVERITY RULES (OK/WARN/BLOCK)
 
-- S1 (HARD): **Identity must exist**  
-  Без SYS_IDENTITY state не считается.
-- S2 (HARD): **Existence via index**  
-  Если сущность/компонент не зарегистрирован — он не часть состояния.
-- S3 (HARD): **No duplicate canon roots**  
-  Только один CANON_ROOT.
-- S4 (HARD): **Critical indexes must be resolvable**  
-  Критический индекс не может ссылаться на несуществующий файл.
-- S5 (HARD): **Allowed STATUS/LOCK**  
-  Только разрешённые значения.
-- S6 (SOFT): **Version coherence**  
-  Версии реестров должны быть согласованы (иначе WARN, при критичности BLOCK).
+OK:
+- D1..D6 отсутствуют, критические индексы резолвятся
 
----
+WARN:
+- только WARN-дрифты (D2, D5-soft) и нет блокеров
 
-## 9) VALIDATION & QUALITY GATES
+BLOCK:
+- любой BLOCK-дрифт присутствует (D1/D3/D4/D6 или D5-hard)
 
-### Must-pass (BLOCK if fail)
-- G1: SYS_IDENTITY present + CANON_ROOT resolvable
-- G2: Root index asserts existence rule explicitly
-- G3: All critical indexes in CANON_INDEX_SET exist
-- G4: No second canonical entrypoint declared
-- G5: STATUS/LOCK fields are from allowed sets
-
-### Warnings
-- W1: Non-canon files detected (exist but not indexed)
-- W2: Version mismatches in registries, but non-breaking
-- W3: Legacy paths referenced without legacy map note
+Rule:
+- При BLOCK любые канон-изменения запрещены до фикса.
+- При WARN изменения допустимы, но drift должен быть отмечен в audit.
 
 ---
 
-## 10) FAILURE MODES (KNOWN RISKS)
+## 9) PIPELINE (DETERMINISTIC)
 
-- FM1: “Silent drift” после массовых правок  
-  SYMPTOM: ссылки битые, но никто не заметил  
-  FIX: запуск Consistency + State drift report, затем change control
-- FM2: Удалили “посторонние индексы”, но остались ссылки на них  
-  SYMPTOM: индекс ссылается на несуществующий файл  
-  FIX: обновить канонический индекс, удалить ссылки, audit запись
-- FM3: Дублирование “master registry” в нескольких местах  
-  SYMPTOM: два файла объявляют себя точкой истины  
-  FIX: Canon Authority decision + deprecate лишний
+### Step 1 — Resolve identity baseline
+- подтвердить CANON_ROOT и invariants (из Identity Engine)
 
----
+### Step 2 — Resolve canonical indexes
+- пройти CANON_INDEX_SET и проверить существование целей
+- выявить D1, D3
 
-## 11) DEPENDENCIES & XREF (MANDATORY)
+### Step 3 — Check metadata legality
+- STATUS/LOCK allowed set
+- single-truth metadata (no duplicates)
+- выявить D4
 
-### Direct dependencies
-- 01_CORE_ENGINES/01__CORE_IDENTITY_ENG -> TYPE:HARD -> WHY: state anchored to identity
-- 00_GOVERNANCE_ENGINES/05__CONSISTENCY_ENG -> TYPE:HARD -> WHY: detects structural contradictions
-- 00_GOVERNANCE_ENGINES/01__AUDIT_LOG_ENG -> TYPE:HARD -> WHY: snapshot/drift must be recorded
-- 00_GOVERNANCE_ENGINES/03__RULE_HIERARCHY_ENG -> TYPE:HARD -> WHY: state cannot violate law ordering
+### Step 4 — Structure sanity
+- слои на местах, роли не смешаны
+- выявить D6
 
-### Cross-layer stitches
-- CTL readiness check consumes SYS_STATE_DRIFT_REPORT:
-  - если severity=BLOCK -> стоп пайплайна
-- ORC bootstrap pipeline:
-  - Identity → State → Lifecycle (core chain)
-- DB release log stores current snapshot pointer/compatibility tag
-- VAL validators can use constraints S1–S6 for automated checks
+### Step 5 — Optional mirror checks
+- если DB mirrors включены — сверить как assistive
+- выявить D5
 
----
+### Step 6 — Emit snapshot + drift report
+- присвоить severity
+- сформировать FIX_ACTIONS
 
-## 12) RECORDS (AUDIT / CHANGE)
-
-Обязательные записи в `LOG__AUDIT.md`:
-- “SYS_STATE_SNAPSHOT created/updated” + timestamp
-- “SYS_STATE_DRIFT_REPORT severity=...” (если не OK)
-- при BLOCK:
-  - ссылка на Canon Authority / Change Control action
+### Step 7 — Record in audit
+- STATE_RECORD в LOG__AUDIT
+- если BLOCK: escalation to Consistency (или Canon Authority при споре)
 
 ---
 
-## 13) VERSIONING POLICY
+## 10) S0 BLOCKERS (STOP CONDITIONS)
 
-- Minor update (1.0.x):
-  - уточнение полей snapshot, добавление warning checks
-- Breaking update (1.x → 2.0):
-  - смена смысла state model / severity rules / источников истины
-- Любая смена источника истины (CANON_INDEX_SET definition) = breaking + governance запись
-
----
-
-## 14) EXAMPLES (MINIMUM 1)
-
-### Example A — OK state
-INPUT:
-- SYS_IDENTITY закреплён в root index
-- Все master indexes существуют и актуальны
-
-OUTPUT:
-- SYS_STATE_SNAPSHOT:
-  - SEVERITY: OK
-  - ACTIVE_LAYERS: [SYSTEM_LAW, STANDARDS, SYSTEM_ENTITIES, KB, PROJECTS, ASSETS, DB, LOGS]
-- SYS_STATE_DRIFT_REPORT:
-  - DRIFTS: []
-  - SEVERITY: OK
-
-### Example B — BLOCK drift
-INPUT:
-- индекс ссылается на файл, которого больше нет (удалили/переименовали)
-
-OUTPUT:
-- DRIFT_REPORT:
-  - DRIFTS: [D1 broken index reference]
-  - SEVERITY: BLOCK
-  - FIX_ACTIONS:
-    - update canon index link
-    - record audit entry
-    - (если спор) canon authority decision
+S0-1: индекс ссылается на несуществующий файл (D1)
+S0-2: два “single source of truth” в одном scope (D3)
+S0-3: illegal STATUS/LOCK (D4)
+S0-4: смешаны роли слоёв (D6)
+S0-5: работа по канону продолжается при BLOCK (policy breach)
 
 ---
 
-## FINAL RULE (LOCK)
+## 11) FIX ACTIONS (STANDARD PLAYBOOK)
 
-LOCK: FIXED
+Если D1:
+- исправить ссылки в каноническом индексе (путь/raw)
+- если файл переехал: зафиксировать migration mapping (memory)
+
+Если D2:
+- либо зарегистрировать в индексе (если нужен)
+- либо удалить как non-canon мусор
+
+Если D3:
+- определить canonical authority документ
+- второй документ перевести в pointer/alias или удалить
+- зафиксировать решение
+
+Если D4:
+- привести STATUS/LOCK к allowed set
+- удалить дубли метаданных (шапка = единственная истина)
+
+Если D6:
+- вернуть документ в правильный слой/роль
+- обновить индексы и зафиксировать change package
+
+---
+
+## 12) EXAMPLES (MINIMUM)
+
+Example A (OK):
+- все индексы резолвятся
+- DRIFTS: []
+- SEVERITY: OK
+
+Example B (BLOCK):
+- индекс ссылается на удалённый файл
+- DRIFTS: [D1]
+- SEVERITY: BLOCK
+- FIX_ACTIONS: update index + migration mapping + audit entry
+
+---
+
+## 13) REFERENCES (RAW ONLY)
+
+CORE:
+- https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/01_CORE_ENGINES/01__CORE_IDENTITY_ENG.md
+- https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/01_CORE_ENGINES/03__CORE_LIFECYCLE_ENG.md
+
+ROOT:
+- https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/00_INDEX/00__ROOT_INDEX.md
+
+GOVERNANCE:
+- https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/00_GOVERNANCE_ENGINES/01__AUDIT_LOG_ENG.md
+- https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/00_GOVERNANCE_ENGINES/02__CANON_AUTHORITY_ENG.md
+- https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/00_GOVERNANCE_ENGINES/03__RULE_HIERARCHY_ENG.md
+- https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/00_GOVERNANCE_ENGINES/05__CONSISTENCY_ENG.md
+
+STANDARDS / LAW:
+- https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01_SYSTEM_LAW/04__CANON_PROTOCOL.md
+- https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/02_STANDARDS/01_SPECIFICATIONS/03__DOC_CONTROL_STANDARD.md
+
+--- END.

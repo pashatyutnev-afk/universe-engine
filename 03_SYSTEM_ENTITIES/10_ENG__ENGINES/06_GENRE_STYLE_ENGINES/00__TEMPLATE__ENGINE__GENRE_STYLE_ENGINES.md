@@ -1,176 +1,226 @@
-# ENGINE TEMPLATE — GENRE & STYLE ENGINES (ENG)
+# GENRE & STYLE ENGINES — ENGINE TEMPLATE (ENG) — CANON
 FILE: 03_SYSTEM_ENTITIES/10_ENG__ENGINES/06_GENRE_STYLE_ENGINES/00__TEMPLATE__ENGINE__GENRE_STYLE_ENGINES.md
 
 SCOPE: Universe Engine
 LAYER: 03_SYSTEM_ENTITIES
+ENTITY_GROUP: ENGINES (ENG)
 DOC_TYPE: TEMPLATE
-ENTITY_CLASS: ENG
-ENGINE_FAMILY: 06_GENRE_STYLE_ENGINES
+FAMILY: 06_GENRE_STYLE_ENGINES
+CLASS: STYLE (L3)
 LEVEL: L3
 STATUS: ACTIVE
-LOCK: FIXED
+LOCK: OPEN
 VERSION: 1.0.0
-UID: UE.TPL.ENG.STYLE.ENGINE.001
+UID: UE.ENG.STYLE.TPL.ENGINE.001
 OWNER: SYSTEM
-ROLE: Canonical template for genre/style ENG engines (tone, atmosphere, resonance, symbolism, metaphor, sensory detail)
+ROLE: Mandatory template for GENRE & STYLE engines. Enforces canonical header schema, mini-contract law, style-boundary rules, output schemas, and raw-only references. Prevents overlap with Narrative/Character/World (meaning/content) and Production (implementation).
+
+CHANGE_NOTE:
+- DATE: 2026-01-08
+- TYPE: MAJOR
+- SUMMARY: "Style engine template standardized: governance-style header, strict mini-contract, boundaries, output schemas, and S0 blockers."
+- REASON: "Stop style engines from turning into narrative/world/production duplicates."
+- IMPACT: "Style engines become reusable tone/atmosphere/symbolism constraints usable across formats."
+- CHANGE_ID: UE.CHG.2026-01-08.STYLE.TPL.ENGINE.001
 
 ---
 
-## 0) IDENTITY (REQUIRED)
-ENGINE_NAME: <DISPLAY_NAME>
-ENGINE_CODE: <SHORT_CODE>                         # e.g., TONE_MOOD, ATMOSPHERE, SYMBOLISM
-ENGINE_NUMBER: <NN>                               # must match filename NN__
-ENGINE_FILE_NAME: <NN__NAME_ENG.md>
-ENGINE_UID: <UE.ENG.STYLE.<CODE>.NNN>
+## 0) HOW TO USE (MANDATORY)
 
-STYLE_OBJECT:
-- What style dimension it owns (1 line)
-- What it guarantees (1 line)
+1) Copy this template to create a new engine file in this family.
+2) Replace placeholders strictly (title, FILE path, UID, ROLE).
+3) Fill MINI-CONTRACT with concrete artifacts (no vague words like “vibe” without schema).
+4) Declare boundaries to avoid overlap with:
+   - CORE (system identity/state/lifecycle)
+   - GOVERNANCE (authority/pipeline/audit)
+   - NARRATIVE/CHARACTER/WORLD (content ownership)
+   - EXPRESSION (event mechanics)
+   - PRODUCTION (camera/editing/sound implementation)
+5) Add raw-only references where index navigation requires it.
 
----
-
-## 1) PURPOSE (LAW)
-Зачем этот движок существует:
-- какую “настройку восприятия” он фиксирует
-- что он удерживает стабильным (не даёт стилю развалиться)
-- какие ошибки стиля предотвращает (разнобой тона/атмосферы/символов)
+Rule:
+- Missing required sections => engine is incomplete (non-canon).
 
 ---
 
-## 2) DOMAIN BOUNDARY (ANTI-DUP) — REQUIRED
-OWNED HERE:
-- tone/mood/atmosphere/resonance/symbolism/metaphor/sensory detail policies
-- style constraints and style profiles
+## 1) ENGINE FILE TEMPLATE (COPY FROM HERE)
 
-NOT OWNED HERE:
-- plot/scene structure (02_DOMAIN_NARRATIVE_ENGINES)
-- character psychology/voice rules (03_DOMAIN_CHARACTER_ENGINES)
-- world laws/epochs/civilization (04_DOMAIN_WORLD_ENGINES)
-- production technical editing/color grading (08_KNOWLEDGE_PRODUCTION_ENGINES)
+# <ENGINE TITLE> (ENG) — CANON
+FILE: 03_SYSTEM_ENTITIES/10_ENG__ENGINES/06_GENRE_STYLE_ENGINES/NN__<ENGINE_NAME>_ENG.md
 
-INTERFACES:
-- Narrative interface: how style constrains scene writing
-- Character interface: how style affects voice/perception (without owning psychology)
-- World interface: how style filters world presentation (without changing laws)
+SCOPE: Universe Engine
+LAYER: 03_SYSTEM_ENTITIES
+ENTITY_GROUP: ENGINES (ENG)
+DOC_TYPE: ENGINE
+FAMILY: 06_GENRE_STYLE_ENGINES
+CLASS: STYLE (L3)
+LEVEL: L3
+STATUS: DRAFT
+LOCK: OPEN
+VERSION: 0.1.0
+UID: UE.ENG.STYLE.<ENGINE_KEY>.001
+OWNER: SYSTEM
+ROLE: <one sentence: what style/tone constraint system this engine defines and guarantees>
+
+CHANGE_NOTE:
+- DATE: YYYY-MM-DD
+- TYPE: PATCH|MINOR|MAJOR|MIGRATION|EMERGENCY
+- SUMMARY: "<what changed / what was defined>"
+- REASON: "<why>"
+- IMPACT: "<what this affects>"
+- CHANGE_ID: UE.CHG.YYYY-MM-DD.STYLE.<ENGINE_KEY>.<SEQ>
 
 ---
 
-## 3) INPUTS / OUTPUTS (MINI-CONTRACT) — REQUIRED
+## 0) PURPOSE (LAW)
+
+- Define the style/tone capability this engine owns (strict).
+- Define guarantees (bullets).
+- Define non-goals (explicit).
+
+---
+
+## 1) NON-GOALS (HARD)
+
+This engine does NOT:
+- define story structure/meaning as primary (NARRATIVE owns)
+- define character psyche/motivation as primary (CHARACTER owns)
+- define world laws/constraints as primary (WORLD owns)
+- define event mechanics primitives (EXPRESSION owns)
+- define camera/editing/sound implementation as primary (PRODUCTION owns)
+- define governance authority/pipeline/audit (GOVERNANCE owns)
+- define system identity/state/lifecycle (CORE owns)
+
+---
+
+## 2) MINI-CONTRACT (MANDATORY)
+
 CONSUMES:
-- <ARTIFACT_TYPE or UID>
-- ...
+- <1–7 inputs; named artifacts>
+  - Example: STORY_STRUCTURE, CHARACTER_CONSTRAINTS, WORLD_RULES, EVENT_MECHANICS
 
 PRODUCES:
-- <ARTIFACT_TYPE or UID>
-- ...
-
-STYLE_OUTPUT (REQUIRED):
-- OUTPUT_OBJECT: <Style Profile | Style Pack | Tone Map | Symbol Set>
-- OUTPUT_SCHEMA (hard):
-  - field: <name> | type: <type> | required: <yes/no> | rules: <short>
-  - ...
-- OUTPUT_INVARIANTS (hard):
-  - <invariant 1>
-  - <invariant 2>
+- <1–7 outputs; reusable style artifacts>
+  - Example: TONE_PROFILE, MOOD_BOARD_SPEC, ATMOSPHERE_RULESET, SYMBOLISM_MAP, SENSORY_PALETTE
 
 DEPENDS_ON:
-- <ENG_UID>
-- ...
+- <engine paths> or []
+  - (Style engines may depend on Narrative/World/Character constraints but cannot replace them)
 
 OUTPUT_TARGET:
-- <where projects store style artifacts> (descriptive, no path-nav)
+MANDATORY:
+- <project storage targets, e.g. 05_PROJECTS/...>
+
+OPTIONAL:
+- <assistive notes; never overrides canon>
+
+Rule:
+- If MINI-CONTRACT is vague → INVALID.
 
 ---
 
-## 4) STYLE CONTRACT (HARD) — REQUIRED
-TONE & MOOD:
-- baseline tone:
-- variance limits: (what range is allowed)
-- forbidden tone shifts:
+## 3) DEFINITIONS (STRICT)
 
-ATMOSPHERE:
-- core atmosphere signals:
-- environment cues:
-- pacing feel (not editing timing):
+Style engines define:
+- tone (emotional direction)
+- mood (felt atmosphere)
+- atmosphere rules (environmental/scene feeling constraints)
+- symbolism/metaphor palettes (interpretation guides)
+- sensory detail constraints (what to emphasize)
 
-EMOTIONAL RESONANCE:
-- target emotions:
-- trigger patterns:
-- aftertaste / residue:
-
-SYMBOLISM / METAPHOR (if relevant):
-- symbol set (allowed):
-- symbol bans:
-- metaphor rules:
-
-SENSORY DETAIL (if relevant):
-- dominant senses:
-- texture palette:
-- sensory bans:
-
-STYLE CONSISTENCY RULES:
-- MUST:
-- MUST NOT:
-- OPTIONAL:
+They do NOT define:
+- plot choices, character backstory, world laws, production implementation.
 
 ---
 
-## 5) STYLE GATES (HARD) — REQUIRED
-GATE LIST:
-- GATE: <name>
-  CHECK: <how to verify>
-  FAIL SIGNAL: <what indicates failure>
-  FIX STRATEGY: <how to fix>
+## 4) BOUNDARIES (ANTI-DUPLICATION)
 
-MINIMUM STYLE GATES (default set):
-- tone consistency (no random tone shifts)
-- atmosphere coherence (signals align)
-- motif continuity (symbols don’t contradict)
-- sensory palette stability (details feel from same world)
-- narrative compatibility (style does not block story clarity)
+IN SCOPE:
+- style constraints and evaluatable targets
+- reusable profiles/palettes that can be applied across outputs
 
----
+OUT OF SCOPE (HARD):
+- writing the story
+- defining the world’s hard rules
+- defining character psychology
+- editing/camera/sound execution specifics
 
-## 6) EXAMPLES (REQUIRED)
-GOOD EXAMPLE:
-- <short structured example using contract fields>
-
-BAD EXAMPLE:
-- <counterexample>
-- why fails: <gate>
+Collision rule:
+- If you need implementation (camera/editing), output a constraint that Production can implement.
 
 ---
 
-## 7) FAILURE MODES & EDGE CASES
-FAILURES:
-- Failure:
-  CAUSE:
-  RECOVERY:
+## 5) RULESET (THE LAW)
 
-EDGE CASES:
-- Case:
-  Handling:
+Write numbered rules using MUST/FORBIDDEN/ALLOWED:
+- R1 (HARD): ...
+- R2 (HARD): ...
+- R3 (SOFT): ...
 
----
-
-## 8) REL / XREF (UID-FIRST)
-REL:
-- REL: <REL_TYPE> | TARGET: <UID> | WHY: <reason>
-
-XREF:
-- XREF: <UID> | WHY: <reason>
-
-RULE:
-- No PATH navigation inside content.
-- If clickable references are needed, keep them in registries/indexes as RAW.
+Include:
+- strict sets (allowed tone tags, allowed palette values, etc.)
+- invariants (consistency across scenes/episodes)
+- stop conditions (blockers)
 
 ---
 
-## 9) CHANGE NOTES (OPTIONAL)
-- DATE: YYYY-MM-DD
-- TYPE: PATCH|MINOR|MAJOR
-- SUMMARY:
-- REASON:
-- IMPACT:
+## 6) REQUIRED OUTPUT SCHEMAS (MINIMUM)
+
+For each produced artifact:
+
+ARTIFACT: <NAME>
+- MUST: <fields list>
+- OPTIONAL: <fields list>
+- VALIDATION: <how to detect missing/invalid>
+- STORAGE: <target path rule>
+
+Example:
+ARTIFACT: TONE_PROFILE
+- MUST: tone_tags[], intensity_scale, forbidden_tags[], reference_examples?
+- VALIDATION: empty tone_tags => invalid
+
+---
+
+## 7) PIPELINE (DETERMINISTIC)
+
+1) Input constraints validation
+2) Construct style profile/palette
+3) Validate invariants (consistency rules)
+4) Emit style artifacts with schema
+5) Provide integration notes for production implementation (optional)
+
+---
+
+## 8) S0 BLOCKERS (STOP)
+
+- S0-1: Style engine defines plot/meaning as primary.
+- S0-2: Style engine defines production implementation instead of constraints.
+- S0-3: Output artifacts missing required schema fields.
+- S0-4: Hidden dependencies not declared in MINI-CONTRACT.
+
+---
+
+## 9) INTEGRATION (SYSTEM FIT)
+
+- Inputs come from Domain families and Expression mechanics.
+- Outputs are consumed by Narrative/Production to keep a consistent feel.
+- Production engines implement style constraints into camera/editing/sound/art generation.
+
+---
+
+## 10) REFERENCES (RAW ONLY) (OPTIONAL)
+
+- <raw links>
 
 --- END.
+
+---
+
+## 2) TEMPLATE QUALITY CHECK (FAST)
+
+Before setting a new engine ACTIVE:
+- [ ] Header schema correct
+- [ ] MINI-CONTRACT concrete
+- [ ] Boundaries explicit (Style vs Production separated)
+- [ ] Output schemas defined
+- [ ] S0 blockers listed
