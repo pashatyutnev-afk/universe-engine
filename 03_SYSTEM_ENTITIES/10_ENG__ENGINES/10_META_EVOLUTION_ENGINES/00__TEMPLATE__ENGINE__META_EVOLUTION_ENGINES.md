@@ -2,158 +2,147 @@
 FILE: 03_SYSTEM_ENTITIES/10_ENG__ENGINES/10_META_EVOLUTION_ENGINES/00__TEMPLATE__ENGINE__META_EVOLUTION_ENGINES.md
 
 SCOPE: Universe Engine
+ENTITY_GROUP: ENGINES (ENG)
 LAYER: 03_SYSTEM_ENTITIES
 DOC_TYPE: TEMPLATE
-ENTITY_CLASS: ENG
 ENGINE_FAMILY: 10_META_EVOLUTION_ENGINES
 LEVEL: L4
 STATUS: ACTIVE
+VERSION: 1.0.1
+ROLE: Canonical template for META evolution engines (learning, pattern extraction, optimization, creative mutation, future projection)
+
 LOCK: FIXED
-VERSION: 1.0.0
-UID: UE.TPL.ENG.META.ENGINE.001
-OWNER: SYSTEM
-ROLE: Canonical template for meta-evolution ENG engines (learning, pattern extraction, optimization, creative mutation, future projection)
+UID: <UE.TPL.ENG.META.ENGINE.###>            # MUST follow 01_SYSTEM_LAW/02__UID_RULES.md
 
 ---
 
 ## 0) IDENTITY (REQUIRED)
 ENGINE_NAME: <DISPLAY_NAME>
-ENGINE_CODE: <SHORT_CODE>                         # LEARNING | PATTERN_EXTRACTION | OPTIMIZATION | CREATIVE_MUTATION | FUTURE_PROJECTION
-ENGINE_NUMBER: <NN>                               # must match filename NN__
+ENGINE_CODE: <SHORT_CODE>                     # LEARNING | PATTERN_EXTRACTION | OPTIMIZATION | CREATIVE_MUTATION | FUTURE_PROJECTION
+ENGINE_NUMBER: <NN>                           # must match filename NN__
 ENGINE_FILE_NAME: <NN__NAME_ENG.md>
-ENGINE_UID: <UE.ENG.META.<CODE>.NNN>
+ENGINE_UID: <UE.ENG.META.<CODE>.###>          # MUST follow UID_RULES
 
-META_OBJECT:
-- what system layer it modifies (1 line)
-- what outcome it guarantees (1 line)
+FAMILY: 10_META_EVOLUTION_ENGINES
+CLASS: META (L4)
 
 ---
 
 ## 1) PURPOSE (LAW)
 Зачем этот мета-движок существует:
-- что он улучшает в системе (правила/процессы/качество/масштабирование)
-- какие типовые ошибки/просадки он предотвращает
-- какие изменения он считает допустимыми (boundary)
+- что улучшает (правила/процессы/качество/масштабирование)
+- какие типовые ошибки предотвращает
+- какие изменения допустимы (границы)
 
 ---
 
 ## 2) CRITICAL BOUNDARY (ANTI-DUP) — ABSOLUTE
 OWNED HERE (META):
 - learning from history / logs / outputs
-- extracting reusable patterns from work
+- extracting reusable patterns
 - optimizing pipelines, constraints, ordering, checklists
-- proposing controlled mutations (experiments) without breaking canon
-- future projection: forecasts, scenarios, capacity/risks
-- improving consistency and reducing friction
+- proposing controlled experiments (mutations)
+- forecasting / scenarios / risk projections
 
-NOT OWNED HERE (DOMAIN CONTENT):
-- writing scenes, lore, characters, worlds, music, visuals as final deliverables
-Those belong to DOMAIN / EXPRESSION / PRODUCTION families.
-
-If it outputs “final story/music/visual” — it must be treated as an INPUT to domain engines, not a final artifact.
+NOT OWNED HERE (DOMAIN FINAL OUTPUT):
+- финальный сюжет/сцены/лора/персонажи/миры/музыка/визуал как “готовый продукт”
+Если движок всё же генерит “кусок контента”, он обязан пометить его как INPUT для доменных движков, не как финальный артефакт.
 
 ---
 
-## 3) INPUTS / OUTPUTS (MINI-CONTRACT) — REQUIRED
+## 3) MINI-CONTRACT (MANDATORY)
 CONSUMES:
-- <log artifacts / audit records / outputs / metrics / QA reports>
+- <1–5 input artifact types>
 - ...
 
 PRODUCES:
-- <system improvement pack / optimization plan / pattern library / experiment proposal>
+- <1–5 output artifact types>
 - ...
-
-META_OUTPUT (REQUIRED):
-- OUTPUT_OBJECT: <Improvement Proposal | Pattern Pack | Optimization Plan | Mutation Experiment | Forecast Pack>
-- OUTPUT_SCHEMA (hard):
-  - field: <name> | type: <type> | required: <yes/no> | rules: <short>
-  - ...
-- OUTPUT_INVARIANTS (hard):
-  - traceability to evidence (must reference inputs)
-  - non-destructive default (safe-by-default)
-  - boundary compliance (no domain deliverables)
 
 DEPENDS_ON:
-- <ENG_UID>
-- ...
+- []
+# либо список UID движков:
+# - <UE.ENG....>
 
 OUTPUT_TARGET:
-- <where governance/system stores meta outputs> (descriptive, no path-nav)
+- <куда кладётся результат в проектах/артефактах>
+
+OUTPUT_ARTIFACT_RULE:
+- Любой PRODUCES-тип должен быть совместим с реестром типов артефактов
+  (см. 01_SYSTEM_LAW/05__ARTIFACT_SCHEMA_REGISTRY.md / DB__ARTIFACT_TYPES при наличии).
 
 ---
 
-## 4) META METHOD (REQUIRED)
-METHOD:
-- Evidence sources:
-- Pattern extraction approach:
-- Optimization objective:
-- Risk model:
-- Rollout strategy (safe):
-  - propose → test → validate → adopt
-- Backout plan:
-  - how to revert if it hurts system
+## 4) METHOD (REQUIRED)
+EVIDENCE SOURCES:
+- <logs / audit / outputs / QA / metrics>
+
+EXTRACTION:
+- <как вычленяем паттерн/проблему>
+
+OBJECTIVE:
+- <что оптимизируем и как меряем>
+
+RISK MODEL:
+- <что может сломать, как страхуем>
+
+ROLLOUT (SAFE):
+- propose → test → validate → adopt
+
+BACKOUT PLAN:
+- <как откатить>
 
 DEFAULT SAFE MODE:
-- If uncertainty high → output must be “proposal / options”, not “forced change”.
+- если неопределённость высокая → выдаём варианты/предложения, не “обязательное изменение”.
 
 ---
 
 ## 5) META GATES (HARD) — REQUIRED
-GATE LIST:
-- GATE: <name>
-  CHECK:
-  FAIL SIGNAL:
-  FIX STRATEGY:
+- GATE: evidence grounded
+  CHECK: inputs существуют и указаны
+  FAIL: нет ссылок на входные данные
+  FIX: добавить источники/входы
 
-MINIMUM META GATES (default set):
-- evidence grounded (inputs exist and referenced)
-- scope safety (doesn’t break canon by default)
-- reversibility (has rollback/backout)
-- impact clarity (what changes + why + expected result)
-- boundary compliance (no domain final output)
+- GATE: scope safety
+  CHECK: не ломает канон по умолчанию
+  FAIL: требует изменения канона без governance
+  FIX: перевести в proposal + через governance pipeline
+
+- GATE: reversibility
+  CHECK: есть backout plan
+  FAIL: отката нет
+  FIX: добавить откат/rollback
+
+- GATE: impact clarity
+  CHECK: что меняем + зачем + ожидаемый эффект
+  FAIL: “улучшили” без меры
+  FIX: добавить метрику/критерий
+
+- GATE: boundary compliance
+  CHECK: не выдаёт доменный “финал”
+  FAIL: создаёт готовый доменный продукт
+  FIX: пометить как INPUT или вынести в доменное семейство
 
 ---
 
 ## 6) EXAMPLES (REQUIRED)
-GOOD EXAMPLE:
-- <example improvement pack snippet + why passes gates>
+GOOD:
+- <пример meta-output и почему проходит gates>
 
-BAD EXAMPLE:
-- <counterexample>
-- why fails: <gate list>
-
----
-
-## 7) FAILURE MODES & EDGE CASES
-FAILURES:
-- Failure:
-  CAUSE:
-  RECOVERY:
-
-EDGE CASES:
-- Case:
-  Handling:
+BAD:
+- <пример нарушения и почему>
 
 ---
 
-## 8) REL / XREF (UID-FIRST)
+## 7) REL / XREF (UID-FIRST)
 REL:
-- REL: <REL_TYPE> | TARGET: <UID> | WHY: <reason>
+- REL: <REL_TYPE> | TARGET_UID: <UID> | WHY: <reason>
 
 XREF:
-- XREF: <UID> | WHY: <reason>
+- XREF_UID: <UID> | WHY: <reason>
 
 RULE:
-- No PATH navigation inside content.
-- If clickable references are needed, keep them in registries/indexes as RAW.
-
----
-
-## 9) CHANGE NOTES (OPTIONAL)
-- DATE: YYYY-MM-DD
-- TYPE: PATCH|MINOR|MAJOR
-- SUMMARY:
-- REASON:
-- IMPACT:
+- RAW links обязательны в INDEX/REGISTRY.
+- Внутри engine-файлов — UID-first (чтобы не плодить “навигацию путями”).
 
 --- END.

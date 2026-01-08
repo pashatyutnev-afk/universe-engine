@@ -1,266 +1,244 @@
-# Risk Safety Engine
-FILE: 09__RISK_SAFETY_ENG.md
+# RISK SAFETY ENGINE (ENG) — CANON
+FILE: 03_SYSTEM_ENTITIES/10_ENG__ENGINES/00_GOVERNANCE_ENGINES/09__RISK_SAFETY_ENG.md
 
 SCOPE: Universe Engine
 ENTITY_GROUP: ENGINES (ENG)
+LAYER: 03_SYSTEM_ENTITIES
 FAMILY: 00_GOVERNANCE_ENGINES
+DOC_TYPE: ENGINE
 CLASS: GOVERNANCE (L1)
 LEVEL: L1
 STATUS: ACTIVE
-VERSION: 2.0
-ROLE: Establishes risk taxonomy and safety rails for ENG; prevents destructive canon drift, hidden coupling, unsafe cycles, and unapproved breaking changes by enforcing risk assessment and mitigation artifacts
-
----
-
-## PURPOSE
-
-Этот движок — “страховка системы”.
-
-Он нужен, чтобы:
-- мы не ломали систему незаметно
-- не создавали скрытых зависимостей
-- не вводили циклы без контроля
-- не теряли навигацию и единый язык
-
----
-
-## SCOPE (WHAT IT COVERS)
-
-Risk Safety покрывает:
-- риски при изменениях движков, README, INDEX
-- риски при изменениях контрактов/выходов/входов
-- риски при перестройке уровней (L1–L4)
-- риски при добавлении новых семейств
-- риски при разрешении dependency cycles
-
----
-
-## NON-GOALS
-
-- не утверждает канон (Canon Authority)
-- не делает аудит целостности (Consistency)
-- не строит dependency graph (Dependency Registry)
-- не заменяет scope impact (Scope Impact)
-Он задаёт “safety rules” и форму управления рисками.
-
----
-
-## MINI-CONTRACT (MANDATORY)
-
-### CONSUMES
-- Impact Reports (IR)
-- Change packets (CHG)
-- Consistency Reports (CR)
-- Dependency graphs / cycle reports (DG/CY)
-- any proposal that modifies canon
-
-### PRODUCES
-- RISK REGISTER entry (RR) — mandatory artifact when risk is non-trivial
-- SAFETY RAILS decisions (what is forbidden / requires approvals)
-- MITIGATION PLAN checklist
-- STOP/GO safety verdict (as recommendation to Canon Authority)
-
-### DEPENDS_ON
-- 00_GOVERNANCE_ENGINES/08__SCOPE_IMPACT_ENG.md
-- 00_GOVERNANCE_ENGINES/04__CHANGE_CONTROL_ENG.md
-- 00_GOVERNANCE_ENGINES/05__CONSISTENCY_ENG.md
-- 00_GOVERNANCE_ENGINES/06__DEPENDENCY_REGISTRY_ENG.md
-- 00_GOVERNANCE_ENGINES/02__CANON_AUTHORITY_ENG.md
-
-### OUTPUT_TARGET
-- Used at Change Control gates G2 (impact) and before G4 (approve)
-- Required before approving D3 decisions or any change with I2/I3 blast radius
-
----
-
-## RISK TAXONOMY (CANON)
-
-### R1 — Registry Risk
-- INDEX drift
-- broken links
-- naming/number mismatch
-Impact: navigation becomes false → system cannot orient.
-
-### R2 — Contract Risk
-- consumes/provides mismatch
-- missing handoff
-Impact: engines cannot interoperate.
-
-### R3 — Dependency Risk
-- hidden coupling
-- cycle creation
-Impact: unpredictable feedback loops; governance failure.
-
-### R4 — Role Overlap Risk
-- two engines claim same responsibility
-Impact: agents choose different truths; canon forks.
-
-### R5 — Level/Class Drift Risk
-- L3 doing L4 behavior
-- META competes with production
-Impact: layer boundaries collapse.
-
-### R6 — Terminology Risk
-- same term, different meanings
-- new term duplicates old
-Impact: misunderstandings; inconsistent specs.
-
-### R7 — Process Risk
-- changes without CHG/CV/AUDIT
-Impact: loss of traceability; “shadow canon”.
-
-### R8 — Safety / Content Risk (system policy)
-- outputs that violate safety constraints in downstream usage
-Impact: unsafe generation; compliance problems.
-(Для ENG это обычно “rails” про то, что не делать автоматически.)
-
----
-
-## RISK LEVELS (STANDARD)
-
-- LOW: unlikely + low impact
-- MEDIUM: plausible + moderate impact
-- HIGH: likely or high impact
-- CRITICAL: system-wide break or irrecoverable confusion
-
----
-
-## SAFETY RAILS (MANDATORY RULES)
-
-### Rail 1 — No index drift
-Запрещено:
-- добавлять файл без регистрации в INDEX
-- держать в INDEX ссылку на отсутствующий файл
-
-### Rail 2 — No breaking renumber without propagation
-Любая смена нумерации/переезд:
-- считается MAJOR (D3)
-- требует IR + CR + audit + verdict
-
-### Rail 3 — No cycles by default
-Циклы запрещены.
-Разрешение только через:
-- Cycle report (CY)
-- governance break mechanism
-- Canon Authority explicit approve
-
-### Rail 4 — No contract changes without DG snapshot
-Если меняется contract/handoff:
-- обязательно обновить edges
-- выдать DG snapshot
-- указать consumers
-
-### Rail 5 — No unresolved role overlap
-Если overlap есть:
-- назначить OWNER_OVERLAP
-- прописать boundary в обоих движках
-- иначе: stop condition
-
-### Rail 6 — Waivers are temporary
-Waiver:
-- должен иметь expiry
-- не может закрывать S0 blockers
-
-### Rail 7 — Locked canon must be auditable
-LOCK: FIXED ставится только если:
-- audit запись есть
-- verdict есть
-- CR PASS
-
----
-
-## CANON ARTIFACT: RISK REGISTER ENTRY (RR)
-
-### RISK_REGISTER_ENTRY SCHEMA (CANON)
-
-- RR_ID: RR-ENG-0001
-- DATE:
-- TRIGGER:
-  - CHG_ID / IR_ID / conflict id
-- SCOPE:
-  - families/engines affected
-- RISK_TYPE:
-  - R1–R8
-- RISK_LEVEL:
-  - LOW | MEDIUM | HIGH | CRITICAL
-- DESCRIPTION:
-  - what could go wrong
-- LIKELIHOOD:
-  - low/med/high
-- IMPACT:
-  - low/med/high
-- DETECTION:
-  - how we will detect failure (CR/DG checks)
-- MITIGATION:
-  - what we will do to prevent/limit it
-- OWNER:
-- STATUS:
-  - OPEN | MITIGATED | ACCEPTED | CLOSED
-- EXPIRY (optional):
-  - for accepted risks / waivers
-- REFERENCES:
-  - IR/CR/DG/CY/CV/AL ids as applicable
-
----
-
-## WHEN RR IS REQUIRED (RULE)
-
-Risk Register entry обязателен, если:
-- IR impact level is I2 or I3
-- decision level is D2 or D3
-- any cycle is proposed
-- any role overlap exists
-- any index restructure is planned
-
----
-
-## PROCEDURE (HOW TO USE RISK SAFETY)
-
-1) Read IR (Impact Report)
-2) Identify applicable risk types (R1–R8)
-3) Assign risk level
-4) Write RR entry if required
-5) Define mitigation checklist
-6) Provide STOP/GO recommendation to Canon Authority
-7) Ensure Change Control gates include mitigation steps
-
----
-
-## MITIGATION CHECKLIST (DEFAULT)
-
-- M1: run registry scan (index vs files)
-- M2: run contract scan (produces/consumes)
-- M3: generate DG snapshot
-- M4: check for cycles + write CY if needed
-- M5: resolve overlaps (owner + boundary)
-- M6: run terminology scan (README terms)
-- M7: update audit with RR ref
-- M8: lock only after PASS
-
----
-
-## STOP CONDITIONS (SAFETY)
-
-Immediate STOP (recommend REJECT/RETURN):
-- index drift exists
-- naming mismatch exists
-- level mismatch exists
-- unapproved cycle exists
-- unresolved role overlap exists
-- no audit/verdict for a canon change
-
----
-
-## INTEGRATION NOTES
-
-- Scope Impact produces IR → Risk Safety translates it into RR + mitigation
-- Change Control requires mitigation steps before approval gate
-- Consistency validates mitigations after changes
-- Dependency Registry provides DG/CY support
-- Canon Authority uses RR for final verdict and waivers
-
----
-
-OWNER: Universe Engine
+VERSION: 1.0.0
+UID: <UE.ENG.GOV.RISK_SAFETY.001>
+OWNER: SYSTEM
+ROLE: Safety gates + risk scoring for changes (what is forbidden to break, stop conditions, allowed risk envelopes, mitigation requirements)
 LOCK: FIXED
-CHANGE_GATE: GOVERNANCE_PIPELINE
+
+---
+
+## 0) PURPOSE (LAW)
+
+Этот движок отвечает за вопрос:
+> “Насколько опасно изменение, что именно оно может сломать, и какие условия обязательны, чтобы допустить его?”
+
+Он фиксирует:
+- строгие safety правила (что запрещено ломать)
+- классификацию риска и воздействия
+- стоп-факторы (S0 blockers)
+- обязательные mitigation действия (что сделать ДО/ВО ВРЕМЯ/ПОСЛЕ)
+- решение типа: SAFE / CONDITIONAL / UNSAFE (без final approve; это рекомендация для Canon Authority)
+
+Non-goals:
+- не применяет изменения (Change Control)
+- не определяет каноническую истину (Canon Authority)
+- не занимается “полной проверкой консистентности” после изменений (Consistency)
+
+---
+
+## 1) CORE SAFETY PRINCIPLES (HARD)
+
+### P1 — Existence rule supremacy
+Если сущность/файл отсутствует в каноническом INDEX — он не существует.  
+Любое изменение, нарушающее это правило (двойные источники истины), — UNSAFE.
+
+### P2 — Entrypoint integrity
+Канонические entrypoint индексы должны оставаться открываемыми и рабочими всегда.
+Если правка ломает навигацию (битые raw-links / неверные пути) — S0.
+
+### P3 — Lock discipline
+LOCK: FIXED — нельзя менять без governance pipeline.
+Попытка правки FIXED без протокола — S0.
+
+### P4 — UID stability
+Если UID уже выдан и объект остается тем же объектом — UID не меняется.
+UID change допускается только при REPLACE/DEPRECATION с явной причиной.
+
+### P5 — No silent dependency change
+Любое изменение DEPENDS_ON обязано отражаться в Dependency Registry.
+Иначе — S0.
+
+---
+
+## 2) MINI-CONTRACT (MANDATORY)
+
+CONSUMES:
+- <ARTIFACT: CHANGE_PROPOSAL>
+- <ARTIFACT: SCOPE_IMPACT_REPORT>
+- <ARTIFACT: AFFECTED_FILES_LIST>
+- <ARTIFACT: DEPENDENCY_DIFF?>            # before/after
+- <ARTIFACT: UID_DIFF?>                   # before/after if any
+- <ARTIFACT: LOCK_STATUS_DIFF?>           # fixed/open touched?
+
+PRODUCES:
+- <ARTIFACT: RISK_SAFETY_REPORT>
+- <ARTIFACT: SAFETY_GATE_DECISION>        # SAFE | CONDITIONAL | UNSAFE
+- <ARTIFACT: BLOCKERS_LIST>               # S0 issues (if any)
+- <ARTIFACT: MITIGATION_PLAN>             # required actions
+- <ARTIFACT: RISK_SCORE_CARD>             # scoring table
+
+DEPENDS_ON:
+- [00_GOVERNANCE_ENGINES/08__SCOPE_IMPACT_ENG]
+- [00_GOVERNANCE_ENGINES/06__DEPENDENCY_REGISTRY_ENG]
+- [00_GOVERNANCE_ENGINES/03__RULE_HIERARCHY_ENG]
+- [00_GOVERNANCE_ENGINES/04__CHANGE_CONTROL_ENG]
+
+OUTPUT_TARGET:
+- `99_LOGS/LOG__CHANGES.md` (as part of change package)
+
+---
+
+## 3) RISK TYPES (STRICT SET)
+
+Allowed RISK_TYPE values:
+- NAV_BREAK          # broken indexes/raw-links/entrypoints
+- UID_CORRUPTION     # UID instability, duplicates, invalid formats
+- AUTHORITY_CONFLICT # two “truth sources”, conflicting indexes
+- DEPENDENCY_DRIFT   # hidden or unrecorded dependency change
+- LOCK_VIOLATION     # fixed changed without pipeline
+- DATA_MODEL_DRIFT   # DB/entity types drift without registry
+- MIGRATION_GAP      # rename/move without mapping + link updates
+- BACKWARD_BREAK     # deprecations without replacement path
+- HUMAN_ERROR_RISK   # unclear steps / ambiguous instructions
+
+---
+
+## 4) RISK LEVELS + DECISION
+
+### 4.1 Risk level (L0..L4)
+- L0: trivial, local, no cross-effects
+- L1: low, contained, easy rollback
+- L2: medium, cross-family or touches templates/standards
+- L3: high, touches indexes/registries/UID rules
+- L4: critical, touches core laws/entrypoints/multiple layers
+
+### 4.2 Decision (strict)
+- SAFE:
+  - no S0 blockers
+  - risk <= L1 OR L2 with full mitigation
+- CONDITIONAL:
+  - no S0 blockers
+  - risk L2..L3 BUT mitigation mandatory + explicit checklist
+- UNSAFE:
+  - any S0 blocker present
+  - OR risk L4 without staged migration & rollback strategy
+
+---
+
+## 5) S0 BLOCKERS (ABSOLUTE STOP)
+
+If any is true → UNSAFE (cannot proceed):
+
+S0-1: Any canonical entrypoint/index has broken path or broken raw-link
+S0-2: Fixed (LOCK: FIXED) file changed outside governance pipeline package
+S0-3: UID duplication detected or UID format violated for existing canon entities
+S0-4: Dependency changed but no dependency registry record is planned
+S0-5: Rename/Move/Delete without MIGRATION_MAP + required updates list
+S0-6: Authority conflict: two indexes claim different existence for same entity
+S0-7: Deletion of canon entity without DEPRECATED replacement route
+
+---
+
+## 6) RISK SCORING (STANDARD)
+
+Score dimensions (0..3 each):
+- D1: Scope size (how many files/layers)
+- D2: Entrypoint touch (indexes/registries)
+- D3: UID impact
+- D4: Dependency impact
+- D5: Lock sensitivity (fixed touched)
+- D6: Migration complexity (rename/move/delete)
+
+Total risk score:
+- 0–4  => L0
+- 5–7  => L1
+- 8–11 => L2
+- 12–15 => L3
+- 16–18 => L4
+
+Rule:
+- If any S0 blocker exists → ignore scoring → UNSAFE.
+
+---
+
+## 7) REQUIRED MITIGATION ACTIONS (CHECKLIST)
+
+### M1 — Pre-change snapshot
+- list of affected files + copy/commit id (or equivalent)
+
+### M2 — Migration map if structure changes
+- OLD_PATH → NEW_PATH mapping
+- link update list
+
+### M3 — Registry/index updates
+- ensure all referenced indexes updated
+- ensure existence rule satisfied
+
+### M4 — Dependency registry updates
+- add required registry records in standard format
+
+### M5 — Rollback plan
+- what to revert
+- what breaks if partial rollback
+
+### M6 — Post-change validation
+- run Consistency Engine
+- verify entrypoints open and raw-links resolve
+
+---
+
+## 8) OUTPUT FORMAT (STANDARD)
+
+### 8.1 RISK_SAFETY_REPORT (REQUIRED)
+FORMAT:
+
+- REPORT_ID: <UE.RISK.YYYY-MM-DD.NNN>
+- DATE:
+- AUTHOR:
+- CHANGE_ID:
+- IMPACT_CLASS: <from scope report>
+- DECISION: <SAFE|CONDITIONAL|UNSAFE>
+- RISK_LEVEL: <L0..L4>
+
+- BLOCKERS (S0):
+  - (if none) []
+
+- RISK_SCORE_CARD:
+  - D1:
+  - D2:
+  - D3:
+  - D4:
+  - D5:
+  - D6:
+  - TOTAL:
+
+- RISK_TYPES:
+  - - NAV_BREAK
+    - DEPENDENCY_DRIFT
+    ...
+
+- MITIGATION_PLAN (required):
+  - M1: ...
+  - M2: ...
+  - M3: ...
+  - M4: ...
+  - M5: ...
+  - M6: ...
+
+- NOTES:
+
+### 8.2 SAFETY_GATE_DECISION (REQUIRED)
+One line:
+`DECISION: SAFE|CONDITIONAL|UNSAFE`
+
+---
+
+## 9) REL / XREF (UID-FIRST)
+
+REL:
+- REL: SUPPORTS | TARGET_UID: <UE.ENG.GOV.CHANGE_CONTROL.001> | WHY: safety gates define required mitigation before apply
+- REL: SUPPORTS | TARGET_UID: <UE.ENG.GOV.CANON_AUTHORITY.001> | WHY: authority uses safety decision recommendation
+- REL: SUPPORTS | TARGET_UID: <UE.ENG.GOV.CONSISTENCY.001> | WHY: post-change validation is required mitigation
+- REL: USES | TARGET_UID: <UE.ENG.GOV.DEPENDENCY_REGISTRY.001> | WHY: dependency drift is S0 blocker
+
+--- END.

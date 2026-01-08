@@ -1,248 +1,297 @@
-# Change Control Engine
-FILE: 04__CHANGE_CONTROL_ENG.md
+# CHANGE CONTROL ENGINE (ENG) — CANON
+FILE: 03_SYSTEM_ENTITIES/10_ENG__ENGINES/00_GOVERNANCE_ENGINES/04__CHANGE_CONTROL_ENG.md
 
 SCOPE: Universe Engine
 ENTITY_GROUP: ENGINES (ENG)
+LAYER: 03_SYSTEM_ENTITIES
 FAMILY: 00_GOVERNANCE_ENGINES
+DOC_TYPE: ENGINE
+CLASS: GOVERNANCE (L1)
 LEVEL: L1
 STATUS: ACTIVE
-VERSION: 1.0
-ROLE: Controls all canon changes: proposals, review gates, approvals, and safe application rules
-
----
-
-## MINI-CONTRACT (MANDATORY)
-CONSUMES:
-- Change proposal (draft or formal)
-- Diffs / suggested edits / new file requests
-- Registry/index impact notes
-- Risk notes (if any)
-- Canon Authority verdicts / decision IDs (if exist)
-
-PRODUCES:
-- Approved or rejected change decision
-- Required edit list (targets + exact actions)
-- Versioning instructions (what to bump, where)
-- Audit log entry payload (what must be recorded)
-- Canon-safe merge checklist
-
-DEPENDS_ON:
-- 01__AUDIT_LOG_ENG
-- 02__CANON_AUTHORITY_ENG
-- 03__RULE_HIERARCHY_ENG
-- 10__VERSIONING_MEMORY_ENG
-
-OUTPUT_TARGET:
-- Governance-controlled updates to ENG layer files, READMEs, registries, and engine docs
+VERSION: 1.0.0
+UID: <UE.ENG.GOV.CHANGE_CONTROL.001>
+OWNER: SYSTEM
+ROLE: Canonical change workflow controller (proposal → checks → decision → apply → audit → verify → close)
+LOCK: FIXED
 
 ---
 
 ## 0) PURPOSE (LAW)
-Change Control Engine гарантирует, что:
-- канон меняется **только управляемо**
-- правки **не ломают** реестры, зависимости, границы
-- любое изменение оставляет **след** (audit + versioning)
 
-### ABSOLUTE LAW
-> Любая правка, влияющая на канон, обязана пройти Change Control.  
-> “Тихие правки” запрещены.
+Этот движок задаёт **единственный допустимый процесс** изменения канона.
 
----
+What this engine is for:
+- стандартизировать “Change Package” (набор обязательных артефактов изменения)
+- управлять стадиями: propose → validate → decide → apply → audit → verify → close
+- запрещать “грязные правки” без пакета, без отката и без аудита
+- обеспечивать совместимость с фиксированными индексами (LOCK: FIXED)
 
-## 1) WHAT COUNTS AS CANON CHANGE (SCOPE)
-Canon change = любое действие, которое меняет хотя бы один пункт:
+Primary outcome:
+- любое канон-изменение имеет полный Change Package и проходит через обязательные шаги.
 
-### A) Registry / Index / Order
-- добавление/удаление движков
-- смена номера
-- смена порядка
-- смена семейства
-- смена путей / канонических ссылок
-
-### B) Rules / Laws / Realm
-- изменение правил слоя/семейства/движка
-- изменение правил нумерации/именования
-- изменение “existence rule”, “lock standard”, “mini-contract law”
-
-### C) Contracts / Dependencies
-- изменение CONSUMES/PRODUCES/DEPENDS_ON/OUTPUT_TARGET
-- добавление новой зависимости
-- изменение governance dependency registry
-
-### D) Boundaries / Ownership
-- перенос ответственности между движками
-- сужение/расширение scope у движка/семейства
-- устранение дублирования (anti-duplication)
-
-### E) Status / Lock
-- смена STATUS
-- смена LOCK (OPEN ↔ FIXED)
+Non-goals (hard):
+- НЕ принимает решение approve/reject (это Canon Authority)
+- НЕ делает глубокую проверку логики контента (это Consistency + Validators)
+- НЕ подменяет dependency registry (но требует обновлять его при изменениях зависимостей)
 
 ---
 
-## 2) CHANGE STATES (STATUS MODEL)
-Статус относится к **изменению**, а не к файлу.
+## 1) BOUNDARY (ANTI-DUPLICATION)
 
-- `DRAFT` — идея/черновик, не готово к review
-- `PROPOSED` — оформлено по шаблону, готово к проверке
-- `REVIEW` — идет проверка влияний (scope/deps/conflicts)
-- `APPROVED` — принято в канон (можно применять)
-- `REJECTED` — отклонено (с причиной)
-- `APPLIED` — внесено в файлы + обновлены реестры + аудит
-- `ROLLED_BACK` — откат (если сломали канон)
+### 1.1 Owned area
+- формат и стадии Change Package
+- правила “no direct canon edit without package”
+- требования к rollback/backout
+- требования к проверкам до и после
 
-### HARD RULE
-> Нельзя “APPLIED” без “APPROVED”.
+### 1.2 Forbidden overlap
+- не заменяет Audit Log (только требует запись)
+- не заменяет Rule Hierarchy (использует как reference)
+- не заменяет Scope/Risk engines (может требовать их outputs как условия)
 
----
-
-## 3) CHANGE LEVELS (SEVERITY)
-- `MINOR` — правка текста без изменения смысла/правил/контрактов
-- `MAJOR` — меняет правила, порядок, зависимости или границы
-- `CRITICAL` — трогает existence/registry/order/lock law или ломает совместимость слоёв
-
-### RULE
-> MAJOR и CRITICAL всегда требуют Canon Authority решения (явного).
+### 1.3 Interface contract
+- Inputs: proposal + affected list + change note + optional reports
+- Outputs: change package record + stage statuses
+- Enforcement: cannot close change without decision + audit + post-verify
 
 ---
 
-## 4) REQUIRED PIPELINE (MANDATORY)
-Любая каноническая правка проходит шаги:
+## 2) MINI-CONTRACT (MANDATORY)
 
-1) **Proposal** (описать изменение по шаблону)
-2) **Impact Scan** (scope + registry + deps + boundaries)
-3) **Conflict Check** (Rule Hierarchy: кто владелец области)
-4) **Decision** (Canon Authority: approve/reject)
-5) **Apply** (внести изменения: файлы + ссылки + порядок)
-6) **Registry Sync** (index/registry обязаны совпасть)
-7) **Audit Log** (зафиксировать факт)
-8) **Versioning** (если затронуто: bump и запись в memory)
+CONSUMES:
+- <ARTIFACT: CHANGE_PROPOSAL>
+- <ARTIFACT: CHANGE_NOTE>                 # summary/reason/impact
+- <ARTIFACT: AFFECTED_FILES_LIST>
+- <ARTIFACT: DIFF_SUMMARY?>
+- <ARTIFACT: SCOPE_IMPACT_REPORT?>
+- <ARTIFACT: RISK_ASSESSMENT?>
+- <ARTIFACT: CONSISTENCY_REPORT?>
+- <ARTIFACT: DEPENDENCY_RECORDS?>         # если затрагивает зависимости
 
----
+PRODUCES:
+- <ARTIFACT: CHANGE_PACKAGE_RECORD>       # обязательный “паспорт” изменения
+- <ARTIFACT: STAGE_CHECKLIST>             # шаги и отметки
+- <ARTIFACT: ROLLBACK_PLAN>               # обязателен для средних/больших правок
+- <ARTIFACT: CLOSEOUT_REPORT>             # итог: что сделано, что проверено
+- <ARTIFACT: AUDIT_RECORD_REF>            # ссылка на audit record (обязательная)
 
-## 5) IMPACT SCAN CHECKLIST (MANDATORY)
-Перед approve ответить “да/нет”:
+DEPENDS_ON:
+- [00_GOVERNANCE_ENGINES/01__AUDIT_LOG_ENG]
+- [00_GOVERNANCE_ENGINES/02__CANON_AUTHORITY_ENG]
 
-### 5.1 Scope
-- [ ] Тронут ли слой ENG?
-- [ ] Тронуто ли семейство?
-- [ ] Тронут ли конкретный движок?
-
-### 5.2 Registry
-- [ ] Нужно ли менять INDEX?
-- [ ] Нужен ли новый движок в реестре?
-- [ ] Меняется ли порядок/номер?
-
-### 5.3 Dependencies
-- [ ] Меняются ли DEPENDS_ON?
-- [ ] Нужно ли обновить dependency registry?
-
-### 5.4 Boundaries
-- [ ] Есть ли дублирование владения?
-- [ ] Меняются ли critical boundaries?
-
-### 5.5 Lock/Status
-- [ ] Нужно ли менять LOCK/STATUS?
+OUTPUT_TARGET:
+- `99_LOGS/LOG__CHANGES.md` + `99_LOGS/LOG__AUDIT.md` (refs)
 
 ---
 
-## 6) CHANGE PROPOSAL TEMPLATE (COPY-PASTE)
-Используй этот блок как стандарт.
+## 3) CHANGE PACKAGE (REQUIRED) — STANDARD
 
-CHANGE_ID: CHG-XXXX
-STATUS: DRAFT|PROPOSED|REVIEW|APPROVED|REJECTED|APPLIED|ROLLED_BACK
-SEVERITY: MINOR|MAJOR|CRITICAL
+### 3.1 Change Package must include
+REQUIRED (always):
+- CHANGE_ID
+- DATE
+- AUTHOR
+- CHANGE_TYPE (PATCH/MINOR/MAJOR/HARD-RESET/HOTFIX/DEPRECATION/RENAMING/MOVE/DELETE/ADD)
+- CANON_IMPACT (YES/NO)
+- AFFECTED_FILES_LIST (concrete)
+- SUMMARY / REASON / IMPACT
+- DECISION_REF (from Canon Authority)
+- AUDIT_RECORD_REF (from Audit Log)
+- POST_VERIFY_RESULT (PASS/FAIL)
 
-TITLE: <коротко, что меняем>
-OWNER: <кто ведёт изменение>
-
-SCOPE:
-- LAYER: ENG
-- FAMILY: <если применимо>
-- ENGINE: <если применимо>
-
-MOTIVATION:
-- почему это нужно (1–5 строк)
-
-PROPOSAL (WHAT CHANGES):
-- конкретные изменения пунктами
-
-AFFECTED FILES:
-- path/to/file.md
-- path/to/index.md
-
-REGISTRY IMPACT:
-- добавляем/удаляем/меняем порядок/нет
-
-DEPENDENCY IMPACT:
-- новые deps / удалённые deps / нет
-
-BOUNDARY IMPACT:
-- кто владелец области до/после
-
-RISK NOTES:
-- что может сломаться
-
-ROLLBACK PLAN:
-- как откатить, если плохо
-
-CANON AUTHORITY REQUIRED:
-- YES/NO (если MAJOR/CRITICAL → YES)
-
-APPROVAL:
-- decision_id: <если есть>
-- date: <если есть>
-
-APPLY CHECKLIST:
-- [ ] Files updated
-- [ ] Index synced
-- [ ] Dependency registry synced
-- [ ] Audit log written
-- [ ] Version bumped (if needed)
+REQUIRED (conditional):
+- ROLLBACK_PLAN — required if:
+  - CHANGE_TYPE in {MAJOR, HARD-RESET, MOVE, DELETE}
+  - or if any affected file has LOCK: FIXED
+- DEPENDENCY_UPDATES — required if:
+  - any engine DEPENDS_ON changed
+  - any registry/index order changed
+- SCOPE_IMPACT_REPORT — required if:
+  - global indexes / fixed indexes changed
+  - cross-layer entrypoints changed
+- RISK_ASSESSMENT — required if:
+  - change touches law/standards/registries in a way that can break navigation
 
 ---
 
-## 7) RULES FOR APPLY (SAFE MERGE LAW)
-### 7.1 No orphan changes
-Если меняешь файл движка — проверь:
-- registry entry существует
-- ссылки валидны
-- нумерация совпадает
+## 4) WORKFLOW (MANDATORY STAGES)
 
-### 7.2 No silent deps
-Любая новая зависимость:
-- добавляется в DEPENDS_ON
-- отражается в dependency registry
+### Stage S0 — PROPOSE
+Inputs:
+- CHANGE_PROPOSAL + CHANGE_NOTE + AFFECTED_FILES_LIST
+Outputs:
+- CHANGE_PACKAGE_RECORD (draft) + stage checklist
 
-### 7.3 No duplicate ownership
-Если правка создаёт пересечение областей:
-- сначала boundary fix
-- потом остальное
+### Stage S1 — PRE-CHECK
+Do:
+- header compliance check (status/lock/version/uid single instance)
+- naming/numbering check (NN matches)
+- identify required conditional artifacts (rollback/risk/scope/dependency)
+Outputs:
+- PRECHECK_RESULT: PASS or REQUIRED_ADDITIONS
 
-### 7.4 No broken locks
-LOCK: FIXED нельзя менять без MAJOR/CRITICAL процесса.
+### Stage S2 — DECISION
+Do:
+- request Canon Authority decision
+Outputs:
+- DECISION_REF
+
+### Stage S3 — APPLY
+Do:
+- apply changes (out of scope who applies; this stage records that it happened)
+Outputs:
+- DIFF_SUMMARY (optional), updated affected list if changed
+
+### Stage S4 — AUDIT
+Do:
+- create audit record for the applied change
+Outputs:
+- AUDIT_RECORD_REF
+
+### Stage S5 — POST-VERIFY
+Do:
+- run Consistency checks and registry integrity checks (as available)
+- confirm that navigation entrypoints still resolve (existence rule)
+Outputs:
+- POST_VERIFY_RESULT: PASS/FAIL + notes
+
+### Stage S6 — CLOSE
+Do:
+- write closeout report
+- mark change package as closed
+Outputs:
+- CLOSEOUT_REPORT
+
+Rule:
+- No CLOSE without DECISION_REF + AUDIT_RECORD_REF + POST_VERIFY_RESULT=PASS.
 
 ---
 
-## 8) WHAT TO DO WHEN FOUND A BROKEN CANON
-Если обнаружено:
-- файл есть, но нет в INDEX
-- номер не совпадает
-- README/engine конфликтуют
-- deps скрыты
+## 5) HARD GATES (ENFORCEMENT)
 
-Тогда:
-1) создать change proposal (SEVERITY минимум MAJOR)
-2) указать конфликт и владельца по Rule Hierarchy
-3) провести Canon Authority решение
-4) привести всё к канону
-5) записать в audit
+- G1: No change without affected list  
+  FAIL → stop at S0
+
+- G2: No canon-impacting change without decision  
+  FAIL → cannot pass S2
+
+- G3: No canon-impacting change without audit  
+  FAIL → cannot pass S4 / cannot close
+
+- G4: Fixed index safety  
+  If any affected LOCK: FIXED and no rollback plan → FAIL
+
+- G5: Dependency transparency  
+  If DEPENDS_ON changed and no dependency record → FAIL
+
+- G6: Post-verify required  
+  If POST_VERIFY missing or FAIL → cannot close
 
 ---
 
-## 9) FINAL RULE (LOCK)
-> Change Control — шлюз канона.  
-> Всё, что меняет канон, проходит через этот шлюз и оставляет след.
+## 6) OUTPUT ARTIFACTS (STANDARD FORMS)
 
-OWNER: Universe Engine  
-LOCK: FIXED
+### 6.1 CHANGE_PACKAGE_RECORD (REQUIRED)
+FORMAT:
+
+- CHANGE_ID: <UE.CHANGE.YYYY-MM-DD.NNN>
+- DATE:
+- AUTHOR:
+- CHANGE_TYPE:
+- CANON_IMPACT:
+- SCOPE:
+- AFFECTED:
+  - ITEM: <DOC|INDEX|TEMPLATE|ENGINE|REGISTRY|MAP>
+    PATH:
+    UID: <optional>
+- SUMMARY:
+- REASON:
+- IMPACT:
+- REQUIRED_ARTIFACTS:
+  - <rollback_plan?> <scope_impact?> <risk_assessment?> <dependency_updates?> <consistency_report?>
+- STAGES:
+  - S0: <DONE|PENDING>
+  - S1:
+  - S2:
+  - S3:
+  - S4:
+  - S5:
+  - S6:
+- DECISION_REF:
+- AUDIT_RECORD_REF:
+- POST_VERIFY_RESULT:
+- NOTES:
+
+### 6.2 STAGE_CHECKLIST (REQUIRED)
+- S0 propose: done when ...
+- S1 pre-check: done when ...
+- ...
+- S6 close: done when ...
+
+### 6.3 ROLLBACK_PLAN (CONDITIONAL)
+- What to revert
+- How to revert
+- What signals success
+- What to do if revert fails
+
+### 6.4 CLOSEOUT_REPORT (REQUIRED)
+- What was changed
+- What was verified
+- Remaining risks (if any)
+- Links/refs to decision + audit + checks
+
+---
+
+## 7) EXAMPLES (GOOD / BAD)
+
+### 7.1 Good example
+Change:
+- PATCH: обновили шаблон governance движка, не трогая порядок и индексы.
+Flow:
+- S0 propose + affected list
+- S1 precheck pass
+- S2 decision accept
+- S3 apply
+- S4 audit created
+- S5 post-verify pass
+- S6 close complete
+
+### 7.2 Bad example
+Change:
+- “удалил индексы и переименовал файлы” без списка и без rollback.
+Fail:
+- G1 (no affected list) + G4 (no rollback) + G3 (no audit)
+
+Fix:
+- собрать package, добавить rollback, пройти decision/audit.
+
+---
+
+## 8) FAILURE MODES & EDGE CASES
+
+- Emergency hotfix  
+  → allowed, but must still produce: decision + audit (можно post-facto, но обязательно)
+
+- Rename/move breaking raw links  
+  → require rollback plan + explicit mapping OLD→NEW + decision conditions
+
+- Partial application  
+  → post-verify fails; change cannot be closed; must either complete or rollback
+
+---
+
+## 9) REL / XREF (UID-FIRST)
+
+REL:
+- REL: REQUIRES | TARGET_UID: <UE.ENG.GOV.CANON_AUTHORITY.001> | WHY: canon changes need decision
+- REL: REQUIRES | TARGET_UID: <UE.ENG.GOV.AUDIT_LOG.001> | WHY: canon changes must be audited
+- REL: USES | TARGET_UID: <UE.ENG.GOV.RULE_HIERARCHY.001> | WHY: conflicts resolved by precedence
+- REL: REQUESTS | TARGET_UID: <UE.ENG.GOV.CONSISTENCY.###> | WHY: post-verify integrity check
+- REL: REQUESTS | TARGET_UID: <UE.ENG.GOV.DEPENDENCY_REGISTRY.###> | WHY: dependency updates must be recorded
+
+RULE:
+- RAW links в индексах/реестрах.
+- Здесь — UID-first.
+
+--- END.

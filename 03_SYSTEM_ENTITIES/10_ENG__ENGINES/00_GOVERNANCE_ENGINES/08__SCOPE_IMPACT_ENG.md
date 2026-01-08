@@ -1,222 +1,231 @@
-# Scope Impact Engine
-FILE: 08__SCOPE_IMPACT_ENG.md
+# SCOPE IMPACT ENGINE (ENG) — CANON
+FILE: 03_SYSTEM_ENTITIES/10_ENG__ENGINES/00_GOVERNANCE_ENGINES/08__SCOPE_IMPACT_ENG.md
 
 SCOPE: Universe Engine
 ENTITY_GROUP: ENGINES (ENG)
+LAYER: 03_SYSTEM_ENTITIES
 FAMILY: 00_GOVERNANCE_ENGINES
+DOC_TYPE: ENGINE
 CLASS: GOVERNANCE (L1)
 LEVEL: L1
 STATUS: ACTIVE
-VERSION: 2.0
-ROLE: Evaluates scope of any proposed change across ENG; predicts blast radius, affected families/contracts/dependencies/terminology, and produces an Impact Report used by Change Control and Canon Authority
-
----
-
-## PURPOSE
-
-Этот движок отвечает на главный вопрос перед изменением:
-
-> “Что именно сломается/изменится, если мы это тронем?”
-
-Он нужен, чтобы:
-- изменения не делались “вслепую”
-- было видно, какие семьи/движки будут затронуты
-- было понятно, нужны ли CR/DG/waivers и какой уровень решения (D0–D3)
-- governance pipeline работал предсказуемо
-
----
-
-## SCOPE (WHAT IT ANALYZES)
-
-Scope Impact анализирует изменения по направлениям:
-
-1) **Registry impact**
-- затрагивает ли INDEX / нумерацию / naming / ссылки
-
-2) **Contract impact**
-- меняется ли mini-contract
-- меняются ли outputs/inputs/handoff
-
-3) **Dependency impact**
-- добавляются/убираются edges
-- риск циклов, скрытых зависимостей
-
-4) **Terminology impact**
-- меняются ли термины, определения, “style locks”, canonical fields
-
-5) **Level/Class impact**
-- меняется ли уровень семейства/движка (L1–L4)
-- меняется ли CLASS (DOMAIN/PRODUCTION/META…)
-
-6) **Downstream impact**
-- какие движки потребляют outputs изменяемого движка
-- какие инструменты/проекты зависят от этого
-
----
-
-## NON-GOALS
-
-- не утверждает решения (Canon Authority)
-- не управляет изменениями (Change Control)
-- не проверяет целостность после правки (Consistency)
-- не строит официальный граф зависимостей (Dependency Registry)
-Он делает “предсказание воздействия” до правки.
-
----
-
-## MINI-CONTRACT (MANDATORY)
-
-### CONSUMES
-- change proposal summary (CHG draft)
-- target files list
-- mini-contract blocks of touched engines
-- index registry sections related to target files
-- dependency notes (current edges) if exist
-
-### PRODUCES
-- IMPACT REPORT (mandatory artifact)
-- severity estimation (D-level suggestion)
-- required artifacts list (CR/DG/CY/waiver)
-- ordered affected files list (blast radius)
-
-### DEPENDS_ON
-- 00_GOVERNANCE_ENGINES/04__CHANGE_CONTROL_ENG.md
-- 00_GOVERNANCE_ENGINES/06__DEPENDENCY_REGISTRY_ENG.md
-- 00_GOVERNANCE_ENGINES/03__RULE_HIERARCHY_ENG.md
-- 00_GOVERNANCE_ENGINES/07__DECISION_APPROVAL_ENG.md
-
-### OUTPUT_TARGET
-- Used at Change Control gate G2 (Impact)
-- Attached to CHG packet for Canon Authority review
-
----
-
-## IMPACT CLASSIFICATION (BLAST RADIUS)
-
-### I0 — Local
-- 1 file
-- no contract change
-- no index change
-- no downstream consumers
-
-### I1 — Family-local
-- several files inside one family
-- minor contract clarifications
-- downstream impact limited to same family
-
-### I2 — Cross-family
-- affects multiple families
-- contract/handoff changed
-- requires dependency edges update
-
-### I3 — System-wide
-- index restructuring
-- level/class changes
-- new global rules/terms
-- risk of cycles or role redefinition
-
----
-
-## REQUIRED CANON ARTIFACT: IMPACT REPORT
-
-### IMPACT_REPORT SCHEMA (CANON)
-
-- IR_ID: IR-ENG-0001
-- DATE:
-- TRIGGER:
-  - new_engine | edit_engine | restructure | fix_drift | resolve_conflict
-- CHANGE_TYPE (expected):
-  - PATCH | MINOR | MAJOR
-- IMPACT_LEVEL:
-  - I0 | I1 | I2 | I3
-- TARGET:
-  - primary files (list)
-- AFFECTED_SCOPE:
-  - families affected
-  - engines affected
-- DIMENSIONS:
-  - INDEX_IMPACT: yes/no
-  - CONTRACT_IMPACT: yes/no
-  - DEP_IMPACT: yes/no
-  - TERMS_IMPACT: yes/no
-  - LEVEL_IMPACT: yes/no
-- DOWNSTREAM:
-  - consumers (known)
-  - degraded mode allowed? yes/no
-- RISKS:
-  - top risks (3–7 bullets)
-- REQUIRED ARTIFACTS:
-  - CR required? yes/no
-  - DG required? yes/no
-  - CY required? yes/no
-  - waiver likely? yes/no
-- DECISION LEVEL SUGGESTION:
-  - D0 | D1 | D2 | D3
-- REQUIRED UPDATES (ORDERED):
-  - file-by-file plan
-- STOP CONDITIONS:
-  - what would block approval (S0 triggers)
-- NOTES (optional)
-
----
-
-## STOP CONDITIONS (S0 BLOCKERS PREDICTION)
-
-Если предсказано хотя бы одно:
-- индексный дрейф (file/index mismatch)
-- level/class mismatch
-- renumbering without full propagation
-- dependency cycle risk without break mechanism
-- role overlap without owner plan
-
-→ change must be treated as D2/D3 and cannot be “quick patch”.
-
----
-
-## PROCEDURE (HOW TO RUN IMPACT)
-
-1) Identify the primary change target
-- which file is the source of change
-
-2) Determine rule level affected (P0–P3)
-- index? governance? README? engine?
-
-3) Read mini-contract of the target
-- list produces/consumes/depends_on
-
-4) Map consumers (downstream)
-- from known edges / handoff / family expectations
-
-5) Decide blast radius I0–I3
-
-6) Suggest decision level D0–D3
-
-7) Generate Impact Report
-- include ordered updates list
-
-8) Route to Change Control (G2) and attach IR
-
----
-
-## VALIDATION CHECKLIST
-
-- SI1: IR has DIMENSIONS flags
-- SI2: IR lists affected files explicitly
-- SI3: IR includes decision level suggestion
-- SI4: IR lists required artifacts (CR/DG/CY)
-- SI5: IR includes stop conditions
-
----
-
-## INTEGRATION NOTES
-
-- Change Control uses IR at gate G2 (Impact)
-- Decision Approval uses IR to set decision level (D0–D3)
-- Canon Authority uses IR to understand blast radius before verdict
-- Dependency Registry uses IR to pre-plan edge updates
-
----
-
-OWNER: Universe Engine
+VERSION: 1.0.0
+UID: <UE.ENG.GOV.SCOPE_IMPACT.001>
+OWNER: SYSTEM
+ROLE: Computes change blast-radius (what breaks/what must be updated across layers, indexes, registries, dependencies, raw-links)
 LOCK: FIXED
-CHANGE_GATE: GOVERNANCE_PIPELINE
+
+---
+
+## 0) PURPOSE (LAW)
+
+Этот движок отвечает за вопрос:
+> “Если мы поменяем X — что ещё обязаны поменять, чтобы система осталась живой?”
+
+What this engine is for:
+- оценка влияния изменений (blast-radius)
+- классификация влияния: local → cross-family → cross-layer → global
+- выявление обязательных вторичных правок (индексы, реестры, raw-links, зависимости)
+- выдача Scope Impact Report, который Change Control и Canon Authority используют для решения
+
+Primary outcome:
+- перед применением крупной/структурной правки существует Scope Impact Report с полным списком “что затронуто” и “что обновить”.
+
+Non-goals:
+- не решает approve/reject (Canon Authority)
+- не делает сам изменения (Change Control)
+- не логирует вместо Audit Log (но требует audit для канон изменений)
+
+---
+
+## 1) BOUNDARY (ANTI-DUPLICATION)
+
+Owned here:
+- анализ радиуса изменений
+- mapping “affected → required updates”
+- impact classification + required artifacts
+- список обязательных задач на фиксы
+
+Not owned here:
+- решение (approve)
+- применение правки
+- глубокая проверка целостности (это Consistency; scope только прогнозирует)
+
+---
+
+## 2) MINI-CONTRACT (MANDATORY)
+
+CONSUMES:
+- <ARTIFACT: CHANGE_PROPOSAL>
+- <ARTIFACT: CHANGE_NOTE>                 # summary/reason/impact
+- <ARTIFACT: AFFECTED_FILES_LIST>
+- <ARTIFACT: DEPENDS_ON_DECLARATIONS?>    # if dependencies involved
+- <ARTIFACT: INDEX_ENTRYPOINTS?>          # list of canonical indexes/entrypoints
+- <ARTIFACT: RAW_LINKS_LIST?>             # extracted raw links (optional)
+- <ARTIFACT: STORAGE_MAPS?>               # optional: where outputs live
+
+PRODUCES:
+- <ARTIFACT: SCOPE_IMPACT_REPORT>         # main output
+- <ARTIFACT: REQUIRED_UPDATES_LIST>       # actionable list
+- <ARTIFACT: IMPACT_CLASSIFICATION>       # LOCAL/CROSS_FAMILY/CROSS_LAYER/GLOBAL
+- <ARTIFACT: MIGRATION_MAP?>              # for rename/move (OLD→NEW)
+- <ARTIFACT: ROLLBACK_HINTS?>             # what rollback must cover
+
+DEPENDS_ON:
+- [00_GOVERNANCE_ENGINES/06__DEPENDENCY_REGISTRY_ENG]
+- [00_GOVERNANCE_ENGINES/03__RULE_HIERARCHY_ENG]
+- [00_GOVERNANCE_ENGINES/04__CHANGE_CONTROL_ENG]
+
+OUTPUT_TARGET:
+- `99_LOGS/LOG__CHANGES.md` (as part of change package)
+
+---
+
+## 3) IMPACT CLASSIFICATION (STRICT SET)
+
+Allowed IMPACT_CLASS values:
+- LOCAL            # inside one file or one family, no index/raw-link updates required
+- CROSS_FAMILY     # affects multiple engines within ENG layer families
+- CROSS_LAYER      # affects more than one layer (e.g. standards + entities + KB)
+- GLOBAL           # affects root entrypoints, global master index, naming/uid rules, or multiple layers + registries
+
+Rule:
+- If any fixed index is affected → minimum CROSS_LAYER.
+- If global entrypoint index changes → GLOBAL.
+
+---
+
+## 4) IMPACT DOMAINS (WHAT IT LOOKS AT)
+
+### I1 — Index/Registry impact
+- Does any canonical index reference a changed path?
+- Do we need to update raw-links?
+- Does existence rule change what "exists"?
+
+### I2 — Naming/Numbering impact
+- Are file names changing?
+- Does numbering change break ordering rules?
+
+### I3 — UID impact
+- Are UIDs introduced/changed?
+- Do UID rules require reformatting across files?
+
+### I4 — Dependency impact
+- Does DEPENDS_ON change?
+- Does dependency registry need updates?
+- Are cycles introduced?
+
+### I5 — Storage/Output impact
+- Does OUTPUT_TARGET move?
+- Do storage maps need update?
+
+### I6 — Cross-layer entrypoint impact
+- Does global master index / layer entrypoint index need update?
+
+---
+
+## 5) HARD GATES (ENFORCEMENT)
+
+- G1: Concrete affected list required  
+  If missing → scope report cannot be produced (FAIL)
+
+- G2: Rename/move must produce migration map  
+  If CHANGE_TYPE is MOVE/RENAMING and no OLD→NEW mapping → FAIL
+
+- G3: Index touch implies required updates  
+  If affected includes any INDEX file and required updates list is empty → FAIL
+
+- G4: Dependency change implies registry update  
+  If DEPENDS_ON changes and no dependency updates in required list → FAIL
+
+- G5: Global entrypoints must be listed  
+  If impact is CROSS_LAYER/GLOBAL and no entrypoint list included → FAIL
+
+---
+
+## 6) OUTPUT FORMAT (STANDARD)
+
+### 6.1 SCOPE_IMPACT_REPORT (REQUIRED)
+FORMAT:
+
+- REPORT_ID: <UE.SCOPE.YYYY-MM-DD.NNN>
+- DATE:
+- AUTHOR:
+- CHANGE_ID: <ref if exists>
+- CHANGE_TYPE:
+- IMPACT_CLASS: <LOCAL|CROSS_FAMILY|CROSS_LAYER|GLOBAL>
+
+- PRIMARY_AFFECTED:
+  - ITEM: <DOC|INDEX|TEMPLATE|ENGINE|REGISTRY|MAP>
+    PATH:
+    UID: <optional>
+
+- SECONDARY_AFFECTED (predicted):
+  - ITEM:
+    PATH:
+    WHY:
+
+- REQUIRED_UPDATES (actionable):
+  - U1: <action> | TARGET:<path or entity> | WHY:<reason> | SEVERITY:<S0..S3>
+  - U2: ...
+  - U3: ...
+
+- MIGRATION_MAP (if rename/move):
+  - OLD_PATH: ...
+    NEW_PATH: ...
+    NOTES:
+
+- DEPENDENCY_IMPACT:
+  - ADDED:
+  - REMOVED:
+  - CHANGED:
+  - REQUIRED_REGISTRY_RECORDS:
+
+- RAW_LINK_IMPACT:
+  - LINKS_TO_UPDATE:
+  - LINKS_AT_RISK:
+
+- ROLLBACK_HINTS:
+  - What must be reversible:
+  - What breaks if rollback incomplete:
+
+- NOTES:
+
+### 6.2 REQUIRED_UPDATES_LIST (REQUIRED)
+Ordered:
+1) S0 blockers first (index/raw link breaks)
+2) dependency registry updates
+3) UID/naming fixes
+4) optional improvements
+
+---
+
+## 7) EXAMPLES (GOOD / BAD)
+
+### 7.1 Good example
+Change:
+- MOVE: переименовали файл семейства ENG + обновили index.
+Scope report shows:
+- migration map old→new
+- required updates: update raw link in index + update dependency records referencing old name
+
+### 7.2 Bad example
+Change:
+- DELETE: удалили engine file
+Scope report missing:
+- which indexes reference it
+- rollback hints
+Result:
+- FAIL (G1/G3), cannot proceed.
+
+---
+
+## 8) REL / XREF (UID-FIRST)
+
+REL:
+- REL: SUPPORTS | TARGET_UID: <UE.ENG.GOV.CHANGE_CONTROL.001> | WHY: scope report is required for sensitive changes
+- REL: SUPPORTS | TARGET_UID: <UE.ENG.GOV.CANON_AUTHORITY.001> | WHY: authority uses blast-radius
+- REL: SUPPORTS | TARGET_UID: <UE.ENG.GOV.CONSISTENCY.001> | WHY: consistency verifies after apply
+- REL: USES | TARGET_UID: <UE.ENG.GOV.DEPENDENCY_REGISTRY.001> | WHY: dependency impacts must be recorded
+
+--- END.

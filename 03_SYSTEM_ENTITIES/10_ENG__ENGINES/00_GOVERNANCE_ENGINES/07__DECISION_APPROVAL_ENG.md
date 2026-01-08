@@ -1,226 +1,239 @@
-# Decision Approval Engine
-FILE: 07__DECISION_APPROVAL_ENG.md
+# DECISION APPROVAL ENGINE (ENG) — CANON
+FILE: 03_SYSTEM_ENTITIES/10_ENG__ENGINES/00_GOVERNANCE_ENGINES/07__DECISION_APPROVAL_ENG.md
 
 SCOPE: Universe Engine
 ENTITY_GROUP: ENGINES (ENG)
+LAYER: 03_SYSTEM_ENTITIES
 FAMILY: 00_GOVERNANCE_ENGINES
+DOC_TYPE: ENGINE
 CLASS: GOVERNANCE (L1)
 LEVEL: L1
 STATUS: ACTIVE
-VERSION: 2.0
-ROLE: Standardizes how canonical decisions are proposed, reviewed, approved, and recorded for ENG; provides decision schema, severity levels, required approvals, and linkage to audit/version/lock
-
----
-
-## PURPOSE
-
-Этот движок вводит единый стандарт:
-- как формулировать “решение”
-- какие решения требуют утверждения
-- как фиксировать решение в канон
-- как связывать решение с CHG / CV / AUDIT / VERSION / LOCK
-
-Без него решения будут “в чате” и система потеряет управляемость.
-
----
-
-## SCOPE (WHAT IS A "DECISION")
-
-Решением считается любая фиксация выбора, которая влияет на систему ENG:
-
-### A) Structural decisions
-- добавление/удаление движка
-- изменение нумерации/переезд по папкам
-- изменение состава семейств
-
-### B) Canon law decisions
-- изменение governance правил
-- изменение иерархии правил/терминов
-
-### C) Contract decisions
-- изменение mini-contract полей
-- изменение handoff или dependency edges
-- разрешение/запрет циклов
-
-### D) Conflict decisions
-- кто owner при role overlap
-- какой термин “истинный”
-- какой документ побеждает (по Rule Hierarchy)
-
-### E) Lock & Waiver decisions
-- FIXED/UNFIXED
-- waiver scope + expiry
-
----
-
-## NON-GOALS
-
-- не определяет истину канона (это Canon Authority)
-- не проводит аудит (Consistency)
-- не ведёт журнал (Audit Log)
-- не управляет процессом изменений (Change Control)
-Он задаёт **стандарт**, по которому эти процессы фиксируют решения.
-
----
-
-## MINI-CONTRACT (MANDATORY)
-
-### CONSUMES
-- decision proposals (from authors / governance gates)
-- conflict reports (role/term/dep)
-- consistency report findings that need a call
-- change packets that require decisions
-
-### PRODUCES
-- DECISION RECORD (DR) — canonical artifact
-- approval matrix outcome (who approved)
-- routing instructions (what must be updated: index/deps/audit/version/lock)
-
-### DEPENDS_ON
-- 00_GOVERNANCE_ENGINES/03__RULE_HIERARCHY_ENG.md
-- 00_GOVERNANCE_ENGINES/04__CHANGE_CONTROL_ENG.md
-- 00_GOVERNANCE_ENGINES/02__CANON_AUTHORITY_ENG.md
-- 00_GOVERNANCE_ENGINES/01__AUDIT_LOG_ENG.md
-- 00_GOVERNANCE_ENGINES/10__VERSIONING_MEMORY_ENG.md
-
-### OUTPUT_TARGET
-- Any decision that affects canon must be written as DR and referenced from CHG/AUDIT/CV as applicable
-
----
-
-## DECISION LEVELS (SEVERITY)
-
-### D0 — Local / low impact
-- wording, formatting, minor clarifications
-- no contract change
-- no index impact
-Approval: optional (can be implicit via Change Control PATCH)
-
-### D1 — Minor canon impact
-- adds rules but backward-compatible
-- minor dependency edge additions (soft)
-Approval: required (Canon Authority)
-
-### D2 — System impact
-- contract changes
-- role boundary changes
-- index edits (add/rename/move)
-Approval: required (Canon Authority) + must attach CR report
-
-### D3 — Breaking / major
-- renumbering families
-- removing engines
-- changing LEVEL/CLASS
-- approving dependency cycles
-Approval: required (Canon Authority) + CR + DG/Cycle report + explicit lock plan
-
----
-
-## APPROVAL MATRIX (WHO MUST SIGN)
-
-Default (until you introduce more roles):
-
-- D0: author + (optional) governance
-- D1: Canon Authority
-- D2: Canon Authority + Consistency verification (CR)
-- D3: Canon Authority + CR + DG/CY + explicit major version bump plan
-
-Все утверждения проходят через:
-- Canon Verdict (CV) when it is a canon change
-- Audit entry (AL) always when canon changes
-
----
-
-## CANON ARTIFACT: DECISION RECORD (DR)
-
-### DECISION_RECORD SCHEMA (CANON)
-
-- DR_ID: DR-ENG-0001
-- DATE:
-- LEVEL: D0 | D1 | D2 | D3
-- TOPIC:
-  - short title
-- CONTEXT:
-  - what problem triggered it
-- OPTIONS:
-  - A:
-  - B:
-  - (C optional)
-- DECISION:
-  - chosen option
-- RATIONALE:
-  - 3–7 bullets
-- IMPACT:
-  - INDEX: yes/no
-  - CONTRACT: yes/no
-  - DEP_GRAPH: yes/no
-  - LEVEL/CLASS: yes/no
-- REQUIRED UPDATES (ORDERED):
-  - exact file list + what changes
-- VALIDATION REQUIRED:
-  - CR required? yes/no
-  - DG required? yes/no
-  - Cycle report required? yes/no
-- APPROVALS:
-  - approver(s) + decision (approve/reject/return)
-- REFERENCES:
-  - CHG_ID (if any)
-  - CV_ID (if any)
-  - AL_ID (once logged)
-  - CR_ID (if any)
-  - DG_ID/CY_ID (if any)
-- LOCK PLAN:
-  - FIXED/UNFIXED + conditions
-- NOTES (optional):
-  - max 5 bullets
-
----
-
-## ROUTING RULES (WHAT MUST HAPPEN AFTER DECISION)
-
-If IMPACT.INDEX = yes:
-- update `00__INDEX_ALL_ENGINES.md`
-- run consistency scan for drift
-- log in audit
-
-If IMPACT.CONTRACT = yes:
-- update engine mini-contract sections
-- update handoff blocks
-- update dependency edges (DG snapshot)
-- log in audit
-
-If IMPACT.DEP_GRAPH = yes:
-- generate DG artifact and attach
-- check cycles; produce CY if needed
-
-If IMPACT.LEVEL/CLASS = yes:
-- update INDEX + family README + all engines in family
-- treat as D3 by default
-
----
-
-## PROCEDURE (HOW TO USE)
-
-1) Write DR proposal in schema
-2) Assign decision level D0–D3
-3) Collect required artifacts (CR/DG/CY) if needed
-4) Route to Canon Authority for final decision (CV)
-5) Execute required updates list
-6) Log in Audit Log (AL)
-7) Apply LOCK decision when done
-
----
-
-## VALIDATION CHECKLIST
-
-- DA1: DR has level and approvals
-- DA2: DR lists required updates (file-by-file)
-- DA3: If index impact → index updated + audit logged
-- DA4: If contract/dep impact → DG snapshot exists
-- DA5: Any D3 decision has explicit lock plan and version bump plan
-
----
-
-OWNER: Universe Engine
+VERSION: 1.0.0
+UID: <UE.ENG.GOV.DECISION_APPROVAL.001>
+OWNER: SYSTEM
+ROLE: Canonical decision-making + approval rules (who can approve what, required quorum, veto, emergency path)
 LOCK: FIXED
-CHANGE_GATE: GOVERNANCE_PIPELINE
+
+---
+
+## 0) PURPOSE (LAW)
+
+Этот движок — **про принятие решений** в системе.
+
+Он определяет:
+- какие решения вообще бывают (Decision Types)
+- кто имеет право апрува (Roles / Authority)
+- какой нужен минимум согласований (Quorum)
+- можно ли вето и кем (Veto)
+- как оформлять решение в виде артефакта (Decision Record)
+- как работает emergency path (когда нужно быстро)
+
+Главный смысл:
+> Любая правка канона, которая требует решения, не считается принятой,
+> пока не существует Decision Record по стандарту этого движка.
+
+---
+
+## 1) BOUNDARY (ANTI-DUPLICATION)
+
+Owned here:
+- типы решений и их строгость
+- правила апрува/кворума/вето/эскалации
+- формат Decision Record
+- правила “без решения — не канон”
+
+Not owned here:
+- аудит всех событий (Audit Log Engine)
+- управление изменениями и пакетами (Change Control Engine)
+- определение того, что является каноном (Canon Authority Engine)
+- проверка согласованности ссылок/реестров (Consistency Engine)
+
+---
+
+## 2) MINI-CONTRACT (MANDATORY)
+
+CONSUMES:
+- <ARTIFACT: CHANGE_PACKAGE>                 # пакет изменений (если есть)
+- <ARTIFACT: CANON_CHANGE_REQUEST>           # запрос на изменение канона (если отдельно)
+- <ARTIFACT: CONFLICT_REPORT?>               # отчёт о конфликтах/рисках (optional)
+- <ARTIFACT: PROPOSED_DECISION>              # предложение решения (text)
+
+PRODUCES:
+- <ARTIFACT: DECISION_RECORD>                # каноническая запись решения
+- <ARTIFACT: APPROVAL_STATUS>                # APPROVED/REJECTED/NEEDS_REVIEW
+- <ARTIFACT: WAIVER_RECORD?>                 # исключение (если разрешено)
+- <ARTIFACT: ESCALATION_NOTE?>               # эскалация (если тупик)
+
+DEPENDS_ON:
+- [00_GOVERNANCE_ENGINES/02__CANON_AUTHORITY_ENG]   # что считается каноном
+- [00_GOVERNANCE_ENGINES/04__CHANGE_CONTROL_ENG]    # как изменения упаковываются
+- [00_GOVERNANCE_ENGINES/01__AUDIT_LOG_ENG]         # все решения должны логироваться
+
+OUTPUT_TARGET:
+- `99_LOGS/LOG__AUDIT.md` (log ref)
+- `99_LOGS/LOG__CHANGES.md` (optional)
+- `03_SYSTEM_ENTITIES/00_REG__REGISTRIES/REG__DECISIONS.md` (recommended registry, if used)
+
+---
+
+## 3) DECISION TYPES (STRICT SET)
+
+Allowed DECISION_TYPE:
+
+### D0 — Trivial / Editorial
+- опечатки, форматирование, чистка не-смысловых вещей
+- не меняет правила, структуру, индексы, статусы, UID-логику
+
+### D1 — Canon Patch
+- правка существующего файла без изменения архитектуры
+- обновление текста, уточнение формулировок
+- не меняет порядок реестров/индексов и не вводит новые сущности
+
+### D2 — Canon Structural Change
+- изменение индекса/реестра (добавить/удалить/перенумеровать)
+- переезды/переименования, которые меняют навигацию
+- изменение правил стандартов, которые затрагивают другие слои
+
+### D3 — Law Change
+- изменение SYSTEM LAW
+- изменение порядка authority / existence rule
+- любые правки, которые влияют на “как работает система”
+
+### D4 — Emergency Decision
+- срочное исключение для восстановления целостности
+- допускает временную “дыру”, но обязано иметь план закрытия
+
+Rule:
+- Если сомневаешься — выбирай более строгий тип (выше номер).
+
+---
+
+## 4) ROLES + AUTHORITY (MINIMUM MODEL)
+
+Минимальные роли (v1):
+
+- ROLE: SYSTEM_OWNER
+  - финальное слово по D3/D4
+- ROLE: GOVERNANCE_OWNER
+  - ведёт пайплайн, может апрувить D2
+- ROLE: STANDARDS_OWNER
+  - апрувит изменения стандартов/шаблонов
+- ROLE: MAINTAINER
+  - может апрувить D0/D1 в пределах зоны ответственности
+
+Rule:
+- роль может быть “виртуальной” (владелец системы один), но в Decision Record она всё равно указывается.
+
+---
+
+## 5) APPROVAL RULES (STRICT)
+
+### 5.1 Required approvals by type
+- D0: 1 approval (MAINTAINER)
+- D1: 1 approval (MAINTAINER) + audit record
+- D2: 2 approvals minimum (GOVERNANCE_OWNER + STANDARDS_OWNER OR SYSTEM_OWNER)
+- D3: SYSTEM_OWNER required (cannot be delegated)
+- D4: SYSTEM_OWNER required + must include MIGRATION_PLAN + EXPIRY_DATE
+
+### 5.2 Veto
+- VETO allowed only for:
+  - SYSTEM_OWNER (always)
+  - GOVERNANCE_OWNER (only D2 and below)
+
+### 5.3 Quorum
+- если апрувов меньше минимума — статус НЕ APPROVED
+- “молчание = согласие” запрещено
+
+---
+
+## 6) DECISION RECORD FORMAT (MANDATORY)
+
+Decision Record — это минимальный артефакт, который должен существовать.
+
+### 6.1 Minimal format (required)
+- DECISION_ID: <UE.DEC.YYYY-MM-DD.NNN>
+- DATE: YYYY-MM-DD
+- DECISION_TYPE: D0|D1|D2|D3|D4
+- SCOPE: <short scope>  # e.g. "ENG / Governance"
+- SUBJECT: <what is being decided>
+- CONTEXT: <why it exists>
+- OPTIONS: [A, B, C]     # short
+- DECISION: <chosen option>
+- IMPACT: <what changes>
+- APPROVERS:
+  - <ROLE>: <name/handle>
+- STATUS: APPROVED|REJECTED|NEEDS_REVIEW
+- LINKS:
+  - CHANGE_PACKAGE: <ref or path or "none">
+  - AFFECTED_FILES: [<paths>]
+- NOTES: <optional>
+
+### 6.2 Emergency required fields
+If DECISION_TYPE = D4:
+- EXPIRY_DATE: YYYY-MM-DD
+- MIGRATION_PLAN: <how we revert/normalize>
+- RISK_ACCEPTANCE: <what risk accepted>
+
+Rule:
+- Если D4 без EXPIRY_DATE/MIGRATION_PLAN — решение невалидно.
+
+---
+
+## 7) ENFORCEMENT RULES (HARD)
+
+- R1: Canon structural changes require Decision Record  
+  Любые изменения индексов/реестров/переименований (D2+) → Decision Record обязателен.
+
+- R2: No decision — no canon  
+  Если изменения в репо произошли, но решения нет → считается “unapproved state” до исправления.
+
+- R3: Decision must be auditable  
+  Любой Decision Record обязан иметь запись в Audit Log (ссылкой/ID).
+
+- R4: Conflicts must cite Rule Hierarchy  
+  Если решение связано с конфликтом правил → в CONTEXT указать, какой закон/иерархия применялась.
+
+---
+
+## 8) WORKFLOW (HOW IT RUNS)
+
+### 8.1 Standard flow
+1) Change Control собирает пакет
+2) Canon Authority определяет: нужен ли апрув и какого типа
+3) Decision Approval создаёт Decision Record
+4) Audit Log фиксирует событие
+5) Consistency проверяет, что решение и изменения согласованы
+
+### 8.2 Deadlock / escalation
+Если нет согласия:
+- STATUS = NEEDS_REVIEW
+- создаётся ESCALATION_NOTE (optional)
+- финальная точка: SYSTEM_OWNER
+
+---
+
+## 9) OUTPUT EXAMPLES
+
+### 9.1 D2 example (index reorder)
+- DECISION_TYPE: D2
+- SUBJECT: "Reorder ENG families + rename templates"
+- APPROVERS: GOVERNANCE_OWNER + SYSTEM_OWNER
+- AFFECTED_FILES: [03_SYSTEM_ENTITIES/10_ENG__ENGINES/02__INDEX_ALL_ENGINES.md, ...]
+
+### 9.2 D4 example (emergency)
+- DECISION_TYPE: D4
+- SUBJECT: "Temporary allow missing UID in 3 files to unblock merge"
+- EXPIRY_DATE: set
+- MIGRATION_PLAN: "Backfill UID + run consistency audit"
+
+---
+
+## 10) REL / XREF (UID-FIRST)
+
+REL:
+- REL: SUPPORTS | TARGET_UID: <UE.ENG.GOV.CHANGE_CONTROL.001> | WHY: approvals bind to change packages
+- REL: SUPPORTS | TARGET_UID: <UE.ENG.GOV.CANON_AUTHORITY.001> | WHY: canon status needs decision
+- REL: REQUIRES | TARGET_UID: <UE.ENG.GOV.AUDIT_LOG.001> | WHY: decisions must be logged
+
+--- END.

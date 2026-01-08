@@ -1,205 +1,267 @@
-# Consistency Engine
-FILE: 05__CONSISTENCY_ENG.md
+# CONSISTENCY ENGINE (ENG) — CANON
+FILE: 03_SYSTEM_ENTITIES/10_ENG__ENGINES/00_GOVERNANCE_ENGINES/05__CONSISTENCY_ENG.md
 
 SCOPE: Universe Engine
 ENTITY_GROUP: ENGINES (ENG)
+LAYER: 03_SYSTEM_ENTITIES
 FAMILY: 00_GOVERNANCE_ENGINES
+DOC_TYPE: ENGINE
+CLASS: GOVERNANCE (L1)
 LEVEL: L1
 STATUS: ACTIVE
-VERSION: 1.0
-ROLE: Enforces canon consistency across ENG layer (naming, numbering, paths, links, contracts, registries, deps)
-
----
-
-## MINI-CONTRACT (MANDATORY)
-CONSUMES:
-- ENG layer indexes + registries
-- Family READMEs (realm files)
-- Engine files (all families)
-- Dependency registry entries
-- Change proposals (optional)
-
-PRODUCES:
-- Consistency report (violations list + severity)
-- Required fix actions (targets + exact changes)
-- Canon sync checklist (index ↔ filesystem ↔ links)
-- Approval gating notes for Change Control
-- Suggested refactors for anti-duplication
-
-DEPENDS_ON:
-- 03__RULE_HIERARCHY_ENG
-- 04__CHANGE_CONTROL_ENG
-- 06__DEPENDENCY_REGISTRY_ENG
-- 10__VERSIONING_MEMORY_ENG
-
-OUTPUT_TARGET:
-- Fix directives applied to ENG docs, indexes, READMEs, and registries
+VERSION: 1.0.0
+UID: <UE.ENG.GOV.CONSISTENCY.001>
+OWNER: SYSTEM
+ROLE: Canon-wide integrity inspector (structure + index/registry coherence + link/path/UID rules + anti-duplication gates)
+LOCK: FIXED
 
 ---
 
 ## 0) PURPOSE (LAW)
-Consistency Engine гарантирует, что ENG-слой:
-- **не расходится** между индексом, путями, именами и файлами
-- остаётся **навигируемым** и **машиночитаемым**
-- не содержит **скрытых зависимостей** и **дубликатов владения**
 
-### ABSOLUTE LAW
-> Если индекс/правила говорят одно, а файлы/ссылки другое — канон считается нарушенным.
+Этот движок — **единый инспектор целостности** документации Universe Engine.
 
----
+Он обязан:
+- проверять соответствие **шапкам Doc Control** (STATUS/LOCK/VERSION/UID и т.д.)
+- проверять соответствие **Naming/Numbering** (NN совпадает с индексом, корректные имена)
+- проверять **EXISTENCE RULE** (что не в индексе — не существует)
+- проверять **целостность реестров/индексов** (порядок, ссылки, наличие)
+- проверять **anti-duplication** (границы доменов/семейств, отсутствие дублей смыслов)
+- формировать **Consistency Report** с уровнями серьёзности и рекомендациями фикса
 
-## 1) CONSISTENCY AXES (WHAT MUST MATCH)
-Проверка ведётся по осям:
+Primary outcome:
+- перед любым “закрытием изменения” (Change Control S5) система получает PASS/FAIL и список нарушений.
 
-### A) Index ↔ Filesystem
-- все движки из INDEX должны существовать как файлы
-- все файлы движков должны быть зарегистрированы в INDEX
-
-### B) Numbering ↔ Filenames ↔ Index
-- номер в INDEX == номер в имени файла
-- номера внутри семейства идут подряд (01..NN без дыр, если не разрешено)
-
-### C) Paths
-- канонический путь соответствует стандарту:
-  `03_SYSTEM_ENTITIES/10_ENG__ENGINES/<FAMILY>/<FILE>`
-
-### D) Links
-- у каждой FAMILY есть README realm link
-- у каждого движка есть raw-link
-- ссылки не битые и указывают на правильный файл
-
-### E) Mini-contract
-- каждый движок содержит mini-contract
-- поля не пустые (кроме DEPENDS_ON допускает [])
-
-### F) Dependencies
-- DEPENDS_ON совпадает с dependency registry
-- нет скрытых deps
-- циклы только с явным объяснением
-
-### G) Status/Lock
-- в файле только один STATUS
-- LOCK указан и соблюдается правилами (FIXED/OPEN)
+Non-goals:
+- не решает approve/reject изменений (Canon Authority)
+- не заменяет validators по фактам/культуре/языку (это VAL слой)
+- не “переписывает контент”, только диагностирует и выдаёт план фикса
 
 ---
 
-## 2) VIOLATION SEVERITY (GATES)
-Каждое нарушение имеет уровень:
+## 1) BOUNDARY (ANTI-DUPLICATION)
 
-- `S1_CRITICAL` — ломает канон (index mismatch, неверный номер, отсутствует файл, неверный путь, скрытая зависимость)
-- `S2_MAJOR` — мешает навигации/поддержке (битые ссылки, дырки в нумерации без правила, конфликт ownership)
-- `S3_MINOR` — косметика/формат (пробелы, пунктуация, стиль заголовков), не меняет смысла
+### 1.1 Owned area
+- структурные проверки документов (Doc Control, Naming, UID presence)
+- проверки индексов/реестров на согласованность
+- проверки ссылок и путей (особенно raw-links)
+- выявление конфликтов “две сущности делают одно и то же”
+- выдача машинно-читаемого отчёта
 
-### HARD RULE
-> S1_CRITICAL блокирует любые изменения канона до фикса.
-
----
-
-## 3) CANON CHECKS (MANDATORY TESTS)
-### 3.1 Index Coverage Check
-- [ ] Все перечисленные в INDEX raw-links открываются
-- [ ] Каждая запись в INDEX соответствует существующему файлу в репо
-- [ ] Нет “лишних” engine файлов вне INDEX
-
-### 3.2 Family Realm Check
-- [ ] В каждой FAMILY есть `00__README__<FAMILY>_ENGINES.md`
-- [ ] README содержит STATUS + LOCK
-- [ ] README определяет границы семейства (что входит/не входит)
-
-### 3.3 Numbering Check
-- [ ] Внутри FAMILY движки начинаются с 01
-- [ ] Номера уникальны
-- [ ] Номер в названии файла совпадает с номером в INDEX
-- [ ] Дырки допускаются только если прямо описано правило “reserved numbers”
-
-### 3.4 Canon Path Check
-- [ ] Путь в raw-link соответствует стандарту
-- [ ] Нет “съехавших” папок/имен
-
-### 3.5 Mini-contract Check
-- [ ] Есть блок MINI-CONTRACT
-- [ ] CONSUMES/PRODUCES/OUTPUT_TARGET заполнены
-- [ ] DEPENDS_ON указан (или [])
-- [ ] Нет “забытых” зависимостей в тексте без DEPENDS_ON
-
-### 3.6 Dependency Sync Check
-- [ ] DEPENDS_ON == dependency registry
-- [ ] Любой новый DEPENDS_ON отражён в registry
-- [ ] Циклы отмечены + причина
-
-### 3.7 Status/Lock Check
-- [ ] В файле только один STATUS
-- [ ] LOCK один и в конце (или в стандартном месте)
-- [ ] FIXED нельзя править без Change Control (MAJOR/CRITICAL)
+### 1.2 Forbidden overlap
+- не является аудит-логом (только требует ссылку на audit при канон-изменениях)
+- не является change control (не управляет стадиями, только проверяет)
+- не является dependency registry (но проверяет, что dependency updates записаны)
 
 ---
 
-## 4) QUICK FIX RULES (FAST PATCHES)
-### 4.1 Allowed without canon change (S3 only)
-Можно править без Canon Authority, если:
-- исправление опечаток
-- форматирование
-- корректировка пробелов/переносов
-- уточнение текста без изменения правил/контрактов
+## 2) MINI-CONTRACT (MANDATORY)
 
-### 4.2 Not allowed as “quick fix”
-Запрещено как “быстрая правка”:
-- менять номера/порядок
-- добавлять движок
-- менять DEPENDS_ON
-- менять границы владения
-- менять LOCK (особенно FIXED)
+CONSUMES:
+- <ARTIFACT: TARGET_SCOPE>                 # what to inspect (layer/family/path/list)
+- <ARTIFACT: INDEX_SNAPSHOTS?>             # optional pre-collected index views
+- <ARTIFACT: CHANGE_PACKAGE_RECORD?>       # if run inside change workflow
+- <ARTIFACT: RULESET_REFERENCES?>          # raw-links to relevant laws/standards
 
----
+PRODUCES:
+- <ARTIFACT: CONSISTENCY_REPORT>           # PASS/FAIL + violations
+- <ARTIFACT: VIOLATION_LIST>               # normalized records
+- <ARTIFACT: FIX_PLAN>                     # ordered actions
+- <ARTIFACT: CHECKSUM_SUMMARY?>            # optional (hash list) for reproducibility
 
-## 5) CONSISTENCY REPORT TEMPLATE (COPY-PASTE)
-REPORT_ID: CNS-XXXX
-DATE: YYYY-MM-DD
-SCOPE: ENG
+DEPENDS_ON:
+- [00_GOVERNANCE_ENGINES/03__RULE_HIERARCHY_ENG]
+- [00_GOVERNANCE_ENGINES/06__DEPENDENCY_REGISTRY_ENG]
+- [00_GOVERNANCE_ENGINES/01__AUDIT_LOG_ENG]            # for enforcement checks
+- [01_SYSTEM_LAW/01__NAMING_RULES]
+- [01_SYSTEM_LAW/02__UID_RULES]
+- [01_SYSTEM_LAW/03__VERSIONING_CHANGE_POLICY]
+- [01_SYSTEM_LAW/04__CANON_PROTOCOL]
 
-SUMMARY:
-- total_violations: N
-- S1_CRITICAL: N
-- S2_MAJOR: N
-- S3_MINOR: N
-
-VIOLATIONS:
-- ID: CNS-XXXX-01
-  SEVERITY: S1_CRITICAL|S2_MAJOR|S3_MINOR
-  TYPE: INDEX_MISMATCH|MISSING_FILE|BROKEN_LINK|NUMBERING|PATH|MINI_CONTRACT|DEP_SYNC|LOCK_STATUS|OWNERSHIP
-  TARGET: path/to/file.md
-  DETAILS: <что сломано>
-  REQUIRED_FIX:
-    - <точные действия>
-  OWNER_HINT:
-    - <какой движок/семейство отвечает по rule hierarchy>
+OUTPUT_TARGET:
+- `99_LOGS/LOG__CHANGES.md` (refs via Change Control)
+- `99_LOGS/LOG__AUDIT.md` (refs via Audit Log)
+- optional: `08_DATABASES/DB__DOC_REGISTRY.md` (if used as registry source)
 
 ---
 
-## 6) ANTI-DUPLICATION ENFORCEMENT
-Если найден дубликат владения (две области отвечают за одно и то же):
-1) определить владельца по Rule Hierarchy
-2) перенести/развести ответственность
-3) обновить README границы
-4) обновить INDEX при необходимости
-5) записать в audit + versioning
+## 3) CHECK DOMAINS (WHAT IT CHECKS)
+
+Consistency Engine runs checks in domains. Each domain yields PASS/WARN/FAIL.
+
+### D0 — Doc Control Header Compliance (MANDATORY)
+Checks:
+- required header fields present: SCOPE/LAYER/STATUS/LOCK/VERSION/UID/OWNER/ROLE
+- STATUS is one of allowed set
+- LOCK is one of allowed set
+- no duplicated STATUS/LOCK/VERSION repeated later as “second truth”
+- UID exists and matches UID rules format (as defined in UID law)
+
+### D1 — Naming + Numbering Integrity (MANDATORY)
+Checks:
+- file names follow naming rules
+- family numbering: folder `NN_<FAMILY>_ENGINES` matches index order
+- engine numbering: `NN__NAME_ENG.md` starts from 01 in family
+- index number equals file number (NN must match)
+- README is `00__README__...` and not counted as engine
+
+### D2 — Index / Registry Coherence (MANDATORY)
+Checks:
+- existence rule: “registered in index = exists; unregistered = ignored”
+- index contains raw-links for every registered engine
+- index family blocks complete (CLASS/REALM/TEMPLATES/list)
+- no references to deleted/renamed non-existing files (stale raw links)
+
+### D3 — Link Integrity (RAW-FIRST)
+Checks:
+- raw-links are used in indices (no non-raw GitHub UI links)
+- internal references do not contradict index paths
+- for critical entrypoints: raw link must resolve (if verification method exists)
+
+### D4 — Dependency Transparency
+Checks:
+- every engine has DEPENDS_ON list (even if [])
+- any declared dependency exists in index (registered)
+- if dependency changed under change package → dependency registry record required
+
+### D5 — Anti-Duplication Boundaries (Semantic)
+Checks (rule-based):
+- overlaps between families (e.g. rhythm narrative vs editing rhythm) flagged
+- engines with near-identical roles flagged (requires human decision)
+- duplicate standards living in multiple places flagged (canonical owner must be defined)
+
+### D6 — Project/KB/DB Bridge Coherence (Optional but recommended)
+Checks:
+- entity types referenced across layers have a single canonical registry
+- project storage maps do not contradict system storage map standards
+- DB artifacts (lists) do not redefine canon laws; only store enumerations
 
 ---
 
-## 7) MINIMUM “CANON OK” BAR
-ENG слой считается “OK”, когда:
+## 4) SEVERITY MODEL (S0–S3)
 
-- нет S1_CRITICAL
-- все raw-links валидны
-- INDEX ↔ файлы совпадают
-- у всех движков есть mini-contract
-- dependency registry синхронизирован
+Violation severity:
+- S0 (BLOCKER): breaks navigation/canon existence rule, or corrupts indexes, or missing core header fields
+- S1 (HIGH): inconsistent naming/numbering, broken raw-links in canonical index, missing DEPENDS_ON
+- S2 (MED): duplicated info, weak boundaries, missing optional but recommended artifacts
+- S3 (LOW): style drift, minor formatting, small clarity issues
+
+Rule:
+- Any S0 → overall FAIL
+- Any S1 with canon-impact change → FAIL (unless explicitly waived by Canon Authority decision)
+- S2/S3 → WARN, must be planned but can pass depending on policy
 
 ---
 
-## 8) FINAL RULE (LOCK)
-> Consistency Engine — системный детектор рассинхрона.  
-> Он не “советует”, а фиксирует: что канонично, а что нет.
+## 5) RUN MODES (WHEN IT RUNS)
 
-OWNER: Universe Engine  
-LOCK: FIXED
+### Mode A — Full Canon Audit
+Input:
+- TARGET_SCOPE = whole repo (all canonical layers)
+Output:
+- CONSISTENCY_REPORT (global)
+
+### Mode B — Layer/Family Audit
+Input:
+- TARGET_SCOPE = specific family (e.g. 10_ENG__ENGINES/00_GOVERNANCE_ENGINES)
+Output:
+- focused report
+
+### Mode C — Change Workflow Gate (DEFAULT)
+Triggered by Change Control at stage S5 (POST-VERIFY):
+Input:
+- CHANGE_PACKAGE_RECORD + AFFECTED_FILES_LIST
+Output:
+- pass/fail gate + fix plan
+
+---
+
+## 6) STANDARD OUTPUTS (FORMATS)
+
+### 6.1 CONSISTENCY_REPORT (REQUIRED)
+FORMAT:
+
+- REPORT_ID: <UE.CNS.YYYY-MM-DD.NNN>
+- DATE:
+- MODE: <FULL|LAYER|CHANGE_GATE>
+- TARGET_SCOPE:
+- SUMMARY:
+  - RESULT: <PASS|WARN|FAIL>
+  - COUNTS: S0=<n> S1=<n> S2=<n> S3=<n>
+- VIOLATIONS:
+  - [list of VIOLATION records]
+- FIX_PLAN:
+  - [ordered actions]
+- NOTES:
+- REFERENCES:
+  - raw links to the laws/standards used
+
+### 6.2 VIOLATION record (REQUIRED)
+FORMAT:
+
+- VID: <UE.VIO.YYYY-MM-DD.NNN>
+- SEVERITY: <S0|S1|S2|S3>
+- DOMAIN: <D0..D6>
+- TYPE: <HEADER_MISSING|STATUS_INVALID|LOCK_DUP|NAMING_MISMATCH|INDEX_STALE|RAW_LINK_BROKEN|DEPENDS_MISSING|DUPLICATION_RISK|...>
+- PATH:
+- EXPECTED:
+- FOUND:
+- WHY_IT_MATTERS:
+- FIX:
+- OWNER_HINT: <which law/owner should handle>
+
+### 6.3 FIX_PLAN (REQUIRED)
+Ordered list:
+1) fix S0
+2) fix S1
+3) align indexes/raw-links
+4) update dependency registry
+5) resolve duplication risks (requires decision if semantic)
+
+---
+
+## 7) HARD ENFORCEMENT RULES
+
+- R1: If file is referenced as canonical entrypoint and raw-link is broken → S0
+- R2: If canonical index references a file not present / renamed → S0
+- R3: If engine lacks MINI-CONTRACT block → S1
+- R4: If engine lacks DEPENDS_ON or OUTPUT_TARGET → S1
+- R5: If STATUS not in allowed set → S1
+- R6: If duplicate STATUS/LOCK/VERSION “second truth” appears → S1
+- R7: If file exists but is not in canonical index where it should be → S2 (unless it is explicitly non-canon storage)
+- R8: If semantic overlap found → S2 (unless it causes direct conflict → S1)
+
+---
+
+## 8) INTEGRATION POINTS
+
+### 8.1 With Change Control (mandatory gate)
+- Change Control S5 MUST request Consistency report
+- Close change is forbidden if RESULT=FAIL (or if S0 exists)
+
+### 8.2 With Canon Authority
+- Canon Authority can waive S1/S2 issues only via explicit decision record
+- Waivers must be included into report NOTES (decision ref)
+
+### 8.3 With Dependency Registry
+- If report finds dependency mismatch → requires dependency registry update record
+
+---
+
+## 9) REFERENCES (RAW-LINKS)
+
+SYSTEM LAW:
+- Core Law — https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01_SYSTEM_LAW/00__SYSTEM_LAW.md
+- Naming Rules — https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01_SYSTEM_LAW/01__NAMING_RULES.md
+- UID Rules — https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01_SYSTEM_LAW/02__UID_RULES.md
+- Versioning & Change Policy — https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01_SYSTEM_LAW/03__VERSIONING_CHANGE_POLICY.md
+- Canon Protocol — https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01_SYSTEM_LAW/04__CANON_PROTOCOL.md
+
+ENG (GOVERNANCE):
+- Audit Log Engine — https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/00_GOVERNANCE_ENGINES/01__AUDIT_LOG_ENG.md
+- Canon Authority Engine — https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/00_GOVERNANCE_ENGINES/02__CANON_AUTHORITY_ENG.md
+- Rule Hierarchy Engine — https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/00_GOVERNANCE_ENGINES/03__RULE_HIERARCHY_ENG.md
+- Change Control Engine — https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/00_GOVERNANCE_ENGINES/04__CHANGE_CONTROL_ENG.md
+- Dependency Registry Engine — https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/00_GOVERNANCE_ENGINES/06__DEPENDENCY_REGISTRY_ENG.md
+
+--- END.

@@ -1,169 +1,234 @@
-# Rule Hierarchy Engine
-FILE: 03__RULE_HIERARCHY_ENG.md
+# RULE HIERARCHY ENGINE (ENG) — CANON
+FILE: 03_SYSTEM_ENTITIES/10_ENG__ENGINES/00_GOVERNANCE_ENGINES/03__RULE_HIERARCHY_ENG.md
 
 SCOPE: Universe Engine
 ENTITY_GROUP: ENGINES (ENG)
+LAYER: 03_SYSTEM_ENTITIES
 FAMILY: 00_GOVERNANCE_ENGINES
+DOC_TYPE: ENGINE
+CLASS: GOVERNANCE (L1)
 LEVEL: L1
 STATUS: ACTIVE
-VERSION: 1.0
-ROLE: Defines strict hierarchy of rules, precedence order, and conflict resolution across the system
-
----
-
-## MINI-CONTRACT (MANDATORY)
-CONSUMES:
-- Conflicting statements (rules, contracts, readmes, indexes)
-- Change proposals touching rules/structure
-- Registry/index references for affected scope
-- Audit entries / decision IDs (if exist)
-
-PRODUCES:
-- Canon precedence verdict (which rule wins)
-- Required rewrite targets (what must be fixed)
-- Conflict classification (type + severity)
-- Enforcement checklist for maintainers
-- Anti-duplication boundary map (when needed)
-
-DEPENDS_ON:
-- 02__CANON_AUTHORITY_ENG
-- 04__CHANGE_CONTROL_ENG
-- 01__AUDIT_LOG_ENG
-
-OUTPUT_TARGET:
-- Rule enforcement across all ENG files and registries
-- Governance resolutions used by indexes/owners
+VERSION: 1.0.0
+UID: <UE.ENG.GOV.RULE_HIERARCHY.001>
+OWNER: SYSTEM
+ROLE: Defines rule precedence (who wins conflicts) and publishes canonical hierarchy records used by consistency and change control
+LOCK: FIXED
 
 ---
 
 ## 0) PURPOSE (LAW)
-Rule Hierarchy Engine гарантирует, что система всегда может ответить:
 
-1) **Какая формулировка является истиной**, если тексты конфликтуют?
-2) **Что сильнее**: INDEX, RULES, README, Engine contract, notes?
-3) **Что делать**, когда найдено противоречие?
+Этот движок задаёт **порядок силы правил**: что имеет приоритет при конфликте документов/стандартов/индексов/протоколов.
 
-### ABSOLUTE RULE
-> При конфликте выигрывает правило **более высокого уровня**.  
-> Проигравший текст обязан быть исправлен или помечен как non-canon.
+What this engine is for:
+- фиксировать **Rule Precedence Map** (иерархию)
+- стандартизировать формат “precedence record”
+- дать Consistency Engine и Change Control Engine понятный механизм разрешения конфликтов
 
----
+Primary outcome:
+- существует каноническая иерархия, по которой можно однозначно определить “кто прав”.
 
-## 1) RULE LAYERS (SYSTEM MAP)
-Система состоит из слоёв правил (от более сильных к более слабым):
-
-- **L0 — CORE LAW**: базовые законы репозитория (если существуют)
-- **L1 — LAYER LAW (ENG)**: правила слоя ENG (realm + ruleset + index)
-- **L2 — FAMILY LAW**: правила семейства (README family + family rules)
-- **L3 — ENGINE LAW**: правила конкретного движка (mini-contract + boundaries)
-- **L4 — ARTIFACTS**: любые результаты, заметки, черновики (non-law)
+Non-goals (hard):
+- НЕ принимает решение approve/reject (это Canon Authority)
+- НЕ выполняет проверку документов на ошибки (это Consistency Engine)
+- НЕ заменяет индексы (не делает existence map слоёв)
 
 ---
 
-## 2) PRECEDENCE ORDER (STRICT)
-Если есть конфликт, применяй порядок ниже (1 = сильнее):
+## 1) BOUNDARY (ANTI-DUPLICATION)
 
-1) **GLOBAL INDEX / REGISTRIES** (состав/порядок/существование)
-2) **LAYER RULESET** (например `01__RULES__ENGINES.md`)
-3) **CANON AUTHORITY DECISION** (если есть явное решение с audit)
-4) **FAMILY README / REALM** (границы, термины, правила семейства)
-5) **ENGINE MINI-CONTRACT** (consumes/produces/depends/output_target)
-6) **ENGINE BODY TEXT** (описания, процессы, примеры)
-7) **NOTES / DRAFTS / IDEAS** (всё остальное)
+### 1.1 Owned area
+- правило: “при конфликте используем hierarchy map”
+- структура уровней authority (например: system law > standards > entity registries > KB > projects)
+- формат precedence map record
 
-### NOTE
-Решение Canon Authority (п.3) работает как “временный/финальный арбитр”, но не отменяет обязанность привести документы в порядок по иерархии.
+### 1.2 Forbidden overlap
+- не владеет audit логированием (Audit Log)
+- не владеет процессом изменений (Change Control)
+- не владеет оценкой рисков (Risk Safety)
 
----
-
-## 3) EXISTENCE & REGISTRY LAW (NON-NEGOTIABLE)
-### 3.1 Existence rule
-> Если объект не зарегистрирован в INDEX/REGISTRY — он не существует в каноне.
-
-### 3.2 Canon path rule
-Любая ссылка/путь обязаны быть каноническими и повторяемыми.
-
-### 3.3 Ordering rule
-Порядок в INDEX — обязательный, не “рекомендация”.
+### 1.3 Interfaces
+- Inputs: список authoritative entrypoints + их declared roles
+- Outputs: precedence map record
+- Consumers: Consistency Engine, Change Control, Canon Authority (как reference)
 
 ---
 
-## 4) CONFLICT TYPES (CLASSIFIER)
-### T1 — Text Conflict
-Два текста утверждают разные факты/правила.
+## 2) MINI-CONTRACT (MANDATORY)
 
-### T2 — Scope Conflict
-Два документа пытаются владеть одной областью (дублирование).
+CONSUMES:
+- <ARTIFACT: LAYER_ENTRYPOINTS_LIST>        # список слоёв и их entrypoints (индексы)
+- <ARTIFACT: SYSTEM_LAW_PRIORITY>           # приоритет внутри 01_SYSTEM_LAW (если есть)
+- <ARTIFACT: STANDARDS_PRIORITY?>           # приоритет стандартов/спеков (если есть)
+- <ARTIFACT: EXCEPTION_NOTES?>              # список исключений (если разрешены)
 
-### T3 — Contract Conflict
-CONSUMES/PRODUCES/DEPENDS_ON противоречат другим контрактам/реестрам.
+PRODUCES:
+- <ARTIFACT: RULE_PRECEDENCE_MAP>           # основной результат: карта приоритетов
+- <ARTIFACT: PRECEDENCE_RECORD>             # запись/версия карты (append-style)
 
-### T4 — Registry Conflict
-INDEX говорит одно, а файлы/папки — другое.
+DEPENDS_ON:
+- []  # минимальная зависимость; может ссылаться на SYSTEM_LAW как источник
 
-### T5 — Authority Conflict
-Два владельца/решения конфликтуют по правам.
-
----
-
-## 5) RESOLUTION PROTOCOL (MANDATORY)
-Когда найден конфликт:
-
-1) **Определи scope**: Layer / Family / Engine
-2) **Определи тип конфликта** (T1–T5)
-3) **Применяй precedence order** (раздел 2)
-4) **Зафиксируй вывод**:
-   - что победило
-   - что проиграло
-   - какие файлы переписать
-5) **Запусти governance pipeline**, если затронут канон:
-   - Change Control → Canon Authority → Audit Log → Versioning (если надо)
-6) **Обнови реестры**, если изменился состав/порядок/зависимости
-
-### FAST RULE
-> Нельзя “оставить как есть”. Любой конфликт должен завершиться либо переписыванием, либо явным решением/пометкой non-canon.
+OUTPUT_TARGET:
+- `03_SYSTEM_ENTITIES/10_ENG__ENGINES/00_GOVERNANCE_ENGINES/03__RULE_HIERARCHY_ENG.md` (this doc)
+- + optional shared storage for maps (if you have one): `99_LOGS/LOG__CHANGES.md` or registry area
 
 ---
 
-## 6) ANTI-DUPLICATION LAW (BOUNDARY ENFORCEMENT)
-Дублирование запрещено на уровне “владения смыслом”.
+## 3) PRECEDENCE MODEL (CORE)
 
-### Boundary rule
-Если два файла описывают одно и то же:
-- один становится владельцем области
-- второй должен:
-  - либо стать ссылкой/указателем (xref),
-  - либо сузить scope,
-  - либо быть удалён/перенесён в non-canon (по решению)
+### 3.1 Precedence levels (default L0..L5)
+- L0: SYSTEM LAW (core laws / UID rules / canon protocol)
+- L1: STANDARDS (doc control, marking, index structure, protocols)
+- L2: SYSTEM ENTITIES REGISTRIES (ENG/ORC/SPC/CTL/VAL/QA registries)
+- L3: KNOWLEDGE BASE (methods/knowledge; non-binding unless elevated by law)
+- L4: PROJECTS (production usage; local overrides must be declared)
+- L5: OUTPUT/ASSETS (deliverables; must comply with upstream constraints)
 
----
+Rule:
+- Higher level overrides lower on conflict.
+- Same level conflicts must be resolved by “within-level order” (see 3.2).
 
-## 7) “WHERE RULES LIVE” (CANON PLACEMENT)
-Чтобы не было хаоса:
+### 3.2 Within-level order (default)
+Each level must define internal order. Examples:
+- L0 (System Law): index / core law / canon protocol / versioning policy / uid rules / constraints / schema registry / pipeline registry
+- L1 (Standards): doc control standard > index structure spec > rel/xref policy > templates
+- L2 (Registries): global registries > family registries > instance docs
 
-- **Состав/порядок** — только в INDEX/registries
-- **Правила слоя** — в layer ruleset
-- **Границы семейства** — в README family
-- **Контракты движков** — только в engine файлах (mini-contract)
-- **Примеры/пайплайны** — в engine body / artifacts (но не выше правил)
+If internal order is unknown:
+- produce PRECEDENCE_RECORD with a “GAP” and require Change Control decision.
 
----
-
-## 8) ENFORCEMENT CHECKLIST (QUICK)
-Перед тем как считать область “чистой”:
-
-- [ ] Есть INDEX запись (существование подтверждено)
-- [ ] Есть правила слоя/семейства (realm/readme)
-- [ ] У движка есть mini-contract
-- [ ] Нет конфликтов с соседними движками (boundaries)
-- [ ] Зависимости отражены в DEPENDS_ON и dependency registry
-- [ ] Изменения прошли governance pipeline (если канон тронут)
+### 3.3 Exception policy (strict)
+Exceptions are allowed only if:
+- explicitly listed in EXCEPTION_NOTES
+- have WHY and SCOPE
+- have an expiry condition (optional)
+- are audited when used in canon decisions
 
 ---
 
-## 9) FINAL LAW (LOCK)
-> Rule Hierarchy — механизм, который не даёт канону расползтись.  
-> Любое противоречие обязано быть разрешено по этой иерархии.
+## 4) OPERATION MODEL (HOW IT WORKS)
 
-OWNER: Universe Engine  
-LOCK: FIXED
+### 4.1 Trigger
+Run when:
+- a new layer index is introduced or renamed
+- authority definitions change (system law or standards)
+- exception policy changes
+- major restructure occurs
+
+### 4.2 Steps
+1) Collect entrypoints + their declared roles
+2) Normalize them into L0..L5 levels
+3) Define internal order within each level
+4) Validate for contradictions (hard gates)
+5) Publish RULE_PRECEDENCE_MAP + PRECEDENCE_RECORD (versioned)
+
+---
+
+## 5) HARD GATES (ENFORCEMENT)
+
+- G1: No ambiguous top authority  
+  CHECK: L0 exists and has at least one core law entrypoint  
+  FAIL: no top authority → STOP (cannot build map)
+
+- G2: Each level must have at least one anchor (or marked empty)  
+  CHECK: L1..L5 either have entries or explicit EMPTY marker  
+  FAIL: implicit missing → require change control
+
+- G3: Internal order must be explicit OR declared GAP  
+  CHECK: within-level precedence is defined  
+  FAIL: silent ambiguity → mark GAP + require decision
+
+- G4: Exception list must be explicit and justified  
+  CHECK: every exception has WHY + SCOPE  
+  FAIL: exceptions without why → reject exceptions from map
+
+- G5: Map determinism  
+  CHECK: given two conflicting docs, map can always tell which wins (or yields GAP explicitly)  
+  FAIL: silent nondeterminism → not allowed
+
+---
+
+## 6) OUTPUT ARTIFACTS (STANDARD FORMS)
+
+### 6.1 RULE_PRECEDENCE_MAP (REQUIRED)
+FORMAT (Markdown):
+
+- MAP_ID: <UE.RULEMAP.YYYY-MM-DD.NNN>
+- DATE:
+- AUTHOR:
+- LEVELS:
+  - L0: [<entrypoints>]
+  - L1: [<entrypoints>]
+  - L2: [<entrypoints>]
+  - L3: [<entrypoints>]
+  - L4: [<entrypoints>]
+  - L5: [<entrypoints>]
+- WITHIN_LEVEL_ORDER:
+  - L0: <ordered list or GAP>
+  - L1: <ordered list or GAP>
+  - ...
+- EXCEPTIONS:
+  - EXC: <name> | SCOPE:<...> | WHY:<...> | RULE:<what overrides what>
+- NOTES:
+- STATUS: ACTIVE
+
+### 6.2 PRECEDENCE_RECORD (APPEND STYLE)
+- RECORD_ID:
+- MAP_ID:
+- CHANGE_TYPE:
+- SUMMARY:
+- REASON:
+- IMPACT:
+
+---
+
+## 7) EXAMPLES (GOOD / BAD)
+
+### 7.1 Good example
+Conflict:
+- A KB doc says “X is allowed”
+- System Law says “X is forbidden”
+Result:
+- L0 overrides L3 → System Law wins, KB statement becomes non-binding.
+
+### 7.2 Bad example
+Conflict:
+- Two standards both claim “highest priority”
+- No within-level order given
+Result:
+- Must produce GAP + require Change Control decision; cannot silently pick.
+
+---
+
+## 8) FAILURE MODES & EDGE CASES
+
+- Layer temporarily missing (in progress)  
+  → allowed only if explicitly marked EMPTY in map and treated as non-authoritative.
+
+- Historical docs in repo  
+  → treated as non-authoritative unless indexed as canon.
+
+- “One-folder/one-index law” per layer  
+  → belongs to layer indexes; precedence engine only says which index beats which if conflict.
+
+---
+
+## 9) REL / XREF (UID-FIRST)
+
+REL:
+- REL: SUPPORTS | TARGET_UID: <UE.ENG.GOV.CONSISTENCY.###> | WHY: consistency needs precedence rules to resolve conflicts
+- REL: SUPPORTS | TARGET_UID: <UE.ENG.GOV.CHANGE_CONTROL.###> | WHY: change control uses hierarchy to plan conflict resolution
+- REL: SUPPORTS | TARGET_UID: <UE.ENG.GOV.CANON_AUTHORITY.001> | WHY: authority decisions reference precedence map
+- REL: COORDINATES | TARGET_UID: <UE.ENG.GOV.AUDIT_LOG.001> | WHY: precedence map changes should be audited (externally)
+
+XREF:
+- XREF_UID: <01_SYSTEM_LAW/00__SYSTEM_LAW.md> | WHY: top authority content source
+- XREF_UID: <01_SYSTEM_LAW/00__INDEX__SYSTEM_LAW.md> | WHY: law registry order reference
+
+RULE:
+- RAW links — in registries/indexes.
+- This engine doc is UID-first and publishes map format only.
+
+--- END.
