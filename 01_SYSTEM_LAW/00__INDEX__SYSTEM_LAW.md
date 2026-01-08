@@ -3,21 +3,22 @@ FILE: 01_SYSTEM_LAW/00__INDEX__SYSTEM_LAW.md
 
 SCOPE: Universe Engine
 LAYER: 01_SYSTEM_LAW
+DOC_TYPE: INDEX
 INDEX_TYPE: MASTER_LAW_REGISTRY
 LEVEL: L1
 STATUS: ACTIVE
 LOCK: FIXED
-VERSION: 1.1.0
+VERSION: 1.1.1
 UID: UE.DOC.IDX.LAW.MASTER
 OWNER: SYSTEM
 ROLE: Canonical navigation law + registry for all system-level laws (mandatory entrypoint)
 
 CHANGE_NOTE:
-- DATE: 2026-01-07
-- TYPE: MINOR
-- SUMMARY: "Нормализован индекс: один реестр + Doc Control поля + единый порядок authority"
-- REASON: "Единая точка истины и устранение дублей/противоречий"
-- IMPACT: "Навигация слоя 01_SYSTEM_LAW"
+- DATE: 2026-01-08
+- TYPE: PATCH
+- SUMMARY: "Doc Control compliance: added DOC_TYPE to header; expanded layer doc-control rule (FILE+DOC_TYPE); normalized CANON MAP to PATH/RAW."
+- REASON: "Убрать формальные конфликты со стандартом Doc Control и сделать индекс машиночитаемым."
+- IMPACT: "Слой 01_SYSTEM_LAW полностью совместим со стандартами и валидаторами."
 
 ---
 
@@ -63,39 +64,53 @@ CHANGE_NOTE:
 ## 3) CANON MAP — SYSTEM LAW FILES (REGISTERED)
 
 00 — System Law (Core)
-🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01_SYSTEM_LAW/00__SYSTEM_LAW.md
+PATH: `01_SYSTEM_LAW/00__SYSTEM_LAW.md`
+RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01_SYSTEM_LAW/00__SYSTEM_LAW.md
 
 01 — Naming Rules
-🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01_SYSTEM_LAW/01__NAMING_RULES.md
+PATH: `01_SYSTEM_LAW/01__NAMING_RULES.md`
+RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01_SYSTEM_LAW/01__NAMING_RULES.md
 
 02 — UID Rules
-🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01_SYSTEM_LAW/02__UID_RULES.md
+PATH: `01_SYSTEM_LAW/02__UID_RULES.md`
+RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01_SYSTEM_LAW/02__UID_RULES.md
 
 03 — Versioning & Change Policy
-🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01_SYSTEM_LAW/03__VERSIONING_CHANGE_POLICY.md
+PATH: `01_SYSTEM_LAW/03__VERSIONING_CHANGE_POLICY.md`
+RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01_SYSTEM_LAW/03__VERSIONING_CHANGE_POLICY.md
 
 04 — Canon Protocol
-🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01_SYSTEM_LAW/04__CANON_PROTOCOL.md
+PATH: `01_SYSTEM_LAW/04__CANON_PROTOCOL.md`
+RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01_SYSTEM_LAW/04__CANON_PROTOCOL.md
 
 05 — Artifact Schema Registry
-🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01_SYSTEM_LAW/05__ARTIFACT_SCHEMA_REGISTRY.md
+PATH: `01_SYSTEM_LAW/05__ARTIFACT_SCHEMA_REGISTRY.md`
+RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01_SYSTEM_LAW/05__ARTIFACT_SCHEMA_REGISTRY.md
 
 06 — Constraints Registry
-🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01_SYSTEM_LAW/06__CONSTRAINTS_REGISTRY.md
+PATH: `01_SYSTEM_LAW/06__CONSTRAINTS_REGISTRY.md`
+RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01_SYSTEM_LAW/06__CONSTRAINTS_REGISTRY.md
 
 07 — Pipeline Registry
-🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01_SYSTEM_LAW/07__PIPELINE_REGISTRY.md
+PATH: `01_SYSTEM_LAW/07__PIPELINE_REGISTRY.md`
+RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01_SYSTEM_LAW/07__PIPELINE_REGISTRY.md
 
 ---
 
 ## 4) DOC CONTROL RULE (FOR THIS LAYER)
-Каждый LAW файл обязан иметь шапку:
-SCOPE / LAYER / STATUS / LOCK / VERSION / UID / OWNER / ROLE.
-Запрещено дублировать OWNER/LOCK/VERSION внизу файла отдельными строками (одна истина — в шапке).
+Каждый LAW/REGISTRY файл обязан иметь шапку (минимум):
+FILE / SCOPE / LAYER / DOC_TYPE / LEVEL / STATUS / LOCK / VERSION / UID / OWNER / ROLE.
+
+Запрещено:
+- дублировать OWNER/LOCK/VERSION/STATUS отдельными строками внизу файла
+- иметь “вторую истину” метаданных вне шапки
+
+Одна истина метаданных — в шапке.
 
 ---
 
-## FINAL RULE (LOCK)
+## FINAL RULE
 Этот INDEX — единственная точка истины о составе и порядке SYSTEM LAW.
 Любая правка INDEX — изменение канона и проходит `04__CANON_PROTOCOL.md`.
+
 --- END.

@@ -7,53 +7,51 @@ DOC_TYPE: README
 LEVEL: L2
 STATUS: ACTIVE
 LOCK: FIXED
-VERSION: 1.0.0
+VERSION: 1.0.1
 UID: UE.KB.README.REALM.001
 OWNER: SYSTEM
-ROLE: Описание слоя Knowledge Base и правила входа
+ROLE: Описание KB и правила входа (без промежуточной навигации)
+
+CHANGE_NOTE:
+- DATE: 2026-01-08
+- TYPE: PATCH
+- SUMMARY: "Removed path-based navigation. README now uses UID/file-name only. No extra header fields."
+- REASON: "Совместимость с законом KB: навигация только в master-index."
+- IMPACT: "README больше не создаёт промежуточные входы/переходы."
 
 ---
 
 ## PURPOSE
-KB — слой знаний, правил и практик для Universe Engine.
+Knowledge Base (KB) — слой знаний, правил и практик Universe Engine.
 
 ---
 
 ## SINGLE ENTRYPOINT (ABSOLUTE)
-Единственная точка входа в KB:
-- `00__INDEX__KNOWLEDGE_BASE.md`
+Единственная точка входа и навигации по KB:
+- FILE: `00__INDEX__KNOWLEDGE_BASE.md`
 - UID: UE.KB.IDX.MASTER.001
 
-Вся навигация по файлам, любые списки существования и любые “куда перейти” — только там.
+Любые пути/RAW/URL и “куда идти” — только в этом master-index.
 
 ---
 
-## WHAT YOU CAN DO HERE
-- Хранить правила, словари и контрольные документы KB.
-- Поддерживать стандарты оформления и контроля.
-- НЕ вводить существование (это делает только главный индекс).
+## WHAT LIVES IN KB
+- Governance: правила, словари, шаблоны, контроль документов
+- Realms: крупные области знаний
+- Topics: конкретные прикладные темы/практики
+- Aliases: legacy pointers (без контента)
 
 ---
 
 ## HARD BANS (REMINDER)
 Запрещено:
-- создавать под-индексы/локальные реестры (topics-index, entities-index и т.п.)
-- вставлять PATH/RAW/URL ссылки (в любые документы кроме главного индекса)
-- делать “цепочку навигации” документ → документ → документ
+- создавать sub-indexes (локальные реестры/оглавления)
+- вставлять PATH/RAW/URL в любые KB документы кроме master-index
+- делать цепочки навигации документ → документ → документ
 
 Разрешено:
-- XREF на документ по UID без ссылок:
-  `XREF: <UID> | WHY: <reason>`
-
----
-
-## GOVERNANCE SET (WHAT IS INSIDE)
-Этот realm содержит:
-- RULES / MAP / FLOW / CONTROL
-- системные словари: TAGS / REL TYPES / XREF RULES
-- шаблоны документов
-
-Все эти документы — контент-правила.
-EXISTENCE и NAV — только главный индекс.
+- XREF и REL строго по UID:
+  - `XREF: <UID> | WHY: <reason>`
+  - `REL: <TYPE> | TARGET: <UID> | WHY: <reason>`
 
 --- END.

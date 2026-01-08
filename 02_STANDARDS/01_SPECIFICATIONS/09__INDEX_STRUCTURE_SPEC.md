@@ -7,90 +7,53 @@ DOC_TYPE: SPEC
 LEVEL: L1
 STATUS: ACTIVE
 LOCK: FIXED
-VERSION: 1.1.0
+VERSION: 1.2.0
 UID: UE.STD.SPEC.INDEX_STRUCTURE.001
 OWNER: SYSTEM
-ROLE: Defines allowed index models (multi-index vs strict single-index) and compatibility rules
+ROLE: Allowed index models + compatibility rules (flex vs strict)
 
 CHANGE_NOTE:
 - DATE: 2026-01-08
 - TYPE: MINOR
-- SUMMARY: "Introduced STRICT SINGLE-INDEX mode as compatible option. Clarified that sub-indexes are optional and may be banned by a layer."
-- REASON: "Совместимость с KB (single-index, no intermediate links) и устранение конфликтов 'standards vs strict layers'."
-- IMPACT: "Layers can choose strict or flexible indexing without breaking global rules."
+- SUMMARY: "Added STRICT SINGLE-INDEX model as compatible option. Clarified sub-indexes optional and may be banned by a layer."
+- REASON: "Устранение конфликтов Standards vs KB strict mode."
+- IMPACT: "Layers can choose strict or flex without breaking global rules."
 
 ---
 
-## PURPOSE (LAW)
+## PURPOSE
 Определяет допустимые модели индексирования в слоях Universe Engine.
-
-Важно:
-- “INDEX” бывает разного типа (master-map, registry, dictionary).
-- Слой может выбрать строгую модель (single-index) или гибкую (multi-index).
 
 ---
 
 ## INDEX TYPES (DEFINITIONS)
-
-### MASTER INDEX (ENTRYPOINT)
-Единая точка входа слоя.
-- Может быть единственным SoT по existence/nav.
-
-### REGISTRY (CATALOG)
-Справочный список сущностей/доков, не обязательно навигация.
-- Не должен конкурировать с master-index по existence.
-
-### DICTIONARY (VOCABULARY)
-Словари терминов/типов/перечислений.
-- Не nav и не existence.
-
-### SUB-INDEX (OPTIONAL)
-Локальное оглавление/карта внутри зоны.
-- Разрешено только если слой это допускает.
-- В strict mode запрещено.
+- MASTER INDEX (ENTRYPOINT): единая точка входа слоя
+- REGISTRY (CATALOG): справочник, не existence/nav
+- DICTIONARY (VOCABULARY): словарь терминов/типов
+- SUB-INDEX: локальное оглавление (опционально)
 
 ---
 
 ## TWO COMPATIBLE MODELS
 
 ### MODEL A — FLEX (MULTI-INDEX)
-Допускаются:
-- master index слоя (entrypoint)
-- registry / dictionaries
-- локальные sub-indexes (по необходимости)
+- master index + registries/dictionaries
+- sub-indexes могут существовать
 
-Условия совместимости:
-- master index должен явно определять authority по existence/nav
-- registry не должен заявлять, что он SoT по existence
+Условие:
+- один SoT по existence/nav, явно объявленный.
 
 ### MODEL B — STRICT (SINGLE-INDEX / NO-SUB-INDEX)
-Запрещены:
-- любые sub-indexes как оглавления/реестры
-- любые промежуточные навигационные ссылки вне одного master-index (если слой так решил)
-
-Разрешено:
 - один master-index = единственный SoT по existence/nav
-- dictionaries внутри governance (без навигации)
+- sub-indexes запрещены
+- ссылки/пути могут быть запрещены вне master-index
 
-Это валидная модель и считается совместимой со стандартами при соблюдении UID-first.
-
----
-
-## GLOBAL COMPATIBILITY RULE (MINIMUM)
-Независимо от модели:
-- XREF и REL должны быть UID-first:
-  - XREF: <UID> | WHY: ...
-  - REL: <TYPE> | TARGET: <UID> | WHY: ...
-
-PATH/URL могут быть:
-- опциональны (flex model)
-- запрещены (strict model)
+Это валидная и совместимая модель при соблюдении UID-first.
 
 ---
 
-## ANTI-CONFLICT RULES
-- Нельзя иметь два SoT по existence внутри одного слоя.
-- Нельзя, чтобы registry/index объявлял existence, если слой выбрал strict single-index.
-- Любой слой обязан документально объявить свою модель (A или B) в governance.
+## GLOBAL MINIMUM (MUST)
+- XREF UID-first: `XREF: <UID> | WHY: ...`
+- REL UID-first: `REL: <TYPE> | TARGET: <UID> | WHY: ...`
 
 --- END.

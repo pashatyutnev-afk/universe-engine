@@ -8,17 +8,17 @@ INDEX_TYPE: MASTER
 LEVEL: L1
 STATUS: ACTIVE
 LOCK: FIXED
-VERSION: 4.0.0
+VERSION: 4.0.1
 UID: UE.KB.IDX.MASTER.001
 OWNER: SYSTEM
-ROLE: Single canonical entrypoint + existence registry for Knowledge Base layer
+ROLE: Single canonical entrypoint + existence registry + navigation map for Knowledge Base layer
 
 CHANGE_NOTE:
 - DATE: 2026-01-08
-- TYPE: HARD-RESET
-- SUMMARY: "ONE-FOLDER / ONE-INDEX LAW. All sub-indexes deprecated and must be deleted. Global Index is the only registry and navigation map."
-- REASON: "Убрать двойные источники истины, делегирование и паразитные индексы."
-- IMPACT: "Absolute navigation + existence determinism. No sub-indexes allowed."
+- TYPE: PATCH
+- SUMMARY: "Clarified index ban: sub-indexes as NAV/EXISTENCE are forbidden; governance INDEX documents allowed as dictionaries/catalogs. Renamed governance section label (no 'SoT')."
+- REASON: "Убрать логическую коллизию: запрет INDEX* vs существующие governance dictionaries."
+- IMPACT: "KB law is self-consistent; validators won't flag governance dictionaries."
 
 ---
 
@@ -27,17 +27,20 @@ CHANGE_NOTE:
 
 ---
 
-## ONE-FOLDER / ONE-INDEX LAW (ABSOLUTE)
-1) Единственная каноническая папка KB: `04_KNOWLEDGE_BASE/`
-2) Единственный канонический индекс KB: `04_KNOWLEDGE_BASE/00__INDEX__KNOWLEDGE_BASE.md`
-3) Любые другие index-файлы (любого уровня, в любых подпапках) ЗАПРЕЩЕНЫ.
-   - Примеры запрещённого: `*/00__INDEX__*.md`, `*/INDEX*.md`, `*/_index.md`, `*/00_INDEX*.md`
-4) Любые попытки “делегировать subtree” (topics/realms/entities/что угодно) ЗАПРЕЩЕНЫ.
+## ONE-ROOT / ONE-NAV (ABSOLUTE)
+1) Единственный канонический ROOT KB: `04_KNOWLEDGE_BASE/` (подпапки допустимы).
+2) Единственный канонический NAV+EXISTENCE индекс KB: `04_KNOWLEDGE_BASE/00__INDEX__KNOWLEDGE_BASE.md`.
+3) Запрещены любые sub-indexes как NAV/EXISTENCE реестры (любого уровня, в любых подпапках).
+   - Запрещено: любые локальные оглавления/реестры существования (topics-index, realm-index, entities-index и т.п.).
+   - Примеры запрещённого: `*/00__INDEX__*.md`, `*/_index.md`, `*/00_INDEX*.md`.
+   - Разрешено: governance-словари/каталоги в `00_KB_GOVERNANCE/` (включая файлы с `INDEX` в имени),
+     но они НЕ имеют authority по existence/nav.
+4) Делегирование subtree запрещено (никаких “existence определяется другим индексом”).
 5) Ссылки внутри любых документов НЕ создают существование и НЕ расширяют канон.
 
 ENFORCEMENT:
-- Если найден любой под-индекс (sub-index) — он должен быть удалён.
-- Если файл не перечислен в CANON MAP ниже — он NON-CANON / ignored.
+- Любой sub-index (NAV/EXISTENCE) должен быть удалён.
+- Любой файл, не перечисленный в CANON MAP ниже — NON-CANON / ignored.
 
 ---
 
@@ -53,14 +56,14 @@ ENFORCEMENT:
 3) `04_KNOWLEDGE_BASE/*` (контент KB)
 
 NOTE:
-Authority в пунктах (1) и (3) относится к содержанию/нормам.
+Authority в (1) и (3) относится к содержанию/нормам.
 EXISTENCE и NAV определяются только этим INDEX.
 
 ---
 
 ## CANON MAP — KB TREE
 
-### 00_KB_GOVERNANCE (KB governance SoT)
+### 00_KB_GOVERNANCE (rules / dictionaries / control)
 Folder: `04_KNOWLEDGE_BASE/00_KB_GOVERNANCE/`
 
 00 — README: KB Realm
@@ -71,11 +74,11 @@ RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/hea
 PATH: `04_KNOWLEDGE_BASE/00_KB_GOVERNANCE/01__RULES__KB.md`
 RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/04_KNOWLEDGE_BASE/00_KB_GOVERNANCE/01__RULES__KB.md
 
-02 — INDEX: KB Global Registry
+02 — INDEX: KB Global Registry (dictionary)
 PATH: `04_KNOWLEDGE_BASE/00_KB_GOVERNANCE/02__INDEX__KB_GLOBAL_REGISTRY.md`
 RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/04_KNOWLEDGE_BASE/00_KB_GOVERNANCE/02__INDEX__KB_GLOBAL_REGISTRY.md
 
-03 — INDEX: KB Entity Types
+03 — INDEX: KB Entity Types (dictionary)
 PATH: `04_KNOWLEDGE_BASE/00_KB_GOVERNANCE/03__INDEX__KB_ENTITY_TYPES.md`
 RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/04_KNOWLEDGE_BASE/00_KB_GOVERNANCE/03__INDEX__KB_ENTITY_TYPES.md
 
@@ -167,7 +170,6 @@ RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/hea
 
 NOTE:
 Любой topic-файл, не перечисленный здесь, считается NON-CANON / ignored.
-Sub-indexes запрещены. Никаких 00__INDEX__TOPICS.md быть не должно.
 
 ---
 

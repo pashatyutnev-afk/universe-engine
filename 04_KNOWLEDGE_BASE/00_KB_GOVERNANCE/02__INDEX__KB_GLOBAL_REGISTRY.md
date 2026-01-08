@@ -3,76 +3,95 @@ FILE: 04_KNOWLEDGE_BASE/00_KB_GOVERNANCE/02__INDEX__KB_GLOBAL_REGISTRY.md
 
 SCOPE: Universe Engine
 LAYER: 04_KNOWLEDGE_BASE
-DOC_TYPE: INDEX
-INDEX_TYPE: DICTIONARY
+DOC_TYPE: DICTIONARY
+INDEX_TYPE: REGISTRY_CATALOG
 LEVEL: L2
 STATUS: ACTIVE
 LOCK: FIXED
-VERSION: 1.0.0
+VERSION: 1.1.0
 UID: UE.KB.IDX.DICT.GLOBAL_REGISTRY.001
 OWNER: SYSTEM
-ROLE: Справочник понятий и системных объектов KB (НЕ реестр существования)
+ROLE: KB catalog of system anchors (UID-only; not existence; not navigation)
+
+CHANGE_NOTE:
+- DATE: 2026-01-08
+- TYPE: MINOR
+- SUMMARY: "Removed PATH/RAW/URL from registry. Registry is UID-only catalog. Removed footer metadata duplication."
+- REASON: "KB strict mode: no intermediate navigation outside master-index."
+- IMPACT: "Registry no longer competes with master-index for navigation."
 
 ---
 
 ## PURPOSE (IMPORTANT)
-Этот документ — словарь/справочник терминов и системных объектов KB.
+Этот документ — справочник/каталог системных “якорей” KB по UID.
 Он НЕ является:
 - навигационным индексом
-- реестром существования
-- источником истины по структуре
+- реестром существования файлов
+- вторым entrypoint
 
-SoT по существованию и навигации — только главный индекс:
+SoT по существованию и навигации KB:
 - UID: UE.KB.IDX.MASTER.001
 
 ---
 
-## DEFINITIONS (SYSTEM OBJECTS)
+## CATALOG FORMAT (UID-ONLY)
+Каждая запись должна быть UID-first и без путей:
 
-### KB Document
-Любой файл KB с обязательной шапкой и UID.
-
-### Canon
-Множество документов, перечисленных в главном индексе.
-
-### NON-CANON
-Файл, который существует в репозитории, но не зарегистрирован в главном индексе.
-
-### Governance Docs
-Документы, задающие правила, форматы и контроль KB.
-Не определяют существование.
-
-### Content Docs
-Документы знаний (realms/topics).
-Могут ссылаться только через XREF по UID.
-
-### Alias
-Legacy pointer документ (98/99), который не содержит контента.
-Содержит только указание на главный индекс по UID.
+- UID: <UID>
+  NAME: <name>
+  TYPE: <RULE|DICTIONARY|TEMPLATE|CONTROL|README|MAP|FLOW>
+  NOTES: <optional>
 
 ---
-3) Любые другие index-файлы как NAV/EXISTENCE реестр ЗАПРЕЩЕНЫ.
-   - Запрещено: любые sub-indexes в любых подпапках (особенно вне `00_KB_GOVERNANCE/`),
-     которые пытаются быть оглавлением/реестром существования/навигацией.
-   - Примеры запрещённого: `*/00__INDEX__*.md`, `*/_index.md`, `*/00_INDEX*.md`,
-     и любые `INDEX*.md` вне `00_KB_GOVERNANCE/` если они не DICTIONARY.
-   - Разрешено: governance-словари внутри `00_KB_GOVERNANCE/` (в т.ч. с `INDEX` в имени),
-     но они НЕ имеют authority по existence/nav.
 
-## SYSTEM UIDS (REFERENCE ONLY)
-Ниже перечислены системные “якоря” (для удобства ссылок по UID, без навигации):
+## SYSTEM ANCHORS (REFERENCE)
 
-- Main KB Index: UE.KB.IDX.MASTER.001
-- KB Rules: UE.KB.RULES.001
-- KB Storage Map: UE.KB.MAP.STORAGE.001
-- KB Create Flow: UE.KB.FLOW.CREATE.001
-- KB Doc Control: UE.KB.CTRL.DOC.001
-- KB Tags Dictionary: UE.KB.DICT.TAGS.001
-- KB REL Types Dictionary: UE.KB.DICT.REL_TYPES.001
-- KB XREF Rules: UE.KB.DICT.XREF_RULES.001
-- KB Entity Types Dictionary: UE.KB.IDX.DICT.ENTITY_TYPES.001
+- UID: UE.KB.IDX.MASTER.001
+  NAME: KB Master Index
+  TYPE: INDEX
+  NOTES: Единственная навигация/существование KB.
 
-NOTE:
-Это НЕ реестр существования файлов. Это только справочный список UID якорей.
+- UID: UE.KB.README.REALM.001
+  NAME: KB Realm README
+  TYPE: README
+
+- UID: UE.KB.MAP.STORAGE.001
+  NAME: KB Storage Map
+  TYPE: MAP
+
+- UID: UE.KB.RULES.001
+  NAME: KB Rules
+  TYPE: RULE
+
+- UID: UE.KB.FLOW.CREATE.001
+  NAME: KB Create Flow
+  TYPE: FLOW
+
+- UID: UE.KB.CTRL.DOC.001
+  NAME: KB Doc Control
+  TYPE: CONTROL
+
+- UID: UE.KB.TPL.ENTITY_PASSPORT.001
+  NAME: KB Entity Passport Template
+  TYPE: TEMPLATE
+
+- UID: UE.KB.DICT.TAGS.001
+  NAME: KB Tags Dictionary
+  TYPE: DICTIONARY
+
+- UID: UE.KB.DICT.REL_TYPES.001
+  NAME: KB REL Types Dictionary
+  TYPE: DICTIONARY
+
+- UID: UE.KB.DICT.XREF_RULES.001
+  NAME: KB XREF Rules Dictionary
+  TYPE: DICTIONARY
+
+---
+
+## RULES
+- Этот каталог не содержит PATH/RAW/URL.
+- Этот каталог не вводит существование.
+- Любые файлы/пути/RAW перечисляются только в KB master-index.
 
 --- END.

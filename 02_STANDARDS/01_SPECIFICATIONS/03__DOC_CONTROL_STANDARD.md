@@ -7,28 +7,24 @@ DOC_TYPE: SPEC
 LEVEL: L1
 STATUS: ACTIVE
 LOCK: FIXED
-VERSION: 1.1.0
+VERSION: 1.2.0
 UID: UE.STD.SPEC.DOC_CONTROL.001
 OWNER: SYSTEM
-ROLE: Doc header, lifecycle, versioning, and minimal cross-reference contract (UID-first)
+ROLE: Doc header + lifecycle + minimal cross-reference contract (UID-first)
 
 CHANGE_NOTE:
 - DATE: 2026-01-08
 - TYPE: MINOR
-- SUMMARY: "XREF/REL minimum contract changed to UID+WHY. PATH/URL are optional. Added compatibility rule: layers may enforce stricter no-link policies."
-- REASON: "Совместимость с KB strict mode (no intermediate links) и устранение path-dependency."
-- IMPACT: "Docs can remain stable even if file paths change."
-
----
-
-## PURPOSE (LAW)
-Определяет стандарт оформления документов: шапка, статусы, версии, контроль ссылок.
+- SUMMARY: "Enforced UID-first XREF/REL contract. Clarified: PATH/URL optional; strict layers may ban links outside a single master-index. Banned metadata duplication."
+- REASON: "Совместимость с KB strict mode и стабильность при изменении путей."
+- IMPACT: "Docs stay valid even if paths change."
 
 ---
 
 ## MANDATORY HEADER (REQUIRED)
-Каждый документ должен иметь шапку:
+Каждый документ обязан иметь шапку:
 
+FILE
 SCOPE
 LAYER
 DOC_TYPE
@@ -40,8 +36,16 @@ UID
 OWNER
 ROLE
 
-Optional (if needed):
-CHANGE_NOTE (recommended for FIXED docs)
+Optional (recommended for FIXED docs):
+CHANGE_NOTE
+
+---
+
+## STRICT NO-DUP RULE
+Запрещено дублировать метаданные из шапки внизу файла:
+- STATUS / LOCK / VERSION / UID / OWNER / FILE
+
+Одна истина метаданных — в шапке.
 
 ---
 
@@ -51,53 +55,22 @@ DRAFT | ACTIVE | DEPRECATED | ARCHIVED
 ## LOCK (ENUM)
 OPEN | FIXED
 
----
-
-## VERSIONING (SEMVER)
-X.Y.Z
-- MAJOR: изменение принципов/совместимости
-- MINOR: добавление правил/полей без слома
-- PATCH: правки без смены смысла
+## VERSIONING
+SemVer: X.Y.Z
 
 ---
 
-## UID (REQUIRED)
-UID:
-- уникальный
-- стабильный
-- не зависит от PATH
-- используется для XREF/REL
-
----
-
-## CROSS-REFERENCE MINIMUM CONTRACT (GLOBAL)
-Чтобы все слои были совместимы, фиксируем минимум:
+## MINIMUM CROSS-REFERENCE CONTRACT (GLOBAL)
 
 ### XREF (UID-FIRST)
-Минимальный формат (обязательный минимум):
+Минимальный формат:
 - XREF: <UID> | WHY: <reason>
 
-PATH/URL поля (если слой их допускает) — строго опциональны.
-Слой может полностью запретить PATH/URL.
-
 ### REL (UID-FIRST)
-Минимальный формат (обязательный минимум):
+Минимальный формат:
 - REL: <REL_TYPE> | TARGET: <UID> | WHY: <reason>
 
----
-
-## LINK POLICY (COMPATIBILITY)
-- Базовый стандарт допускает, что некоторые слои используют PATH/URL в индексах/картах.
-- Слой имеет право быть строже и запретить любые ссылки вне одного master-index (strict mode).
-- Это считается совместимым, если минимум UID+WHY соблюдён.
-
----
-
-## RECOMMENDED SECTIONS (CONTENT)
-- PURPOSE
-- DEFINITIONS (если нужно)
-- RULES / CONSTRAINTS
-- XREF / REL (UID-first)
-- CHANGELOG (для FIXED/важных документов)
+PATH/URL допускаются только если слой это разрешает.
+Слой имеет право быть строже и полностью запретить ссылки вне одного master-index.
 
 --- END.

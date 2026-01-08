@@ -8,17 +8,17 @@ INDEX_TYPE: GLOBAL_MASTER_MAP
 LEVEL: L0
 STATUS: ACTIVE
 LOCK: FIXED
-VERSION: 1.1.0
+VERSION: 1.1.1
 UID: UE.IDX.GLOBAL.MASTER.001
 OWNER: SYSTEM
 ROLE: Global canonical map of the repo: official entrypoints to all layers + existence roots (single navigation start)
 
 CHANGE_NOTE:
 - DATE: 2026-01-08
-- TYPE: MINOR
-- SUMMARY: "02_STANDARDS section aligned to actual folder tree (00_CANON/01_SPECIFICATIONS/02_PROTOCOLS/03_TECHNICAL/04_TERMS_DEFINITIONS/05_REQUIREMENTS_TZ/06_MARKING_STANDARDS). Removed reference to non-existing 00__INDEX__STANDARDS.md. Clarified legacy master-index alias."
-- REASON: "Синхронизация master-index с реальной структурой 02_STANDARDS по дереву репозитория."
-- IMPACT: "Глобальная карта не ведёт в несуществующие entrypoints."
+- TYPE: PATCH
+- SUMMARY: "Fixed 02_STANDARDS entrypoint: this file is the master-index. Removed self-referential legacy loop. Renamed doc registry label to non-authority."
+- REASON: "Убрать коллизию 00__ vs 02__ и самоссылку legacy."
+- IMPACT: "One clear entrypoint for 02_STANDARDS; no logical loops."
 
 ---
 
@@ -56,13 +56,11 @@ CHANGE_NOTE:
 ---
 
 ### 02_STANDARDS (Standards / Specs / Protocols / Templates)
-
-#### 02_STANDARDS — MASTER INDEX (entrypoint)
 - STANDARDS MASTER INDEX (entrypoint)
-  PATH: `02_STANDARDS/02__MASTER_INDEX__UNIVERSE_ENGINE.md`
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/02_STANDARDS/02__MASTER_INDEX__UNIVERSE_ENGINE.md
+  PATH: `02_STANDARDS/00__MASTER_INDEX__UNIVERSE_ENGINE.md`
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/02_STANDARDS/00__MASTER_INDEX__UNIVERSE_ENGINE.md
 
-- DOC REGISTRY (SoT registry)
+- DOC REGISTRY (catalog, non-authority)
   PATH: `02_STANDARDS/01__DOC_REGISTRY.md`
   RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/02_STANDARDS/01__DOC_REGISTRY.md
 
@@ -185,15 +183,13 @@ CHANGE_NOTE:
   PATH: `02_STANDARDS/06_MARKING_STANDARDS/08__DOC_CONTROL.md`
   RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/02_STANDARDS/06_MARKING_STANDARDS/08__DOC_CONTROL.md
 
-#### LEGACY / COLLISION NOTE (02_STANDARDS)
-- LEGACY MASTER INDEX (alias / collision)
-  PATH: `02_STANDARDS/00__MASTER_INDEX__UNIVERSE_ENGINE.md`
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/02_STANDARDS/00__MASTER_INDEX__UNIVERSE_ENGINE.md
-  NOTE: Must be deleted or converted into a pure pointer to this file.
+NOTE (02_STANDARDS):
+Если существует `02__MASTER_INDEX__UNIVERSE_ENGINE.md`, он должен быть либо удалён,
+либо превращён в чистый pointer на этот файл (без контента).
 
 ---
 
-### 03_SYSTEM_ENTITIES (System entities: ENG/ORC/SPC/CTL/VAL/QA + registries/templates)
+### 03_SYSTEM_ENTITIES (System entities)
 - SYSTEM ENTITIES README
   PATH: `03_SYSTEM_ENTITIES/00__README__SYSTEM_ENTITIES.md`
   RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/00__README__SYSTEM_ENTITIES.md
@@ -245,8 +241,4 @@ CHANGE_NOTE:
 Existence rules живут в master-index каждого слоя (например `01_SYSTEM_LAW/00__INDEX__SYSTEM_LAW.md`, `04_KNOWLEDGE_BASE/00__INDEX__KNOWLEDGE_BASE.md`).
 Этот документ даёт только канонические entrypoints и raw-переходы.
 
----
-
-## FINAL RULE (LOCK)
-LOCK: FIXED
 --- END.

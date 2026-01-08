@@ -7,17 +7,17 @@ DOC_TYPE: SPEC
 LEVEL: L1
 STATUS: ACTIVE
 LOCK: FIXED
-VERSION: 1.1.0
+VERSION: 1.2.0
 UID: UE.STD.SPEC.STORAGE_MAP.001
 OWNER: SYSTEM
-ROLE: Defines how layers describe allowed storage topology + prohibited zones
+ROLE: How layers describe allowed storage topology + prohibited zones + strict-mode compatibility
 
 CHANGE_NOTE:
 - DATE: 2026-01-08
 - TYPE: MINOR
-- SUMMARY: "Removed reference to non-existing 02_STANDARDS/00__INDEX__STANDARDS.md. Added strict-layer compatibility (Single-Index mode) and clarified entrypoint for 02_STANDARDS."
-- REASON: "Синхронизация стандарта с реальной структурой 02_STANDARDS и строгим режимом KB."
-- IMPACT: "No broken entrypoint examples; layers may be stricter than baseline."
+- SUMMARY: "Removed outdated 00__INDEX__STANDARDS.md reference. Defined strict single-index mode as compatible option."
+- REASON: "Совместимость с текущей структурой 02_STANDARDS и строгим режимом KB."
+- IMPACT: "No broken entrypoint assumptions; layers may be stricter."
 
 ---
 
@@ -25,63 +25,38 @@ CHANGE_NOTE:
 Стандарт определяет, как описывать карту хранения (Storage Map) для слоя:
 - разрешённые зоны (whitelist)
 - запрещённые зоны (banlist)
-- правила существования и навигации (если слой вводит строгий режим)
+- политика изменений зон
 
 ---
 
-## BASE DEFINITIONS
-- ROOT: корневая папка слоя.
-- ZONE: логическая область хранения (папка или диапазон файлов).
-- STORAGE MAP DOC: документ, который описывает зоны и запреты слоя.
-- EXISTENCE MAP: список “что существует” (обычно индекс слоя).
-
----
-
-## ENTRYPOINT EXAMPLE (02_STANDARDS)
-Канонический вход в слой 02_STANDARDS задаётся master-index’ом слоя:
-- `02_STANDARDS/00__MASTER_INDEX__UNIVERSE_ENGINE.md`
+## ENTRYPOINT RULE (LAYER MASTER)
+Каждый слой должен иметь канонический entrypoint (master-index/entry map) внутри слоя.
+Пример для `02_STANDARDS`:
+- `00__MASTER_INDEX__UNIVERSE_ENGINE.md`
 
 NOTE:
-Если в слое есть legacy/alias entrypoints — они не должны быть источником истины по существованию.
+Legacy/alias файлы могут существовать, но не должны быть источником истины.
 
 ---
 
 ## MINIMUM STORAGE MAP STRUCTURE (REQUIRED)
-Каждый Storage Map документа слоя должен содержать:
-
 1) ROOT
 2) ALLOWED ZONES (WHITELIST)
 3) PROHIBITED (HARD BAN)
-4) CHANGE POLICY (как добавляются зоны)
-5) COMPATIBILITY NOTES (если слой строже стандарта)
+4) CHANGE POLICY
+5) COMPATIBILITY NOTES (если слой строже)
 
 ---
 
-## STRICT LAYER COMPATIBILITY (IMPORTANT)
-Слой может быть строже базового стандарта.
+## STRICT MODE (COMPATIBLE)
+Слой может быть строже стандарта.
 
-### STRICT MODE: SINGLE-INDEX / NO-SUB-INDEX
-Если слой объявляет строгий режим:
+### STRICT SINGLE-INDEX / NO-SUB-INDEX
+Если слой включает strict mode:
 - existence и навигация определяются только одним master-index файла слоя
 - любые sub-indexes запрещены
-- навигационные ссылки (PATH/RAW/URL) могут быть разрешены только в master-index
+- навигационные ссылки (PATH/RAW/URL) допускаются только в master-index
 
-Это валидный режим и считается совместимым со стандартами.
-
----
-
-## RECOMMENDED ZONE DESCRIPTION FORMAT
-- ZONE: <name>
-- TYPE: <folder | range | file>
-- INTENT: <why it exists>
-- RULES: <must/ban list, short>
-
----
-
-## PROHIBITED PATTERNS (RECOMMENDED)
-Storage Map должен явно запрещать:
-- “локальные реестры существования” (sub-indexes) если слой в strict mode
-- неучтённые папки/диапазоны
-- дублирование SoT по existence (два разных индекса)
+Это валидно и совместимо со стандартами при соблюдении UID-first.
 
 --- END.
