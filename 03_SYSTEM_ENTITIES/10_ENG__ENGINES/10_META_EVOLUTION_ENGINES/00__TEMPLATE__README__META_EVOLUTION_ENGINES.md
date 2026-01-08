@@ -1,175 +1,79 @@
-# ENG FAMILY README — META_EVOLUTION_ENGINES (TEMPLATE v2)
-FILE: 00__TEMPLATE__README__META_EVOLUTION_ENGINES.md
+# README TEMPLATE — META EVOLUTION ENGINES (ENG FAMILY)
+FILE: 03_SYSTEM_ENTITIES/10_ENG__ENGINES/10_META_EVOLUTION_ENGINES/00__TEMPLATE__README__META_EVOLUTION_ENGINES.md
 
 SCOPE: Universe Engine
-LAYER: ENG
+LAYER: 03_SYSTEM_ENTITIES
 DOC_TYPE: TEMPLATE
-ENTITY_GROUP: ENGINES (ENG)
-TEMPLATE_KIND: FAMILY_README_OVERLAY
+ENTITY_CLASS: ENG
+ENGINE_FAMILY: 10_META_EVOLUTION_ENGINES
 LEVEL: L4
 STATUS: ACTIVE
-VERSION: 2.0
-ROLE: Family overlay for Meta Evolution realm README. Compatible with base family template v2 and base engine template v2. Defines system-wide improvement engines and non-invasive governance-first policy.
-
 LOCK: FIXED
-OWNER: Universe Engine
+VERSION: 1.0.0
+UID: UE.TPL.ENG.META.FAMILY_README.001
+OWNER: SYSTEM
+ROLE: Canonical template for meta-evolution family README (scope, boundary, gates, engine list policy)
 
 ---
 
-## 0) PURPOSE (REALM LAW)
-
-Семейство **META_EVOLUTION_ENGINES** улучшает систему поверх всех слоёв:
-- learning (обучение/обобщение)
-- pattern extraction (извлечение повторяющихся структур)
-- optimization (ускорение, упрощение, устранение дублей)
-- creative mutation (варианты/мутации, генерация альтернатив)
-- future projection (прогноз и планирование)
-
-EXISTENCE RULE:
-> Мета-слой не “создаёт мир/сюжет” напрямую. Он создаёт предложения/паттерны/оптимизации.
+## 0) FAMILY IDENTITY (REQUIRED)
+FAMILY_NAME: 10_META_EVOLUTION_ENGINES
+FAMILY_CLASS: META (SYSTEM EVOLUTION)
+FAMILY_UID: UE.ENG.FAMILY.META.001
 
 ---
 
-## 1) FAMILY IDENTITY (MANDATORY)
+## 1) PURPOSE (LAW)
+Семейство мета-движков отвечает за эволюцию системы:
+- learning (обучение на истории/логах/результатах)
+- pattern extraction (извлечение повторяемых паттернов)
+- optimization (оптимизация правил/процессов/пайплайна)
+- creative mutation (контролируемые эксперименты)
+- future projection (прогнозы/сценарии/риски)
 
-FAMILY_NAME: META_EVOLUTION_ENGINES
-FAMILY_CODE: META
-FAMILY_CLASS: META
-FAMILY_LEVEL: L4
-
-FAMILY_PATH:
-`03_SYSTEM_ENTITIES/10_ENG__ENGINES/10_META_EVOLUTION_ENGINES/`
-
-README_FILE:
-`00__README__META_EVOLUTION_ENGINES.md`
+Цель: улучшать качество и скорость системы, не ломая канон.
 
 ---
 
-## 2) META SAFETY LAW (MANDATORY)
+## 2) CRITICAL BOUNDARY (ANTI-DUP) — ABSOLUTE
+OWNED HERE:
+- system-level improvements, proposals, experiments, forecasts
 
-### 2.1 Non-invasive rule
-META engines:
-- can propose changes
-- can generate variants
-- can detect inconsistencies
-- can suggest refactors
-
-META engines cannot:
-- silently change locked canon
-- publish canon without governance approval
-- bypass dependency registry
-
-Rule:
-> META output must be labeled as PROPOSAL by default.
-
-### 2.2 Governance-first
-Any change touching:
-- INDEXes
-- locked engines
-- canon packs (L2)
-must pass governance pipeline.
+NOT OWNED HERE:
+- domain final deliverables (scenes/characters/world/music/visual)
+These belong to domain / expression / production families.
 
 ---
 
-## 3) ROLE MAP (MANDATORY)
-
-- FOUNDATION: learning + pattern extraction
-- BUILDER: optimization + creative mutation
-- OUTPUT: future projection (roadmaps)
-
-### 3.1 Canonical role map table
-| Engine NN | Engine Name | ROLE_IN_FAMILY | PIPELINE_STAGE |
-|---|---|---|---|
-| 01 | Learning Engine | FOUNDATION | DEFINE |
-| 02 | Pattern Extraction Engine | FOUNDATION | DEFINE |
-| 03 | Optimization Engine | BUILDER | BUILD |
-| 04 | Creative Mutation Engine | BUILDER | BUILD |
-| 05 | Future Projection Engine | OUTPUT | PRODUCE |
+## 3) FAMILY GATES (MANDATORY)
+Каждый мета-движок обязан иметь минимум 5 meta gates:
+- evidence grounded
+- scope safety
+- reversibility
+- impact clarity
+- boundary compliance
 
 ---
 
-## 4) FAMILY OUTPUT POLICY (WORKSHOP L0–L3) — MANDATORY
-
-Default root:
-`05_PROJECTS/<PROJECT_ID>/01_WORKSHOP/`
-
-Meta outputs:
-- proposals:
-  `05_PROJECTS/<PROJECT_ID>/01_WORKSHOP/99_META/PROPOSALS/`
-- patterns:
-  `05_PROJECTS/<PROJECT_ID>/01_WORKSHOP/99_META/PATTERNS/`
-- optimizations:
-  `05_PROJECTS/<PROJECT_ID>/01_WORKSHOP/99_META/OPTIMIZATIONS/`
-- roadmaps:
-  `05_PROJECTS/<PROJECT_ID>/01_WORKSHOP/99_META/ROADMAPS/`
-
-Rule:
-> META outputs are never “final canon” until governance approves and registry/xref updated.
+## 4) REQUIRED TEMPLATES
+ENGINE TEMPLATE UID: UE.TPL.ENG.META.ENGINE.001
+FAMILY README TEMPLATE UID: UE.TPL.ENG.META.FAMILY_README.001
 
 ---
 
-## 5) REQUIRED REGISTRIES (MANDATORY)
-
-Project-scoped:
-- `00_REG__REGISTRIES/REG.PRJ.<PROJECT_ID>.META_PROPOSALS.md` (recommended)
-- `00_REG__REGISTRIES/REG.PRJ.<PROJECT_ID>.RUNS.md` (recommended)
-
----
-
-## 6) REQUIRED XREF INDEXES (MANDATORY)
-
-Project-scoped:
-- `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__PROVENANCE.md`
-- `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__DEPENDENCIES.md`
-- `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__CANON_REFS.md`
-
-Meta-specific (recommended):
-- `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__CHANGE_PROPOSALS.md`
-- `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__PATTERN_LIBRARY.md`
+## 5) ENGINE LIST POLICY (NUMBERING)
+- Engine files: `NN__<NAME>_ENG.md` (NN starts at 01)
+- NN in filename MUST match NN in registry / index.
+- README is always `00__README__META_EVOLUTION_ENGINES.md`
+- Templates are always `00__TEMPLATE__...`
 
 ---
 
-## 7) TEMPLATES (MANDATORY BLOCK)
+## 6) REL / XREF (UID-FIRST)
+REL:
+- REL: <REL_TYPE> | TARGET: <UID> | WHY: <reason>
 
-Base templates:
-- ENGINE TEMPLATE (base) — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/00__TEMPLATE__ENGINE__ENG.md
-- FAMILY README TEMPLATE (base) — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/00__TEMPLATE__README__FAMILY__ENG.md
+XREF:
+- XREF: <UID> | WHY: <reason>
 
-Family overlays:
-- ENGINE TEMPLATE (family) — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/10_META_EVOLUTION_ENGINES/00__TEMPLATE__ENGINE__META_EVOLUTION_ENGINES.md
-- README TEMPLATE (family) — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/10_META_EVOLUTION_ENGINES/00__TEMPLATE__README__META_EVOLUTION_ENGINES.md
-
----
-
-## 8) CANON ORDER (MANDATORY)
-
-00 — README (Realm)  
-01 — Learning Engine  
-02 — Pattern Extraction Engine  
-03 — Optimization Engine  
-04 — Creative Mutation Engine  
-05 — Future Projection Engine  
-
----
-
-## 9) GOVERNANCE COMPATIBILITY (MANDATORY)
-
-META always routes changes through:
-- `00_GOVERNANCE_ENGINES/04__CHANGE_CONTROL_ENG.md`
-- `00_GOVERNANCE_ENGINES/06__DEPENDENCY_REGISTRY_ENG.md`
-- `00_GOVERNANCE_ENGINES/10__VERSIONING_MEMORY_ENG.md`
-- `00_GOVERNANCE_ENGINES/01__AUDIT_LOG_ENG.md`
-
----
-
-## 10) RAW LINK (MANDATORY)
-
-RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/10_META_EVOLUTION_ENGINES/00__TEMPLATE__README__META_EVOLUTION_ENGINES.md
-
----
-
-## FINAL RULE (LOCK)
-
-> META produces proposals and improvements, not silent canon edits.
-
-LOCK: FIXED
+--- END.

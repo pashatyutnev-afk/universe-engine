@@ -1,286 +1,166 @@
-# ENG ENGINE TEMPLATE — EXPRESSION_ENGINES (FAMILY OVERLAY v2)
-FILE: 00__TEMPLATE__ENGINE__EXPRESSION_ENGINES.md
+# ENGINE TEMPLATE — EXPRESSION ENGINES (ENG)
+FILE: 03_SYSTEM_ENTITIES/10_ENG__ENGINES/05_EXPRESSION_ENGINES/00__TEMPLATE__ENGINE__EXPRESSION_ENGINES.md
 
 SCOPE: Universe Engine
-LAYER: ENG
+LAYER: 03_SYSTEM_ENTITIES
 DOC_TYPE: TEMPLATE
-ENTITY_GROUP: ENGINES (ENG)
-TEMPLATE_KIND: ENGINE_FAMILY_OVERLAY
+ENTITY_CLASS: ENG
+ENGINE_FAMILY: 05_EXPRESSION_ENGINES
 LEVEL: L3
 STATUS: ACTIVE
-VERSION: 2.0
-ROLE: Expression family overlay. Compatible with ENG ENGINE TEMPLATE (BASE v2). Adds event/beat/conflict/turn/climax/resolution schemas and mandatory cause-effect graph updates.
-
 LOCK: FIXED
-OWNER: Universe Engine
+VERSION: 1.0.0
+UID: UE.TPL.ENG.EXPR.ENGINE.001
+OWNER: SYSTEM
+ROLE: Canonical template for expression ENG engines (event primitives, causality, conflict, turning points, climax, resolution, shocks, scheduling, randomness)
 
 ---
 
-## 0) ENGINE IDENTITY (MANDATORY)
+## 0) IDENTITY (REQUIRED)
+ENGINE_NAME: <DISPLAY_NAME>
+ENGINE_CODE: <SHORT_CODE>                          # e.g., EVENT, CAUSE_EFFECT, CONFLICT, TURNING_POINT
+ENGINE_NUMBER: <NN>                                # must match filename NN__
+ENGINE_FILE_NAME: <NN__NAME_ENG.md>
+ENGINE_UID: <UE.ENG.EXPR.<CODE>.NNN>
 
-ENGINE_NAME: <UPPER_SNAKE_CASE>
-ENGINE_ID: ENG.EXP.<NN>.<ENGINE_NAME>
-
-FAMILY_CODE: EXP
-ENGINE_NN_IN_FAMILY: <01..09>
-ENGINE_CLASS: EXPRESSION
-ENGINE_LEVEL: L3
-
-ROLE_IN_FAMILY: <FOUNDATION|BUILDER|OUTPUT>
-PIPELINE_STAGE: <DEFINE|BUILD|PRODUCE>
+PRIMITIVE_OWNERSHIP:
+- Owns primitive type: <EVENT|CAUSE_EFFECT|CONFLICT|TURNING_POINT|CLIMAX|RESOLUTION|SYSTEM_SHOCK|SCHEDULING|RANDOMNESS>
+- What it guarantees (1 line)
 
 ---
 
-## 1) PURPOSE (WHAT THIS ENGINE DOES)
+## 1) PURPOSE (LAW)
+Этот движок описывает **примитив выражения**: правила формы, минимальные поля, валидность, сборку и проверку.
 
-One paragraph:
-- which expression atom it outputs (event/cause-effect/conflict/turning/climax/resolution/shock/scheduling/chaos)
-- how Narrative consumes it
-
----
-
-## 2) OWNERSHIP BOUNDARIES (ANTI-DUPLICATION)
-
-OWNS:
-- structured “mechanics units” and edges (cause/effect, conflict)
-
-DOES NOT OWN (hard):
-- arc/act structure (NAR)
-- montage timing (PRD)
-Rule:
-> If you see seconds/frames/shots — wrong layer.
+Ограничение:
+- движок НЕ пишет историю и НЕ “придумывает сюжет”
+- он даёт **структурированный блок**, который можно вставлять в narrative/scene/character pipelines
 
 ---
 
-## 3) TRIGGERS (WHEN TO RUN)
+## 2) DOMAIN BOUNDARY (ANTI-DUP) — REQUIRED
+OWNED HERE:
+- формальные primitives (структура события, причинность, конфликт и т.д.)
+- минимальные правила валидности (gates)
+- выходные схемы (output schema)
 
-TRIGGERS:
-- scene requires a clear turning/climax/resolution
-- continuity needs explicit cause-effect edges
-- conflict feels flat or stakes unclear
-- schedule logic is required (world time, not screen time)
-- controlled chaos needed (randomness within constraints)
+NOT OWNED HERE:
+- сюжетная архитектура / арки / эпизоды (02_DOMAIN_NARRATIVE_ENGINES)
+- мотивации/психология/отношения (03_DOMAIN_CHARACTER_ENGINES)
+- мир/законы/эпохи/цивилизации (04_DOMAIN_WORLD_ENGINES)
+- производство медиа (08_KNOWLEDGE_PRODUCTION_ENGINES)
+
+INTERFACES:
+- Narrative interface: как narrative использует primitive
+- Character interface: как primitive цепляется к персонажам (только ссылки/поля, без психологии)
+- World interface: какие world constraints надо учитывать (как входные ограничения)
 
 ---
 
-## 4) MINI-CONTRACT (MANDATORY)
-
+## 3) INPUTS / OUTPUTS (MINI-CONTRACT) — REQUIRED
 CONSUMES:
-- CORE_STATE_VALIDATION (required)
-- NARRATIVE_CONTEXT (optional)
-- CHARACTER_CONSTRAINTS (optional)
-- WORLD_LAWS (optional)
+- <ARTIFACT_TYPE or UID>
+- ...
 
 PRODUCES:
-- EXP_EVENT
-- EXP_CAUSE_EFFECT_EDGE
-- EXP_CONFLICT_UNIT
-- EXP_TURNING_POINT
-- EXP_CLIMAX
-- EXP_RESOLUTION
-- EXP_SYSTEM_SHOCK
-- EXP_SCHEDULE_LOGIC
-- EXP_CHAOS_POLICY
+- <ARTIFACT_TYPE or UID>
+- ...
+
+PRIMITIVE_OUTPUT (REQUIRED):
+- OUTPUT_OBJECT: <Primitive name>
+- OUTPUT_SCHEMA (hard):
+  - field: <name> | type: <type> | required: <yes/no> | rules: <short>
+  - ...
+- OUTPUT_INVARIANTS (hard):
+  - <invariant 1>
+  - <invariant 2>
 
 DEPENDS_ON:
-- [] (or engine IDs)
+- <ENG_UID>
+- ...
 
-OUTPUT_TARGET (canonical defaults):
-- `05_PROJECTS/<PROJECT_ID>/01_WORKSHOP/06_EVENTS/<ENTITY_ID>/<LEVEL_FOLDER>/`
-  where ENTITY_ID may be EVT_* / CON_* / SCN_* / SCH_* depending on your naming.
-
-Rule:
-> For canon atoms: update REG and XREF.
+OUTPUT_TARGET:
+- <where projects store these primitives> (descriptive, no path-nav)
 
 ---
 
-## 5) EXPRESSION SCHEMAS (MANDATORY)
+## 4) PRIMITIVE SPEC (HARD) — REQUIRED
+### 4.1 Primitive definition
+- Definition (1–2 lines):
+- Goal (what it achieves):
+- Preconditions (what must already be true):
+- Postconditions (what becomes true after):
 
-### 5.1 EXP_EVENT
+### 4.2 Minimal fields (required)
+- <field list>
 
-EVT_ID: <EVT_<NAME>>
-TYPE: <INCIDENT|DECISION|ACTION|DISCOVERY|LOSS|GAIN|MEETING|BATTLE|REVEAL|...>
-WHO: [<CHR_*|FAC_*|SYS_*>]
-WHERE: [<LOC_*>]
-WHEN: <world-time label or epoch ref>
-CHANGE: <what changed?>
-BEFORE_STATE: <...>
-AFTER_STATE: <...>
-STAKE: <optional>
-CANON_STATUS: <DRAFT|CANON>
-CANON_REFS: [ ... ]
+### 4.3 Optional fields
+- <field list>
 
----
-
-### 5.2 EXP_CAUSE_EFFECT_EDGE (mandatory for multi-event chains)
-
-CE_ID: <unique>
-CAUSE_EVT: <EVT_*>
-EFFECT_EVT: <EVT_*>
-MECHANISM: <why does it cause it?>
-LATENCY: <immediate|short|long>
-STRENGTH: <LOW|MED|HIGH>
-SCOPE: <CHARACTER|WORLD|NARRATIVE>
-CANON_REF: <refs>
+### 4.4 Assembly rules
+- How this primitive composes with others:
+  - compatible with:
+  - incompatible with:
+  - ordering constraints:
 
 ---
 
-### 5.3 EXP_CONFLICT_UNIT
+## 5) VALIDATION GATES (HARD) — REQUIRED
+GATE LIST:
+- GATE: <name>
+  CHECK: <how to verify>
+  FAIL SIGNAL: <what indicates failure>
+  FIX STRATEGY: <how to fix>
 
-CON_ID: <CON_<NAME>>
-FORCES:
-- side_A: <who/what>
-- side_B: <who/what>
-GOALS:
-- A: ...
-- B: ...
-STAKE: ...
-PRESSURE: <what escalates?>
-RESOLUTION_PATHS: [ ... ]
-CANON_REFS: [ ... ]
-
----
-
-### 5.4 EXP_TURNING_POINT
-
-TURN_ID: <TURN_<NAME>>
-EVENT_REF: <EVT_* or SCN_*>
-BEFORE: <expected path>
-AFTER: <new path>
-PRICE: <what is paid?>
-SIGNAL: <how audience learns?>
-CANON_REFS: [ ... ]
+MINIMUM EXPRESSION GATES (default set):
+- clarity (примитив читается однозначно)
+- causality coherence (если причинность заявлена — она корректна)
+- stakes integrity (если ставки заявлены — они измеримы/понятны)
+- reversibility / cost (изменение имеет цену или след)
+- continuity compatibility (не ломает continuity при вставке)
 
 ---
 
-### 5.5 EXP_CLIMAX
+## 6) EXAMPLES (REQUIRED)
+GOOD EXAMPLE:
+- <structured example using schema fields>
 
-CLX_ID: <CLX_<NAME>>
-CONFLICT_REF: <CON_*>
-PEAK_ACTION: ...
-DECISIVE_CHOICE: ...
-IRREVERSIBILITY: <what cannot be undone?>
-CANON_REFS: [ ... ]
-
----
-
-### 5.6 EXP_RESOLUTION
-
-RES_ID: <RES_<NAME>>
-WHAT_IS_CLOSED: ...
-NEW_NORMAL: ...
-LEFT_OPEN: [ ... ]
-CANON_REFS: [ ... ]
+BAD EXAMPLE:
+- <structured counterexample>
+- why fails: <gate>
 
 ---
 
-### 5.7 EXP_SYSTEM_SHOCK
+## 7) FAILURE MODES & EDGE CASES
+FAILURES:
+- Failure:
+  CAUSE:
+  RECOVERY:
 
-SHK_ID: <SHK_<NAME>>
-TARGET: <WORLD|CIV|CHARACTER|SYSTEM>
-TRIGGER_EVT: <EVT_*>
-DELTA: <what drastically shifts?>
-AFTERSHOCKS: [ ... ]
-CANON_REFS: [ ... ]
-
----
-
-### 5.8 EXP_SCHEDULE_LOGIC (world-time, not screen-time)
-
-SCH_ID: <SCH_<NAME>>
-TIME_MODEL: <epoch|calendar|sequence|resource-cycle>
-CONSTRAINTS: [ ... ]
-WINDOWS: [ ... ]
-TRIGGERS: [ ... ]
-NOTES: ...
+EDGE CASES:
+- Case:
+  Handling:
 
 ---
 
-### 5.9 EXP_CHAOS_POLICY
+## 8) REL / XREF (UID-FIRST)
+REL:
+- REL: <REL_TYPE> | TARGET: <UID> | WHY: <reason>
 
-CHS_ID: <CHS_<NAME>>
-RANDOM_SOURCE: <dice|noise|agent|unknown>
-BOUNDS:
-- allowed_outcomes: [ ... ]
-- forbidden_outcomes: [ ... ]
-WEIGHTS: <optional>
-SAFETY: <how chaos won't break canon>
-NOTES: ...
+XREF:
+- XREF: <UID> | WHY: <reason>
 
-Rule:
-> Chaos is constrained. If it breaks world laws — it's invalid.
+RULE:
+- No PATH navigation inside content.
+- If clickable references are needed, keep them in registries/indexes as RAW.
 
 ---
 
-## 6) SYSTEM INTERFACE (MANDATORY) — ORC/CTL/VAL/QA/REG/XREF
+## 9) CHANGE NOTES (OPTIONAL)
+- DATE: YYYY-MM-DD
+- TYPE: PATCH|MINOR|MAJOR
+- SUMMARY:
+- REASON:
+- IMPACT:
 
-ORCHESTRATED_BY (ORC): []
-CONTROLLED_BY (CTL): []
-
-VALIDATED_BY (VAL):
-- <VAL.EXP.01.CAUSALITY> (placeholder) or []
-
-QA_BY (QA):
-- <QA.EXP.01.MECHANICS_COHERENCE> (placeholder) or []
-
-REGISTRY_UPDATES:
-- REQUIRED: YES for L2 canon atoms
-- TARGETS:
-  - `00_REG__REGISTRIES/REG.PRJ.<PROJECT_ID>.ENTITIES.md`
-  - `00_REG__REGISTRIES/REG.PRJ.<PROJECT_ID>.CANON_L2.md`
-
-XREF_UPDATES:
-- REQUIRED: YES for cause-effect/conflict/turn
-- TARGETS:
-  - `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__CAUSE_EFFECT_GRAPH.md`
-  - `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__CONFLICT_GRAPH.md`
-  - `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__TURNING_POINTS.md`
-  - `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__ENTITY_GRAPH.md`
-  - `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__PROVENANCE.md`
-  - `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__CANON_REFS.md`
-
-Rule:
-> Cause-effect edges must always update XREF__CAUSE_EFFECT_GRAPH.
-
----
-
-## 7) PROCESS (HOW TO EXECUTE)
-
-1) Validate CORE state for involved entities.
-2) Define events and changes (before/after).
-3) Create cause-effect edges for chains.
-4) Define conflict and turning/climax/resolution as needed.
-5) Store in routing paths.
-6) Update REG + XREF graphs.
-7) Validate causality and mechanics coherence.
-
----
-
-## 8) QUALITY GATES (MANDATORY)
-
-PASS if:
-- event has clear change and state delta
-- cause-effect edges exist for chains
-- conflict/turn/climax/resolution are structured
-- chaos is bounded and lawful
-- no montage timing inside
-
-FAIL if:
-- pure prose without units
-- missing CE edges in chains
-- seconds/shots/frames appear
-- chaos violates world laws
-
----
-
-## 9) RAW LINK (MANDATORY)
-
-RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/05_EXPRESSION_ENGINES/00__TEMPLATE__ENGINE__EXPRESSION_ENGINES.md
-
----
-
-## FINAL RULE (LOCK)
-
-> Expression units are structured mechanics, not story structure and not montage.
-
-LOCK: FIXED
+--- END.

@@ -1,238 +1,159 @@
-# ENG ENGINE TEMPLATE — META_EVOLUTION_ENGINES (FAMILY OVERLAY v2)
-FILE: 00__TEMPLATE__ENGINE__META_EVOLUTION_ENGINES.md
+# ENGINE TEMPLATE — META EVOLUTION ENGINES (ENG)
+FILE: 03_SYSTEM_ENTITIES/10_ENG__ENGINES/10_META_EVOLUTION_ENGINES/00__TEMPLATE__ENGINE__META_EVOLUTION_ENGINES.md
 
 SCOPE: Universe Engine
-LAYER: ENG
+LAYER: 03_SYSTEM_ENTITIES
 DOC_TYPE: TEMPLATE
-ENTITY_GROUP: ENGINES (ENG)
-TEMPLATE_KIND: ENGINE_FAMILY_OVERLAY
+ENTITY_CLASS: ENG
+ENGINE_FAMILY: 10_META_EVOLUTION_ENGINES
 LEVEL: L4
 STATUS: ACTIVE
-VERSION: 2.0
-ROLE: Meta family overlay. Compatible with ENG ENGINE TEMPLATE (BASE v2). Adds proposal schema, pattern library schema, optimization/roadmap schemas, and governance-first enforcement.
-
 LOCK: FIXED
-OWNER: Universe Engine
+VERSION: 1.0.0
+UID: UE.TPL.ENG.META.ENGINE.001
+OWNER: SYSTEM
+ROLE: Canonical template for meta-evolution ENG engines (learning, pattern extraction, optimization, creative mutation, future projection)
 
 ---
 
-## 0) ENGINE IDENTITY (MANDATORY)
+## 0) IDENTITY (REQUIRED)
+ENGINE_NAME: <DISPLAY_NAME>
+ENGINE_CODE: <SHORT_CODE>                         # LEARNING | PATTERN_EXTRACTION | OPTIMIZATION | CREATIVE_MUTATION | FUTURE_PROJECTION
+ENGINE_NUMBER: <NN>                               # must match filename NN__
+ENGINE_FILE_NAME: <NN__NAME_ENG.md>
+ENGINE_UID: <UE.ENG.META.<CODE>.NNN>
 
-ENGINE_NAME: <UPPER_SNAKE_CASE>
-ENGINE_ID: ENG.META.<NN>.<ENGINE_NAME>
-
-FAMILY_CODE: META
-ENGINE_NN_IN_FAMILY: <01..05>
-ENGINE_CLASS: META
-ENGINE_LEVEL: L4
-
-ROLE_IN_FAMILY: <FOUNDATION|BUILDER|OUTPUT>
-PIPELINE_STAGE: <DEFINE|BUILD|PRODUCE>
+META_OBJECT:
+- what system layer it modifies (1 line)
+- what outcome it guarantees (1 line)
 
 ---
 
-## 1) PURPOSE (WHAT THIS ENGINE DOES)
-
-One paragraph:
-- what meta improvement it provides (learning/pattern/optimization/mutation/projection)
-- what it outputs (proposals/patterns/roadmaps)
-- what it MUST NOT do (silent canon edits)
-
----
-
-## 2) META SAFETY LAW (MANDATORY)
-
-DEFAULT_OUTPUT_MODE: PROPOSAL
-
-Rule:
-> Any output that changes canon must be wrapped as CHANGE_PROPOSAL and routed to governance.
-
-NO_SILENT_CANON:
-- If LOCK: FIXED is touched → always governance pipeline.
+## 1) PURPOSE (LAW)
+Зачем этот мета-движок существует:
+- что он улучшает в системе (правила/процессы/качество/масштабирование)
+- какие типовые ошибки/просадки он предотвращает
+- какие изменения он считает допустимыми (boundary)
 
 ---
 
-## 3) TRIGGERS (WHEN TO RUN)
+## 2) CRITICAL BOUNDARY (ANTI-DUP) — ABSOLUTE
+OWNED HERE (META):
+- learning from history / logs / outputs
+- extracting reusable patterns from work
+- optimizing pipelines, constraints, ordering, checklists
+- proposing controlled mutations (experiments) without breaking canon
+- future projection: forecasts, scenarios, capacity/risks
+- improving consistency and reducing friction
 
-TRIGGERS:
-- repeated inconsistencies or duplications detected
-- pipelines get too slow/complex
-- new engines/entities make old patterns outdated
-- need future roadmap for building next layers
+NOT OWNED HERE (DOMAIN CONTENT):
+- writing scenes, lore, characters, worlds, music, visuals as final deliverables
+Those belong to DOMAIN / EXPRESSION / PRODUCTION families.
+
+If it outputs “final story/music/visual” — it must be treated as an INPUT to domain engines, not a final artifact.
 
 ---
 
-## 4) MINI-CONTRACT (MANDATORY)
-
+## 3) INPUTS / OUTPUTS (MINI-CONTRACT) — REQUIRED
 CONSUMES:
-- system registries (REG)
-- dependency graph (XREF__DEPENDENCIES)
-- audit log entries (optional)
-- engine docs across families (optional)
+- <log artifacts / audit records / outputs / metrics / QA reports>
+- ...
 
 PRODUCES:
-- CHANGE_PROPOSALS
-- PATTERN_LIBRARY_ENTRIES
-- OPTIMIZATION_PLANS
-- MUTATION_VARIANTS
-- ROADMAPS
-- PROVENANCE_RECORDS
+- <system improvement pack / optimization plan / pattern library / experiment proposal>
+- ...
+
+META_OUTPUT (REQUIRED):
+- OUTPUT_OBJECT: <Improvement Proposal | Pattern Pack | Optimization Plan | Mutation Experiment | Forecast Pack>
+- OUTPUT_SCHEMA (hard):
+  - field: <name> | type: <type> | required: <yes/no> | rules: <short>
+  - ...
+- OUTPUT_INVARIANTS (hard):
+  - traceability to evidence (must reference inputs)
+  - non-destructive default (safe-by-default)
+  - boundary compliance (no domain deliverables)
 
 DEPENDS_ON:
-- `ENG.GOV.06.DEPENDENCY_REGISTRY` (recommended)
-- `ENG.GOV.04.CHANGE_CONTROL` (recommended)
+- <ENG_UID>
+- ...
 
 OUTPUT_TARGET:
-- proposals:
-  `05_PROJECTS/<PROJECT_ID>/01_WORKSHOP/99_META/PROPOSALS/`
-- patterns:
-  `05_PROJECTS/<PROJECT_ID>/01_WORKSHOP/99_META/PATTERNS/`
-- optimizations:
-  `05_PROJECTS/<PROJECT_ID>/01_WORKSHOP/99_META/OPTIMIZATIONS/`
-- roadmaps:
-  `05_PROJECTS/<PROJECT_ID>/01_WORKSHOP/99_META/ROADMAPS/`
+- <where governance/system stores meta outputs> (descriptive, no path-nav)
 
 ---
 
-## 5) META SCHEMAS (MANDATORY)
+## 4) META METHOD (REQUIRED)
+METHOD:
+- Evidence sources:
+- Pattern extraction approach:
+- Optimization objective:
+- Risk model:
+- Rollout strategy (safe):
+  - propose → test → validate → adopt
+- Backout plan:
+  - how to revert if it hurts system
 
-### 5.1 CHANGE_PROPOSAL
-
-PROPOSAL_ID: <CHG_<YYYYMMDD>_<NN>>
-TITLE: <...>
-SCOPE: <ENGINE|FAMILY|INDEX|PROJECT|SYSTEM>
-TARGETS:
-- files: [ ...paths... ]
-- engines: [ ...engine IDs... ]
-RATIONALE: <why change?>
-IMPACT:
-- breaking_changes: [ ... ]
-- dependencies_affected: [ ... ]
-RISK: <LOW|MED|HIGH>
-ROLLBACK: <how to revert?>
-APPROVAL_REQUIRED: <true>
-GOVERNANCE_PATH:
-- change_control: `00_GOVERNANCE_ENGINES/04__CHANGE_CONTROL_ENG.md`
-- audit_log: `00_GOVERNANCE_ENGINES/01__AUDIT_LOG_ENG.md`
-STATUS: <DRAFT|SUBMITTED|APPROVED|REJECTED>
-CANON_REFS: [ ... ]
-PROVENANCE: <...>
+DEFAULT SAFE MODE:
+- If uncertainty high → output must be “proposal / options”, not “forced change”.
 
 ---
 
-### 5.2 PATTERN_LIBRARY_ENTRY
+## 5) META GATES (HARD) — REQUIRED
+GATE LIST:
+- GATE: <name>
+  CHECK:
+  FAIL SIGNAL:
+  FIX STRATEGY:
 
-PATTERN_ID: <PAT_<NAME>>
-CATEGORY: <NAMING|ROUTING|XREF|REGISTRY|STRUCTURE|QA|...>
-DESCRIPTION: <one paragraph>
-WHEN_TO_USE: [ ... ]
-WHEN_NOT_TO_USE: [ ... ]
-EXAMPLES:
-- good: [ ... ]
-- bad: [ ... ]
-DEPENDENCIES: [ ... ]
-NOTES: ...
-
----
-
-### 5.3 OPTIMIZATION_PLAN
-
-OPT_ID: <OPT_<NAME>>
-TARGET: <process|docs|routing|duplication|...>
-METRIC: <speed|clarity|consistency|...>
-ACTIONS: [ ... ]
-EXPECTED_GAIN: <...>
-RISKS: [ ... ]
-STATUS: <DRAFT|RUNNING|DONE>
+MINIMUM META GATES (default set):
+- evidence grounded (inputs exist and referenced)
+- scope safety (doesn’t break canon by default)
+- reversibility (has rollback/backout)
+- impact clarity (what changes + why + expected result)
+- boundary compliance (no domain final output)
 
 ---
 
-### 5.4 MUTATION_VARIANT
+## 6) EXAMPLES (REQUIRED)
+GOOD EXAMPLE:
+- <example improvement pack snippet + why passes gates>
 
-MUT_ID: <MUT_<NAME>>
-WHAT_MUTATES: <template|engine|rule|structure>
-VARIANTS:
-- v1: ...
-- v2: ...
-SELECTION_RULE: <how to pick?>
-SAFETY: <bounds so it won't break canon>
+BAD EXAMPLE:
+- <counterexample>
+- why fails: <gate list>
 
 ---
 
-### 5.5 ROADMAP
+## 7) FAILURE MODES & EDGE CASES
+FAILURES:
+- Failure:
+  CAUSE:
+  RECOVERY:
 
-ROADMAP_ID: <RMP_<YYYYQ#>>
-HORIZON: <weeks|months|quarters>
-GOALS: [ ... ]
-MILESTONES: [ ... ]
-DEPENDENCY_NOTES: [ ... ]
-RISKS: [ ... ]
-NEXT_ACTIONS: [ ... ]
-
----
-
-## 6) SYSTEM INTERFACE (MANDATORY) — ORC/CTL/VAL/QA/REG/XREF
-
-ORCHESTRATED_BY (ORC): []
-CONTROLLED_BY (CTL): []
-
-VALIDATED_BY (VAL):
-- <VAL.META.01.SAFETY> (placeholder) or []
-- <VAL.META.02.DEPENDENCY_IMPACT> (placeholder) or []
-
-QA_BY (QA):
-- <QA.META.01.CANON_GUARD> (placeholder) or []
-
-REGISTRY_UPDATES:
-- REQUIRED: YES (for proposals/roadmaps if you track them)
-- TARGETS:
-  - `00_REG__REGISTRIES/REG.PRJ.<PROJECT_ID>.META_PROPOSALS.md` (recommended)
-  - `00_REG__REGISTRIES/REG.PRJ.<PROJECT_ID>.RUNS.md` (recommended)
-
-XREF_UPDATES:
-- REQUIRED: YES
-- TARGETS:
-  - `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__CHANGE_PROPOSALS.md`
-  - `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__PATTERN_LIBRARY.md`
-  - `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__PROVENANCE.md`
-  - `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__DEPENDENCIES.md`
+EDGE CASES:
+- Case:
+  Handling:
 
 ---
 
-## 7) PROCESS (HOW TO EXECUTE)
+## 8) REL / XREF (UID-FIRST)
+REL:
+- REL: <REL_TYPE> | TARGET: <UID> | WHY: <reason>
 
-1) Scan system artifacts (indexes, registries, xrefs).
-2) Detect patterns/duplication/inconsistencies.
-3) Produce proposals (not edits) with impact + rollback.
-4) Update proposal registries/xrefs.
-5) Submit through governance pipeline.
-6) After approval — execute changes, log in audit.
+XREF:
+- XREF: <UID> | WHY: <reason>
 
----
-
-## 8) QUALITY GATES (MANDATORY)
-
-PASS if:
-- outputs are labeled PROPOSAL by default
-- each proposal has impact + rollback + governance path
-- dependencies are explicit
-- no silent edits to locked canon
-
-FAIL if:
-- direct canon rewrite without proposal
-- missing rollback
-- hidden dependency changes
+RULE:
+- No PATH navigation inside content.
+- If clickable references are needed, keep them in registries/indexes as RAW.
 
 ---
 
-## 9) RAW LINK (MANDATORY)
+## 9) CHANGE NOTES (OPTIONAL)
+- DATE: YYYY-MM-DD
+- TYPE: PATCH|MINOR|MAJOR
+- SUMMARY:
+- REASON:
+- IMPACT:
 
-RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/10_META_EVOLUTION_ENGINES/00__TEMPLATE__ENGINE__META_EVOLUTION_ENGINES.md
-
----
-
-## FINAL RULE (LOCK)
-
-> META improves the system via proposals and governance, never via silent canon edits.
-
-LOCK: FIXED
+--- END.

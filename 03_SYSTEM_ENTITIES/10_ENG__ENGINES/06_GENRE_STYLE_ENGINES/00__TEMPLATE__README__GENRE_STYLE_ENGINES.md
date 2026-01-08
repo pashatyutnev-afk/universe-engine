@@ -1,164 +1,81 @@
-# ENG FAMILY README — GENRE_STYLE_ENGINES (TEMPLATE v2)
-FILE: 00__TEMPLATE__README__GENRE_STYLE_ENGINES.md
+# README TEMPLATE — GENRE & STYLE ENGINES (ENG FAMILY)
+FILE: 03_SYSTEM_ENTITIES/10_ENG__ENGINES/06_GENRE_STYLE_ENGINES/00__TEMPLATE__README__GENRE_STYLE_ENGINES.md
 
 SCOPE: Universe Engine
-LAYER: ENG
+LAYER: 03_SYSTEM_ENTITIES
 DOC_TYPE: TEMPLATE
-ENTITY_GROUP: ENGINES (ENG)
-TEMPLATE_KIND: FAMILY_README_OVERLAY
+ENTITY_CLASS: ENG
+ENGINE_FAMILY: 06_GENRE_STYLE_ENGINES
 LEVEL: L3
 STATUS: ACTIVE
-VERSION: 2.0
-ROLE: Family overlay for Genre/Style realm README. Compatible with base family template v2 and base engine template v2. Defines project-level style law packs, symbolic rules, and sensory constraints consumed by Narrative/Character/Production.
-
 LOCK: FIXED
-OWNER: Universe Engine
+VERSION: 1.0.0
+UID: UE.TPL.ENG.STYLE.FAMILY_README.001
+OWNER: SYSTEM
+ROLE: Canonical template for genre/style family README (scope, style pack policy, gates, engine list policy)
 
 ---
 
-## 0) PURPOSE (REALM LAW)
-
-Семейство **GENRE_STYLE_ENGINES** отвечает за “как это чувствуется”:
-- тон и настроение
-- атмосфера
-- эмоциональный резонанс
-- символизм
-- метафоры
-- сенсорная детализация (запах/звук/тактильность/температура)
-
-EXISTENCE RULE:
-> Проектный стиль считается заданным, когда есть: tone+atmosphere + symbol rules + sensory palette.
-
----
-
-## 1) FAMILY IDENTITY (MANDATORY)
-
-FAMILY_NAME: GENRE_STYLE_ENGINES
-FAMILY_CODE: STY
+## 0) FAMILY IDENTITY (REQUIRED)
+FAMILY_NAME: 06_GENRE_STYLE_ENGINES
 FAMILY_CLASS: STYLE
-FAMILY_LEVEL: L3
-
-FAMILY_PATH:
-`03_SYSTEM_ENTITIES/10_ENG__ENGINES/06_GENRE_STYLE_ENGINES/`
-
-README_FILE:
-`00__README__GENRE_STYLE_ENGINES.md`
+FAMILY_UID: UE.ENG.FAMILY.STYLE.001
 
 ---
 
-## 2) OWNERSHIP BOUNDARIES (ANTI-DUPLICATION)
+## 1) PURPOSE (LAW)
+Семейство genre/style движков задаёт:
+- тон и настроение
+- атмосферу
+- эмоциональный резонанс
+- символизм и метафорические правила
+- сенсорную палитру
 
-### 2.1 OWNS
-- project-level style laws (tone/atmosphere/symbols/sensory palette)
-- constraints packs used by other families
-
-### 2.2 DOES NOT OWN (hard boundaries)
-- персонажный “голос”/лексика/паразиты/манера речи → 03 Character
-- сюжетная структура/арки/сцены → 02 Narrative
-- факты мира/законы/эпохи → 04 World
-- монтаж/тайминг, цветокор как техпроцесс, кадры/планы → 08 Production (но Style задаёт intent, Production реализует)
-Rule:
-> Style = intent law. Production = implementation.
+Цель: стабильный “стилевой слой”, который можно применять к сценам/аркам/эпизодам как артефакт (Style Profile/Pack).
 
 ---
 
-## 3) ROLE MAP (MANDATORY)
+## 2) BOUNDARIES (ANTI-DUP) — REQUIRED
+OWNED HERE:
+- style constraints + style artifacts (profiles/packs)
 
-- FOUNDATION: tone/mood + atmosphere
-- BUILDER: resonance/symbolism/metaphor/sensory
-- OUTPUT: style pack bundles + anti-style rules
-
-### 3.1 Canonical role map table
-| Engine NN | Engine Name | ROLE_IN_FAMILY | PIPELINE_STAGE |
-|---|---|---|---|
-| 01 | Tone & Mood Engine | FOUNDATION | DEFINE |
-| 02 | Atmosphere Engine | FOUNDATION | DEFINE |
-| 03 | Emotional Resonance Engine | BUILDER | BUILD |
-| 04 | Symbolism Engine | BUILDER | BUILD |
-| 05 | Metaphor Engine | BUILDER | BUILD |
-| 06 | Sensory Detail Engine | BUILDER | BUILD |
+NOT OWNED HERE:
+- plot/scenes structure (02_DOMAIN_NARRATIVE_ENGINES)
+- character psychology (03_DOMAIN_CHARACTER_ENGINES)
+- world laws (04_DOMAIN_WORLD_ENGINES)
+- production technical color/editing (08_KNOWLEDGE_PRODUCTION_ENGINES)
 
 ---
 
-## 4) FAMILY OUTPUT POLICY (WORKSHOP L0–L3) — MANDATORY
-
-Default root:
-`05_PROJECTS/<PROJECT_ID>/01_WORKSHOP/`
-
-Recommended storage:
-- project style packs:
-  `05_PROJECT__L2/<LEVEL_FOLDER>/STYLE_PACKS/`
-- optional entity-level style overlays (rare):
-  `01_CHARACTERS/<CHR_*>/<LEVEL_FOLDER>/STYLE_OVERLAY/`
-  `06_EVENTS/<EVT_*>/<LEVEL_FOLDER>/STYLE_OVERLAY/`
-
-Rule:
-> Style is project-scoped by default. Entity overlays are exceptions and must be referenced.
+## 3) FAMILY GATES (MANDATORY)
+Каждый движок семейства обязан иметь минимум 5 style gates:
+- tone consistency
+- atmosphere coherence
+- motif continuity
+- sensory palette stability
+- narrative compatibility
 
 ---
 
-## 5) REQUIRED REGISTRIES (MANDATORY)
-
-Project-scoped:
-- `00_REG__REGISTRIES/REG.PRJ.<PROJECT_ID>.CANON_L2.md` (style packs as canon)
-- `00_REG__REGISTRIES/REG.PRJ.<PROJECT_ID>.OUTPUT_L3.md` (if style kit delivered)
+## 4) REQUIRED TEMPLATES
+ENGINE TEMPLATE UID: UE.TPL.ENG.STYLE.ENGINE.001
+FAMILY README TEMPLATE UID: UE.TPL.ENG.STYLE.FAMILY_README.001
 
 ---
 
-## 6) REQUIRED XREF INDEXES (MANDATORY)
-
-Project-scoped:
-- `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__CANON_REFS.md`
-- `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__PROVENANCE.md`
-- `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__DEPENDENCIES.md`
-
-Style-specific (recommended):
-- `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__STYLE_RULES.md`
-- `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__SYMBOL_MAP.md`
+## 5) ENGINE LIST POLICY (NUMBERING)
+- Engine files: `NN__<NAME>_ENG.md` (NN starts at 01)
+- NN in filename MUST match NN in registry / index.
+- README is always `00__README__GENRE_STYLE_ENGINES.md`
+- Templates are always `00__TEMPLATE__...`
 
 ---
 
-## 7) TEMPLATES (MANDATORY BLOCK)
+## 6) REL / XREF (UID-FIRST)
+REL:
+- REL: <REL_TYPE> | TARGET: <UID> | WHY: <reason>
 
-Base templates:
-- ENGINE TEMPLATE (base) — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/00__TEMPLATE__ENGINE__ENG.md
-- FAMILY README TEMPLATE (base) — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/00__TEMPLATE__README__FAMILY__ENG.md
+XREF:
+- XREF: <UID> | WHY: <reason>
 
-Family overlays:
-- ENGINE TEMPLATE (family) — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/06_GENRE_STYLE_ENGINES/00__TEMPLATE__ENGINE__GENRE_STYLE_ENGINES.md
-- README TEMPLATE (family) — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/06_GENRE_STYLE_ENGINES/00__TEMPLATE__README__GENRE_STYLE_ENGINES.md
-
----
-
-## 8) CANON ORDER (MANDATORY)
-
-00 — README (Realm)  
-01 — Tone & Mood Engine  
-02 — Atmosphere Engine  
-03 — Emotional Resonance Engine  
-04 — Symbolism Engine  
-05 — Metaphor Engine  
-06 — Sensory Detail Engine  
-
----
-
-## 9) GOVERNANCE COMPATIBILITY (MANDATORY)
-
-Governance required when:
-- changing project style law pack (tone shift)
-- changing symbol meaning that is referenced across arcs/scenes
-- rewriting sensory palette that production already implemented
-
----
-
-## 10) RAW LINK (MANDATORY)
-
-RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/06_GENRE_STYLE_ENGINES/00__TEMPLATE__README__GENRE_STYLE_ENGINES.md
-
----
-
-## FINAL RULE (LOCK)
-
-> Style defines “how it feels”. Characters speak (CHR), narrative happens (NAR), production executes (PRD).
-
-LOCK: FIXED
+--- END.

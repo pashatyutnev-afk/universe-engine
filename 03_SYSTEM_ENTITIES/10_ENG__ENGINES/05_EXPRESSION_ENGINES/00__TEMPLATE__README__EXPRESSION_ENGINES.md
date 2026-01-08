@@ -1,181 +1,84 @@
-# ENG FAMILY README — EXPRESSION_ENGINES (TEMPLATE v2)
-FILE: 00__TEMPLATE__README__EXPRESSION_ENGINES.md
+# README TEMPLATE — EXPRESSION ENGINES (ENG FAMILY)
+FILE: 03_SYSTEM_ENTITIES/10_ENG__ENGINES/05_EXPRESSION_ENGINES/00__TEMPLATE__README__EXPRESSION_ENGINES.md
 
 SCOPE: Universe Engine
-LAYER: ENG
+LAYER: 03_SYSTEM_ENTITIES
 DOC_TYPE: TEMPLATE
-ENTITY_GROUP: ENGINES (ENG)
-TEMPLATE_KIND: FAMILY_README_OVERLAY
+ENTITY_CLASS: ENG
+ENGINE_FAMILY: 05_EXPRESSION_ENGINES
 LEVEL: L3
 STATUS: ACTIVE
-VERSION: 2.0
-ROLE: Family overlay for Expression realm README. Compatible with base family template v2 and base engine template v2. Defines “expression atoms” used by Narrative and Production as building blocks.
-
 LOCK: FIXED
-OWNER: Universe Engine
+VERSION: 1.0.0
+UID: UE.TPL.ENG.EXPR.FAMILY_README.001
+OWNER: SYSTEM
+ROLE: Canonical template for expression family README (scope, primitive taxonomy, boundaries, gates, engine list policy)
 
 ---
 
-## 0) PURPOSE (REALM LAW)
-
-Семейство **EXPRESSION_ENGINES** — это атомы выражения истории:
-- событие как факт изменения
-- причинно-следственная связка как “мотор”
-- конфликт как столкновение сил
-- turning point как перелом
-- climax как пик
-- resolution как закрытие
-- system shock как резкий сдвиг состояния мира/персонажа
-- scheduling как “когда” в логике мира (не монтаж)
-- randomness/chaos как управляемая неопределённость
-
-EXISTENCE RULE:
-> Если Narrative делает сцены, Expression даёт “механику” сцены: что произошло, почему, чем столкнулось, где перелом, чем завершилось.
-
----
-
-## 1) FAMILY IDENTITY (MANDATORY)
-
-FAMILY_NAME: EXPRESSION_ENGINES
-FAMILY_CODE: EXP
+## 0) FAMILY IDENTITY (REQUIRED)
+FAMILY_NAME: 05_EXPRESSION_ENGINES
 FAMILY_CLASS: EXPRESSION
-FAMILY_LEVEL: L3
-
-FAMILY_PATH:
-`03_SYSTEM_ENTITIES/10_ENG__ENGINES/05_EXPRESSION_ENGINES/`
-
-README_FILE:
-`00__README__EXPRESSION_ENGINES.md`
+FAMILY_UID: UE.ENG.FAMILY.EXPR.001
 
 ---
 
-## 2) OWNERSHIP BOUNDARIES (ANTI-DUPLICATION)
+## 1) PURPOSE (LAW)
+Семейство expression движков определяет **примитивы выражения истории**:
+- EVENT: что произошло (как объект)
+- CAUSE_EFFECT: почему и к чему привело
+- CONFLICT: столкновение сил/целей
+- TURNING_POINT: изменение траектории
+- CLIMAX: пик напряжения/ставок
+- RESOLUTION: снятие напряжения/новое состояние
+- SYSTEM_SHOCK: событие, меняющее правила игры
+- EVENT_SCHEDULING: порядок/тайминг/распределение
+- RANDOMNESS_CHAOS: контролируемая случайность
 
-### 2.1 OWNS
-- event/beat mechanics and their structured representation
-- cause-effect entries as canonical graph edges
-- conflict mechanics (forces, stakes, outcomes)
-- turning/climax/resolution patterns as reusable units
-
-### 2.2 DOES NOT OWN (hard boundaries)
-- story structure (acts, arcs) → 02 Narrative
-- character psyche/motivation definition → 03 Character
-- world law facts (physics/economy/civs) → 04 World
-- screen-time montage/seconds/shot lists → 08 Production
-Rule:
-> Expression outputs units; Narrative composes them; Production times them.
+Это **не** сюжет и **не** персонажи — это библиотека “строительных блоков”.
 
 ---
 
-## 3) ROLE MAP (MANDATORY)
+## 2) BOUNDARIES (ANTI-DUP) — REQUIRED
+OWNED HERE:
+- схемы primitives + правила сборки + gates
 
-- FOUNDATION: Event + Cause–Effect
-- BUILDER: Conflict + Turning + Climax + Resolution + Shock
-- OUTPUT: Scheduling + Chaos control patterns
-
-### 3.1 Canonical role map table
-| Engine NN | Engine Name | ROLE_IN_FAMILY | PIPELINE_STAGE |
-|---|---|---|---|
-| 01 | Event Engine | FOUNDATION | DEFINE |
-| 02 | Cause–Effect Engine | FOUNDATION | DEFINE |
-| 03 | Conflict Engine | BUILDER | BUILD |
-| 04 | Turning Point Engine | BUILDER | BUILD |
-| 05 | Climax Engine | BUILDER | BUILD |
-| 06 | Resolution Engine | BUILDER | BUILD |
-| 07 | System Shock Engine | BUILDER | BUILD |
-| 08 | Event Scheduling Engine | OUTPUT | PRODUCE |
-| 09 | Randomness & Chaos Engine | OUTPUT | PRODUCE |
+NOT OWNED HERE:
+- сюжетные арки/эпизоды/структуры (02_DOMAIN_NARRATIVE_ENGINES)
+- мотивации/психология/речь (03_DOMAIN_CHARACTER_ENGINES)
+- мир/эпохи/экономика/законы (04_DOMAIN_WORLD_ENGINES)
 
 ---
 
-## 4) FAMILY OUTPUT POLICY (WORKSHOP L0–L3) — MANDATORY
-
-Default root:
-`05_PROJECTS/<PROJECT_ID>/01_WORKSHOP/`
-
-Recommended storage:
-- events/beats:
-  `06_EVENTS/EVT_<NAME>/<LEVEL_FOLDER>/`
-- conflicts:
-  `06_EVENTS/CON_<NAME>/<LEVEL_FOLDER>/` (optional)
-- scheduling packs:
-  `06_EVENTS/SCH_<NAME>/<LEVEL_FOLDER>/` (optional)
-- project-level expression library:
-  `05_PROJECT__L2/<LEVEL_FOLDER>/` (if you store reusable patterns)
-
-Rule:
-> Expression artifacts are usually entity-scoped under Events. Canon ones are registered.
+## 3) FAMILY GATES (MANDATORY)
+Каждый движок семейства обязан иметь минимум 5 gates:
+- clarity
+- causality coherence
+- stakes integrity
+- reversibility / cost
+- continuity compatibility
 
 ---
 
-## 5) REQUIRED REGISTRIES (MANDATORY)
-
-Project-scoped:
-- `00_REG__REGISTRIES/REG.PRJ.<PROJECT_ID>.ENTITIES.md`
-- `00_REG__REGISTRIES/REG.PRJ.<PROJECT_ID>.CANON_L2.md` (for canon events/atoms)
-- `00_REG__REGISTRIES/REG.PRJ.<PROJECT_ID>.OUTPUT_L3.md` (if packaged)
+## 4) REQUIRED TEMPLATES
+ENGINE TEMPLATE UID: UE.TPL.ENG.EXPR.ENGINE.001
+FAMILY README TEMPLATE UID: UE.TPL.ENG.EXPR.FAMILY_README.001
 
 ---
 
-## 6) REQUIRED XREF INDEXES (MANDATORY)
-
-Project-scoped (core):
-- `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__CANON_REFS.md`
-- `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__DEPENDENCIES.md`
-- `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__PROVENANCE.md`
-- `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__ENTITY_GRAPH.md`
-
-Expression-specific (mandatory):
-- `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__CAUSE_EFFECT_GRAPH.md`
-- `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__CONFLICT_GRAPH.md` (recommended)
-- `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__TURNING_POINTS.md` (recommended)
+## 5) ENGINE LIST POLICY (NUMBERING)
+- Engine files: `NN__<NAME>_ENG.md` (NN starts at 01)
+- NN in filename MUST match NN in registry / index.
+- README is always `00__README__EXPRESSION_ENGINES.md`
+- Templates are always `00__TEMPLATE__...`
 
 ---
 
-## 7) TEMPLATES (MANDATORY BLOCK)
+## 6) REL / XREF (UID-FIRST)
+REL:
+- REL: <REL_TYPE> | TARGET: <UID> | WHY: <reason>
 
-Base templates:
-- ENGINE TEMPLATE (base) — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/00__TEMPLATE__ENGINE__ENG.md
-- FAMILY README TEMPLATE (base) — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/00__TEMPLATE__README__FAMILY__ENG.md
+XREF:
+- XREF: <UID> | WHY: <reason>
 
-Family overlays:
-- ENGINE TEMPLATE (family) — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/05_EXPRESSION_ENGINES/00__TEMPLATE__ENGINE__EXPRESSION_ENGINES.md
-- README TEMPLATE (family) — 🔗 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/05_EXPRESSION_ENGINES/00__TEMPLATE__README__EXPRESSION_ENGINES.md
-
----
-
-## 8) CANON ORDER (MANDATORY)
-
-00 — README (Realm)  
-01 — Event Engine  
-02 — Cause–Effect Engine  
-03 — Conflict Engine  
-04 — Turning Point Engine  
-05 — Climax Engine  
-06 — Resolution Engine  
-07 — System Shock Engine  
-08 — Event Scheduling Engine  
-09 — Randomness & Chaos Engine  
-
----
-
-## 9) GOVERNANCE COMPATIBILITY (MANDATORY)
-
-Governance required when:
-- changing canon events that are referenced by arcs/scenes
-- changing cause-effect edges that propagate to multiple entities
-- refactoring IDs and routing structure
-
----
-
-## 10) RAW LINK (MANDATORY)
-
-RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/05_EXPRESSION_ENGINES/00__TEMPLATE__README__EXPRESSION_ENGINES.md
-
----
-
-## FINAL RULE (LOCK)
-
-> Expression produces atomic mechanics; Narrative composes; Production times.
-
-LOCK: FIXED
+--- END.

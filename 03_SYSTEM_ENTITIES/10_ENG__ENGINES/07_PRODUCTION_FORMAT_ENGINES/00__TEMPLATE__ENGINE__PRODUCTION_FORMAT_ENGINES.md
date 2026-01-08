@@ -1,234 +1,180 @@
-# ENG ENGINE TEMPLATE — PRODUCTION_FORMAT_ENGINES (FAMILY OVERLAY v2)
-FILE: 00__TEMPLATE__ENGINE__PRODUCTION_FORMAT_ENGINES.md
+# ENGINE TEMPLATE — PRODUCTION FORMAT ENGINES (ENG)
+FILE: 03_SYSTEM_ENTITIES/10_ENG__ENGINES/07_PRODUCTION_FORMAT_ENGINES/00__TEMPLATE__ENGINE__PRODUCTION_FORMAT_ENGINES.md
 
 SCOPE: Universe Engine
-LAYER: ENG
+LAYER: 03_SYSTEM_ENTITIES
 DOC_TYPE: TEMPLATE
-ENTITY_GROUP: ENGINES (ENG)
-TEMPLATE_KIND: ENGINE_FAMILY_OVERLAY
+ENTITY_CLASS: ENG
+ENGINE_FAMILY: 07_PRODUCTION_FORMAT_ENGINES
 LEVEL: L3
 STATUS: ACTIVE
-VERSION: 2.0
-ROLE: Format family overlay. Compatible with ENG ENGINE TEMPLATE (BASE v2). Adds format spec schemas and deliverable mapping to Production pipelines and L3 outputs.
-
 LOCK: FIXED
-OWNER: Universe Engine
+VERSION: 1.0.0
+UID: UE.TPL.ENG.FORMAT.ENGINE.001
+OWNER: SYSTEM
+ROLE: Canonical template for production format ENG engines (genre, blending, adaptation, book/series/short/youtube/game)
 
 ---
 
-## 0) ENGINE IDENTITY (MANDATORY)
+## 0) IDENTITY (REQUIRED)
+ENGINE_NAME: <DISPLAY_NAME>
+ENGINE_CODE: <SHORT_CODE>                       # GENRE | GENRE_BLENDING | FORMAT_ADAPTATION | BOOK_FORMAT | SERIES_EPISODE | SHORT_CONTENT | YOUTUBE_LONGFORM | GAME_NARRATIVE
+ENGINE_NUMBER: <NN>                             # must match filename NN__
+ENGINE_FILE_NAME: <NN__NAME_ENG.md>
+ENGINE_UID: <UE.ENG.FORMAT.<CODE>.NNN>
 
-ENGINE_NAME: <UPPER_SNAKE_CASE>
-ENGINE_ID: ENG.FMT.<NN>.<ENGINE_NAME>
-
-FAMILY_CODE: FMT
-ENGINE_NN_IN_FAMILY: <01..08>
-ENGINE_CLASS: PRODUCTION
-ENGINE_LEVEL: L3
-
-ROLE_IN_FAMILY: <FOUNDATION|OUTPUT>
-PIPELINE_STAGE: <DEFINE|PRODUCE>
+FORMAT_OBJECT:
+- owned format capability (1 line)
+- what it guarantees (1 line)
 
 ---
 
-## 1) PURPOSE (WHAT THIS ENGINE DOES)
-
-One paragraph:
-- which format it defines
-- what deliverables it requires
-- how Production must implement it
-
----
-
-## 2) OWNERSHIP BOUNDARIES (ANTI-DUPLICATION)
-
-OWNS:
-- format requirements and deliverable specs
-
-DOES NOT OWN:
-- story creation (NAR/EXP)
-- style laws (STY)
-- technical production execution (PRD)
+## 1) PURPOSE (LAW)
+Зачем этот движок существует:
+- какой формат/упаковку он задаёт
+- какие ограничения носителя он “фиксирует”
+- какие выходы он стандартизирует (chapters/episodes/shorts/quests)
 
 ---
 
-## 3) TRIGGERS (WHEN TO RUN)
+## 2) DOMAIN BOUNDARY (ANTI-DUP) — REQUIRED
+OWNED HERE:
+- format contracts (structure, length, cadence, packaging)
+- adaptation rules between formats (loss/keep/transform)
+- deliverables definitions for a format
 
-TRIGGERS:
-- project start (choose format)
-- before production pipeline design
-- when a deliverable pack definition is missing
-- when format change is requested
+NOT OWNED HERE:
+- story logic / scene construction (02_DOMAIN_NARRATIVE_ENGINES)
+- character psychology/voice (03_DOMAIN_CHARACTER_ENGINES)
+- world law (04_DOMAIN_WORLD_ENGINES)
+- visual/audio technical production (08_KNOWLEDGE_PRODUCTION_ENGINES)
+
+INTERFACES:
+- Narrative interface: how format constrains story structure
+- Production interface: what deliverables downstream engines consume
+- Marketing interface: how packaging affects distribution (without owning marketing)
 
 ---
 
-## 4) MINI-CONTRACT (MANDATORY)
-
+## 3) INPUTS / OUTPUTS (MINI-CONTRACT) — REQUIRED
 CONSUMES:
-- CORE_STATE_VALIDATION (required)
-- NARRATIVE_PACK refs (optional)
-- STYLE_PACK refs (optional)
-- production capabilities constraints (optional)
+- <ARTIFACT_TYPE or UID>
+- ...
 
 PRODUCES:
-- FORMAT_SPEC (canonical)
-- DELIVERABLE_MAP
-- RELEASE_RULES
-- EPISODE_RULES (if episodic)
-- LENGTH_RULES
+- <ARTIFACT_TYPE or UID>
+- ...
+
+FORMAT_OUTPUT (REQUIRED):
+- OUTPUT_OBJECT: <Format Contract | Release Plan | Episode Grid | Chapter Blueprint | Quest Loop Spec>
+- OUTPUT_SCHEMA (hard):
+  - field: <name> | type: <type> | required: <yes/no> | rules: <short>
+  - ...
+- OUTPUT_INVARIANTS (hard):
+  - <invariant 1>
+  - <invariant 2>
 
 DEPENDS_ON:
-- [] (or engine IDs)
+- <ENG_UID>
+- ...
 
 OUTPUT_TARGET:
-- format specs:
-  `05_PROJECTS/<PROJECT_ID>/01_WORKSHOP/05_PROJECT__L2/<LEVEL_FOLDER>/FORMAT_SPECS/`
-- deliverables:
-  `05_PROJECTS/<PROJECT_ID>/02_OUTPUT/<FORMAT>/...`
-  (or in workshop output folder if you keep everything inside)
-
-Rule:
-> Canon format spec must be registered in REG.PRJ.<PROJECT_ID>.CANON_L2.md.
+- <where projects store format artifacts> (descriptive, no path-nav)
 
 ---
 
-## 5) FORMAT SPEC SCHEMAS (MANDATORY)
+## 4) FORMAT CONTRACT (HARD) — REQUIRED
+FORMAT TYPE:
+- type: <BOOK|SERIES|SHORT|YOUTUBE|GAME|OTHER>
+- primary unit: <chapter|episode|short|video|quest>
+- secondary units: <scenes|beats|segments|loops>
 
-### 5.1 FORMAT_SPEC (base)
+STRUCTURE:
+- macro structure: <e.g., seasons/acts/chapters/levels>
+- unit structure: <beat grid per unit>
+- required beats: <list>
+- optional beats: <list>
+- forbidden patterns: <list>
 
-FMT_ID: <FMT_<NAME>>
-PRIMARY_FORMAT: <BOOK|SERIES|SHORTS|YOUTUBE_LONG|GAME>
-SECONDARY_FORMATS: [ ... ] (optional)
-AUDIENCE_TARGET: <optional>
-RUNTIME_RULES:
-- unit: <minutes|pages|chapters|levels>
-- typical: <...>
-- min: <...>
-- max: <...>
+LENGTH & DURATION:
+- target duration: <range>
+- min/max hard limits:
+- pacing constraints: <format-level pacing, not editing>
 
-STRUCTURE_RULES:
-- parts: <...>
-- episodes: <...>
-- chapters: <...>
+CADENCE / RELEASE:
+- release cadence: <weekly/batch/etc>
+- consistency rule: <what must remain stable>
 
-DELIVERABLES_REQUIRED:
-- [SCRIPT|STORY_BIBLE|SHOT_LIST|ANIMATIC|FINAL_VIDEO|AUDIO_STEMS|SUBTITLES|THUMBNAILS|METADATA|BUILD|...]
-QUALITY_BAR:
-- must_have: [ ... ]
-- nice_to_have: [ ... ]
+PACKAGING:
+- title rules:
+- hook rules:
+- recap rule (if any):
+- cliffhanger rule (if any):
+- onboarding rule (first unit):
 
-CANON_STATUS: <DRAFT|CANON>
-CANON_REFS: [ ... ]
-
----
-
-### 5.2 DELIVERABLE_MAP
-
-MAP_ID: <DELIV_MAP_<NAME>>
-FOR_FORMAT: <FMT_ID>
-PIPELINE_TARGETS:
-- narrative_inputs: [ ... ]
-- production_engines: [ ... ] (refs to 08_KNOWLEDGE_PRODUCTION_ENGINES)
-- qa_targets: [ ... ] (refs to QA family if used)
-OUTPUT_PATHS:
-- final: `05_PROJECTS/<PROJECT_ID>/02_OUTPUT/<FORMAT>/...`
-- intermediates: `05_PROJECTS/<PROJECT_ID>/01_WORKSHOP/05_PROJECT__L3/04_OUTPUT_L3/<FORMAT>/...`
+ADAPTATION NOTES (if relevant):
+- what is preserved:
+- what is transformed:
+- what is dropped:
 
 ---
 
-### 5.3 EPISODE_RULES (if SERIES/SHORTS/YOUTUBE)
+## 5) FORMAT GATES (HARD) — REQUIRED
+GATE LIST:
+- GATE: <name>
+  CHECK: <how to verify>
+  FAIL SIGNAL: <what indicates failure>
+  FIX STRATEGY: <how to fix>
 
-EP_RULES_ID: <EP_RULES_<NAME>>
-EPISODE_COUNT: <...>
-EPISODE_ARC_POLICY: <one arc per ep|multi-arc|season arc|...>
-CLIFFHANGER_POLICY: <none|soft|hard>
-RECAP_POLICY: <none|light|standard>
-SERIES_BIBLE_REQUIRED: <true|false>
-
----
-
-### 5.4 RELEASE_RULES
-
-REL_ID: <REL_<NAME>>
-CADENCE: <weekly|daily|batch|...>
-VERSIONING: <semantic|date|...>
-METADATA_REQUIRED:
-- title
-- description
-- tags
-- thumbnails
-- credits
-PLATFORM_CONSTRAINTS:
-- aspect_ratio
-- loudness targets (intent only; implementation in Production)
-- subtitle format
-
-Rule:
-> Technical loudness/bitrate settings belong to Production; format only states intent and targets.
+MINIMUM FORMAT GATES (default set):
+- structure coherence (units follow contract)
+- duration compliance (inside limits)
+- cadence compliance (release plan consistent)
+- narrative compatibility (format does not break story clarity)
+- production compatibility (deliverables usable downstream)
 
 ---
 
-## 6) SYSTEM INTERFACE (MANDATORY) — ORC/CTL/VAL/QA/REG/XREF
+## 6) EXAMPLES (REQUIRED)
+GOOD EXAMPLE:
+- <structured example of a unit blueprint + why it passes gates>
 
-ORCHESTRATED_BY (ORC): []
-CONTROLLED_BY (CTL): []
-
-VALIDATED_BY (VAL):
-- <VAL.FMT.01.CONSISTENCY> (placeholder) or []
-
-QA_BY (QA):
-- <QA.FMT.01.DELIVERABLE_COMPLETENESS> (placeholder) or []
-
-REGISTRY_UPDATES:
-- REQUIRED: YES (for CANON)
-- TARGETS:
-  - `00_REG__REGISTRIES/REG.PRJ.<PROJECT_ID>.CANON_L2.md`
-  - `00_REG__REGISTRIES/REG.PRJ.<PROJECT_ID>.OUTPUT_L3.md` (deliverables)
-
-XREF_UPDATES:
-- REQUIRED: YES
-- TARGETS:
-  - `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__DELIVERABLE_MAP.md`
-  - `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__DEPENDENCIES.md`
-  - `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__PROVENANCE.md`
-  - `90_XREF__CROSSREF/PRJ_<PROJECT_ID>/XREF__CANON_REFS.md`
+BAD EXAMPLE:
+- <counterexample>
+- why fails: <gate list>
 
 ---
 
-## 7) PROCESS (HOW TO EXECUTE)
+## 7) FAILURE MODES & EDGE CASES
+FAILURES:
+- Failure:
+  CAUSE:
+  RECOVERY:
 
-1) Validate CORE project state.
-2) Select primary format and runtime boundaries.
-3) Define deliverables and mapping to production engines.
-4) Store format spec in routing path.
-5) Update REG + XREF.
-6) If production already started and format changes — governance.
-
----
-
-## 8) QUALITY GATES (MANDATORY)
-
-PASS if:
-- format spec includes runtime + structure + deliverables
-- deliverable map routes to output paths
-- no technical implementation settings inside spec
-- registry and xref updated
-
-FAIL if:
-- format is implied but not explicit
-- deliverables missing
-- contains montage instructions or exact codec settings
+EDGE CASES:
+- Case:
+  Handling:
 
 ---
 
-## 9) RAW LINK (MANDATORY)
+## 8) REL / XREF (UID-FIRST)
+REL:
+- REL: <REL_TYPE> | TARGET: <UID> | WHY: <reason>
 
-RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/07_PRODUCTION_FORMAT_ENGINES/00__TEMPLATE__ENGINE__PRODUCTION_FORMAT_ENGINES.md
+XREF:
+- XREF: <UID> | WHY: <reason>
+
+RULE:
+- No PATH navigation inside content.
+- If clickable references are needed, keep them in registries/indexes as RAW.
 
 ---
 
-## FINAL RULE (LOCK)
+## 9) CHANGE NOTES (OPTIONAL)
+- DATE: YYYY-MM-DD
+- TYPE: PATCH|MINOR|MAJOR
+- SUMMARY:
+- REASON:
+- IMPACT:
 
-> Format defines deliverables and constraints; Production executes; Governance controls changes.
-
-LOCK: FIXED
+--- END.
