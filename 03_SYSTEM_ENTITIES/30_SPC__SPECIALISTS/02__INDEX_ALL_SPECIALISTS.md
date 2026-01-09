@@ -395,7 +395,7 @@ RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/hea
 ## 09_RESEARCH
 REALM FILE:
 - 00 — README: RESEARCH SPECIALISTS  
-RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/30_SPC__SPECIALISTS/08_PSYCHOLOGY/00__README_PSYCHOLOGY_SPECIALISTS.md
+RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/30_SPC__SPECIALISTS/09_RESEARCH/00__README_RESEARCH_SPECIALISTS.md
 
 Family Path: `09_RESEARCH/`
 
