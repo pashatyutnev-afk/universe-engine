@@ -9,18 +9,18 @@ INDEX_TYPE: GLOBAL_SPECIALIST_REGISTRY
 LEVEL: L1
 STATUS: ACTIVE
 LOCK: FIXED
-VERSION: 1.0.1
+VERSION: 1.0.2
 UID: UE.SPC.IDX.ALL.001
 OWNER: SYSTEM
 ROLE: Canonical navigation law + existence registry for all SPC specialist families and instances (RAW-ONLY NAV)
 
 CHANGE_NOTE:
-- DATE: 2026-01-09
+- DATE: 2026-01-11
 - TYPE: PATCH
-- SUMMARY: "Converted SPC index to RAW-only links; root files moved to top; alias rule enforced."
-- REASON: "Canon navigation uses RAW-only."
-- IMPACT: "SPC index becomes deterministic and compliant."
-- CHANGE_ID: UE.CHG.2026-01-09.SPC.IDX.ALL.002
+- SUMMARY: "Extended 06_SOUND_MUSIC family in SPC index: registered specialists 12..20 (prompt/UGC/earworm/genre-fusion/trends/PD-juice/mosaic/album showrunning/group creative direction). No new entities created."
+- REASON: "Music system rollout requires canon-visible specialist roles for viral hook control, platform moments, and public-domain text pipeline."
+- IMPACT: "SPC music family becomes complete for production pipeline; existence registry updated."
+- CHANGE_ID: UE.CHG.2026-01-11.SPC.IDX.ALL.003
 
 ---
 
@@ -329,6 +329,33 @@ RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/hea
 
 11 — AUDIO QA  
 RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/30_SPC__SPECIALISTS/06_SOUND_MUSIC/11__AUDIO_QA_SPC.md
+
+12 — PROMPT ARCHITECT  
+RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/30_SPC__SPECIALISTS/06_SOUND_MUSIC/12__PROMPT_ARCHITECT_SPC.md
+
+13 — UGC DIRECTOR  
+RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/30_SPC__SPECIALISTS/06_SOUND_MUSIC/13__UGC_DIRECTOR_SPC.md
+
+14 — EARWORM DIRECTOR  
+RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/30_SPC__SPECIALISTS/06_SOUND_MUSIC/14__EARWORM_DIRECTOR_SPC.md
+
+15 — GENRE FUSION ARCHITECT  
+RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/30_SPC__SPECIALISTS/06_SOUND_MUSIC/15__GENRE_FUSION_ARCHITECT_SPC.md
+
+16 — TREND ENGINEER  
+RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/30_SPC__SPECIALISTS/06_SOUND_MUSIC/16__TREND_ENGINEER_SPC.md
+
+17 — POET JUICE EDITOR  
+RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/30_SPC__SPECIALISTS/06_SOUND_MUSIC/17__POET_JUICE_EDITOR_SPC.md
+
+18 — MOSAIC EDITOR  
+RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/30_SPC__SPECIALISTS/06_SOUND_MUSIC/18__MOSAIC_EDITOR_SPC.md
+
+19 — ALBUM SHOWRUNNER  
+RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/30_SPC__SPECIALISTS/06_SOUND_MUSIC/19__ALBUM_SHOWRUNNER_SPC.md
+
+20 — GROUP CREATIVE DIRECTOR  
+RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/30_SPC__SPECIALISTS/06_SOUND_MUSIC/20__GROUP_CREATIVE_DIRECTOR_SPC.md
 
 ---
 

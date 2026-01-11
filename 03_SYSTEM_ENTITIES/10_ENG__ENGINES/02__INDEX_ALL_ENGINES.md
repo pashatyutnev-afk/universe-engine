@@ -9,18 +9,18 @@ INDEX_TYPE: GLOBAL_ENGINE_REGISTRY
 LEVEL: L1
 STATUS: ACTIVE
 LOCK: FIXED
-VERSION: 1.0.0
+VERSION: 1.1.0
 UID: UE.ENG.IDX.ALL.001
 OWNER: SYSTEM
 ROLE: Canonical navigation law + existence registry + roadmap for all ENG engine families and instances (RAW-ONLY NAV)
 
 CHANGE_NOTE:
-- DATE: 2026-01-09
+- DATE: 2026-01-11
 - TYPE: MAJOR
-- SUMMARY: "Rebuilt ENG global index under new ENG ruleset: canonical header, RAW-only navigation, strict family block standard, existence enforcement."
-- REASON: "Index must be deterministic and compliant with ENG layer rules for stamping."
-- IMPACT: "ENG layer navigation/existence becomes strict and audit-compatible."
-- CHANGE_ID: UE.CHG.2026-01-09.ENG.IDX.ALL.001
+- SUMMARY: "Full rebuild of ENG global index to match actual folder structure 00..14; RAW-only nav; strict family block standard; added Music/Trend/PoetPD/Naming families; removed outdated quick-nav limits."
+- REASON: "Index must be deterministic and match repo structure; existence enforcement."
+- IMPACT: "ENG layer navigation becomes complete; all families 00..14 are canon-visible."
+- CHANGE_ID: UE.CHG.2026-01-11.ENG.IDX.ALL.002
 
 ---
 
@@ -37,21 +37,19 @@ RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/hea
 ---
 
 ## 0) PURPOSE (LAW)
-Этот INDEX — **единая точка истины** для всех **ENG-движков** Universe Engine.
+Этот INDEX — единая точка истины для всех ENG-движков.
 
 Он фиксирует:
-- полный список семейств (FAMILY folders) внутри `03_SYSTEM_ENTITIES/10_ENG__ENGINES/`
+- полный список семейств (FAMILY folders) в `03_SYSTEM_ENTITIES/10_ENG__ENGINES/`
 - строгий порядок движков внутри каждого семейства
-- обязательную нумерацию, именование и канонические пути
-- обязательные cross-links (стыки) между слоями
-- минимальные стандарты статуса, блокировок и зависимостей
+- RAW-only навигацию (PATH — метка, не механизм)
 
 ---
 
 ## 1) EXISTENCE RULE (ABSOLUTE)
-- Если движка/README/Template нет в этом INDEX — он **не существует** для ENG слоя.
-- Если файл существует, но не зарегистрирован здесь — **NON-CANON / ignored**.
-- NAV работает **только по RAW** ссылкам (PATH — человекочитаемая метка, не механизм навигации).
+- Если README/Template/Engine нет в этом INDEX — он **не существует** для ENG слоя.
+- Если файл есть в репо, но не зарегистрирован здесь — **NON-CANON / ignored**.
+- NAV работает **только по RAW** ссылкам.
 
 ---
 
@@ -69,30 +67,76 @@ RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/hea
 
 ## 3) HOW TO USE (ROADMAP)
 1) Выбираешь FAMILY по задаче (см. TASK→FAMILY MAP).
-2) Открываешь **REALM FILE (README)** семейства — это “правила/терминология/границы”.
-3) Внутри семейства идёшь по движкам **строго по номеру**.
-4) Если нужен новый движок:
-   - Сначала регистрируешь его здесь (правильное семейство + правильный номер).
-   - Потом создаёшь файл.
-   - Потом добавляешь его в dependency/xref систему.
+2) Открываешь REALM FILE (README) семейства — рамки/термины/границы.
+3) Внутри семейства идёшь по движкам строго по номеру.
+4) Новый движок:
+   - сначала регистрируется здесь (правильное семейство + номер),
+   - потом создаётся файл,
+   - потом фиксируются зависимости (dependency registry).
 
 ---
 
 ## 4) TASK → FAMILY MAP (NAVIGATION BY INTENT)
 A) Управление системой / каноном / правками → `00_GOVERNANCE_ENGINES`  
-B) Базовая сущность системы (кто мы / где мы / что живо) → `01_CORE_ENGINES`  
+B) База системы (кто мы / где мы / что живо) → `01_CORE_ENGINES`  
 C) История / сценарий / сцены / смысл → `02_DOMAIN_NARRATIVE_ENGINES` + `05_EXPRESSION_ENGINES`  
 D) Персонажи / психология / мотивация / отношения / речь → `03_DOMAIN_CHARACTER_ENGINES`  
 E) Мир / законы / эпохи / цивилизации / экономика / технологии / экология → `04_DOMAIN_WORLD_ENGINES`  
-F) Атмосфера / тон / символизм / ощущения (чтобы “чувствовалось”) → `06_GENRE_STYLE_ENGINES`  
+F) Атмосфера / тон / символизм / ощущения → `06_GENRE_STYLE_ENGINES`  
 G) Формат выпуска (книга/сериал/короткие/YouTube/игра) → `07_PRODUCTION_FORMAT_ENGINES`  
-H) Производство визуала/видео/монтажа/прод-звука (медиа-артефакты) → `08_KNOWLEDGE_PRODUCTION_ENGINES`  
+H) Производство визуала/видео/монтажа/прод-звука → `08_KNOWLEDGE_PRODUCTION_ENGINES`  
 I) Глубокая музыка (композиция/гармония/аранж/вокал/микс-мастер) → `09_SOUND_MUSIC_ENGINES`  
-J) Улучшение системы поверх всех слоёв (meta) → `10_META_EVOLUTION_ENGINES`
+J) Meta улучшение системы → `10_META_EVOLUTION_ENGINES`  
+K) Music Factory (группа/альбом/трек/релиз/анти-повторы) → `11_MUSIC_FACTORY_ENGINES`  
+L) Trend/Genre/Viral/UGC/Earworm/Prompt Compiler → `12_TREND_GENRE_ENGINES`  
+M) Poet PD Corpus (PD/juice/mosaic/excerpt anti-repeat) → `13_POET_PD_CORPUS_ENGINES`  
+N) Naming & Identity (нейминг/анти-дубли/форматы платформ) → `14_NAMING_IDENTITY_ENGINES`
 
 ---
 
-## 5) QUICK NAV (ENGINE MAP JUMP)
+## 5) FAMILY BLOCK STANDARD (MANDATORY)
+Каждое семейство обязано иметь один блок-скелет:
+1) `## <FAMILY_NAME>`
+2) `CLASS:`
+3) `REALM FILE (RAW):`
+4) `Family Path:`
+5) `TEMPLATES (RAW):` (ENGINE + README)
+6) Список движков по номерам (RAW)
+
+---
+
+## 6) NAMING + NUMBERING RULES (MANDATORY)
+- Папка семейства: `NN_<FAMILY>_ENGINES`
+- README семейства: `00__README__<FAMILY>_ENGINES.md`
+- Templates: `00__TEMPLATE__ENGINE__<FAMILY>_ENGINES.md` и `00__TEMPLATE__README__<FAMILY>_ENGINES.md`
+- Engine files: `NN__<ENGINE_NAME>_ENG.md` (NN начинается с 01 внутри семейства)
+- Номер в INDEX и номер в имени файла обязаны совпадать.
+
+---
+
+## 7) ENGINE MINI-CONTRACT LAW (MANDATORY)
+Каждый движок обязан иметь mini-contract:
+- CONSUMES / PRODUCES / DEPENDS_ON / OUTPUT_TARGET  
+Если блока нет — движок считается INCOMPLETE.
+
+---
+
+## 8) DEPENDENCY LAW (MANDATORY)
+Любые зависимости должны быть:
+- перечислены в `DEPENDS_ON`
+- отражены в dependency registry:
+  `00_GOVERNANCE_ENGINES/06__DEPENDENCY_REGISTRY_ENG.md`
+
+---
+
+## 9) GOVERNANCE PIPELINE (MANDATORY)
+Любая правка этого INDEX считается изменением канона и фиксируется через:
+- `00_GOVERNANCE_ENGINES/01__AUDIT_LOG_ENG.md`
+- `00_GOVERNANCE_ENGINES/04__CHANGE_CONTROL_ENG.md`
+
+---
+
+## 10) QUICK NAV (ENGINE MAP JUMP)
 - [00 — Governance](#eng-family-00-governance)
 - [01 — Core](#eng-family-01-core)
 - [02 — Domain Narrative](#eng-family-02-narrative)
@@ -104,125 +148,10 @@ J) Улучшение системы поверх всех слоёв (meta) →
 - [08 — Knowledge Production](#eng-family-08-production)
 - [09 — Sound & Music](#eng-family-09-sound)
 - [10 — Meta Evolution](#eng-family-10-meta)
-
----
-
-## 6) FAMILY BLOCK STANDARD (MANDATORY)
-Каждое семейство (FAMILY) **обязано** иметь в этом INDEX один и тот же блок-скелет:
-
-1) `## <FAMILY_NAME>`  
-2) `CLASS:`  
-3) `REALM FILE:` (raw-link)  
-4) `Family Path:`  
-5) `TEMPLATES:` (ENGINE TEMPLATE + README TEMPLATE — raw-links)  
-6) Список движков по номерам (raw-links)
-
-Если в семейном блоке не хватает пункта — семейство считается **INCOMPLETE**.
-
----
-
-## 7) NAMING + NUMBERING RULES (MANDATORY)
-7.1 Folder naming (family)
-- Формат папки: `NN_<FAMILY_NAME>_ENGINES`
-- `NN` — глобальный порядок семейств в этом INDEX (00, 01, 02…)
-
-7.2 Engine file naming
-- Формат: `NN__<ENGINE_NAME>_ENG.md`
-- `NN` начинается с `01` **внутри каждого семейства**
-- Номер в INDEX и номер в имени файла **обязаны совпадать**
-- README не является движком и всегда имеет номер `00`:
-  `00__README__<FAMILY>_ENGINES.md`
-
-7.3 Canon path rule
-- Канонический путь для всех ENG:
-  `03_SYSTEM_ENTITIES/10_ENG__ENGINES/<FAMILY_PATH>/<FILE>`
-
-7.4 BASE PATH (short alias)
-- BASE_PATH:
-  `03_SYSTEM_ENTITIES/10_ENG__ENGINES/`
-
----
-
-## 8) STATUS / LOCK STANDARD (MANDATORY)
-8.1 Allowed STATUS (strict set)
-В шапке каждого README и каждого Engine файла допускается **только один** `STATUS:` и только из списка:
-- `STATUS: DRAFT`
-- `STATUS: ACTIVE`
-- `STATUS: DEPRECATED`
-- `STATUS: ARCHIVED`
-
-8.2 LOCK (strict set)
-- `LOCK: OPEN`
-- `LOCK: FIXED`
-
-8.3 Anti-duplication rule
-- В конце файла **НЕ допускается** второй `STATUS: ...`
-- `LOCK` допускается только один (обычно внизу файла)
-
----
-
-## 9) ENGINE MINI-CONTRACT LAW (MANDATORY)
-Каждый движок обязан иметь mini-contract блок:
-- `CONSUMES:` (1–5 типов входных артефактов)
-- `PRODUCES:` (1–5 типов выходных артефактов)
-- `DEPENDS_ON:` (список движков-предпосылок или `[]`)
-- `OUTPUT_TARGET:` (куда кладётся результат в проектах/артефактах)
-
-Если mini-contract отсутствует — движок считается **INCOMPLETE**.
-
----
-
-## 10) LINK RULE (REGISTRY STANDARD)
-- У каждой FAMILY обязателен **REALM FILE** (README) со ссылкой.
-- У каждой FAMILY обязателен блок **TEMPLATES** (ENGINE TEMPLATE + README TEMPLATE) со ссылками.
-- У каждого движка обязателен **прямой raw-link**.
-- Заглушки вида “список без изменений” запрещены.
-- INDEX должен быть читаем **без открытия репозитория**.
-
----
-
-## 11) DEPENDENCY + XREF LAW (MANDATORY)
-- Любые зависимости должны быть:
-  - перечислены в `DEPENDS_ON`
-  - отражены в governance dependency registry (семейство governance)
-- Запрещены “скрытые зависимости” без указания.
-- Циклические зависимости допускаются только при явном описании и причинах.
-
-11.1 Dependency Registry record format (standard)
-`<FAMILY>/<NN__ENGINE_A_ENG>  ->  <FAMILY>/<NN__ENGINE_B_ENG>  | TYPE:<HARD|SOFT> | WHY:<short reason>`
-
-Пример:
-`02_DOMAIN_NARRATIVE_ENGINES/04__SCENE_CONSTRUCTION_ENG  ->  02_DOMAIN_NARRATIVE_ENGINES/02__STORY_STRUCTURE_ENG  | TYPE:HARD | WHY:scenes require structure`
-
-11.2 Governance owner
-- `00_GOVERNANCE_ENGINES/06__DEPENDENCY_REGISTRY_ENG.md`
-
----
-
-## 12) CRITICAL BOUNDARIES (ANTI-DUPLICATION)
-12.1 Narrative Rhythm vs Editing Rhythm
-- Story-time rhythm:
-  `02_DOMAIN_NARRATIVE_ENGINES/05__PACING_RHYTHM_ENG.md`
-- Screen-time rhythm:
-  `08_KNOWLEDGE_PRODUCTION_ENGINES/07__EDITING_MONTAGE_ENG.md`
-
-12.2 Production Audio vs Deep Music
-- Production audio (sync/design/placement/clarity):
-  `08_KNOWLEDGE_PRODUCTION_ENGINES/08__SOUND_MUSIC_ENG.md`
-- Deep music (composition/harmony/arrangement/vocal/mix):
-  `09_SOUND_MUSIC_ENGINES/*`
-
----
-
-## 13) GOVERNANCE COMPATIBILITY (MANDATORY PIPELINE)
-Любые изменения/новые движки/версии обязаны проходить governance-пайплайн:
-- `00_GOVERNANCE_ENGINES/04__CHANGE_CONTROL_ENG.md`
-- `00_GOVERNANCE_ENGINES/02__CANON_AUTHORITY_ENG.md`
-- `00_GOVERNANCE_ENGINES/10__VERSIONING_MEMORY_ENG.md`
-- `00_GOVERNANCE_ENGINES/01__AUDIT_LOG_ENG.md`
-
-13.1 Audit Log enforcement (hard rule)
-Любая правка этого INDEX (включая порядок, ссылки, статусы, новые движки) **обязана** создавать запись в `Audit Log Engine`.
+- [11 — Music Factory](#eng-family-11-music-factory)
+- [12 — Trend & Genre](#eng-family-12-trend-genre)
+- [13 — Poet PD Corpus](#eng-family-13-poet-pd)
+- [14 — Naming & Identity](#eng-family-14-naming-identity)
 
 ---
 
@@ -393,7 +322,7 @@ RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/hea
 
 01 — Event Engine  
 RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/05_EXPRESSION_ENGINES/01__EVENT_ENG.md  
-02 — Cause–Effect Engine  
+02 — Cause Effect Engine  
 RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/05_EXPRESSION_ENGINES/02__CAUSE_EFFECT_ENG.md  
 03 — Conflict Engine  
 RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/05_EXPRESSION_ENGINES/03__CONFLICT_ENG.md  
@@ -407,7 +336,7 @@ RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/hea
 RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/05_EXPRESSION_ENGINES/07__SYSTEM_SHOCK_ENG.md  
 08 — Event Scheduling Engine  
 RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/05_EXPRESSION_ENGINES/08__EVENT_SCHEDULING_ENG.md  
-09 — Randomness & Chaos Engine  
+09 — Randomness Chaos Engine  
 RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/05_EXPRESSION_ENGINES/09__RANDOMNESS_CHAOS_ENG.md  
 
 ---
@@ -422,7 +351,7 @@ RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/hea
 - ENGINE TEMPLATE: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/06_GENRE_STYLE_ENGINES/00__TEMPLATE__ENGINE__GENRE_STYLE_ENGINES.md
 - README TEMPLATE: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/06_GENRE_STYLE_ENGINES/00__TEMPLATE__README__GENRE_STYLE_ENGINES.md
 
-01 — Tone & Mood Engine  
+01 — Tone Mood Engine  
 RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/06_GENRE_STYLE_ENGINES/01__TONE_MOOD_ENG.md  
 02 — Atmosphere Engine  
 RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/06_GENRE_STYLE_ENGINES/02__ATMOSPHERE_ENG.md  
@@ -455,7 +384,7 @@ RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/hea
 RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/07_PRODUCTION_FORMAT_ENGINES/03__FORMAT_ADAPTATION_ENG.md  
 04 — Book Format Engine  
 RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/07_PRODUCTION_FORMAT_ENGINES/04__BOOK_FORMAT_ENG.md  
-05 — Series & Episode Engine  
+05 — Series Episode Engine  
 RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/07_PRODUCTION_FORMAT_ENGINES/05__SERIES_EPISODE_ENG.md  
 06 — Short Content Engine  
 RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/07_PRODUCTION_FORMAT_ENGINES/06__SHORT_CONTENT_ENG.md  
@@ -480,7 +409,7 @@ RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/hea
 RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/08_KNOWLEDGE_PRODUCTION_ENGINES/01__VISUAL_COMPOSITION_ENG.md  
 02 — Art Style Engine  
 RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/08_KNOWLEDGE_PRODUCTION_ENGINES/02__ART_STYLE_ENG.md  
-03 — Camera & Cinematography Engine  
+03 — Camera Cinematography Engine  
 RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/08_KNOWLEDGE_PRODUCTION_ENGINES/03__CAMERA_CINEMATOGRAPHY_ENG.md  
 04 — Lighting Engine  
 RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/08_KNOWLEDGE_PRODUCTION_ENGINES/04__LIGHTING_ENG.md  
@@ -488,9 +417,9 @@ RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/hea
 RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/08_KNOWLEDGE_PRODUCTION_ENGINES/05__IMAGE_GENERATION_ENG.md  
 06 — Video Generation Engine  
 RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/08_KNOWLEDGE_PRODUCTION_ENGINES/06__VIDEO_GENERATION_ENG.md  
-07 — Editing & Montage Engine  
+07 — Editing Montage Engine  
 RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/08_KNOWLEDGE_PRODUCTION_ENGINES/07__EDITING_MONTAGE_ENG.md  
-08 — Sound & Music Engine (Production Layer)  
+08 — Sound Music Engine (Production Layer)  
 RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/08_KNOWLEDGE_PRODUCTION_ENGINES/08__SOUND_MUSIC_ENG.md  
 
 ---
@@ -509,17 +438,17 @@ RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/hea
 RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/09_SOUND_MUSIC_ENGINES/01__MUSIC_COMPOSITION_ENG.md  
 02 — Song Structure Engine  
 RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/09_SOUND_MUSIC_ENGINES/02__SONG_STRUCTURE_ENG.md  
-03 — Harmony / Chord Engine  
+03 — Harmony Chord Engine  
 RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/09_SOUND_MUSIC_ENGINES/03__HARMONY_CHORD_ENG.md  
-04 — Melody / Hook Engine  
+04 — Melody Hook Engine  
 RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/09_SOUND_MUSIC_ENGINES/04__MELODY_HOOK_ENG.md  
-05 — Rhythm / Groove Engine  
+05 — Rhythm Groove Engine  
 RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/09_SOUND_MUSIC_ENGINES/05__RHYTHM_GROOVE_ENG.md  
-06 — Rhyme / Meter Engine  
+06 — Rhyme Meter Engine  
 RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/09_SOUND_MUSIC_ENGINES/06__RHYME_METER_ENG.md  
 07 — Lyrics Engine  
 RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/09_SOUND_MUSIC_ENGINES/07__LYRICS_ENG.md  
-08 — Arrangement / Instrumentation Engine  
+08 — Arrangement Instrumentation Engine  
 RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/09_SOUND_MUSIC_ENGINES/08__ARRANGEMENT_INSTRUMENTATION_ENG.md  
 09 — Vocal Performance Engine  
 RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/09_SOUND_MUSIC_ENGINES/09__VOCAL_PERFORMANCE_ENG.md  
@@ -529,7 +458,7 @@ RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/hea
 RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/09_SOUND_MUSIC_ENGINES/11__MUSIC_STYLE_CONSISTENCY_ENG.md  
 12 — Music To Scene Engine  
 RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/09_SOUND_MUSIC_ENGINES/12__MUSIC_TO_SCENE_ENG.md  
-13 — Mix / Master Engine  
+13 — Mix Master Engine  
 RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/09_SOUND_MUSIC_ENGINES/13__MIX_MASTER_ENG.md  
 
 ---
@@ -554,6 +483,110 @@ RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/hea
 RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/10_META_EVOLUTION_ENGINES/04__CREATIVE_MUTATION_ENG.md  
 05 — Future Projection Engine  
 RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/10_META_EVOLUTION_ENGINES/05__FUTURE_PROJECTION_ENG.md  
+
+---
+
+<a id="eng-family-11-music-factory"></a>
+## 11_MUSIC_FACTORY_ENGINES
+**CLASS:** PRODUCTION (L3)  
+**REALM FILE (RAW):** https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/11_MUSIC_FACTORY_ENGINES/00__README__MUSIC_FACTORY_ENGINES.md  
+**Family Path:** `11_MUSIC_FACTORY_ENGINES/`
+
+**TEMPLATES (RAW):**
+- ENGINE TEMPLATE: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/11_MUSIC_FACTORY_ENGINES/00__TEMPLATE__ENGINE__MUSIC_FACTORY_ENGINES.md
+- README TEMPLATE: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/11_MUSIC_FACTORY_ENGINES/00__TEMPLATE__README__MUSIC_FACTORY_ENGINES.md
+
+01 — Group Foundation Engine  
+RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/11_MUSIC_FACTORY_ENGINES/01__GROUP_FOUNDATION_ENG.md  
+02 — Artist Factory Engine  
+RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/11_MUSIC_FACTORY_ENGINES/02__ARTIST_FACTORY_ENG.md  
+03 — Album Blueprint Engine  
+RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/11_MUSIC_FACTORY_ENGINES/03__ALBUM_BLUEPRINT_ENG.md  
+04 — Track Factory Engine  
+RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/11_MUSIC_FACTORY_ENGINES/04__TRACK_FACTORY_ENG.md  
+05 — Duration Strategy Engine  
+RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/11_MUSIC_FACTORY_ENGINES/05__DURATION_STRATEGY_ENG.md  
+06 — Release Pack Engine  
+RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/11_MUSIC_FACTORY_ENGINES/06__RELEASE_PACK_ENG.md  
+07 — Catalog Collision Engine  
+RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/11_MUSIC_FACTORY_ENGINES/07__CATALOG_COLLISION_ENG.md  
+08 — Novelty Injection Engine  
+RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/11_MUSIC_FACTORY_ENGINES/08__NOVELTY_INJECTION_ENG.md  
+09 — Take Log Engine  
+RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/11_MUSIC_FACTORY_ENGINES/09__TAKE_LOG_ENG.md  
+
+---
+
+<a id="eng-family-12-trend-genre"></a>
+## 12_TREND_GENRE_ENGINES
+**CLASS:** STYLE (L3)  
+**REALM FILE (RAW):** https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/12_TREND_GENRE_ENGINES/00__README__TREND_GENRE_ENGINES.md  
+**Family Path:** `12_TREND_GENRE_ENGINES/`
+
+**TEMPLATES (RAW):**
+- ENGINE TEMPLATE: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/12_TREND_GENRE_ENGINES/00__TEMPLATE__ENGINE__TREND_GENRE_ENGINES.md
+- README TEMPLATE: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/12_TREND_GENRE_ENGINES/00__TEMPLATE__README__TREND_GENRE_ENGINES.md
+
+01 — Genre Taxonomy Engine  
+RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/12_TREND_GENRE_ENGINES/01__GENRE_TAXONOMY_ENG.md  
+02 — Fusion Recipe Engine  
+RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/12_TREND_GENRE_ENGINES/02__FUSION_RECIPE_ENG.md  
+03 — Style Fingerprint Engine  
+RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/12_TREND_GENRE_ENGINES/03__STYLE_FINGERPRINT_ENG.md  
+04 — Viral Hook Blueprint Engine  
+RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/12_TREND_GENRE_ENGINES/04__VIRAL_HOOK_BLUEPRINT_ENG.md  
+05 — UGC Moment Map Engine  
+RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/12_TREND_GENRE_ENGINES/05__UGC_MOMENT_MAP_ENG.md  
+06 — Earworm Hook Stack Engine  
+RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/12_TREND_GENRE_ENGINES/06__EARWORM_HOOK_STACK_ENG.md  
+07 — Prompt Compiler Engine  
+RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/12_TREND_GENRE_ENGINES/07__PROMPT_COMPILER_ENG.md  
+
+---
+
+<a id="eng-family-13-poet-pd"></a>
+## 13_POET_PD_CORPUS_ENGINES
+**CLASS:** RESEARCH (L3)  
+**REALM FILE (RAW):** https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/13_POET_PD_CORPUS_ENGINES/00__README__POET_PD_CORPUS_ENGINES.md  
+**Family Path:** `13_POET_PD_CORPUS_ENGINES/`
+
+**TEMPLATES (RAW):**
+- ENGINE TEMPLATE: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/13_POET_PD_CORPUS_ENGINES/00__TEMPLATE__ENGINE__POET_PD_CORPUS_ENGINES.md
+- README TEMPLATE: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/13_POET_PD_CORPUS_ENGINES/00__TEMPLATE__README__POET_PD_CORPUS_ENGINES.md
+
+01 — PD Filter Engine  
+RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/13_POET_PD_CORPUS_ENGINES/01__PD_FILTER_ENG.md  
+02 — Poem Fit Scoring Engine  
+RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/13_POET_PD_CORPUS_ENGINES/02__POEM_FIT_SCORING_ENG.md  
+03 — Juice Extractor Engine  
+RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/13_POET_PD_CORPUS_ENGINES/03__JUICE_EXTRACTOR_ENG.md  
+04 — Mosaic Composer Engine  
+RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/13_POET_PD_CORPUS_ENGINES/04__MOSAIC_COMPOSER_ENG.md  
+05 — Excerpt Collision Engine  
+RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/13_POET_PD_CORPUS_ENGINES/05__EXCERPT_COLLISION_ENG.md  
+
+---
+
+<a id="eng-family-14-naming-identity"></a>
+## 14_NAMING_IDENTITY_ENGINES
+**CLASS:** META (L3)  
+**REALM FILE (RAW):** https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/14_NAMING_IDENTITY_ENGINES/00__README__NAMING_IDENTITY_ENGINES.md  
+**Family Path:** `14_NAMING_IDENTITY_ENGINES/`
+
+**TEMPLATES (RAW):**
+- ENGINE TEMPLATE: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/14_NAMING_IDENTITY_ENGINES/00__TEMPLATE__ENGINE__NAMING_IDENTITY_ENGINES.md
+- README TEMPLATE: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/14_NAMING_IDENTITY_ENGINES/00__TEMPLATE__README__NAMING_IDENTITY_ENGINES.md
+
+01 — Naming Brief Engine  
+RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/14_NAMING_IDENTITY_ENGINES/01__NAMING_BRIEF_ENG.md  
+02 — Naming Generation Engine  
+RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/14_NAMING_IDENTITY_ENGINES/02__NAMING_GENERATION_ENG.md  
+03 — Naming Collision Engine  
+RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/14_NAMING_IDENTITY_ENGINES/03__NAMING_COLLISION_ENG.md  
+04 — Platform Format Titles Engine  
+RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/14_NAMING_IDENTITY_ENGINES/04__PLATFORM_FORMAT_TITLES_ENG.md  
+05 — Series Naming Engine  
+RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/14_NAMING_IDENTITY_ENGINES/05__SERIES_NAMING_ENG.md  
 
 ---
 
