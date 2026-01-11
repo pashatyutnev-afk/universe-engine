@@ -10,23 +10,24 @@ ENGINE_TYPE: MUSIC_FACTORY
 LEVEL: L3
 STATUS: ACTIVE
 LOCK: FIXED
-VERSION: 1.0.0
+VERSION: 1.0.1
 UID: UE.ENG.MF.RELEASE_PACK.001
 OWNER: SYSTEM
 ROLE: Produces a complete release pack (variants + metadata + credits + QA/VAL snapshot + platform-ready titles) for track or album.
 
 CHANGE_NOTE:
-- DATE: 2026-01-11
-- TYPE: MAJOR
-- SUMMARY: "Defined Release Pack Engine: packaging rules, variants, metadata, credits policy, and readiness gates."
-- REASON: "To scale releases and avoid chaos, every output must ship with standardized assets and documents."
-- IMPACT: "Label-grade packaging; easier distribution and reuse."
-- CHANGE_ID: UE.CHG.2026-01-11.ENG.MF.RELEASE_PACK.001
+- DATE: 2026-01-12
+- TYPE: PATCH
+- SUMMARY: "Canon formatting + fixed OUTPUT_TARGET placeholder; preserved original rules and dependencies."
+- REASON: "Operational readability + correct target path placeholder."
+- IMPACT: "Release packaging becomes deterministic and easy to execute."
+- CHANGE_ID: UE.CHG.2026-01-12.ENG.MF.RELEASE_PACK.002
 
 ---
 
-## 0) PURPOSE
+## 0) PURPOSE (LAW)
 This engine turns approved tracks/albums into a **Release Pack**:
+
 - approved versions (main/short/alt/extended/instrumental etc.)
 - title variants per platform format
 - metadata (genre tags, mood, language, descriptors)
@@ -60,6 +61,7 @@ Secondary:
 - **Metadata Sheet** (tags + descriptors)
 - **Credits & Rights Note** (PD compliance note if used)
 - **Export Checklist** (what to upload where)
+- **Readiness Snapshot** (VAL/QA pass list)
 
 ---
 
@@ -72,6 +74,7 @@ CONSUMES: [
   "Release Variants CTL",
   "Credits/Metadata Policy CTL"
 ]
+
 PRODUCES: [
   "Release Pack (Track/Album)",
   "Variant Manifest",
@@ -79,35 +82,44 @@ PRODUCES: [
   "Credits & Rights Note",
   "Readiness Snapshot (VAL/QA)"
 ]
+
 DEPENDS_ON: [
   "https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/40_CTL__CONTROLLERS/10_MUSIC_CONTROLLERS/04__RELEASE_VARIANTS_CTL.md",
   "https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/40_CTL__CONTROLLERS/10_MUSIC_CONTROLLERS/13__CREDITS_METADATA_POLICY_CTL.md",
   "https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/50_VAL__VALIDATORS/10_MUSIC_VALIDATORS/06__RELEASE_PACK_READY_VAL.md",
   "https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/14_NAMING_IDENTITY_ENGINES/04__PLATFORM_FORMAT_TITLES_ENG.md"
 ]
-OUTPUT_TARGET: "05_PROJECTS/<MUSIC_PROJECTS>/GROUPS/<GROUP_ID>/RELEASES/<RELEASE_ID>/"
+
+OUTPUT_TARGET: "05_PROJECTS/<MUSIC_PROJECTS>/GROUPS/<GROUP_UID>/RELEASES/"
 
 ---
 
 ## 4) RELEASE PACK CONTENTS (STANDARD)
+
 ### 4.1 Track Release Pack must include
 1) RELEASE PASSPORT
-   - RELEASE_ID, track ID, version, date, status
+- RELEASE_ID, track ID, version, date, status
+
 2) VARIANT MANIFEST
-   - MAIN, SHORT_CUT, ALT, INSTRUMENTAL, EXTENDED (as applicable)
+- MAIN, SHORT_CUT, ALT, INSTRUMENTAL, EXTENDED (as applicable)
+
 3) TITLES (PER PLATFORM)
-   - Spotify/Apple style
-   - YouTube title
-   - TikTok/Reels caption title
+- Spotify/Apple style title
+- YouTube title
+- TikTok/Reels caption title
+
 4) METADATA SHEET
-   - genre tags, mood, energy, language, themes
+- genre tags, mood, energy, language, themes, descriptors
+
 5) CREDITS & RIGHTS NOTE
-   - PD usage statement if used
-   - “no claim of authorship of original poet text”
+- PD usage statement if used
+- “no claim of authorship of original poet text”
+
 6) QA/VAL SNAPSHOT
-   - which validators passed, which QA notes included
+- which validators passed, which QA notes included
+
 7) EXPORT CHECKLIST
-   - upload-ready list + filename conventions
+- upload-ready list + filename conventions
 
 ### 4.2 Album Release Pack must include (in addition)
 - album story/promise
@@ -152,6 +164,7 @@ If lyrics use PD fragments:
   - fragments used (short list)
   - transformation notes (paraphrase/reorder/blend)
 - Never present as “original poem by us”.
+
 (Policy and wording controlled by CTL.)
 
 ---

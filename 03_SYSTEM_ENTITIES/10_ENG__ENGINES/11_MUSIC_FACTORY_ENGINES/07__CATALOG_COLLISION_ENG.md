@@ -13,192 +13,235 @@ LOCK: FIXED
 VERSION: 1.0.0
 UID: UE.ENG.MF.CATALOG_COLLISION.001
 OWNER: SYSTEM
-ROLE: Prevents internal repetition by detecting collisions across catalog: style fingerprint, hook grammar, intro signature, lyric fragments, and naming.
+ROLE: Detects and prevents catalog-level collisions (same-y hooks, intros, motifs, lyric fragments, timbre palettes, and structure templates). Enforces novelty while preserving group identity.
 
 CHANGE_NOTE:
-- DATE: 2026-01-11
+- DATE: 2026-01-12
 - TYPE: MAJOR
-- SUMMARY: "Defined Catalog Collision Engine: collision vectors, thresholds, and fix mutations."
-- REASON: "Scaling many groups/tracks without collision control leads to sameness and loss of viral edge."
-- IMPACT: "Catalog remains diverse; repeat patterns are blocked early."
-- CHANGE_ID: UE.CHG.2026-01-11.ENG.MF.CATALOG_COLLISION.001
+- SUMMARY: "Created Catalog Collision Engine: collision types, thresholds wiring, decision outcomes, and fix loop with Novelty Injection."
+- REASON: "We produce many tracks; without collision control the catalog becomes repetitive and non-viral."
+- IMPACT: "Lower repeat rate, higher uniqueness, safer scaling across many groups."
+- CHANGE_ID: UE.CHG.2026-01-12.ENG.MF.CATALOG.COLLISION.001
 
 ---
 
-## 0) PURPOSE
-This engine blocks repetition at multiple layers:
-- **Group-level** collisions (identity + fingerprint)
-- **Album-level** collisions (track roles too similar)
-- **Track-level** collisions:
-  - hook placement & hook grammar
-  - intro signature (first 10s)
-  - timbre + groove combo
-  - lyric fragment collisions (esp. PD fragments)
-  - naming collisions (group/album/track titles)
+## 0) PURPOSE (LAW)
+Catalog Collision Engine answers one question:
+**“Этот трек/альбом слишком похож на то, что уже есть?”**
 
-It outputs a Collision Report and a Fix Plan (mutations).
+It must:
+- block near-duplicates
+- flag risky similarities early (before release)
+- propose minimal safe changes (controlled novelty)
+- preserve group anchors (style fingerprint stays intact)
 
 ---
 
-## 1) INPUTS (CONSUMES)
-- Catalog Memory Snapshot CTL:
-  - `40_CTL__CONTROLLERS/10_MUSIC_CONTROLLERS/07__CATALOG_MEMORY_CTL.md`
-- Style Fingerprint for current candidate
-- Track Candidate Pack (or Album Blueprint)
-- Naming candidates (if available)
-- Fingerprint collision thresholds CTL:
-  - `40_CTL__CONTROLLERS/10_MUSIC_CONTROLLERS/06__FINGERPRINT_COLLISION_THRESHOLDS_CTL.md`
-- PD policy + excerpt handling (if PD mode)
-
----
-
-## 2) OUTPUTS (PRODUCES)
-Primary:
-- **Collision Report** (PASS / SOFT COLLISION / HARD COLLISION)
-
-Secondary:
-- **Mutation Fix Plan** (what to change to pass)
-- **Collision Log Entry** (for audit / take log)
-
----
-
-## 3) MINI-CONTRACT (MANDATORY)
+## 1) MINI-CONTRACT (MANDATORY)
 CONSUMES: [
-  "Catalog Memory Snapshot",
-  "Candidate Style Fingerprint",
-  "Track Candidate Pack and/or Album Blueprint",
-  "Naming Candidates (optional)",
-  "Collision Thresholds CTL",
-  "PD Policy (optional)"
+  "Track Winner Pack (or candidate takes)",
+  "Track Card (hooks/structure/lyrics plan)",
+  "Album Blueprint (optional)",
+  "Catalog Memory CTL",
+  "Fingerprint Collision Thresholds CTL",
+  "Poet excerpt collision notes (if PD mosaic used)",
+  "Repeat Guard validator outputs"
 ]
 PRODUCES: [
-  "Collision Report",
-  "Mutation Fix Plan",
-  "Collision Log Entry"
+  "Collision Report (single SoT for decision)",
+  "Collision Score Summary (by type)",
+  "Decision: PASS / WARN / BLOCK",
+  "Fix Plan (minimal changes)",
+  "Updated constraints for next iteration (what to avoid)"
 ]
 DEPENDS_ON: [
+  "https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/40_CTL__CONTROLLERS/10_MUSIC_CONTROLLERS/07__CATALOG_MEMORY_CTL.md",
   "https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/40_CTL__CONTROLLERS/10_MUSIC_CONTROLLERS/06__FINGERPRINT_COLLISION_THRESHOLDS_CTL.md",
-  "https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/50_VAL__VALIDATORS/10_MUSIC_VALIDATORS/05__COLLISION_BLOCKER_VAL.md",
   "https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/50_VAL__VALIDATORS/10_MUSIC_VALIDATORS/03__REPEAT_GUARD_VAL.md",
-  "https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/50_VAL__VALIDATORS/10_MUSIC_VALIDATORS/07__NAMING_COLLISION_VAL.md",
-  "https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/14_NAMING_IDENTITY_ENGINES/03__NAMING_COLLISION_ENG.md",
-  "https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/13_POET_PD_CORPUS_ENGINES/05__EXCERPT_COLLISION_ENG.md"
+  "https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/50_VAL__VALIDATORS/10_MUSIC_VALIDATORS/05__COLLISION_BLOCKER_VAL.md",
+  "https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/11_MUSIC_FACTORY_ENGINES/08__NOVELTY_INJECTION_ENG.md",
+  "https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/11_MUSIC_FACTORY_ENGINES/09__TAKE_LOG_ENG.md"
 ]
-OUTPUT_TARGET: "05_PROJECTS/<MUSIC_PROJECTS>/CATALOG/COLLISIONS/"
+OUTPUT_TARGET: "05_PROJECTS/<MUSIC_PROJECTS>/GROUPS/<GROUP_UID>/CATALOG/COLLISIONS/"
 
 ---
 
-## 4) COLLISION VECTORS (WHAT WE COMPARE)
-### 4.1 Style Fingerprint Collision
-Compare anchors:
-- tempo window + groove label
-- timbre palette
-- hook grammar pattern
-- structure compression pattern
-- lead persona delivery
+## 2) COLLISION TYPES (STANDARD)
+Collision types are evaluated independently.
 
-### 4.2 Hook Grammar Collision
-Compare:
-- first hook timing (seconds window)
-- repeat count + repeat spacing
-- phrase length (syllable count proxy)
-- call-response pattern
+### A) HOOK COLLISION
+- Similar hook contour / chant tag / slogan line
+- Similar hook rhythm + accent pattern
+- Similar hook “entry timing” and pause pattern
 
-### 4.3 Intro Signature Collision (First 10s)
-Compare:
-- instrumentation entry order
-- rhythmic motif type
-- opening vocal cadence
-- texture density
+### B) INTRO SIGNATURE COLLISION
+- Same 0–10s identity stamp pattern
+- Same intro instrument lead + same rhythm bed
 
-### 4.4 Timbre+Groove Combo Collision
-Compare dominant combo:
-- {groove driver + lead texture + vocal delivery}
+### C) STRUCTURE TEMPLATE COLLISION
+- Same section order and lengths (intro/verse/hook/drop/bridge)
+- Same “drop placement” map
+- Same loop-out behavior
 
-### 4.5 Lyric Fragment Collision (PD mode)
-Compare:
-- reused fragments (exact or near-exact)
-- same famous lines (hard collision risk)
+### D) TIMBRE / PALETTE COLLISION
+- Same lead timbre dominance
+- Same palette combo (e.g., identical drum kit feel + bass texture + lead synth color)
 
-### 4.6 Naming Collision
-Compare:
-- group name similarity
-- album name similarity
-- track title similarity
-- platform formatted titles
+### E) GROOVE / RHYTHM COLLISION
+- Same groove pattern at same tempo band
+- Same hi-hat / snare “signature” behavior
+
+### F) LYRICS / EXCERPT COLLISION (PD + mosaic)
+- Reuse of the same strongest lines too often
+- Reuse of the same “mosaic stitch” pattern
+- Reuse of the same rhyme skeleton/phrase cadence
+
+### G) CROSS-GROUP COLLISION (optional)
+- Similarity against other groups’ catalogs (if global memory enabled)
 
 ---
 
-## 5) COLLISION SEVERITY
-- PASS: below thresholds
-- SOFT COLLISION: similar, but can be fixed by 1–2 mutations
-- HARD COLLISION: too close; must change at least 3 axes or discard
+## 3) THRESHOLDS (CONTROLLED BY CTL)
+This engine does not invent thresholds.
+It reads:
+- collision thresholds by type
+- allowed similarity bands
+- what counts as “hard block” vs “warn”
 
-Hard collision triggers (examples):
-- same intro signature + same hook grammar + same timbre combo
-- reused PD “famous” line without transformation + same role
-- naming collision with high similarity
-
----
-
-## 6) FIX / MUTATION RULES
-When collision detected, apply mutation plan:
-
-### Minimal fix (for SOFT)
-Change at least 2 axes:
-- shift hook timing (earlier/later)
-- change intro signature instrument order
-- change lead instrument timbre
-- change vocal delivery (clean → raspy, etc.)
-- change groove feel (straight → half-time, etc.)
-
-### Hard fix (for HARD)
-Change at least 4 axes:
-- replace hook grammar pattern
-- rotate lead persona + supporting persona
-- change key texture instrument family
-- change structure (remove/shorten bridge, etc.)
-- rewrite lyric hook phrase (or use different PD juice set)
-- regenerate naming (new title set)
+Owner:
+- `40_CTL__CONTROLLERS/10_MUSIC_CONTROLLERS/06__FINGERPRINT_COLLISION_THRESHOLDS_CTL.md`
 
 ---
 
-## 7) FAILURE MODES & FIXES
-1) **Catalog memory missing / stale**
-- Fix: update snapshot; do not approve without memory.
+## 4) COLLISION REPORT (SINGLE SoT)
+Collision Report must contain:
 
-2) **Collision keeps repeating**
-- Fix: invoke Novelty Injection Engine (08) then re-check.
+### 4.1 Header
+- GROUP_UID / ALBUM_UID / TRACK_UID
+- candidate take id (if take-based)
+- date / version / status
 
-3) **PD collisions too frequent**
-- Fix: increase excerpt collision thresholds + require mosaic blend transformations.
+### 4.2 Scores by type
+- HOOK:
+- INTRO:
+- STRUCTURE:
+- TIMBRE:
+- GROOVE:
+- LYRICS (if any):
+- CROSS-GROUP (if enabled):
+
+### 4.3 Top nearest neighbors (internal)
+- list of the 1–5 most similar prior tracks
+- what similarity is based on (type)
+
+### 4.4 Decision
+- PASS / WARN / BLOCK
+- Why (short and specific)
+
+### 4.5 Fix Plan (minimal)
+- what to change (1–3 moves)
+- what must NOT change (anchors)
+- what to retest
 
 ---
 
-## 8) HANDOFFS (XREF)
-NEXT ENG:
-- `11_MUSIC_FACTORY_ENGINES/08__NOVELTY_INJECTION_ENG.md` (when collisions persist)
-- `11_MUSIC_FACTORY_ENGINES/09__TAKE_LOG_ENG.md` (log outcomes)
+## 5) PROCESS (OPERATIONAL STEPS)
+1) Load catalog memory scope
+- group-only memory (default)
+- optionally cross-group memory
 
-REQUIRED CTL:
-- `06__FINGERPRINT_COLLISION_THRESHOLDS_CTL`
-- `07__CATALOG_MEMORY_CTL`
+2) Extract fingerprints from candidate
+Minimum extraction:
+- hook signature tags
+- intro signature tag
+- structure template id
+- palette id
+- groove id
+- lyric excerpt ids (if PD)
 
-REQUIRED VAL:
-- `05__COLLISION_BLOCKER_VAL`
-- `03__REPEAT_GUARD_VAL`
-- `07__NAMING_COLLISION_VAL`
+3) Compare against memory
+- compute per-type similarity
+- fetch nearest neighbors
 
-REQUIRED QA:
-- `07__CATALOG_DIFFERENTIATION_QA`
+4) Apply CTL thresholds
+- mark type as PASS/WARN/BLOCK
+
+5) Produce Collision Report
+- single SoT
+
+6) Decision output
+- PASS: allow Release Pack
+- WARN: allow but require 1 novelty move
+- BLOCK: stop release, force redesign via Novelty Injection
+
+7) Handoff
+- if WARN/BLOCK: call `08__NOVELTY_INJECTION_ENG`
+- log diff to `09__TAKE_LOG_ENG`
 
 ---
 
-## 9) OUTPUT PACK (MANDATORY LIST)
-1) Collision Report (PASS/SOFT/HARD)
-2) Collision Vector Breakdown (which vectors triggered)
-3) Mutation Fix Plan (exact axes to change)
-4) Collision Log Entry (for history)
+## 6) FIX MOVES (MINIMAL CHANGE PLAYBOOK)
+Fix moves must preserve group identity anchors.
+
+### Allowed minimal moves (examples)
+- Hook grammar variant (H1 ↔ H2) while keeping slogan theme
+- Change hook rhythm accents (without changing tempo band)
+- Swap hook owner (vocal ↔ instrument) within roster
+- Intro stamp: change lead timbre or first-3s motif
+- Palette: replace 1 dominant timbre with allowed alternative
+- Groove: micro-variation of hat/snare pattern
+- Structure: shift one section length and move a drop by a small offset
+- Lyrics: replace repeated “juice” lines with different PD fragments; adjust mosaic stitch
+
+### Forbidden moves (unless evolution approved)
+- removing core fingerprint anchors
+- changing primary genre identity
+- over-fusing until it becomes another group
+
+---
+
+## 7) DECISION RULES (OPERATIVE)
+### PASS
+- no type exceeds WARN threshold
+- repeat guard passes
+- lyric excerpt reuse is within policy
+
+### WARN
+- 1–2 types exceed PASS but below BLOCK
+- must apply a minimal fix move
+- must re-test (short batch)
+
+### BLOCK
+- any hard-block threshold hit
+- or multiple WARN types stack together in a way that makes it “same song again”
+
+---
+
+## 8) FAILURE MODES & FIXES
+1) Catalog “one-same-song syndrome”
+- Fix: strengthen memory scope, raise strictness, enforce palette and hook rotation.
+
+2) Too aggressive blocking (kills productivity)
+- Fix: adjust thresholds in CTL, allow WARN path with minimal fixes.
+
+3) PD lyric reuse too often
+- Fix: expand PD sources, strengthen excerpt collision engine + mosaic variation.
+
+4) Cross-group collisions in a multi-group factory
+- Fix: enable cross-group memory for hooks only (partial scope).
+
+---
+
+## 9) HANDOFFS (XREF)
+If PASS:
+- `11_MUSIC_FACTORY_ENGINES/06__RELEASE_PACK_ENG.md`
+
+If WARN/BLOCK:
+- `11_MUSIC_FACTORY_ENGINES/08__NOVELTY_INJECTION_ENG.md`
+- then back to `11_MUSIC_FACTORY_ENGINES/04__TRACK_FACTORY_ENG.md` for retest
+
+Mandatory logging:
+- `11_MUSIC_FACTORY_ENGINES/09__TAKE_LOG_ENG.md`
 
 ---
 

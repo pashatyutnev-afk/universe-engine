@@ -10,22 +10,22 @@ ENGINE_TYPE: MUSIC_FACTORY
 LEVEL: L3
 STATUS: ACTIVE
 LOCK: FIXED
-VERSION: 1.0.0
+VERSION: 1.0.1
 UID: UE.ENG.MF.ARTIST_FACTORY.001
 OWNER: SYSTEM
 ROLE: Constructs a deterministic roster of “Artists” (voices + instrumental personas + producer persona) with style contracts, ranges, and signature behaviors.
 
 CHANGE_NOTE:
-- DATE: 2026-01-11
-- TYPE: MAJOR
-- SUMMARY: "Defined Artist Factory Engine: member contracts for vocalist/instrumentalist/producer, timbre identities, constraints, and diversity control."
-- REASON: "Groups must have repeatable, non-random performers to prevent drift and enable scaling."
-- IMPACT: "Consistent artist identity across albums/tracks; controllable voice/instrument variety."
-- CHANGE_ID: UE.CHG.2026-01-11.ENG.MF.ARTIST_FACTORY.001
+- DATE: 2026-01-12
+- TYPE: PATCH
+- SUMMARY: "Canon formatting + fixed OUTPUT_TARGET placeholder + dependency wiring kept consistent."
+- REASON: "File must be readable and operational; output target must be a valid placeholder."
+- IMPACT: "Cleaner production pipeline; less ambiguity."
+- CHANGE_ID: UE.CHG.2026-01-12.ENG.MF.ARTIST_FACTORY.002
 
 ---
 
-## 0) PURPOSE
+## 0) PURPOSE (LAW)
 This engine turns **Group DNA** into a concrete **cast roster**:
 - vocal personas (lead / backing / rap-chant / choir)
 - instrumental personas (lead guitar / synth lead / bass / drums / folk instruments etc.)
@@ -33,7 +33,8 @@ This engine turns **Group DNA** into a concrete **cast roster**:
 - “signature techniques” + “no-go rules” per member
 - diversity rules (avoid same vocal timbre across groups; avoid same instrument patterns)
 
-This is not “real people”. This is a **contracted identity** used to steer AI generation.
+This is not “real people”.
+This is a **contracted identity** used to steer AI generation.
 
 ---
 
@@ -65,18 +66,21 @@ CONSUMES: [
   "Voice Diversity Rules (VAL/QA)",
   "Format Constraints (optional)"
 ]
+
 PRODUCES: [
   "Artist Roster Spec",
   "Performer Contracts Pack",
   "Timbre Palette Map",
   "Role Boundaries Matrix"
 ]
+
 DEPENDS_ON: [
   "https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/09_SOUND_MUSIC_ENGINES/09__VOCAL_PERFORMANCE_ENG.md",
   "https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/09_SOUND_MUSIC_ENGINES/08__ARRANGEMENT_INSTRUMENTATION_ENG.md",
   "https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/12_TREND_GENRE_ENGINES/03__STYLE_FINGERPRINT_ENG.md"
 ]
-OUTPUT_TARGET: "05_PROJECTS/<MUSIC_PROJECTS>/GROUPS/<GROUP_ID>/CAST/"
+
+OUTPUT_TARGET: "05_PROJECTS/<MUSIC_PROJECTS>/GROUPS/<GROUP_UID>/CAST/"
 
 ---
 
@@ -84,9 +88,9 @@ OUTPUT_TARGET: "05_PROJECTS/<MUSIC_PROJECTS>/GROUPS/<GROUP_ID>/CAST/"
 Each persona must be described by the following schema (text form, no JSON required):
 
 ### A) Identity
-- ARTIST_ID: <short stable id>
-- ROLE_TYPE: <VOCALIST|INSTRUMENTALIST|PRODUCER>
-- ROLE: <lead / backing / rhythm / texture / hook-driver / etc>
+- ARTIST_ID:
+- ROLE_TYPE:
+- ROLE:
 - SIGNATURE_LINE: <1 sentence: who is this persona>
 
 ### B) Style Contract
@@ -94,76 +98,80 @@ Each persona must be described by the following schema (text form, no JSON requi
 - DO: <3–8 rules>
 - DONT: <3–10 rules>
 - SIGNATURE_TECHNIQUES: <2–6 techniques>
-- ENERGY_RANGE: <low/med/high + curve note>
+- ENERGY_RANGE:
 
 ### C) Range / Register (for vocals) OR Range / Space (for instruments)
 VOCALS:
-- REGISTER: <low/mid/high>
-- DELIVERY: <soft/breathy/raspy/power/clean>
-- ARTICULATION: <tight/loose/legato/staccato>
-- ACCENT: <if needed; RU by default neutral>
+- REGISTER:
+- DELIVERY:
+- ARTICULATION:
+- ACCENT:
 
 INSTRUMENTS:
-- TIMBRE: <clean/crunch/analog/warm/metallic/etc>
-- SPACE_OWNERSHIP: <low/mid/high + stereo note>
-- RHYTHMIC_ROLE: <driver/ornamentation/pulse>
-- MOTIF_BEHAVIOR: <repeats? evolving? call-response?>
+- TIMBRE:
+- SPACE_OWNERSHIP:
+- RHYTHMIC_ROLE:
+- MOTIF_BEHAVIOR:
 
 ### D) Hook Responsibilities
-- HOOK_OWNER: <YES/NO>
-- HOOK_GRAMMAR: <how this persona builds repeats/catches>
+- HOOK_OWNER:
+- HOOK_GRAMMAR:
 
 ### E) Collision Guards
-- AVOID_PATTERNS: <what makes it too similar to existing catalog>
-- UNIQUENESS_ANCHOR: <the one thing that is “only us”>
+- AVOID_PATTERNS:
+- UNIQUENESS_ANCHOR:
 
 ---
 
 ## 5) WORKFLOW (OPERATIONAL STEPS)
 1) **Choose roster size**
-   - Minimum recommended: 3 personas
-     - 1 vocal identity
-     - 1 rhythm identity
-     - 1 texture identity
-   - Typical: 5–7 personas (for richer catalog scaling)
+- Minimum recommended: 3 personas
+  - 1 vocal identity
+  - 1 rhythm identity
+  - 1 texture identity
+- Typical: 5–7 personas (for richer catalog scaling)
 
 2) **Assign roles**
-   - Hook-driver (may be vocal or instrument)
-   - Groove driver (drums/bass)
-   - Texture (pads/strings/guitars)
-   - Contrast color (folk instrument / synth texture / percussive hook)
+- Hook-driver (may be vocal or instrument)
+- Groove driver (drums/bass)
+- Texture (pads/strings/guitars)
+- Contrast color (folk instrument / synth texture / percussive hook)
 
 3) **Build vocalist personas**
-   - Define 1–2 vocalists max for clarity.
-   - Optional: rap/chant persona only if style demands.
-   - Lock language handling: RU.
+- Define 1–2 vocalists max for clarity.
+- Optional: rap/chant persona only if style demands.
+- Lock language handling: RU.
 
 4) **Build instrumental personas**
-   - At least 2:
-     - rhythm foundation (drums+bass behavior)
-     - hook or texture instrument (guitar/synth)
-   - Optional: signature “rare instrument” persona for uniqueness.
+- At least 2:
+  - rhythm foundation (drums+bass behavior)
+  - hook or texture instrument (guitar/synth)
+- Optional: signature “rare instrument” persona for uniqueness.
 
 5) **Build producer persona**
-   - Arrangement taste: dense vs minimal, retro vs modern.
-   - Mix aesthetic: dry/close vs wide/atmo, punch vs smooth.
+- Arrangement taste: dense vs minimal, retro vs modern.
+- Mix aesthetic: dry/close vs wide/atmo, punch vs smooth.
 
 6) **Role boundaries matrix**
-   - Ensure no two personas own the same hook space.
-   - Ensure low/mid/high coverage is balanced.
+- Ensure no two personas own the same hook space.
+- Ensure low/mid/high coverage is balanced.
 
 7) **Diversity check**
-   - Compare to group catalog memory:
-     - vocal timbre collisions
-     - instrument motif collisions
-   - If conflict: mutate at least 1 vocalist delivery + 1 instrument timbre.
+Compare to group catalog memory:
+- vocal timbre collisions
+- instrument motif collisions
+
+If conflict:
+- mutate at least 1 vocalist (DELIVERY + REGISTER + articulation)
+- mutate at least 1 instrument timbre or motif behavior
 
 ---
 
 ## 6) IMPORTANT CLARIFICATION (YOUR QUESTION)
-Yes, **this applies to musicians too, not only the singer**.
+Yes, **this applies to musicians too, not only the singer**:
 - Instruments have “style” (timbre, groove, motif behavior, arrangement habits).
 - Producer has “style” (mix taste, dynamics, stereo, density).
+
 This engine makes that explicit so tracks don’t become random.
 
 ---

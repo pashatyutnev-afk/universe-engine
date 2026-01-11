@@ -80,6 +80,16 @@ CHANGE_NOTE:
 Дальше правки только через Change Management Protocol.
 
 ---
+## AI NAVIGATION PROTOCOL (OPERATIONAL)
+### A) Link Source of Truth
+- If user provides a link library (index or pasted subset), it becomes the ONLY navigation authority for the session.
+- Assistant must not guess or construct repository links.
+
+### B) Subset Mode
+- If only part of an index is pasted, assistant must treat it as the full operational universe for this chat.
+
+### C) Verification Rule
+- Assistant must quote exact RAW URL before stating file state (empty/filled) or proposing rewrite.
 
 ## FINAL RULE (LOCK)
 Один шаг = один файл. Только так строится канон без хаоса.

@@ -98,6 +98,10 @@ G4 — Canon Gate:
 Если любой Gate FAIL → файл считается INCOMPLETE.
 
 ---
+## LINK RESOLUTION RULE (OPERATIONAL)
+- RAW links are the only navigation mechanism.
+- When a user provides an operational index (or subset), it becomes the only allowed link library.
+- No link guessing is allowed.
 
 ## 3) REFERENCES (RAW ONLY)
 - ENG REALM README:

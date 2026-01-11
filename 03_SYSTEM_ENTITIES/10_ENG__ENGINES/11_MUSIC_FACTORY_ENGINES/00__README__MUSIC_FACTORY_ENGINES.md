@@ -1,104 +1,133 @@
-# MUSIC FACTORY ENGINES — README (REALM)
+# MUSIC FACTORY ENGINES — REALM (README)
 FILE: 03_SYSTEM_ENTITIES/10_ENG__ENGINES/11_MUSIC_FACTORY_ENGINES/00__README__MUSIC_FACTORY_ENGINES.md
 
 SCOPE: Universe Engine
 LAYER: 03_SYSTEM_ENTITIES
 ENTITY_GROUP: ENGINES (ENG)
+ENGINE_FAMILY: 11_MUSIC_FACTORY_ENGINES
 DOC_TYPE: README
-README_TYPE: REALM
 LEVEL: L3
 STATUS: ACTIVE
 LOCK: FIXED
-VERSION: 1.0.0
-UID: UE.ENG.REALM.MUSIC_FACTORY.001
+VERSION: 1.1.0
+UID: UE.ENG.MUS.REALM.MUSIC_FACTORY.001
 OWNER: SYSTEM
-ROLE: Realm entrypoint for the Music Factory pipeline (group → artists → album → tracks → release), with novelty + collision control
+ROLE: Defines the canonical “Music Factory” pipeline: group → artists → album → track → release pack, with memory/collision control and deterministic iteration.
 
 CHANGE_NOTE:
 - DATE: 2026-01-11
-- TYPE: MAJOR
-- SUMMARY: "Created realm README for Music Factory engines family."
-- REASON: "Need a deterministic entrypoint explaining scope/boundaries and how to run music production pipeline."
-- IMPACT: "Music Factory family becomes navigable and operational."
-- CHANGE_ID: UE.CHG.2026-01-11.ENG.REALM.MUSIC_FACTORY.001
+- TYPE: MINOR
+- SUMMARY: "Added PIPELINE ORDER (LAW) + clarified roles of each engine; wired to Trend/Genre + Poet PD + CTL/VAL/QA."
+- REASON: "Operational music production must be deterministic and compatible with platform generation."
+- IMPACT: "Fewer repeats, stronger identity, cleaner iteration, better release readiness."
+- CHANGE_ID: UE.CHG.2026-01-11.ENG.MUS.REALM.MF.001
 
 ---
 
-## 0) WHAT THIS REALM IS
-This family contains engines that turn strategy into production:
-- define GROUP foundation (identity + brand + sonic DNA)
-- build ARTIST roster (vocals + instruments + roles)
-- blueprint ALBUM structure (concept + arc + track roles)
-- manufacture TRACK variants for testing
-- enforce DURATION strategy by style/format
-- package RELEASE (variants, metadata, credits)
-- prevent repeats via catalog memory + fingerprint collision
-- inject novelty safely when output becomes too similar
-
-This is the “factory layer” that coordinates creative systems into repeatable output.
+## 0) PURPOSE (LAW)
+This REALM defines how the system **mass-produces high-quality music** with:
+- stable group identity
+- controlled novelty
+- viral/UGC readiness
+- strict memory against repeats and collisions
+- prompt compatibility (Suno/Udio)
 
 ---
 
-## 1) SCOPE & BOUNDARIES (CRITICAL)
-### 1.1 In scope
-- Group creation as a production object (not lore-character)
-- Artist roster design (vocal/instrument personas + roles)
-- Album blueprinting (track map, arcs, sequencing intent)
-- Track generation strategy (variants + hooks + structure targets)
-- Duration policy enforcement per format
-- Release packaging (versions, edits, metadata pack)
-- Collision avoidance (style fingerprint + catalog memory)
-- Novelty injection (controlled mutation, not random noise)
-- Take log (generation attempts history)
+## 1) SCOPE (BOUNDARIES)
+This family is responsible for **production flow** only:
+- creating/maintaining group → album → track artifacts
+- orchestrating “test → decide → document → release”
+- integrating hooks/genre fusion/poet corpus via dependencies
 
-### 1.2 Out of scope
-- Deep music theory composition (belongs to `09_SOUND_MUSIC_ENGINES`)
-- Production audio sync/editing (belongs to `08_KNOWLEDGE_PRODUCTION_ENGINES`)
-- Trend research taxonomy (belongs to `12_TREND_GENRE_ENGINES`)
-- Public-domain poet corpus handling (belongs to `13_POET_PD_CORPUS_ENGINES`)
-- Naming system itself (belongs to `14_NAMING_IDENTITY_ENGINES`)
+Not responsible for:
+- deep genre theory (owned by `12_TREND_GENRE_ENGINES`)
+- public-domain poet filtering (owned by `13_POET_PD_CORPUS_ENGINES`)
+- enforcement rules (owned by CTL/VAL/QA entities)
 
 ---
 
-## 2) RULES USED (REFERENCES ONLY)
-- ENG global rules:
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/01__RULES__ENGINES.md
-- ENG global index:
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/02__INDEX_ALL_ENGINES.md
+## 2) PIPELINE ORDER (LAW) — MUSIC FACTORY
+This order is mandatory unless a controller explicitly overrides it.
+
+A) GROUP FOUNDATION
+- 01__GROUP_FOUNDATION_ENG.md
+Output: Group Identity + Audience + Sound promise + Constraints
+
+B) ARTIST FACTORY
+- 02__ARTIST_FACTORY_ENG.md
+Output: Group cast (vocalists + instrumental personas) + roles + voice diversity intent
+
+C) ALBUM BLUEPRINT
+- 03__ALBUM_BLUEPRINT_ENG.md
+Output: Album concept + tracklist skeleton + arc + variation strategy
+
+D) TRACK FACTORY (CORE)
+- 04__TRACK_FACTORY_ENG.md
+Output: Track brief + Hook plan + Poet excerpt plan + Prompt pack + Test takes + PASS/FAIL gate + docs (if PASS)
+
+E) DURATION STRATEGY
+- 05__DURATION_STRATEGY_ENG.md
+Output: Short/Full durations per genre/audience + intro/hook timing constraints
+
+F) RELEASE PACK
+- 06__RELEASE_PACK_ENG.md
+Output: Release variants + metadata + assets checklist + export notes
+
+G) CATALOG COLLISION
+- 07__CATALOG_COLLISION_ENG.md
+Output: Collision checks (internal + cross-catalog) + novelty adjustments
+
+H) NOVELTY INJECTION
+- 08__NOVELTY_INJECTION_ENG.md
+Output: controlled novelty moves (change only allowed anchors) without breaking fingerprint
+
+I) TAKE LOG (MEMORY)
+- 09__TAKE_LOG_ENG.md
+Output: what changed, what worked, what to keep/ban next iteration
 
 ---
 
-## 3) HOW TO USE (OPERATIONAL)
-Recommended pipeline (high level):
-1) Run `01__GROUP_FOUNDATION_ENG` → create group DNA + audience intent.
-2) Run `02__ARTIST_FACTORY_ENG` → roster: vocal + instrument personas.
-3) Run `03__ALBUM_BLUEPRINT_ENG` → album concept + track map.
-4) Run `04__TRACK_FACTORY_ENG` → generate 2–5 variants per track for testing.
-5) Run `05__DURATION_STRATEGY_ENG` → lock durations per style/format (no chaos).
-6) Run `07__CATALOG_COLLISION_ENG` → check for repeats/collisions.
-7) If similarity too high → `08__NOVELTY_INJECTION_ENG`.
-8) When approved → `06__RELEASE_PACK_ENG` to produce release pack.
-9) Log every attempt with `09__TAKE_LOG_ENG`.
+## 3) REQUIRED DEPENDENCY FAMILIES (XREF)
+Music Factory consumes outputs from:
+
+### Trend/Genre system (identity + hooks + prompt compatibility)
+- 12_TREND_GENRE_ENGINES/*
+  (genre taxonomy, fusion recipe, style fingerprint, viral blueprint, UGC map, earworm stack, prompt compiler)
+
+### Poet PD corpus system (only public domain + “juice” extraction)
+- 13_POET_PD_CORPUS_ENGINES/*
+  (PD filter, fit scoring, juice extractor, mosaic composer, excerpt collision guard)
+
+### Controllers / Validators / QA (enforcement)
+- CTL: duration policy, prompt contract, negative spec, catalog memory, quality gates, phrasebooks
+- VAL: hook timing, ugc ready, repeat guard, collision blocker, naming collision, prompt fidelity, rights/credits
+- QA: scroll-stop, loop 15s, recognition 10s, mix translation, regression guard
 
 ---
 
-## 4) STRUCTURE (WHAT FILES EXIST HERE)
-### Mandatory
-- 00__README__MUSIC_FACTORY_ENGINES
-- 00__TEMPLATE__ENGINE__MUSIC_FACTORY_ENGINES
-- 00__TEMPLATE__README__MUSIC_FACTORY_ENGINES
-- Engines 01..09 (see NAV below)
+## 4) OUTPUT ARTIFACTS (MINIMUM SET)
+Minimum useful artifacts for a working pipeline:
+- Group Card (identity + anchors + forbiddens)
+- Album Blueprint (tracklist + arc)
+- Track Card (brief + hooks + prompt pack + decision)
+- Take Log (top takes only)
+- Release Pack (variants + metadata)
+
+Everything else is optional and added only if it increases speed/quality.
 
 ---
 
-## 5) NAV (RAW LINKS)
-### Templates
-- TEMPLATE: ENGINE
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/11_MUSIC_FACTORY_ENGINES/00__TEMPLATE__ENGINE__MUSIC_FACTORY_ENGINES.md
-- TEMPLATE: README
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/11_MUSIC_FACTORY_ENGINES/00__TEMPLATE__README__MUSIC_FACTORY_ENGINES.md
+## 5) OPERATIONAL LAW — TEST → DOC GATE
+A track is produced in two phases:
+1) TEST PHASE (fast): generate takes, pick winner, decide PASS/FAIL
+2) DOC PHASE (only if PASS): create full documentation pack
 
-### Engines
+No wasted documentation for failed ideas.
+
+---
+
+## 6) FAMILY FILES (CANON)
 01 — Group Foundation Engine  
 RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/11_MUSIC_FACTORY_ENGINES/01__GROUP_FOUNDATION_ENG.md
 

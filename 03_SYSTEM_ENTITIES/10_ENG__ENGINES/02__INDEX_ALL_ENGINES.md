@@ -1,3 +1,27 @@
+## AI NAV HANDSHAKE (MANDATORY — READ FIRST)
+This file is the ONLY operational navigation source for entity files in `03_SYSTEM_ENTITIES`.
+
+### RULE 1 — NO GUESSING LINKS (ABSOLUTE)
+- The assistant MUST NOT invent/guess RAW URLs.
+- The assistant MUST use ONLY RAW links explicitly present in:
+  A) this file (if opened), OR
+  B) the user’s message (if the user pasted a subset).
+
+### RULE 2 — USER MESSAGE SUBSET MODE (ABSOLUTE)
+If the user pasted part of this index into the chat:
+- treat that pasted subset as the ONLY allowed link library for this session;
+- do NOT assume other files exist beyond pasted RAW lines.
+
+### RULE 3 — VERIFY BEFORE CLAIM (MANDATORY)
+Before saying “file is empty / filled / needs rewrite” the assistant MUST:
+- quote the exact RAW URL being checked (one line),
+- and confirm a recognizable marker (e.g., first header line).
+
+### RULE 4 — IF LINK MISSING (STOP CONDITION)
+If a required file link is not present in the pasted library:
+- the assistant must ask for the RAW link (one line),
+- and must NOT proceed by constructing a URL.
+
 # ENG ENGINES INDEX — GLOBAL REGISTRY (CANON ROADMAP)
 CANON FILE: 03_SYSTEM_ENTITIES/10_ENG__ENGINES/02__INDEX_ALL_ENGINES.md
 

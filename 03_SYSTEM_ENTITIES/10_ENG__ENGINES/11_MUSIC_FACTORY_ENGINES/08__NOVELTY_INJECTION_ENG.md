@@ -13,175 +13,230 @@ LOCK: FIXED
 VERSION: 1.0.0
 UID: UE.ENG.MF.NOVELTY_INJECTION.001
 OWNER: SYSTEM
-ROLE: Injects controlled novelty (mutation) to avoid sameness while preserving group identity: modifies limited axes with guardrails and re-validates collisions.
+ROLE: Applies controlled novelty to a track/album slot to avoid collisions and repetition while preserving Group Fingerprint anchors. Produces a minimal-change plan and updated constraints for the next take.
 
 CHANGE_NOTE:
-- DATE: 2026-01-11
+- DATE: 2026-01-12
 - TYPE: MAJOR
-- SUMMARY: "Defined Novelty Injection Engine: mutation menu, guardrails, and re-validation loop."
-- REASON: "When collisions persist, we need deliberate novelty without destroying brand sound."
-- IMPACT: "Catalog stays fresh while remaining recognizable."
-- CHANGE_ID: UE.CHG.2026-01-11.ENG.MF.NOVELTY_INJECTION.001
+- SUMMARY: "Created Novelty Injection: mutation knobs, safe moves, forbidden moves, and retest loop integration with collision/validators."
+- REASON: "Scaling many tracks requires deterministic novelty without breaking group identity."
+- IMPACT: "Less sameness, higher viral uniqueness, faster iteration after WARN/BLOCK."
+- CHANGE_ID: UE.CHG.2026-01-12.ENG.MF.NOVELTY.INJECT.001
 
 ---
 
-## 0) PURPOSE
-This engine is used only when:
-- Catalog Collision Engine reports repeated SOFT/HARD collisions, OR
-- Outputs feel “samey” even if not strictly colliding, OR
-- A group is stagnating and needs “next level” evolution.
+## 0) PURPOSE (LAW)
+Novelty Injection is the **repair engine** after:
+- catalog collision WARN/BLOCK
+- repeat guard warnings
+- “all tracks sound the same” symptoms
 
-It produces a **Mutation Plan** + an updated brief/prompt package and forces re-check.
-
----
-
-## 1) INPUTS (CONSUMES)
-- Group DNA Spec (identity anchors to preserve)
-- Artist Roster Spec (who can mutate and who must remain stable)
-- Album Blueprint slot or Track Candidate Pack
-- Collision Report + Fix Plan (from `07__CATALOG_COLLISION_ENG`)
-- Negative Spec library (what must never happen)
+It must:
+- keep Group DNA + Style Fingerprint anchors intact
+- change only what is necessary to break similarity
+- output a clear “next take” mutation plan
 
 ---
 
-## 2) OUTPUTS (PRODUCES)
-Primary:
-- **Novelty Mutation Pack** (mutation plan + updated fingerprint)
-
-Secondary:
-- **Updated Track Brief / Album Slot Brief** (with novelty changes)
-- **Re-Check Instruction** (must run collision again)
-
----
-
-## 3) MINI-CONTRACT (MANDATORY)
+## 1) MINI-CONTRACT (MANDATORY)
 CONSUMES: [
-  "Group DNA Spec",
-  "Artist Roster Spec",
-  "Track/Album Candidate",
-  "Collision Report + Fix Plan",
-  "Negative Spec Library CTL"
+  "Collision Report (PASS/WARN/BLOCK details)",
+  "Track Intent Brief (slot role + required hooks)",
+  "Group DNA + Style Fingerprint (anchors/forbiddens)",
+  "Artist Roster Spec (who can own hook/roles)",
+  "Negative Spec Library (platform)",
+  "Catalog Memory constraints"
 ]
+
 PRODUCES: [
-  "Novelty Mutation Pack",
-  "Updated Brief (track/album)",
-  "Updated Style Fingerprint",
-  "Re-Validation Request"
+  "Novelty Injection Plan (single SoT)",
+  "Mutation Knob Set (what changes; limited count)",
+  "Updated Negative Specs (what to block)",
+  "Retest Brief for Track Factory",
+  "Take Log Note (delta + reason)"
 ]
+
 DEPENDS_ON: [
-  "https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/11_MUSIC_FACTORY_ENGINES/07__CATALOG_COLLISION_ENG.md",
+  "https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/11_MUSIC_FACTORY_ENGINES/07__CATALOG_COLLISION_ENG.md",
+  "https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/11_MUSIC_FACTORY_ENGINES/04__TRACK_FACTORY_ENG.md",
   "https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/40_CTL__CONTROLLERS/10_MUSIC_CONTROLLERS/12__NEGATIVE_SPEC_LIBRARY_CTL.md",
-  "https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/12_TREND_GENRE_ENGINES/02__FUSION_RECIPE_ENG.md"
+  "https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/40_CTL__CONTROLLERS/10_MUSIC_CONTROLLERS/06__FINGERPRINT_COLLISION_THRESHOLDS_CTL.md",
+  "https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/50_VAL__VALIDATORS/10_MUSIC_VALIDATORS/03__REPEAT_GUARD_VAL.md",
+  "https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/50_VAL__VALIDATORS/10_MUSIC_VALIDATORS/05__COLLISION_BLOCKER_VAL.md",
+  "https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/11_MUSIC_FACTORY_ENGINES/09__TAKE_LOG_ENG.md"
 ]
-OUTPUT_TARGET: "05_PROJECTS/<MUSIC_PROJECTS>/CATALOG/NOVELTY/"
+
+OUTPUT_TARGET: "05_PROJECTS/<MUSIC_PROJECTS>/GROUPS/<GROUP_UID>/NOVELTY/"
 
 ---
 
-## 4) NOVELTY PRINCIPLES (NON-NEGOTIABLE)
-1) Preserve **core identity anchors** (2–4) from Group DNA.
-2) Mutate only **limited axes** per injection (2–4 axes).
-3) Avoid “random weirdness”; every mutation must have a purpose:
-   - stronger hook
-   - more contrast
-   - new timbre color
-   - new rhythm language
-4) Re-check collisions after mutation.
+## 2) ANCHOR PRESERVATION (ABSOLUTE)
+Novelty Injection **must not** break:
+- Primary Genre identity (A)
+- Style Fingerprint core anchors (2–5)
+- Group “signature tag” (S-tag) policy
+- vocal language constraint (RU)
+- album slot role intent (opener/single/contrast etc.)
+
+If a fix requires breaking anchors → not novelty injection → requires governance/evolution decision.
 
 ---
 
-## 5) MUTATION MENU (ALLOWED AXES)
-Choose 2–4 axes max per run:
+## 3) MUTATION KNOBS (ALLOWED SET)
+Novelty is applied via a small set of knobs.
+Each run must select **1–3 knobs max**.
 
-### A) Hook Architecture
-- move hook earlier/later
-- swap hook type (phrase ↔ rhythm ↔ melody ↔ call-response)
-- change repeat grammar (shorter phrase, different spacing)
+### A) Hook Grammar Variant
+- change hook entry phrasing, accent rhythm, chant geometry
+- keep theme/slogan intent, mutate form
 
-### B) Intro Signature
-- new intro instrument order
-- replace opening motif
-- change density (minimal → punch)
+### B) Hook Ownership Swap
+- vocal → instrument hook lead, or instrument → vocal
+- only within Artist Roster roles
 
-### C) Groove / Rhythm Language
-- straight ↔ half-time ↔ swing-feel
-- new percussion texture
-- different drum pattern archetype
+### C) Intro Stamp Mutation (0–10s)
+- change the first motif shape or lead timbre
+- preserve recognition anchor but alter “surface”
 
-### D) Timbre Palette
-- swap lead texture instrument family (guitar ↔ synth ↔ folk)
-- change saturation/cleanliness
-- change space (dry ↔ wide)
+### D) Palette Swap (1 dominant timbre)
+- replace one dominant sound with an allowed alternative
+- keep the rest stable
 
-### E) Vocal Delivery (if vocal track)
-- clean ↔ raspy ↔ whispery ↔ chant
-- register shift (mid ↔ higher)
-- articulation shift (tight ↔ loose)
+### E) Groove Micro-Shift
+- hi-hat/snare/bounce behavior changes
+- keep tempo band stable
 
-### F) Fusion Spice (careful)
-- add 1 “spice” genre element at 5–10% presence
-- must not break core genre identity
+### F) Structure Micro-Shift
+- change one section length or move a drop slightly
+- avoid rewriting full structure
 
-### G) Lyric Strategy (PD mode)
-- switch to different juice set
-- enforce mosaic blend (multi-source)
-- avoid famous lines
+### G) Lyric Mosaic Swap (PD mode)
+- swap repeated “fat lines”
+- change stitch order
+- preserve theme and rhyme family
 
----
-
-## 6) GUARDRAILS (WHAT MUST NOT CHANGE)
-Must remain stable:
-- group promise (identity sentence)
-- primary genre direction (unless “evolution” explicitly allowed)
-- 1–2 signature anchors (e.g., timbre + hook grammar baseline)
-- forbidden list from negative specs
-
-If mutation violates guardrails → discard mutation.
+### H) Mix Space Variant (light)
+- dry/close ↔ wider/atmo within group mix aesthetic
+- do not change mastering “identity”
 
 ---
 
-## 7) WORKFLOW (OPERATIONAL STEPS)
-1) Read collision vectors that triggered.
-2) Select mutation axes targeting those vectors.
-3) Apply guardrails: lock core anchors.
-4) Produce updated style fingerprint and updated brief.
-5) Output updated prompt guidance (what to change in prompt).
-6) Mandatory re-check:
-   - run `07__CATALOG_COLLISION_ENG` again
-   - run validators/QA light gates
+## 4) FORBIDDEN MOVES (STRICT)
+- changing primary genre (A) to another genre
+- adding random instruments not in palette
+- changing language away from RU (unless explicitly planned)
+- rewriting album arc role (opener becomes ballad etc.)
+- injecting too many changes at once (more than 3 knobs)
+
+---
+
+## 5) NOVELTY INJECTION PLAN (SINGLE SoT)
+Plan must be short and executable.
+
+### Header
+- GROUP_UID / ALBUM_UID / TRACK_UID / SLOT_ID
+- INPUT: collision type(s)
+- TARGET: pass thresholds + preserve anchors
+
+### Anchors (locked)
+- CORE_ANCHORS:
+- FORBIDDENS:
+
+### Selected knobs (1–3)
+1) KNOB:
+   - WHAT CHANGES:
+   - WHY:
+   - HOW TO VERIFY:
+
+2) KNOB:
+   - WHAT CHANGES:
+   - WHY:
+   - HOW TO VERIFY:
+
+### Negative specs update
+- Add “avoid X” rules (concrete)
+- Add “do not repeat Y” (from nearest neighbors)
+
+### Retest instructions
+- Number of takes to run:
+- What to listen for in first 10s:
+- Hook window requirement:
+- Pass conditions:
+
+---
+
+## 6) PROCESS (OPERATIONAL LOOP)
+1) Read Collision Report
+- identify dominant collision type(s): HOOK/INTRO/STRUCTURE/TIMBRE/GROOVE/LYRICS
+
+2) Lock anchors
+- list 2–5 anchors; list forbiddens
+
+3) Choose minimal knobs
+- if HOOK collision → choose A or B first
+- if INTRO collision → choose C first
+- if TIMBRE collision → choose D first
+- if GROOVE collision → choose E first
+- if STRUCTURE collision → choose F first
+- if LYRICS collision → choose G first
+
+4) Update negative specs
+- concrete “avoid” lines; no vague text
+
+5) Output Retest Brief
+- go back to Track Factory with mutation plan
+
+6) Log changes
+- Take Log must record:
+  - delta knobs
+  - reason
+  - result (pass/warn/block)
+
+---
+
+## 7) DECISION OUTCOMES
+### PASS TARGET
+- collision types below WARN threshold
+- repeat guard passes
+- prompt fidelity stays high (no random drift)
+
+### WARN TARGET
+- still borderline but improved
+- allow 1 more novelty injection run with 1 knob only
+
+### FAIL (BLOCK)
+- if still blocked after 2 novelty cycles:
+  - force a new slot concept (album blueprint adjustment) OR
+  - change hook blueprint (not just surface)
 
 ---
 
 ## 8) FAILURE MODES & FIXES
-1) Mutation breaks identity
-- Fix: reduce axes; restore anchors; use only intro/groove changes.
+1) Too much novelty → group identity breaks
+- Fix: reduce knobs to 1; re-lock anchors.
 
-2) Still colliding after mutation
-- Fix: change different axes set; if 2 failed attempts → enforce hard mutation (4 axes) or discard.
+2) Too little novelty → still same song
+- Fix: switch knob category (e.g. from palette to hook grammar).
 
-3) Mutation makes prompt too complex
-- Fix: compress instructions; keep tags short; prioritize 3 constraints max.
+3) AI drifts into random style
+- Fix: tighten negative specs + reinforce fingerprint anchors.
+
+4) Lyrics keep repeating the same “fat lines”
+- Fix: increase PD excerpt pool; swap mosaic stitch.
 
 ---
 
 ## 9) HANDOFFS (XREF)
-NEXT ENG:
-- `11_MUSIC_FACTORY_ENGINES/07__CATALOG_COLLISION_ENG.md` (mandatory re-check)
-- `11_MUSIC_FACTORY_ENGINES/04__TRACK_FACTORY_ENG.md` (regenerate variants)
-- `11_MUSIC_FACTORY_ENGINES/09__TAKE_LOG_ENG.md` (log injection)
+Returns to:
+- `11_MUSIC_FACTORY_ENGINES/04__TRACK_FACTORY_ENG.md` (retest execution)
 
-REQUIRED VAL/QA:
-- `05__COLLISION_BLOCKER_VAL`
-- `03__REPEAT_GUARD_VAL`
-- `07__CATALOG_DIFFERENTIATION_QA`
+Validated by:
+- `50_VAL__VALIDATORS/10_MUSIC_VALIDATORS/03__REPEAT_GUARD_VAL.md`
+- `50_VAL__VALIDATORS/10_MUSIC_VALIDATORS/05__COLLISION_BLOCKER_VAL.md`
+- `50_VAL__VALIDATORS/10_MUSIC_VALIDATORS/08__PROMPT_FIDELITY_VAL.md`
 
----
-
-## 10) OUTPUT PACK (MANDATORY LIST)
-1) Novelty Mutation Pack (axes + changes)
-2) Updated Style Fingerprint (anchors preserved + mutated anchors)
-3) Updated Brief (track/album)
-4) Prompt delta notes (what to replace)
-5) Re-Validation Request
+Logged in:
+- `11_MUSIC_FACTORY_ENGINES/09__TAKE_LOG_ENG.md`
 
 ---
 

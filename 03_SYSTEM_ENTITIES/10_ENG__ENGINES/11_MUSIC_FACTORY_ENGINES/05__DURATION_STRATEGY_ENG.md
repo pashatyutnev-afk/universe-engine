@@ -13,175 +13,184 @@ LOCK: FIXED
 VERSION: 1.0.0
 UID: UE.ENG.MF.DURATION_STRATEGY.001
 OWNER: SYSTEM
-ROLE: Eliminates duration chaos by locking track length targets per format + role + genre energy, and producing a deterministic “duration map” for album + release variants.
+ROLE: Converts genre + audience + platform goals into deterministic duration targets (short/full) with hook timing constraints and section budgets. Eliminates duration chaos across catalog.
 
 CHANGE_NOTE:
-- DATE: 2026-01-11
+- DATE: 2026-01-12
 - TYPE: MAJOR
-- SUMMARY: "Defined Duration Strategy Engine: duration map, role-based targets, UGC cuts, and enforcement rules."
-- REASON: "Track length chaos breaks consistency, UGC readiness, and album pacing."
-- IMPACT: "All tracks get predictable lengths; platform variants become systematic."
-- CHANGE_ID: UE.CHG.2026-01-11.ENG.MF.DURATION_STRATEGY.001
+- SUMMARY: "Created Duration Strategy: short/full modes, section budgets, hook timing law, and album-level distribution guidance."
+- REASON: "Track length chaos breaks UGC performance and catalog coherence."
+- IMPACT: "Consistent lengths per style, faster production, better retention and reuse in content."
+- CHANGE_ID: UE.CHG.2026-01-12.ENG.MF.DURATION.STRAT.001
 
 ---
 
-## 0) PURPOSE
-This engine sets **duration targets** before generation:
-- per platform format (UGC short / standard / extended)
-- per track role in album (hook single vs story core vs interlude vs finale)
-- per energy/genre characteristics (fast vs slow; dense vs minimal)
-It outputs a **Duration Map** that all prompts must follow.
+## 0) PURPOSE (LAW)
+Duration Strategy defines **how long tracks should be** and **where hooks must land**.
+
+It outputs:
+- short vs full targets
+- section time budgets (intro/verse/hook/drop/bridge/outro)
+- hook timing requirements
+- album-level duration mix guidance
+
+This engine does not enforce. Enforcement is done by CTL/VAL/QA.
 
 ---
 
-## 1) INPUTS (CONSUMES)
-- Album Blueprint Spec (track roles + sequencing)
-- Audience segments CTL
-- Duration policy baseline CTL:
-  - `40_CTL__CONTROLLERS/10_MUSIC_CONTROLLERS/03__DURATION_POLICY_CTL.md`
-- Release variants CTL:
-  - `40_CTL__CONTROLLERS/10_MUSIC_CONTROLLERS/04__RELEASE_VARIANTS_CTL.md`
-- Optional: platform phrasebooks (Suno/Udio) for practical constraints
-
----
-
-## 2) OUTPUTS (PRODUCES)
-Primary:
-- **Album Duration Map** (per track: target range + variant ranges)
-
-Secondary:
-- **Duration Ruleset for Track Factory** (how to ask generator)
-- **Pacing Notes** (why these durations improve retention)
-
----
-
-## 3) MINI-CONTRACT (MANDATORY)
+## 1) MINI-CONTRACT (MANDATORY)
 CONSUMES: [
-  "Album Blueprint Spec",
-  "Audience Segments CTL",
-  "Duration Policy CTL",
-  "Release Variants CTL"
+  "Primary Genre (A) + Fusion plan (optional)",
+  "Audience Segment Target",
+  "Platform mode (Suno/Udio + UGC intent)",
+  "Viral Hook Blueprint + UGC Moment Map",
+  "Catalog Memory (avoid repeating same length patterns)",
+  "Duration Policy CTL (hard constraints)"
 ]
 PRODUCES: [
-  "Album Duration Map",
-  "Track Duration Targets (per role)",
-  "Variant Duration Plan (short/main/extended)",
-  "Duration Instructions for Prompting"
+  "Duration Plan (Short)",
+  "Duration Plan (Full)",
+  "Hook Timing Window",
+  "Section Budget Map",
+  "Album Duration Mix Guidance",
+  "Duration Variant Notes (if multiple)"
 ]
 DEPENDS_ON: [
   "https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/40_CTL__CONTROLLERS/10_MUSIC_CONTROLLERS/03__DURATION_POLICY_CTL.md",
-  "https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/60_QA__QUALITY/10_MUSIC_QA/01__SCROLL_STOP_5S_QA.md",
-  "https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/60_QA__QUALITY/10_MUSIC_QA/02__LOOP_15S_QA.md"
+  "https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/12_TREND_GENRE_ENGINES/04__VIRAL_HOOK_BLUEPRINT_ENG.md",
+  "https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/12_TREND_GENRE_ENGINES/05__UGC_MOMENT_MAP_ENG.md"
 ]
-OUTPUT_TARGET: "05_PROJECTS/<MUSIC_PROJECTS>/GROUPS/<GROUP_ID>/ALBUMS/<ALBUM_ID>/"
+OUTPUT_TARGET: "05_PROJECTS/<MUSIC_PROJECTS>/GROUPS/<GROUP_UID>/DURATION/"
 
 ---
 
-## 4) DURATION MAP MODEL (STANDARD)
-For each track slot:
+## 2) CORE MODES (STANDARD)
+### 2.1 SHORT MODE (UGC-OPTIMIZED)
+Goal: maximum retention + clip usability.
 
-- TRACK_ID
-- TRACK_ROLE
-- MAIN_DURATION_TARGET: <min:max seconds>
-- SHORT_CUT_TARGET (UGC): <min:max seconds> (if needed)
-- EXTENDED_TARGET: <min:max seconds> (optional)
-- STRUCTURE_COMPRESSION_RULES:
-  - intro max seconds
-  - first hook by second X
-  - chorus count guidance
-- NOTES: why this fits role/audience
+- Total duration target: **~1:30 to ~2:15** (policy may override)
+- Hook must arrive early (see Hook Timing Window)
+- Minimal long intros; no long outros
+- Loop-friendly ending preferred
 
----
+### 2.2 FULL MODE (SONG-OPTIMIZED)
+Goal: full listening satisfaction + replay value.
 
-## 5) CORE DURATION RULES (DEFAULTS)
-These are defaults; CTL may override.
+- Total duration target: **~2:30 to ~3:45** (policy may override)
+- Hook still must arrive reasonably early
+- Allows bridge/breakdown if it increases emotional peak
+- Still must preserve loop/recognition windows for the first 10–15s
 
-### 5.1 UGC SHORT CUT (for reels/tiktok loops)
-- 15–25s (pure hook loop) OR 25–40s (micro-story + hook)
-Hard:
-- recognizable motif in first 3–5s
-- loop window must not “break” on restart
-
-### 5.2 MAIN RELEASE (streaming standard)
-- Hook Single: 2:00–2:40
-- Story Core: 2:40–3:30
-- Contrast Track: 2:10–3:00
-- Finale: 2:40–3:40
-- Interlude (only if justified): 0:40–1:30
-
-### 5.3 EXTENDED (optional)
-- Only when genre benefits (ambient / cinematic / live-feel):
-  3:40–5:30
+Rule:
+- Album Blueprint decides **distribution** (short/full per slot).
+- Duration Strategy decides **targets** and **budgets**.
 
 ---
 
-## 6) ROLE-BASED COMPRESSION LOGIC
-### Hook Single
-- intro: 0–8s
-- first hook: <= 25–35s
-- total: keep tight; avoid long bridges
+## 3) HOOK TIMING WINDOW (LAW)
+Duration plan must declare:
+- Hook Window Start
+- Hook Window Latest
+- Secondary hook (optional) placement
 
-### Story Core
-- allow longer verse development
-- still must contain memorable phrase/motif
+Default operational rules (unless CTL overrides):
+- SHORT: hook appears very early and repeats often
+- FULL: hook appears early and is reinforced
 
-### Contrast Track
-- shorter than story core unless concept requires otherwise
-
-### Finale
-- can revisit motifs from earlier tracks
-- can breathe slightly longer, but not drag
+Hook timing must align with:
+- Hook Timing Validator (VAL)
+- Recognition / Loop QA checks
 
 ---
 
-## 7) PROMPTING INSTRUCTIONS (FOR SUNO)
-When Track Factory outputs the prompt, it must include:
-- duration target range (seconds)
-- structural constraint:
-  - “first hook by <X>s”
-  - “no long intro”
-  - “keep bridge short”
-- for short cut:
-  - “loopable 15–25s hook segment”
+## 4) SECTION BUDGET MAP (MANDATORY)
+Duration plan must output a budget for:
+- INTRO
+- BUILD / VERSE (if any)
+- PRE-HOOK (optional)
+- HOOK
+- DROP / SWITCH (optional, genre-dependent)
+- BRIDGE (optional, full mode)
+- OUTRO / LOOP OUT
 
-If platform ignores duration:
-- enforce by structure instructions + repeated hook windows.
+### Default budget philosophy
+- Intro is a “stamp”, not a journey
+- First 10 seconds must contain recognition material
+- Hook gets the largest share of attention
+- Ending should be loop-friendly, not dead air
+
+---
+
+## 5) GENRE-AWARE DURATION TUNING (GUIDELINES)
+This engine does not hardcode every genre number, but it defines tuning principles:
+
+- Hook-forward genres (pop/trap/phonk/edm): shorten intro; emphasize hook cycles
+- Narrative-heavy tracks: allow slightly longer setup but keep early recognition
+- High-tempo genres: avoid long bridges; keep energy continuity
+- Cinematic/epic: allow build if it serves peak, but still ensure early identity stamp
+
+Fusion note:
+- If fusion is used, budget must specify where fusion happens (drop/bridge) without extending intro.
+
+---
+
+## 6) VARIATION CONTROL (ANTI-REPEAT)
+To avoid catalog sameness:
+- do not use identical duration + identical section order for many tracks
+- rotate 2–3 structural “duration templates” per group
+- keep identity anchors constant, vary only allowed structure knobs
+
+This links to Catalog Memory and Repeat Guard.
+
+---
+
+## 7) OUTPUT FORMAT (DURATION PLAN PACK)
+Duration Strategy outputs a compact pack:
+
+### DURATION PLAN — SHORT
+- TARGET_TOTAL:
+- HOOK_WINDOW:
+- SECTION_BUDGETS:
+- LOOP_END_NOTE:
+- NO_GO (what must not happen)
+
+### DURATION PLAN — FULL
+- TARGET_TOTAL:
+- HOOK_WINDOW:
+- SECTION_BUDGETS:
+- OPTIONAL_BRIDGE_RULE:
+- NO_GO:
+
+### ALBUM MIX GUIDANCE
+- Recommended ratio short/full:
+- Where full tracks should sit in arc:
 
 ---
 
 ## 8) FAILURE MODES & FIXES
-1) **Generator outputs too long**
-- Fix: “shorter arrangement, fewer sections, no extended intro/bridge”.
+1) Tracks feel too long / boring
+- Fix: shorten intro; reduce bridge; increase hook density; enforce early recognition.
 
-2) **Generator outputs too short**
-- Fix: request “add second verse/chorus variation” + “full ending”.
+2) Tracks feel too short / unfinished
+- Fix: in short mode add micro-bridge or hook variation; in full mode add structured bridge.
 
-3) **Loop breaks**
-- Fix: remove hard endings, use “circular ending” or sustained tail.
+3) Hook comes late
+- Fix: re-budget; move hook earlier; cut intro.
 
-4) **Album pacing feels flat**
-- Fix: tighten mid tracks, keep 1–2 longer tracks max.
+4) Catalog sameness in lengths
+- Fix: rotate duration templates; adjust section budgets per slot.
 
 ---
 
 ## 9) HANDOFFS (XREF)
-NEXT ENG:
-- `11_MUSIC_FACTORY_ENGINES/04__TRACK_FACTORY_ENG.md` (must use duration map)
-- `11_MUSIC_FACTORY_ENGINES/06__RELEASE_PACK_ENG.md` (variants durations)
-NEXT CTL:
-- `03__DURATION_POLICY_CTL`
-REQUIRED QA:
-- `01__SCROLL_STOP_5S_QA`
-- `02__LOOP_15S_QA`
-- `03__RECOGNITION_10S_QA`
-
----
-
-## 10) OUTPUT PACK (MANDATORY LIST)
-1) Album Duration Map (per track)
-2) Role-based Duration Targets (summary)
-3) Variant Duration Plan (short/main/extended)
-4) Prompting Instructions (copy-ready rules)
+Used by:
+- `11_MUSIC_FACTORY_ENGINES/03__ALBUM_BLUEPRINT_ENG.md`
+- `11_MUSIC_FACTORY_ENGINES/04__TRACK_FACTORY_ENG.md`
+- `40_CTL__CONTROLLERS/10_MUSIC_CONTROLLERS/03__DURATION_POLICY_CTL.md`
+Validated by:
+- `50_VAL__VALIDATORS/10_MUSIC_VALIDATORS/01__HOOK_TIMING_VAL.md`
+- `60_QA__QUALITY/10_MUSIC_QA/02__LOOP_15S_QA.md`
+- `60_QA__QUALITY/10_MUSIC_QA/03__RECOGNITION_10S_QA.md`
 
 ---
 
