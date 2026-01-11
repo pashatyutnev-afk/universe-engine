@@ -1,5 +1,5 @@
 # TPL TEMPLATES INDEX — GLOBAL REGISTRY (CANON)
-CANON FILE: 03_SYSTEM_ENTITIES/01_TPL__TEMPLATES/00__INDEX_ALL_TEMPLATES
+FILE: 03_SYSTEM_ENTITIES/01_TPL__TEMPLATES/00__INDEX_ALL_TEMPLATES.md
 
 SCOPE: Universe Engine
 LAYER: 03_SYSTEM_ENTITIES
@@ -12,34 +12,33 @@ LOCK: FIXED
 VERSION: 1.0.0
 UID: UE.TPL.IDX.ALL.001
 OWNER: SYSTEM
-ROLE: Canonical navigation law + existence registry for all system entity templates (RAW-ONLY NAV)
+ROLE: Canonical navigation law + existence registry for `01_TPL__TEMPLATES` (RAW-ONLY NAV)
 
 CHANGE_NOTE:
 - DATE: 2026-01-11
-- TYPE: PATCH
-- SUMMARY: "Rebuilt TPL templates index as executable registry: RAW-only nav, strict existence rule, authority order, alias rule."
-- REASON: "Templates layer requires deterministic navigation and strict existence enforcement."
-- IMPACT: "TPL templates become audit-compatible and stable."
+- TYPE: MAJOR
+- SUMMARY: "Created TPL master index with RAW-only navigation and strict existence + alias enforcement."
+- REASON: "Need deterministic navigation for template layer; prevent duplicate entrypoints."
+- IMPACT: "Templates become discoverable and audit-compatible."
 - CHANGE_ID: UE.CHG.2026-01-11.TPL.IDX.ALL.001
 
 ---
 
 ## 0) PURPOSE (LAW)
-Этот INDEX — единая точка истины для NAV/EXISTENCE папки:
+This INDEX is the single source of truth for NAV/EXISTENCE of:
 `03_SYSTEM_ENTITIES/01_TPL__TEMPLATES/`
 
-Он фиксирует:
-- какие шаблоны существуют
-- строгий порядок шаблонов
-- RAW-only навигацию (PATH — метка, не механизм)
-- анти-дубли entrypoint/индексов
+It fixes:
+- what template files exist
+- strict order (by numbering)
+- RAW-only navigation (PATH is label only)
 
 ---
 
 ## 1) EXISTENCE RULE (ABSOLUTE)
-- Если шаблона нет в CANON MAP ниже — он **не существует** для слоя TPL.
-- Если файл существует в папке, но не зарегистрирован здесь — **NON-CANON / ignored**.
-- NAV работает **только по RAW ссылкам**.
+- If a template is not registered in CANON MAP below — it does not exist for TPL layer.
+- If a file exists in repo but not listed here — NON-CANON / ignored.
+- NAV works only via RAW links.
 
 ---
 
@@ -48,65 +47,65 @@ PATH: `03_SYSTEM_ENTITIES/01_TPL__TEMPLATES/`
 
 ---
 
-## 3) ORDER OF AUTHORITY (TPL)
-1) `00__README_TEMPLATES` (realm / рамки / смысл)
-2) `00__INDEX_ALL_TEMPLATES` (NAV/EXISTENCE SoT)
-3) `00__TEMPLATE_SYSTEM_STANDARD` (общий стандарт шаблонов)
-4) `10__TPL__ENGINE` (шаблон движка)
-5) `20__TPL__ORCHESTRATOR` (шаблон оркестратора)
-6) `30__TPL__SPECIALIST` (шаблон специалиста)
-7) `40__TPL__CONTROLLER` (шаблон контроллера)
-8) `50__TPL__VALIDATOR` (шаблон валидатора)
-9) `60__TPL__QA` (шаблон QA)
-10) `90__TPL__INDEX` (шаблон индекса)
-11) `91__TPL__README_REALM` (шаблон realm/readme)
+## 3) HOW TO USE (OPERATIONAL)
+1) Open this index.
+2) Copy needed `RAW:` and paste into address bar.
+3) Use templates as base when creating new entities (ENG/ORC/SPC/CTL/VAL/QA).
 
 ---
 
-# CANON MAP — 01_TPL__TEMPLATES (RAW-ONLY NAV)
+## 4) CANON MAP — 01_TPL__TEMPLATES (RAW-ONLY)
 
-00 — README: Templates Realm  
+00 — INDEX: ALL TEMPLATES (THIS FILE)
+RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/01_TPL__TEMPLATES/00__INDEX_ALL_TEMPLATES.md
+
+00 — README: TEMPLATES
 RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/01_TPL__TEMPLATES/00__README_TEMPLATES.md
 
-01 — TEMPLATE STANDARD: System Template Standard  
+00 — TEMPLATE SYSTEM STANDARD
 RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/01_TPL__TEMPLATES/00__TEMPLATE_SYSTEM_STANDARD.md
 
-10 — TEMPLATE: ENG Engine  
+10 — TPL: ENGINE
 RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/01_TPL__TEMPLATES/10__TPL__ENGINE.md
 
-20 — TEMPLATE: ORC Orchestrator  
+20 — TPL: ORCHESTRATOR
 RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/01_TPL__TEMPLATES/20__TPL__ORCHESTRATOR.md
 
-30 — TEMPLATE: SPC Specialist  
+30 — TPL: SPECIALIST
 RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/01_TPL__TEMPLATES/30__TPL__SPECIALIST.md
 
-40 — TEMPLATE: CTL Controller  
+40 — TPL: CONTROLLER
 RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/01_TPL__TEMPLATES/40__TPL__CONTROLLER.md
 
-50 — TEMPLATE: VAL Validator  
+50 — TPL: VALIDATOR
 RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/01_TPL__TEMPLATES/50__TPL__VALIDATOR.md
 
-60 — TEMPLATE: QA Quality  
+60 — TPL: QA
 RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/01_TPL__TEMPLATES/60__TPL__QA.md
 
-90 — TEMPLATE: INDEX  
+90 — TPL: INDEX TEMPLATE
 RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/01_TPL__TEMPLATES/90__TPL__INDEX.md
 
-91 — TEMPLATE: README REALM  
+91 — TPL: README REALM TEMPLATE
 RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/01_TPL__TEMPLATES/91__TPL__README_REALM.md
 
 ---
 
-## 4) ALIAS RULE (STRICT)
-Любые дубли entrypoint/индексов в этой папке (например `INDEX*`, `*TEMPLATES_INDEX*`)
-кроме CANON FILE выше должны быть либо удалены, либо превращены в чистый POINTER на:
-`03_SYSTEM_ENTITIES/01_TPL__TEMPLATES/00__INDEX_ALL_TEMPLATES`
+## 5) ALIAS RULE (STRICT)
+Any duplicate/alternate entrypoint file in this folder
+(e.g. different naming of the index/README/template standard)
+must be either:
+- deleted, OR
+- converted into a PURE POINTER to the canonical file.
+
+Canonical entrypoint for this folder:
+- `03_SYSTEM_ENTITIES/01_TPL__TEMPLATES/00__INDEX_ALL_TEMPLATES.md`
 
 ---
 
 ## FINAL RULE (LOCK)
-Этот INDEX — единственная точка истины о составе и порядке шаблонов TPL.  
-Любая правка структуры/ссылок должна фиксироваться через governance pipeline.
+This INDEX is the only SoT for existence and navigation of `01_TPL__TEMPLATES`.
+Any change must be logged via governance/audit rules.
 
 OWNER: SYSTEM
 LOCK: FIXED
