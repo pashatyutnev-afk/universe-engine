@@ -10,10 +10,12 @@ ENGINE_TYPE: MUSIC_FACTORY
 LEVEL: L3
 STATUS: ACTIVE
 LOCK: FIXED
-VERSION: 1.0.0
+VERSION: 1.0.1
 UID: UE.ENG.MF.CATALOG_COLLISION.001
 OWNER: SYSTEM
-ROLE: Detects and prevents catalog-level collisions (same-y hooks, intros, motifs, lyric fragments, timbre palettes, and structure templates). Enforces novelty while preserving group identity.
+ROLE: Detects and prevents catalog-level collisions (same-y hooks, intros, motifs, lyric fragments, timbre palettes, and structure templates).
+
+Enforces novelty while preserving group identity.
 
 CHANGE_NOTE:
 - DATE: 2026-01-12
@@ -22,11 +24,18 @@ CHANGE_NOTE:
 - REASON: "We produce many tracks; without collision control the catalog becomes repetitive and non-viral."
 - IMPACT: "Lower repeat rate, higher uniqueness, safer scaling across many groups."
 - CHANGE_ID: UE.CHG.2026-01-12.ENG.MF.CATALOG.COLLISION.001
+- DATE: 2026-01-12
+- TYPE: PATCH
+- SUMMARY: "Reformatted to multi-line sections for operational readability; no semantic changes."
+- REASON: "Compressed formatting is error-prone during edits."
+- IMPACT: "Safer copy/paste; easier audits."
+- CHANGE_ID: UE.CHG.2026-01-12.ENG.MF.CATALOG.COLLISION.002
 
 ---
 
 ## 0) PURPOSE (LAW)
 Catalog Collision Engine answers one question:
+
 **“Этот трек/альбом слишком похож на то, что уже есть?”**
 
 It must:
@@ -38,6 +47,7 @@ It must:
 ---
 
 ## 1) MINI-CONTRACT (MANDATORY)
+
 CONSUMES: [
   "Track Winner Pack (or candidate takes)",
   "Track Card (hooks/structure/lyrics plan)",
@@ -47,6 +57,7 @@ CONSUMES: [
   "Poet excerpt collision notes (if PD mosaic used)",
   "Repeat Guard validator outputs"
 ]
+
 PRODUCES: [
   "Collision Report (single SoT for decision)",
   "Collision Score Summary (by type)",
@@ -54,6 +65,7 @@ PRODUCES: [
   "Fix Plan (minimal changes)",
   "Updated constraints for next iteration (what to avoid)"
 ]
+
 DEPENDS_ON: [
   "https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/40_CTL__CONTROLLERS/10_MUSIC_CONTROLLERS/07__CATALOG_MEMORY_CTL.md",
   "https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/40_CTL__CONTROLLERS/10_MUSIC_CONTROLLERS/06__FINGERPRINT_COLLISION_THRESHOLDS_CTL.md",
@@ -62,7 +74,8 @@ DEPENDS_ON: [
   "https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/11_MUSIC_FACTORY_ENGINES/08__NOVELTY_INJECTION_ENG.md",
   "https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/11_MUSIC_FACTORY_ENGINES/09__TAKE_LOG_ENG.md"
 ]
-OUTPUT_TARGET: "05_PROJECTS/<MUSIC_PROJECTS>/GROUPS/<GROUP_UID>/CATALOG/COLLISIONS/"
+
+OUTPUT_TARGET: "05_PROJECTS//GROUPS//CATALOG/COLLISIONS/"
 
 ---
 
@@ -94,7 +107,7 @@ Collision types are evaluated independently.
 ### F) LYRICS / EXCERPT COLLISION (PD + mosaic)
 - Reuse of the same strongest lines too often
 - Reuse of the same “mosaic stitch” pattern
-- Reuse of the same rhyme skeleton/phrase cadence
+- Reuse of the same rhyme skeleton / phrase cadence
 
 ### G) CROSS-GROUP COLLISION (optional)
 - Similarity against other groups’ catalogs (if global memory enabled)
@@ -103,6 +116,7 @@ Collision types are evaluated independently.
 
 ## 3) THRESHOLDS (CONTROLLED BY CTL)
 This engine does not invent thresholds.
+
 It reads:
 - collision thresholds by type
 - allowed similarity bands
@@ -147,10 +161,10 @@ Collision Report must contain:
 
 ## 5) PROCESS (OPERATIONAL STEPS)
 1) Load catalog memory scope
-- group-only memory (default)
-- optionally cross-group memory
+   - group-only memory (default)
+   - optionally cross-group memory
 
-2) Extract fingerprints from candidate
+2) Extract fingerprints from candidate  
 Minimum extraction:
 - hook signature tags
 - intro signature tag
@@ -164,7 +178,7 @@ Minimum extraction:
 - fetch nearest neighbors
 
 4) Apply CTL thresholds
-- mark type as PASS/WARN/BLOCK
+- mark type as PASS / WARN / BLOCK
 
 5) Produce Collision Report
 - single SoT
@@ -201,6 +215,7 @@ Fix moves must preserve group identity anchors.
 ---
 
 ## 7) DECISION RULES (OPERATIVE)
+
 ### PASS
 - no type exceeds WARN threshold
 - repeat guard passes
@@ -233,6 +248,7 @@ Fix moves must preserve group identity anchors.
 ---
 
 ## 9) HANDOFFS (XREF)
+
 If PASS:
 - `11_MUSIC_FACTORY_ENGINES/06__RELEASE_PACK_ENG.md`
 

@@ -10,10 +10,13 @@ ENGINE_TYPE: TREND_GENRE
 LEVEL: L3
 STATUS: ACTIVE
 LOCK: FIXED
-VERSION: 1.0.0
+VERSION: 1.0.1
 UID: UE.ENG.TG.VIRAL_HOOK_BLUEPRINT.001
 OWNER: SYSTEM
-ROLE: Defines the viral-ready structural blueprint of a track (hook timing, repetition geometry, drops, pauses, energy curve, clip windows), based on style fingerprint + audience + duration policy. Produces an executable hook plan for Prompt Compiler and QA/Validators.
+ROLE: Defines the viral-ready structural blueprint of a track (hook timing, repetition geometry, drops, pauses, energy curve, clip windows),
+based on style fingerprint + audience + duration policy.
+
+Produces an executable hook plan for Prompt Compiler and QA/Validators.
 
 CHANGE_NOTE:
 - DATE: 2026-01-11
@@ -22,6 +25,12 @@ CHANGE_NOTE:
 - REASON: "Virality is not luck; it’s engineered timing + recognition + loopability."
 - IMPACT: "Higher scroll-stop, better loop metrics, stronger creator adoption."
 - CHANGE_ID: UE.CHG.2026-01-11.ENG.TG.VIRAL.BLUEPRINT.001
+- DATE: 2026-01-12
+- TYPE: PATCH
+- SUMMARY: "Reformatted to multi-line sections for operational readability; no semantic changes."
+- REASON: "Compressed formatting is error-prone during edits."
+- IMPACT: "Safer copy/paste; easier audits."
+- CHANGE_ID: UE.CHG.2026-01-12.ENG.TG.VIRAL.BLUEPRINT.002
 
 ---
 
@@ -85,7 +94,7 @@ DEPENDS_ON: [
   "https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/50_VAL__VALIDATORS/10_MUSIC_VALIDATORS/01__HOOK_TIMING_VAL.md",
   "https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/60_QA__QUALITY/10_MUSIC_QA/01__SCROLL_STOP_5S_QA.md"
 ]
-OUTPUT_TARGET: "05_PROJECTS/<MUSIC_PROJECTS>/BLUEPRINTS/VIRAL/"
+OUTPUT_TARGET: "05_PROJECTS//BLUEPRINTS/VIRAL/"
 
 ---
 
@@ -111,7 +120,7 @@ The engine must choose ONE primary template per variant.
 ---
 
 ## 5) TIMING TARGETS (RELATIVE WINDOWS)
-Timing targets are expressed as windows (platform-safe):
+Timing targets are expressed as windows (platform-safe).
 
 Mandatory fields:
 - INTRO_GRAB: [t..t]
@@ -184,16 +193,13 @@ Blueprint must guarantee:
 ---
 
 ## 10) FAILURE MODES & FIX
-1) Hook too late
+1) Hook too late  
 - Fix: switch to Template A or B; compress intro.
-
-2) Hook not recognizable on first listen
+2) Hook not recognizable on first listen  
 - Fix: simplify hook contour; add S-tag earlier.
-
-3) Too repetitive
+3) Too repetitive  
 - Fix: enforce A/A’ geometry and add contrast B.
-
-4) Too busy, no clip windows
+4) Too busy, no clip windows  
 - Fix: add pause/snap and simplify arrangement during hook.
 
 ---
@@ -208,8 +214,9 @@ The blueprint must declare what validators should check:
 ---
 
 ## 12) OUTPUT FORMAT (MANDATORY)
+
 ### VHB (for each variant)
-- TEMPLATE: <A|B|C>
+- TEMPLATE:
 - TIMING_TARGETS:
   - intro_grab:
   - microhook_1:

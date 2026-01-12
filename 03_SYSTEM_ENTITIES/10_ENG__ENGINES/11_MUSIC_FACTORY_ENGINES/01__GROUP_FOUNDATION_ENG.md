@@ -10,18 +10,18 @@ ENGINE_TYPE: MUSIC_FACTORY
 LEVEL: L3
 STATUS: ACTIVE
 LOCK: FIXED
-VERSION: 1.0.0
+VERSION: 1.0.1
 UID: UE.ENG.MF.GROUP_FOUNDATION.001
 OWNER: SYSTEM
 ROLE: Builds a deterministic “Group DNA” foundation (identity + style + cast + constraints) that all albums/tracks must obey.
 
 CHANGE_NOTE:
-- DATE: 2026-01-11
-- TYPE: MAJOR
-- SUMMARY: "Defined Group Foundation Engine: group DNA, cast roles, style fingerprint, constraints, and no-repeat anchors."
-- REASON: "Quality + consistency requires a hard foundation before album/track generation."
-- IMPACT: "Every group becomes reproducible, scalable, and collision-aware."
-- CHANGE_ID: UE.CHG.2026-01-11.ENG.MF.GROUP_FOUNDATION.001
+- DATE: 2026-01-12
+- TYPE: PATCH
+- SUMMARY: "Reformatted to multi-line sections for operational readability; no semantic changes."
+- REASON: "Compressed single-line formatting is error-prone during edits."
+- IMPACT: "Safer copy/paste; easier review."
+- CHANGE_ID: UE.CHG.2026-01-12.ENG.MF.GROUP_FOUNDATION.002
 
 ---
 
@@ -42,11 +42,16 @@ Output is meant to be used by:
 ---
 
 ## 1) INPUTS (CONSUMES)
-- Audience segment target (from CTL): `40_CTL__CONTROLLERS/10_MUSIC_CONTROLLERS/08__AUDIENCE_SEGMENTS_CTL.md`
-- Viral / UGC rules baseline (from CTL): `40_CTL__CONTROLLERS/10_MUSIC_CONTROLLERS/02__UGC_VIRAL_RULESET_CTL.md`
-- Prompt contract constraints (from CTL): `40_CTL__CONTROLLERS/10_MUSIC_CONTROLLERS/01__PROMPT_CONTRACT_CTL.md`
-- Catalog memory snapshot (from CTL): `40_CTL__CONTROLLERS/10_MUSIC_CONTROLLERS/07__CATALOG_MEMORY_CTL.md`
-- Optional: poet corpus preferences (PD-only policy): `40_CTL__CONTROLLERS/10_MUSIC_CONTROLLERS/05__POET_PD_POLICY_CTL.md`
+- Audience segment target (from CTL):
+  `40_CTL__CONTROLLERS/10_MUSIC_CONTROLLERS/08__AUDIENCE_SEGMENTS_CTL.md`
+- Viral / UGC rules baseline (from CTL):
+  `40_CTL__CONTROLLERS/10_MUSIC_CONTROLLERS/02__UGC_VIRAL_RULESET_CTL.md`
+- Prompt contract constraints (from CTL):
+  `40_CTL__CONTROLLERS/10_MUSIC_CONTROLLERS/01__PROMPT_CONTRACT_CTL.md`
+- Catalog memory snapshot (from CTL):
+  `40_CTL__CONTROLLERS/10_MUSIC_CONTROLLERS/07__CATALOG_MEMORY_CTL.md`
+- Optional: poet corpus preferences (PD-only policy):
+  `40_CTL__CONTROLLERS/10_MUSIC_CONTROLLERS/05__POET_PD_POLICY_CTL.md`
 
 ---
 
@@ -82,11 +87,12 @@ DEPENDS_ON: [
   "https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/12_TREND_GENRE_ENGINES/03__STYLE_FINGERPRINT_ENG.md",
   "https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/14_NAMING_IDENTITY_ENGINES/01__NAMING_BRIEF_ENG.md"
 ]
-OUTPUT_TARGET: "05_PROJECTS/<MUSIC_PROJECTS>/GROUPS/<GROUP_ID>/"
+OUTPUT_TARGET: "05_PROJECTS//GROUPS//"
 
 ---
 
 ## 4) BOUNDARIES (ANTI-DUPLICATION)
+
 ### In scope
 - Group identity rules, cast composition, signature anchors, constraints.
 - Defining “what makes this group unique” in a deterministic way.

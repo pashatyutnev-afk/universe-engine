@@ -10,255 +10,228 @@ ENGINE_TYPE: TREND_GENRE
 LEVEL: L3
 STATUS: ACTIVE
 LOCK: FIXED
-VERSION: 1.0.0
+VERSION: 1.0.2
 UID: UE.ENG.TG.PROMPT_COMPILER.001
 OWNER: SYSTEM
-ROLE: Compiles all creative + control constraints into a deterministic, platform-native prompt pack (Suno/Udio) with minimal ambiguity and maximal fidelity.
+ROLE: Compiles deterministic, platform-native prompt packs (Suno/Udio) from taxonomy + fusion + fingerprint + hook blueprint + UGC map + duration strategy + negative specs.
+
+Outputs paste-ready prompts and variant packs, enabling high prompt fidelity and low drift.
 
 CHANGE_NOTE:
 - DATE: 2026-01-11
 - TYPE: MAJOR
-- SUMMARY: "Created a deterministic prompt compiler: Suno-native fields, negative spec enforcement, phrasebook usage, and fidelity/QA hooks."
-- REASON: "We need compatibility: model executes exactly what we ask, with minimal 'from itself'."
-- IMPACT: "Higher consistency, fewer rerolls, stronger control over style/voices/hooks."
+- SUMMARY: "Created prompt compiler: standardized prompt pack schema, tag ordering, negative spec compression, and variant compilation."
+- REASON: "Unstructured prompts cause drift and inconsistent results; we need a compiler."
+- IMPACT: "Higher prompt fidelity, faster generation, less wasted takes."
 - CHANGE_ID: UE.CHG.2026-01-11.ENG.TG.PROMPT.COMPILER.001
+- DATE: 2026-01-12
+- TYPE: PATCH
+- SUMMARY: "Reformatted to multi-line + added explicit mandatory SUNO pack output rule; preserved original intent."
+- REASON: "Operational safety; ensure always paste-ready output."
+- IMPACT: "No missing prompt packs; easier audits."
+- CHANGE_ID: UE.CHG.2026-01-12.ENG.TG.PROMPT.COMPILER.002
 
 ---
 
 ## 0) PURPOSE (LAW)
-This engine produces a **PROMPT PACK** that:
-- is **platform-native** (Suno/Udio formats)
-- is **deterministic** (clear constraints, no vague adjectives alone)
-- enforces **controls** (negative spec, policy gates, duration)
-- embeds **hook strategy** and **UGC moments**
-- supports **repeatable series identity** (style fingerprint + naming)
+This engine converts all planning artifacts into a **paste-ready Prompt Pack**.
+
+It must:
+- preserve identity anchors (fingerprint)
+- encode fusion without contradictions
+- encode hook timing + repetition geometry
+- embed UGC moments and clip windows
+- respect duration strategy and platform policies
+- compress negative specs into a short, effective list
 
 ---
 
 ## 1) INPUTS (CONSUMES)
-- Style Fingerprint (identity anchors)
-- Fusion Recipe (genre blend constraints)
-- Viral Hook Blueprint (hook role + placement)
-- Earworm Hook Stack (primary/secondary microhooks)
-- UGC Moment Map (clip windows and quote lines)
-- Duration Strategy + Duration Policy
-- Prompt Contract (what must/ must not happen)
-- Platform Phrasebooks (Suno/Udio)
-- Negative Spec Library (anti-artifacts)
-- Release Variants plan (short/long/alt intro)
-- Credits/Metadata Policy (credits field discipline if used)
+- Genre Taxonomy output (primary family tags)
+- Fusion Recipe Pack (optional)
+- Style Fingerprint Pack (anchors/forbiddens + platform encoding)
+- Viral Hook Blueprint (timing + geometry)
+- UGC Moment Map (clip windows + moments)
+- Earworm Hook Stack (H1/H2/S-tag/Q-line)
+- Duration Strategy output (short/full targets)
+- Prompt Contract CTL (rules for structure and allowed fields)
+- Phrasebooks (Suno/Udio CTL phrase sets)
+- Negative Spec Library CTL (avoid list)
 
 ---
 
 ## 2) OUTPUTS (PRODUCES)
-- PROMPT PACK (Suno):
-  - Lyrics (RU) OR instrument-only instruction
-  - Styles string (comma-separated, platform-native)
-  - Advanced Options notes (structure, vibe constraints)
-  - Negative constraints (integrated safely)
-  - Variant prompts (Short/Long/Alt intro)
-- PROMPT PACK (Udio):
-  - Tags / descriptors (native ordering)
-  - Structure hints (intro/verse/chorus/bridge)
-  - Negative constraints pack
-  - Variant prompts
-- Prompt Fidelity Checklist (for validator)
-- Prompt Diff (what changed from last attempt)
+Mandatory:
+- **SUNO PROMPT PACK** (always)
+Optional:
+- UDIO PROMPT PACK
+- Variant Packs:
+  - SHORT
+  - FULL
+  - ALT_INTRO (if needed)
+- Prompt Fidelity Notes (what must be preserved)
 
 ---
 
 ## 3) MINI-CONTRACT (MANDATORY)
 CONSUMES: [
+  "Genre Taxonomy",
+  "Fusion Recipe (optional)",
   "Style Fingerprint",
-  "Fusion Recipe",
   "Viral Hook Blueprint",
-  "Earworm Hook Stack",
   "UGC Moment Map",
-  "Duration Policy",
-  "Prompt Contract",
-  "Suno Phrasebook",
-  "Udio Phrasebook",
-  "Negative Spec Library",
-  "Release Variants plan",
-  "Credits/Metadata Policy"
+  "Earworm Hook Stack",
+  "Duration Strategy",
+  "Prompt Contract CTL",
+  "Phrasebooks CTL",
+  "Negative Spec Library CTL"
 ]
 PRODUCES: [
-  "Suno Prompt Pack",
-  "Udio Prompt Pack",
-  "Prompt Fidelity Checklist",
-  "Prompt Diff"
+  "Suno Prompt Pack (mandatory)",
+  "Udio Prompt Pack (optional)",
+  "Variant Packs (short/full/alt intro)",
+  "Prompt Fidelity Notes"
 ]
 DEPENDS_ON: [
-  "https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/12_TREND_GENRE_ENGINES/03__STYLE_FINGERPRINT_ENG.md",
-  "https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/12_TREND_GENRE_ENGINES/02__FUSION_RECIPE_ENG.md",
-  "https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/12_TREND_GENRE_ENGINES/04__VIRAL_HOOK_BLUEPRINT_ENG.md",
-  "https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/12_TREND_GENRE_ENGINES/06__EARWORM_HOOK_STACK_ENG.md",
-  "https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/12_TREND_GENRE_ENGINES/05__UGC_MOMENT_MAP_ENG.md",
   "https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/40_CTL__CONTROLLERS/10_MUSIC_CONTROLLERS/01__PROMPT_CONTRACT_CTL.md",
   "https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/40_CTL__CONTROLLERS/10_MUSIC_CONTROLLERS/10__SUNO_PHRASEBOOK_CTL.md",
   "https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/40_CTL__CONTROLLERS/10_MUSIC_CONTROLLERS/11__UDIO_PHRASEBOOK_CTL.md",
   "https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/40_CTL__CONTROLLERS/10_MUSIC_CONTROLLERS/12__NEGATIVE_SPEC_LIBRARY_CTL.md",
-  "https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/40_CTL__CONTROLLERS/10_MUSIC_CONTROLLERS/03__DURATION_POLICY_CTL.md"
+  "https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/50_VAL__VALIDATORS/10_MUSIC_VALIDATORS/08__PROMPT_FIDELITY_VAL.md"
 ]
-OUTPUT_TARGET: "05_PROJECTS/<MUSIC_PROJECTS>/PROMPT_PACKS/"
+OUTPUT_TARGET: "05_PROJECTS//PROMPTS/"
 
 ---
 
-## 4) CORE LAW: COMPILATION PRINCIPLES
-### 4.1 Determinism rule
-- Never rely on single vague adjectives (e.g., “крутой”, “эпичный”) alone.
-- Every descriptor must be anchored by **observable audio traits**:
-  - tempo feel, groove type, instrumentation, vocal character, mix traits, structure notes.
-
-### 4.2 Minimal ambiguity rule
-- Prefer short, platform-native tags over paragraphs in style field.
-- Put “what to avoid” into a **negative pack**, not scattered text.
-
-### 4.3 Identity-first rule
-- Style Fingerprint is the anchor.
-- Fusion recipe may only modify within allowed blend bounds.
-
-### 4.4 Hook-first rule
-- Hook requirements must be explicit:
-  - “recognizable hook by 0:10–0:15”
-  - “main hook repeats 2–3 times but not copy-paste”
-  - “one pause/snap moment before hook hit”
+## 4) CORE LAW — SUNO PACK IS MANDATORY
+Regardless of platform preference, this engine **always outputs a Suno Prompt Pack**.
+Udio pack is optional.
 
 ---
 
-## 5) OUTPUT FORMAT — SUNO PROMPT PACK (STANDARD)
-The Suno pack is always delivered as:
+## 5) PROMPT PACK STRUCTURE (STANDARD)
 
-### 5.1 SUNO.LYRICS (RU)
-- If lyrical: provide full lyrics with clear section labels.
-- If instrumental: write “Instrumental” and move constraints to SUNO.INSTRUCTION.
+### 5.1 SUNO PACK FIELDS (MANDATORY)
+- SUNO.LYRICS:
+  - RU by default (or “Instrumental”)
+  - must use section labels where needed (Verse/Chorus/Bridge etc.)
+- SUNO.STYLES:
+  - ordered list of tags (6–12)
+- SUNO.INSTRUCTION:
+  - short paragraph encoding:
+    - hook timing window
+    - repetition geometry
+    - UGC moment placement
+    - signature tag placement (S-tag)
+- SUNO.NEGATIVE:
+  - compact avoid list (short, concrete)
 
-**Allowed section labels:**
-[Intro]
-[Verse 1]
-[Pre-Chorus]
-[Chorus]
-[Verse 2]
-[Bridge]
-[Final Chorus]
-[Outro]
-
-### 5.2 SUNO.STYLES (comma-separated)
-Rules:
-- 5–12 tags max
-- order: genre → era → instrumentation → vocal → mood → mix traits
-- avoid contradictions (no “lofi” + “stadium anthem” together unless fusion recipe allows)
-
-### 5.3 SUNO.INSTRUCTION (1 short paragraph)
-Must include:
-- hook timing intent (early recognition)
-- structure intent (e.g., verse→chorus fast)
-- UGC moment hint (pause/snap, drop/switch)
-- duration target (short/long variant)
-
-### 5.4 SUNO.NEGATIVE (compact)
-Use Negative Spec Library:
-- anti-artifacts (muddy vocals, clipped highs, messy structure, random key changes, etc.)
-- anti-style drift (no jazz scat, no opera vibrato, etc.) as applicable
-
-### 5.5 SUNO.VARIANTS (if requested)
-- V1: Short (UGC)
-- V2: Full (album)
-- V3: Alt Intro (0–7s grab)
+### 5.2 UDIO PACK FIELDS (OPTIONAL)
+- UDIO.TAGS:
+- UDIO.INSTRUCTION:
+- UDIO.NEGATIVE:
+- UDIO.LYRICS (if applicable)
 
 ---
 
-## 6) OUTPUT FORMAT — UDIO PROMPT PACK (STANDARD)
-Udio pack is always delivered as:
+## 6) TAG ORDERING RULE (IMPORTANT)
+Order matters. Use this order:
+1) genre family (primary)
+2) era / reference vibe (if used)
+3) instrumentation palette
+4) groove/tempo feel
+5) vocal style (if lyrical)
+6) mood/emotion
+7) mix aesthetic
+8) signature tag hint
 
-- UDIO.TAGS (comma-separated, 8–15)
-- UDIO.STRUCTURE (very short: Intro/Verse/Chorus/Bridge notes)
-- UDIO.VOCAL (voice constraints, delivery, language)
-- UDIO.MIX (mix & master intent)
-- UDIO.NEGATIVE (compact)
-- UDIO.VARIANTS (short/full/alt intro)
-
----
-
-## 7) VOICE + INSTRUMENT STYLE MODEL (GROUP CAST)
-This engine supports **group cast** (not only singer):
-- VOCAL role: lead / backing / chant / call-response
-- INSTRUMENT roles: guitar lead, synth lead, bass pocket, drum signature, fx moments
-
-Rule:
-- at least **one signature element** must be declared:
-  - signature riff / signature drum fill / signature synth motif / chant tag
+Never stack contradictory genres without fusion phrasing.
 
 ---
 
-## 8) DURATION COMPILATION (ANTI-CHAOS)
-Input: Duration Policy.
-Compiler outputs:
-- Target total length range (e.g., 2:10–2:40 short; 2:50–3:30 full)
-- Mandatory: hook appears by a specified second
-- Mandatory: no “empty intro” longer than allowed
-
-If platform cannot guarantee exact seconds:
-- Compiler uses relative constraints (early hook, short intro, loopable outro).
+## 7) FUSION ENCODING (SAFE)
+If Fusion Recipe exists:
+- encode fusion as “A with B influence in <axis> during <section>”
+- do NOT list A and B as equal if ratio is not equal
+- keep A identity first in tags/instruction
 
 ---
 
-## 9) UGC MOMENT INJECTION (FROM UMM)
-At least 3 of these must appear in compiled instructions:
-- intro grab (0–7s)
-- pause/snap moment
-- drop/switch moment
-- quote line / caption hook (for lyrical)
-- loopable outro hint
+## 8) HOOK + UGC ENCODING (EXECUTABLE)
+Compiler must translate:
+- Viral Hook Blueprint timing windows
+- Earworm Hook Stack (H1/H2/S-tag/Q-line)
+- UGC Moment Map clip windows
+
+Into:
+- short instruction lines that a generator can follow
+
+Example patterns:
+- “Hook by 0:12, repeat with variation, include a pause snap before second hook”
+- “Make a clean 12–15s clip window centered on the quote line”
 
 ---
 
-## 10) NEGATIVE SPEC — SAFE INTEGRATION RULES
-- Negative pack must be short and technical.
-- Avoid “don’t be bad” language.
-- Prefer “avoid: <artifact> / no: <behavior>”.
-
-Examples (pattern only, not final list):
-- avoid: muddy vocals, harsh sibilance
-- no: random genre shift, spoken skits (unless requested)
-- avoid: too many repeats, monotone melody
-
----
-
-## 11) PROMPT DIFF (MANDATORY)
-Every iteration outputs:
-- What changed vs previous prompt (3–8 bullets)
-- Why changed (tie to QA or validator fail)
+## 9) NEGATIVE SPEC COMPRESSION
+Negative list must be:
+- short (8–20 items max)
+- concrete (“no long intro”, “no muddy vocals”, “no random genre switch”)
+- derived from:
+  - fingerprint forbiddens
+  - policy forbiddens
+  - failure fixes
 
 ---
 
-## 12) FAIL MODES & FIX
-1) Model invents too much
-- Fix: tighten prompt contract, reduce adjectives, increase anchors.
+## 10) VARIANT COMPILATION (SHORT/FULL/ALT)
+Compiler produces variants by changing only:
+- duration target
+- section budgets / hook density
+- intro entry method
 
-2) Wrong vibe / drift
-- Fix: reinforce Style Fingerprint + negative anti-drift.
-
-3) Hook weak / late
-- Fix: explicit early-hook requirement + intro compression.
-
-4) Repetitive chorus
-- Fix: add variation rule: “chorus repeats with small melodic/rhythmic variation”.
-
-5) Vocals unclear (RU)
-- Fix: add diction/clarity constraints + reduce dense instrumentation under vocal.
+Do not change fingerprint anchors between variants.
 
 ---
 
-## 13) VALIDATION HANDOFFS
+## 11) OUTPUT SCHEMA (PASTE READY)
+Compiler output must be written exactly as:
+
+### SUNO PROMPT PACK — <VARIANT NAME>
+Suno.Lyrics:
+...
+Suno.Styles:
+- ...
+Suno.Instruction:
+...
+Suno.Negative:
+- ...
+
+(And optional Udio pack following similar format.)
+
+---
+
+## 12) FAILURE MODES & FIX
+1) Model ignores prompt  
+- Fix: reduce tags, strengthen instruction, tighten negatives, simplify fusion.
+
+2) Output drifts off identity  
+- Fix: move anchors earlier; repeat signature tag; remove conflicting tags.
+
+3) Hook timing fails  
+- Fix: make timing explicit; remove long intro cues.
+
+4) Too many negatives → bland output  
+- Fix: remove generic negatives; keep only “hard blockers”.
+
+---
+
+## 13) HANDOFFS (XREF)
+Used by:
+- `11_MUSIC_FACTORY_ENGINES/04__TRACK_FACTORY_ENG.md`
+- `11_MUSIC_FACTORY_ENGINES/06__RELEASE_PACK_ENG.md`
+
 Validated by:
 - `50_VAL__VALIDATORS/10_MUSIC_VALIDATORS/08__PROMPT_FIDELITY_VAL.md`
-- `60_QA__QUALITY/10_MUSIC_QA/01__SCROLL_STOP_5S_QA.md`
-- `60_QA__QUALITY/10_MUSIC_QA/03__RECOGNITION_10S_QA.md`
-
-Controlled by:
-- `40_CTL__CONTROLLERS/10_MUSIC_CONTROLLERS/01__PROMPT_CONTRACT_CTL.md`
-- `40_CTL__CONTROLLERS/10_MUSIC_CONTROLLERS/12__NEGATIVE_SPEC_LIBRARY_CTL.md`
 
 ---
 

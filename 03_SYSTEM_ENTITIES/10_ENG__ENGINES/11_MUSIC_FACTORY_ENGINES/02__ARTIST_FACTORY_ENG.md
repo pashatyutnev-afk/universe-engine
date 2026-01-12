@@ -10,7 +10,7 @@ ENGINE_TYPE: MUSIC_FACTORY
 LEVEL: L3
 STATUS: ACTIVE
 LOCK: FIXED
-VERSION: 1.0.1
+VERSION: 1.0.2
 UID: UE.ENG.MF.ARTIST_FACTORY.001
 OWNER: SYSTEM
 ROLE: Constructs a deterministic roster of “Artists” (voices + instrumental personas + producer persona) with style contracts, ranges, and signature behaviors.
@@ -18,10 +18,10 @@ ROLE: Constructs a deterministic roster of “Artists” (voices + instrumental 
 CHANGE_NOTE:
 - DATE: 2026-01-12
 - TYPE: PATCH
-- SUMMARY: "Canon formatting + fixed OUTPUT_TARGET placeholder + dependency wiring kept consistent."
-- REASON: "File must be readable and operational; output target must be a valid placeholder."
-- IMPACT: "Cleaner production pipeline; less ambiguity."
-- CHANGE_ID: UE.CHG.2026-01-12.ENG.MF.ARTIST_FACTORY.002
+- SUMMARY: "Reformatted to multi-line sections; removed conversational header wording; no semantic changes."
+- REASON: "Operational readability; prevent section breakage during edits."
+- IMPACT: "Safer copy/paste; easier reviews."
+- CHANGE_ID: UE.CHG.2026-01-12.ENG.MF.ARTIST_FACTORY.003
 
 ---
 
@@ -66,21 +66,18 @@ CONSUMES: [
   "Voice Diversity Rules (VAL/QA)",
   "Format Constraints (optional)"
 ]
-
 PRODUCES: [
   "Artist Roster Spec",
   "Performer Contracts Pack",
   "Timbre Palette Map",
   "Role Boundaries Matrix"
 ]
-
 DEPENDS_ON: [
   "https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/09_SOUND_MUSIC_ENGINES/09__VOCAL_PERFORMANCE_ENG.md",
   "https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/09_SOUND_MUSIC_ENGINES/08__ARRANGEMENT_INSTRUMENTATION_ENG.md",
   "https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/12_TREND_GENRE_ENGINES/03__STYLE_FINGERPRINT_ENG.md"
 ]
-
-OUTPUT_TARGET: "05_PROJECTS/<MUSIC_PROJECTS>/GROUPS/<GROUP_UID>/CAST/"
+OUTPUT_TARGET: "05_PROJECTS//GROUPS//CAST/"
 
 ---
 
@@ -167,8 +164,8 @@ If conflict:
 
 ---
 
-## 6) IMPORTANT CLARIFICATION (YOUR QUESTION)
-Yes, **this applies to musicians too, not only the singer**:
+## 6) IMPORTANT CLARIFICATION
+This applies to musicians too, not only the singer:
 - Instruments have “style” (timbre, groove, motif behavior, arrangement habits).
 - Producer has “style” (mix taste, dynamics, stereo, density).
 

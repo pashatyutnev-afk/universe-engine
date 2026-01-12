@@ -10,18 +10,20 @@ ENGINE_TYPE: MUSIC_FACTORY
 LEVEL: L3
 STATUS: ACTIVE
 LOCK: FIXED
-VERSION: 1.0.0
+VERSION: 1.0.1
 UID: UE.ENG.MF.ALBUM_BLUEPRINT.001
 OWNER: SYSTEM
-ROLE: Builds a deterministic album plan: concept, arc, tracklist skeleton, track roles, variation strategy, duration mix, UGC moment distribution, and anti-repeat constraints. Outputs a blueprint that Track Factory can execute slot-by-slot.
+ROLE: Builds a deterministic album plan: concept, arc, tracklist skeleton, track roles, variation strategy, duration mix, UGC moment distribution, and anti-repeat constraints.
+
+Outputs a blueprint that Track Factory can execute slot-by-slot.
 
 CHANGE_NOTE:
 - DATE: 2026-01-12
-- TYPE: MAJOR
-- SUMMARY: "Created Album Blueprint: concept + arc + track roles + variation map + duration plan + UGC distribution + collision guards."
-- REASON: "Without a blueprint, tracks become random and inconsistent; albums need structure and controlled novelty."
-- IMPACT: "Coherent albums, faster track production, fewer repeats, stronger fan narrative."
-- CHANGE_ID: UE.CHG.2026-01-12.ENG.MF.ALBUM.BLUEPRINT.001
+- TYPE: PATCH
+- SUMMARY: "Reformatted to multi-line + added explicit INPUTS/OUTPUTS sections; no semantic changes."
+- REASON: "Operational readability; safer editing; align with engine template structure."
+- IMPACT: "Easier audits; less breakage during iteration."
+- CHANGE_ID: UE.CHG.2026-01-12.ENG.MF.ALBUM.BLUEPRINT.002
 
 ---
 
@@ -33,12 +35,34 @@ It must:
 - distribute novelty without chaos
 - avoid internal repeats (hook/timbre/structure)
 - plan UGC moments across the album
-- define a clear arc (opening → peak → cooldown / finale)
+- define a clear arc (opening → peak → cooldown/finale)
 - output slot-by-slot briefs for Track Factory
 
 ---
 
-## 1) MINI-CONTRACT (MANDATORY)
+## 1) INPUTS (CONSUMES)
+- Group Foundation
+- Artist Factory (cast)
+- Genre Taxonomy (A) + Fusion Recipe (optional B/C)
+- Style Fingerprint (anchors + forbiddens)
+- Duration Strategy / Duration Policy
+- Catalog Memory (avoid repeats)
+- Audience Segment Target
+
+---
+
+## 2) OUTPUTS (PRODUCES)
+- Album Blueprint (single SoT)
+- Tracklist Skeleton (slots 01..N)
+- Track Role Map (what each slot does)
+- Variation Strategy Map (what changes per track)
+- UGC Moment Distribution Map
+- Album Naming Brief (placeholders; no final titles required)
+- Collision Guard Notes (album-internal)
+
+---
+
+## 3) MINI-CONTRACT (MANDATORY)
 CONSUMES: [
   "Group Foundation",
   "Artist Factory (cast)",
@@ -51,10 +75,10 @@ CONSUMES: [
 PRODUCES: [
   "Album Blueprint (single SoT)",
   "Tracklist Skeleton (slots 01..N)",
-  "Track Role Map (what each slot does)",
-  "Variation Strategy Map (what changes per track)",
+  "Track Role Map",
+  "Variation Strategy Map",
   "UGC Moment Distribution Map",
-  "Album Naming Brief (placeholders, no final titles required)",
+  "Album Naming Brief (placeholders)",
   "Collision Guard Notes (album-internal)"
 ]
 DEPENDS_ON: [
@@ -69,11 +93,11 @@ DEPENDS_ON: [
   "https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/40_CTL__CONTROLLERS/10_MUSIC_CONTROLLERS/07__CATALOG_MEMORY_CTL.md",
   "https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/40_CTL__CONTROLLERS/10_MUSIC_CONTROLLERS/03__DURATION_POLICY_CTL.md"
 ]
-OUTPUT_TARGET: "05_PROJECTS/<MUSIC_PROJECTS>/GROUPS/<GROUP_UID>/ALBUMS/<ALBUM_UID>/"
+OUTPUT_TARGET: "05_PROJECTS//GROUPS//ALBUMS//"
 
 ---
 
-## 2) ALBUM BLUEPRINT (SINGLE SOURCE OF TRUTH)
+## 4) ALBUM BLUEPRINT (SINGLE SOURCE OF TRUTH)
 Album Blueprint is one document that must contain:
 
 ### A) Album Identity
@@ -99,7 +123,8 @@ Album Blueprint is one document that must contain:
 
 ### D) Tracklist Skeleton (slots)
 - SLOT_COUNT: (6–14 typical)
-- SLOT TABLE: slot → role → tempo band → hook type → novelty knob → duration type
+- SLOT TABLE:
+  slot → role → tempo band → hook type → novelty knob → duration type
 
 ### E) Variation Strategy
 Defines what changes per track without breaking identity:
@@ -112,17 +137,16 @@ Defines what changes per track without breaking identity:
 - avoid stacking all UGC moments in one area
 
 ### G) Collision Guard Notes (album-internal)
-- what must not repeat across slots:
-  - same hook contour
-  - same chant tag
-  - same intro signature
-  - same lead timbre dominance
+What must not repeat across slots:
+- same hook contour
+- same chant tag
+- same intro signature
+- same lead timbre dominance
 
 ---
 
-## 3) TRACK ROLE MAP (STANDARD)
+## 5) TRACK ROLE MAP (STANDARD)
 Each slot must have a role type:
-
 - OPENER (recognition fast, identity stamp)
 - LEAD SINGLE (main viral candidate)
 - BANGER (energy peak, drop-forward)
@@ -140,7 +164,7 @@ Rule:
 
 ---
 
-## 4) DURATION MIX (ANTI-CHAOS)
+## 6) DURATION MIX (ANTI-CHAOS)
 Album blueprint must declare duration policy per slot:
 - SHORT: optimized for clips (platform-friendly)
 - FULL: full song experience
@@ -150,13 +174,13 @@ Rule:
 - Provide a pattern, e.g.:
   - 60–70% SHORT
   - 30–40% FULL
-Or per album goal.
+(or per album goal)
 
 Duration engine/policy decides exact seconds; blueprint decides distribution.
 
 ---
 
-## 5) NOVELTY PLAN (CONTROLLED)
+## 7) NOVELTY PLAN (CONTROLLED)
 Album must declare novelty knobs:
 - tempo band shifts (within limits)
 - instrumentation swaps (within palette)
@@ -170,7 +194,7 @@ Hard rule:
 
 ---
 
-## 6) WORKFLOW (OPERATIONAL STEPS)
+## 8) WORKFLOW (OPERATIONAL STEPS)
 1) Read Group Foundation + cast
 2) Lock primary genre (A) and fingerprint anchors
 3) Decide if fusion is used:
@@ -186,7 +210,7 @@ Hard rule:
 
 ---
 
-## 7) FAIL MODES & FIXES
+## 9) FAIL MODES & FIXES
 1) Album feels like random playlist
 - Fix: enforce arc + role map + anchor preservation.
 
@@ -201,7 +225,7 @@ Hard rule:
 
 ---
 
-## 8) HANDOFFS (XREF)
+## 10) HANDOFFS (XREF)
 NEXT ENG:
 - `11_MUSIC_FACTORY_ENGINES/04__TRACK_FACTORY_ENG.md` (executes slots)
 - `11_MUSIC_FACTORY_ENGINES/07__CATALOG_COLLISION_ENG.md` (anti-repeat)

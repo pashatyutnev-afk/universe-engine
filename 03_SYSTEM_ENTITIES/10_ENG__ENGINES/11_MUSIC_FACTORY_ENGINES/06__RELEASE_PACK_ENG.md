@@ -10,7 +10,7 @@ ENGINE_TYPE: MUSIC_FACTORY
 LEVEL: L3
 STATUS: ACTIVE
 LOCK: FIXED
-VERSION: 1.0.1
+VERSION: 1.0.2
 UID: UE.ENG.MF.RELEASE_PACK.001
 OWNER: SYSTEM
 ROLE: Produces a complete release pack (variants + metadata + credits + QA/VAL snapshot + platform-ready titles) for track or album.
@@ -18,22 +18,21 @@ ROLE: Produces a complete release pack (variants + metadata + credits + QA/VAL s
 CHANGE_NOTE:
 - DATE: 2026-01-12
 - TYPE: PATCH
-- SUMMARY: "Canon formatting + fixed OUTPUT_TARGET placeholder; preserved original rules and dependencies."
-- REASON: "Operational readability + correct target path placeholder."
+- SUMMARY: "Reformatted to multi-line sections for operational readability; preserved original rules and dependencies."
+- REASON: "Compressed formatting is error-prone during edits."
 - IMPACT: "Release packaging becomes deterministic and easy to execute."
-- CHANGE_ID: UE.CHG.2026-01-12.ENG.MF.RELEASE_PACK.002
+- CHANGE_ID: UE.CHG.2026-01-12.ENG.MF.RELEASE_PACK.003
 
 ---
 
 ## 0) PURPOSE (LAW)
 This engine turns approved tracks/albums into a **Release Pack**:
-
 - approved versions (main/short/alt/extended/instrumental etc.)
 - title variants per platform format
 - metadata (genre tags, mood, language, descriptors)
 - credits/rights note (policy controlled)
 - QA/VAL results snapshot
-- link-ready export checklist
+- export checklist (upload-ready)
 
 It does not generate audio itself — it packages what exists.
 
@@ -53,10 +52,11 @@ It does not generate audio itself — it packages what exists.
 ---
 
 ## 2) OUTPUTS (PRODUCES)
-Primary:
+
+### Primary
 - **Release Pack (Track)** OR **Release Pack (Album)**
 
-Secondary:
+### Secondary
 - **Variant Manifest** (list of files/versions + target durations)
 - **Metadata Sheet** (tags + descriptors)
 - **Credits & Rights Note** (PD compliance note if used)
@@ -74,7 +74,6 @@ CONSUMES: [
   "Release Variants CTL",
   "Credits/Metadata Policy CTL"
 ]
-
 PRODUCES: [
   "Release Pack (Track/Album)",
   "Variant Manifest",
@@ -82,44 +81,42 @@ PRODUCES: [
   "Credits & Rights Note",
   "Readiness Snapshot (VAL/QA)"
 ]
-
 DEPENDS_ON: [
   "https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/40_CTL__CONTROLLERS/10_MUSIC_CONTROLLERS/04__RELEASE_VARIANTS_CTL.md",
   "https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/40_CTL__CONTROLLERS/10_MUSIC_CONTROLLERS/13__CREDITS_METADATA_POLICY_CTL.md",
   "https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/50_VAL__VALIDATORS/10_MUSIC_VALIDATORS/06__RELEASE_PACK_READY_VAL.md",
   "https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/14_NAMING_IDENTITY_ENGINES/04__PLATFORM_FORMAT_TITLES_ENG.md"
 ]
-
-OUTPUT_TARGET: "05_PROJECTS/<MUSIC_PROJECTS>/GROUPS/<GROUP_UID>/RELEASES/"
+OUTPUT_TARGET: "05_PROJECTS//GROUPS//RELEASES/"
 
 ---
 
 ## 4) RELEASE PACK CONTENTS (STANDARD)
 
 ### 4.1 Track Release Pack must include
-1) RELEASE PASSPORT
-- RELEASE_ID, track ID, version, date, status
+1) **Release Passport**
+   - RELEASE_ID, track ID, version, date, status
 
-2) VARIANT MANIFEST
-- MAIN, SHORT_CUT, ALT, INSTRUMENTAL, EXTENDED (as applicable)
+2) **Variant Manifest**
+   - MAIN, SHORT_CUT, ALT, INSTRUMENTAL, EXTENDED (as applicable)
 
-3) TITLES (PER PLATFORM)
-- Spotify/Apple style title
-- YouTube title
-- TikTok/Reels caption title
+3) **Titles (per platform)**
+   - Spotify/Apple style title
+   - YouTube title
+   - TikTok/Reels caption title
 
-4) METADATA SHEET
-- genre tags, mood, energy, language, themes, descriptors
+4) **Metadata Sheet**
+   - genre tags, mood, energy, language, themes, descriptors
 
-5) CREDITS & RIGHTS NOTE
-- PD usage statement if used
-- “no claim of authorship of original poet text”
+5) **Credits & Rights Note**
+   - PD usage statement if used
+   - “no claim of authorship of original poet text”
 
-6) QA/VAL SNAPSHOT
-- which validators passed, which QA notes included
+6) **QA/VAL Snapshot**
+   - which validators passed, which QA notes included
 
-7) EXPORT CHECKLIST
-- upload-ready list + filename conventions
+7) **Export Checklist**
+   - upload-ready list + filename conventions
 
 ### 4.2 Album Release Pack must include (in addition)
 - album story/promise
@@ -179,16 +176,16 @@ Before a release pack is marked READY:
 ---
 
 ## 9) FAILURE MODES & FIXES
-1) Missing variants
+1) Missing variants  
 - Fix: re-run variants plan; produce missing files.
 
-2) Metadata inconsistent
+2) Metadata inconsistent  
 - Fix: regenerate metadata sheet from blueprint + group DNA.
 
-3) Title collision
+3) Title collision  
 - Fix: naming collision engine; produce safe title.
 
-4) Rights ambiguity
+4) Rights ambiguity  
 - Fix: strengthen PD note; remove risky claims.
 
 ---

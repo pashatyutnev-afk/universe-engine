@@ -10,10 +10,12 @@ ENGINE_TYPE: MUSIC_FACTORY
 LEVEL: L3
 STATUS: ACTIVE
 LOCK: FIXED
-VERSION: 1.0.0
+VERSION: 1.0.1
 UID: UE.ENG.MF.DURATION_STRATEGY.001
 OWNER: SYSTEM
-ROLE: Converts genre + audience + platform goals into deterministic duration targets (short/full) with hook timing constraints and section budgets. Eliminates duration chaos across catalog.
+ROLE: Converts genre + audience + platform goals into deterministic duration targets (short/full) with hook timing constraints and section budgets.
+
+Eliminates duration chaos across catalog.
 
 CHANGE_NOTE:
 - DATE: 2026-01-12
@@ -22,6 +24,12 @@ CHANGE_NOTE:
 - REASON: "Track length chaos breaks UGC performance and catalog coherence."
 - IMPACT: "Consistent lengths per style, faster production, better retention and reuse in content."
 - CHANGE_ID: UE.CHG.2026-01-12.ENG.MF.DURATION.STRAT.001
+- DATE: 2026-01-12
+- TYPE: PATCH
+- SUMMARY: "Reformatted to multi-line sections for operational readability; no semantic changes."
+- REASON: "Compressed formatting is error-prone during edits."
+- IMPACT: "Safer copy/paste; easier audits."
+- CHANGE_ID: UE.CHG.2026-01-12.ENG.MF.DURATION.STRAT.002
 
 ---
 
@@ -39,6 +47,7 @@ This engine does not enforce. Enforcement is done by CTL/VAL/QA.
 ---
 
 ## 1) MINI-CONTRACT (MANDATORY)
+
 CONSUMES: [
   "Primary Genre (A) + Fusion plan (optional)",
   "Audience Segment Target",
@@ -47,6 +56,7 @@ CONSUMES: [
   "Catalog Memory (avoid repeating same length patterns)",
   "Duration Policy CTL (hard constraints)"
 ]
+
 PRODUCES: [
   "Duration Plan (Short)",
   "Duration Plan (Full)",
@@ -55,16 +65,19 @@ PRODUCES: [
   "Album Duration Mix Guidance",
   "Duration Variant Notes (if multiple)"
 ]
+
 DEPENDS_ON: [
   "https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/40_CTL__CONTROLLERS/10_MUSIC_CONTROLLERS/03__DURATION_POLICY_CTL.md",
   "https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/12_TREND_GENRE_ENGINES/04__VIRAL_HOOK_BLUEPRINT_ENG.md",
   "https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/12_TREND_GENRE_ENGINES/05__UGC_MOMENT_MAP_ENG.md"
 ]
-OUTPUT_TARGET: "05_PROJECTS/<MUSIC_PROJECTS>/GROUPS/<GROUP_UID>/DURATION/"
+
+OUTPUT_TARGET: "05_PROJECTS//GROUPS//DURATION/"
 
 ---
 
 ## 2) CORE MODES (STANDARD)
+
 ### 2.1 SHORT MODE (UGC-OPTIMIZED)
 Goal: maximum retention + clip usability.
 
@@ -113,7 +126,7 @@ Duration plan must output a budget for:
 - BRIDGE (optional, full mode)
 - OUTRO / LOOP OUT
 
-### Default budget philosophy
+Default budget philosophy:
 - Intro is a “stamp”, not a journey
 - First 10 seconds must contain recognition material
 - Hook gets the largest share of attention
@@ -123,7 +136,6 @@ Duration plan must output a budget for:
 
 ## 5) GENRE-AWARE DURATION TUNING (GUIDELINES)
 This engine does not hardcode every genre number, but it defines tuning principles:
-
 - Hook-forward genres (pop/trap/phonk/edm): shorten intro; emphasize hook cycles
 - Narrative-heavy tracks: allow slightly longer setup but keep early recognition
 - High-tempo genres: avoid long bridges; keep energy continuity
@@ -168,25 +180,27 @@ Duration Strategy outputs a compact pack:
 ---
 
 ## 8) FAILURE MODES & FIXES
-1) Tracks feel too long / boring
+1) Tracks feel too long / boring  
 - Fix: shorten intro; reduce bridge; increase hook density; enforce early recognition.
 
-2) Tracks feel too short / unfinished
+2) Tracks feel too short / unfinished  
 - Fix: in short mode add micro-bridge or hook variation; in full mode add structured bridge.
 
-3) Hook comes late
+3) Hook comes late  
 - Fix: re-budget; move hook earlier; cut intro.
 
-4) Catalog sameness in lengths
+4) Catalog sameness in lengths  
 - Fix: rotate duration templates; adjust section budgets per slot.
 
 ---
 
 ## 9) HANDOFFS (XREF)
+
 Used by:
 - `11_MUSIC_FACTORY_ENGINES/03__ALBUM_BLUEPRINT_ENG.md`
 - `11_MUSIC_FACTORY_ENGINES/04__TRACK_FACTORY_ENG.md`
 - `40_CTL__CONTROLLERS/10_MUSIC_CONTROLLERS/03__DURATION_POLICY_CTL.md`
+
 Validated by:
 - `50_VAL__VALIDATORS/10_MUSIC_VALIDATORS/01__HOOK_TIMING_VAL.md`
 - `60_QA__QUALITY/10_MUSIC_QA/02__LOOP_15S_QA.md`

@@ -10,10 +10,11 @@ ENGINE_TYPE: TREND_GENRE
 LEVEL: L3
 STATUS: ACTIVE
 LOCK: FIXED
-VERSION: 1.0.0
+VERSION: 1.0.1
 UID: UE.ENG.TG.EARWORM_HOOK_STACK.001
 OWNER: SYSTEM
-ROLE: Builds a multi-layer hook stack (lyric/melody/rhythm/sound/cadence) to maximize “stuck-in-head” effect while preventing cheap repetition and style drift.
+ROLE: Builds a multi-layer hook stack (lyric/melody/rhythm/sound/cadence) to maximize “stuck-in-head” effect
+while preventing cheap repetition and style drift.
 
 CHANGE_NOTE:
 - DATE: 2026-01-11
@@ -22,6 +23,12 @@ CHANGE_NOTE:
 - REASON: "We need controllable viral memory mechanics, not random luck."
 - IMPACT: "Higher recognition, more replays, stronger quoteability, fewer dead intros."
 - CHANGE_ID: UE.CHG.2026-01-11.ENG.TG.EARWORM.STACK.001
+- DATE: 2026-01-12
+- TYPE: PATCH
+- SUMMARY: "Reformatted to multi-line sections for operational readability; no semantic changes."
+- REASON: "Compressed formatting is error-prone during edits."
+- IMPACT: "Safer copy/paste; easier audits."
+- CHANGE_ID: UE.CHG.2026-01-12.ENG.TG.EARWORM.STACK.002
 
 ---
 
@@ -39,7 +46,7 @@ This engine outputs a **HOOK STACK** that:
 - Fusion Recipe (allowed cross-genre moves)
 - Style Fingerprint (identity anchors)
 - Audience Segments (what hooks them)
-- Duration Strategy (hook timing constraints)
+- Duration Strategy / Duration Policy (hook timing constraints)
 - UGC Moment Map (clip windows requirements)
 - Negative Spec Library (avoid annoying artifacts)
 
@@ -52,8 +59,8 @@ This engine outputs a **HOOK STACK** that:
   - Microhooks (H3..Hn)
   - Signature Sound Tag (S-tag)
   - Quote Line / Caption Hook (Q-line) — if lyrical
-  - Timing Plan (when each appears)
-  - Variation Plan (how repeats evolve)
+- Timing Plan (when each appears)
+- Variation Plan (how repeats evolve)
 - Hook Placement Notes (for prompt compiler)
 - Anti-Repeat Guard Rules (for validator alignment)
 
@@ -65,7 +72,7 @@ CONSUMES: [
   "Fusion Recipe",
   "Style Fingerprint",
   "Audience Segments",
-  "Duration Strategy",
+  "Duration Strategy / Duration Policy",
   "UGC Moment Map",
   "Negative Spec Library"
 ]
@@ -84,7 +91,7 @@ DEPENDS_ON: [
   "https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/40_CTL__CONTROLLERS/10_MUSIC_CONTROLLERS/12__NEGATIVE_SPEC_LIBRARY_CTL.md",
   "https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/40_CTL__CONTROLLERS/10_MUSIC_CONTROLLERS/08__AUDIENCE_SEGMENTS_CTL.md"
 ]
-OUTPUT_TARGET: "05_PROJECTS/<MUSIC_PROJECTS>/HOOKS/"
+OUTPUT_TARGET: "05_PROJECTS//HOOKS/"
 
 ---
 
@@ -143,7 +150,7 @@ Rule:
 ---
 
 ## 5) TIMING PLAN (ANTI-CHAOS)
-Output must include **hook timing targets** (relative, platform-safe):
+Output must include **hook timing targets** (relative, platform-safe).
 
 Required fields:
 - INTRO_GRAB: where the first “grab” happens
@@ -163,7 +170,8 @@ Default timing heuristics (override by Duration Policy):
 ---
 
 ## 6) VARIATION PLAN (REPEAT-SAFE)
-We do NOT want copy-paste repeats. We want “same but evolved”.
+We do NOT want copy-paste repeats.
+We want “same but evolved”.
 
 Variation knobs:
 - melodic: same contour, altered ending note
@@ -173,8 +181,7 @@ Variation knobs:
 - vocal: lead vs backing call-response alternate
 
 Hard rule:
-- H1 repeats 2–4 times depending on duration,
-  but each repeat must change at least 1 knob (small change is enough).
+- H1 repeats 2–4 times depending on duration, but each repeat must change at least 1 knob (small change is enough).
 
 ---
 
@@ -183,9 +190,9 @@ Engine output must be stored as:
 
 ### HOOK_STACK
 - H1:
-  - type: <melody|lyric|riff|chant>
-  - core: <short description>
-  - execution: <how it sounds / performed>
+  - type:
+  - core:
+  - execution:
 - H2:
   - type:
   - core:
@@ -231,16 +238,16 @@ If track is instrumental:
 ---
 
 ## 9) COMMON FAIL MODES & FIX RULES
-1) Hook late / too long intro
+1) Hook late / too long intro  
 - Fix: compress intro, force H1 first earlier, add intro grab.
 
-2) Hook annoying (over-repeated)
+2) Hook annoying (over-repeated)  
 - Fix: reduce repeats, enforce variation plan.
 
-3) Hook not memorable (too complex)
+3) Hook not memorable (too complex)  
 - Fix: simplify contour, make rhythm clearer, reduce harmonic wandering.
 
-4) Track loses identity (drift)
+4) Track loses identity (drift)  
 - Fix: re-anchor with Style Fingerprint + S-tag recurrence.
 
 ---

@@ -10,10 +10,12 @@ ENGINE_TYPE: MUSIC_FACTORY
 LEVEL: L3
 STATUS: ACTIVE
 LOCK: FIXED
-VERSION: 1.0.0
+VERSION: 1.0.1
 UID: UE.ENG.MF.NOVELTY_INJECTION.001
 OWNER: SYSTEM
-ROLE: Applies controlled novelty to a track/album slot to avoid collisions and repetition while preserving Group Fingerprint anchors. Produces a minimal-change plan and updated constraints for the next take.
+ROLE: Applies controlled novelty to a track/album slot to avoid collisions and repetition while preserving Group Fingerprint anchors.
+
+Produces a minimal-change plan and updated constraints for the next take.
 
 CHANGE_NOTE:
 - DATE: 2026-01-12
@@ -22,6 +24,12 @@ CHANGE_NOTE:
 - REASON: "Scaling many tracks requires deterministic novelty without breaking group identity."
 - IMPACT: "Less sameness, higher viral uniqueness, faster iteration after WARN/BLOCK."
 - CHANGE_ID: UE.CHG.2026-01-12.ENG.MF.NOVELTY.INJECT.001
+- DATE: 2026-01-12
+- TYPE: PATCH
+- SUMMARY: "Reformatted to multi-line sections for operational readability; no semantic changes."
+- REASON: "Compressed formatting is error-prone during edits."
+- IMPACT: "Safer copy/paste; easier audits."
+- CHANGE_ID: UE.CHG.2026-01-12.ENG.MF.NOVELTY.INJECT.002
 
 ---
 
@@ -39,6 +47,7 @@ It must:
 ---
 
 ## 1) MINI-CONTRACT (MANDATORY)
+
 CONSUMES: [
   "Collision Report (PASS/WARN/BLOCK details)",
   "Track Intent Brief (slot role + required hooks)",
@@ -66,7 +75,7 @@ DEPENDS_ON: [
   "https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/11_MUSIC_FACTORY_ENGINES/09__TAKE_LOG_ENG.md"
 ]
 
-OUTPUT_TARGET: "05_PROJECTS/<MUSIC_PROJECTS>/GROUPS/<GROUP_UID>/NOVELTY/"
+OUTPUT_TARGET: "05_PROJECTS//GROUPS//NOVELTY/"
 
 ---
 
@@ -144,14 +153,14 @@ Plan must be short and executable.
 
 ### Selected knobs (1–3)
 1) KNOB:
-   - WHAT CHANGES:
-   - WHY:
-   - HOW TO VERIFY:
+- WHAT CHANGES:
+- WHY:
+- HOW TO VERIFY:
 
 2) KNOB:
-   - WHAT CHANGES:
-   - WHY:
-   - HOW TO VERIFY:
+- WHAT CHANGES:
+- WHY:
+- HOW TO VERIFY:
 
 ### Negative specs update
 - Add “avoid X” rules (concrete)
@@ -170,7 +179,8 @@ Plan must be short and executable.
 - identify dominant collision type(s): HOOK/INTRO/STRUCTURE/TIMBRE/GROOVE/LYRICS
 
 2) Lock anchors
-- list 2–5 anchors; list forbiddens
+- list 2–5 anchors
+- list forbiddens
 
 3) Choose minimal knobs
 - if HOOK collision → choose A or B first
@@ -195,6 +205,7 @@ Plan must be short and executable.
 ---
 
 ## 7) DECISION OUTCOMES
+
 ### PASS TARGET
 - collision types below WARN threshold
 - repeat guard passes
@@ -205,9 +216,10 @@ Plan must be short and executable.
 - allow 1 more novelty injection run with 1 knob only
 
 ### FAIL (BLOCK)
-- if still blocked after 2 novelty cycles:
-  - force a new slot concept (album blueprint adjustment) OR
-  - change hook blueprint (not just surface)
+If still blocked after 2 novelty cycles:
+- force a new slot concept (album blueprint adjustment)
+OR
+- change hook blueprint (not just surface)
 
 ---
 
@@ -227,6 +239,7 @@ Plan must be short and executable.
 ---
 
 ## 9) HANDOFFS (XREF)
+
 Returns to:
 - `11_MUSIC_FACTORY_ENGINES/04__TRACK_FACTORY_ENG.md` (retest execution)
 

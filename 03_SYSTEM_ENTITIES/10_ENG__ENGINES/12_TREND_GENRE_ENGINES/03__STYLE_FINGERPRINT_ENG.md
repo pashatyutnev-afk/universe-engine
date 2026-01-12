@@ -10,10 +10,13 @@ ENGINE_TYPE: TREND_GENRE
 LEVEL: L3
 STATUS: ACTIVE
 LOCK: FIXED
-VERSION: 1.0.0
+VERSION: 1.0.1
 UID: UE.ENG.TG.STYLE_FINGERPRINT.001
 OWNER: SYSTEM
-ROLE: Produces a compact, deterministic “style fingerprint” that encodes group identity in audible anchors (vocal/instrument/mix/groove/hook grammar) and defines what may vary. Used to prevent drift and enable consistent series output.
+ROLE: Produces a compact, deterministic “style fingerprint” that encodes group identity in audible anchors
+(vocal/instrument/mix/groove/hook grammar) and defines what may vary.
+
+Used to prevent drift and enable consistent series output.
 
 CHANGE_NOTE:
 - DATE: 2026-01-11
@@ -22,6 +25,12 @@ CHANGE_NOTE:
 - REASON: "Without fingerprint, the generator drifts; tracks become inconsistent and repetitive."
 - IMPACT: "Recognizable brand sound + controlled variation across albums/tracks."
 - CHANGE_ID: UE.CHG.2026-01-11.ENG.TG.STYLE.FINGERPRINT.001
+- DATE: 2026-01-12
+- TYPE: PATCH
+- SUMMARY: "Reformatted to multi-line sections for operational readability; no semantic changes."
+- REASON: "Compressed formatting is error-prone during edits."
+- IMPACT: "Safer copy/paste; easier audits."
+- CHANGE_ID: UE.CHG.2026-01-12.ENG.TG.STYLE.FINGERPRINT.002
 
 ---
 
@@ -52,8 +61,8 @@ This engine outputs a **STYLE FINGERPRINT (SF)** — a minimal, stable identity 
   - Forbidden Drift List (must never happen)
   - Token Set (short tokens for logs/memory)
   - Platform Encoding (Suno/Udio tags order)
-- Fingerprint Diff (if updated)
-- Collision Check Notes (what to compare)
+  - Fingerprint Diff (if updated)
+  - Collision Check Notes (what to compare)
 
 ---
 
@@ -78,7 +87,7 @@ DEPENDS_ON: [
   "https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/40_CTL__CONTROLLERS/10_MUSIC_CONTROLLERS/07__CATALOG_MEMORY_CTL.md",
   "https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/50_VAL__VALIDATORS/10_MUSIC_VALIDATORS/05__COLLISION_BLOCKER_VAL.md"
 ]
-OUTPUT_TARGET: "05_PROJECTS/<MUSIC_PROJECTS>/FINGERPRINTS/"
+OUTPUT_TARGET: "05_PROJECTS//FINGERPRINTS/"
 
 ---
 
@@ -92,7 +101,8 @@ Fingerprint is split into:
 ---
 
 ## 5) CORE ANCHORS (MANDATORY)
-Pick 2–5 anchors total. At least one must be AUDIO-OBVIOUS.
+Pick 2–5 anchors total.
+At least one must be AUDIO-OBVIOUS.
 
 Allowed core anchor types:
 
@@ -126,7 +136,6 @@ Rule:
 
 ## 6) VARIABLE ANCHORS (ALLOWED VARIATION)
 These can vary without breaking identity:
-
 - tempo range (within band)
 - instrumentation swaps (within palette)
 - secondary groove variation (one per track)
@@ -140,7 +149,7 @@ Hard limit:
 ---
 
 ## 7) DRIFT FORBIDDENS (MANDATORY)
-A compact list (6–12 items):
+A compact list (6–12 items), e.g.:
 - no random genre jumps
 - no “AI chant spam repeats”
 - no muddy vocals / unintelligible RU
@@ -153,15 +162,15 @@ This list is fed into Negative Spec Library in prompts.
 ---
 
 ## 8) TOKENS (FOR MEMORY & COLLISION)
-Fingerprint must output tokens:
+Fingerprint must output tokens.
 
 ### 8.1 Anchor Tokens (3–8)
 Examples pattern (tokens are short):
-- GENRE_CORE: <token>
-- GROOVE_CORE: <token>
-- TIMBRE_TAG: <token>
-- HOOK_GRAMMAR: <token>
-- VOCAL_TAG: <token>
+- GENRE_CORE:
+- GROOVE_CORE:
+- TIMBRE_TAG:
+- HOOK_GRAMMAR:
+- VOCAL_TAG:
 
 ### 8.2 Collision Vector Tokens (2–6)
 Used by collision engine:
@@ -188,6 +197,7 @@ Order rule:
 
 ## 10) UPDATE RULES (FINGERPRINT DIFF)
 Fingerprint changes are dangerous.
+
 Allowed update reasons:
 - group evolution phase
 - persistent collision problems
@@ -201,16 +211,16 @@ When updated, output:
 ---
 
 ## 11) FAIL MODES & FIX
-1) Fingerprint too broad → outputs feel generic
+1) Fingerprint too broad → outputs feel generic  
 - Fix: add one timbre signature + one hook grammar anchor.
 
-2) Fingerprint too narrow → outputs repeat
+2) Fingerprint too narrow → outputs repeat  
 - Fix: widen variable anchors (tempo band, instrumentation swaps).
 
-3) Drifts happen despite fingerprint
+3) Drifts happen despite fingerprint  
 - Fix: strengthen forbiddens + push anchors earlier in prompt compiler.
 
-4) Collisions inside group
+4) Collisions inside group  
 - Fix: adjust collision vector tokens and call Novelty Injection Engine for selective changes.
 
 ---

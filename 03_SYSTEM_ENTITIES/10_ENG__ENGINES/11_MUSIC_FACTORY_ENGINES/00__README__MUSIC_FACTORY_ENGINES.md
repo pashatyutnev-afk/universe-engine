@@ -12,7 +12,8 @@ LOCK: FIXED
 VERSION: 1.1.0
 UID: UE.ENG.MUS.REALM.MUSIC_FACTORY.001
 OWNER: SYSTEM
-ROLE: Defines the canonical “Music Factory” pipeline: group → artists → album → track → release pack, with memory/collision control and deterministic iteration.
+ROLE: Defines the canonical “Music Factory” pipeline: group → artists → album → track → release pack,
+with memory/collision control and deterministic iteration.
 
 CHANGE_NOTE:
 - DATE: 2026-01-11
@@ -50,40 +51,31 @@ Not responsible for:
 ## 2) PIPELINE ORDER (LAW) — MUSIC FACTORY
 This order is mandatory unless a controller explicitly overrides it.
 
-A) GROUP FOUNDATION
-- 01__GROUP_FOUNDATION_ENG.md
+A) GROUP FOUNDATION — `01__GROUP_FOUNDATION_ENG.md`  
 Output: Group Identity + Audience + Sound promise + Constraints
 
-B) ARTIST FACTORY
-- 02__ARTIST_FACTORY_ENG.md
+B) ARTIST FACTORY — `02__ARTIST_FACTORY_ENG.md`  
 Output: Group cast (vocalists + instrumental personas) + roles + voice diversity intent
 
-C) ALBUM BLUEPRINT
-- 03__ALBUM_BLUEPRINT_ENG.md
+C) ALBUM BLUEPRINT — `03__ALBUM_BLUEPRINT_ENG.md`  
 Output: Album concept + tracklist skeleton + arc + variation strategy
 
-D) TRACK FACTORY (CORE)
-- 04__TRACK_FACTORY_ENG.md
+D) TRACK FACTORY (CORE) — `04__TRACK_FACTORY_ENG.md`  
 Output: Track brief + Hook plan + Poet excerpt plan + Prompt pack + Test takes + PASS/FAIL gate + docs (if PASS)
 
-E) DURATION STRATEGY
-- 05__DURATION_STRATEGY_ENG.md
+E) DURATION STRATEGY — `05__DURATION_STRATEGY_ENG.md`  
 Output: Short/Full durations per genre/audience + intro/hook timing constraints
 
-F) RELEASE PACK
-- 06__RELEASE_PACK_ENG.md
+F) RELEASE PACK — `06__RELEASE_PACK_ENG.md`  
 Output: Release variants + metadata + assets checklist + export notes
 
-G) CATALOG COLLISION
-- 07__CATALOG_COLLISION_ENG.md
+G) CATALOG COLLISION — `07__CATALOG_COLLISION_ENG.md`  
 Output: Collision checks (internal + cross-catalog) + novelty adjustments
 
-H) NOVELTY INJECTION
-- 08__NOVELTY_INJECTION_ENG.md
+H) NOVELTY INJECTION — `08__NOVELTY_INJECTION_ENG.md`  
 Output: controlled novelty moves (change only allowed anchors) without breaking fingerprint
 
-I) TAKE LOG (MEMORY)
-- 09__TAKE_LOG_ENG.md
+I) TAKE LOG (MEMORY) — `09__TAKE_LOG_ENG.md`  
 Output: what changed, what worked, what to keep/ban next iteration
 
 ---
@@ -92,12 +84,10 @@ Output: what changed, what worked, what to keep/ban next iteration
 Music Factory consumes outputs from:
 
 ### Trend/Genre system (identity + hooks + prompt compatibility)
-- 12_TREND_GENRE_ENGINES/*
-  (genre taxonomy, fusion recipe, style fingerprint, viral blueprint, UGC map, earworm stack, prompt compiler)
+- 12_TREND_GENRE_ENGINES/* (genre taxonomy, fusion recipe, style fingerprint, viral blueprint, UGC map, earworm stack, prompt compiler)
 
 ### Poet PD corpus system (only public domain + “juice” extraction)
-- 13_POET_PD_CORPUS_ENGINES/*
-  (PD filter, fit scoring, juice extractor, mosaic composer, excerpt collision guard)
+- 13_POET_PD_CORPUS_ENGINES/* (PD filter, fit scoring, juice extractor, mosaic composer, excerpt collision guard)
 
 ### Controllers / Validators / QA (enforcement)
 - CTL: duration policy, prompt contract, negative spec, catalog memory, quality gates, phrasebooks
@@ -128,6 +118,7 @@ No wasted documentation for failed ideas.
 ---
 
 ## 6) FAMILY FILES (CANON)
+
 01 — Group Foundation Engine  
 RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/11_MUSIC_FACTORY_ENGINES/01__GROUP_FOUNDATION_ENG.md
 

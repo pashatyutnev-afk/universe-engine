@@ -1,3 +1,123 @@
+# ✅ AUTO ENTITY USAGE POLICY (UNIVERSAL / NO-REMINDERS)
+
+MODE: REPO (USAGE-ONLY, NO-EDIT)
+
+## PURPOSE (LAW)
+Унифицировать работу ассистента так, чтобы:
+- ассистент **сам определял**, какие сущности (ENG/ORC/SPC/CTL/VAL/QA/XREF) нужны под задачу;
+- ассистент **всегда применял** систему сущностей, если задача от неё выиграет;
+- пользователь **никогда не напоминал** “используй движки/валидаторы”;
+- работа была **универсальной для любых проектов** (музыка/сценарии/визуал/любые пайплайны), без жёсткой привязки к одному домену.
+
+---
+
+## DEFAULT RULE (MANDATORY)
+
+### RULE A — AUTO-SELECT ENTITIES (NO QUESTIONS)
+- Ассистент **не спрашивает** “какие сущности использовать”.
+- Ассистент **сам выбирает** минимально-достаточный набор сущностей под задачу:
+  - **ENG** (как делать),
+  - **ORC** (в каком порядке делать),
+  - **CTL** (ограничения/контракт),
+  - **VAL** (валидаторы PASS/FAIL),
+  - **QA** (чек-листы качества),
+  - **SPC** (ролевые линзы),
+  - **XREF** (если нужен маппинг пайплайна/матрица).
+
+### RULE B — ALWAYS USE ENTITIES “WHEN NEEDED”
+“Нужно использовать сущности” считается TRUE, если задача содержит любое из:
+- создать/собрать/адаптировать deliverable (трек/промпт/пакет релиза/тест-план/сцену/гайд/пак контента)
+- убрать повторы / удержать стиль / развести голоса / поднять хук / ускорить “зацеп”
+- прогнать QA/VAL / дать PASS-FAIL / дать Take Log / тест-батч
+- любая задача со словами: “сделай”, “собери”, “подбери”, “адаптируй”, “проверь”, “валидация”, “качество”, “пайплайн”
+
+Если триггер есть → ассистент **обязан** применить сущности автоматически.
+
+---
+
+## MINIMAL INTERRUPT RULE (NO EXTRA QUESTIONS)
+Ассистент **не задаёт уточняющие вопросы**, если может:
+- сделать разумные дефолты (например: short/full, темп-бэнд, структура, количество тейков),
+- и дать рабочий пакет (Deliverables + Gates).
+
+Единственные допустимые вопросы:
+1) **STOP (RAW MISSING)** — нет нужного RAW в разрешённой библиотеке.
+2) **ACCESS FAIL (NO MARKER CONFIRMED)** — невозможно подтвердить маркер файла (нужны первые 20–40 строк).
+3) **INPUT ABSENT** — отсутствует ключевой контент, без которого нельзя выдать результат (например: нет текста/стиха вообще, нет названия группы/стиля вообще).
+
+Во всех остальных случаях → ассистент работает “по умолчаниям”.
+
+---
+
+## AUTO-RESOURCE DISCOVERY (WITHIN ALLOWED LIBRARY ONLY)
+
+### RULE C — SEARCH INSIDE ALLOWED LIBRARY (NO GUESSING)
+- Ассистент **сам ищет** нужные сущности **только** в разрешённой RAW-библиотеке (из файла/сообщения).
+- Ассистент **не просит** пользователя дать ссылку, если подходящие RAW уже присутствуют в библиотеке.
+- Ассистент **не конструирует** RAW и не “угадывает” пути.
+
+### RULE D — MINIMAL SET PRINCIPLE
+Ассистент выбирает **минимальный достаточный** набор сущностей:
+- 1 ORC (если нужен пайплайн/порядок),
+- 1–3 ENG (метод + стиль + структура),
+- 1–2 CTL (контракт/запреты),
+- 1–3 VAL/QA (гейты под цель),
+- 0–2 SPC (если нужно усилить качество/фокус),
+- XREF только если требуется маппинг/матрица.
+
+---
+
+## MANDATORY VERIFICATION (BEFORE CLAIM)
+
+### RULE E — VERIFY BEFORE “WE USED X”
+Прежде чем ассистент скажет “использовали X” или будет опираться на X как на правило:
+1) ассистент обязан вывести: `USING RAW:` (одна RAW-строка)
+2) ассистент обязан вывести: `MARKER FOUND:` (первый заголовок/FILE/UID/VERSION)
+
+Если маркер не подтверждён:
+- ассистент обязан написать: `ACCESS FAIL (NO MARKER CONFIRMED)`
+- и запросить **первые 20–40 строк** этого RAW
+- и **не имеет права** ссылаться на его правила.
+
+---
+
+## UNIVERSAL OUTPUT FORMAT (EVERY TASK)
+Ассистент **всегда** отдаёт ответ в структуре:
+
+1) `MODE: REPO (USAGE-ONLY, NO-EDIT)`
+2) `RESOURCES USED:`
+   - только верифицированные (USING RAW + MARKER FOUND)
+3) `DELIVERABLES:`
+   - Brief / Pack / Plan / Log (по домену задачи)
+4) `GATES:`
+   - QA/VAL summary с PASS/FAIL критериями (только на базе верифицированных ресурсов)
+
+---
+
+## STOP CONDITIONS (HARD)
+Ассистент обязан остановиться только в случаях:
+- `STOP (RAW MISSING)` — нужной сущности нет в разрешённой библиотеке RAW
+- `ACCESS FAIL (NO MARKER CONFIRMED)` — маркер не подтверждён
+- `INPUT ABSENT` — невозможно сделать deliverable без ключевого контента
+
+Во всех остальных случаях — ассистент действует автономно.
+
+---
+
+## DOMAIN-AGNOSTIC AUTO MAPPING (NO PROJECT FIXATION)
+Ассистент определяет “какие сущности нужны” **по типу задачи**, а не по названию проекта.
+
+Пример маппинга (логика выбора класса сущностей):
+- **Музыка/трек** → ORC music + ENG track/style/hook + CTL prompt + VAL hook/repeat + QA loop/recognition
+- **Сцена/сюжет** → ORC scene pipeline + ENG structure/pacing/dialogue + CTL continuity + VAL logic + QA naturalness
+- **Визуал/арт-пак** → ORC production + ENG composition/camera/light + CTL constraints + QA consistency
+
+---
+
+## FINAL RULE (NO REMINDERS)
+Пользователь **никогда не обязан напоминать** про сущности.
+Если задачу можно усилить сущностями → ассистент **обязан** применить их автоматически.
+
 # ALL ENTITIES INDEX — GLOBAL REGISTRY (ONE FILE / RAW-ONLY)
 FILE: 03_SYSTEM_ENTITIES/99__INDEX__ALL_ENTITIES.md
 
@@ -47,12 +167,6 @@ RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/hea
 
 01 — RULES: SYSTEM ENTITIES  
 RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/01__RULES__SYSTEM_ENTITIES.md
-
-02 — INDEX: SYSTEM ENTITIES (LAYER MASTER)  
-RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/02__INDEX__SYSTEM_ENTITIES.md
-
-99 — INDEX: ALL ENTITIES (THIS FILE)  
-RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/99__INDEX__ALL_ENTITIES.md
 
 ---
 

@@ -10,10 +10,12 @@ ENGINE_TYPE: MUSIC_FACTORY
 LEVEL: L3
 STATUS: ACTIVE
 LOCK: FIXED
-VERSION: 1.2.0
+VERSION: 1.2.1
 UID: UE.ENG.MUS.TRACK_FACTORY.001
 OWNER: SYSTEM
-ROLE: Produces a track from album blueprint: builds track brief, hook plan, PD poet excerpt plan, compiles platform-native prompt pack, runs TEST→DOC gate, triggers QA/VAL, and outputs release-ready winner without repetition.
+ROLE: Produces a track from album blueprint: builds track brief, hook plan, PD poet excerpt plan,
+compiles platform-native prompt pack, runs TEST→DOC gate, triggers QA/VAL,
+and outputs release-ready winner without repetition.
 
 CHANGE_NOTE:
 - DATE: 2026-01-11
@@ -22,6 +24,12 @@ CHANGE_NOTE:
 - REASON: "We generate many tracks; docs only for winners; need deterministic compatibility with Suno/Udio."
 - IMPACT: "Faster iteration, fewer failures, higher fidelity, stronger viral structure."
 - CHANGE_ID: UE.CHG.2026-01-11.ENG.MUS.TRACK.FACTORY.001
+- DATE: 2026-01-12
+- TYPE: PATCH
+- SUMMARY: "Reformatted to multi-line sections for operational readability; no semantic changes."
+- REASON: "Compressed single-line formatting is error-prone during edits."
+- IMPACT: "Safer copy/paste; easier audits."
+- CHANGE_ID: UE.CHG.2026-01-12.ENG.MUS.TRACK.FACTORY.002
 
 ---
 
@@ -39,6 +47,7 @@ It must:
 ---
 
 ## 1) MINI-CONTRACT (MANDATORY)
+
 CONSUMES: [
   "Group Foundation",
   "Artist Factory (cast)",
@@ -49,6 +58,7 @@ CONSUMES: [
   "CTL policies (prompt contract, negative spec, duration policy, quality gates, phrasebooks, catalog memory)",
   "VAL + QA results (hook timing, ugc ready, repeat guard, recognition, loop)"
 ]
+
 PRODUCES: [
   "Track Card (single source of truth)",
   "Suno Prompt Pack",
@@ -59,6 +69,7 @@ PRODUCES: [
   "Documentation Pack (only if PASS)",
   "Release Variant Notes (handoff)"
 ]
+
 DEPENDS_ON: [
   "https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/11_MUSIC_FACTORY_ENGINES/01__GROUP_FOUNDATION_ENG.md",
   "https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/11_MUSIC_FACTORY_ENGINES/02__ARTIST_FACTORY_ENG.md",
@@ -82,11 +93,13 @@ DEPENDS_ON: [
   "https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/60_QA__QUALITY/10_MUSIC_QA/02__LOOP_15S_QA.md",
   "https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/60_QA__QUALITY/10_MUSIC_QA/03__RECOGNITION_10S_QA.md"
 ]
-OUTPUT_TARGET: "05_PROJECTS/<MUSIC_PROJECTS>/TRACKS/<TRACK_UID>/"
+
+OUTPUT_TARGET: "05_PROJECTS//TRACKS//"
 
 ---
 
 ## 2) CORE LAW — TEST → DOC GATE (ABSOLUTE)
+
 ### 2.1 TEST PHASE (FAST)
 - Generate takes (batch N)
 - Pick top 1–2 candidates
@@ -126,6 +139,7 @@ Track Factory maintains one core artifact: **TRACK CARD**.
 ---
 
 ## 4) PROCESS (STANDARD)
+
 ### STEP 0 — Input consolidation
 Inputs:
 - group identity + cast
@@ -166,13 +180,15 @@ Output:
 - Lyrics Source Plan + Mosaic Draft
 
 ### STEP 4 — Prompt compilation (platform-native)
-- compile Suno Prompt Pack:
-  - SUNO.LYRICS (RU) or instrumental instruction
-  - SUNO.STYLES (tags)
-  - SUNO.INSTRUCTION (hook timing + structure)
-  - SUNO.NEGATIVE (compact)
-  - variants: short/full/alt intro (if required)
-- optional: compile Udio pack too
+Compile Suno Prompt Pack:
+- SUNO.LYRICS (RU) or instrumental instruction
+- SUNO.STYLES (tags)
+- SUNO.INSTRUCTION (hook timing + structure)
+- SUNO.NEGATIVE (compact)
+- variants: short/full/alt intro (if required)
+
+Optional:
+- compile Udio pack too
 
 Output:
 - Prompt Pack (ready to paste)
@@ -210,14 +226,14 @@ Create docs (minimal useful set, no clutter):
 
 ## 5) SUNO PROMPT PACK (MANDATORY OUTPUT)
 Track Factory must always output a paste-ready Suno pack:
-
 - SUNO.LYRICS (RU) with section labels
 - SUNO.STYLES: 6–12 tags, ordered
 - SUNO.INSTRUCTION: short paragraph (hook timing + structure + UGC moment)
 - SUNO.NEGATIVE: compact list
 
 If instrumental:
-- set lyrics as “Instrumental” and move constraints to instruction.
+- set lyrics as “Instrumental”
+- move constraints to instruction.
 
 ---
 
@@ -236,6 +252,7 @@ If collision risk:
 ---
 
 ## 7) OUTPUT: PASS/FAIL CRITERIA (OPERATIVE)
+
 ### PASS requires
 - Hook is recognizable early (policy window)
 - At least one strong UGC moment exists
@@ -264,7 +281,7 @@ This feeds TAKE LOG engine.
 
 ## 9) OUTPUT FILE SUGGESTED LAYOUT (SIMPLE)
 Track folder may contain only:
-- 00__TRACK_CARD.md  (single SoT)
+- 00__TRACK_CARD.md (single SoT)
 - 01__PROMPT_PACK__SUNO.md
 - 02__TAKE_LOG.md
 - 03__RELEASE_NOTES.md (only if PASS)

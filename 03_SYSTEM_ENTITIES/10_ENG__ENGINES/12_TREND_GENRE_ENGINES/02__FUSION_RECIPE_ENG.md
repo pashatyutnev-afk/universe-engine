@@ -10,10 +10,13 @@ ENGINE_TYPE: TREND_GENRE
 LEVEL: L3
 STATUS: ACTIVE
 LOCK: FIXED
-VERSION: 1.0.0
+VERSION: 1.0.1
 UID: UE.ENG.TG.FUSION_RECIPE.001
 OWNER: SYSTEM
-ROLE: Designs controlled genre fusions (A+B, A+B+C) with explicit ratios, insertion points, anchor preservation, and drift blockers. Produces a deterministic fusion recipe usable by Style Fingerprint and Prompt Compiler.
+ROLE: Designs controlled genre fusions (A+B, A+B+C) with explicit ratios, insertion points,
+anchor preservation, and drift blockers.
+
+Produces a deterministic fusion recipe usable by Style Fingerprint and Prompt Compiler.
 
 CHANGE_NOTE:
 - DATE: 2026-01-11
@@ -22,6 +25,12 @@ CHANGE_NOTE:
 - REASON: "Raw genre mixing causes drift and incoherent tracks; we need controlled fusion."
 - IMPACT: "Trend-ready hybrids with stable identity and repeatable production."
 - CHANGE_ID: UE.CHG.2026-01-11.ENG.TG.FUSION.RECIPE.001
+- DATE: 2026-01-12
+- TYPE: PATCH
+- SUMMARY: "Reformatted to multi-line sections for operational readability; no semantic changes."
+- REASON: "Compressed formatting is error-prone during edits."
+- IMPACT: "Safer copy/paste; easier audits."
+- CHANGE_ID: UE.CHG.2026-01-12.ENG.TG.FUSION.RECIPE.002
 
 ---
 
@@ -47,17 +56,19 @@ Fusion Recipe is a **controlled blending plan** that:
 ---
 
 ## 2) OUTPUTS (PRODUCES)
-- Fusion Recipe Pack (FRP):
-  - Primary Genre (A)
-  - Secondary Genre (B)
-  - Optional Micro Genre (C)
-  - Ratio (A/B/C)
-  - Feature Map (what each genre contributes: drums/bass/harmony/vocals/etc.)
-  - Insertion Points (where fusion is applied)
-  - Anchor Preservation List (what must stay)
-  - Drift Blockers (what must NOT appear)
-  - Prompt Encoding Notes (platform-ready phrasing)
-- Fusion Variant Set (optional V1..V3)
+Fusion Recipe Pack (FRP):
+- Primary Genre (A)
+- Secondary Genre (B)
+- Optional Micro Genre (C)
+- Ratio (A/B/C)
+- Feature Map (what each genre contributes: drums/bass/harmony/vocals/etc.)
+- Insertion Points (where fusion is applied)
+- Anchor Preservation List (what must stay)
+- Drift Blockers (what must NOT appear)
+- Prompt Encoding Notes (platform-ready phrasing)
+
+Optional:
+- Fusion Variant Set (V1..V3)
 - Fusion Risk Notes (what can go wrong + how to fix)
 
 ---
@@ -85,20 +96,21 @@ DEPENDS_ON: [
   "https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/40_CTL__CONTROLLERS/10_MUSIC_CONTROLLERS/12__NEGATIVE_SPEC_LIBRARY_CTL.md",
   "https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/40_CTL__CONTROLLERS/10_MUSIC_CONTROLLERS/07__CATALOG_MEMORY_CTL.md"
 ]
-OUTPUT_TARGET: "05_PROJECTS/<MUSIC_PROJECTS>/FUSION_RECIPES/"
+OUTPUT_TARGET: "05_PROJECTS//FUSION_RECIPES/"
 
 ---
 
 ## 4) FUSION AXES (WHAT YOU MIX)
-Fusion is not “mix everything”. It’s mixing on axes.
+Fusion is not “mix everything”.
+It’s mixing on axes.
 
 Allowed axes:
-A) DRUMS / GROOVE (rhythm feel)
-B) BASS POCKET (movement + weight)
-C) HARMONY / CHORD COLOR
-D) MELODY / HOOK CONTOUR
-E) INSTRUMENT PALETTE (timbre)
-F) VOCAL DELIVERY (if lyrical)
+A) DRUMS / GROOVE (rhythm feel)  
+B) BASS POCKET (movement + weight)  
+C) HARMONY / CHORD COLOR  
+D) MELODY / HOOK CONTOUR  
+E) INSTRUMENT PALETTE (timbre)  
+F) VOCAL DELIVERY (if lyrical)  
 G) MIX AESTHETIC (dry/roomy/wide/lofi-clean)
 
 Rule:
@@ -108,6 +120,7 @@ Rule:
 ---
 
 ## 5) RATIO RULES (STRICT)
+
 ### 5.1 Standard fusion
 - A/B = 70/30 (default)
 - C optional = 10% max (micro spice)
@@ -143,7 +156,7 @@ Rule:
 ---
 
 ## 7) FEATURE MAP (MANDATORY)
-For each genre A/B/C define contributions:
+For each genre A/B/C define contributions.
 
 Example schema:
 - A contributes:
@@ -208,10 +221,10 @@ Never output more than 3 fusion variants at once.
 
 ## 12) PROMPT ENCODING NOTES (PLATFORM READY)
 The recipe must output:
-- a short “fusion descriptor” line:
-  - "Primary A with B flavor in <axis> during <section>"
-- tags that communicate fusion without confusion:
-  - avoid listing contradictory genres together unless phrased as “influenced by”
+- a short fusion descriptor line:
+  - "Primary A with B flavor in <AXIS> during <INSERTION POINT>"
+- tags that communicate fusion without confusion
+- avoid listing contradictory genres together unless phrased as “influenced by”
 
 ---
 

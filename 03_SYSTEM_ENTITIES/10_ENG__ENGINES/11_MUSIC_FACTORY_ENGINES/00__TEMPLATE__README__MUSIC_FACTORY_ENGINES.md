@@ -9,32 +9,36 @@ TEMPLATE_TYPE: README_TEMPLATE
 LEVEL: L3
 STATUS: ACTIVE
 LOCK: FIXED
-VERSION: 1.0.0
+VERSION: 1.1.0
 UID: UE.TPL.README.MUSIC_FACTORY.001
 OWNER: SYSTEM
 ROLE: Canonical README realm template for 11_MUSIC_FACTORY_ENGINES
 
 CHANGE_NOTE:
-- DATE: 2026-01-11
-- TYPE: MAJOR
-- SUMMARY: "Created Music Factory README template: scope, boundaries, nav, operational usage."
-- REASON: "Each family must have a deterministic realm entrypoint."
-- IMPACT: "Family readmes become uniform and auditable."
-- CHANGE_ID: UE.CHG.2026-01-11.TPL.README.MUSIC_FACTORY.001
+- DATE: 2026-01-12
+- TYPE: MINOR
+- SUMMARY: "Reformatted README template to multi-line + clarified UID placeholder format."
+- REASON: "Safe copy/paste and editing; prevent broken sectioning."
+- IMPACT: "Cleaner realm readmes."
+- CHANGE_ID: UE.CHG.2026-01-12.TPL.README.MUSIC_FACTORY.002
 
 ---
 
 ## 0) HOW TO USE THIS TEMPLATE
-- Copy into: `11_MUSIC_FACTORY_ENGINES/00__README__MUSIC_FACTORY_ENGINES.md`
+- Copy into:
+  `11_MUSIC_FACTORY_ENGINES/00__README__MUSIC_FACTORY_ENGINES.md`
 - Fill fields and keep section order.
+
+NOTE:
 - README is not an engine. Do not add mini-contract here.
 
 ---
 
 ## 1) README FILE SKELETON (COPY)
+
 --- CUT HERE ---
 
-# <FAMILY DISPLAY NAME> — README (REALM)
+#  — README (REALM)
 FILE: 03_SYSTEM_ENTITIES/10_ENG__ENGINES/11_MUSIC_FACTORY_ENGINES/00__README__MUSIC_FACTORY_ENGINES.md
 
 SCOPE: Universe Engine
@@ -46,17 +50,17 @@ LEVEL: L3
 STATUS: ACTIVE
 LOCK: FIXED
 VERSION: 1.0.0
-UID: UE.ENG.REALM.MUSIC_FACTORY.<NNN>
+UID: UE.ENG.REALM.MUSIC_FACTORY.001
 OWNER: SYSTEM
-ROLE: <one-line: what this family controls>
+ROLE:
 
 CHANGE_NOTE:
-- DATE: <YYYY-MM-DD>
-- TYPE: <MAJOR|MINOR|PATCH>
-- SUMMARY: "<what changed>"
-- REASON: "<why>"
-- IMPACT: "<impact>"
-- CHANGE_ID: <UE.CHG.YYYY-MM-DD.ENG.REALM.MUSIC_FACTORY....>
+- DATE:
+- TYPE:
+- SUMMARY: ""
+- REASON: ""
+- IMPACT: ""
+- CHANGE_ID:
 
 ---
 
@@ -68,26 +72,27 @@ CHANGE_NOTE:
 ---
 
 ## 1) SCOPE & BOUNDARIES
+
 ### In scope
-- <items>
+-
 
 ### Out of scope
-- <items> (link to other families)
+- (link to other families)
 
 ---
 
 ## 2) OPERATIONAL PIPELINE (HIGH LEVEL)
-- 1) <Engine A>
-- 2) <Engine B>
-- 3) <Engine C>
-- 4) <Engine D>
-- 5) <Engine E>
+1)
+2)
+3)
+4)
+5)
 
 ---
 
 ## 3) KEY TERMS (MINI GLOSSARY)
-- <term>: <meaning>
-- <term>: <meaning>
+- TERM: definition
+- TERM: definition
 
 ---
 
@@ -99,15 +104,18 @@ CHANGE_NOTE:
 ---
 
 ## 5) NAV (RAW LINKS)
+
 ### Templates
-- ENGINE TEMPLATE: <raw-link>
-- README TEMPLATE: <raw-link>
+- ENGINE TEMPLATE:
+  RAW:
+- README TEMPLATE:
+  RAW:
 
 ### Engines
-01 — <name>  
-RAW: <raw-link>
-02 — <name>  
-RAW: <raw-link>
+01 —
+RAW:
+02 —
+RAW:
 ...
 
 ---
@@ -117,6 +125,7 @@ OWNER: SYSTEM
 LOCK: FIXED
 
 --- END.
+
 --- CUT HERE ---
 
 ---

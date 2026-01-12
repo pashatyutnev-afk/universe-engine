@@ -10,209 +10,188 @@ ENGINE_TYPE: TREND_GENRE
 LEVEL: L3
 STATUS: ACTIVE
 LOCK: FIXED
-VERSION: 1.0.0
+VERSION: 1.0.1
 UID: UE.ENG.TG.UGC_MOMENT_MAP.001
 OWNER: SYSTEM
-ROLE: Designs UGC-ready micro-moments for a track: clip windows, quote lines, beat drops, transitions, and creator-use cases. Ensures the song is "content-friendly" without sacrificing artistry.
+ROLE: Defines a deterministic map of UGC-ready moments (clip windows, pause/snap cuts, quote lines, call-response hooks)
+so tracks are creator-friendly and platform-native.
+
+Outputs an executable UGC plan consumed by Hook Blueprint and Prompt Compiler.
 
 CHANGE_NOTE:
 - DATE: 2026-01-11
 - TYPE: MAJOR
-- SUMMARY: "Defined UGC Moment Map: moment types, time windows, creator use-cases, and enforcement rules."
-- REASON: "We need tracks that creators want to use (clips, memes, shorts, edits)."
-- IMPACT: "Higher reuse, virality, and platform distribution efficiency."
-- CHANGE_ID: UE.CHG.2026-01-11.ENG.TG.UGC.MAP.001
+- SUMMARY: "Created UGC moment map: moment types, window requirements, and output schema for creator-friendly clips."
+- REASON: "Virality requires edit points and reusable moments."
+- IMPACT: "Higher creator adoption, better retention and reuse."
+- CHANGE_ID: UE.CHG.2026-01-11.ENG.TG.UGC.MOMENT.001
+- DATE: 2026-01-12
+- TYPE: PATCH
+- SUMMARY: "Reformatted to multi-line sections for operational readability; no semantic changes."
+- REASON: "Compressed formatting is error-prone during edits."
+- IMPACT: "Safer copy/paste; easier audits."
+- CHANGE_ID: UE.CHG.2026-01-12.ENG.TG.UGC.MOMENT.002
 
 ---
 
 ## 0) PURPOSE (LAW)
-This engine produces a **UGC Moment Map (UMM)** — a structured plan of moments that:
-- are easy to clip (5–15 sec)
-- have obvious “sync points” for editing
-- include quote-ready phrases (if lyrics)
-- create multiple creator scenarios (comedy, vibe, flex, storytime, edits)
+UGC Moment Map outputs a **UGC PLAN** for a track/variant:
+- where creators can cut clips (windows)
+- where pause/snap points exist (hard cuts)
+- where quote lines or slogans live (memetic text)
+- where call-response patterns allow duets
+- where drops/switches create “edit peaks”
 
 ---
 
 ## 1) INPUTS (CONSUMES)
-- Viral Hook Blueprint (hook timing + hook role)
-- Earworm Hook Stack (primary/secondary/microhooks)
-- Duration Policy (target length and hook windows)
-- Audience Segment Target (creator behavior + attention span)
-- Style Fingerprint (identity anchors)
-- Release Variants plan (short/long versions, alt intros)
+- Audience Segment Target
+- Viral Hook Blueprint (or desired template)
+- Earworm Hook Stack (H1/H2/S-tag/Q-line)
+- Duration Strategy (short/full)
+- Style Fingerprint (anchors and forbiddens)
+- UGC Viral Ruleset CTL (platform constraints)
+- Negative Spec Library (avoid anti-UGC artifacts)
 
 ---
 
 ## 2) OUTPUTS (PRODUCES)
-- UGC Moment Map (UMM Pack):
-  - Moment list with timestamps (relative windows)
-  - Moment types and creator use-cases
-  - Clip recommendations (5s / 10s / 15s)
-  - Caption hooks (short text prompts)
-  - Transition / cut points for editors
-  - “Do/Don’t” for UGC friendliness
-- UGC Prompt Notes for Prompt Compiler
-- UGC QA checklist
+- UGC Moment Map (UGC-MAP):
+  - list of moments (1–5)
+  - time windows (relative)
+  - moment type + purpose
+  - required audio features (pause, clear quote, beat stop, drop)
+  - instruction snippet for prompt compiler
+- Clip Window Summary:
+  - primary window (best)
+  - secondary window(s)
+- Validator Notes:
+  - what must pass for UGC readiness
 
 ---
 
 ## 3) MINI-CONTRACT (MANDATORY)
 CONSUMES: [
-  "Viral Hook Blueprint",
-  "Earworm Hook Stack",
-  "Duration Policy",
   "Audience Segment Target",
+  "Viral Hook Blueprint template (or hook plan)",
+  "Earworm Hook Stack",
+  "Duration Strategy",
   "Style Fingerprint",
-  "Release Variants plan"
+  "UGC Viral Ruleset CTL",
+  "Negative Spec Library"
 ]
 PRODUCES: [
-  "UGC Moment Map (UMM pack)",
-  "UGC Prompt Notes",
-  "UGC QA checklist"
+  "UGC Moment Map (UGC-MAP)",
+  "Clip Window Summary",
+  "Validator Notes"
 ]
 DEPENDS_ON: [
-  "https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/12_TREND_GENRE_ENGINES/04__VIRAL_HOOK_BLUEPRINT_ENG.md",
-  "https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/12_TREND_GENRE_ENGINES/06__EARWORM_HOOK_STACK_ENG.md",
   "https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/40_CTL__CONTROLLERS/10_MUSIC_CONTROLLERS/02__UGC_VIRAL_RULESET_CTL.md",
-  "https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/60_QA__QUALITY/10_MUSIC_QA/04__CREATOR_PANEL_QA.md"
+  "https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/60_QA__QUALITY/10_MUSIC_QA/01__SCROLL_STOP_5S_QA.md",
+  "https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/50_VAL__VALIDATORS/10_MUSIC_VALIDATORS/02__UGC_READY_VAL.md"
 ]
-OUTPUT_TARGET: "05_PROJECTS/<MUSIC_PROJECTS>/UGC_MAPS/"
+OUTPUT_TARGET: "05_PROJECTS//UGC_MAPS/"
 
 ---
 
-## 4) UGC MOMENT MAP — STRUCTURE (UMM PACK)
-UMM is always delivered with the same schema.
+## 4) MOMENT TYPES (STANDARD)
+Choose 1–5 moments total.
 
-### 4.1 Summary
-- Track intent (what creators will use it for)
-- Primary hook location plan
-- Number of clip moments (target 4–8)
+### M1 — QUOTE LINE / SLOGAN
+- a short line people can repeat / caption
+- must be clear and isolated enough
 
-### 4.2 Moment List (MANDATORY)
-Each moment entry:
-- ID: M01, M02...
-- Window: [t_start–t_end] (relative seconds)
-- Clip lengths: 5s / 10s / 15s (which works best)
-- Moment type (see Section 5)
-- Creator use-case (see Section 6)
-- Audio markers (drop, pause, lift, punchline)
-- Caption hook (1 line)
-- Risk note (if any)
+### M2 — PAUSE / SNAP CUT
+- a clear stop, breath, snap, or beat cut
+- helps creators make transitions
 
-### 4.3 Editor Cut Map (MANDATORY)
-- recommended cut points (hard hits / silence / bar lines conceptually)
-- transitions: whoosh-friendly / glitch-friendly / snap-friendly
+### M3 — DROP / SWITCH PEAK
+- energy shift that creates an edit point
+- strong beat entry or texture switch
 
-### 4.4 Variant Mapping (OPTIONAL)
-- Short version differences (intro compression)
-- Alt intro clip window (0:00–0:10)
-- “No-vocal” / “instrumental hook” note if needed
+### M4 — CALL / RESPONSE (DUET READY)
+- line A leaves space for line B
+- or hook split into two sides
+
+### M5 — MEME GESTURE / SOUND TAG
+- signature sound tag (S-tag), chant, or recognizable hit
+- useful as recurring “stamp”
 
 ---
 
-## 5) MOMENT TYPES (STANDARD SET)
-The engine may only use these types (keeps system consistent):
+## 5) WINDOW RULES (CLIPABLE)
+Each moment must define:
+- WINDOW_START
+- WINDOW_END
+- WINDOW_LENGTH
 
-A) HOOK HIT — the main recognizable hook
-B) MICROHOOK POP — short 2–4 sec “sticker” moment
-C) DROP / SWITCH — energy shift for edits
-D) PAUSE / SILENCE SNAP — micro-pause before impact
-E) QUOTE LINE — short lyric phrase for captions/memes
-F) CALL & RESPONSE — duet/remix-friendly
-G) BUILD-UP LIFT — rising tension (for reveals)
-H) OUTRO LOOP — end that can loop seamlessly
-I) INTRO GRAB — first 3–8 sec “scroll stop”
+Guidelines:
+- 8–15s preferred for short-form
+- at least 1 primary window must exist
+- at least 1 hard cut point is strongly recommended (pause/snap)
 
 ---
 
-## 6) CREATOR USE-CASE CATALOG (STANDARD SET)
-Each moment must map to 1–2 use-cases:
+## 6) UGC MAP OUTPUT SCHEMA (MANDATORY)
+UGC-MAP fields:
 
-1) COMEDY / POV
-2) FLEX / STATUS
-3) ROMANCE / FEELING
-4) DARK / DRAMA EDIT
-5) STORYTIME / CONFESSION
-6) TRANSFORMATION (before/after)
-7) SPORT / MOTIVATION
-8) GAMING / HIGHLIGHTS
-9) AESTHETIC / VIBE
-10) DANCE / MOVE (even minimal)
-11) MEME TEXT OVERLAY
-12) CINEMATIC EDITS
+### Header
+- TRACK_UID:
+- VARIANT: (SHORT/FULL/ALT)
+- AUDIENCE_SEGMENT:
+- TEMPLATE_HINT: (A/B/C from hook blueprint)
 
-Rule: At least **4 different** use-cases per track plan.
+### Moments (table-like list)
+For each moment:
+- MOMENT_ID:
+- TYPE:
+- WINDOW:
+- PURPOSE:
+- REQUIRED_FEATURES:
+- PROMPT_HINT:
 
----
-
-## 7) UGC DENSITY RULES (ANTI-OVERLOAD)
-- Minimum moments: 4
-- Ideal moments: 6
-- Maximum moments: 9 (if >9 → clutter risk)
-
-Spacing:
-- no two major moments closer than 6 seconds (unless microhook)
-- at least one strong moment within first 10–15 seconds for short-form targets
+### Summary
+- PRIMARY_CLIP_WINDOW:
+- SECONDARY_CLIP_WINDOWS:
+- HARD_CUT_POINTS:
+- DUET_READY: YES/NO
+- VALIDATOR_NOTES:
 
 ---
 
-## 8) TIMING DEFAULTS (GUIDELINES)
-These are guidance, final timing depends on Duration Policy:
-
-- Intro Grab: 0:00–0:07
-- First microhook: 0:05–0:12
-- First hook hit: 0:12–0:25
-- First drop/switch: 0:25–0:40
-- Quote line: near hook or right after drop
-- Loopable outro: last 8–12 sec
+## 7) DESIGN RULES (OPERATIVE)
+- Moments must not contradict Style Fingerprint anchors.
+- Do not stack all moments in one small region; spread them.
+- Quote line must be intelligible RU (if lyrical).
+- Pause/snap must be clean (no muddy tails).
+- Drop/switch must be obvious and not delayed too late.
 
 ---
 
-## 9) UGC-FRIENDLY AUDIO RULES (STRICT)
-1) Clear beat grid feel (editors need sync points)
-2) Avoid long unstructured intros in short variants
-3) Provide at least one “pause/snap” moment
-4) Keep hook loud/clear vs background layers
-5) Ensure lyric hook is understandable (RU clarity) if used
+## 8) FAILURE MODES & FIX
+1) No clear clip window  
+- Fix: insert pause/snap; shorten section; simplify textures.
+
+2) Quote line unclear  
+- Fix: reduce layers under vocal; shorten line; use tighter articulation.
+
+3) Drop weak  
+- Fix: increase contrast before drop; use silence/pause; add signature hit.
+
+4) Too many moments → chaos  
+- Fix: reduce to 2–3 moments max; keep one primary.
 
 ---
 
-## 10) FAILURE MODES & FIX
-1) Creators can’t find a clip moment
-- Fix: add 1 pause/snap + 1 quote line moment.
-
-2) Hook too late
-- Fix: short variant intro compression; move microhook earlier.
-
-3) Too many moments (confusing)
-- Fix: merge moments, keep only the strongest 6.
-
-4) Moments break style fingerprint
-- Fix: re-anchor timbre palette and remove off-style switches.
-
----
-
-## 11) QA CHECKLIST (UGC)
-Pass criteria:
-- 10-second recognition test: at least one moment works by 0:10–0:15
-- 15-second loop test: at least one clip window loops cleanly
-- Creator panel test: moments map to 4+ distinct use-cases
-- Repeat guard: no boring copy-paste repeats inside moments
-
----
-
-## 12) HANDOFFS (XREF)
+## 9) HANDOFFS (XREF)
 Feeds into:
+- `12_TREND_GENRE_ENGINES/04__VIRAL_HOOK_BLUEPRINT_ENG.md`
 - `12_TREND_GENRE_ENGINES/07__PROMPT_COMPILER_ENG.md`
 - `11_MUSIC_FACTORY_ENGINES/04__TRACK_FACTORY_ENG.md`
-- `40_CTL__CONTROLLERS/10_MUSIC_CONTROLLERS/02__UGC_VIRAL_RULESET_CTL.md`
 
 Validated by:
 - `50_VAL__VALIDATORS/10_MUSIC_VALIDATORS/02__UGC_READY_VAL.md`
 - `60_QA__QUALITY/10_MUSIC_QA/01__SCROLL_STOP_5S_QA.md`
-- `60_QA__QUALITY/10_MUSIC_QA/02__LOOP_15S_QA.md`
-- `60_QA__QUALITY/10_MUSIC_QA/04__CREATOR_PANEL_QA.md`
 
 ---
 

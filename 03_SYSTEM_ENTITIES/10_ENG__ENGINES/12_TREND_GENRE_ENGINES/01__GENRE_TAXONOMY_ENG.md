@@ -10,10 +10,13 @@ ENGINE_TYPE: TREND_GENRE
 LEVEL: L3
 STATUS: ACTIVE
 LOCK: FIXED
-VERSION: 1.0.0
+VERSION: 1.0.1
 UID: UE.ENG.TG.GENRE_TAXONOMY.001
 OWNER: SYSTEM
-ROLE: Maintains a compact genre taxonomy used by the Music Factory: defines genre families, their audio DNA (tempo/groove/instrument palette/vocal delivery/structure/mix), and compatibility graph for fusion. Provides deterministic tags for Prompt Compiler.
+ROLE: Maintains a compact genre taxonomy used by the Music Factory: defines genre families,
+their audio DNA (tempo/groove/instrument palette/vocal delivery/structure/mix), and a compatibility graph for fusion.
+
+Provides deterministic tags for Prompt Compiler.
 
 CHANGE_NOTE:
 - DATE: 2026-01-11
@@ -22,6 +25,12 @@ CHANGE_NOTE:
 - REASON: "Without taxonomy, genre selection and blending becomes chaotic and inconsistent."
 - IMPACT: "Faster planning, better compatibility, fewer prompt contradictions."
 - CHANGE_ID: UE.CHG.2026-01-11.ENG.TG.GENRE.TAX.001
+- DATE: 2026-01-12
+- TYPE: PATCH
+- SUMMARY: "Reformatted to multi-line sections for operational readability; no semantic changes."
+- REASON: "Compressed formatting is error-prone during edits."
+- IMPACT: "Safer edits and easier audits."
+- CHANGE_ID: UE.CHG.2026-01-12.ENG.TG.GENRE.TAX.002
 
 ---
 
@@ -45,16 +54,19 @@ It provides:
 ---
 
 ## 2) OUTPUTS (PRODUCES)
-- GENRE TAXONOMY (GTX):
-  - Genre Family list (stable)
-  - Genre DNA schema (mandatory fields)
-  - Default tag packs per family
-  - Compatibility Graph (A↔B pairing guidance)
-  - Anti-compatibility (bad mixes)
-- Genre Selection Output:
-  - best-fit genre family for a group/album/track brief
-  - recommended fusion candidates (B/C)
-- Prompt Tags Dictionary (platform-ready tags)
+### GENRE TAXONOMY (GTX)
+- Genre Family list (stable)
+- Genre DNA schema (mandatory fields)
+- Default tag packs per family
+- Compatibility Graph (A↔B pairing guidance)
+- Anti-compatibility (bad mixes)
+
+### GENRE SELECTION OUTPUT (on request)
+- best-fit genre family for a group/album/track brief
+- recommended fusion candidates (B/C)
+
+### PROMPT TAGS DICTIONARY
+- platform-ready tags and short instruction lines
 
 ---
 
@@ -76,7 +88,7 @@ DEPENDS_ON: [
   "https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/40_CTL__CONTROLLERS/10_MUSIC_CONTROLLERS/10__SUNO_PHRASEBOOK_CTL.md",
   "https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/40_CTL__CONTROLLERS/10_MUSIC_CONTROLLERS/11__UDIO_PHRASEBOOK_CTL.md"
 ]
-OUTPUT_TARGET: "05_PROJECTS/<MUSIC_PROJECTS>/GENRE_TAXONOMY/"
+OUTPUT_TARGET: "05_PROJECTS//GENRE_TAXONOMY/"
 
 ---
 
@@ -105,51 +117,52 @@ Every genre entry must be described with the same fields:
 ## 5) DEFAULT GENRE FAMILIES (BASE SET)
 Base set is intentionally compact. We expand later via governed updates.
 
-### GTX-01: POP / MAINSTREAM
-- Hook-forward, clear vocals, simple structure, high UGC strength.
+- GTX-01: POP / MAINSTREAM  
+  Hook-forward, clear vocals, simple structure, high UGC strength.
 
-### GTX-02: TRAP / HIP-HOP
-- 808 pocket, hats, rhythmic vocal phrasing, high UGC.
+- GTX-02: TRAP / HIP-HOP  
+  808 pocket, hats, rhythmic vocal phrasing, high UGC.
 
-### GTX-03: PHONK / DRIFT
-- aggressive bass, cowbell/lead motifs, high energy edits.
+- GTX-03: PHONK / DRIFT  
+  Aggressive bass, cowbell/lead motifs, high energy edits.
 
-### GTX-04: EDM / DANCE
-- drops, build-ups, club energy, strong loop potential.
+- GTX-04: EDM / DANCE  
+  Drops, build-ups, club energy, strong loop potential.
 
-### GTX-05: ROCK / ALT / POST-PUNK
-- guitars, live-feel drums, anthemic or dark hooks.
+- GTX-05: ROCK / ALT / POST-PUNK  
+  Guitars, live-feel drums, anthemic or dark hooks.
 
-### GTX-06: METAL / HARD
-- heavy riffs, fast energy, niche but intense loyalty.
+- GTX-06: METAL / HARD  
+  Heavy riffs, fast energy, niche but intense loyalty.
 
-### GTX-07: FOLK / ETHNO
-- acoustic/ethnic palette, storytelling, cultural vibe.
+- GTX-07: FOLK / ETHNO  
+  Acoustic/ethnic palette, storytelling, cultural vibe.
 
-### GTX-08: CINEMATIC / EPIC
-- big drums, orchestral elements, trailer-like tension.
+- GTX-08: CINEMATIC / EPIC  
+  Big drums, orchestral elements, trailer-like tension.
 
-### GTX-09: LOFI / CHILL
-- soft textures, relaxed groove, study vibe.
+- GTX-09: LOFI / CHILL  
+  Soft textures, relaxed groove, study vibe.
 
-### GTX-10: R&B / SOUL
-- smooth vocals, groove pocket, emotional hooks.
+- GTX-10: R&B / SOUL  
+  Smooth vocals, groove pocket, emotional hooks.
 
-### GTX-11: DNB / BREAKBEAT
-- fast break grooves, high kinetic energy.
+- GTX-11: DNB / BREAKBEAT  
+  Fast break grooves, high kinetic energy.
 
-### GTX-12: HOUSE / TECH
-- steady groove, dancefloor loopability.
+- GTX-12: HOUSE / TECH  
+  Steady groove, dancefloor loopability.
 
 Rule:
-- A group/album chooses one **primary family**. Fusion Recipe handles secondary flavors.
+- A group/album chooses one **primary family** (A).
+- Fusion Recipe handles secondary flavors (B/C).
 
 ---
 
 ## 6) COMPATIBILITY GRAPH (GUIDELINES)
-We define compatibility as “what axis can be borrowed safely”.
+Compatibility = “what axis can be borrowed safely”.
 
-### High compatibility examples (generally safe)
+### High compatibility (generally safe)
 - POP ↔ EDM (structure + drop)
 - TRAP ↔ POP (hook clarity + 808 pocket)
 - ROCK ↔ CINEMATIC (drama + guitars)
@@ -192,7 +205,8 @@ For each family, engine must provide:
 - UDIO_TAG_PACK (8–15 tags)
 - 1–2 short instruction lines (what tags can’t express)
 
-No long essays. Tags must be consistent and reusable.
+No long essays.
+Tags must be consistent and reusable.
 
 ---
 
