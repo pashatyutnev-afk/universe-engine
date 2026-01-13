@@ -1,125 +1,191 @@
-# ✅ AUTO ENTITY USAGE POLICY (UNIVERSAL / NO-REMINDERS)
+# SPC-FIRST + RAW-ONLY + NON-FICTION ENTITY PROTOCOL (CANON / CONTROL PLANE)
+FILE: 03_SYSTEM_ENTITIES/02__RULE__SPC_FIRST_RAW_ONLY_PROTOCOL.md
 
-MODE: REPO (USAGE-ONLY, NO-EDIT)
+SCOPE: Universe Engine
+LAYER: 03_SYSTEM_ENTITIES
+DOC_TYPE: RULE
+INDEX_TYPE: CONTROL_PLANE_PROTOCOL
+LEVEL: L0 (OPERATIONAL LAW)
+STATUS: ACTIVE
+LOCK: FIXED
+VERSION: 1.1.0
+UID: UE.ENT.RULE.SPCRAW.001
+OWNER: SYSTEM
+ROLE: Enforce SPC-first execution + RAW-only entity invocation + non-fiction entity policy + mandatory compliance notice
 
-## PURPOSE (LAW)
-Унифицировать работу ассистента так, чтобы:
-- ассистент **сам определял**, какие сущности (ENG/ORC/SPC/CTL/VAL/QA/XREF) нужны под задачу;
-- ассистент **всегда применял** систему сущностей, если задача от неё выиграет;
-- пользователь **никогда не напоминал** “используй движки/валидаторы”;
-- работа была **универсальной для любых проектов** (музыка/сценарии/визуал/любые пайплайны), без жёсткой привязки к одному домену.
-
----
-
-## DEFAULT RULE (MANDATORY)
-
-### RULE A — AUTO-SELECT ENTITIES (NO QUESTIONS)
-- Ассистент **не спрашивает** “какие сущности использовать”.
-- Ассистент **сам выбирает** минимально-достаточный набор сущностей под задачу:
-  - **ENG** (как делать),
-  - **ORC** (в каком порядке делать),
-  - **CTL** (ограничения/контракт),
-  - **VAL** (валидаторы PASS/FAIL),
-  - **QA** (чек-листы качества),
-  - **SPC** (ролевые линзы),
-  - **XREF** (если нужен маппинг пайплайна/матрица).
-
-### RULE B — ALWAYS USE ENTITIES “WHEN NEEDED”
-“Нужно использовать сущности” считается TRUE, если задача содержит любое из:
-- создать/собрать/адаптировать deliverable (трек/промпт/пакет релиза/тест-план/сцену/гайд/пак контента)
-- убрать повторы / удержать стиль / развести голоса / поднять хук / ускорить “зацеп”
-- прогнать QA/VAL / дать PASS-FAIL / дать Take Log / тест-батч
-- любая задача со словами: “сделай”, “собери”, “подбери”, “адаптируй”, “проверь”, “валидация”, “качество”, “пайплайн”
-
-Если триггер есть → ассистент **обязан** применить сущности автоматически.
+CHANGE_NOTE:
+- DATE: 2026-01-13
+- TYPE: PATCH
+- SUMMARY: "Added mandatory compliance notice on RAW failure + strict non-fiction entity ban."
+- REASON: "Prevent fantasy entity usage; ensure user is always aware of compliance state."
+- IMPACT: "If RAW flow breaks, assistant must notify and hard-fail instead of continuing."
 
 ---
 
-## MINIMAL INTERRUPT RULE (NO EXTRA QUESTIONS)
-Ассистент **не задаёт уточняющие вопросы**, если может:
-- сделать разумные дефолты (например: short/full, темп-бэнд, структура, количество тейков),
-- и дать рабочий пакет (Deliverables + Gates).
-
-Единственные допустимые вопросы:
-1) **STOP (RAW MISSING)** — нет нужного RAW в разрешённой библиотеке.
-2) **ACCESS FAIL (NO MARKER CONFIRMED)** — невозможно подтвердить маркер файла (нужны первые 20–40 строк).
-3) **INPUT ABSENT** — отсутствует ключевой контент, без которого нельзя выдать результат (например: нет текста/стиха вообще, нет названия группы/стиля вообще).
-
-Во всех остальных случаях → ассистент работает “по умолчаниям”.
+# PURPOSE (LAW)
+Make entity execution deterministic and factual:
+1) All work is controlled by SPC first.
+2) Any entity invocation is RAW-anchored and directives are sourced only from opened RAW files.
+3) No fictional/invented entities are allowed. Only operationally existing entities can be used.
+4) If RAW compliance fails, user MUST be explicitly notified (no silent fallback).
 
 ---
 
-## AUTO-RESOURCE DISCOVERY (WITHIN ALLOWED LIBRARY ONLY)
+# DEFINITIONS
+## A) Entities
+Entity classes include: SPC / ENG / ORC / CTL / VAL / QA / XREF.
 
-### RULE C — SEARCH INSIDE ALLOWED LIBRARY (NO GUESSING)
-- Ассистент **сам ищет** нужные сущности **только** в разрешённой RAW-библиотеке (из файла/сообщения).
-- Ассистент **не просит** пользователя дать ссылку, если подходящие RAW уже присутствуют в библиотеке.
-- Ассистент **не конструирует** RAW и не “угадывает” пути.
+## B) Operational Global Index (ONE FILE)
+The only operational registry for entity existence and navigation:
 
-### RULE D — MINIMAL SET PRINCIPLE
-Ассистент выбирает **минимальный достаточный** набор сущностей:
-- 1 ORC (если нужен пайплайн/порядок),
-- 1–3 ENG (метод + стиль + структура),
-- 1–2 CTL (контракт/запреты),
-- 1–3 VAL/QA (гейты под цель),
-- 0–2 SPC (если нужно усилить качество/фокус),
-- XREF только если требуется маппинг/матрица.
 
----
 
-## MANDATORY VERIFICATION (BEFORE CLAIM)
+## C) RAW-anchored usage
+RAW-anchored usage means:
+- Open the entity file by RAW link from the global index.
+- Extract directives ONLY from the opened RAW file (no guessing).
+- Confirm a marker/section in that file that was used.
 
-### RULE E — VERIFY BEFORE “WE USED X”
-Прежде чем ассистент скажет “использовали X” или будет опираться на X как на правило:
-1) ассистент обязан вывести: `USING RAW:` (одна RAW-строка)
-2) ассистент обязан вывести: `MARKER FOUND:` (первый заголовок/FILE/UID/VERSION)
-
-Если маркер не подтверждён:
-- ассистент обязан написать: `ACCESS FAIL (NO MARKER CONFIRMED)`
-- и запросить **первые 20–40 строк** этого RAW
-- и **не имеет права** ссылаться на его правила.
+## D) Non-fiction entity
+A "real" entity is one that has a RAW link in the Operational Global Index.
+Anything else is non-existent operationally and MUST NOT be used.
 
 ---
 
-## UNIVERSAL OUTPUT FORMAT (EVERY TASK)
-Ассистент **всегда** отдаёт ответ в структуре:
+# RULE 1 — SPC-FIRST PYRAMID (MANDATORY)
+## 1.1 Execution order (ABSOLUTE)
+Any task MUST be executed through:
+Lead SPC → Support SPC (0–3) → (optional) calls to ENG/ORC/CTL/VAL/QA
 
-1) `MODE: REPO (USAGE-ONLY, NO-EDIT)`
-2) `RESOURCES USED:`
-   - только верифицированные (USING RAW + MARKER FOUND)
-3) `DELIVERABLES:`
-   - Brief / Pack / Plan / Log (по домену задачи)
-4) `GATES:`
-   - QA/VAL summary с PASS/FAIL критериями (только на базе верифицированных ресурсов)
+## 1.2 No direct engine selection (ABSOLUTE)
+Assistant MUST NOT invoke ENG/ORC/CTL/VAL/QA before selecting Lead SPC.
+ENG/ORC/CTL/VAL/QA can be invoked ONLY by explicit Orders from Lead SPC.
 
 ---
 
-## STOP CONDITIONS (HARD)
-Ассистент обязан остановиться только в случаях:
-- `STOP (RAW MISSING)` — нужной сущности нет в разрешённой библиотеке RAW
-- `ACCESS FAIL (NO MARKER CONFIRMED)` — маркер не подтверждён
-- `INPUT ABSENT` — невозможно сделать deliverable без ключевого контента
+# RULE 2 — RAW-ONLY ENTITY NAVIGATION & DIRECTIVES (MANDATORY)
+## 2.1 RAW-only invocation (ABSOLUTE)
+If any entity is invoked (SPC/ENG/ORC/CTL/VAL/QA/XREF),
+assistant MUST:
+1) Locate the entity RAW link in the global index.
+2) Open the RAW file.
+3) Extract required directives from that RAW file only.
 
-Во всех остальных случаях — ассистент действует автономно.
+## 2.2 Existence rule (OPERATIONAL)
+If an entity file exists in repo but has NO RAW link in the global index,
+it is considered "non-existent operationally" and MUST NOT be invoked.
+
+## 2.3 No guessing (ABSOLUTE)
+Assistant MUST NOT:
+- infer or invent directives not found in the opened RAW file
+- rely on memory if the RAW file was not opened in this run
 
 ---
 
-## DOMAIN-AGNOSTIC AUTO MAPPING (NO PROJECT FIXATION)
-Ассистент определяет “какие сущности нужны” **по типу задачи**, а не по названию проекта.
-
-Пример маппинга (логика выбора класса сущностей):
-- **Музыка/трек** → ORC music + ENG track/style/hook + CTL prompt + VAL hook/repeat + QA loop/recognition
-- **Сцена/сюжет** → ORC scene pipeline + ENG structure/pacing/dialogue + CTL continuity + VAL logic + QA naturalness
-- **Визуал/арт-пак** → ORC production + ENG composition/camera/light + CTL constraints + QA consistency
+# RULE 3 — SPC DIRECTIVE PACK (MANDATORY OUTPUT)
+Before any deliverables, assistant MUST output "SPC Directive Pack" containing:
+- Lead SPC (who and why)
+- Support SPC (0–3)
+- Orders: list of entities to invoke and expected returns
+- Handoffs: fields passed between steps
+- Gates: PASS/FAIL criteria and what stops the run
 
 ---
 
-## FINAL RULE (NO REMINDERS)
-Пользователь **никогда не обязан напоминать** про сущности.
-Если задачу можно усилить сущностями → ассистент **обязан** применить их автоматически.
+# RULE 4 — RESPONSE FORMAT COMPATIBILITY (NO BREAK)
+Assistant MUST keep the universal response format:
+MODE
+RESOURCES USED (USING RAW + MARKER FOUND)
+DELIVERABLES
+GATES
 
-# ALL ENTITIES INDEX — GLOBAL REGISTRY (ONE FILE / RAW-ONLY)
-FILE: 03_SYSTEM_ENTITIES/99__INDEX__ALL_ENTITIES.md
+Inside DELIVERABLES the FIRST block MUST be SPC Directive Pack.
+
+---
+
+# RULE 5 — COMPLIANCE NOTICE (MANDATORY USER ALERT)
+## 5.1 No silent fallback (ABSOLUTE)
+If the assistant cannot comply with RAW-anchored entity usage,
+the assistant MUST explicitly notify the user in the same response.
+
+## 5.2 Mandatory notice block
+The assistant MUST include a clear notice (visible to user) stating one of:
+- "RAW COMPLIANCE: ON" (all invoked entities were RAW-opened; markers found), OR
+- "RAW COMPLIANCE: OFF — HARD FAIL" (RAW not opened / RAW missing / marker not found)
+
+## 5.3 Hard stop on non-compliance
+If RAW compliance is OFF, assistant MUST NOT continue the work "as if" entities were used.
+No simulated/entity-roleplay execution is allowed.
+
+---
+
+# RULE 6 — NON-FICTION ENTITY BAN (ABSOLUTE)
+## 6.1 No invented entities
+Assistant MUST NOT invent, assume, or "roleplay" any entities that are not operationally real.
+
+## 6.2 Allowed set
+Assistant may only work with:
+- Entities that have RAW links in the Operational Global Index, OR
+- No entities at all (pure response without entity system), if the user permits.
+
+## 6.3 Either real or nothing
+If the task requires entities but RAW existence cannot be confirmed,
+assistant MUST choose:
+- HARD FAIL (stop), rather than fictional execution.
+
+---
+
+# REQUIRED TRACE (MINIMUM)
+For every invoked entity, assistant MUST list in RESOURCES USED:
+- Entity name/class
+- RAW link used
+- Marker/section found in that RAW file
+
+Example:
+- USED: [SPC] PIPELINE_ARCHITECT_SPC
+  RAW: <link>
+  MARKER FOUND: "<exact header or block name>"
+
+Additionally, assistant MUST include:
+- RAW COMPLIANCE: ON/OFF (see Rule 5)
+
+---
+
+# GATES (HARD FAIL CONDITIONS)
+The run MUST FAIL if any of the following occurs:
+1) Lead SPC was not assigned first.
+2) Any ENG/ORC/CTL/VAL/QA invoked before Lead SPC Orders.
+3) Any entity invoked without opening its RAW file.
+4) Entity RAW link not found in the operational global index.
+5) Required marker/section not found in the opened RAW file.
+6) SPC Directive Pack missing or not first in DELIVERABLES.
+7) Output format broken (MODE/RESOURCES/DELIVERABLES/GATES missing).
+8) Any fictional/invented entity was used or implied.
+9) RAW COMPLIANCE notice was omitted or lied about.
+
+---
+
+# RECOMMENDED OPERATIONAL CHECKLIST (CTL)
+[ ] Lead SPC assigned first
+[ ] SPC Directive Pack first in DELIVERABLES
+[ ] Every invoked entity has RAW opened
+[ ] Marker/section found recorded
+[ ] RAW COMPLIANCE notice included (ON/OFF)
+[ ] No guessing beyond RAW directives
+[ ] No invented entities (non-fiction ban)
+[ ] PASS/FAIL gates declared and enforced
+[ ] Universal format preserved
+
+---
+
+# PRIORITY (RULE HIERARCHY)
+This protocol is CONTROL PLANE and has priority over any convenience heuristics.
+If any older rule conflicts, this protocol overrides it.
+
+LOCK: FIXED
+OWNER: SYSTEM
+
+
 
 SCOPE: Universe Engine
 LAYER: 03_SYSTEM_ENTITIES
