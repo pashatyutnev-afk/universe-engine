@@ -1,156 +1,138 @@
-# TOPICS REALM — ATOMIC KNOWLEDGE MODULES README (ORIENTATION)
-FILE: 04_KNOWLEDGE_BASE/10_TOPICS/00__README__TOPICS_REALM.md
+# TOPICS — NARRATIVE (README) (CANON)
+FILE: 04_KNOWLEDGE_BASE/10_TOPICS/10_NARRATIVE/00__README__TOPICS_NARRATIVE.md
 
 SCOPE: Universe Engine
 LAYER: 04_KNOWLEDGE_BASE
+REALM: 10_TOPICS / 10_NARRATIVE
 DOC_TYPE: README
-INDEX_TYPE: REALM_ORIENTATION_TOME
+INDEX_TYPE: REALM_README
 LEVEL: L2
 STATUS: DRAFT
-LOCK: OPEN
+LOCK: FIXED
 VERSION: 1.0.0
-UID: UE.KB.TOPICS.README.001
+UID: UE.KB.README.TOPICS.NARRATIVE.001
 OWNER: SYSTEM
-ROLE: Orientation tome for TOPICS realm; defines atomic KB module rules, naming, quality requirements, and how entities consume topics under source-lock without creating a secondary index
+ROLE: Orientation for NARRATIVE topics scope: what belongs here, how entities use it, and a deterministic roadmap to populate the realm with high-signal narrative craft modules (no navigation authority).
 
 CHANGE_NOTE:
 - DATE: 2026-01-14
 - TYPE: MAJOR
-- SUMMARY: "Created TOPICS realm README: atomic module rules, naming convention, mandatory structure, and anti-duplication guidance."
-- REASON: "TOPICS are the main unit of reusable knowledge; they must be deterministic, auditable, and easy to navigate from the KB master index."
-- IMPACT: "All topics become consistent, searchable, and enforceable via KB usage gate."
-- CHANGE_ID: UE.CHG.2026-01-14.KB.TOPICS.README.001
+- SUMMARY: "Created NARRATIVE topics realm README: scope boundaries, usage order, and roadmap for core narrative craft modules."
+- REASON: "Entities need a clean narrative craft library that improves story quality without mixing domains or turning into a second index."
+- IMPACT: "More consistent scene construction, stronger tension/stakes, fewer story logic drift errors."
+- CHANGE_ID: UE.CHG.2026-01-14.KB.TOPICS.NARR.README.001
 
 ---
 
-## 0) PURPOSE (WHAT TOPICS ARE)
-`10_TOPICS/` — это атомарные модули знаний (one topic = one job):
-- один метод / правило / техника / определение / процедура
-- минимальная применимость: “прочитал → применил” без догадок
-- обязательные примеры PASS/FAIL
+## 0) PURPOSE (KB)
+This realm contains NARRATIVE craft knowledge:
+- scene construction and causality
+- tension/stakes management
+- dramatic arc and turning points
+- foreshadowing and payoff discipline
+- dialogue purpose (structure-level, not acting coaching)
+- continuity of narrative logic (not visual continuity)
 
-TOPICS — главный слой, который поднимает качество контента в системе.
-PILLARS дают рамку, LIBRARIES дают инструменты контроля, а TOPICS дают “кирпичи” знаний.
-
----
-
-## 1) OPERATIONAL ENTRYPOINT (ABSOLUTE)
-Оперативная навигация и existence для KB работает только через:
-- `04_KNOWLEDGE_BASE/00__INDEX__KNOWLEDGE_BASE.md`
-
-Этот README не является индексом существования и не регистрирует файлы.
+Goal:
+- make story outputs consistently intelligible, tense, and meaningful.
 
 ---
 
-## 2) TOPIC = ATOMIC (ABSOLUTE)
-### 2.1 One topic = one skill
-Топик обязан отвечать на один вопрос/задачу.
-Если файл начинает отвечать на 3–5 разных вопросов — значит он должен быть разбит.
+## 1) WHAT BELONGS HERE / WHAT DOES NOT
+### BELONGS (IN-SCOPE)
+- scene mechanics: goal→conflict→turn→new state
+- causality: cause→effect chains, payoff discipline
+- tension tools: uncertainty, time pressure, stakes escalation
+- structure tools: acts, midpoint, turning points, climaxes (as craft)
+- foreshadowing: setup/payoff patterns
+- dialogue as action (purpose, subtext as technique)
 
-### 2.2 No duplication (SoT)
-Одно знание — один источник истины.
-Дубликаты запрещены. Если нужно “повторить” — делаем ссылку (PATH) через RELATED/KB_SOURCES.
-
----
-
-## 3) NAMING CONVENTION (FOR THIS REALM)
-TOPICS в текущей структуре называются так:
-
-`NN__<DOMAIN>__<TOPIC_NAME>.md`
-
-Где:
-- `NN` — порядок (01..99)
-- `<DOMAIN>` — доменный якорь (см. список ниже)
-- `<TOPIC_NAME>` — кратко и по делу (UPPER_SNAKE_CASE)
-
-Примеры:
-- `01__NARRATIVE__SCENE_CRAFT.md`
-- `02__CHARACTER__MOTIVATION.md`
-- `03__VISUAL__LIGHTING.md`
+### DOES NOT BELONG (OUT-OF-SCOPE)
+- character psychology deep dives (belongs to 20_CHARACTER)
+- world systems, geopolitics, economy (belongs to 30_WORLD)
+- visual composition/camera (belongs to 40_VISUAL)
+- music/arrangement (belongs to SOUND_MUSIC)
+- governance laws and navigation maps (master index only)
 
 ---
 
-## 4) DOMAIN ANCHORS (CANON SET)
-Используем один из доменных якорей:
-- NARRATIVE
-- CHARACTER
-- WORLD
-- VISUAL
-- SOUND_MUSIC
-- PRODUCTION
-- MARKETING
-- RESEARCH
-- REFERENCE
-
-Правило:
-- Если тема не очевидна — выбираем домен по “главному применению” (где чаще используется).
-- Если реально “поперёк” — делаем отдельный REFERENCE topic и связываем REL/XREF.
+## 2) NAVIGATION RULE (STRICT)
+- This README is NOT navigation authority.
+- KB navigation/existence authority is ONLY the KB master index:
+  - `04_KNOWLEDGE_BASE/00__INDEX__KNOWLEDGE_BASE.md`
+- Do not add RAW registries here.
 
 ---
 
-## 5) MANDATORY TOPIC STRUCTURE (MINIMUM)
-Каждый TOPIC обязан следовать KB module template:
-- PURPOSE
-- WHEN TO USE / WHEN NOT TO USE
-- PROCEDURE / CHECKLIST / RUBRIC (хотя бы один)
-- EXAMPLES: PASS + FAIL (EDGE если применимо)
-- RELATED: REL/XREF (PATH only)
-- COMPLIANCE: source-lock + memory rules
-
-Если у топика нет процедуры и примеров — он не считается KB topic (FAIL).
-
----
-
-## 6) SOURCE-LOCK / NO FANTASY (ABSOLUTE)
-Запрещено:
-- додумывать,
-- “улучшать” смысл,
-- писать “как обычно делают” без проверяемых критериев.
-
-Разрешено:
-- только source-locked применение (по KB источникам),
-- Memory-OK только для VERIFIED модулей без искажений смысла.
-
-Если нужного источника нет — STOP (не писать “как-то так”).
+## 3) HOW ENTITIES USE NARRATIVE TOPICS (DETERMINISTIC)
+Order:
+1) Load governance minimum set (no-fantasy, uid-only xref, trace).
+2) Determine if the task is narrative (scene/episode/story structure).
+3) Load minimal narrative modules needed:
+   - constraints/gates first (if any)
+   - then the specific topic module(s)
+4) Apply checklists/gates (if relevant).
+5) Output RUN_TRACE (UID-only sources + memory reuse).
 
 ---
 
-## 7) HOW ENTITIES CONSUME TOPICS
-Любая сущность (SPC/ENG/ORC/CTL/VAL/QA/XREF) использует TOPICS через:
-- KB_SOURCES (REQUIRED/OPTIONAL)
-- KB_GATES (rubrics/checklists/validators)
-- OUTPUT CONTRACT (TPL__)
+## 4) FILL PLAN (ROADMAP: WHAT FILES WE MUST CREATE)
+Roadmap list (not navigation authority).
 
-Топики не “переписываются” внутрь сущностей.
-Сущность подключается ссылками и применяет по процедуре.
+### P1 — Core scene craft
+- NARRATIVE__SCENE_CRAFT_FOUNDATIONS
+- NARRATIVE__CAUSE_EFFECT_CHAINING
+- NARRATIVE__TURNING_POINTS_AND_STATE_CHANGE
+- NARRATIVE__TENSION_STAKES_ESCALATION
+- NARRATIVE__PAYOFF_SETUP_DISCIPLINE
+
+### P1 — Continuity & clarity
+- NARRATIVE__CONTINUITY_LOGIC (facts, motivations, constraints)
+- NARRATIVE__CLARITY_COMMON_FAILS (symptom→cause→fix)
+- NARRATIVE__SCENE_QA_CHECKLIST (pass/rework/fail)
+
+### P2 — Structure tools
+- NARRATIVE__DRAMATIC_ARC_MAP
+- NARRATIVE__MIDPOINT_FUNCTIONS
+- NARRATIVE__CLIFFHANGER_PATTERNS (as craft, not “clickbait”)
+
+### P2 — Dialogue as action
+- NARRATIVE__DIALOGUE_PURPOSE_AND_SUBTEXT
+- NARRATIVE__INFORMATION_REVEAL_PACING
+
+### P3 — Advanced craft
+- NARRATIVE__THEME_INTEGRATION_METHOD
+- NARRATIVE__FORESHADOWING_MESH_PATTERNS
+- NARRATIVE__TWIST_FAIRNESS_RULES
 
 ---
 
-## 8) QUALITY RULES FOR TOPICS (FAST GATES)
-TOPIC считается годным, если:
-- имеет один фокус (atomic)
-- имеет процедуру/чеклист/рубрику
-- имеет PASS/FAIL примеры
-- имеет PATH-only связи (REL/XREF)
-- не конфликтует с другими нормами, либо конфликт разрешён policy/решением
-- не содержит фантазии
+## 5) STYLE RULES FOR NARRATIVE MODULES
+- Atomic modules: one purpose per file.
+- Prefer operational guidance:
+  - inputs
+  - steps
+  - failure modes
+  - measurable-ish checklists/gates where possible
+- Avoid “taste-only” advice unless paired with observable checks.
+- Keep cross-domain boundaries strict.
 
 ---
 
-## 9) HOW TO ADD A NEW TOPIC (CONTROLLED FLOW)
-1) Создай файл по naming convention: `NN__DOMAIN__TOPIC_NAME.md`
-2) Заполни по KB module template (процедура + примеры обязательны)
-3) Проставь TAGS: domain_* и type_topic минимум
-4) Зарегистрируй файл в KB master-index (иначе “оперативно не существует”)
-5) Запиши изменение в KB_CHANGELOG (impact note если затронуты сущности/гейты)
+## 6) HARD FAIL CONDITIONS
+FAIL IF:
+- realm becomes a second navigation index (RAW registries)
+- modules mix character/world/visual without split
+- modules present invented facts as sourced truth
+- outputs claim compliance without trace
 
 ---
 
-## 10) COMMON FAILURE MODES (TOPICS)
-- “топик-статья” без процедуры и примеров
-- “топик-свалка” из 5 тем
-- дублирование существующей темы под другим именем
-- размытые формулировки (“обычно/часто/примерно”) без порогов/гейтов
-- ссылки без PATH (невозможно воспроизводимо навигировать)
+## 7) RELATED (UID-ONLY)
+XREF:
+- XREF: UE.KB.RULES.GOV.001 | WHY: governance rules apply to all KB usage
+- XREF: UE.KB.REF.GLOSSARY.NARRATIVE_STRUCTURE.003 | WHY: controlled vocabulary for narrative structure terms
+- XREF: UE.KB.RULE.SCOPE_BOUNDARIES.076 | WHY: prevents domain mixing
+- XREF: UE.KB.RULE.SCOPE_MODULE_LOAD.074 | WHY: minimal loading order
 
 --- END.
