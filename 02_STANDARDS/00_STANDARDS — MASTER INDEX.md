@@ -41,11 +41,12 @@ CHANGE_NOTE:
 ---
 
 ## 2) CANONICAL ENTRYPOINTS (INSIDE 02_STANDARDS)
-00 — MASTER INDEX (THIS FILE)
-PATH: `02_STANDARDS/00__MASTER_INDEX__UNIVERSE_ENGINE.md`
-RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/02_STANDARDS/00__MASTER_INDEX__UNIVERSE_ENGINE.md
 
-01 — DOC REGISTRY (catalog; not SoT for NAV/EXISTENCE)
+00 — MASTER INDEX (THIS FILE) — SoT for NAV/EXISTENCE
+PATH: `02_STANDARDS/00__MASTER_INDEX__UNIVERSE_ENGINE.md`
+RAW: <RAW_REQUIRED_FOR_THIS_FILE>
+
+01 — DOC REGISTRY (catalog; NOT SoT for NAV/EXISTENCE)
 PATH: `02_STANDARDS/01__DOC_REGISTRY.md`
 RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/02_STANDARDS/01__DOC_REGISTRY.md
 
@@ -187,10 +188,12 @@ RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/hea
 ---
 
 ## 4) ALIAS RULE (STRICT)
-Любой файл вида:
+Любой дублёр entrypoint (включая альтернативные имена master-index) должен быть либо удалён,
+либо превращён в чистый POINTER на этот документ (без дополнительных правил внутри).
+
+Примеры дублёров (не исчерпывающий список):
 - `02_STANDARDS/02__MASTER_INDEX__UNIVERSE_ENGINE.md`
 - `02_STANDARDS/00__MASTER_INDEX_UNIVERSE_ENGINE.md`
-и любые подобные “дублёры entrypoint”
-должны быть либо удалены, либо превращены в чистый POINTER на этот документ.
+- `02_STANDARDS/00__INDEX__STANDARDS.md`
 
 --- END.

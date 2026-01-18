@@ -54,8 +54,11 @@ It defines:
 ---
 
 ## 3) NO-EXTRA-LAWS RULE (ABSOLUTE)
-- No additional law files are allowed in `01_SYSTEM_LAW/` beyond this canon map.
-- Any extra files found in the folder must be:
+- No additional LAW files are allowed in `01_SYSTEM_LAW/` beyond this canon map.
+- Allowed non-LAW files in the folder:
+  - this INDEX file (`00__INDEX__SYSTEM_LAW.md`)
+  - pure POINTER aliases (redirect only, no rules) to canonical targets
+- Any extra LAW-like file found in the folder must be:
   - removed, OR
   - converted into a pure POINTER to an existing canonical file (no extra rules inside).
 
@@ -69,7 +72,7 @@ It defines:
 
 ### 4.2 FAIL CONDITIONS
 - Any missing/invalid RAW link.
-- Any additional law file present without pointer conversion.
+- Any additional LAW file present without pointer conversion.
 - Any attempt to treat an unregistered file as authoritative.
 
 ### 4.3 FIX PROCEDURE
@@ -110,8 +113,5 @@ RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/hea
 ## FINAL RULE (LOCK)
 This index is the only SoT for SYSTEM LAW existence and navigation.  
 Any change must follow canon protocol and be logged.
-
-OWNER: SYSTEM
-LOCK: FIXED
 
 --- END.
