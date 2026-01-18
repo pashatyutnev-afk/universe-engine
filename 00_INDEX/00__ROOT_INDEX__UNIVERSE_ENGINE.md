@@ -7,18 +7,18 @@ INDEX_TYPE: ROOT_BOOT_INDEX (ONE-FILE OPERATIONAL)
 LEVEL: L0 (BOOT)
 STATUS: ACTIVE
 LOCK: FIXED
-VERSION: 1.0.1
+VERSION: 1.0.3
 UID: UE.IDX.ROOT.BOOT.001
 OWNER: SYSTEM
-ROLE: Single file to start the whole system: execution rules + response contract + full RAW map (NON-INDEX FILES ONLY)
+ROLE: One-file boot contract + RAW map of repo files (NO LINKS TO ANY INDEX FILES, INCLUDING THIS FILE)
 
 CHANGE_NOTE:
 - DATE: 2026-01-18
 - TYPE: PATCH
-- SUMMARY: "Fixed RAW links: removed tree-artifact prefixes from PATH and stopped URL-encoding; links now match canonical raw GitHub format."
-- REASON: "Previous build mistakenly included tree indentation symbols in PATH."
-- IMPACT: "RAW links are now valid."
-- CHANGE_ID: UE.CHG.2026-01-18.ROOT.BOOT.002
+- SUMMARY: "Removed all references to index files (including self and 00_INDEX realm) and cleaned TREE artifacts from CANON MAP."
+- REASON: "User requires no links to any indexes to prevent navigation loops."
+- IMPACT: "Boot file is safe to paste into chat: no self-linking and no external index links."
+- CHANGE_ID: UE.CHG.2026-01-18.ROOT.BOOT.004
 
 ---
 
@@ -28,7 +28,8 @@ CHANGE_NOTE:
 ### 0.1 Boot rule (ABSOLUTE)
 - Оперативная навигация и правила запускаются только из этого файла.
 - Я не использую “память о правилах” вместо текста. Если правило нужно, я беру его из этого файла или из RAW файла, на который этот файл ссылается.
-
+Ссылка для ориентировки структуры:
+https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/00_INDEX/structure.md
 ### 0.2 Как запускать задачу (1 строка)
 Пиши так:
 - TASK: <что сделать>
@@ -36,6 +37,7 @@ CHANGE_NOTE:
 Опционально:
 - SCOPE: <какой слой/папка/артефакт>
 - OUTPUT: <какой файл/формат>
+
 
 
 ## 1) ASSISTANT EXECUTION CONTRACT (ABSOLUTE)
@@ -73,12 +75,14 @@ RAW COMPLIANCE: ON
 RAW COMPLIANCE: OFF — HARD FAIL
 
 
+
 ## 2) SPC DIRECTIVE PACK (TEMPLATE — MUST BE FIRST IN DELIVERABLES)
 - Lead SPC: <name> — WHY: <why>
 - Support SPC (0–3): <names>
 - Orders: <entities to invoke + expected return>
 - Handoffs: <fields passed between steps>
 - Gates: <PASS/FAIL + what stops run>
+
 
 
 ## 3) KB CONNECTOR (MINIMUM RULES)
@@ -88,6 +92,7 @@ RAW COMPLIANCE: OFF — HARD FAIL
 - OUTPUT CONTRACT: каким шаблоном выдаю
 - STOP: если RAW недоступен или модуль не открыт и нельзя воспроизвести без искажения
 
+
 ---
 
 ## 4) BASE RAW PREFIX
@@ -95,32 +100,11 @@ https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/ma
 
 ---
 
-## 5) CANON MAP — ALL FILES (EXCLUDING *INDEX* FILES)
-RULE: Любой файл, у которого в имени есть `INDEX`, здесь НЕ включён (чтобы не было путаницы).
-Включены README, RULES, TEMPLATES, LAW, MODULES и прочие файлы.
-
-### ROOT (repo root files)
-- PATH: `|`
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/|
-- PATH: `|`
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/|
-- PATH: `|`
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/|
-- PATH: `|`
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/|
-- PATH: `|`
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/|
-- PATH: `|`
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/|
-- PATH: `|`
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/|
-- PATH: `|`
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/|
-- PATH: `�������� ����� ����: C425-B513`
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/�������� ����� ����: C425-B513
-- PATH: `��������� ����� ���� Games`
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/��������� ����� ���� Games
-
+## 5) CANON MAP — ALL NON-INDEX FILES (NO LOOPS)
+ABSOLUTE FILTER:
+- Любой PATH, где встречается `index` (в имени файла или папке), исключается.
+- Вся папка `00_INDEX/` исключается целиком (включая этот файл).
+Включены README, RULES, TEMPLATES, LAW, MODULES и прочие не-индексные файлы.
 
 ## 01_SYSTEM_LAW
 ### 01_SYSTEM_LAW/00__SYSTEM_LAW.md
@@ -209,8 +193,6 @@ RULE: Любой файл, у которого в имени есть `INDEX`, �
   RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/02_STANDARDS/01_SPECIFICATIONS/10_MUSIC_SYSTEM/07__MUSIC_FINGERPRINT_STANDARD.md
 - PATH: `02_STANDARDS/01_SPECIFICATIONS/10_MUSIC_SYSTEM/08__MUSIC_GROUP_ALBUM_TRACK_STRUCTURE_STANDARD.md`
   RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/02_STANDARDS/01_SPECIFICATIONS/10_MUSIC_SYSTEM/08__MUSIC_GROUP_ALBUM_TRACK_STRUCTURE_STANDARD.md
-- PATH: `02_STANDARDS/01_SPECIFICATIONS/|`
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/02_STANDARDS/01_SPECIFICATIONS/|
 
 ### 02_STANDARDS/02_PROTOCOLS
 - PATH: `02_STANDARDS/02_PROTOCOLS/01__CHANGE_MANAGEMENT_PROTOCOL.md`
@@ -243,24 +225,6 @@ RULE: Любой файл, у которого в имени есть `INDEX`, �
   RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/02_STANDARDS/06_MARKING_STANDARDS/07__NATURALNESS_GATES.md
 - PATH: `02_STANDARDS/06_MARKING_STANDARDS/08__DOC_CONTROL.md`
   RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/02_STANDARDS/06_MARKING_STANDARDS/08__DOC_CONTROL.md
-
-### 02_STANDARDS/|
-- PATH: `02_STANDARDS/|`
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/02_STANDARDS/|
-- PATH: `02_STANDARDS/|`
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/02_STANDARDS/|
-- PATH: `02_STANDARDS/|`
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/02_STANDARDS/|
-- PATH: `02_STANDARDS/|`
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/02_STANDARDS/|
-- PATH: `02_STANDARDS/|`
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/02_STANDARDS/|
-- PATH: `02_STANDARDS/|`
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/02_STANDARDS/|
-- PATH: `02_STANDARDS/|`
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/02_STANDARDS/|
-- PATH: `02_STANDARDS/|`
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/02_STANDARDS/|
 
 ## 03_SYSTEM_ENTITIES
 ### 03_SYSTEM_ENTITIES/00_REG__REGISTRIES
@@ -638,36 +602,6 @@ RULE: Любой файл, у которого в имени есть `INDEX`, �
   RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/14_NAMING_IDENTITY_ENGINES/04__PLATFORM_FORMAT_TITLES_ENG.md
 - PATH: `03_SYSTEM_ENTITIES/10_ENG__ENGINES/14_NAMING_IDENTITY_ENGINES/05__SERIES_NAMING_ENG.md`
   RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/14_NAMING_IDENTITY_ENGINES/05__SERIES_NAMING_ENG.md
-- PATH: `03_SYSTEM_ENTITIES/10_ENG__ENGINES/|`
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/|
-- PATH: `03_SYSTEM_ENTITIES/10_ENG__ENGINES/|`
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/|
-- PATH: `03_SYSTEM_ENTITIES/10_ENG__ENGINES/|`
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/|
-- PATH: `03_SYSTEM_ENTITIES/10_ENG__ENGINES/|`
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/|
-- PATH: `03_SYSTEM_ENTITIES/10_ENG__ENGINES/|`
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/|
-- PATH: `03_SYSTEM_ENTITIES/10_ENG__ENGINES/|`
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/|
-- PATH: `03_SYSTEM_ENTITIES/10_ENG__ENGINES/|`
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/|
-- PATH: `03_SYSTEM_ENTITIES/10_ENG__ENGINES/|`
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/|
-- PATH: `03_SYSTEM_ENTITIES/10_ENG__ENGINES/|`
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/|
-- PATH: `03_SYSTEM_ENTITIES/10_ENG__ENGINES/|`
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/|
-- PATH: `03_SYSTEM_ENTITIES/10_ENG__ENGINES/|`
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/|
-- PATH: `03_SYSTEM_ENTITIES/10_ENG__ENGINES/|`
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/|
-- PATH: `03_SYSTEM_ENTITIES/10_ENG__ENGINES/|`
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/|
-- PATH: `03_SYSTEM_ENTITIES/10_ENG__ENGINES/|`
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/|
-- PATH: `03_SYSTEM_ENTITIES/10_ENG__ENGINES/|`
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/|
 
 ### 03_SYSTEM_ENTITIES/20_ORC__ORCHESTRATORS
 - PATH: `03_SYSTEM_ENTITIES/20_ORC__ORCHESTRATORS/00__README__ORC_REALM.md`
@@ -710,12 +644,6 @@ RULE: Любой файл, у которого в имени есть `INDEX`, �
   RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/20_ORC__ORCHESTRATORS/10_MUSIC_ORCHESTRATORS/05__PORTFOLIO_PLANNER_ORC.md
 - PATH: `03_SYSTEM_ENTITIES/20_ORC__ORCHESTRATORS/10_MUSIC_ORCHESTRATORS/06__POET_PACK_ORC.md`
   RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/20_ORC__ORCHESTRATORS/10_MUSIC_ORCHESTRATORS/06__POET_PACK_ORC.md
-- PATH: `03_SYSTEM_ENTITIES/20_ORC__ORCHESTRATORS/|`
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/20_ORC__ORCHESTRATORS/|
-- PATH: `03_SYSTEM_ENTITIES/20_ORC__ORCHESTRATORS/|`
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/20_ORC__ORCHESTRATORS/|
-- PATH: `03_SYSTEM_ENTITIES/20_ORC__ORCHESTRATORS/|`
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/20_ORC__ORCHESTRATORS/|
 
 ### 03_SYSTEM_ENTITIES/30_SPC__SPECIALISTS
 - PATH: `03_SYSTEM_ENTITIES/30_SPC__SPECIALISTS/00_TOP_GOVERNANCE/00__README__TOP.md`
@@ -964,32 +892,6 @@ RULE: Любой файл, у которого в имени есть `INDEX`, �
   RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/30_SPC__SPECIALISTS/11_META/07__LONG_TERM_STRATEGY_PLANNER_SPC.md
 - PATH: `03_SYSTEM_ENTITIES/30_SPC__SPECIALISTS/11_META/08__EVOLUTION_SCALING_PLANNER_SPC.md`
   RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/30_SPC__SPECIALISTS/11_META/08__EVOLUTION_SCALING_PLANNER_SPC.md
-- PATH: `03_SYSTEM_ENTITIES/30_SPC__SPECIALISTS/|`
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/30_SPC__SPECIALISTS/|
-- PATH: `03_SYSTEM_ENTITIES/30_SPC__SPECIALISTS/|`
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/30_SPC__SPECIALISTS/|
-- PATH: `03_SYSTEM_ENTITIES/30_SPC__SPECIALISTS/|`
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/30_SPC__SPECIALISTS/|
-- PATH: `03_SYSTEM_ENTITIES/30_SPC__SPECIALISTS/|`
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/30_SPC__SPECIALISTS/|
-- PATH: `03_SYSTEM_ENTITIES/30_SPC__SPECIALISTS/|`
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/30_SPC__SPECIALISTS/|
-- PATH: `03_SYSTEM_ENTITIES/30_SPC__SPECIALISTS/|`
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/30_SPC__SPECIALISTS/|
-- PATH: `03_SYSTEM_ENTITIES/30_SPC__SPECIALISTS/|`
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/30_SPC__SPECIALISTS/|
-- PATH: `03_SYSTEM_ENTITIES/30_SPC__SPECIALISTS/|`
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/30_SPC__SPECIALISTS/|
-- PATH: `03_SYSTEM_ENTITIES/30_SPC__SPECIALISTS/|`
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/30_SPC__SPECIALISTS/|
-- PATH: `03_SYSTEM_ENTITIES/30_SPC__SPECIALISTS/|`
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/30_SPC__SPECIALISTS/|
-- PATH: `03_SYSTEM_ENTITIES/30_SPC__SPECIALISTS/|`
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/30_SPC__SPECIALISTS/|
-- PATH: `03_SYSTEM_ENTITIES/30_SPC__SPECIALISTS/|`
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/30_SPC__SPECIALISTS/|
-- PATH: `03_SYSTEM_ENTITIES/30_SPC__SPECIALISTS/|`
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/30_SPC__SPECIALISTS/|
 
 ### 03_SYSTEM_ENTITIES/40_CTL__CONTROLLERS
 - PATH: `03_SYSTEM_ENTITIES/40_CTL__CONTROLLERS/00__README__CTL_REALM.md`
@@ -1034,10 +936,6 @@ RULE: Любой файл, у которого в имени есть `INDEX`, �
   RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/40_CTL__CONTROLLERS/10_MUSIC_CONTROLLERS/12__NEGATIVE_SPEC_LIBRARY_CTL.md
 - PATH: `03_SYSTEM_ENTITIES/40_CTL__CONTROLLERS/10_MUSIC_CONTROLLERS/13__CREDITS_METADATA_POLICY_CTL.md`
   RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/40_CTL__CONTROLLERS/10_MUSIC_CONTROLLERS/13__CREDITS_METADATA_POLICY_CTL.md
-- PATH: `03_SYSTEM_ENTITIES/40_CTL__CONTROLLERS/|`
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/40_CTL__CONTROLLERS/|
-- PATH: `03_SYSTEM_ENTITIES/40_CTL__CONTROLLERS/|`
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/40_CTL__CONTROLLERS/|
 
 ### 03_SYSTEM_ENTITIES/50_VAL__VALIDATORS
 - PATH: `03_SYSTEM_ENTITIES/50_VAL__VALIDATORS/00__README__VALIDATORS_REALM.md`
@@ -1086,12 +984,6 @@ RULE: Любой файл, у которого в имени есть `INDEX`, �
   RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/50_VAL__VALIDATORS/11_VALIDATION_ENGINES/05__HISTORICAL_ACCURACY_ENG.md
 - PATH: `03_SYSTEM_ENTITIES/50_VAL__VALIDATORS/11_VALIDATION_ENGINES/06__SCIENTIFIC_PLAUSIBILITY_ENG.md`
   RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/50_VAL__VALIDATORS/11_VALIDATION_ENGINES/06__SCIENTIFIC_PLAUSIBILITY_ENG.md
-- PATH: `03_SYSTEM_ENTITIES/50_VAL__VALIDATORS/|`
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/50_VAL__VALIDATORS/|
-- PATH: `03_SYSTEM_ENTITIES/50_VAL__VALIDATORS/|`
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/50_VAL__VALIDATORS/|
-- PATH: `03_SYSTEM_ENTITIES/50_VAL__VALIDATORS/|`
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/50_VAL__VALIDATORS/|
 
 ### 03_SYSTEM_ENTITIES/60_QA__QUALITY
 - PATH: `03_SYSTEM_ENTITIES/60_QA__QUALITY/00__README__QA_REALM.md`
@@ -1128,10 +1020,6 @@ RULE: Любой файл, у которого в имени есть `INDEX`, �
   RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/60_QA__QUALITY/10_MUSIC_QA/08__VOICE_DIVERSITY_AUDIT_QA.md
 - PATH: `03_SYSTEM_ENTITIES/60_QA__QUALITY/10_MUSIC_QA/09__REGRESSION_GUARD_QA.md`
   RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/60_QA__QUALITY/10_MUSIC_QA/09__REGRESSION_GUARD_QA.md
-- PATH: `03_SYSTEM_ENTITIES/60_QA__QUALITY/|`
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/60_QA__QUALITY/|
-- PATH: `03_SYSTEM_ENTITIES/60_QA__QUALITY/|`
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/60_QA__QUALITY/|
 
 ### 03_SYSTEM_ENTITIES/90_XREF__CROSSREF
 - PATH: `03_SYSTEM_ENTITIES/90_XREF__CROSSREF/00__README__CROSSREF.md`
@@ -1146,26 +1034,6 @@ RULE: Любой файл, у которого в имени есть `INDEX`, �
   RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/90_XREF__CROSSREF/03__MAP__VALIDATION_MATRIX.md
 - PATH: `03_SYSTEM_ENTITIES/90_XREF__CROSSREF/04__MAP__PIPELINES.md`
   RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/90_XREF__CROSSREF/04__MAP__PIPELINES.md
-
-### 03_SYSTEM_ENTITIES/|
-- PATH: `03_SYSTEM_ENTITIES/|`
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/|
-- PATH: `03_SYSTEM_ENTITIES/|`
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/|
-- PATH: `03_SYSTEM_ENTITIES/|`
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/|
-- PATH: `03_SYSTEM_ENTITIES/|`
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/|
-- PATH: `03_SYSTEM_ENTITIES/|`
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/|
-- PATH: `03_SYSTEM_ENTITIES/|`
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/|
-- PATH: `03_SYSTEM_ENTITIES/|`
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/|
-- PATH: `03_SYSTEM_ENTITIES/|`
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/|
-- PATH: `03_SYSTEM_ENTITIES/|`
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/|
 
 ## 04_KNOWLEDGE_BASE
 ### 04_KNOWLEDGE_BASE/00_KB_GOVERNANCE
@@ -1405,24 +1273,6 @@ RULE: Любой файл, у которого в имени есть `INDEX`, �
   RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/04_KNOWLEDGE_BASE/10_TOPICS/90_REFERENCE/02__GLOSSARY__CINEMATOGRAPHY_SHOT_TERMS.md
 - PATH: `04_KNOWLEDGE_BASE/10_TOPICS/90_REFERENCE/03__GLOSSARY__NARRATIVE_STRUCTURE_TERMS.md`
   RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/04_KNOWLEDGE_BASE/10_TOPICS/90_REFERENCE/03__GLOSSARY__NARRATIVE_STRUCTURE_TERMS.md
-- PATH: `04_KNOWLEDGE_BASE/10_TOPICS/|`
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/04_KNOWLEDGE_BASE/10_TOPICS/|
-- PATH: `04_KNOWLEDGE_BASE/10_TOPICS/|`
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/04_KNOWLEDGE_BASE/10_TOPICS/|
-- PATH: `04_KNOWLEDGE_BASE/10_TOPICS/|`
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/04_KNOWLEDGE_BASE/10_TOPICS/|
-- PATH: `04_KNOWLEDGE_BASE/10_TOPICS/|`
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/04_KNOWLEDGE_BASE/10_TOPICS/|
-- PATH: `04_KNOWLEDGE_BASE/10_TOPICS/|`
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/04_KNOWLEDGE_BASE/10_TOPICS/|
-- PATH: `04_KNOWLEDGE_BASE/10_TOPICS/|`
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/04_KNOWLEDGE_BASE/10_TOPICS/|
-- PATH: `04_KNOWLEDGE_BASE/10_TOPICS/|`
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/04_KNOWLEDGE_BASE/10_TOPICS/|
-- PATH: `04_KNOWLEDGE_BASE/10_TOPICS/|`
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/04_KNOWLEDGE_BASE/10_TOPICS/|
-- PATH: `04_KNOWLEDGE_BASE/10_TOPICS/|`
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/04_KNOWLEDGE_BASE/10_TOPICS/|
 
 ### 04_KNOWLEDGE_BASE/20_ENTITIES_KB
 - PATH: `04_KNOWLEDGE_BASE/20_ENTITIES_KB/00__README__ENTITIES_KB_REALM.md`
@@ -1659,28 +1509,6 @@ RULE: Любой файл, у которого в имени есть `INDEX`, �
   RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/04_KNOWLEDGE_BASE/20_ENTITIES_KB/10_SPC/PRO_PACKS/06_SOUND_MUSIC/07__VOCAL_DIRECTOR_SPC/14__META/03__KNOWN_GAPS.md
 - PATH: `04_KNOWLEDGE_BASE/20_ENTITIES_KB/10_SPC/PRO_PACKS/06_SOUND_MUSIC/07__VOCAL_DIRECTOR_SPC/14__META/04__DEPENDENCIES.md`
   RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/04_KNOWLEDGE_BASE/20_ENTITIES_KB/10_SPC/PRO_PACKS/06_SOUND_MUSIC/07__VOCAL_DIRECTOR_SPC/14__META/04__DEPENDENCIES.md
-- PATH: `04_KNOWLEDGE_BASE/20_ENTITIES_KB/10_SPC/PRO_PACKS/06_SOUND_MUSIC/07__VOCAL_DIRECTOR_SPC/|`
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/04_KNOWLEDGE_BASE/20_ENTITIES_KB/10_SPC/PRO_PACKS/06_SOUND_MUSIC/07__VOCAL_DIRECTOR_SPC/|
-- PATH: `04_KNOWLEDGE_BASE/20_ENTITIES_KB/10_SPC/PRO_PACKS/06_SOUND_MUSIC/07__VOCAL_DIRECTOR_SPC/|`
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/04_KNOWLEDGE_BASE/20_ENTITIES_KB/10_SPC/PRO_PACKS/06_SOUND_MUSIC/07__VOCAL_DIRECTOR_SPC/|
-- PATH: `04_KNOWLEDGE_BASE/20_ENTITIES_KB/10_SPC/PRO_PACKS/06_SOUND_MUSIC/07__VOCAL_DIRECTOR_SPC/|`
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/04_KNOWLEDGE_BASE/20_ENTITIES_KB/10_SPC/PRO_PACKS/06_SOUND_MUSIC/07__VOCAL_DIRECTOR_SPC/|
-- PATH: `04_KNOWLEDGE_BASE/20_ENTITIES_KB/10_SPC/PRO_PACKS/06_SOUND_MUSIC/07__VOCAL_DIRECTOR_SPC/|`
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/04_KNOWLEDGE_BASE/20_ENTITIES_KB/10_SPC/PRO_PACKS/06_SOUND_MUSIC/07__VOCAL_DIRECTOR_SPC/|
-- PATH: `04_KNOWLEDGE_BASE/20_ENTITIES_KB/10_SPC/PRO_PACKS/06_SOUND_MUSIC/07__VOCAL_DIRECTOR_SPC/|`
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/04_KNOWLEDGE_BASE/20_ENTITIES_KB/10_SPC/PRO_PACKS/06_SOUND_MUSIC/07__VOCAL_DIRECTOR_SPC/|
-- PATH: `04_KNOWLEDGE_BASE/20_ENTITIES_KB/10_SPC/PRO_PACKS/06_SOUND_MUSIC/07__VOCAL_DIRECTOR_SPC/|`
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/04_KNOWLEDGE_BASE/20_ENTITIES_KB/10_SPC/PRO_PACKS/06_SOUND_MUSIC/07__VOCAL_DIRECTOR_SPC/|
-- PATH: `04_KNOWLEDGE_BASE/20_ENTITIES_KB/10_SPC/PRO_PACKS/06_SOUND_MUSIC/07__VOCAL_DIRECTOR_SPC/|`
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/04_KNOWLEDGE_BASE/20_ENTITIES_KB/10_SPC/PRO_PACKS/06_SOUND_MUSIC/07__VOCAL_DIRECTOR_SPC/|
-- PATH: `04_KNOWLEDGE_BASE/20_ENTITIES_KB/10_SPC/PRO_PACKS/06_SOUND_MUSIC/07__VOCAL_DIRECTOR_SPC/|`
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/04_KNOWLEDGE_BASE/20_ENTITIES_KB/10_SPC/PRO_PACKS/06_SOUND_MUSIC/07__VOCAL_DIRECTOR_SPC/|
-- PATH: `04_KNOWLEDGE_BASE/20_ENTITIES_KB/10_SPC/PRO_PACKS/06_SOUND_MUSIC/07__VOCAL_DIRECTOR_SPC/|`
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/04_KNOWLEDGE_BASE/20_ENTITIES_KB/10_SPC/PRO_PACKS/06_SOUND_MUSIC/07__VOCAL_DIRECTOR_SPC/|
-- PATH: `04_KNOWLEDGE_BASE/20_ENTITIES_KB/10_SPC/PRO_PACKS/06_SOUND_MUSIC/07__VOCAL_DIRECTOR_SPC/|`
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/04_KNOWLEDGE_BASE/20_ENTITIES_KB/10_SPC/PRO_PACKS/06_SOUND_MUSIC/07__VOCAL_DIRECTOR_SPC/|
-- PATH: `04_KNOWLEDGE_BASE/20_ENTITIES_KB/10_SPC/PRO_PACKS/06_SOUND_MUSIC/07__VOCAL_DIRECTOR_SPC/|`
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/04_KNOWLEDGE_BASE/20_ENTITIES_KB/10_SPC/PRO_PACKS/06_SOUND_MUSIC/07__VOCAL_DIRECTOR_SPC/|
 - PATH: `04_KNOWLEDGE_BASE/20_ENTITIES_KB/10_SPC/PRO_PACKS/06_SOUND_MUSIC/12__PROMPT_ARCHITECT_SPC/00__PACK_PASSPORT.md`
   RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/04_KNOWLEDGE_BASE/20_ENTITIES_KB/10_SPC/PRO_PACKS/06_SOUND_MUSIC/12__PROMPT_ARCHITECT_SPC/00__PACK_PASSPORT.md
 - PATH: `04_KNOWLEDGE_BASE/20_ENTITIES_KB/10_SPC/PRO_PACKS/06_SOUND_MUSIC/12__PROMPT_ARCHITECT_SPC/01__SCOPE_AND_SKILL_TREE.md`
@@ -1789,16 +1617,6 @@ RULE: Любой файл, у которого в имени есть `INDEX`, �
   RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/04_KNOWLEDGE_BASE/20_ENTITIES_KB/10_SPC/PRO_PACKS/06_SOUND_MUSIC/12__PROMPT_ARCHITECT_SPC/11__XREF_BINDINGS.md
 - PATH: `04_KNOWLEDGE_BASE/20_ENTITIES_KB/10_SPC/PRO_PACKS/06_SOUND_MUSIC/12__PROMPT_ARCHITECT_SPC/12__PACK_COMPLETION_CHECK.md`
   RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/04_KNOWLEDGE_BASE/20_ENTITIES_KB/10_SPC/PRO_PACKS/06_SOUND_MUSIC/12__PROMPT_ARCHITECT_SPC/12__PACK_COMPLETION_CHECK.md
-- PATH: `04_KNOWLEDGE_BASE/20_ENTITIES_KB/10_SPC/PRO_PACKS/06_SOUND_MUSIC/12__PROMPT_ARCHITECT_SPC/|`
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/04_KNOWLEDGE_BASE/20_ENTITIES_KB/10_SPC/PRO_PACKS/06_SOUND_MUSIC/12__PROMPT_ARCHITECT_SPC/|
-- PATH: `04_KNOWLEDGE_BASE/20_ENTITIES_KB/10_SPC/PRO_PACKS/06_SOUND_MUSIC/12__PROMPT_ARCHITECT_SPC/|`
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/04_KNOWLEDGE_BASE/20_ENTITIES_KB/10_SPC/PRO_PACKS/06_SOUND_MUSIC/12__PROMPT_ARCHITECT_SPC/|
-- PATH: `04_KNOWLEDGE_BASE/20_ENTITIES_KB/10_SPC/PRO_PACKS/06_SOUND_MUSIC/12__PROMPT_ARCHITECT_SPC/|`
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/04_KNOWLEDGE_BASE/20_ENTITIES_KB/10_SPC/PRO_PACKS/06_SOUND_MUSIC/12__PROMPT_ARCHITECT_SPC/|
-- PATH: `04_KNOWLEDGE_BASE/20_ENTITIES_KB/10_SPC/PRO_PACKS/06_SOUND_MUSIC/12__PROMPT_ARCHITECT_SPC/|`
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/04_KNOWLEDGE_BASE/20_ENTITIES_KB/10_SPC/PRO_PACKS/06_SOUND_MUSIC/12__PROMPT_ARCHITECT_SPC/|
-- PATH: `04_KNOWLEDGE_BASE/20_ENTITIES_KB/10_SPC/PRO_PACKS/06_SOUND_MUSIC/|`
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/04_KNOWLEDGE_BASE/20_ENTITIES_KB/10_SPC/PRO_PACKS/06_SOUND_MUSIC/|
 - PATH: `04_KNOWLEDGE_BASE/20_ENTITIES_KB/10_SPC/SPC__TEMPLATE/00__KB_PASSPORT.md`
   RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/04_KNOWLEDGE_BASE/20_ENTITIES_KB/10_SPC/SPC__TEMPLATE/00__KB_PASSPORT.md
 - PATH: `04_KNOWLEDGE_BASE/20_ENTITIES_KB/10_SPC/SPC__TEMPLATE/01__SKILL_TREE.md`
@@ -1819,10 +1637,6 @@ RULE: Любой файл, у которого в имени есть `INDEX`, �
   RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/04_KNOWLEDGE_BASE/20_ENTITIES_KB/10_SPC/SPC__TEMPLATE/90__KB_SOURCES.md
 - PATH: `04_KNOWLEDGE_BASE/20_ENTITIES_KB/10_SPC/SPC__TEMPLATE/91__KB_GATES.md`
   RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/04_KNOWLEDGE_BASE/20_ENTITIES_KB/10_SPC/SPC__TEMPLATE/91__KB_GATES.md
-- PATH: `04_KNOWLEDGE_BASE/20_ENTITIES_KB/10_SPC/|`
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/04_KNOWLEDGE_BASE/20_ENTITIES_KB/10_SPC/|
-- PATH: `04_KNOWLEDGE_BASE/20_ENTITIES_KB/10_SPC/|`
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/04_KNOWLEDGE_BASE/20_ENTITIES_KB/10_SPC/|
 - PATH: `04_KNOWLEDGE_BASE/20_ENTITIES_KB/20_ENG/00__README__ENG_KB_CONNECTOR_STANDARD.md`
   RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/04_KNOWLEDGE_BASE/20_ENTITIES_KB/20_ENG/00__README__ENG_KB_CONNECTOR_STANDARD.md
 - PATH: `04_KNOWLEDGE_BASE/20_ENTITIES_KB/20_ENG/01__TEMPLATE__ENG_PACK_STRUCTURE.md`
@@ -1841,8 +1655,6 @@ RULE: Любой файл, у которого в имени есть `INDEX`, �
   RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/04_KNOWLEDGE_BASE/20_ENTITIES_KB/20_ENG/ENG__TEMPLATE/90__KB_SOURCES.md
 - PATH: `04_KNOWLEDGE_BASE/20_ENTITIES_KB/20_ENG/ENG__TEMPLATE/91__KB_GATES.md`
   RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/04_KNOWLEDGE_BASE/20_ENTITIES_KB/20_ENG/ENG__TEMPLATE/91__KB_GATES.md
-- PATH: `04_KNOWLEDGE_BASE/20_ENTITIES_KB/20_ENG/|`
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/04_KNOWLEDGE_BASE/20_ENTITIES_KB/20_ENG/|
 - PATH: `04_KNOWLEDGE_BASE/20_ENTITIES_KB/30_ORC/00__README__ORC_KB_CONNECTOR_STANDARD.md`
   RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/04_KNOWLEDGE_BASE/20_ENTITIES_KB/30_ORC/00__README__ORC_KB_CONNECTOR_STANDARD.md
 - PATH: `04_KNOWLEDGE_BASE/20_ENTITIES_KB/30_ORC/01__TEMPLATE__PIPELINE_CONTRACT.md`
@@ -1859,8 +1671,6 @@ RULE: Любой файл, у которого в имени есть `INDEX`, �
   RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/04_KNOWLEDGE_BASE/20_ENTITIES_KB/30_ORC/ORC__TEMPLATE/04__FAILOVER.md
 - PATH: `04_KNOWLEDGE_BASE/20_ENTITIES_KB/30_ORC/ORC__TEMPLATE/90__KB_SOURCES.md`
   RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/04_KNOWLEDGE_BASE/20_ENTITIES_KB/30_ORC/ORC__TEMPLATE/90__KB_SOURCES.md
-- PATH: `04_KNOWLEDGE_BASE/20_ENTITIES_KB/30_ORC/|`
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/04_KNOWLEDGE_BASE/20_ENTITIES_KB/30_ORC/|
 - PATH: `04_KNOWLEDGE_BASE/20_ENTITIES_KB/40_CTL/00__README__CTL_KB_CONNECTOR_STANDARD.md`
   RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/04_KNOWLEDGE_BASE/20_ENTITIES_KB/40_CTL/00__README__CTL_KB_CONNECTOR_STANDARD.md
 - PATH: `04_KNOWLEDGE_BASE/20_ENTITIES_KB/40_CTL/01__TEMPLATE__CTL_POLICY_MODULE.md`
@@ -1875,8 +1685,6 @@ RULE: Любой файл, у которого в имени есть `INDEX`, �
   RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/04_KNOWLEDGE_BASE/20_ENTITIES_KB/40_CTL/CTL__TEMPLATE/03__EXAMPLES.md
 - PATH: `04_KNOWLEDGE_BASE/20_ENTITIES_KB/40_CTL/CTL__TEMPLATE/90__KB_SOURCES.md`
   RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/04_KNOWLEDGE_BASE/20_ENTITIES_KB/40_CTL/CTL__TEMPLATE/90__KB_SOURCES.md
-- PATH: `04_KNOWLEDGE_BASE/20_ENTITIES_KB/40_CTL/|`
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/04_KNOWLEDGE_BASE/20_ENTITIES_KB/40_CTL/|
 - PATH: `04_KNOWLEDGE_BASE/20_ENTITIES_KB/50_VAL/00__README__VAL_KB_CONNECTOR_STANDARD.md`
   RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/04_KNOWLEDGE_BASE/20_ENTITIES_KB/50_VAL/00__README__VAL_KB_CONNECTOR_STANDARD.md
 - PATH: `04_KNOWLEDGE_BASE/20_ENTITIES_KB/50_VAL/01__TEMPLATE__VAL_VIOLATION_RECORD.md`
@@ -1893,8 +1701,6 @@ RULE: Любой файл, у которого в имени есть `INDEX`, �
   RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/04_KNOWLEDGE_BASE/20_ENTITIES_KB/50_VAL/VAL__TEMPLATE/04__TEST_CASES.md
 - PATH: `04_KNOWLEDGE_BASE/20_ENTITIES_KB/50_VAL/VAL__TEMPLATE/90__KB_SOURCES.md`
   RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/04_KNOWLEDGE_BASE/20_ENTITIES_KB/50_VAL/VAL__TEMPLATE/90__KB_SOURCES.md
-- PATH: `04_KNOWLEDGE_BASE/20_ENTITIES_KB/50_VAL/|`
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/04_KNOWLEDGE_BASE/20_ENTITIES_KB/50_VAL/|
 - PATH: `04_KNOWLEDGE_BASE/20_ENTITIES_KB/60_QA/00__README__QA_KB_CONNECTOR_STANDARD.md`
   RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/04_KNOWLEDGE_BASE/20_ENTITIES_KB/60_QA/00__README__QA_KB_CONNECTOR_STANDARD.md
 - PATH: `04_KNOWLEDGE_BASE/20_ENTITIES_KB/60_QA/01__TEMPLATE__EXEMPLAR_SET.md`
@@ -1909,8 +1715,6 @@ RULE: Любой файл, у которого в имени есть `INDEX`, �
   RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/04_KNOWLEDGE_BASE/20_ENTITIES_KB/60_QA/QA__TEMPLATE/03__EXAMPLES.md
 - PATH: `04_KNOWLEDGE_BASE/20_ENTITIES_KB/60_QA/QA__TEMPLATE/90__KB_SOURCES.md`
   RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/04_KNOWLEDGE_BASE/20_ENTITIES_KB/60_QA/QA__TEMPLATE/90__KB_SOURCES.md
-- PATH: `04_KNOWLEDGE_BASE/20_ENTITIES_KB/60_QA/|`
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/04_KNOWLEDGE_BASE/20_ENTITIES_KB/60_QA/|
 - PATH: `04_KNOWLEDGE_BASE/20_ENTITIES_KB/90_XREF/00__README__XREF_KB_CONNECTOR_STANDARD.md`
   RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/04_KNOWLEDGE_BASE/20_ENTITIES_KB/90_XREF/00__README__XREF_KB_CONNECTOR_STANDARD.md
 - PATH: `04_KNOWLEDGE_BASE/20_ENTITIES_KB/90_XREF/01__TEMPLATE__MAPPING_ARTIFACT.md`
@@ -1925,22 +1729,6 @@ RULE: Любой файл, у которого в имени есть `INDEX`, �
   RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/04_KNOWLEDGE_BASE/20_ENTITIES_KB/90_XREF/XREF__TEMPLATE/02__EXAMPLES.md
 - PATH: `04_KNOWLEDGE_BASE/20_ENTITIES_KB/90_XREF/XREF__TEMPLATE/90__KB_SOURCES.md`
   RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/04_KNOWLEDGE_BASE/20_ENTITIES_KB/90_XREF/XREF__TEMPLATE/90__KB_SOURCES.md
-- PATH: `04_KNOWLEDGE_BASE/20_ENTITIES_KB/90_XREF/|`
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/04_KNOWLEDGE_BASE/20_ENTITIES_KB/90_XREF/|
-- PATH: `04_KNOWLEDGE_BASE/20_ENTITIES_KB/|`
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/04_KNOWLEDGE_BASE/20_ENTITIES_KB/|
-- PATH: `04_KNOWLEDGE_BASE/20_ENTITIES_KB/|`
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/04_KNOWLEDGE_BASE/20_ENTITIES_KB/|
-- PATH: `04_KNOWLEDGE_BASE/20_ENTITIES_KB/|`
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/04_KNOWLEDGE_BASE/20_ENTITIES_KB/|
-- PATH: `04_KNOWLEDGE_BASE/20_ENTITIES_KB/|`
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/04_KNOWLEDGE_BASE/20_ENTITIES_KB/|
-- PATH: `04_KNOWLEDGE_BASE/20_ENTITIES_KB/|`
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/04_KNOWLEDGE_BASE/20_ENTITIES_KB/|
-- PATH: `04_KNOWLEDGE_BASE/20_ENTITIES_KB/|`
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/04_KNOWLEDGE_BASE/20_ENTITIES_KB/|
-- PATH: `04_KNOWLEDGE_BASE/20_ENTITIES_KB/|`
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/04_KNOWLEDGE_BASE/20_ENTITIES_KB/|
 
 ### 04_KNOWLEDGE_BASE/30_SHARED_LIBRARIES
 - PATH: `04_KNOWLEDGE_BASE/30_SHARED_LIBRARIES/00__README__SHARED_LIBRARIES_REALM.md`
@@ -1959,18 +1747,6 @@ RULE: Любой файл, у которого в имени есть `INDEX`, �
   RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/04_KNOWLEDGE_BASE/30_SHARED_LIBRARIES/50_EXAMPLES/00__README__EXAMPLES.md
 - PATH: `04_KNOWLEDGE_BASE/30_SHARED_LIBRARIES/60_PROMPT_LIB/00__README__PROMPT_LIB.md`
   RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/04_KNOWLEDGE_BASE/30_SHARED_LIBRARIES/60_PROMPT_LIB/00__README__PROMPT_LIB.md
-- PATH: `04_KNOWLEDGE_BASE/30_SHARED_LIBRARIES/|`
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/04_KNOWLEDGE_BASE/30_SHARED_LIBRARIES/|
-- PATH: `04_KNOWLEDGE_BASE/30_SHARED_LIBRARIES/|`
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/04_KNOWLEDGE_BASE/30_SHARED_LIBRARIES/|
-- PATH: `04_KNOWLEDGE_BASE/30_SHARED_LIBRARIES/|`
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/04_KNOWLEDGE_BASE/30_SHARED_LIBRARIES/|
-- PATH: `04_KNOWLEDGE_BASE/30_SHARED_LIBRARIES/|`
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/04_KNOWLEDGE_BASE/30_SHARED_LIBRARIES/|
-- PATH: `04_KNOWLEDGE_BASE/30_SHARED_LIBRARIES/|`
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/04_KNOWLEDGE_BASE/30_SHARED_LIBRARIES/|
-- PATH: `04_KNOWLEDGE_BASE/30_SHARED_LIBRARIES/|`
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/04_KNOWLEDGE_BASE/30_SHARED_LIBRARIES/|
 
 ### 04_KNOWLEDGE_BASE/40_RELATION_XREF
 - PATH: `04_KNOWLEDGE_BASE/40_RELATION_XREF/00__README__RELATION_XREF_REALM.md`
@@ -2164,20 +1940,6 @@ RULE: Любой файл, у которого в имени есть `INDEX`, �
 - PATH: `04_KNOWLEDGE_BASE/40_RELATION_XREF/99__KB_QA_SCORE_REPORT_TEMPLATE.md`
   RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/04_KNOWLEDGE_BASE/40_RELATION_XREF/99__KB_QA_SCORE_REPORT_TEMPLATE.md
 
-### 04_KNOWLEDGE_BASE/|
-- PATH: `04_KNOWLEDGE_BASE/|`
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/04_KNOWLEDGE_BASE/|
-- PATH: `04_KNOWLEDGE_BASE/|`
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/04_KNOWLEDGE_BASE/|
-- PATH: `04_KNOWLEDGE_BASE/|`
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/04_KNOWLEDGE_BASE/|
-- PATH: `04_KNOWLEDGE_BASE/|`
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/04_KNOWLEDGE_BASE/|
-- PATH: `04_KNOWLEDGE_BASE/|`
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/04_KNOWLEDGE_BASE/|
-- PATH: `04_KNOWLEDGE_BASE/|`
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/04_KNOWLEDGE_BASE/|
-
 ## 05_PROJECTS
 ### 05_PROJECTS/00_PRJ_GOVERNANCE
 - PATH: `05_PROJECTS/00_PRJ_GOVERNANCE/00__README__PRJ_REALM.md`
@@ -2214,12 +1976,6 @@ RULE: Любой файл, у которого в имени есть `INDEX`, �
   RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/05_PROJECTS/01_WORKSHOP/02_LOCATIONS/LOC__�����/03_CANON_L2.md
 - PATH: `05_PROJECTS/01_WORKSHOP/02_LOCATIONS/LOC__�����/04_OUTPUT_L3.md`
   RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/05_PROJECTS/01_WORKSHOP/02_LOCATIONS/LOC__�����/04_OUTPUT_L3.md
-- PATH: `05_PROJECTS/01_WORKSHOP/02_LOCATIONS/|`
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/05_PROJECTS/01_WORKSHOP/02_LOCATIONS/|
-- PATH: `05_PROJECTS/01_WORKSHOP/|`
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/05_PROJECTS/01_WORKSHOP/|
-- PATH: `05_PROJECTS/01_WORKSHOP/|`
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/05_PROJECTS/01_WORKSHOP/|
 
 ### 05_PROJECTS/02_INTAKE__L0
 - PATH: `05_PROJECTS/02_INTAKE__L0/ENTITIES.md`
@@ -2272,26 +2028,6 @@ RULE: Любой файл, у которого в имени есть `INDEX`, �
   RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/05_PROJECTS/07_MUSIC_LABEL/10_BRANDS/BRD__SEREBRYANY_VETER/02__PROMPT_PRESETS.md
 - PATH: `05_PROJECTS/07_MUSIC_LABEL/10_BRANDS/BRD__SEREBRYANY_VETER/10_RELEASES/2026-01-10__TRK__SEREBRYANY_PUT__OUTPUT_PACK.md`
   RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/05_PROJECTS/07_MUSIC_LABEL/10_BRANDS/BRD__SEREBRYANY_VETER/10_RELEASES/2026-01-10__TRK__SEREBRYANY_PUT__OUTPUT_PACK.md
-- PATH: `05_PROJECTS/07_MUSIC_LABEL/10_BRANDS/BRD__SEREBRYANY_VETER/10_RELEASES/|`
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/05_PROJECTS/07_MUSIC_LABEL/10_BRANDS/BRD__SEREBRYANY_VETER/10_RELEASES/|
-- PATH: `05_PROJECTS/07_MUSIC_LABEL/10_BRANDS/BRD__SEREBRYANY_VETER/|`
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/05_PROJECTS/07_MUSIC_LABEL/10_BRANDS/BRD__SEREBRYANY_VETER/|
-- PATH: `05_PROJECTS/07_MUSIC_LABEL/10_BRANDS/|`
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/05_PROJECTS/07_MUSIC_LABEL/10_BRANDS/|
-
-### 05_PROJECTS/|
-- PATH: `05_PROJECTS/|`
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/05_PROJECTS/|
-- PATH: `05_PROJECTS/|`
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/05_PROJECTS/|
-- PATH: `05_PROJECTS/|`
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/05_PROJECTS/|
-- PATH: `05_PROJECTS/|`
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/05_PROJECTS/|
-- PATH: `05_PROJECTS/|`
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/05_PROJECTS/|
-- PATH: `05_PROJECTS/|`
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/05_PROJECTS/|
 
 ## 06_ASSETS
 ### 06_ASSETS/00_AST_GOVERNANCE
@@ -2328,10 +2064,6 @@ RULE: Любой файл, у которого в имени есть `INDEX`, �
   RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/08_DATABASES/10_MUSIC_CATALOG/GROUPS/G__UID__NAME/ALBUMS/A__UID__NAME/TRACKS/T01__UID__TITLE/01__TRACK__PROMPT.md
 - PATH: `08_DATABASES/10_MUSIC_CATALOG/GROUPS/G__UID__NAME/ALBUMS/A__UID__NAME/TRACKS/T01__UID__TITLE/02__TRACK__RELEASE.md`
   RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/08_DATABASES/10_MUSIC_CATALOG/GROUPS/G__UID__NAME/ALBUMS/A__UID__NAME/TRACKS/T01__UID__TITLE/02__TRACK__RELEASE.md
-- PATH: `08_DATABASES/10_MUSIC_CATALOG/GROUPS/G__UID__NAME/ALBUMS/A__UID__NAME/|`
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/08_DATABASES/10_MUSIC_CATALOG/GROUPS/G__UID__NAME/ALBUMS/A__UID__NAME/|
-- PATH: `08_DATABASES/10_MUSIC_CATALOG/GROUPS/G__UID__NAME/|`
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/08_DATABASES/10_MUSIC_CATALOG/GROUPS/G__UID__NAME/|
 - PATH: `08_DATABASES/10_MUSIC_CATALOG/GROUPS/SEREBRYANY_PUT__PISMA_I_OGON__ALBUM_PACK_v2_UNPACKED/00__SUNO_RULES.md`
   RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/08_DATABASES/10_MUSIC_CATALOG/GROUPS/SEREBRYANY_PUT__PISMA_I_OGON__ALBUM_PACK_v2_UNPACKED/00__SUNO_RULES.md
 - PATH: `08_DATABASES/10_MUSIC_CATALOG/GROUPS/SEREBRYANY_PUT__PISMA_I_OGON__ALBUM_PACK_v2_UNPACKED/01__MASTER_STYLE.md`
@@ -2354,10 +2086,6 @@ RULE: Любой файл, у которого в имени есть `INDEX`, �
   RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/08_DATABASES/10_MUSIC_CATALOG/GROUPS/SEREBRYANY_PUT__PISMA_I_OGON__ALBUM_PACK_v2_UNPACKED/TRACKS/T06__���� ������.md
 - PATH: `08_DATABASES/10_MUSIC_CATALOG/GROUPS/SEREBRYANY_PUT__PISMA_I_OGON__ALBUM_PACK_v2_UNPACKED/TRACKS/T07__������ �����.md`
   RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/08_DATABASES/10_MUSIC_CATALOG/GROUPS/SEREBRYANY_PUT__PISMA_I_OGON__ALBUM_PACK_v2_UNPACKED/TRACKS/T07__������ �����.md
-- PATH: `08_DATABASES/10_MUSIC_CATALOG/GROUPS/SEREBRYANY_PUT__PISMA_I_OGON__ALBUM_PACK_v2_UNPACKED/|`
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/08_DATABASES/10_MUSIC_CATALOG/GROUPS/SEREBRYANY_PUT__PISMA_I_OGON__ALBUM_PACK_v2_UNPACKED/|
-- PATH: `08_DATABASES/10_MUSIC_CATALOG/GROUPS/|`
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/08_DATABASES/10_MUSIC_CATALOG/GROUPS/|
 
 ### 08_DATABASES/DB__ACTION_LEX.md
 - PATH: `08_DATABASES/DB__ACTION_LEX.md`
@@ -2382,10 +2110,6 @@ RULE: Любой файл, у которого в имени есть `INDEX`, �
 ### 08_DATABASES/DB__TRACK_TYPES.md
 - PATH: `08_DATABASES/DB__TRACK_TYPES.md`
   RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/08_DATABASES/DB__TRACK_TYPES.md
-
-### 08_DATABASES/|
-- PATH: `08_DATABASES/|`
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/08_DATABASES/|
 
 ## 99_LOGS
 ### 99_LOGS/LOG__AUDIT.md
