@@ -5,7 +5,6 @@ D:.
 |   
 +---00_INDEX
 |       00__ROOT_INDEX__UNIVERSE_ENGINE.md
-|       structure.md
 |       
 +---01_SYSTEM_LAW
 |       00__INDEX__SYSTEM_LAW.md
