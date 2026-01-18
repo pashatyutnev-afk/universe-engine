@@ -1,0 +1,1308 @@
+Структура папок тома Games
+Серийный номер тома: C425-B513
+D:.
+|   structure.txt
+|   
++---00_INDEX
+|       00__ROOT_INDEX__UNIVERSE_ENGINE.md
+|       structure.md
+|       
++---01_SYSTEM_LAW
+|       00__INDEX__SYSTEM_LAW.md
+|       00__SYSTEM_LAW.md
+|       01__NAMING_RULES.md
+|       02__UID_RULES.md
+|       03__VERSIONING_CHANGE_POLICY.md
+|       04__CANON_PROTOCOL.md
+|       05__ARTIFACT_SCHEMA_REGISTRY.md
+|       06__CONSTRAINTS_REGISTRY.md
+|       07__PIPELINE_REGISTRY.md
+|       
++---02_STANDARDS
+|   |   00_STANDARDS — MASTER INDEX.md
+|   |   
+|   +---00_CANON
+|   |       01__ARCHITECTURE_OVERVIEW.md
+|   |       02__SYSTEM_CANON.md
+|   |       
+|   +---00_GOVERNANCE
+|   |       01__LAW__SPC_GOVERNANCE_AND_SIGNOFF.md
+|   |       02__LAW__CHAT_ENTRYPOINT_PROTOCOL.md
+|   |       
+|   +---01_SPECIFICATIONS
+|   |   |   01__UID_AND_MARKING_STANDARD.md
+|   |   |   02__STORAGE_MAP_STANDARD.md
+|   |   |   03__DOC_CONTROL_STANDARD.md
+|   |   |   04__REL_POLICY_XREF_STANDARD.md
+|   |   |   05A__TEMPLATE__SCENE_PACK.md
+|   |   |   05B__TEMPLATE__TRACK_EVENT.md
+|   |   |   05__SCENE_STACK_4TRACK_STANDARD.md
+|   |   |   06A__TEMPLATE__NAT_PROFILE.md
+|   |   |   06__NATURALNESS_GATES_STANDARD.md
+|   |   |   07__DOC_REGISTRY_STANDARD.md
+|   |   |   08__ENTITY_MODEL_SPEC.md
+|   |   |   09__INDEX_STRUCTURE_SPEC.md
+|   |   |   
+|   |   \---10_MUSIC_SYSTEM
+|   |           00__README__MUSIC_SYSTEM.md
+|   |           01__MUSIC_DOC_SCHEMA_STANDARD.md
+|   |           02__MUSIC_UID_NAMING_STANDARD.md
+|   |           03__MUSIC_PROMPT_CONTRACT_STANDARD.md
+|   |           04__MUSIC_QA_GATES_STANDARD.md
+|   |           05__MUSIC_RELEASE_PACK_STANDARD.md
+|   |           06__MUSIC_POET_PD_STANDARD.md
+|   |           07__MUSIC_FINGERPRINT_STANDARD.md
+|   |           08__MUSIC_GROUP_ALBUM_TRACK_STRUCTURE_STANDARD.md
+|   |           
+|   +---02_PROTOCOLS
+|   |       01__CHANGE_MANAGEMENT_PROTOCOL.md
+|   |       02__CHAT_PROTOCOL.md
+|   |       
+|   +---03_TECHNICAL
+|   |       01__ENTITY_PASSPORT_TEMPLATE.md
+|   |       02__INDEX_TEMPLATE.md
+|   |       
+|   +---04_TERMS_DEFINITIONS
+|   |       01__GLOSSARY.md
+|   |       
+|   +---05_REQUIREMENTS_TZ
+|   |       00__INDEX.md
+|   |       
+|   \---06_MARKING_STANDARDS
+|           01__ID_STANDARD.md
+|           02__STORAGE_MAP.md
+|           03__STATUS_LOCK_VERSION.md
+|           04__PRIORITY_S0_S3.md
+|           05__REL_POLICY_XREF.md
+|           06__SCENE_STACK_4TRACK.md
+|           07__NATURALNESS_GATES.md
+|           08__DOC_CONTROL.md
+|           
++---03_SYSTEM_ENTITIES
+|   |   00__README__SYSTEM_ENTITIES.md
+|   |   01__RULES__SYSTEM_ENTITIES.md
+|   |   02__INDEX__SYSTEM_ENTITIES.md
+|   |   
+|   +---00_REG__REGISTRIES
+|   |       00__INDEX_ALL_REGISTRIES.md
+|   |       00__README_REGISTRIES.md
+|   |       00__TEMPLATE_REGISTRY.md
+|   |       01__REG_ENTITY_IDS.md
+|   |       02__REG_NAMING_RULES.md
+|   |       03__REG_PATH_MAP.md
+|   |       90__REG_CHANGELOG.md
+|   |       91__REG_DEPRECATION.md
+|   |       
+|   +---01_TPL__TEMPLATES
+|   |       00__INDEX_ALL_TEMPLATES.md
+|   |       00__README_TEMPLATES.md
+|   |       00__TEMPLATE_SYSTEM_STANDARD.md
+|   |       10__TPL__ENGINE.md
+|   |       20__TPL__ORCHESTRATOR.md
+|   |       30__TPL__SPECIALIST.md
+|   |       40__TPL__CONTROLLER.md
+|   |       50__TPL__VALIDATOR.md
+|   |       60__TPL__QA.md
+|   |       90__TPL__INDEX.md
+|   |       91__TPL__README_REALM.md
+|   |       
+|   +---10_ENG__ENGINES
+|   |   |   00__README__ENGINES_REALM.md
+|   |   |   01__RULES__ENGINES.md
+|   |   |   02__INDEX_ALL_ENGINES.md
+|   |   |   
+|   |   +---00_GOVERNANCE_ENGINES
+|   |   |       00__README__GOVERNANCE_ENGINES.md
+|   |   |       00__TEMPLATE__ENGINE__GOVERNANCE_ENGINES.md
+|   |   |       00__TEMPLATE__README__GOVERNANCE_ENGINES.md
+|   |   |       01__AUDIT_LOG_ENG.md
+|   |   |       02__CANON_AUTHORITY_ENG.md
+|   |   |       03__RULE_HIERARCHY_ENG.md
+|   |   |       04__CHANGE_CONTROL_ENG.md
+|   |   |       05__CONSISTENCY_ENG.md
+|   |   |       06__DEPENDENCY_REGISTRY_ENG.md
+|   |   |       07__DECISION_APPROVAL_ENG.md
+|   |   |       08__SCOPE_IMPACT_ENG.md
+|   |   |       09__RISK_SAFETY_ENG.md
+|   |   |       10__VERSIONING_MEMORY_ENG.md
+|   |   |       
+|   |   +---01_CORE_ENGINES
+|   |   |       00__README__CORE_ENGINES.md
+|   |   |       00__TEMPLATE__ENGINE__CORE_ENGINES.md
+|   |   |       00__TEMPLATE__README__CORE_ENGINES.md
+|   |   |       01__CORE_IDENTITY_ENG.md
+|   |   |       02__CORE_STATE_ENG.md
+|   |   |       03__CORE_LIFECYCLE_ENG.md
+|   |   |       
+|   |   +---02_DOMAIN_NARRATIVE_ENGINES
+|   |   |       00__README__DOMAIN_NARRATIVE_ENGINES.md
+|   |   |       00__TEMPLATE__ENGINE__DOMAIN_NARRATIVE_ENGINES.md
+|   |   |       00__TEMPLATE__README__DOMAIN_NARRATIVE_ENGINES.md
+|   |   |       01__NARRATIVE_LOGIC_ENG.md
+|   |   |       02__STORY_STRUCTURE_ENG.md
+|   |   |       03__DRAMATIC_ARC_ENG.md
+|   |   |       04__SCENE_CONSTRUCTION_ENG.md
+|   |   |       05__PACING_RHYTHM_ENG.md
+|   |   |       06__TENSION_STAKES_ENG.md
+|   |   |       07__FORESHADOWING_ENG.md
+|   |   |       08__TWIST_REVEAL_ENG.md
+|   |   |       09__NARRATIVE_CONTINUITY_ENG.md
+|   |   |       10__THEME_MEANING_ENG.md
+|   |   |       
+|   |   +---03_DOMAIN_CHARACTER_ENGINES
+|   |   |       00__README__DOMAIN_CHARACTER_ENGINES.md
+|   |   |       00__TEMPLATE__ENGINE__DOMAIN_CHARACTER_ENGINES.md
+|   |   |       00__TEMPLATE__README__DOMAIN_CHARACTER_ENGINES.md
+|   |   |       01__CHARACTER_CORE_ENG.md
+|   |   |       02__MOTIVATION_DESIRE_ENG.md
+|   |   |       03__MORAL_VALUE_ENG.md
+|   |   |       04__CHARACTER_PSYCHOLOGY_ENG.md
+|   |   |       05__CHARACTER_BEHAVIOR_ENG.md
+|   |   |       06__RELATIONSHIP_ENG.md
+|   |   |       07__DIALOGUE_ENG.md
+|   |   |       08__SPEECH_NATURALIZATION_ENG.md
+|   |   |       09__GROWTH_TRAUMA_ENG.md
+|   |   |       10__CHARACTER_EVOLUTION_ENG.md
+|   |   |       
+|   |   +---04_DOMAIN_WORLD_ENGINES
+|   |   |       00__README__DOMAIN_WORLD_ENGINES.md
+|   |   |       00__TEMPLATE__ENGINE__DOMAIN_WORLD_ENGINES.md
+|   |   |       00__TEMPLATE__README__DOMAIN_WORLD_ENGINES.md
+|   |   |       01__WORLD_STRUCTURE_ENG.md
+|   |   |       02__WORLD_LAW_ENG.md
+|   |   |       03__TIMELINE_EPOCH_ENG.md
+|   |   |       04__CIVILIZATION_ENG.md
+|   |   |       05__CONFLICT_POWER_ENG.md
+|   |   |       06__GEOPOLITICS_ENG.md
+|   |   |       07__ECONOMY_RESOURCE_ENG.md
+|   |   |       08__TECHNOLOGY_MAGIC_ENG.md
+|   |   |       09__MYTHOLOGY_BELIEF_ENG.md
+|   |   |       10__ENVIRONMENT_ECOLOGY_ENG.md
+|   |   |       
+|   |   +---05_EXPRESSION_ENGINES
+|   |   |       00__README__EXPRESSION_ENGINES.md
+|   |   |       00__TEMPLATE__ENGINE__EXPRESSION_ENGINES.md
+|   |   |       00__TEMPLATE__README__EXPRESSION_ENGINES.md
+|   |   |       01__EVENT_ENG.md
+|   |   |       02__CAUSE_EFFECT_ENG.md
+|   |   |       03__CONFLICT_ENG.md
+|   |   |       04__TURNING_POINT_ENG.md
+|   |   |       05__CLIMAX_ENG.md
+|   |   |       06__RESOLUTION_ENG.md
+|   |   |       07__SYSTEM_SHOCK_ENG.md
+|   |   |       08__EVENT_SCHEDULING_ENG.md
+|   |   |       09__RANDOMNESS_CHAOS_ENG.md
+|   |   |       
+|   |   +---06_GENRE_STYLE_ENGINES
+|   |   |       00__README__GENRE_STYLE_ENGINES.md
+|   |   |       00__TEMPLATE__ENGINE__GENRE_STYLE_ENGINES.md
+|   |   |       00__TEMPLATE__README__GENRE_STYLE_ENGINES.md
+|   |   |       01__TONE_MOOD_ENG.md
+|   |   |       02__ATMOSPHERE_ENG.md
+|   |   |       03__EMOTIONAL_RESONANCE_ENG.md
+|   |   |       04__SYMBOLISM_ENG.md
+|   |   |       05__METAPHOR_ENG.md
+|   |   |       06__SENSORY_DETAIL_ENG.md
+|   |   |       
+|   |   +---07_PRODUCTION_FORMAT_ENGINES
+|   |   |       00__README__PRODUCTION_FORMAT_ENGINES.md
+|   |   |       00__TEMPLATE__ENGINE__PRODUCTION_FORMAT_ENGINES.md
+|   |   |       00__TEMPLATE__README__PRODUCTION_FORMAT_ENGINES.md
+|   |   |       01__GENRE_ENG.md
+|   |   |       02__GENRE_BLENDING_ENG.md
+|   |   |       03__FORMAT_ADAPTATION_ENG.md
+|   |   |       04__BOOK_FORMAT_ENG.md
+|   |   |       05__SERIES_EPISODE_ENG.md
+|   |   |       06__SHORT_CONTENT_ENG.md
+|   |   |       07__YOUTUBE_LONGFORM_ENG.md
+|   |   |       08__GAME_NARRATIVE_ENG.md
+|   |   |       
+|   |   +---08_KNOWLEDGE_PRODUCTION_ENGINES
+|   |   |       00__README__KNOWLEDGE_PRODUCTION_ENGINES.md
+|   |   |       00__TEMPLATE__ENGINE__KNOWLEDGE_PRODUCTION_ENGINES.md
+|   |   |       00__TEMPLATE__README__KNOWLEDGE_PRODUCTION_ENGINES.md
+|   |   |       01__VISUAL_COMPOSITION_ENG.md
+|   |   |       02__ART_STYLE_ENG.md
+|   |   |       03__CAMERA_CINEMATOGRAPHY_ENG.md
+|   |   |       04__LIGHTING_ENG.md
+|   |   |       05__IMAGE_GENERATION_ENG.md
+|   |   |       06__VIDEO_GENERATION_ENG.md
+|   |   |       07__EDITING_MONTAGE_ENG.md
+|   |   |       08__SOUND_MUSIC_ENG.md
+|   |   |       
+|   |   +---09_SOUND_MUSIC_ENGINES
+|   |   |       00__README__SOUND_MUSIC_ENGINES.md
+|   |   |       00__TEMPLATE__ENGINE__SOUND_MUSIC_ENGINES.md
+|   |   |       00__TEMPLATE__README__SOUND_MUSIC_ENGINES.md
+|   |   |       01__MUSIC_COMPOSITION_ENG.md
+|   |   |       02__SONG_STRUCTURE_ENG.md
+|   |   |       03__HARMONY_CHORD_ENG.md
+|   |   |       04__MELODY_HOOK_ENG.md
+|   |   |       05__RHYTHM_GROOVE_ENG.md
+|   |   |       06__RHYME_METER_ENG.md
+|   |   |       07__LYRICS_ENG.md
+|   |   |       08__ARRANGEMENT_INSTRUMENTATION_ENG.md
+|   |   |       09__VOCAL_PERFORMANCE_ENG.md
+|   |   |       10__SOUND_DESIGN_ENG.md
+|   |   |       11__MUSIC_STYLE_CONSISTENCY_ENG.md
+|   |   |       12__MUSIC_TO_SCENE_ENG.md
+|   |   |       13__MIX_MASTER_ENG.md
+|   |   |       
+|   |   +---10_META_EVOLUTION_ENGINES
+|   |   |       00__README__META_EVOLUTION_ENGINES.md
+|   |   |       00__TEMPLATE__ENGINE__META_EVOLUTION_ENGINES.md
+|   |   |       00__TEMPLATE__README__META_EVOLUTION_ENGINES.md
+|   |   |       01__LEARNING_ENG.md
+|   |   |       02__PATTERN_EXTRACTION_ENG.md
+|   |   |       03__OPTIMIZATION_ENG.md
+|   |   |       04__CREATIVE_MUTATION_ENG.md
+|   |   |       05__FUTURE_PROJECTION_ENG.md
+|   |   |       
+|   |   +---11_MUSIC_FACTORY_ENGINES
+|   |   |       00__README__MUSIC_FACTORY_ENGINES.md
+|   |   |       00__TEMPLATE__ENGINE__MUSIC_FACTORY_ENGINES.md
+|   |   |       00__TEMPLATE__README__MUSIC_FACTORY_ENGINES.md
+|   |   |       01__GROUP_FOUNDATION_ENG.md
+|   |   |       02__ARTIST_FACTORY_ENG.md
+|   |   |       03__ALBUM_BLUEPRINT_ENG.md
+|   |   |       04__TRACK_FACTORY_ENG.md
+|   |   |       05__DURATION_STRATEGY_ENG.md
+|   |   |       06__RELEASE_PACK_ENG.md
+|   |   |       07__CATALOG_COLLISION_ENG.md
+|   |   |       08__NOVELTY_INJECTION_ENG.md
+|   |   |       09__TAKE_LOG_ENG.md
+|   |   |       
+|   |   +---12_TREND_GENRE_ENGINES
+|   |   |       00__README__TREND_GENRE_ENGINES.md
+|   |   |       00__TEMPLATE__ENGINE__TREND_GENRE_ENGINES.md
+|   |   |       00__TEMPLATE__README__TREND_GENRE_ENGINES.md
+|   |   |       01__GENRE_TAXONOMY_ENG.md
+|   |   |       02__FUSION_RECIPE_ENG.md
+|   |   |       03__STYLE_FINGERPRINT_ENG.md
+|   |   |       04__VIRAL_HOOK_BLUEPRINT_ENG.md
+|   |   |       05__UGC_MOMENT_MAP_ENG.md
+|   |   |       06__EARWORM_HOOK_STACK_ENG.md
+|   |   |       07__PROMPT_COMPILER_ENG.md
+|   |   |       
+|   |   +---13_POET_PD_CORPUS_ENGINES
+|   |   |       00__README__POET_PD_CORPUS_ENGINES.md
+|   |   |       00__TEMPLATE__ENGINE__POET_PD_CORPUS_ENGINES.md
+|   |   |       00__TEMPLATE__README__POET_PD_CORPUS_ENGINES.md
+|   |   |       01__PD_FILTER_ENG.md
+|   |   |       02__POEM_FIT_SCORING_ENG.md
+|   |   |       03__JUICE_EXTRACTOR_ENG.md
+|   |   |       04__MOSAIC_COMPOSER_ENG.md
+|   |   |       05__EXCERPT_COLLISION_ENG.md
+|   |   |       
+|   |   \---14_NAMING_IDENTITY_ENGINES
+|   |           00__README__NAMING_IDENTITY_ENGINES.md
+|   |           00__TEMPLATE__ENGINE__NAMING_IDENTITY_ENGINES.md
+|   |           00__TEMPLATE__README__NAMING_IDENTITY_ENGINES.md
+|   |           01__NAMING_BRIEF_ENG.md
+|   |           02__NAMING_GENERATION_ENG.md
+|   |           03__NAMING_COLLISION_ENG.md
+|   |           04__PLATFORM_FORMAT_TITLES_ENG.md
+|   |           05__SERIES_NAMING_ENG.md
+|   |           
+|   +---20_ORC__ORCHESTRATORS
+|   |   |   00__README__ORC_REALM.md
+|   |   |   01__RULES__ORC.md
+|   |   |   01__SCENE_PIPELINE_ORC.md
+|   |   |   02__INDEX_ALL_ORCHESTRATORS.md
+|   |   |   03__ORC_CREATE_FLOW.md
+|   |   |   
+|   |   +---00__TEMPLATES
+|   |   |       00__TEMPLATE__ORC_ENTITY.md
+|   |   |       00__TEMPLATE__ORC_PIPELINE_STEP.md
+|   |   |       00__TEMPLATE__README__ORC.md
+|   |   |       
+|   |   +---01_CORE_ORCHESTRATORS
+|   |   |       00__README__ORCHESTRATORS.md
+|   |   |       01__NARRATIVE_ORCHESTRATOR_ENG.md
+|   |   |       02__CHARACTER_ORCHESTRATOR_ENG.md
+|   |   |       03__WORLD_ORCHESTRATOR_ENG.md
+|   |   |       04__PRODUCTION_ORCHESTRATOR_ENG.md
+|   |   |       05__PIPELINE_ORCHESTRATOR_ENG.md
+|   |   |       
+|   |   \---10_MUSIC_ORCHESTRATORS
+|   |           00__README__MUSIC_ORCHESTRATORS.md
+|   |           01__GROUP_TO_ALBUM_ORC.md
+|   |           02__ALBUM_TO_TRACK_ORC.md
+|   |           03__TRACK_TEST_DOC_GATE_ORC.md
+|   |           04__RELEASE_PACK_ORC.md
+|   |           05__PORTFOLIO_PLANNER_ORC.md
+|   |           06__POET_PACK_ORC.md
+|   |           
+|   +---30_SPC__SPECIALISTS
+|   |   |   00__README__SPC_REALM.md
+|   |   |   01__RULES__SPC.md
+|   |   |   02__INDEX_ALL_SPECIALISTS.md
+|   |   |   03__CREATE_FLOW__SPC.md
+|   |   |   
+|   |   +---00_TOP_GOVERNANCE
+|   |   |       00__README__TOP.md
+|   |   |       01__MACHINE_ARCHITECT_SPC.md
+|   |   |       02__GOVERNANCE_OWNER_SPC.md
+|   |   |       03__STANDARDS_OWNER_SPC.md
+|   |   |       04__DOC_CONTROLLER_SPC.md
+|   |   |       05__PIPELINE_ARCHITECT_SPC.md
+|   |   |       06__INTEGRATION_PACKER_SPC.md
+|   |   |       
+|   |   +---00__TEMPLATES
+|   |   |       00__TEMPLATE__README__SPC.md
+|   |   |       00__TEMPLATE__SPC_ENTITY.md
+|   |   |       00__TEMPLATE__SPC_OUTPUT_PACK.md
+|   |   |       
+|   |   +---01_CREATIVE
+|   |   |       00__README_CREATIVE_SPECIALISTS.md
+|   |   |       01__CREATIVE_DIRECTOR_SPC.md
+|   |   |       02__VISUAL_STYLE_ARCHITECT_SPC.md
+|   |   |       03__WORLD_AESTHETIC_DESIGNER_SPC.md
+|   |   |       04__CONCEPT_DESIGNER_SPC.md
+|   |   |       05__SYMBOLISM_METAPHOR_DESIGNER_SPC.md
+|   |   |       06__MOOD_ATMOSPHERE_CURATOR_SPC.md
+|   |   |       07__ARTISTIC_RISK_DESIGNER_SPC.md
+|   |   |       08__IDEA_GENERATOR_SPC.md
+|   |   |       
+|   |   +---02_NARRATIVE
+|   |   |       00__README_NARRATIVE_SPECIALISTS.md
+|   |   |       01__EPISODE_SHOWRUNNER_SPC.md
+|   |   |       02__HEAD_WRITER_SPC.md
+|   |   |       03__STORY_ARCHITECT_SPC.md
+|   |   |       04__DRAMATURG_SPC.md
+|   |   |       05__SCREENWRITER_SPC.md
+|   |   |       06__DIALOGUE_WRITER_SPC.md
+|   |   |       07__CLIFFHANGER_SPECIALIST_SPC.md
+|   |   |       08__EMOTIONAL_ARC_DESIGNER_SPC.md
+|   |   |       09__THEME_MEANING_CURATOR_SPC.md
+|   |   |       10__LORE_MASTER_SPC.md
+|   |   |       11__NOVELIST_SPC.md
+|   |   |       
+|   |   +---03_CHARACTER
+|   |   |       00__README_CHARACTER_SPECIALISTS.md
+|   |   |       01__CHARACTER_ARCHITECT_SPC.md
+|   |   |       02__PERSONALITY_PSYCHOLOGIST_SPC.md
+|   |   |       03__TRAUMA_MOTIVATION_DESIGNER_SPC.md
+|   |   |       04__RELATIONSHIP_DYNAMICS_DESIGNER_SPC.md
+|   |   |       05__DIALOGUE_BEHAVIOR_ANALYST_SPC.md
+|   |   |       06__CHARACTER_EVOLUTION_SUPERVISOR_SPC.md
+|   |   |       
+|   |   +---04_WORLD
+|   |   |       00__README_WORLD_SPECIALISTS.md
+|   |   |       01__WORLD_BUILDER_SPC.md
+|   |   |       02__CULTURE_SOCIETY_ARCHITECT_SPC.md
+|   |   |       03__CIVILIZATION_DESIGNER_SPC.md
+|   |   |       04__GEOGRAPHY_LOCATION_DESIGNER_SPC.md
+|   |   |       05__ECONOMY_POWER_SYSTEMS_DESIGNER_SPC.md
+|   |   |       06__RELIGION_MYTHOLOGY_DESIGNER_SPC.md
+|   |   |       07__ECOLOGY_SURVIVAL_DESIGNER_SPC.md
+|   |   |       
+|   |   +---05_VISUAL
+|   |   |       00__README_VISUAL_SPECIALISTS.md
+|   |   |       01__VISUAL_DIRECTOR_SPC.md
+|   |   |       02__PRODUCTION_DESIGNER_SPC.md
+|   |   |       03__SCENE_VISUALIZATION_SPECIALIST_SPC.md
+|   |   |       04__STORYBOARD_ARTIST_SPC.md
+|   |   |       05__CINEMATOGRAPHER_SPC.md
+|   |   |       06__CAMERA_MOVEMENT_SPECIALIST_SPC.md
+|   |   |       
+|   |   +---06_SOUND_MUSIC
+|   |   |       00__README_SOUND_MUSIC_SPECIALISTS.md
+|   |   |       01__MUSIC_SUPERVISOR_SPC.md
+|   |   |       02__MUSIC_PRODUCER_SPC.md
+|   |   |       03__COMPOSER_SPC.md
+|   |   |       04__SONGWRITER_SPC.md
+|   |   |       05__LYRICIST_SPC.md
+|   |   |       06__ARRANGER_SPC.md
+|   |   |       07__VOCAL_DIRECTOR_SPC.md
+|   |   |       08__SOUND_DESIGNER_SPC.md
+|   |   |       09__MIX_ENGINEER_SPC.md
+|   |   |       10__MASTERING_ENGINEER_SPC.md
+|   |   |       11__AUDIO_QA_SPC.md
+|   |   |       12__PROMPT_ARCHITECT_SPC.md
+|   |   |       13__UGC_DIRECTOR_SPC.md
+|   |   |       14__EARWORM_DIRECTOR_SPC.md
+|   |   |       15__GENRE_FUSION_ARCHITECT_SPC.md
+|   |   |       16__TREND_ENGINEER_SPC.md
+|   |   |       17__POET_JUICE_EDITOR_SPC.md
+|   |   |       18__MOSAIC_EDITOR_SPC.md
+|   |   |       19__ALBUM_SHOWRUNNER_SPC.md
+|   |   |       20__GROUP_CREATIVE_DIRECTOR_SPC.md
+|   |   |       
+|   |   +---07_PRODUCTION
+|   |   |       00__README_PRODUCTION_SPECIALISTS.md
+|   |   |       01__EXECUTIVE_PRODUCER_SPC.md
+|   |   |       02__DIRECTOR_SPC.md
+|   |   |       03__CONTENT_PRODUCER_SPC.md
+|   |   |       04__TRANSMEDIA_PRODUCER_SPC.md
+|   |   |       05__EPISODE_CHAPTER_PLANNER_SPC.md
+|   |   |       06__PLATFORM_ADAPTATION_SPECIALIST_SPC.md
+|   |   |       07__LOCALIZATION_MANAGER_SPC.md
+|   |   |       08__RELEASE_MANAGER_SPC.md
+|   |   |       09__SCHEDULE_COORDINATOR_SPC.md
+|   |   |       
+|   |   +---08_PSYCHOLOGY
+|   |   |       00__README_PSYCHOLOGY_SPECIALISTS.md
+|   |   |       01__VIEWER_PSYCHOLOGY_ANALYST_SPC.md
+|   |   |       02__EMPATHY_IDENTIFICATION_SPECIALIST_SPC.md
+|   |   |       03__EMOTIONAL_IMPACT_DESIGNER_SPC.md
+|   |   |       04__NONVERBAL_BEHAVIOR_ANALYST_SPC.md
+|   |   |       05__BEHAVIORAL_CONSISTENCY_SPECIALIST_SPC.md
+|   |   |       
+|   |   +---09_RESEARCH
+|   |   |       00__README_RESEARCH_SPECIALISTS.md
+|   |   |       01__RESEARCH_DIRECTOR_SPC.md
+|   |   |       02__SCIENTIFIC_RESEARCHER_SPC.md
+|   |   |       03__HISTORICAL_RESEARCHER_SPC.md
+|   |   |       04__CULTURAL_ANTHROPOLOGIST_SPC.md
+|   |   |       05__KNOWLEDGE_CURATOR_SPC.md
+|   |   |       06__SOURCE_VALIDATION_SPECIALIST_SPC.md
+|   |   |       07__FACT_CHECKING_SPECIALIST_SPC.md
+|   |   |       08__SPECULATIVE_PLAUSIBILITY_ANALYST_SPC.md
+|   |   |       
+|   |   +---10_MARKETING
+|   |   |       00__README_MARKETING_SPECIALISTS.md
+|   |   |       01__BRAND_ARCHITECT_SPC.md
+|   |   |       02__AUDIENCE_ANALYST_SPC.md
+|   |   |       03__AUDIENCE_RESEARCH_SPECIALIST_SPC.md
+|   |   |       04__CONTENT_PACKAGING_SPECIALIST_SPC.md
+|   |   |       05__PLATFORM_DISTRIBUTION_SPECIALIST_SPC.md
+|   |   |       06__SEO_DISCOVERY_SPECIALIST_SPC.md
+|   |   |       07__TRAILER_TEASER_SPECIALIST_SPC.md
+|   |   |       08__COMMUNITY_MANAGER_SPC.md
+|   |   |       09__ENGAGEMENT_STRATEGIST_SPC.md
+|   |   |       10__GROWTH_HACKER_SPC.md
+|   |   |       11__MONETIZATION_STRATEGIST_SPC.md
+|   |   |       
+|   |   \---11_META
+|   |           00__README_META_SPECIALISTS.md
+|   |           01__UNIVERSE_CURATOR_SPC.md
+|   |           02__SYSTEM_ARCHITECT_SPC.md
+|   |           03__RULE_SYSTEM_DESIGNER_SPC.md
+|   |           04__DEPENDENCY_SUPERVISOR_SPC.md
+|   |           05__KNOWLEDGE_INTEGRATOR_SPC.md
+|   |           06__META_ANALYST_SPC.md
+|   |           07__LONG_TERM_STRATEGY_PLANNER_SPC.md
+|   |           08__EVOLUTION_SCALING_PLANNER_SPC.md
+|   |           
+|   +---40_CTL__CONTROLLERS
+|   |   |   00__README__CTL_REALM.md
+|   |   |   00__TEMPLATE__CONTROLLER.md
+|   |   |   01__READINESS_CHECK_CTL.md
+|   |   |   01__RULES__CTL.md
+|   |   |   02__INDEX_ALL_CONTROLLERS.md
+|   |   |   03__CREATE_FLOW__CTL.md
+|   |   |   
+|   |   +---00__TEMPLATES
+|   |   |       00__TEMPLATE__CTL_BLOCKER.md
+|   |   |       00__TEMPLATE__CTL_ENTITY.md
+|   |   |       
+|   |   \---10_MUSIC_CONTROLLERS
+|   |           00__README__MUSIC_CONTROLLERS.md
+|   |           01__PROMPT_CONTRACT_CTL.md
+|   |           02__UGC_VIRAL_RULESET_CTL.md
+|   |           03__DURATION_POLICY_CTL.md
+|   |           04__RELEASE_VARIANTS_CTL.md
+|   |           05__POET_PD_POLICY_CTL.md
+|   |           06__FINGERPRINT_COLLISION_THRESHOLDS_CTL.md
+|   |           07__CATALOG_MEMORY_CTL.md
+|   |           08__AUDIENCE_SEGMENTS_CTL.md
+|   |           09__QUALITY_GATES_CTL.md
+|   |           10__SUNO_PHRASEBOOK_CTL.md
+|   |           11__UDIO_PHRASEBOOK_CTL.md
+|   |           12__NEGATIVE_SPEC_LIBRARY_CTL.md
+|   |           13__CREDITS_METADATA_POLICY_CTL.md
+|   |           
+|   +---50_VAL__VALIDATORS
+|   |   |   00__README__VALIDATORS_REALM.md
+|   |   |   01__RULES__VAL.md
+|   |   |   02__INDEX_ALL_VALIDATORS.md
+|   |   |   03__CREATE_FLOW__VAL.md
+|   |   |   
+|   |   +---00__TEMPLATES
+|   |   |       00__TEMPLATE__VAL_ENTITY.md
+|   |   |       00__TEMPLATE__VAL_VIOLATION.md
+|   |   |       
+|   |   +---10_MUSIC_VALIDATORS
+|   |   |       00__README__MUSIC_VALIDATORS.md
+|   |   |       01__HOOK_TIMING_VAL.md
+|   |   |       02__UGC_READY_VAL.md
+|   |   |       03__REPEAT_GUARD_VAL.md
+|   |   |       04__PD_ONLY_VAL.md
+|   |   |       05__COLLISION_BLOCKER_VAL.md
+|   |   |       06__RELEASE_PACK_READY_VAL.md
+|   |   |       07__NAMING_COLLISION_VAL.md
+|   |   |       08__PROMPT_FIDELITY_VAL.md
+|   |   |       09__CREDITS_RIGHTS_VAL.md
+|   |   |       10__VOICE_DIVERSITY_VAL.md
+|   |   |       
+|   |   \---11_VALIDATION_ENGINES
+|   |           00__README__VALIDATION_ENGINES.md
+|   |           01__ERROR_DETECTION_ENG.md
+|   |           02__FACT_CONSISTENCY_ENG.md
+|   |           03__LANGUAGE_LINGUISTICS_ENG.md
+|   |           04__CULTURAL_ACCURACY_ENG.md
+|   |           05__HISTORICAL_ACCURACY_ENG.md
+|   |           06__SCIENTIFIC_PLAUSIBILITY_ENG.md
+|   |           
+|   +---60_QA__QUALITY
+|   |   |   00__README__QA_REALM.md
+|   |   |   01__NATURALNESS_GATE_QA.md
+|   |   |   01__RULES__QA.md
+|   |   |   02__INDEX_ALL_QA.md
+|   |   |   03__CREATE_FLOW__QA.md
+|   |   |   
+|   |   +---00__TEMPLATES
+|   |   |       00__TEMPLATE__QA_CHECK.md
+|   |   |       00__TEMPLATE__QA_ENTITY.md
+|   |   |       00__TEMPLATE__QA_ISSUE.md
+|   |   |       
+|   |   \---10_MUSIC_QA
+|   |           00__README__MUSIC_QA.md
+|   |           01__SCROLL_STOP_5S_QA.md
+|   |           02__LOOP_15S_QA.md
+|   |           03__RECOGNITION_10S_QA.md
+|   |           04__CREATOR_PANEL_QA.md
+|   |           05__MIX_TRANSLATION_QA.md
+|   |           06__HOOK_PANEL_QA.md
+|   |           07__CATALOG_DIFFERENTIATION_QA.md
+|   |           08__VOICE_DIVERSITY_AUDIT_QA.md
+|   |           09__REGRESSION_GUARD_QA.md
+|   |           
+|   \---90_XREF__CROSSREF
+|           00__INDEX__CROSSREF.md
+|           00__README__CROSSREF.md
+|           00__TEMPLATE__XREF_INDEX.md
+|           00__TEMPLATE__XREF_RECORD.md
+|           01__MAP__ENG_to_ORC.md
+|           02__MAP__ORC_to_SPC.md
+|           03__MAP__VALIDATION_MATRIX.md
+|           04__MAP__PIPELINES.md
+|           
++---04_KNOWLEDGE_BASE
+|   |   00__INDEX__KNOWLEDGE_BASE.md
+|   |   
+|   +---00_KB_GOVERNANCE
+|   |       00__README__KB_REALM.md
+|   |       01__RULES__KB.md
+|   |       02__INDEX__KB_GLOBAL_REGISTRY.md
+|   |       02__KB_STORAGE_MAP.md
+|   |       03__KB_ENTITY_TYPES.md
+|   |       04__KB_NAMING_RULES.md
+|   |       05__KB_TAGS.md
+|   |       06__KB_REL_TYPES.md
+|   |       07__KB_XREF_RULES.md
+|   |       08__KB_DOC_CONTROL.md
+|   |       09__KB_CHANGELOG.md
+|   |       10__KB_QUALITY_LAWS.md
+|   |       11__KB_USAGE_GATE.md
+|   |       12__KB_SOURCE_LOCK_NO_FANTASY.md
+|   |       13__KB_MEMORY_POLICY.md
+|   |       14__KB_MODULE_STATE_SYSTEM.md
+|   |       20__TEMPLATE__KB_MODULE.md
+|   |       21__TEMPLATE__KB_LIBRARY_ITEM.md
+|   |       22__TEMPLATE__SPC_PRO_PACK.md
+|   |       23__TEMPLATE__ENTITY_KB_CONNECTOR.md
+|   |       
+|   +---01_PILLARS
+|   |       00__README__PILLARS_REALM.md
+|   |       01__PILLAR__NARRATIVE_CRAFT.md
+|   |       02__PILLAR__CHARACTER_CRAFT.md
+|   |       03__PILLAR__WORLD_CRAFT.md
+|   |       04__PILLAR__VISUAL_CINEMA.md
+|   |       05__PILLAR__SOUND_MUSIC.md
+|   |       06__PILLAR__PRODUCTION_PIPELINE.md
+|   |       07__PILLAR__MARKETING_DISTRIBUTION.md
+|   |       08__PILLAR__RESEARCH_FACT_CHECKING.md
+|   |       09__PILLAR__REFERENCE_GLOSSARY.md
+|   |       
+|   +---10_TOPICS
+|   |   |   00__README__TOPICS_REALM.md
+|   |   |   01__TOPIC_TAXONOMY.md
+|   |   |   
+|   |   +---10_NARRATIVE
+|   |   |       00__README__TOPICS_NARRATIVE.md
+|   |   |       01__NARRATIVE__SCENE_CRAFT.md
+|   |   |       02__NARRATIVE__CAUSE_EFFECT_CHAIN.md
+|   |   |       03__NARRATIVE__TENSION_STAKES.md
+|   |   |       04__NARRATIVE__TURNING_POINTS.md
+|   |   |       05__NARRATIVE__FORESHADOWING_PAYOFF.md
+|   |   |       06__NARRATIVE__PACING_RHYTHM.md
+|   |   |       07__NARRATIVE__DIALOGUE_SUBTEXT.md
+|   |   |       08__NARRATIVE__REVEALS_SECRETS_INFORMATION_FLOW.md
+|   |   |       09__NARRATIVE__CONFLICT_SCENE_DYNAMICS.md
+|   |   |       10__NARRATIVE__CHARACTER_AGENCY_DECISIONS.md
+|   |   |       11__NARRATIVE__SCENE_OBJECTIVES_OBSTACLES.md
+|   |   |       12__NARRATIVE__EXPOSITION_INTEGRATION.md
+|   |   |       13__NARRATIVE__CLIMAX_RESOLUTION_PAYOFF.md
+|   |   |       14__NARRATIVE__THEME_MEANING_SUBSTANCE.md
+|   |   |       
+|   |   +---20_CHARACTER
+|   |   |       00__README__TOPICS_CHARACTER.md
+|   |   |       01__CHARACTER__MOTIVATION_DESIRE.md
+|   |   |       02__CHARACTER__WOUND_TRAUMA.md
+|   |   |       03__CHARACTER__VALUES_MORAL_COMPASS.md
+|   |   |       04__CHARACTER__BEHAVIOR_UNDER_PRESSURE.md
+|   |   |       05__CHARACTER__CHARACTER_ARC.md
+|   |   |       
+|   |   +---30_WORLD
+|   |   |       00__README__TOPICS_WORLD.md
+|   |   |       01__WORLD__LORE_CONSISTENCY_RULES.md
+|   |   |       02__WORLD__WORLD_LAWS_CONSTRAINTS.md
+|   |   |       03__WORLD__TECH_LEVEL_IMPACT.md
+|   |   |       04__WORLD__GEOGRAPHY_RESOURCE_CAUSALITY.md
+|   |   |       05__WORLD__INSTITUTIONS_POWER_SYSTEMS.md
+|   |   |       06__WORLD__ECONOMY_TRADE_FLOWS.md
+|   |   |       07__WORLD__CONFLICT_GEOPOLITICS_CAUSALITY.md
+|   |   |       08__WORLD__CULTURE_VALUES_EMERGENCE.md
+|   |   |       09__WORLD__RELIGION_MYTH_SYSTEMS.md
+|   |   |       10__WORLD__TECHNOLOGY_MAGIC_FRAME.md
+|   |   |       11__WORLD__ENVIRONMENT_ECOLOGY_SURVIVAL.md
+|   |   |       12__WORLD__TIMELINE_EPOCH_CAUSALITY.md
+|   |   |       
+|   |   +---40_VISUAL
+|   |   |       00__README__TOPICS_VISUAL.md
+|   |   |       01__VISUAL__COMPOSITION_FOUNDATIONS.md
+|   |   |       02__VISUAL__SHOT_GRAMMAR_AND_FRAMING.md
+|   |   |       03__VISUAL__LIGHTING_PRINCIPLES_CONTRAST.md
+|   |   |       04__VISUAL__VISUAL_CONTINUITY_RULES.md
+|   |   |       05__VISUAL__STORYBOARD_METHOD_SHOTLIST.md
+|   |   |       06__VISUAL__VISUAL_CLARITY_COMMON_FAILS.md
+|   |   |       07__VISUAL__VISUAL_READABILITY_CHECKLIST.md
+|   |   |       08__VISUAL__GATE__READABILITY.md
+|   |   |       09__VISUAL__CAMERA_MOVEMENT_INTENT.md
+|   |   |       
+|   |   +---50_SOUND_MUSIC
+|   |   |       00__README__TOPICS_SOUND_MUSIC.md
+|   |   |       01__SOUND_MUSIC__PROMPT_CONTRACTS.md
+|   |   |       02__SOUND_MUSIC__VOICE_DIVERSITY_RULES.md
+|   |   |       03__SOUND_MUSIC__HOOK_ENGINEERING.md
+|   |   |       04__SOUND_MUSIC__REPEAT_GUARD_ANTI_COLLISION.md
+|   |   |       05__SOUND_MUSIC__MIX_TRANSLATION_QA.md
+|   |   |       06__SOUND_MUSIC__LYRICS_RHYME_METER_TOOLKIT.md
+|   |   |       07__SOUND_MUSIC__STRUCTURE_SONG_BLUEPRINTS.md
+|   |   |       08__SOUND_MUSIC__VOCAL_PERFORMANCE_DIRECTION.md
+|   |   |       09__SOUND_MUSIC__UGC_SHORTS_VARIANTS.md
+|   |   |       10__SOUND_MUSIC__CREDITS_METADATA_POLICY.md
+|   |   |       11__SOUND_MUSIC__GENRE_FUSION_FINGERPRINTS.md
+|   |   |       12__SOUND_MUSIC__TREND_ENGINEERING_UGC_MOMENTS.md
+|   |   |       13__SOUND_MUSIC__ALBUM_BLUEPRINT_PLANNING.md
+|   |   |       14__SOUND_MUSIC__TRACK_FACTORY_ITERATION_LOG.md
+|   |   |       15__SOUND_MUSIC__PROMPT_PHRASEBOOK_NEGATIVE_LIBRARY.md
+|   |   |       
+|   |   +---60_PRODUCTION
+|   |   |       00__README__TOPICS_PRODUCTION.md
+|   |   |       01__PRODUCTION__FORMAT_BOOK_SERIES_GAME.md
+|   |   |       02__PRODUCTION__ADAPTATION_PIPELINE.md
+|   |   |       03__PRODUCTION__RELEASE_PACK_CHECKLIST.md
+|   |   |       04__PRODUCTION__VERSIONING_DELIVERY_NAMING.md
+|   |   |       05__PRODUCTION__WORKFLOW_ROLES_HANDOFFS.md
+|   |   |       06__PRODUCTION__QA_GATES_RUBRICS.md
+|   |   |       
+|   |   +---70_MARKETING
+|   |   |       00__README__TOPICS_MARKETING.md
+|   |   |       01__MARKETING__POSITIONING_BRAND_ARCHETYPE.md
+|   |   |       02__MARKETING__AUDIENCE_SEGMENTS_PERSONAS.md
+|   |   |       03__MARKETING__CONTENT_PACKAGING_TITLES_HOOKS.md
+|   |   |       04__MARKETING__DISTRIBUTION_CHANNEL_STRATEGY.md
+|   |   |       05__MARKETING__LAUNCH_CAMPAIGN_RELEASE_WINDOW.md
+|   |   |       06__MARKETING__COMMUNITY_ENGAGEMENT_LOOPS.md
+|   |   |       07__MARKETING__SEO_DISCOVERY_KEYWORDS_TAGS.md
+|   |   |       08__MARKETING__MONETIZATION_STRATEGY.md
+|   |   |       
+|   |   +---80_META
+|   |   |       00__README__TOPICS_META.md
+|   |   |       01__META__KNOWLEDGE_BASE_USAGE_PROTOCOL.md
+|   |   |       02__META__KB_INDEX_NAVIGATION_STANDARD.md
+|   |   |       03__META__KB_EXCERPTING_AND_MEMORY_REUSE_RULES.md
+|   |   |       04__META__KB_GAP_FILLING_CREATE_MODULE_PROTOCOL.md
+|   |   |       05__META__KB_QA_AUDIT_CHECKS.md
+|   |   |       
+|   |   \---90_REFERENCE
+|   |           00__README__TOPICS_REFERENCE.md
+|   |           01__GLOSSARY__AUDIO_MIX_MASTER_TERMS.md
+|   |           02__GLOSSARY__CINEMATOGRAPHY_SHOT_TERMS.md
+|   |           03__GLOSSARY__NARRATIVE_STRUCTURE_TERMS.md
+|   |           
+|   +---20_ENTITIES_KB
+|   |   |   00__README__ENTITIES_KB_REALM.md
+|   |   |   01__ENTITY_KB_RULES.md
+|   |   |   02__ENTITY_TO_KB_SCOPE_MAP.md
+|   |   |   03__COVERAGE__ENTITY_KB_STATUS.md
+|   |   |   04__COVERAGE__SPC_PROFICIENCY_MATRIX.md
+|   |   |   
+|   |   +---10_SPC
+|   |   |   |   00__README__SPC_PRO_PACK_STANDARD.md
+|   |   |   |   01__TEMPLATE__SPC_PRO_PACK_STRUCTURE.md
+|   |   |   |   
+|   |   |   +---PRO_PACKS
+|   |   |   |   \---06_SOUND_MUSIC
+|   |   |   |       +---07__VOCAL_DIRECTOR_SPC
+|   |   |   |       |   |   01__SCOPE_AND_SKILL_TREE.md
+|   |   |   |       |   |   02__GOLDEN_PRINCIPLES_AND_LIMITS.md
+|   |   |   |       |   |   
+|   |   |   |       |   +---03__METHOD_PLAYBOOKS
+|   |   |   |       |   |       00__README__PLAYBOOKS.md
+|   |   |   |       |   |       01__PLAYBOOK__CORE_VOCAL_DIRECTION_WORKFLOW.md
+|   |   |   |       |   |       02__PLAYBOOK__MUST_HEAR_WORDS_PRIORITY.md
+|   |   |   |       |   |       03__PLAYBOOK__INTELLIGIBILITY_DIAGNOSE_REPAIR.md
+|   |   |   |       |   |       04__PLAYBOOK__BREATH_DENSITY_ESCALATION.md
+|   |   |   |       |   |       05__PLAYBOOK__SECTION_ARC_CONTRAST.md
+|   |   |   |       |   |       06__PLAYBOOK__TAKE_DIRECTION_PACK.md
+|   |   |   |       |   |       07__PLAYBOOK__STACKING_MINIMAL_PLAN.md
+|   |   |   |       |   |       08__PLAYBOOK__ONE_AXIS_PATCH_LOOP.md
+|   |   |   |       |   |       
+|   |   |   |       |   +---05__KB_GATES
+|   |   |   |       |   |       00__README__GATES.md
+|   |   |   |       |   |       01__GATE__INPUT_READINESS.md
+|   |   |   |       |   |       02__GATE__MUST_HEAR_TARGETS.md
+|   |   |   |       |   |       03__GATE__INTELLIGIBILITY_PASS.md
+|   |   |   |       |   |       04__GATE__DELIVERY_PROFILE_COHERENCE.md
+|   |   |   |       |   |       05__GATE__ARC_CONTRAST.md
+|   |   |   |       |   |       06__GATE__BREATH_SINGABILITY.md
+|   |   |   |       |   |       07__GATE__STACKING_CLARITY_SAFE.md
+|   |   |   |       |   |       08__GATE__TAKE_PACK_REPEATABILITY.md
+|   |   |   |       |   |       09__GATE__SCOPE_COMPLIANCE.md
+|   |   |   |       |   |       
+|   |   |   |       |   +---06__CASE_LIBRARY
+|   |   |   |       |   |       00__README__CASES.md
+|   |   |   |       |   |       01__CASE__GOOD_001.md
+|   |   |   |       |   |       02__CASE__BAD_001.md
+|   |   |   |       |   |       03__CASE__BORDERLINE_001.md
+|   |   |   |       |   |       04__CASE__EDGE_001.md
+|   |   |   |       |   |       05__CASE__BAD_002.md
+|   |   |   |       |   |       06__CASE__BORDERLINE_002.md
+|   |   |   |       |   |       07__CASE__GOOD_002.md
+|   |   |   |       |   |       08__CASE__EDGE_002.md
+|   |   |   |       |   |       09__CASE__BAD_003.md
+|   |   |   |       |   |       10__CASE__GOOD_003.md
+|   |   |   |       |   |       11__CASE__EDGE_003.md
+|   |   |   |       |   |       12__CASE__BAD_004.md
+|   |   |   |       |   |       13__CASE__BORDERLINE_003.md
+|   |   |   |       |   |       14__CASE__EDGE_004.md
+|   |   |   |       |   |       15__CASE__BAD_005.md
+|   |   |   |       |   |       16__CASE__GOOD_004.md
+|   |   |   |       |   |       17__CASE__BAD_006.md
+|   |   |   |       |   |       18__CASE__BORDERLINE_004.md
+|   |   |   |       |   |       19__CASE__GOOD_005.md
+|   |   |   |       |   |       20__CASE__EDGE_005.md
+|   |   |   |       |   |       21__CASE__BAD_007.md
+|   |   |   |       |   |       22__CASE__BORDERLINE_005.md
+|   |   |   |       |   |       23__CASE__GOOD_006.md
+|   |   |   |       |   |       24__CASE__BAD_008.md
+|   |   |   |       |   |       25__CASE__GOOD_007.md
+|   |   |   |       |   |       
+|   |   |   |       |   +---07__TOOLS
+|   |   |   |       |   |       00__README__TOOLS.md
+|   |   |   |       |   |       01__T01__INTAKE_NORMALIZER.md
+|   |   |   |       |   |       02__T02__MUST_HEAR_BUILDER.md
+|   |   |   |       |   |       03__T03__PHRASE_PROMOTION_HELPER.md
+|   |   |   |       |   |       04__T04__INTELLIGIBILITY_CHECKLIST_BUILDER.md
+|   |   |   |       |   |       05__T05__CONSONANT_ATTACK_PROTECTOR.md
+|   |   |   |       |   |       06__T06__DELIVERY_PROFILE_PRUNER.md
+|   |   |   |       |   |       07__T07__CONTRADICTION_DETECTOR.md
+|   |   |   |       |   |       08__T08__ARC_LEVER_SELECTOR.md
+|   |   |   |       |   |       09__T09__BREATH_MAP_BUILDER.md
+|   |   |   |       |   |       10__T10__DENSITY_RISK_SCAN.md
+|   |   |   |       |   |       11__T11__STACKING_SAFE_PLANNER.md
+|   |   |   |       |   |       12__T12__TAKE_PACK_BUILDER.md
+|   |   |   |       |   |       13__T13__SCOPE_AUDIT_CHECKLIST.md
+|   |   |   |       |   |       14__T14__ESCALATION_NOTE_FORMATTER.md
+|   |   |   |       |   |       15__T15__REPAIR_ROUTER.md
+|   |   |   |       |   |       16__T16__THRESHOLD_GUIDE.md
+|   |   |   |       |   |       
+|   |   |   |       |   +---08__PLAYBOOKS
+|   |   |   |       |   |       00__README__PLAYBOOKS.md
+|   |   |   |       |   |       01__PB__PROFILE_REBUILD_PRUNE.md
+|   |   |   |       |   |       02__PB__MUST_HEAR_REBUILD.md
+|   |   |   |       |   |       03__PB__INTELLIGIBILITY_REPAIR.md
+|   |   |   |       |   |       04__PB__BREATH_DENSITY_FIX.md
+|   |   |   |       |   |       05__PB__ARC_CONTRAST_FIX.md
+|   |   |   |       |   |       06__PB__TAKE_PACK_FIX.md
+|   |   |   |       |   |       07__PB__STACKING_SAFE_FIX.md
+|   |   |   |       |   |       08__PB__COMPLIANCE_ONE_AXIS_PATCH.md
+|   |   |   |       |   |       
+|   |   |   |       |   +---09__GATES
+|   |   |   |       |   |       00__README__GATES.md
+|   |   |   |       |   |       01__GATE__INPUT_READINESS.md
+|   |   |   |       |   |       02__GATE__MUST_HEAR.md
+|   |   |   |       |   |       03__GATE__INTELLIGIBILITY.md
+|   |   |   |       |   |       04__GATE__DELIVERY_COHERENCE.md
+|   |   |   |       |   |       05__GATE__ARC_CONTRAST.md
+|   |   |   |       |   |       06__GATE__BREATH_SINGABILITY.md
+|   |   |   |       |   |       07__GATE__STACKING_SAFE.md
+|   |   |   |       |   |       08__GATE__TAKE_PACK.md
+|   |   |   |       |   |       09__GATE__SCOPE_COMPLIANCE.md
+|   |   |   |       |   |       
+|   |   |   |       |   +---10__OUTPUT_PACKS
+|   |   |   |       |   |       00__README__OUTPUT_PACKS.md
+|   |   |   |       |   |       01__OUTPUT_PACK__MIN.md
+|   |   |   |       |   |       02__OUTPUT_PACK__STD.md
+|   |   |   |       |   |       03__OUTPUT_PACK__FULL.md
+|   |   |   |       |   |       
+|   |   |   |       |   +---11__PROMPT_CONTRACTS
+|   |   |   |       |   |       00__README__PROMPT_CONTRACTS.md
+|   |   |   |       |   |       01__PROMPT_CONTRACT__UNIVERSAL.md
+|   |   |   |       |   |       02__PROMPT_CONTRACT__SUNO.md
+|   |   |   |       |   |       03__PROMPT_CONTRACT__UDIO.md
+|   |   |   |       |   |       
+|   |   |   |       |   +---12__CHECKLISTS
+|   |   |   |       |   |       00__README__CHECKLISTS.md
+|   |   |   |       |   |       01__CHECKLIST__PRE_RUN_MIN_INPUTS_AND_SCOPE.md
+|   |   |   |       |   |       02__CHECKLIST__DURING_RUN_GATE_ORDER_AND_ONE_AXIS.md
+|   |   |   |       |   |       03__CHECKLIST__POST_RUN_READY_REVIEW.md
+|   |   |   |       |   |       
+|   |   |   |       |   +---13__CASE_LIBRARY
+|   |   |   |       |   |       00__README__CASE_LIBRARY.md
+|   |   |   |       |   |       01__CASE__T1__CONSONANT_LOSS.md
+|   |   |   |       |   |       02__CASE__T2__BREATH_SPLIT_P0.md
+|   |   |   |       |   |       03__CASE__T3__TARGET_BLOAT_OR_MISSING.md
+|   |   |   |       |   |       04__CASE__T4__DENSITY_UNSINGABLE.md
+|   |   |   |       |   |       05__CASE__T5__DELIVERY_MASKING.md
+|   |   |   |       |   |       06__CASE__T6__STACKING_MASKING.md
+|   |   |   |       |   |       07__CASE__T7__ARRANGEMENT_SEAT_CONFLICT.md
+|   |   |   |       |   |       08__CASE__T8__ARC_OVERLOAD_OR_FLAT.md
+|   |   |   |       |   |       09__CASE__T9__SCOPE_VIOLATION.md
+|   |   |   |       |   |       
+|   |   |   |       |   \---14__META
+|   |   |   |       |           00__README__META.md
+|   |   |   |       |           01__CHANGELOG.md
+|   |   |   |       |           02__ROADMAP.md
+|   |   |   |       |           03__KNOWN_GAPS.md
+|   |   |   |       |           04__DEPENDENCIES.md
+|   |   |   |       |           
+|   |   |   |       \---12__PROMPT_ARCHITECT_SPC
+|   |   |   |           |   00__PACK_PASSPORT.md
+|   |   |   |           |   01__SCOPE_AND_SKILL_TREE.md
+|   |   |   |           |   02__GOLDEN_PRINCIPLES_AND_LIMITS.md
+|   |   |   |           |   07__EVALUATION_RUBRIC.md
+|   |   |   |           |   08__KB_SOURCES.md
+|   |   |   |           |   09__REGRESSION_GUARD.md
+|   |   |   |           |   10__TOPIC_BINDINGS.md
+|   |   |   |           |   11__XREF_BINDINGS.md
+|   |   |   |           |   12__PACK_COMPLETION_CHECK.md
+|   |   |   |           |   
+|   |   |   |           +---03__METHOD_PLAYBOOKS
+|   |   |   |           |       00__README__PLAYBOOKS.md
+|   |   |   |           |       01__PLAYBOOK__CORE_WORKFLOW.md
+|   |   |   |           |       02__PLAYBOOK__ONE_AXIS_VARIANTS.md
+|   |   |   |           |       03__PLAYBOOK__DIAGNOSE_AND_REWORK.md
+|   |   |   |           |       04__PLAYBOOK__PATCH_PROMPT_MINIMAL_CHANGE.md
+|   |   |   |           |       05__PLAYBOOK__VOCAL_DIVERSITY_BOOST.md
+|   |   |   |           |       06__PLAYBOOK__ANTI_REPETITION_FIX.md
+|   |   |   |           |       07__PLAYBOOK__STYLE_FINGERPRINT_STABILIZER.md
+|   |   |   |           |       08__PLAYBOOK__FINAL_QA_PRECHECK.md
+|   |   |   |           |       
+|   |   |   |           +---04__CHECKLISTS
+|   |   |   |           |       00__README__CHECKLISTS.md
+|   |   |   |           |       01__CHK__READINESS.md
+|   |   |   |           |       02__CHK__QUALITY.md
+|   |   |   |           |       03__CHK__COMPLIANCE.md
+|   |   |   |           |       
+|   |   |   |           +---05__KB_GATES
+|   |   |   |           |       00__README__GATES.md
+|   |   |   |           |       01__GATE__PROMPT_CONTRACT_CLARITY.md
+|   |   |   |           |       02__GATE__VOICE_DIVERSITY_INTENT.md
+|   |   |   |           |       03__GATE__REPETITION_CONTROL_INTENT.md
+|   |   |   |           |       04__GATE__STYLE_FINGERPRINT_STABILITY.md
+|   |   |   |           |       05__GATE__ONE_AXIS_CHANGE_DISCIPLINE.md
+|   |   |   |           |       
+|   |   |   |           \---06__CASE_LIBRARY
+|   |   |   |                   00__README__CASES.md
+|   |   |   |                   01__CASE__GOOD.md
+|   |   |   |                   02__CASE__BAD.md
+|   |   |   |                   03__CASE__BORDERLINE.md
+|   |   |   |                   04__CASE__EDGE_001.md
+|   |   |   |                   05__CASE__BAD_002.md
+|   |   |   |                   06__CASE__BORDERLINE_002.md
+|   |   |   |                   07__CASE__GOOD_002.md
+|   |   |   |                   08__CASE__EDGE_002.md
+|   |   |   |                   09__CASE__BAD_003.md
+|   |   |   |                   10__CASE__GOOD_003.md
+|   |   |   |                   11__CASE__EDGE_003.md
+|   |   |   |                   12__CASE__BAD_004.md
+|   |   |   |                   13__CASE__BORDERLINE_003.md
+|   |   |   |                   14__CASE__EDGE_004.md
+|   |   |   |                   15__CASE__BAD_005.md
+|   |   |   |                   16__CASE__GOOD_004.md
+|   |   |   |                   17__CASE__BAD_006.md
+|   |   |   |                   18__CASE__BORDERLINE_004.md
+|   |   |   |                   19__CASE__GOOD_005.md
+|   |   |   |                   20__CASE__EDGE_005.md
+|   |   |   |                   21__CASE__BAD_007.md
+|   |   |   |                   22__CASE__BORDERLINE_005.md
+|   |   |   |                   23__CASE__GOOD_006.md
+|   |   |   |                   24__CASE__BAD_008.md
+|   |   |   |                   25__CASE__GOOD_007.md
+|   |   |   |                   
+|   |   |   \---SPC__TEMPLATE
+|   |   |           00__KB_PASSPORT.md
+|   |   |           01__SKILL_TREE.md
+|   |   |           02__GOLDEN_PRINCIPLES.md
+|   |   |           03__PLAYBOOKS.md
+|   |   |           04__CHECKLISTS.md
+|   |   |           05__PATTERNS_ANTI_PATTERNS.md
+|   |   |           06__CASE_LIBRARY.md
+|   |   |           07__EVALUATION_RUBRIC.md
+|   |   |           90__KB_SOURCES.md
+|   |   |           91__KB_GATES.md
+|   |   |           
+|   |   +---20_ENG
+|   |   |   |   00__README__ENG_KB_CONNECTOR_STANDARD.md
+|   |   |   |   01__TEMPLATE__ENG_PACK_STRUCTURE.md
+|   |   |   |   
+|   |   |   \---ENG__TEMPLATE
+|   |   |           00__KB_PASSPORT.md
+|   |   |           01__METHOD.md
+|   |   |           02__PARAMETERS.md
+|   |   |           03__EDGE_CASES.md
+|   |   |           04__EXAMPLES.md
+|   |   |           90__KB_SOURCES.md
+|   |   |           91__KB_GATES.md
+|   |   |           
+|   |   +---30_ORC
+|   |   |   |   00__README__ORC_KB_CONNECTOR_STANDARD.md
+|   |   |   |   01__TEMPLATE__PIPELINE_CONTRACT.md
+|   |   |   |   
+|   |   |   \---ORC__TEMPLATE
+|   |   |           00__KB_PASSPORT.md
+|   |   |           01__PIPELINE_STEPS.md
+|   |   |           02__HANDOFFS.md
+|   |   |           03__GATES_PLACEMENT.md
+|   |   |           04__FAILOVER.md
+|   |   |           90__KB_SOURCES.md
+|   |   |           
+|   |   +---40_CTL
+|   |   |   |   00__README__CTL_KB_CONNECTOR_STANDARD.md
+|   |   |   |   01__TEMPLATE__CTL_POLICY_MODULE.md
+|   |   |   |   
+|   |   |   \---CTL__TEMPLATE
+|   |   |           00__KB_PASSPORT.md
+|   |   |           01__POLICY.md
+|   |   |           02__LIMITS_THRESHOLDS.md
+|   |   |           03__EXAMPLES.md
+|   |   |           90__KB_SOURCES.md
+|   |   |           
+|   |   +---50_VAL
+|   |   |   |   00__README__VAL_KB_CONNECTOR_STANDARD.md
+|   |   |   |   01__TEMPLATE__VAL_VIOLATION_RECORD.md
+|   |   |   |   
+|   |   |   \---VAL__TEMPLATE
+|   |   |           00__KB_PASSPORT.md
+|   |   |           01__CHECK_RULE.md
+|   |   |           02__VIOLATION_FORMAT.md
+|   |   |           03__FIX_GUIDE.md
+|   |   |           04__TEST_CASES.md
+|   |   |           90__KB_SOURCES.md
+|   |   |           
+|   |   +---60_QA
+|   |   |   |   00__README__QA_KB_CONNECTOR_STANDARD.md
+|   |   |   |   01__TEMPLATE__EXEMPLAR_SET.md
+|   |   |   |   
+|   |   |   \---QA__TEMPLATE
+|   |   |           00__KB_PASSPORT.md
+|   |   |           01__RUBRIC.md
+|   |   |           02__PROTOCOL.md
+|   |   |           03__EXAMPLES.md
+|   |   |           90__KB_SOURCES.md
+|   |   |           
+|   |   \---90_XREF
+|   |       |   00__README__XREF_KB_CONNECTOR_STANDARD.md
+|   |       |   01__TEMPLATE__MAPPING_ARTIFACT.md
+|   |       |   02__TEMPLATE__STEP_CONTRACT.md
+|   |       |   
+|   |       \---XREF__TEMPLATE
+|   |               00__KB_PASSPORT.md
+|   |               01__USAGE.md
+|   |               02__EXAMPLES.md
+|   |               90__KB_SOURCES.md
+|   |               
+|   +---30_SHARED_LIBRARIES
+|   |   |   00__README__SHARED_LIBRARIES_REALM.md
+|   |   |   01__LIB_TAXONOMY.md
+|   |   |   
+|   |   +---10_CHECKLISTS
+|   |   |       00__README__CHECKLISTS.md
+|   |   |       
+|   |   +---20_RUBRICS
+|   |   |       00__README__RUBRICS.md
+|   |   |       
+|   |   +---30_TEMPLATES
+|   |   |       00__README__TEMPLATES.md
+|   |   |       
+|   |   +---40_PATTERNS
+|   |   |       00__README__PATTERNS.md
+|   |   |       
+|   |   +---50_EXAMPLES
+|   |   |       00__README__EXAMPLES.md
+|   |   |       
+|   |   \---60_PROMPT_LIB
+|   |           00__README__PROMPT_LIB.md
+|   |           
+|   \---40_RELATION_XREF
+|           00__README__RELATION_XREF_REALM.md
+|           01__TASK_TO_KB_SCOPE_MAP.md
+|           02__ENTITY_TO_KB_SCOPE_MAP.md
+|           03__KB_SCOPE_TO_TOPIC_FOLDER_MAP.md
+|           04__RELATION_TYPES_CANONICAL_DICTIONARY.md
+|           05__XREF_UID_ONLY_REFERENCE_RULES.md
+|           06__KB_RELATION_GRAPH_TEMPLATE.md
+|           07__DEPRECATION_POINTER_STANDARD.md
+|           08__KB_MASTER_INDEX_REGISTRATION_RULES.md
+|           09__KB_SCOPE_GOVERNANCE_MINIMUM_SET.md
+|           10__KB_SCOPE_REFERENCE_WHAT_GOES_THERE.md
+|           11__KB_SCOPE_TOPICS_WHAT_GOES_THERE.md
+|           12__KB_SCOPE_META_WHAT_GOES_THERE.md
+|           13__KB_SCOPE_MAPS_WHAT_GOES_THERE.md
+|           14__KB_SCOPE_PRODUCTION_WHAT_GOES_THERE.md
+|           15__KB_SCOPE_SOUND_MUSIC_WHAT_GOES_THERE.md
+|           16__KB_SCOPE_MARKETING_WHAT_GOES_THERE.md
+|           17__KB_SCOPE_NARRATIVE_WHAT_GOES_THERE.md
+|           18__KB_SCOPE_CHARACTER_WHAT_GOES_THERE.md
+|           19__KB_SCOPE_WORLD_WHAT_GOES_THERE.md
+|           20__KB_SCOPE_VISUAL_WHAT_GOES_THERE.md
+|           21__KB_SCOPE_GOVERNANCE_WHAT_GOES_THERE.md
+|           22__KB_SCOPE_DOMAIN_BOUNDARY_SUMMARY_TABLE.md
+|           23__KB_MODULE_ENTRY_SCHEMA_STANDARD.md
+|           24__KB_RELATION_MODEL_STANDARD.md
+|           25__KB_XREF_VALIDATION_CHECKLIST.md
+|           26__KB_REL_VALIDATION_CHECKLIST.md
+|           27__KB_DEPRECATION_POINTER_STANDARD.md
+|           28__KB_MASTER_INDEX_POINTERS_POLICY.md
+|           29__KB_MODULE_STATUS_LOCK_POLICY.md
+|           30__KB_WORLD_KNOWLEDGE_SOURCES_POLICY.md
+|           31__KB_ENTITY_ACCESS_CONTROL_POLICY.md
+|           32__KB_SOURCE_RECORDS_REGISTRY_STANDARD.md
+|           33__KB_PROVENANCE_BLOCK_TEMPLATE.md
+|           34__KB_WORLD_KNOWLEDGE_INGEST_WORKFLOW.md
+|           35__KB_WEB_LOOKUP_USAGE_NOTICE_TEMPLATE.md
+|           36__KB_PROFESSIONAL_COMPETENCE_PACK_STANDARD.md
+|           37__KB_ENTITY_KB_CONNECTOR_REQUIREMENTS.md
+|           38__KB_CONNECTOR_IMPLEMENTATION_TEMPLATE.md
+|           39__KB_ENTITY_COMPETENCE_PACK_BINDING_RULES.md
+|           40__KB_SPECIALIST_SKILL_TAG_TAXONOMY.md
+|           41__KB_SKILL_TAG_COVERAGE_SCORECARD_TEMPLATE.md
+|           42__KB_GAP_FILL_PRIORITY_POLICY.md
+|           43__KB_DOMAIN_COMPETENCE_PACK_ROADMAP_TEMPLATE.md
+|           44__KB_ENTITY_COMPETENCE_PACK_ROADMAP_TEMPLATE.md
+|           45__KB_COMPETENCE_PACK_QA_GATES_STANDARD.md
+|           46__KB_COMPETENCE_PACK_PLAYBOOK_TEMPLATE.md
+|           47__KB_COMPETENCE_PACK_FAILURE_MODE_TEMPLATE.md
+|           48__KB_COMPETENCE_PACK_DRILLS_TEMPLATE.md
+|           49__KB_COMPETENCE_PACK_TEMPLATES_INDEX_STANDARD.md
+|           50__KB_ENTITY_TO_PACK_MINIMUM_BINDINGS.md
+|           51__KB_COMPETENCE_PACK_NAMING_UID_RULES.md
+|           52__KB_COMPETENCE_PACK_FOLDER_PLACEMENT_MAP.md
+|           53__KB_PACK_SLOT_TO_SKILL_TAG_CLUSTER_MAP.md
+|           54__KB_SLOT_SATISFACTION_CHECKLIST.md
+|           55__KB_ENTITY_READINESS_MINIMUM_GATE.md
+|           56__KB_ACTIVE_ENTITY_CERTIFICATION_STANDARD.md
+|           57__KB_CERT_RECORD_TEMPLATE.md
+|           58__KB_AUDIT_TRAIL_POLICY.md
+|           59__KB_AUDIT_RECORD_TEMPLATE.md
+|           60__KB_RELEASE_NOTES_STANDARD.md
+|           61__KB_RELEASE_NOTES_TEMPLATE.md
+|           62__KB_NAVIGATION_QUICKSTART.md
+|           63__KB_NO_FANTASY_EXECUTION_RULE.md
+|           64__KB_MEMORY_REUSE_AND_REFRESH_POLICY.md
+|           65__KB_CONTRADICTION_HANDLING_PROTOCOL.md
+|           66__KB_KNOWLEDGE_GAP_HANDLING_PROTOCOL.md
+|           67__KB_RUN_TRACE_MINIMUM_STANDARD.md
+|           68__KB_TRACE_REVIEW_CHECKLIST.md
+|           69__KB_SPECIALIST_ONBOARDING_PLAYBOOK.md
+|           70__KB_PACK_AUTHORING_PLAYBOOK.md
+|           71__KB_MASTER_INDEX_INTEGRITY_CHECKLIST.md
+|           72__KB_INDEX_DUPLICATE_PREVENTION_RULE.md
+|           73__KB_SCOPE_SELECTION_MAP_README.md
+|           74__KB_SCOPE_TO_MODULE_LOADING_RULES.md
+|           75__KB_MODULE_SELECTION_HEURISTIC_DICT.md
+|           76__KB_SCOPE_BOUNDARY_ENFORCEMENT_RULE.md
+|           77__KB_ATOMIC_MODULE_SPLIT_PROTOCOL.md
+|           78__KB_TEMPLATE_LIBRARY_POLICY.md
+|           79__KB_CANONICAL_TEMPLATE_EXTRACTION_PROTOCOL.md
+|           80__KB_DOMAIN_TEMPLATE_LIBRARY_README.md
+|           81__KB_EXAMPLE_LIBRARY_POLICY.md
+|           82__KB_EXAMPLE_CARD_TEMPLATE.md
+|           83__KB_EXAMPLE_CURATION_CHECKLIST.md
+|           84__KB_EXAMPLE_TO_GATE_LINKING_RULE.md
+|           85__KB_EXAMPLE_LIBRARY_STRUCTURE_MAP.md
+|           86__KB_EXAMPLE_USAGE_IN_DRILLS_RULE.md
+|           87__KB_DOMAIN_QA_CALIBRATION_PROTOCOL.md
+|           88__KB_GATE_DEFINITION_STANDARD.md
+|           89__KB_GATE_CARD_TEMPLATE.md
+|           90__KB_GATE_TO_EXAMPLE_BINDING_RULE.md
+|           91__KB_GATE_EXEMPLAR_SET_TEMPLATE.md
+|           92__KB_GATE_LIBRARY_POLICY.md
+|           93__KB_GATE_DEPRECATION_AND_REPLACEMENT_RULE.md
+|           94__KB_GATE_VERSIONING_POLICY.md
+|           95__KB_GATE_CURATION_CHECKLIST.md
+|           96__KB_QA_RUBRIC_STANDARD.md
+|           97__KB_QA_RUBRIC_CARD_TEMPLATE.md
+|           98__KB_QA_SCORING_CONSISTENCY_PROTOCOL.md
+|           99__KB_QA_SCORE_REPORT_TEMPLATE.md
+|           
++---05_PROJECTS
+|   +---00_PRJ_GOVERNANCE
+|   |       00__README__PRJ_REALM.md
+|   |       01__RULES__PRJ.md
+|   |       02__INDEX__PRJ_GLOBAL_REGISTRY.md
+|   |       03__INDEX__PRJ_ENTITY_TYPES.md
+|   |       04__PRJ_STORAGE_MAP.md
+|   |       05__SCENE_LINK_LAW.md
+|   |       06__TEMPLATE__PRJ_PASSPORT.md
+|   |       07__PRJ_CREATE_FLOW.md
+|   |       
+|   +---01_WORKSHOP
+|   |   |   00__TEMPLATE__ENTITY_WORKSHOP.md
+|   |   |   00__TEMPLATE__PROJECT_INDEX.md
+|   |   |   00__TEMPLATE__PROMOTION_L0_L3.md
+|   |   |   
+|   |   +---01_CHARACTERS
+|   |   |   \---CHR__Имя
+|   |   |           01_INTAKE_L0.md
+|   |   |           02_DRAFT_L1.md
+|   |   |           03_CANON_L2.md
+|   |   |           04_OUTPUT_L3.md
+|   |   |           
+|   |   +---02_LOCATIONS
+|   |   |   +---LOC__Город_Х
+|   |   |   +---LOC__Земля
+|   |   |   |       01_INTAKE_L0.md
+|   |   |   |       02_DRAFT_L1.md
+|   |   |   |       03_CANON_L2.md
+|   |   |   |       04_OUTPUT_L3.md
+|   |   |   |       
+|   |   |   \---LOC__Марс
+|   |   +---03_OBJECTS
+|   |   |   +---OBJ__Артефакт
+|   |   |   \---OBJ__Мегаструктура
+|   |   +---04_SYSTEMS
+|   |   |   +---SYS__Магия
+|   |   |   +---SYS__Экономика
+|   |   |   \---SYS__Энергия
+|   |   +---05_FACTIONS
+|   |   |   +---FAC__Империя
+|   |   |   \---FAC__Орден
+|   |   +---06_EVENTS
+|   |   |   +---EVT__Война
+|   |   |   \---EVT__Катастрофа
+|   |   +---07_CONCEPTS
+|   |   |   +---CON__Создатели
+|   |   |   \---CON__Судьба
+|   |   +---08_RELATIONSHIPS
+|   |   |   \---REL__CHR_A__CHR_B
+|   |   +---09_ARCS
+|   |   |   +---ARC__Мир
+|   |   |   \---ARC__Персонаж
+|   |   +---10_STYLES
+|   |   |   +---STY__Визуал
+|   |   |   \---STY__Музыка
+|   |   \---11_EXPERIMENTS
+|   |       \---EXP__Идея
+|   +---02_INTAKE__L0
+|   |       00_INTAKE_INDEX.md
+|   |       ENTITIES.md
+|   |       EVENTS.md
+|   |       NOTES.md
+|   |       
+|   +---03_PROJECT__L1
+|   |       00_INDEX.md
+|   |       NOTES.md
+|   |       PROJECT.md
+|   |       
+|   +---04_PROJECT__L2
+|   |       00_INDEX.md
+|   |       CANON.md
+|   |       
+|   +---05_PROJECT__L3
+|   |       ART.md
+|   |       BOOK.md
+|   |       FILM.md
+|   |       GAME.md
+|   |       MUSIC.md
+|   |       SERIES.md
+|   |       
+|   +---06_OUTPUT
+|   |   \---00_OUT_GOVERNANCE
+|   |           00__README__OUT_REALM.md
+|   |           01__INDEX__OUT_GLOBAL_REGISTRY.md
+|   |           02__INDEX__OUT_ENTITY_TYPES.md
+|   |           03__OUT_STORAGE_MAP.md
+|   |           04__TEMPLATE__OUT_PASSPORT.md
+|   |           05__OUT_CREATE_FLOW.md
+|   |           
+|   \---07_MUSIC_LABEL
+|       \---10_BRANDS
+|           |   00__INDEX__ALL_BRANDS.md
+|           |   
+|           \---BRD__SEREBRYANY_VETER
+|               |   00__BRAND_PASSPORT.md
+|               |   01__BRAND_DNA.md
+|               |   02__PROMPT_PRESETS.md
+|               |   
+|               \---10_RELEASES
+|                   |   00__INDEX__RELEASES.md
+|                   |   2026-01-10__TRK__SEREBRYANY_PUT__OUTPUT_PACK.md
+|                   |   
+|                   +---_AUDIO
+|                   +---_COVERS
+|                   \---_SHORTS
++---06_ASSETS
+|   \---00_AST_GOVERNANCE
+|           00__README__AST_REALM.md
+|           01__RULES__AST.md
+|           02__INDEX__AST_GLOBAL_REGISTRY.md
+|           03__INDEX__AST_ENTITY_TYPES.md
+|           04__AST_STORAGE_MAP.md
+|           05__TEMPLATE__AST_PASSPORT.md
+|           06__AST_CREATE_FLOW.md
+|           
++---07_MODELS
++---08_DATABASES
+|   |   DB__ACTION_LEX.md
+|   |   DB__ARTIFACT_TYPES.md
+|   |   DB__DOC_REGISTRY.md
+|   |   DB__ENTITY_TYPES.md
+|   |   DB__RELEASE_LOG.md
+|   |   DB__TRACK_TYPES.md
+|   |   
+|   \---10_MUSIC_CATALOG
+|       \---GROUPS
+|           +---G__UID__NAME
+|           |   |   00__GROUP__PASSPORT.md
+|           |   |   01__GROUP__STYLE.md
+|           |   |   02__GROUP__CAST.md
+|           |   |   03__GROUP__RULES.md
+|           |   |   04__GROUP__CATALOG_MEMORY.md
+|           |   |   
+|           |   \---ALBUMS
+|           |       \---A__UID__NAME
+|           |           |   00__ALBUM__PASSPORT.md
+|           |           |   01__ALBUM__BLUEPRINT.md
+|           |           |   
+|           |           \---TRACKS
+|           |               \---T01__UID__TITLE
+|           |                       00__TRACK__CARD.md
+|           |                       01__TRACK__PROMPT.md
+|           |                       02__TRACK__RELEASE.md
+|           |                       
+|           \---SEREBRYANY_PUT__PISMA_I_OGON__ALBUM_PACK_v2_UNPACKED
+|               |   00__SUNO_RULES.md
+|               |   01__MASTER_STYLE.md
+|               |   02__TRACK_INDEX.md
+|               |   99__GATES.md
+|               |   README__ALBUM_PACK_v2.md
+|               |   
+|               \---TRACKS
+|                       T01__ПИСЬМО.md
+|                       T02__КАБАК И СНЕГ.md
+|                       T03__БЕРЁЗОВЫЙ ОГОНЬ.md
+|                       T04__СНЕГ И ПЕПЕЛ.md
+|                       T05__ГЛИЧ ДОРОГИ.md
+|                       T06__СВЕТ ВНУТРИ.md
+|                       T07__ДОРОГА ДОМОЙ.md
+|                       
+\---99_LOGS
+        LOG__AUDIT.md
+        LOG__CHANGES.md
+        
