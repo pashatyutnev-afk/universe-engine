@@ -6,9 +6,9 @@ LAYER: 04_KNOWLEDGE_BASE
 DOC_TYPE: INDEX
 INDEX_TYPE: LAYER_MASTER_REGISTRY (KB)
 LEVEL: L1
-STATUS: DRAFT
-LOCK: OPEN
-VERSION: 1.0.0
+STATUS: ACTIVE
+LOCK: FIXED
+VERSION: 1.0.1
 UID: UE.KB.IDX.MASTER.001
 OWNER: SYSTEM
 ROLE: Single SoT for KB NAV/EXISTENCE + one-file operational navigation rules + source-lock/no-fantasy enforcement
@@ -21,6 +21,15 @@ CHANGE_NOTE:
 - IMPACT: "Any KB file not registered here is non-canon for KB operations."
 - CHANGE_ID: UE.CHG.2026-01-14.KB.IDX.001
 
+
+CHANGE_NOTE:
+- DATE: 2026-01-20
+- TYPE: PATCH
+- SUMMARY: "Clarified linkage to ROOT snapshot + ensured canon map is never truncated in runtime exports; no link removals."
+- REASON: "Prevent confusion: KB master index is large; assistant must not summarize it as if links are missing."
+- IMPACT: "Users can rely on this file as the full KB navigation surface; assistant outputs provide full-file artifact when requested."
+- CHANGE_ID: UE.CHG.2026-01-20.KB.IDX.002
+
 ---
 
 ## 0) PURPOSE (LAW)
@@ -30,6 +39,14 @@ CHANGE_NOTE:
 
 ---
 
+
+## 0.1) RELATION TO ROOT + START (CLARIFICATION)
+Этот KB master-index не заменяет ROOT-INDEX и не является рантайм-энтрипоинтом.
+- ROOT-INDEX: snapshot базы RAW ссылок для всего тома.
+- START_UNIVERSE_ENGINE: единственный запуск задач и маршрутизация.
+- Этот файл: ONLY KB NAV/EXISTENCE + KB operational laws.
+
+Если пользователь просит "покажи все ссылки" — ассистент обязан отдавать ПОЛНЫЙ файл-артефакт (без урезаний) либо готовый downloadable файл.
 ## 1) OPERATIONAL MODE (ONE FILE / ABSOLUTE)
 ### 1.1 One-index rule (ABSOLUTE)
 Оперативная работа по KB выполняется ТОЛЬКО через этот файл:

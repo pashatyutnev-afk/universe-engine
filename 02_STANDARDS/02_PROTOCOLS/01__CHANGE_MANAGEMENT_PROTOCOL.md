@@ -1,173 +1,226 @@
-# CHANGE MANAGEMENT PROTOCOL (STANDARDS)
-FILE: 02_STANDARDS/02_PROTOCOLS/01__CHANGE_MANAGEMENT_PROTOCOL.md
+# CHANGE MANAGEMENT PROTOCOL (CANON)
 
+FILE: 02_STANDARDS/02_PROTOCOLS/01__CHANGE_MANAGEMENT_PROTOCOL.md
 SCOPE: Universe Engine
 LAYER: 02_STANDARDS
 DOC_TYPE: PROTOCOL
-INDEX_TYPE: OPERATIONAL
 LEVEL: L2
 STATUS: ACTIVE
 LOCK: FIXED
-VERSION: 1.0.1
-UID: UE.PROTO.STD.CHANGE_MANAGEMENT.001
+VERSION: 1.1.0
+UID: UE.PROTO.CHANGE.001
 OWNER: SYSTEM
-ROLE: Operational protocol for proposing, reviewing, approving, implementing, and logging changes across the repo
+ROLE: Canon protocol for proposing, approving, logging, and applying changes to docs/entities/standards under Universe Engine rules.
 
 CHANGE_NOTE:
 - DATE: 2026-01-19
-- TYPE: PATCH
-- SUMMARY: "Boot-aligned formatting + explicit STOP rules + explicit required artifacts + clarified rename/alias pointer contract."
-- REASON: "Убрать двусмысленность и сделать протокол исполнимым как часть BOOT SEQUENCE."
-- IMPACT: "Любая правка канона проходит единый минимальный пайплайн и оставляет следы в логах/реестрах."
-- CHANGE_ID: UE.CHG.2026-01-19.PROTO.CHANGE_MGMT.001
+- TYPE: MINOR
+- SUMMARY: "Aligned change workflow with START runtime: entrypoint-only execution, snapshot refresh rule, mandatory change packets, explicit signoff chain, and no silent edits."
+- REASON: "Make changes auditable and deterministic under RAW-only navigation."
+- IMPACT: "Every modification becomes traceable; prevents hidden drift and path guessing."
+- CHANGE_ID: UE.CHG.2026-01-19.PROTO.CHANGE.001
 
 ---
 
 ## 0) PURPOSE (LAW)
-Этот протокол описывает, **как вносить изменения** в Universe Engine так, чтобы:
-- не ломать канон и навигацию,
-- сохранять единый источник истины (SoT),
-- оставлять прозрачный след изменений (registry + logs),
-- не создавать “битых ссылок” и дублей смысла.
+Этот протокол фиксирует единый порядок управления изменениями:
+- как инициируются изменения
+- как они оформляются и согласуются
+- как регистрируются и проходят гейты
+- как запрещаются «тихие» правки
+- как обрабатывается обновление ROOT LINK BASE (снимка ссылок)
 
 ---
 
-## 1) SCOPE (WHEN IT APPLIES)
-Протокол обязателен для:
-- новых файлов и новых сущностей (SPC/ORC/ENG/CTL/VAL/QA/XREF);
-- правок законов, стандартов, протоколов, шаблонов;
-- правок индексов и реестров (existence / doc registry / entity registry);
-- переименований / переносов / деприкаций;
-- массовых миграций структуры.
+## 1) SCOPE
+Применяется ко всем изменениям в репозитории Universe Engine:
+- System Law (01_SYSTEM_LAW)
+- Standards / Protocols / Specifications (02_STANDARDS)
+- System Entities (03_SYSTEM_ENTITIES)
+- Knowledge Base (04_KNOWLEDGE_BASE)
+- Projects / Assets / DB / Logs (05/06/08/99)
 
 ---
 
-## 2) ABSOLUTE LAWS (STOP-FIRST)
-### 2.1 No destructive edits without trace
-Запрещено менять канон без:
-- CHANGE_NOTE в затронутых файлах,
-- обновления реестров (если применимо),
-- записи в логах (если применимо).
+## 2) ABSOLUTE LAWS
+### 2.1 No silent changes (LAW)
+Запрещены «тихие» изменения без CHANGE_PACKET.
+Любая правка обязана иметь:
+- CHANGE_NOTE (внутри изменяемого файла) и/или
+- CHANGE_PACKET (отдельный артефакт изменения)
 
-### 2.2 No guessing + link discipline
-Если изменение требует ссылок — использовать только корректные RAW-ссылки, которые реально существуют, без угадывания.
+Минимум: в изменяемом файле должен быть блок CHANGE_NOTE с CHANGE_ID.
 
-### 2.3 ROOT LINK BASE snapshot awareness
-ROOT-INDEX — это **снимок ссылок** и не обновляется автоматически.
-Если изменение затрагивает навигацию/пути/файлы, которые должны быть доступны через ROOT-INDEX, это фиксируется как отдельный шаг “REFRESH REQUIRED” (см. раздел 6.6).
+### 2.2 EntryPoint alignment (LAW)
+Выполнение задач в чате идёт только через `START_UNIVERSE_ENGINE`.
+Если пользователь не запускал рантайм, система не применяет изменения, а только:
+- описывает, что надо изменить
+- выдаёт полный файл (предложение правки) как артефакт
 
----
-
-## 3) DEFINITIONS (MINIMAL)
-- **CANON** — документ/сущность, признанные истиной и соответствующие Doc Control.
-- **SoT (Single source of truth)** — главный документ смысла по теме.
-- **DRAFT** — подготовка, не канон.
-- **ACTIVE** — канон (активный).
-- **DEPRECATED** — канон прошлого, заменён.
-- **ALIAS POINTER** — legacy-файл без содержания, который указывает на новый канон-путь (см. раздел 5).
-- **FIXED** — заморожен: правки только по протоколам и с CHANGE_NOTE.
+### 2.3 Snapshot refresh is a change (LAW)
+Обновление ROOT LINK BASE (снимка ссылок) считается изменением системы.
+Требуется CHANGE_PACKET с явной фиксацией:
+- что изменилось в ссылках
+- почему
+- какой риск несоответствия при старом снимке
 
 ---
 
-## 4) CHANGE CLASSES (STANDARD)
-- **PATCH** — правка текста без изменения смысла/структуры/путей.
-- **MINOR** — совместимое расширение (новый раздел/новый файл без ломки навигации).
-- **MAJOR** — ломающее изменение (переименование/перенос/смена правил/структуры/совместимости).
+## 3) CHANGE TYPES
+Используются три типа:
+
+### 3.1 PATCH
+- исправление формулировок, выравнивание правил, устранение неоднозначностей
+- не ломает совместимость маршрутов и сущностей
+
+### 3.2 MINOR
+- добавление секций/гейтов/артефактных требований
+- может расширять процесс, но не ломает базовую совместимость
+
+### 3.3 MAJOR
+- ломает совместимость, меняет маршруты, UID правила, структуры хранения, обязательные контракты
+- требует явного MIGRATION PLAN и deprecation pointers
 
 ---
 
-## 5) REQUIRED ARTIFACTS (ALWAYS)
-Любое изменение обязано иметь минимум:
+## 4) ROLES & APPROVAL AUTHORITY
+### 4.1 Mandatory initiator
+Любое изменение должно быть инициировано через Top Governance SPC:
+- MACHINE_ARCHITECT_SPC (держит владение изменением)
 
-1) **CHANGE_NOTE**  
-   - добавляется в шапку каждого затронутого файла.
+### 4.2 Domain authorities
+- GOVERNANCE_OWNER_SPC: закон, иерархия правил, authority conflicts
+- STANDARDS_OWNER_SPC: стандарты/протоколы/спеки
+- DOC_CONTROLLER_SPC: doc control, naming, UID, структура, шаблоны
+- PIPELINE_ARCHITECT_SPC: пайплайны/ORC маршруты
+- INTEGRATION_PACKER_SPC: output packs и упаковка артефактов
 
-2) **Registry update (when applicable)**  
-   - master-index слоя (existence rule),
-   - doc-registry слоя (UID / version / status),
-   - entity registry (если добавлялась/менялась сущность).
-
-3) **Audit / changes log (when applicable)**  
-   - `99_LOGS/LOG__CHANGES.md` — для системных миграций/массовых изменений,
-   - `99_LOGS/LOG__AUDIT.md` — для изменений законов/индексов/протоколов/шаблонов.
-
----
-
-## 6) CANON CHANGE PIPELINE (MANDATORY FLOW)
-### 6.1 Classify
-Определи класс изменения: PATCH / MINOR / MAJOR.
-
-### 6.2 Impact scan
-Составь список затрагиваемого:
-- слои, индексы, реестры,
-- UID/версии,
-- ссылки/пути,
-- зависимые документы.
-
-### 6.3 Plan
-Составь план действий списком файлов:
-- create / edit / rename / alias / deprecate
-- какие реестры обновляются
-- какие логи пополняются
-
-### 6.4 Implement
-Выполни правки по плану:
-- обнови содержимое,
-- обнови Doc Control поля (STATUS/LOCK/VERSION/UID/CHANGE_NOTE).
-
-### 6.5 Register (if applicable)
-- обнови master-index слоя (existence),
-- обнови doc-registry слоя,
-- обнови entity registry (если трогали сущности).
-
-### 6.6 Log (if applicable)
-- добавь запись в `LOG__AUDIT` / `LOG__CHANGES` по типу изменения.
-- если изменение требует обновления ROOT-INDEX snapshot — зафиксируй:
-  - `REFRESH REQUIRED: YES`
-  - `WHY: ...`
-  - `WHAT TO REFRESH: ...` (какие ссылки/разделы)
-
-### 6.7 Freeze (if canon)
-Если результат — канон:
-- `STATUS: ACTIVE`
-- `LOCK: FIXED`
-- версия повышена согласно классу (PATCH/MINOR/MAJOR)
+### 4.3 Mandatory finish chain (approval)
+Изменение считается принятым только если прошло:
+READINESS_CHECK_CTL → relevant VAL → relevant QA → DOC_CONTROLLER_SPC → MACHINE_ARCHITECT_SPC signoff
 
 ---
 
-## 7) RENAMES & MOVES (HARD RULE)
-Переименование/перенос **всегда** делается так:
+## 5) REQUIRED ARTIFACT: CHANGE_PACKET
+### 5.1 Change packet minimum schema
+Каждое изменение оформляется как CHANGE_PACKET (даже если мелкое).
 
-1) Создаётся новый файл в канон-пути (новое имя/папка).
-2) Старый файл превращается в `DOC_TYPE: ALIAS_POINTER`, `STATUS: DEPRECATED`, `LOCK: FIXED`.
-3) ALIAS POINTER содержит только:
-   - CANON PATH (текстом),
-   - RAW link на новый файл,
-   - краткое пояснение “moved/renamed”,
-   - CHANGE_NOTE.
+#### CHANGE_PACKET header (minimum)
+- FILE:
+- SCOPE:
+- DOC_TYPE: CHANGE_PACKET
+- STATUS:
+- VERSION:
+- UID:
+- OWNER:
+- ROLE:
+- CHANGE_ID:
+- DATE:
+- TYPE: PATCH | MINOR | MAJOR
+- SUMMARY:
+- REASON:
+- IMPACT:
 
-Запрещено:
-- удалять старый файл сразу, если он был доступен по RAW,
-- оставлять “полу-копию” (часть текста в alias).
+#### AFFECTED FILES block (minimum)
+Список файлов, которые меняются:
+- file path (как в репо)
+- RAW link (если есть)
+- change summary per file
+
+#### RISKS block (minimum)
+- Risks:
+- Rollback plan:
+- Deprecation pointers (если нужно):
+
+#### SIGNOFF block (minimum)
+- DOC_CONTROLLER_SPC:
+- MACHINE_ARCHITECT_SPC:
+
+### 5.2 CHANGE_ID law
+Каждый CHANGE_PACKET обязан иметь уникальный CHANGE_ID формата:
+UE.CHG.YYYY-MM-DD.<DOMAIN>.<NNN>
+
+DOMAIN примеры:
+- START
+- PROTO.CHAT
+- PROTO.CHANGE
+- LAW
+- STD
+- ENT
 
 ---
 
-## 8) CHANGE BLOCKERS (STOP RULES)
-Изменение запрещено (STOP), если оно:
-- ломает existence rule (файл исчез без регистрации),
-- создаёт дубли смысла (2 SoT на одну тему),
-- создаёт коллизии нумерации (NN конфликт внутри папки),
-- меняет канон без CHANGE_NOTE,
-- требует ссылок/путей, но они не подтверждены (нет RAW/нет файла),
-- нарушает правила Doc Control (STATUS/LOCK/VERSION/UID несогласованы).
+## 6) WORKFLOW (DEFAULT)
+### Step 1: Intake (MACHINE_ARCHITECT_SPC)
+- формулирует change request как задачу
+- определяет тип (PATCH/MINOR/MAJOR)
+- определяет affected files
+- определяет требуемые сущности (SPC/ORC/ENG/CTL/VAL/QA)
+
+### Step 2: Draft (STANDARDS_OWNER_SPC + DOC_CONTROLLER_SPC)
+- готовит новые версии файлов
+- добавляет CHANGE_NOTE в каждый изменённый файл
+- проверяет UID/naming/doc control
+
+### Step 3: Preflight (READINESS_CHECK_CTL)
+- проверка минимальных входов
+- проверка что ссылки RAW доступны (если применимо)
+- проверка что структура и заголовки соответствуют стандартам
+
+### Step 4: Validation (relevant VAL)
+- checks на нарушения правил (например: UID conflicts, naming conflicts, index structure violations)
+- формирует violation records (если нужно)
+
+### Step 5: QA gates (relevant QA)
+- проверка читабельности, непротиворечивости, регрессии
+- если MAJOR: обязательна проверка migration plan
+
+### Step 6: Packaging (INTEGRATION_PACKER_SPC)
+- собирает финальные файлы
+- обеспечивает “full file” (не куски)
+- фиксирует финальные имена/версии
+
+### Step 7: Signoff
+- DOC_CONTROLLER_SPC подтверждает doc control
+- MACHINE_ARCHITECT_SPC подтверждает принятие
+- CHANGE_PACKET готов к регистрации
 
 ---
 
-## 9) OUTPUT DISCIPLINE (CROSS-PROTOCOL)
-Любой результат изменения, который предназначен “наружу” как итог работы (правило/шаблон/пайплайн/контент), должен существовать как документ-артефакт и быть совместимым с Doc Control и соответствующими стандартами.
+## 7) REGISTRATION & LOGGING (MINIMUM)
+После signoff изменение должно быть отражено минимум в одном месте из системных журналов:
+- Change log / Audit log / Doc registry (в зависимости от подсистемы)
+
+Минимальное требование:
+- CHANGE_ID
+- список файлов
+- дата
+- тип
+- краткий summary
 
 ---
 
-## FINAL RULE (LOCK)
-Этот протокол обязателен для всех изменений канона.
---- END.
+## 8) DEPRECATION & MIGRATION (MAJOR ONLY)
+Если изменение ломает совместимость:
+- обязателен MIGRATION PLAN (отдельный блок в CHANGE_PACKET или отдельный файл)
+- обязателен DEPRECATION POINTER (куда переехало, что заменяет, сроки)
+- запрещено удалять без указателя
+
+---
+
+## 9) ROLLBACK RULE
+Любое изменение обязано иметь rollback plan:
+- что возвращаем
+- какие файлы
+- какие зависимости затронуты
+
+---
+
+## 10) DONE CRITERIA
+Изменение считается завершённым только если:
+- есть CHANGE_PACKET с CHANGE_ID
+- обновлённые файлы представлены полностью
+- пройдена цепочка: READINESS_CHECK_CTL → VAL → QA → DOC_CONTROLLER_SPC → MACHINE_ARCHITECT_SPC
+- регистрация/логирование выполнены
+
+---
