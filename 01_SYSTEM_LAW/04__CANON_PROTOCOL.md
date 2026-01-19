@@ -1,208 +1,256 @@
-# SYSTEM LAW — CANON PROTOCOL (CANON)
-FILE: 01_SYSTEM_LAW/04__CANON_PROTOCOL.md
+# CANON PROTOCOL — AUTHORITY, PROMOTION, CONFLICTS (CANON)
 
-SCOPE: Universe Engine
+FILE: 01_SYSTEM_LAW/04__CANON_PROTOCOL.md
+SCOPE: Universe Engine (All volumes)
 LAYER: 01_SYSTEM_LAW
 DOC_TYPE: LAW
-LAW_TYPE: CANON
+LAW_TYPE: CANON_PROTOCOL
 LEVEL: L1
-STATUS: DRAFT
+STATUS: ACTIVE
 LOCK: FIXED
-VERSION: 1.0.0
-UID: UE.LAW.CANON_PROTOCOL.001
+VERSION: 1.1.0
+UID: UE.ALL.LAW.SYSTEM.CANON.001
 OWNER: SYSTEM
-ROLE: Canon change workflow: proposal → approval → logging → application; enforces index authority for existence, RAW-only nav determinism, and prohibits silent changes
+ROLE: Defines what is canon, who has authority, how drafts become canon, how contradictions are handled, and how runtime respects snapshot-based RAW navigation.
 
 CHANGE_NOTE:
-- DATE: 2026-01-09
-- TYPE: MAJOR
-- SUMMARY: "Established executable canon protocol: change workflow, index authority enforcement, logging requirements, and mandatory verification steps."
-- REASON: "Canon must be deterministic and auditable; changes must not introduce drift or hidden authority."
-- IMPACT: "All canon changes become reviewable, reproducible, and registry-consistent."
-- CHANGE_ID: UE.CHG.2026-01-09.LAW.CANON_PROTOCOL.001
+- DATE: 2026-01-19
+- TYPE: MINOR
+- SUMMARY: "Aligned with START entrypoint law + boot-first discipline + snapshot/refresh policy; clarified canon states and promotion gates; added explicit conflict handling and deprecation pointers; reinforced 'no guessing' and 'artifact-only outputs'."
+- REASON: "Runtime must be auditable and deterministic; canon must not drift via assumptions or hidden links."
+- IMPACT: "Canon authority becomes explicit; conflicts handled by protocol; outputs become traceable artifacts."
+- CHANGE_ID: UE.CHG.2026-01-19.CANON.001
 
 ---
 
 ## 0) PURPOSE (LAW)
-This law defines the only valid protocol for changing canon artifacts in Universe Engine.
-It ensures:
-- existence is defined by indexes (not by links or presence)
-- navigation remains RAW-only and deterministic
-- changes are auditable (no silent changes)
-- duplicates are eliminated via SoT + pointer alias policy
+Canon is the system’s single source of truth for decisions, definitions, and deliverable acceptance.
+
+This protocol guarantees:
+- determinism under RAW-only navigation,
+- stable authority hierarchy,
+- controlled promotion of content into canon,
+- explicit handling of contradictions and gaps,
+- traceable outputs as artifact-docs.
 
 ---
 
-## 1) DEFINITIONS (STRICT)
-- CANON ARTIFACT: Any law, standard, canonical index, system entity registry/definition, KB governance+index, XREF map (and any artifact explicitly marked canon by higher authority).
-- CANON CHANGE: Any modification that affects canon artifacts, canon structure, canon navigation, or canon existence.
-- CHANGE PROPOSAL: A structured request to apply a canon change with scope, impact, and migration plan.
-- APPROVAL: Explicit acceptance of a change proposal by the authority owner(s) for the impacted scope.
-- GOVERNANCE RECORD: A required record that logs the change and its justification (audit/change control).
-- INDEX AUTHORITY: The rule that indexes define existence and canonical navigation.
-- POINTER (ALIAS): A redirect-only file used to preserve navigation after renames/moves and to eliminate duplicate entrypoints.
-- BREAKING CHANGE: A change that can break navigation, contracts, or downstream consumers (as defined by versioning policy).
+## 1) ABSOLUTE LAWS (MUST)
+1.1 Single runtime entrypoint  
+Any task execution must be initiated via `START_UNIVERSE_ENGINE`. No side runs.
+
+1.2 Boot-first  
+No canon actions (promotion, acceptance, conflict resolution) before BOOT is confirmed by markers.
+
+1.3 RAW-only navigation + snapshot reality  
+Runtime may use only RAW links that exist in:
+- the ROOT link base snapshot, or
+- explicit links the user provided in chat.
+
+No guessing of paths, no assumed “latest online state”.
+If the user has not refreshed the snapshot, the link base is treated as fixed.
+
+1.4 No “bare content” outputs  
+Any output that matters becomes an artifact-document (draft or final) using system templates/standards.
+If a template/entity is missing → GAP must be declared and creation proposed before continuing.
+
+1.5 Canon is not memory  
+Assistant memory is not canon. Only canonical documents and registries are canon.
 
 ---
 
-## 2) CANON CHANGE WORKFLOW (MANDATORY)
-Any canon change MUST follow this workflow.
+## 2) DEFINITIONS
+### 2.1 Canon
+A statement, rule, entity definition, or deliverable that is:
+- written as a document under system standards,
+- placed under the correct layer,
+- has UID + VERSION + STATUS,
+- accepted by the required finish chain (control/validation/QA/doc control/signoff).
 
-### 2.1 Change Proposal (REQUIRED INPUT)
-A proposal must include, at minimum:
-- SCOPE: exact files/paths affected
-- TYPE: MAJOR/MINOR/PATCH (per versioning policy)
-- SUMMARY: what changes
-- REASON: why changes
-- IMPACT: who/what breaks or improves
-- MIGRATION: required steps (including pointer aliases if paths change)
-- OWNERS: who must approve (by role/entity)
-- CHANGE_ID: `UE.CHG.<YYYY-MM-DD>.<LAYER>.<DOC_OR_ENTITY>.<NNN>`
+### 2.2 Non-canon
+Anything that is:
+- a chat message without an artifact doc,
+- a draft not promoted,
+- an idea not accepted by gates,
+- external sources not ingested into KB per policy.
 
-If any of the above is missing → proposal is INVALID.
+### 2.3 Canon states (minimum)
+- DRAFT: not authoritative, can be replaced freely
+- ACTIVE: authoritative and used
+- DEPRECATED: replaced, must point to replacement
+- ARCHIVED: historical, no longer referenced (rare, governed)
 
-### 2.2 Approval (AUTHORITY GATE)
-- The highest authority owner for the impacted scope MUST approve.
-- If multiple scopes are impacted, approvals must include all relevant owners.
-- Conflicts are resolved strictly by ORDER OF AUTHORITY in `00__SYSTEM_LAW.md`.
+### 2.4 Promotion
+The controlled process that turns a draft into canon using gates and signoff.
 
-Approval outcome must be explicit:
-- APPROVED
-- REJECTED
-- APPROVED WITH CONDITIONS (conditions must be written)
-
-### 2.3 Logging (AUDIT REQUIREMENT)
-After approval and before/with applying the change:
-- The changed file must contain an updated CHANGE_NOTE.
-- A governance record must exist when required (see 2.3.1).
-
-#### 2.3.1 When governance record is REQUIRED
-Governance record is required for at least:
-- any change to `01_SYSTEM_LAW/*`
-- any change to `02_STANDARDS/*`
-- any change to any canonical index (NAV/EXISTENCE)
-- any breaking change (paths/contracts/schemas)
-- any change that introduces/removes entities or families
-- any change that modifies XREF maps used by pipelines
-
-If uncertain → treat as REQUIRED.
-
-### 2.4 Application (HOW THE CHANGE IS APPLIED)
-When applying a canon change:
-1) Apply the change to the target file(s).
-2) Update affected canonical index entries (RAW-only links; existence registry).
-3) Update XREF maps if the change affects pipelines, ownership, gates, or outputs.
-4) If any canonical path/entrypoint changed:
-   - create pointer aliases as required by versioning policy
-5) Run verification steps (Section 5).
-6) Mark any deprecated targets as DEPRECATED (do not silently delete unless policy allows).
+### 2.5 Authority (who can decide)
+Authority is defined by the system role stack and governance specialists, not by convenience.
 
 ---
 
-## 3) INDEX AUTHORITY LAW (EXISTENCE) (ABSOLUTE)
-3.1 Index defines existence
-- If an entity/document is not listed in its canonical index — it does not exist for the system.
-- Existence is not created by internal links, mentions, or folder presence.
+## 3) CANON AUTHORITY HIERARCHY (WHO OVERRULES WHAT)
+When rules conflict, higher layer wins.
 
-3.2 RAW-only navigation is mandatory for canon maps
-- Canon maps must use RAW links.
-- PATH is human label only.
+### 3.1 Authority stack (highest → lowest)
+A) 01_SYSTEM_LAW (L1 laws)  
+B) 02_STANDARDS (specs/protocols/templates; must not violate laws)  
+C) 03_SYSTEM_ENTITIES (role definitions, realm rules; must obey laws/standards)  
+D) 04_KNOWLEDGE_BASE (methods, playbooks, examples; must obey above)  
+E) 05_PROJECTS / 06_ASSETS / 08_DATABASES (work outputs; must obey above)  
+F) Chat runtime (non-canon unless packaged as artifacts)
 
-3.3 Index change = canon change
-- Any change to a canonical index is a canon change and must follow this protocol.
+### 3.2 Role authority (dispatch + signoff)
+- Primary dispatcher: MACHINE_ARCHITECT_SPC
+- Law authority: GOVERNANCE_OWNER_SPC
+- Standards authority: STANDARDS_OWNER_SPC
+- Doc control authority: DOC_CONTROLLER_SPC
+- Pipeline authority: PIPELINE_ARCHITECT_SPC
+- Packaging authority: INTEGRATION_PACKER_SPC
 
----
-
-## 4) NO SILENT CHANGES (ABSOLUTE)
-4.1 Every canon change must include:
-- updated CHANGE_NOTE in the changed file
-- governance record when required
-
-4.2 Silent changes are invalid
-- They must be treated as violations until corrected.
-
----
-
-## 5) VERIFICATION STEPS (MANDATORY)
-These steps must be performed (at least mentally/locally) before declaring a canon change complete.
-
-### 5.1 Determinism checks
-- Canon index RAW links are valid.
-- No duplicate SoT entrypoints introduced.
-- Pointer aliases contain no rules and redirect only.
-
-### 5.2 Consistency checks
-- Naming rules not violated.
-- UID rules not violated (UID stability on rename/move).
-- Versioning policy applied correctly (MAJOR/MINOR/PATCH + required CHANGE_ID).
-
-### 5.3 Scope safety checks
-- Constraints registry not violated.
-- Artifact schemas not silently changed without migration.
-
-If any check fails → change is not complete.
+Final signoff belongs to:
+DOC_CONTROLLER_SPC → MACHINE_ARCHITECT_SPC
 
 ---
 
-## 6) POINTER / ALIAS POLICY (MANDATORY)
-6.1 When pointer aliases are required
-- Canon entrypoint renamed or moved
-- Canon index renamed or moved
-- Legacy duplicate entrypoint removed (replace with pointer)
+## 4) CANON ACCEPTANCE CONTRACT (WHAT “DONE” MEANS)
+A deliverable is “done” only if it passes the finish chain:
 
-6.2 Pointer content rule (ABSOLUTE)
-- Pointer file contains only redirect to canonical target.
-- No rules, no extra navigation, no extra existence claims.
+1) READINESS_CHECK_CTL (preflight)
+2) Relevant VAL checks (compliance)
+3) Relevant QA gates (acceptance)
+4) DOC_CONTROLLER_SPC (format, UID, naming, placement)
+5) MACHINE_ARCHITECT_SPC (final signoff)
 
----
-
-## 7) BOUNDARIES (ANTI-OVERLAP)
-- This law DOES: define canon change workflow, index authority, logging and verification.
-- This law DOES NOT: define naming formats, UID format, versioning semantics, artifact schemas, or constraints content.
-- CONFLICT RESOLUTION: resolved by ORDER OF AUTHORITY in `00__SYSTEM_LAW.md`.
+If any step fails → deliverable stays non-canon (DRAFT) and must be revised as an artifact.
 
 ---
 
-## 8) ENFORCEMENT (MANDATORY)
-### 8.1 MANDATORY CHECKS
-- Any change to canon artifacts follows workflow (proposal→approval→logging→application).
-- Any index change is treated as canon change.
-- RAW-only nav preserved.
-- Required pointer aliases created when paths/entrypoints change.
+## 5) PROMOTION FLOW (DRAFT → ACTIVE)
+### 5.1 Minimum promotion steps
+1) Draft artifact is produced with:
+   - UID (or provisional UID if governed)
+   - VERSION (start at 1.0.0)
+   - STATUS: DRAFT
+   - RUN_NOTE or CHANGE_NOTE
 
-### 8.2 FAIL CONDITIONS
-- Canon artifact modified without CHANGE_NOTE.
-- Index modified without logging/approval pathway.
-- Duplicate SoT introduced.
-- Pointer alias contains extra content.
-- Breaking change applied without migration plan.
+2) Controllers apply constraints (CTL)
+3) Validators produce violations if needed (VAL)
+4) QA applies acceptance gate(s) (QA)
+5) Doc control verifies:
+   - naming rules
+   - UID rules
+   - required header fields
+   - correct layer placement
+6) Signoff:
+   - MACHINE_ARCHITECT_SPC approves canonization
+7) Status changes to ACTIVE (or subsystem-specific READY → ACTIVE)
 
-### 8.3 FIX PROCEDURE
-- Create missing CHANGE_NOTE + required governance record.
-- Convert duplicates to pointers or delete non-canon duplicates.
-- Restore RAW-only links in canonical indexes.
-- Add migration steps and pointer aliases where missing.
-- Reclassify version/change type if mis-stamped.
-
----
-
-## 9) INTERFACES (RAW ONLY)
-- System Law index (SoT):  
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01_SYSTEM_LAW/00__INDEX__SYSTEM_LAW.md
-- Core constitution:  
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01_SYSTEM_LAW/00__SYSTEM_LAW.md
-- Versioning & Change Policy:  
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01_SYSTEM_LAW/03__VERSIONING_CHANGE_POLICY.md
-- Standards master index:  
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/02_STANDARDS/00__MASTER_INDEX__UNIVERSE_ENGINE.md
+### 5.2 Promotion is reversible only by protocol
+If an ACTIVE item must be changed:
+- follow versioning policy (SEMVER + CHANGE_ID)
+- if breaking or forbidden by LOCK: create replacement and deprecate old.
 
 ---
 
-## FINAL RULE (LOCK)
-Canon changes are valid only when performed through this protocol.  
-Any deviation is a violation until fixed.
+## 6) CONTRADICTION HANDLING PROTOCOL (MANDATORY)
+When two canonical items conflict:
 
-OWNER: SYSTEM
+Step 1 — Declare contradiction  
+- Identify the two UIDs and the exact conflicting statements.
+
+Step 2 — Determine authority  
+- Apply the layer hierarchy (Section 3.1).
+
+Step 3 — Choose resolution type  
+A) Clarification (MINOR/PATCH)  
+B) Replacement + deprecation (preferred for FIXED or breaking changes)  
+C) Scope split (create two scoped docs and update references)
+
+Step 4 — Record outcome  
+- Update via CHANGE_NOTE + CHANGE_ID (or create new doc + deprecate old)
+- Ensure old doc contains replacement pointers if deprecated.
+
+Runtime must STOP if it cannot confirm markers or lacks RAW links to the conflicting docs.
+
+---
+
+## 7) KNOWLEDGE GAP HANDLING (MISSING CANON)
+When required rules/templates/entities are missing:
+
+1) Declare GAP (what is missing and why it blocks the route)
+2) Select the correct template for the missing entity/doc type
+3) Produce a minimal viable canonical artifact (DRAFT is allowed)
+4) Route it through the finish chain or explicitly mark it as blocking
+5) Resume the original task only after the gap is resolved or formally blocked
+
+No “temporary guessing” is allowed.
+
+---
+
+## 8) DEPRECATION & REPLACEMENT (CANON SAFE REWRITE)
+When replacing canon:
+- Never delete identity
+- Old doc becomes DEPRECATED
+- Old doc must include:
+  - REPLACED_BY_UID
+  - REPLACED_BY_RAW
+- Replacement doc starts as VERSION 1.0.0 (new UID)
+
+If LOCK: FIXED blocks editing the old doc:
+- create a deprecation pointer record in the appropriate registry/log (governed),
+- and ensure future routing uses the replacement.
+
+---
+
+## 9) RUNTIME VS REPO TRUTH (SNAPSHOT LAW)
+### 9.1 Runtime truth
+Runtime reads:
+- ROOT link base snapshot + user-provided RAW links.
+If the repo has newer versions, runtime does not assume they exist unless provided by snapshot refresh.
+
+### 9.2 Repo truth
+Repo may evolve, but runtime must not “jump” to unprovided files.
+
+This prevents:
+- drifting canon
+- hidden dependency on “latest master”
+- accidental use of unreviewed rules
+
+---
+
+## 10) OUTPUT ARTIFACT RULE (CANON PACKAGING)
+Anything that leaves the system as a result must be an artifact doc:
+- track cards, prompts, release packs, passports, specs, rules
+- structured, versioned, auditable
+
+If the user wants “just content”, system still packages it as an artifact doc by default.
+
+---
+
+## 11) KB SCOPE (BOUNDARIES FOR CANON KNOWLEDGE)
+Canon knowledge is accepted only within explicit boundaries.
+
+Minimum KB scope declaration (when creating KB modules or using KB as authority):
+- KB INPUTS: what sources are allowed
+- KB OUTPUTS: what artifacts are produced
+- KB BOUNDARIES: what the KB must not decide
+- KB RAW REFERENCES: the exact raw links used
+
+If scope is not explicit → the KB output is non-canon (draft guidance only).
+
+---
+
+## 12) INTERFACES (RAW ONLY)
+- Versioning & Change Policy:
+  - RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01_SYSTEM_LAW/03__VERSIONING_CHANGE_POLICY.md
+- UID Rules:
+  - RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01_SYSTEM_LAW/02__UID_RULES.md
+- Naming Rules:
+  - RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01_SYSTEM_LAW/01__NAMING_RULES.md
+- Runtime Entrypoint:
+  - RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01__START_UNIVERSE_ENGINE.md
+
+---
+
 LOCK: FIXED
-
 --- END.

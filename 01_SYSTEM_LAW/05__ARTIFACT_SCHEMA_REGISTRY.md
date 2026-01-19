@@ -1,352 +1,336 @@
 # SYSTEM LAW — ARTIFACT SCHEMA REGISTRY (CANON)
-FILE: 01_SYSTEM_LAW/05__ARTIFACT_SCHEMA_REGISTRY.md
 
+FILE: 01_SYSTEM_LAW/05__ARTIFACT_SCHEMA_REGISTRY.md
 SCOPE: Universe Engine
 LAYER: 01_SYSTEM_LAW
 DOC_TYPE: LAW
-LAW_TYPE: ARTIFACT_SCHEMA
+LAW_TYPE: ARTIFACT_SCHEMA_REGISTRY
 LEVEL: L1
 STATUS: DRAFT
 LOCK: FIXED
-VERSION: 1.0.0
-UID: UE.LAW.ARTIFACT_SCHEMA.001
+VERSION: 1.0.1
+UID: UE.LAW.ARTIFACTS.001
 OWNER: SYSTEM
-ROLE: Registry of artifact types and their required schemas, owners, output targets, and required gates to keep outputs consistent across engines, specialists, pipelines, KB, and projects
+ROLE: Single authoritative registry of artifact document types, their mandatory schemas, section markers, UID rules, and template bindings
 
 CHANGE_NOTE:
 - DATE: 2026-01-09
 - TYPE: MAJOR
-- SUMMARY: "Established executable artifact schema registry: strict TYPE_ID format, record schema, baseline artifact types for cube operation (SPC/ENG/ORC/XREF/KB/PRJ), and schema change rules with enforcement."
-- REASON: "System needs a single authoritative definition of output artifact shapes; otherwise pipelines produce incompatible outputs."
-- IMPACT: "All outputs become deterministic and checkable; breaking schema changes require migration and proper versioning."
-- CHANGE_ID: UE.CHG.2026-01-09.LAW.ARTIFACT_SCHEMA.001
+- SUMMARY: "Introduced canonical artifact registry: artifact types, record schema, and template binding rule."
+- REASON: "Force 'no naked output' discipline and unify deliverables."
+- IMPACT: "Every result becomes auditable document artifact."
+- CHANGE_ID: UE.CHG.2026-01-09.LAW.ARTIFACTS.001
+
+CHANGE_NOTE:
+- DATE: 2026-01-19
+- TYPE: PATCH
+- SUMMARY: "Aligned with START runtime: snapshot rule, boot-first, dispatcher entry, finish chain, stop-conditions-only, and KB scope block requirement where relevant."
+- REASON: "Remove ambiguity about what counts as a valid deliverable."
+- IMPACT: "Artifacts become deterministic units for ORC/ENG/CTL/VAL/QA pipelines."
+- CHANGE_ID: UE.CHG.2026-01-19.LAW.ARTIFACTS.002
 
 ---
 
 ## 0) PURPOSE (LAW)
-This registry defines canonical artifact types and their required fields.
-It ensures:
-- engines/specialists/orchestrators produce compatible outputs
-- validators and QA can check artifacts deterministically
-- breaking schema changes are detected and require migration
+This registry defines what an “artifact” is in Universe Engine, and enforces:
+- no naked output: every result is a document artifact
+- deterministic schema: mandatory headers + mandatory section markers
+- template binding: every artifact type must map to a template or a canonical schema standard
+- routing and gates: artifacts must pass control/validation/QA before signoff
+
+If an artifact type is not registered here, it is not a canonical deliverable.
 
 ---
 
-## 1) DEFINITIONS (STRICT)
-- ARTIFACT: Any produced output intended to be stored, referenced, validated, or used by pipelines.
-- TYPE_ID: Stable identifier of an artifact type (never reused).
-- SCHEMA: Required and optional fields for an artifact type.
-- OWNER_LAYER: The layer/group responsible for maintaining the schema (LAW/STD/ENT/KB/PRJ/etc).
-- OUTPUT_TARGET: Where artifacts of this type are stored (by rule, not necessarily one folder).
-- REQUIRED_GATES: Which gates are required when producing/accepting the artifact (VAL/QA/CTL).
-- BREAKING SCHEMA CHANGE: Any change that makes previously valid artifacts invalid or changes required interpretation.
+## 1) ABSOLUTE ARTIFACT LAWS
+
+### 1.1 No naked output (ABSOLUTE)
+Any output (content/plan/decision/track/scene/entity passport) must be provided as an artifact document compliant with:
+- DOC CONTROL rules
+- UID rules
+- versioning / change policy
+- the artifact’s registered schema markers
+
+### 1.2 Snapshot compliance (ABSOLUTE)
+During runtime, artifact generation must rely only on RAW links provided by:
+- ROOT LINK BASE snapshot, and/or
+- explicit user message links
+No guessing of paths or URLs outside the snapshot.
+
+### 1.3 Boot-first (ABSOLUTE)
+No artifact execution or packaging before BOOT completion markers are explicitly confirmed.
+
+### 1.4 Mandatory governance chain (ABSOLUTE)
+No artifact is “done” until it passes:
+READINESS_CHECK_CTL → relevant VAL → relevant QA → DOC_CONTROLLER_SPC → MACHINE_ARCHITECT_SPC signoff
+
+### 1.5 Stop conditions (only these)
+- RAW missing
+- marker not confirmed
+- input absent
 
 ---
 
 ## 2) ARTIFACT TYPE ID FORMAT (ABSOLUTE)
-- FORMAT: `UE.ART.<LAYER>.<DOMAIN>.<TYPE>.<NNN>`
-- `<LAYER>`: LAW|STD|ENT|KB|PRJ|XREF|OUT|AST|LOG (use primary owner layer)
-- `<DOMAIN>`: NARRATIVE|CHARACTER|WORLD|VISUAL|SOUND|PRODUCTION|MARKETING|RESEARCH|SYSTEM|META|GENERIC
-- `<TYPE>`: UPPER_SNAKE_CASE token (stable semantic name)
-- `<NNN>`: 001..999 unique sequence within that TYPE family
+FORMAT: `UE.ART.<DOMAIN>.<TYPE>.<NNN>`
 
-Rules:
-- TYPE_ID is stable and must never change.
-- TYPE_ID collisions are forbidden.
-- TYPE_ID must never be reused even if artifact type is deprecated.
+- DOMAIN examples: SYS | DOC | KB | ENT | PPL | MUSIC | NARRATIVE | WORLD | VISUAL | PRODUCTION | MARKETING
+- TYPE examples: INDEX | PASSPORT | CONTRACT | CARD | PROMPT | RELEASE | PACK | VIOLATION | QA_CHECK | REPORT
+- NNN: 001..999 sequence within DOMAIN
 
 ---
 
-## 3) ARTIFACT TYPE RECORD FORMAT (ABSOLUTE)
-Each registry record MUST include:
+## 3) ARTIFACT RECORD SCHEMA (REQUIRED)
+Each artifact type entry in this registry must include:
 
-- TYPE_ID: `UE.ART....`
-- NAME: human name
-- REQUIRED_FIELDS: list of required top-level fields/sections
-- OPTIONAL_FIELDS: list of optional top-level fields/sections
-- OWNER_LAYER: LAW|STD|ENT|KB|PRJ|XREF|...
-- OUTPUT_TARGET: storage rule (path or layer target)
-- REQUIRED_GATES: [VAL:<...>, QA:<...>, CTL:<...>] (may be empty)
-- NOTES: clarifications, allowed variants, forbidden patterns
-
----
-
-## 4) SCHEMA CHANGE RULES (MANDATORY)
-### 4.1 Breaking vs non-breaking
-- BREAKING (requires MAJOR + migration):
-  - adding/removing/renaming required fields
-  - changing meaning of a required field
-  - changing required ordering if ordering is declared mandatory
-- NON-BREAKING (may be MINOR/PATCH):
-  - adding optional fields
-  - adding examples, clarifying notes
-  - tightening language without changing requirements
-
-### 4.2 Migration requirement
-Any breaking schema change requires:
-- migration note describing old→new mapping
-- update to relevant templates (if any)
-- update to validators/QA expectations (if any)
-
----
-
-# REGISTRY — ARTIFACT SCHEMAS (CANON)
-
----
-
-## UE.ART.ENT.GENERIC.SPC_OUTPUT_PACK.001
-- TYPE_ID: UE.ART.ENT.GENERIC.SPC_OUTPUT_PACK.001
-- NAME: SPC Output Pack (Standard)
-- REQUIRED_FIELDS:
-  - HEADER (canonical metadata)
-  - INPUTS (what was consumed)
-  - DECISIONS (what was decided, with rationale)
-  - OUTPUTS (deliverables list)
-  - RISKS / ASSUMPTIONS (if applicable)
-  - NEXT ACTIONS (handoff steps)
-- OPTIONAL_FIELDS:
-  - CHECKLIST (self-check)
-  - REFERENCES (extra sources)
-- OWNER_LAYER: ENT
-- OUTPUT_TARGET: Stored inside SPC deliverables or PRJ output sections depending on pipeline.
-- REQUIRED_GATES: [QA:READABILITY, CTL:READINESS]
+- ARTIFACT_TYPE_ID:
+- NAME:
+- DOMAIN:
+- PURPOSE:
+- REQUIRED_HEADER_FIELDS:
+- REQUIRED_SECTION_MARKERS:
+- OPTIONAL_SECTION_MARKERS:
+- TEMPLATE_BINDING (RAW) OR CANON_SCHEMA_STANDARD (RAW):
+- UID_RULE_REFERENCE (RAW):
+- VERSIONING_POLICY_REFERENCE (RAW):
+- VALIDATION (VAL) HOOKS (optional):
+- QA GATES (optional):
+- OUTPUT_PLACEMENT (layer/folder guidance):
 - NOTES:
-  - Output pack must not declare existence/canon by itself.
-  - Output pack is attachable to ORC steps and PRJ artifacts.
 
 ---
 
-## UE.ART.ENT.GENERIC.ENGINE_OUTPUT.001
-- TYPE_ID: UE.ART.ENT.GENERIC.ENGINE_OUTPUT.001
-- NAME: Engine Output (Standard)
-- REQUIRED_FIELDS:
-  - HEADER (canonical metadata)
-  - CONSUMED (inputs)
-  - PRODUCED (outputs)
-  - DEPENDS_ON (explicit dependencies)
-  - OUTPUT_TARGET (where result is stored)
-- OPTIONAL_FIELDS:
-  - METRICS (if measurable)
-  - LIMITATIONS
-- OWNER_LAYER: ENT
-- OUTPUT_TARGET: Stored in PRJ outputs or system entity logs depending on engine.
-- REQUIRED_GATES: [CTL:READINESS]
-- NOTES:
-  - Engine output must be contract-compatible with engine mini-contract.
+## 4) GLOBAL ARTIFACT DOCUMENT HEADER (MINIMUM)
+Every artifact document must start with a Doc Control header block containing, at minimum:
+
+- FILE:
+- SCOPE:
+- LAYER:
+- DOC_TYPE:
+- STATUS:
+- LOCK:
+- VERSION:
+- UID:
+- OWNER:
+- ROLE:
+- CHANGE_NOTE (when updated)
+
+If a specific artifact type requires extra header fields, it must be listed in REQUIRED_HEADER_FIELDS for that type.
 
 ---
 
-## UE.ART.XREF.SYSTEM.PIPELINE_STEP_MAP.001
-- TYPE_ID: UE.ART.XREF.SYSTEM.PIPELINE_STEP_MAP.001
-- NAME: XREF Pipeline Step Map (SoT)
-- REQUIRED_FIELDS:
-  - HEADER
-  - PIPELINE_ID
-  - STEPS (ordered list)
-  - FOR EACH STEP: ORC_REF, ENG_REF, SPC_OWNER_REF, INPUTS, OUTPUTS, GATES, OUTPUT_TARGET
-- OPTIONAL_FIELDS:
-  - NOTES
-  - VARIANTS (if declared)
-- OWNER_LAYER: XREF
-- OUTPUT_TARGET: `03_SYSTEM_ENTITIES/90_XREF__CROSSREF/*`
-- REQUIRED_GATES: [CTL:LINK_VALIDATION]
-- NOTES:
-  - This artifact is SoT for step maps; ORC must reference it, not redefine it.
+## 5) UNIVERSAL SECTION MARKERS (BASELINE)
+Unless a registered artifact type overrides this, the document must include these section markers:
+
+- PURPOSE
+- INPUTS (MINIMUM)
+- OUTPUTS / DELIVERABLE
+- RULES / CONSTRAINTS (if applicable)
+- WORKFLOW / STEPS (if applicable)
+- GATES (VAL/QA acceptance)
+- INTERFACES (RAW links only)
+
+### 5.1 KB SCOPE (MANDATORY WHEN KB IS USED)
+If an artifact consumes or references Knowledge Base materials, it must include:
+
+## KNOWLEDGE BASE (KB) SCOPE
+- INPUTS (what KB modules/topics are allowed)
+- OUTPUTS (what the artifact produces into KB, if any)
+- BOUNDARIES (what is explicitly out of scope)
+- RAW REFERENCES (KB entrypoints or modules used)
+
+If KB scope cannot be confirmed via RAW links, STOP: marker not confirmed.
 
 ---
 
-## UE.ART.ENT.GENERIC.ORC_PIPELINE_SPEC.001
-- TYPE_ID: UE.ART.ENT.GENERIC.ORC_PIPELINE_SPEC.001
-- NAME: ORC Pipeline Specification (Executable)
-- REQUIRED_FIELDS:
-  - HEADER
-  - PIPELINE_ID
+## 6) CANONICAL ARTIFACT TYPES (REGISTRY)
+
+### 6.1 System / Governance artifacts
+
+#### UE.ART.SYS.LAW.001
+- NAME: System Law Document
+- DOMAIN: SYS
+- PURPOSE: Enforce canonical rules at L1.
+- REQUIRED_HEADER_FIELDS: LAW_TYPE, LEVEL
+- REQUIRED_SECTION_MARKERS:
   - PURPOSE
-  - ENTRY CONDITIONS
-  - STEP EXECUTION RULE (must reference XREF map)
-  - OUTPUT TARGETS
-  - REQUIRED GATES
-- OPTIONAL_FIELDS:
-  - RETRY POLICY
-  - ESCALATION RULES
-- OWNER_LAYER: ENT
-- OUTPUT_TARGET: `03_SYSTEM_ENTITIES/20_ORC__ORCHESTRATORS/*`
-- REQUIRED_GATES: [CTL:READINESS]
-- NOTES:
-  - ORC must be a deterministic executor; step truth comes from XREF.
+  - ABSOLUTE LAWS
+  - ENFORCEMENT
+  - INTERFACES (RAW)
+- TEMPLATE_BINDING (RAW): (by system standards; if template exists it must be referenced)
+- UID_RULE_REFERENCE (RAW): UID rules
+- VERSIONING_POLICY_REFERENCE (RAW): versioning policy
+- OUTPUT_PLACEMENT: 01_SYSTEM_LAW/
+- NOTES: Laws are LOCK: FIXED once ACTIVE.
+
+#### UE.ART.SYS.REGISTRY.001
+- NAME: Registry Document (DB/Index/Registry)
+- DOMAIN: SYS
+- PURPOSE: Canonical list of entities/types/records.
+- REQUIRED_SECTION_MARKERS:
+  - PURPOSE
+  - RECORD_SCHEMA
+  - ENTRIES
+  - CHANGELOG / NOTES
+  - INTERFACES (RAW)
+- TEMPLATE_BINDING (RAW): registry template (if present)
+- OUTPUT_PLACEMENT: 08_DATABASES/ or registry realms
+- NOTES: Registries are single sources of truth within their declared scope.
+
+#### UE.ART.PPL.CONTRACT.001
+- NAME: Pipeline Contract / ORC Step Contract
+- DOMAIN: PPL
+- PURPOSE: Deterministic orchestration: ordered steps + handoffs + gates placement.
+- REQUIRED_SECTION_MARKERS:
+  - PURPOSE
+  - INPUTS (MIN)
+  - OUTPUT_ARTIFACT_TYPES
+  - STEPS (ORDERED)
+  - HANDOFFS
+  - FAILOVER
+  - SIGNOFF_CHAIN
+  - INTERFACES (RAW)
+- TEMPLATE_BINDING (RAW): ORC pipeline contract template (if present)
+- OUTPUT_PLACEMENT: ORC realm or pipeline docs
+- NOTES: Must reference PIPELINE_ID from pipeline registry.
 
 ---
 
-## UE.ART.KB.SYSTEM.KB_ENTITY_PASSPORT.001
-- TYPE_ID: UE.ART.KB.SYSTEM.KB_ENTITY_PASSPORT.001
-- NAME: KB Entity Passport (Knowledge Card)
-- REQUIRED_FIELDS:
-  - HEADER
-  - KB_SCOPE (domain/topic)
-  - DEFINITIONS (if needed)
-  - CONTENT (knowledge)
-  - TAGS
-  - RELATIONS (if applicable)
-- OPTIONAL_FIELDS:
-  - SOURCES
-  - EXAMPLES
-- OWNER_LAYER: KB
-- OUTPUT_TARGET: `04_KNOWLEDGE_BASE/*` or KB governance-defined storage map
-- REQUIRED_GATES: [QA:READABILITY]
-- NOTES:
-  - KB passports do not create canon facts; they are methods/knowledge unless explicitly governed otherwise.
+### 6.2 Entity artifacts (passports / role docs)
+
+#### UE.ART.ENT.PASSPORT.001
+- NAME: Entity Passport (SPC/ORC/ENG/CTL/VAL/QA)
+- DOMAIN: ENT
+- PURPOSE: Define identity, scope, rules, and interfaces of an entity role.
+- REQUIRED_SECTION_MARKERS:
+  - PURPOSE
+  - SCOPE
+  - RULES (CAN / CANNOT)
+  - INPUTS / OUTPUTS
+  - GATES (where applicable)
+  - KNOWLEDGE BASE (KB) SCOPE (if entity consumes KB)
+  - INTERFACES (RAW)
+- TEMPLATE_BINDING (RAW): entity passport template (if present)
+- OUTPUT_PLACEMENT: 03_SYSTEM_ENTITIES/<realm>/
+- NOTES: If entity is missing, runtime must propose creation using templates.
 
 ---
 
-## UE.ART.PRJ.SYSTEM.PRJ_PASSPORT.001
-- TYPE_ID: UE.ART.PRJ.SYSTEM.PRJ_PASSPORT.001
-- NAME: Project Passport (PRJ Entity)
-- REQUIRED_FIELDS:
-  - HEADER
-  - SCOPE (what project covers)
-  - CANON TARGETS (what becomes canon)
-  - ENTITY LIST (what entities are produced)
-  - PIPELINES USED (references)
-  - OUTPUT TARGETS
-- OPTIONAL_FIELDS:
-  - ROADMAP
-  - RISKS
-- OWNER_LAYER: PRJ
-- OUTPUT_TARGET: `05_PROJECTS/00_PRJ_GOVERNANCE/*` and per-project location
-- REQUIRED_GATES: [CTL:READINESS]
-- NOTES:
-  - PRJ passport is the bridge between system and produced canon content.
+### 6.3 Validation / QA artifacts
+
+#### UE.ART.VAL.VIOLATION.001
+- NAME: Validation Violation Record
+- DOMAIN: SYS
+- PURPOSE: Record a compliance failure with fix guidance.
+- REQUIRED_SECTION_MARKERS:
+  - VIOLATION_SUMMARY
+  - RULE_REFERENCES (RAW)
+  - EVIDENCE (what failed)
+  - FIX_GUIDE
+  - RECHECK_INSTRUCTIONS
+  - INTERFACES (RAW)
+- TEMPLATE_BINDING (RAW): VAL violation template (if present)
+- OUTPUT_PLACEMENT: validation realm or logs
+- NOTES: Must be referenced by pipeline trace if a gate fails.
+
+#### UE.ART.QA.CHECK.001
+- NAME: QA Gate Check Record
+- DOMAIN: SYS
+- PURPOSE: Acceptance scoring against rubric/exemplars.
+- REQUIRED_SECTION_MARKERS:
+  - CHECK_SCOPE
+  - RUBRIC (or RUBRIC_REF RAW)
+  - RESULTS
+  - PASS_FAIL
+  - REGRESSION_NOTES (if any)
+  - INTERFACES (RAW)
+- TEMPLATE_BINDING (RAW): QA check template (if present)
+- OUTPUT_PLACEMENT: QA realm or logs
 
 ---
 
-## UE.ART.PRJ.NARRATIVE.SCENE_PACK.001
-- TYPE_ID: UE.ART.PRJ.NARRATIVE.SCENE_PACK.001
-- NAME: Scene Pack (Project Narrative Output)
-- REQUIRED_FIELDS:
-  - HEADER
-  - SCENE_ID / UID
-  - SCENE STACK (if standardized)
-  - SUMMARY
-  - BEATS / EVENTS (structured)
-  - DIALOGUE (if present)
-  - CONTINUITY NOTES
-- OPTIONAL_FIELDS:
-  - VISUAL NOTES (constraints only)
-  - SOUND NOTES (constraints only)
-  - ALT VERSIONS
-- OWNER_LAYER: PRJ
-- OUTPUT_TARGET: `05_PROJECTS/*` (project-specific output folders)
-- REQUIRED_GATES: [QA:NATURALNESS, VAL:CONSISTENCY]
-- NOTES:
-  - Visual/sound notes must respect boundaries (no montage decisions if forbidden by standards).
+### 6.4 Music system artifacts (minimum set)
+
+#### UE.ART.MUSIC.TRACK_CARD.001
+- NAME: Track Card
+- DOMAIN: MUSIC
+- PURPOSE: Track identity + intent + positioning + slot metadata.
+- REQUIRED_SECTION_MARKERS:
+  - PURPOSE
+  - TRACK_IDENTITY
+  - STYLE_FINGERPRINT (high level)
+  - DURATION_TARGET
+  - VOCAL_INTENT
+  - QA_TARGETS
+  - INTERFACES (RAW)
+- CANON_SCHEMA_STANDARD (RAW): Music doc schema standard (if present)
+- OUTPUT_PLACEMENT: 08_DATABASES/10_MUSIC_CATALOG/.../TRACKS/.../00__TRACK__CARD.md
+
+#### UE.ART.MUSIC.TRACK_PROMPT.001
+- NAME: Track Prompt Document
+- DOMAIN: MUSIC
+- PURPOSE: Prompt contract payload for a generation tool.
+- REQUIRED_SECTION_MARKERS:
+  - PROMPT_CONTRACT
+  - LYRICS / STRUCTURE
+  - NEGATIVE_SPECS (if used)
+  - ONE_AXIS_CHANGE_NOTE (if revision)
+  - INTERFACES (RAW)
+- CANON_SCHEMA_STANDARD (RAW): Music prompt contract standard (if present)
+- OUTPUT_PLACEMENT: .../01__TRACK__PROMPT.md
+
+#### UE.ART.MUSIC.TRACK_RELEASE.001
+- NAME: Track Release Document
+- DOMAIN: MUSIC
+- PURPOSE: Final metadata + packaging + variants list.
+- REQUIRED_SECTION_MARKERS:
+  - METADATA
+  - CREDITS_RIGHTS
+  - VARIANTS
+  - QA_SIGNOFFS
+  - INTERFACES (RAW)
+- OUTPUT_PLACEMENT: .../02__TRACK__RELEASE.md
+
+#### UE.ART.MUSIC.OUTPUT_PACK.001
+- NAME: Track Output Pack (bundle)
+- DOMAIN: MUSIC
+- PURPOSE: A single exportable pack for publishing/hand-off.
+- REQUIRED_SECTION_MARKERS:
+  - CONTENT (what is included)
+  - FILE_LIST
+  - PLATFORM_NOTES
+  - QA_PASS
+  - INTERFACES (RAW)
+- OUTPUT_PLACEMENT: 05_PROJECTS/07_MUSIC_LABEL/.../10_RELEASES/...__OUTPUT_PACK.md
 
 ---
 
-## UE.ART.PRJ.CHARACTER.CHARACTER_PROFILE.001
-- TYPE_ID: UE.ART.PRJ.CHARACTER.CHARACTER_PROFILE.001
-- NAME: Character Profile (Project Character Output)
-- REQUIRED_FIELDS:
-  - HEADER
-  - CHARACTER_ID / UID
-  - CORE (identity)
-  - MOTIVATION
-  - PSYCHOLOGY
-  - RELATIONSHIPS
-  - ARC (growth/trauma if applicable)
-- OPTIONAL_FIELDS:
-  - DIALOGUE STYLE NOTES
-  - CONTRADICTIONS / RISKS
-- OWNER_LAYER: PRJ
-- OUTPUT_TARGET: `05_PROJECTS/*`
-- REQUIRED_GATES: [VAL:CONSISTENCY, QA:READABILITY]
-- NOTES:
-  - Must align with character engines and narrative continuity constraints.
+## 7) GAP RULE: ARTIFACT TYPE NOT FOUND (MANDATORY)
+If task requires an artifact type not registered here:
+1) Declare GAP: missing artifact type
+2) Propose a new ARTIFACT_TYPE record (full schema)
+3) Bind it to a template or a canon schema standard (RAW link required)
+4) Only then produce artifacts under that type
 
 ---
 
-## UE.ART.PRJ.WORLD.LOCATION_DOSSIER.001
-- TYPE_ID: UE.ART.PRJ.WORLD.LOCATION_DOSSIER.001
-- NAME: Location Dossier (World/Geography Output)
-- REQUIRED_FIELDS:
-  - HEADER
-  - LOCATION_ID / UID
-  - GEOGRAPHY (facts)
-  - CULTURE/SOCIETY (if applicable)
-  - CONFLICT/POWER (if applicable)
-  - RESOURCES (non-currency framing if great civ)
-- OPTIONAL_FIELDS:
-  - MAP NOTES
-  - HISTORICAL NOTES
-- OWNER_LAYER: PRJ
-- OUTPUT_TARGET: `05_PROJECTS/*`
-- REQUIRED_GATES: [VAL:CONSISTENCY, QA:READABILITY]
-- NOTES:
-  - Must comply with WORLD constraints (e.g., no currency for great civilizations).
+## 8) INTERFACES (RAW)
+System law + standards used by this registry:
 
----
+- UID rules
+  - https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01_SYSTEM_LAW/02__UID_RULES.md
+- Versioning & change policy
+  - https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01_SYSTEM_LAW/03__VERSIONING_CHANGE_POLICY.md
+- Canon protocol
+  - https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01_SYSTEM_LAW/04__CANON_PROTOCOL.md
+- Doc control standard
+  - https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/02_STANDARDS/01_SPECIFICATIONS/03__DOC_CONTROL_STANDARD.md
+- Index structure spec
+  - https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/02_STANDARDS/01_SPECIFICATIONS/09__INDEX_STRUCTURE_SPEC.md
+- Storage map standard
+  - https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/02_STANDARDS/01_SPECIFICATIONS/02__STORAGE_MAP_STANDARD.md
 
-## UE.ART.ENT.SYSTEM.CTL_READINESS_REPORT.001
-- TYPE_ID: UE.ART.ENT.SYSTEM.CTL_READINESS_REPORT.001
-- NAME: Controller Readiness Report
-- REQUIRED_FIELDS:
-  - HEADER
-  - CHECKS_RUN
-  - FAILURES (if any)
-  - PASS/FAIL
-  - FIX_ACTIONS
-- OPTIONAL_FIELDS:
-  - LINKS
-- OWNER_LAYER: ENT
-- OUTPUT_TARGET: `03_SYSTEM_ENTITIES/40_CTL__CONTROLLERS/*` or logs per system design
-- REQUIRED_GATES: []
-- NOTES:
-  - Used as enforcement evidence for protocol compliance.
-
----
-
-## 5) BOUNDARIES (ANTI-OVERLAP)
-- This registry defines artifact schema expectations; it does not define existence.
-- Schemas here do not override higher laws (authority order applies).
-- Pipelines may require additional checks but must not contradict required fields without updating this registry.
-
----
-
-## 6) ENFORCEMENT (MANDATORY)
-### 6.1 MANDATORY CHECKS
-- Every TYPE_ID follows the strict format.
-- No TYPE_ID is reused.
-- Every record has REQUIRED_FIELDS + OWNER_LAYER + OUTPUT_TARGET.
-- Breaking schema changes are versioned as MAJOR and include migration requirements.
-
-### 6.2 FAIL CONDITIONS
-- Artifacts produced without required fields (when claimed to conform).
-- Two different types share same TYPE_ID.
-- Breaking schema changes introduced without migration or proper versioning.
-
-### 6.3 FIX PROCEDURE
-- Update templates and production steps to include missing fields.
-- Reissue TYPE_ID if collision occurs (never reuse old).
-- Add migration notes and adjust version classification for breaking changes.
-
----
-
-## 7) INTERFACES (RAW ONLY)
-- System Law index (SoT):  
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01_SYSTEM_LAW/00__INDEX__SYSTEM_LAW.md
-- Core constitution:  
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01_SYSTEM_LAW/00__SYSTEM_LAW.md
-- Versioning & Change Policy:  
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01_SYSTEM_LAW/03__VERSIONING_CHANGE_POLICY.md
-- Standards master index:  
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/02_STANDARDS/00__MASTER_INDEX__UNIVERSE_ENGINE.md
-
----
-
-## FINAL RULE (LOCK)
-This registry is the only authoritative source for artifact type schemas.  
-Any artifact claiming compliance must satisfy required fields, or be treated as invalid until fixed.
-
-OWNER: SYSTEM
-LOCK: FIXED
+Templates index (if templates are referenced during GAP creation):
+- https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/01_TPL__TEMPLATES/00__INDEX_ALL_TEMPLATES.md
 
 --- END.

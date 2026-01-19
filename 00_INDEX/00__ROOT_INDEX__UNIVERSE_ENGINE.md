@@ -1,6 +1,6 @@
 # 00__ROOT_INDEX__UNIVERSE_ENGINE
 
-SCOPE: Universe Engine (Games volume)
+SCOPE: Universe Engine
 SERIAL: C425-B513
 DOC_TYPE: INDEX (ROOT)
 NAV_RULE: Use RAW links only
