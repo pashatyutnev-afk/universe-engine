@@ -1,44 +1,57 @@
-# DOC CONTROL (MARKING MODULE) (CANON)
-FILE: 02_STANDARDS/06_MARKING_STANDARDS/08__DOC_CONTROL.md
+# MARKING STANDARD — DOC CONTROL (REFERENCE MODULE)
 
+FILE: 02_STANDARDS/06_MARKING_STANDARDS/08__DOC_CONTROL.md
 SCOPE: Universe Engine
-LAYER: 02_STANDARDS
-DOC_TYPE: MODULE
-MODULE_TYPE: MARKING
+LAYER: 02_STANDARDS/06_MARKING_STANDARDS
+DOC_TYPE: STANDARD
+STANDARD_TYPE: MARKING_MODULE
+MARKING_FAMILY: DOC_CONTROL
 LEVEL: L2
 STATUS: ACTIVE
 LOCK: FIXED
-VERSION: 1.1.0
-UID: UE.STD.MOD.MARKING.DOC_CONTROL.608
+VERSION: 1.0.1
+UID: UE.MRK.DOC_CONTROL.001
 OWNER: SYSTEM
-ROLE: Marking module providing practical Doc Control header patterns for common document types (INDEX/SPEC/MODULE/PROTOCOL/TEMPLATE/TERMS/REGISTRY) and legacy alias pointers. Extends Doc Control SoT.
+ROLE: Compact marking reference for DOC CONTROL. Not a SoT. Provides quick markers and checklists aligned with the canonical DOC CONTROL standard.
 
 CHANGE_NOTE:
-- DATE: 2026-01-07
-- TYPE: MINOR
-- SUMMARY: "Модуль Doc Control: готовые header-шапки для типов документов + правила alias pointers, без дублей контента"
-- REASON: "Ускорить создание канона и убрать ошибки шапок"
-- IMPACT: "All canon docs and migrations"
+- DATE: 2026-01-20
+- TYPE: PATCH
+- SUMMARY: "Clarified SoT vs marking role, removed pseudo-navigation, added compact marker blocks + checklist, aligned with Doc Control Standard."
+- REASON: "Marking modules must not act as navigation sources; they must be safe, compact references."
+- IMPACT: "Less ambiguity: operators use this as quick card; tooling uses canonical standard."
+- CHANGE_ID: UE.CHG.2026-01-20.MRK.DOCCTRL.001
 
 ---
 
-## XREF (UID-first)
-XREF: UE.STD.SPEC.DOC_CONTROL.103 | extends | practical header patterns | 02_STANDARDS/01_SPECIFICATIONS/03__DOC_CONTROL_STANDARD.md
-XREF: UE.STD.MOD.MARKING.STORAGE_MAP.602 | references | alias pointers policy | 02_STANDARDS/06_MARKING_STANDARDS/02__STORAGE_MAP.md
-XREF: UE.STD.MOD.MARKING.STATUS_LOCK_VERSION.603 | references | status/lock/version clarity | 02_STANDARDS/06_MARKING_STANDARDS/03__STATUS_LOCK_VERSION.md
+## 0) PURPOSE (LAW)
+Этот файл — **маркировочный модуль** (короткая карточка).
+Он не заменяет и не переопределяет канонический стандарт.
+
+SoT (authority):
+- `02_STANDARDS/01_SPECIFICATIONS/03__DOC_CONTROL_STANDARD.md`
+  - RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/02_STANDARDS/01_SPECIFICATIONS/03__DOC_CONTROL_STANDARD.md
 
 ---
 
-## 0) PURPOSE
-Этот модуль даёт:
-- готовые “копипаст” шапки Doc Control для основных типов документов
-- минимальные правила “что обязательно”
-- как оформить legacy alias pointer файл корректно
+## 1) WHAT THIS IS / WHAT THIS IS NOT
+
+### 1.1 This IS
+- Быстрая справка по обязательным полям header.
+- Напоминалка по запретам (anti-duplication).
+- Мини-чеклист перед коммитом.
+
+### 1.2 This is NOT
+- Не навигационный индекс.
+- Не “единая точка истины”.
+- Не место для путей/линков как “главной навигации” (кроме явного указания SoT выше).
 
 ---
 
-## 1) GENERAL HEADER RULES (PRACTICAL)
-Обязательный минимум для канона:
+## 2) DOC CONTROL MARKERS (QUICK CARD)
+
+### 2.1 Mandatory base fields (minimum)
+Документ контролируемый системой должен иметь в header:
 - FILE
 - SCOPE
 - LAYER
@@ -50,224 +63,47 @@ XREF: UE.STD.MOD.MARKING.STATUS_LOCK_VERSION.603 | references | status/lock/vers
 - UID
 - OWNER
 - ROLE
-- CHANGE_NOTE (last change)
+- CHANGE_NOTE (DATE/TYPE/SUMMARY/REASON/IMPACT/CHANGE_ID)
+- `---` (separator after header)
 
-Рекомендации:
-- не добавлять в header “лишние поля” если не нужны
-- если документ INDEX — явно указывать `INDEX_TYPE`
-- если документ SPEC — указывать `SPEC_TYPE`
-- если документ MODULE — указывать `MODULE_TYPE`
+### 2.2 Header truth (ABSOLUTE)
+- Header = единственная истина по метаданным.
+- Запрещено повторять мета-поля ниже header.
 
----
+Примеры запрещённого:
+- `FINAL RULE (LOCK) LOCK: FIXED`
+- повтор `OWNER/LOCK/STATUS/VERSION/UID` в конце файла
+- “дубли-шапки” внутри тела
 
-## 2) COPY HEADERS (READY TO USE)
-
-### 2.1 INDEX (MASTER/SUB)
-FILE: <path>
-SCOPE: Universe Engine
-LAYER: <layer>
-DOC_TYPE: INDEX
-INDEX_TYPE: <MASTER|SUB|REGISTRY_INDEX|MAP|REQUIREMENTS_ROOT>
-LEVEL: L1
-STATUS: ACTIVE
-LOCK: FIXED
-VERSION: 1.0.0
-UID: <UID>
-OWNER: SYSTEM
-ROLE: Canonical entrypoint / navigation law
-
-CHANGE_NOTE:
-- DATE: YYYY-MM-DD
-- TYPE: PATCH|MINOR|MAJOR
-- SUMMARY: "..."
-- REASON: "..."
-- IMPACT: "..."
+### 2.3 Allowed body content
+В теле — только:
+- правила, законы, определения, процедуры,
+- ссылки на authority/related docs (если разрешено),
+- примеры (без повторов меты).
 
 ---
 
-### 2.2 SPEC (SoT)
-FILE: <path>
-SCOPE: Universe Engine
-LAYER: <layer>
-DOC_TYPE: SPEC
-SPEC_TYPE: SoT
-LEVEL: L1
-STATUS: ACTIVE
-LOCK: FIXED
-VERSION: 1.0.0
-UID: <UID>
-OWNER: SYSTEM
-ROLE: Source-of-Truth specification
+## 3) SAFE XREF RULE (FOR MARKING MODULES)
+Если этот модуль упоминает документы:
+- по умолчанию **UID-only** (без ссылок),
+- RAW даётся только:
+  - если это явно authority link (как в разделе 0),
+  - или если scope разрешает и это нужно для выполнения.
 
-CHANGE_NOTE:
-- DATE: YYYY-MM-DD
-- TYPE: PATCH|MINOR|MAJOR
-- SUMMARY: "..."
-- REASON: "..."
-- IMPACT: "..."
+Иначе модуль превращается в “скрытый индекс”, что запрещено.
 
 ---
 
-### 2.3 MODULE
-FILE: <path>
-SCOPE: Universe Engine
-LAYER: <layer>
-DOC_TYPE: MODULE
-MODULE_TYPE: <MARKING|...>
-LEVEL: L2
-STATUS: ACTIVE
-LOCK: FIXED
-VERSION: 1.0.0
-UID: <UID>
-OWNER: SYSTEM
-ROLE: Module that extends a SoT spec
+## 4) PRE-COMMIT CHECKLIST (MIN)
 
-CHANGE_NOTE:
-- DATE: YYYY-MM-DD
-- TYPE: PATCH|MINOR|MAJOR
-- SUMMARY: "..."
-- REASON: "..."
-- IMPACT: "..."
+- [ ] `FILE:` совпадает с реальным путём файла.
+- [ ] Все mandatory поля в header присутствуют.
+- [ ] UID соответствует правилам UID law (канонический формат).
+- [ ] Нет повторов метаданных в теле.
+- [ ] CHANGE_NOTE заполнен и содержит CHANGE_ID.
+- [ ] Если документ является INDEX/REGISTRY — existence rule и nav contract указаны.
 
 ---
 
-### 2.4 PROTOCOL
-FILE: <path>
-SCOPE: Universe Engine
-LAYER: <layer>
-DOC_TYPE: PROTOCOL
-LEVEL: L1
-STATUS: ACTIVE
-LOCK: FIXED
-VERSION: 1.0.0
-UID: <UID>
-OWNER: SYSTEM
-ROLE: Operational protocol
-
-CHANGE_NOTE:
-- DATE: YYYY-MM-DD
-- TYPE: PATCH|MINOR|MAJOR
-- SUMMARY: "..."
-- REASON: "..."
-- IMPACT: "..."
-
----
-
-### 2.5 TEMPLATE
-FILE: <path>
-SCOPE: Universe Engine
-LAYER: <layer>
-DOC_TYPE: TEMPLATE
-LEVEL: L1
-STATUS: ACTIVE
-LOCK: FIXED
-VERSION: 1.0.0
-UID: <UID>
-OWNER: SYSTEM
-ROLE: Canonical copy template
-
-CHANGE_NOTE:
-- DATE: YYYY-MM-DD
-- TYPE: PATCH|MINOR|MAJOR
-- SUMMARY: "..."
-- REASON: "..."
-- IMPACT: "..."
-
----
-
-### 2.6 TERMS
-FILE: <path>
-SCOPE: Universe Engine
-LAYER: <layer>
-DOC_TYPE: TERMS
-LEVEL: L1
-STATUS: ACTIVE
-LOCK: FIXED
-VERSION: 1.0.0
-UID: <UID>
-OWNER: SYSTEM
-ROLE: Canonical glossary/definitions
-
-CHANGE_NOTE:
-- DATE: YYYY-MM-DD
-- TYPE: PATCH|MINOR|MAJOR
-- SUMMARY: "..."
-- REASON: "..."
-- IMPACT: "..."
-
----
-
-### 2.7 REGISTRY
-FILE: <path>
-SCOPE: Universe Engine
-LAYER: <layer>
-DOC_TYPE: REGISTRY
-LEVEL: L1
-STATUS: ACTIVE
-LOCK: FIXED
-VERSION: 1.0.0
-UID: <UID>
-OWNER: SYSTEM
-ROLE: Canonical registry for <scope>
-
-CHANGE_NOTE:
-- DATE: YYYY-MM-DD
-- TYPE: PATCH|MINOR|MAJOR
-- SUMMARY: "..."
-- REASON: "..."
-- IMPACT: "..."
-
----
-
-## 3) LEGACY ALIAS POINTER (NON-CANON CONTENT) — REQUIRED FORMAT
-Alias pointer файл не содержит стандарт, а только указатель.
-
-### 3.1 Header (alias pointer)
-FILE: <legacy-path>
-SCOPE: Universe Engine
-LAYER: <layer>
-DOC_TYPE: ARTIFACT
-ARTIFACT_TYPE: LEGACY_ALIAS_POINTER
-LEVEL: L2
-STATUS: DEPRECATED
-LOCK: FIXED
-VERSION: 1.0.0
-UID: <UID for this pointer file>
-OWNER: SYSTEM
-ROLE: Legacy alias pointer to canonical document
-
-CHANGE_NOTE:
-- DATE: YYYY-MM-DD
-- TYPE: PATCH|MINOR|MAJOR
-- SUMMARY: "Created alias pointer"
-- REASON: "Migration / naming collision / legacy compatibility"
-- IMPACT: "Old links redirect to canon"
-
-CANON_TARGET_UID: <UID_CANON>
-CANON_TARGET: <path-to-canon>
-
-### 3.2 Body (alias pointer)
-THIS FILE IS A LEGACY ALIAS POINTER (NON-CANON CONTENT).
-
-CANON TARGET:
-- UID: <UID_CANON>
-- PATH: <path-to-canon>
-
-XREF:
-- XREF: <UID_CANON> | non_canon_alias_of | legacy alias pointer | <path-to-canon>
-
----
-
-## 4) COMMON FAILURES (ANTI-PATTERNS)
-Запрещено:
-- “второй INDEX” как альтернативный entrypoint (делай alias pointer)
-- “контент стандарта” внутри alias pointer файла
-- UID отсутствует или не SemVer
-- смешивать doc STATUS с entity status
-
----
-
-## FINAL RULE (LOCK)
-Этот модуль расширяет Doc Control SoT и задаёт практику шапок/alias pointers.
-Изменение обязательных header полей = MAJOR по умолчанию.
---- END.
+## 5) END
+This marking module is a compact reference. Authority remains the canonical Doc Control standard.

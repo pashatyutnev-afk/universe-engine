@@ -1,78 +1,98 @@
-# UID & MARKING STANDARD (SoT) (CANON)
-FILE: 02_STANDARDS/01_SPECIFICATIONS/01__UID_AND_MARKING_STANDARD.md
+UID & MARKING STANDARD (CANON)
 
+FILE: 02_STANDARDS/01_SPECIFICATIONS/01__UID_AND_MARKING_STANDARD.md
 SCOPE: Universe Engine
-LAYER: 02_STANDARDS
-DOC_TYPE: SPEC
-SPEC_TYPE: SoT
+LAYER: 02_STANDARDS/01_SPECIFICATIONS
+DOC_TYPE: STANDARD
+STANDARD_TYPE: UID_AND_MARKING
 LEVEL: L1
 STATUS: ACTIVE
 LOCK: FIXED
-VERSION: 1.1.0
-UID: UE.STD.SPEC.UID_MARKING.101
+VERSION: 1.0.1
+UID: UE.STD.UID_MARKING.001
 OWNER: SYSTEM
-ROLE: Source-of-Truth specification for system identification and canonical marking across Universe Engine layers (UID usage, doc headers, marking modules boundaries).
+ROLE: Operational standard for applying UID rules and document marking consistently across all layers. Defines enforcement rules, XREF integrity requirements, and machine-friendly marking patterns.
 
 CHANGE_NOTE:
-- DATE: 2026-01-07
-- TYPE: MINOR
-- SUMMARY: "Нормализован SoT UID & Marking: UID-first, правила маркировки, связка SoT↔modules, запрет дублей"
-- REASON: "Согласование со слоями LAW и устранение противоречий/дублирования"
-- IMPACT: "All layers, indices, KB governance, modules in 06_MARKING_STANDARDS"
+- DATE: 2026-01-20
+- TYPE: PATCH
+- SUMMARY: "Rebuilt XREF discipline: no placeholder UID references; added RAW+UID coupling rule; clarified marking blocks and validation checklist; DOC CONTROL body sanitized."
+- REASON: "Inconsistent UID references break UID-first navigation and audit. XREF must reference only real IDs or explicit TBD."
+- IMPACT: "UID-first becomes reliable; standards can be validated mechanically; fewer broken references."
+- CHANGE_ID: UE.CHG.2026-01-20.STD.UIDMARK.001
 
 ---
 
 ## 0) PURPOSE (LAW)
-Этот документ — SoT-спека для:
-- использования UID как системного языка идентификации,
-- обязательной маркировки (header marking) канонических документов,
-- правил “что такое module маркировки” и как он связан с SoT.
+Этот стандарт описывает **как правильно применять** правила UID и маркировки документов в Universe Engine.
 
-Эта спека НЕ заменяет законы `01_SYSTEM_LAW`, а применяет их к стандартам и маркировке.
+Важно:
+- **UID правила задаются в System Law**. Этот документ не переопределяет LAW, а стандартизирует применение и проверку.
+- Любая ссылка по UID должна быть **реальной и проверяемой**.
 
 ---
 
-## 1) AUTHORITY & REFERENCES (XREF)
-Primary authority:
-- `01_SYSTEM_LAW/00__SYSTEM_LAW.md` (Core Law)
+## 1) AUTHORITIES (REFERENCE)
+### 1.1 UID law authority (SoT)
+UID формат и допустимые схемы задаются здесь:
 - `01_SYSTEM_LAW/02__UID_RULES.md`
-- `01_SYSTEM_LAW/01__NAMING_RULES.md`
-- `01_SYSTEM_LAW/03__VERSIONING_CHANGE_POLICY.md`
-- `01_SYSTEM_LAW/04__CANON_PROTOCOL.md`
+  - RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01_SYSTEM_LAW/02__UID_RULES.md
 
-XREF (UID-first):
-- XREF: UE.LAW.CORE.000 | governs | core authority and existence rules | 01_SYSTEM_LAW/00__SYSTEM_LAW.md
-- XREF: UE.LAW.UID.002 | defines | UID format and stability | 01_SYSTEM_LAW/02__UID_RULES.md
-- XREF: UE.LAW.NAMING.001 | governs | naming constraints | 01_SYSTEM_LAW/01__NAMING_RULES.md
-- XREF: UE.LAW.VERSIONING.003 | governs | semver + change policy | 01_SYSTEM_LAW/03__VERSIONING_CHANGE_POLICY.md
-- XREF: UE.LAW.CANON.PROTOCOL.004 | governs | canon change process | 01_SYSTEM_LAW/04__CANON_PROTOCOL.md
+### 1.2 Doc Control authority (SoT)
+Обязательные поля, запрет дублирования метаданных, правила шапки:
+- `02_STANDARDS/01_SPECIFICATIONS/03__DOC_CONTROL_STANDARD.md`
+  - RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/02_STANDARDS/01_SPECIFICATIONS/03__DOC_CONTROL_STANDARD.md
 
 ---
 
-## 2) DEFINITIONS (TERMS)
-- **UID** — единственный канонический идентификатор системы (см. UID Rules).
-- **Marking** — маркировка документа/артефакта через шапку и стандартизированные поля.
-- **Doc Control Header** — обязательная “шапка” канонического документа.
-- **SoT Spec** — спецификация, которая определяет “как должно быть” (единственная истина).
-- **Module** — документ детализации, который расширяет SoT, но не является SoT.
+## 2) DEFINITIONS
+
+### 2.1 UID
+UID — канонический уникальный идентификатор документа/сущности в системе (UID-first подход).
+
+### 2.2 Marking
+Marking — набор стандартных полей/маркеров, которые позволяют:
+- машинную валидацию документов,
+- устойчивую навигацию,
+- аудируемость изменений.
+
+### 2.3 XREF entry
+XREF entry — запись “ссылка на сущность/документ” внутри стандарта/индекса/реестра.
 
 ---
 
-## 3) UID IS PRIMARY (ABSOLUTE)
-### 3.1 UID обязателен
-Любой канонический документ обязан иметь `UID` в шапке.
+## 3) UID-FIRST RULES (ABSOLUTE)
 
-### 3.2 UID неизменяем
-UID нельзя менять без Canon Protocol и версии MAJOR (если это breaking).
+### 3.1 UID is the primary identity
+- UID — первичная идентичность.
+- Имя файла и путь — вторичны, но должны быть согласованы через Doc Control (`FILE:`).
 
-### 3.3 UID используется в XREF/REL
-Любая межслойная ссылка использует UID как primary (local id не годится как единственный идентификатор).
+### 3.2 No placeholder UID references (STRICT)
+Запрещено писать “примерные” UID в XREF, если они не существуют.
+
+Разрешены только варианты:
+- `UID: <real uid from target file header>`
+- `UID: TBD` (если документ/сущность ещё не создана)
+
+Любое другое (“UE.LAW.CORE.000” без реально существующего файла) — нарушение.
+
+### 3.3 RAW + UID coupling rule (WHEN NAVIGATION NEEDED)
+Если XREF предполагает навигацию (переход/использование), запись должна содержать:
+- `UID` (реальный), и
+- `RAW` (ссылка), если режим RAW-only активен и ссылку разрешает область
+
+Если область запрещает RAW — оставляем UID-only.
 
 ---
 
-## 4) DOC CONTROL HEADER (MARKING) — MINIMUM STANDARD
-Каждый канонический документ обязан иметь в начале файла header с минимумом:
+## 4) MARKING STANDARD (DOC CONTROL COMPATIBLE)
 
+### 4.1 Header is the only meta location (ABSOLUTE)
+- Все поля `STATUS/LOCK/VERSION/UID/OWNER/ROLE/FILE/...` живут **только в header**.
+- Нельзя дублировать эти поля в теле документа (никаких “FINAL RULE (LOCK) LOCK: …”).
+
+### 4.2 Minimal marking fields (REQUIRED BY DOC CONTROL)
+Для любого контролируемого документа должны быть:
 - `FILE`
 - `SCOPE`
 - `LAYER`
@@ -84,90 +104,101 @@ UID нельзя менять без Canon Protocol и версии MAJOR (ес�
 - `UID`
 - `OWNER`
 - `ROLE`
-- `CHANGE_NOTE` (последнее изменение)
+- `CHANGE_NOTE` (с CHANGE_ID)
 
-### 4.1 Single truth rule
-Запрещено дублировать `OWNER/LOCK/VERSION/STATUS` внизу документа отдельными строками.
-Одна истина — в header.
-
-### 4.2 Status & Lock meaning
-- `STATUS: ACTIVE` — документ применим
-- `STATUS: DEPRECATED` — документ устарел, но существует
-- `LOCK: FIXED` — каноничный документ, правки только по Canon Protocol
-- `LOCK: OPEN` — черновик, не канон (не регистрируется в master-index)
+(Конкретный список и правила — в Doc Control authority.)
 
 ---
 
-## 5) MARKING MODULES BOUNDARY (SoT vs Modules)
-### 5.1 SoT defines, modules detail
-- SoT документ определяет правило/контракт (что обязательно).
-- Modules дают детализацию/варианты применения (как именно оформлять маркеры), но:
-  - не вводят вторую истину,
-  - не противоречат SoT,
-  - обязаны ссылаться на SoT.
+## 5) XREF ENTRY FORMAT (CANON)
 
-### 5.2 Prohibited duplication
-Запрещено:
-- копировать целые разделы SoT в module “как будто это SoT”
-- иметь два документа, которые оба называют себя SoT по одной теме
+### 5.1 Canon XREF entry (recommended)
+Используй атомарные записи:
 
----
+- ITEM: "<human readable name>"
+  TYPE: <DOC | ENTITY | TEMPLATE | REGISTRY | FOLDER | OTHER>
+  UID: <real uid | TBD>
+  RAW: <raw link if allowed and needed>
+  PATH_LABEL: <optional; human label only>
+  NOTES: "<short usage hint>"
 
-## 6) REQUIRED MARKING SET (CANON KEYS)
-Набор ключей маркировки обязателен для канонических документов:
+Правила:
 
-### 6.1 Identity keys
-- `UID` (system identity)
-- `FILE` (path identity)
-
-### 6.2 Control keys
-- `STATUS`
-- `LOCK`
-- `VERSION` (SemVer)
-
-### 6.3 Context keys
-- `SCOPE`
-- `LAYER`
-- `DOC_TYPE`
-- `LEVEL`
-- `OWNER`
-- `ROLE`
-
-### 6.4 Change keys
-- `CHANGE_NOTE` (последнее изменение)
+- `UID` обязателен (реальный или `TBD`).
+    
+- `RAW` обязателен, если:
+    
+    - режим RAW-only активен,
+        
+    - запись предполагает навигацию,
+        
+    - и правила области разрешают RAW.
+        
+- `PATH_LABEL` никогда не является механизмом навигации.
+    
 
 ---
 
-## 7) VALIDATION (COMPLIANCE)
-Документ считается compliant, если:
-- header содержит все обязательные ключи
-- UID валиден и уникален
-- VERSION SemVer валиден
-- LOCK/STATUS не дублируются и не конфликтуют
-- документ зарегистрирован в master-index своего слоя
+## 6) VALIDATION CHECKLIST (MUST BEFORE COMMIT)
+
+### 6.1 UID integrity
+
+- Каждый `UID` в XREF:
+    
+    - либо реально существует в заголовке целевого файла,
+        
+    - либо равен `TBD`.
+        
+
+### 6.2 FILE-path integrity
+
+- `FILE:` в целевом документе совпадает с фактическим путём файла.
+    
+
+### 6.3 No meta duplication
+
+- В теле документа нет повторов header-меты.
+    
+
+### 6.4 RAW-only compliance (if enabled)
+
+- Нет ссылок/путей, которые требуют “угадывания”.
+    
+- Все переходы — только по RAW из разрешённой базы.
+    
 
 ---
 
-## 8) INTERFACE TO MARKING MODULES (06_MARKING_STANDARDS)
-Модули маркировки должны:
-- иметь Doc Control header и UID
-- содержать XREF на этот SoT:
-  - `XREF: UE.STD.SPEC.UID_MARKING.101 | extends | module details for marking | <path>`
-- не вводить новые обязательные header keys без MAJOR изменения SoT
+## 7) EXAMPLES (REFERENCE)
+
+### 7.1 Correct XREF (with RAW)
+
+```yaml
+- ITEM: "UID RULES (LAW)"
+  TYPE: DOC
+  UID: UE.LAW.UID.001
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01_SYSTEM_LAW/02__UID_RULES.md
+  NOTES: "Authority for UID formats and allowed schemas."
+```
+
+### 7.2 Correct XREF (UID-only, RAW forbidden)
+
+```yaml
+- ITEM: "Some restricted document"
+  TYPE: DOC
+  UID: UE.SOMETHING.123
+  NOTES: "RAW forbidden in this scope; UID-only reference."
+```
+
+### 7.3 Correct XREF (TBD)
+
+```yaml
+- ITEM: "New standard to be created"
+  TYPE: DOC
+  UID: TBD
+  NOTES: "Create doc first, then replace TBD with real UID + RAW."
+```
 
 ---
 
-## 9) MIGRATION NOTES (CURRENT REPO)
-S0:
-- Привести все канонические документы к header/UID/SemVer.
-- Устранить коллизии `00__*` в корне `02_STANDARDS/` (уже начато через alias-подход).
-
-S1:
-- Нормализовать протоколы/темплейты, которые не соответствуют `NN__...md`, или зафиксировать исключения.
-
----
-
-## FINAL RULE (LOCK)
-Эта спека — единственная истина по стандарту UID & Marking внутри слоя STANDARDS.
-Любая правка обязательных ключей/контрактов = изменение канона (Canon Protocol).
---- END.
+## 8) END

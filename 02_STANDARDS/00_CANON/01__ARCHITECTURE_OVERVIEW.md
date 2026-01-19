@@ -1,127 +1,190 @@
-# ARCHITECTURE OVERVIEW (UNIVERSE ENGINE)
-FILE: 02_STANDARDS/00_CANON/01__ARCHITECTURE_OVERVIEW.md
+# ARCHITECTURE OVERVIEW (CANON)
 
+FILE: 02_STANDARDS/00_CANON/01__ARCHITECTURE_OVERVIEW.md
 SCOPE: Universe Engine
-LAYER: 02_STANDARDS
-DOC_TYPE: CANON_REFERENCE
+LAYER: 02_STANDARDS/00_CANON
+DOC_TYPE: STANDARD
+STANDARD_TYPE: ARCHITECTURE_OVERVIEW
 LEVEL: L1
 STATUS: ACTIVE
 LOCK: FIXED
-VERSION: 1.0.0
-UID: UE.CANON.ARCH.OVERVIEW.001
+VERSION: 1.0.1
+UID: UE.STD.ARCH.OVERVIEW.001
 OWNER: SYSTEM
-ROLE: Canonical architecture overview: layers, entrypoints, authority, and build order (system map)
+ROLE: Canonical architecture overview of Universe Engine: layers, responsibilities, runtime entrypoints, navigation laws, and artifact governance.
 
 CHANGE_NOTE:
-- DATE: 2026-01-08
-- TYPE: MAJOR
-- SUMMARY: "Архитектура нормализована: один обзор системы с жёсткими entrypoints и порядком построения канона"
-- REASON: "Нужно единое представление системы до переписывания движков/сущностей/KB"
-- IMPACT: "Навигация и порядок разработки всего репозитория"
+- DATE: 2026-01-20
+- TYPE: PATCH
+- SUMMARY: "DOC CONTROL compliance cleanup + canonical structured overview (no meta duplication in body)."
+- REASON: "Architecture overview must be auditable; forbidden meta repetition patterns removed."
+- IMPACT: "Single source overview for system readers; stable onboarding reference."
+- CHANGE_ID: UE.CHG.2026-01-20.STD.ARCH.OVERVIEW.001
 
 ---
 
-## 0) PURPOSE
-Этот документ объясняет **как устроен Universe Engine**:
-- какие есть слои (layers) и за что они отвечают
-- где находятся **официальные входные точки** (entrypoints)
-- какой порядок “строительства” канона считается правильным
+## 0) PURPOSE (LAW)
+Этот документ — обзор того, **как устроен Universe Engine** как система документации и рантайма.
 
-Это обзор. Он **не заменяет** законы и стандарты.
-
----
-
-## 1) LAYERS (SYSTEM MAP)
-
-### 00_INDEX (Repo entry)
-Назначение: вход в репозиторий и карта дерева.
-
-### 01_SYSTEM_LAW (Highest Authority)
-Назначение: законы системы (что считается каноном, как изменяется, как именуется, как версиями управлять).
-
-**Правило:** если в SYSTEM_LAW сказано иначе — этот документ подчиняется.
-
-### 02_STANDARDS (How it must be)
-Назначение: спецификации, протоколы, технические шаблоны, термины.
-Это “инженерные правила изготовления документов/сущностей/пайплайнов”.
-
-### 03_SYSTEM_ENTITIES (System actors)
-Назначение: системные сущности (ENG/ORC/SPC/CTL/VAL/QA), их реестры, шаблоны и внутренние контракты.
-
-### 04_KNOWLEDGE_BASE (Knowledge realms)
-Назначение: база знаний по ремеслу (нарратив, персонажи, визуал, звук и т.п.).
-KB — это контент-знание, а не законы системы.
-
-### 05_PROJECTS (Project layer)
-Назначение: проекты/воркшоп/интейк/канонизация проекта/выходные артефакты.
-
-### 06_ASSETS (Assets governance)
-Назначение: артефакты производства (изображения/видео/звук/и т.п.) и их управляемость.
-
-### 08_DATABASES (Reference DB)
-Назначение: таблицы-справочники (типы сущностей, типы документов и т.п.) как “машиночитаемая” опора.
-
-### 99_LOGS (Audit/Change history)
-Назначение: след изменений, журнал канона.
+Он отвечает:
+- какие есть слои и зачем они;
+- какие правила навигации обязательны;
+- где “единственные точки входа”;
+- как оформляется результат (артефакты) и как проходит контроль качества.
 
 ---
 
-## 2) CANON PRINCIPLE (CORE IDEA)
-Канон существует только там, где:
-1) есть **master-index слоя** (existence rule)
-2) документ соответствует **Doc Control**
-3) соблюдён **naming с номером NN__**
-4) нет дубля смысла (SoT строго один)
+## 1) CORE PRINCIPLES (ABSOLUTE)
 
-Если что-то “лежит в репо”, но не проходит правила — это **ошибка/мусор/вне канона**.
+### 1.1 Single Source of Truth (SoT)
+- У каждой области есть единственная “точка истины”:
+  - ROOT-INDEX для базы RAW-ссылок (snapshot),
+  - MASTER INDEX слоя для существования/состава внутри слоя,
+  - стандарты для формата документов,
+  - сущности для ролей и поведения.
 
----
+### 1.2 RAW-only navigation (when enabled)
+- Навигация выполняется только по RAW-ссылкам из:
+  - ROOT-INDEX, и/или
+  - явных ссылок, присланных пользователем в сообщении.
+- Запрещено угадывать пути/файлы/URL.
 
-## 3) OFFICIAL ENTRYPOINTS (WHERE TO START)
+### 1.3 Boot-first runtime
+- Выполнение любой задачи возможно только после загрузки ключевых законов/стандартов/модели сущностей.
 
-### System Law entry
-- `01_SYSTEM_LAW/00__SYSTEM_LAW.md`
-- `01_SYSTEM_LAW/00__INDEX__SYSTEM_LAW.md`
-
-### Standards entry
-- `02_STANDARDS/00__INDEX__STANDARDS.md`
-
-### Entities entry
-- `03_SYSTEM_ENTITIES/00__README__SYSTEM_ENTITIES.md`
-- `03_SYSTEM_ENTITIES/02__INDEX__SYSTEM_ENTITIES.md`
-
-### Knowledge Base entry
-- `04_KNOWLEDGE_BASE/00__INDEX__KNOWLEDGE_BASE.md`
+### 1.4 Output as artifacts
+- Система не выпускает “голый контент”.
+- Любой результат оформляется документом-артефактом по стандартам/шаблонам.
 
 ---
 
-## 4) BUILD ORDER (HOW WE BUILD FROM ZERO)
-Правильный порядок укрепления фундамента:
+## 2) LAYER MODEL (WHAT LIVES WHERE)
 
-S0 (foundation, mandatory):
-1) SYSTEM_LAW (existence / canon / naming / uid / versioning)
-2) STANDARDS (Doc Control / Index template / Entity passport / Terms)
-3) Layer indexes (master-index каждого слоя)
+### 2.1 00_INDEX
+Назначение:
+- entrypoints рантайма,
+- ROOT link base (snapshot),
+- центральные маршруты и quick start.
 
-S1 (system actors):
-4) SYSTEM_ENTITIES: шаблоны и реестры, потом уже переписывание ENG/ORC/SPC/...
+Типовые документы:
+- ROOT INDEX (raw link base snapshot)
+- START (entrypoint / runbook)
 
-S2 (content knowledge):
-5) KNOWLEDGE_BASE: реалмы приводятся к Doc Control + нумерации, затем наполнение
+### 2.2 01_SYSTEM_LAW
+Назначение:
+- конституция системы, обязательные законы, которые выше любых стандартов/проектов.
 
-S3 (projects/outputs):
-6) PROJECTS + ASSETS + OUTPUT pipelines
+Содержит:
+- naming rules
+- UID rules
+- versioning & change policy
+- canon protocol
+- registries (artifact schema, constraints, pipeline registry)
+
+### 2.3 02_STANDARDS
+Назначение:
+- стандарты структуры, форматов и протоколов.
+- шаблоны (technical templates) для воспроизводимого выпуска документов/сущностей.
+
+Содержит:
+- CANON (архитектура, системный канон)
+- SPECIFICATIONS (doc control, index structure, storage map и т.д.)
+- PROTOCOLS (chat protocol, change management)
+- TECHNICAL templates (entity passport, index template)
+
+### 2.4 03_SYSTEM_ENTITIES
+Назначение:
+- модель ролей/сущностей (SPC/ORC/ENG/CTL/VAL/QA/XREF),
+- шаблоны сущностей и индексы сущностей.
+
+Содержит:
+- realm readmes и rules
+- registries + template registries
+- сами сущности (каталоги по realm)
+
+### 2.5 04_KNOWLEDGE_BASE
+Назначение:
+- структурированная база знаний:
+  - governance,
+  - pillars,
+  - topics,
+  - entity competence packs / connectors,
+  - shared libraries.
+
+### 2.6 05_PROJECTS
+Назначение:
+- работа над конкретными продуктами/линиями (проекты, воркшопы, output).
+- L0 intake → L1 project → L2 canon → L3 output (если применяется).
+
+### 2.7 06_ASSETS
+Назначение:
+- ассеты и их правила хранения/учёта (включая паспорта ассетов и индексы).
+
+### 2.8 08_DATABASES
+Назначение:
+- базы и реестры данных (каталоги, типы, логи релизов и т.д.)
+- структура данных отделена от стандартов/законов.
+
+### 2.9 99_LOGS
+Назначение:
+- аудит и журнал изменений.
 
 ---
 
-## 5) NAMING POLICY (OVERVIEW)
-Общее правило:
-- файлы внутри канона имеют префикс `NN__` (или `00__` для README/entrypoint по стандарту слоя)
-- файлы без номера **не допускаются**
-- один смысл → один SoT документ; остальное — ссылки/REL/XREF
+## 3) RUNTIME MODEL (WHO DOES WHAT)
+
+### 3.1 Entity roles (high level)
+- SPC: намерение/решения/упаковка результата.
+- ORC: пайплайны и handoffs.
+- ENG: детерминированные методы и микрологика.
+- CTL: политики, лимиты, блокировки, принудительные гейты.
+- VAL: проверки соответствия и фиксация нарушений.
+- QA: гейты приёмки, эталоны, регресс.
+- XREF: карты соответствий и матрицы проверок.
+
+### 3.2 Task lifecycle (default)
+1) Intake (MACHINE_ARCHITECT_SPC)
+2) Routing (Top Governance SPC)
+3) Execution (ORC + ENG)
+4) Control + Validation (CTL + VAL)
+5) QA (QA realm)
+6) Packaging (INTEGRATION_PACKER_SPC)
+7) Signoff (DOC_CONTROLLER_SPC → MACHINE_ARCHITECT_SPC)
 
 ---
 
-## FINAL RULE (LOCK)
-LOCK: FIXED
---- END.
+## 4) NAVIGATION LAW (HOW TO READ SYSTEM)
+
+### 4.1 ROOT-INDEX as snapshot
+- ROOT-INDEX — снимок ссылок.
+- Не обновляется автоматически.
+- Обновляется только вручную пользователем.
+
+### 4.2 START as single entrypoint
+- Любая задача запускается только через START.
+- ROOT-INDEX не выполняет задач.
+
+---
+
+## 5) ARTIFACT GOVERNANCE (OUTPUT RULES)
+
+### 5.1 Artifact requirement
+- Любой результат — это артефакт-документ по стандартам/шаблонам.
+- Если нет подходящего шаблона — сначала GAP → предложение создания → полный файл сущности/шаблона.
+
+### 5.2 Change control
+- Изменения фиксируются через CHANGE_NOTE/CHANGE_ID.
+- Применяются протоколы изменения и канонизации.
+
+---
+
+## 6) QUICK ONBOARDING (MINIMUM READ)
+1) System Law: naming + UID + versioning + canon protocol  
+2) Doc Control + Index Structure + Storage Map  
+3) System Entities model + templates registry  
+4) Knowledge Base entrypoint  
+5) START runbook (runtime entrypoint)
+
+---
+
+## 7) END

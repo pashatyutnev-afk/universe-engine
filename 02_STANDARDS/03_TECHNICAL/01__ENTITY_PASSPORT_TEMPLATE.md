@@ -1,211 +1,187 @@
-# TEMPLATE — ENTITY PASSPORT (TECHNICAL)
-FILE: 02_STANDARDS/03_TECHNICAL/01__ENTITY_PASSPORT_TEMPLATE.md
+# ENTITY PASSPORT TEMPLATE (CANON)
 
+FILE: 02_STANDARDS/03_TECHNICAL/01__ENTITY_PASSPORT_TEMPLATE.md
 SCOPE: Universe Engine
-LAYER: 02_STANDARDS
+LAYER: 02_STANDARDS/03_TECHNICAL
 DOC_TYPE: TEMPLATE
 TEMPLATE_TYPE: ENTITY_PASSPORT
-LEVEL: L2
+LEVEL: L1
 STATUS: ACTIVE
 LOCK: FIXED
-VERSION: 1.0.0
-UID: UE.TPL.STD.ENTITY_PASSPORT.001
+VERSION: 1.0.1
+UID: UE.TPL.ENTITY_PASSPORT.001
 OWNER: SYSTEM
-ROLE: Canonical technical template for creating an Entity Passport (unified schema across projects/KB/system entities)
+ROLE: Single canonical template for entity passport documents (SPC/ORC/ENG/CTL/VAL/QA/XREF and other entity types).
 
 CHANGE_NOTE:
-- DATE: 2026-01-08
-- TYPE: MAJOR
-- SUMMARY: "Шаблон паспорта сущности нормализован: Doc Control + единый скелет + поля для xref/rel/статусов"
-- REASON: "Нужен единый паспорт как атомарная единица знаний/сущности"
-- IMPACT: "Стандартизирует создание сущностей во всех слоях"
-
----
-
-## 0) HOW TO USE (MANDATORY)
-1) Копируешь шаблон.
-2) Заполняешь только фактические данные.
-3) Регистрируешь сущность и файл по правилам naming/UID.
-4) Добавляешь REL/XREF, если есть связи.
-
----
-
-## 1) ENTITY PASSPORT — TEMPLATE (COPY BELOW)
-
-# ENTITY PASSPORT — <ENTITY_NAME>
-FILE: <CANON_PATH_TO_THIS_PASSPORT.md>
-
-SCOPE: Universe Engine
-LAYER: <LAYER_NAME>
-ENTITY_TYPE: <TYPE_CODE>
-ENTITY_GROUP: <GROUP_CODE>
-LEVEL: <L0|L1|L2|L3>
-STATUS: <DRAFT|ACTIVE|DEPRECATED|ARCHIVED>
-LOCK: <OPEN|FIXED>
-VERSION: <X.Y.Z>
-UID: <UE....>
-
-OWNER: <SYSTEM|PROJECT|...>
-ROLE: <one-line purpose of this entity passport>
-
-CHANGE_NOTE:
-- DATE: <YYYY-MM-DD>
-- TYPE: <PATCH|MINOR|MAJOR>
-- SUMMARY: "<short summary>"
-- REASON: "<why>"
-- IMPACT: "<what it affects>"
-
----
-
-## 0) IDENTITY
-- NAME: <canonical name>
-- ALIASES: [<optional>, ...]
-- SHORT_DESC: <1–2 lines>
-- TAGS: [<tag>, <tag>, ...]
-
-## 1) CANON STATUS
-- CANON_SCOPE: <SYSTEM|PROJECT|KB|ASSET>
-- EXISTENCE: <REGISTERED_IN_MASTER_INDEX: YES/NO>
-- SOURCE_OF_TRUTH: <YES/NO>  (if YES — this is SoT for its topic)
-- DEPRECATES: [<UID>, ...]
-- DEPRECATED_BY: [<UID>, ...]
-
-## 2) DEFINITION (SoT)
-- DEFINITION: <strict definition>
-- BOUNDARIES: <what is included/excluded>
-- NON_GOALS: <what this entity is NOT>
-
-## 3) STRUCTURE / INTERNALS
-- COMPONENTS: [<optional>, ...]
-- PROPERTIES:
-  - <key>: <value>
-- STATES (if applicable):
-  - <STATE_A>: <meaning>
-  - <STATE_B>: <meaning>
-
-## 4) RELATIONSHIPS (REL / XREF)
-- REL:
-  - <REL_TYPE>: <TARGET_UID> | WHY:<short>
-- XREF:
-  - <DOC_UID>: <section pointer> | WHY:<short>
-
-## 5) USAGE / INTERFACE
-- CONSUMES: [<artifact/doc types>, ...]
-- PRODUCES: [<artifact/doc types>, ...]
-- OUTPUT_TARGET: <path or layer target>
-- RULES_APPLIED:
-  - <LAW/STANDARD UID or PATH>
-
-## 6) VALIDATION
-- CHECKLIST:
-  - [ ] UID valid + unique
-  - [ ] Naming complies
-  - [ ] Status/Lock correct
-  - [ ] No duplication with existing SoT
-  - [ ] REL/XREF present if needed
-
-## 7) CHANGELOG (LOCAL)
-- <YYYY-MM-DD> <TYPE> — <summary>
---- END.
-
----
-
-## FILE 11B/∞  
-`02_STANDARDS/03_TECHNICAL/02__INDEX_TEMPLATE.md` (NEW CANON)
-
-```md
-# TEMPLATE — INDEX (TECHNICAL)
-FILE: 02_STANDARDS/03_TECHNICAL/02__INDEX_TEMPLATE.md
-
-SCOPE: Universe Engine
-LAYER: 02_STANDARDS
-DOC_TYPE: TEMPLATE
-TEMPLATE_TYPE: INDEX
-LEVEL: L2
-STATUS: ACTIVE
-LOCK: FIXED
-VERSION: 1.0.0
-UID: UE.TPL.STD.INDEX.001
-OWNER: SYSTEM
-ROLE: Canonical template for any INDEX file (master-index, registry index, realm index) with strict Doc Control and existence rules
-
-CHANGE_NOTE:
-- DATE: 2026-01-08
-- TYPE: MAJOR
-- SUMMARY: "Добавлен единый шаблон индекса: Doc Control + existence rule + authority order + canon map"
-- REASON: "Чтобы все индексы выглядели одинаково и читались как законы"
-- IMPACT: "Ускоряет построение слоёв и снижает косяки навигации"
-
----
-
-## 0) INDEX — TEMPLATE (COPY BELOW)
-
-```md
-# <INDEX TITLE>
-FILE: <CANON_PATH_TO_THIS_INDEX.md>
-
-SCOPE: Universe Engine
-LAYER: <LAYER_NAME>
-DOC_TYPE: INDEX
-INDEX_TYPE: <MASTER|REGISTRY|REALM|GLOBAL|...>
-LEVEL: <L0|L1|L2>
-STATUS: <DRAFT|ACTIVE|DEPRECATED|ARCHIVED>
-LOCK: <OPEN|FIXED>
-VERSION: <X.Y.Z>
-UID: <UE....>
-OWNER: <SYSTEM|...>
-ROLE: <one-line purpose>
-
-CHANGE_NOTE:
-- DATE: <YYYY-MM-DD>
-- TYPE: <PATCH|MINOR|MAJOR>
-- SUMMARY: "<short summary>"
-- REASON: "<why>"
-- IMPACT: "<what it affects>"
+- DATE: 2026-01-20
+- TYPE: PATCH
+- SUMMARY: "Removed embedded INDEX template (SoT moved to 02__INDEX_TEMPLATE.md). Cleaned forbidden meta-duplication patterns. Kept entity passport structure intact."
+- REASON: "Template SoT must be single; embedded duplicates cause drift. Doc Control forbids meta repetition outside header."
+- IMPACT: "Entity passport template becomes stable; index template is maintained in its dedicated file."
+- CHANGE_ID: UE.CHG.2026-01-20.TPL.ENTITY_PASSPORT.002
 
 ---
 
 ## 0) PURPOSE (LAW)
-<What this index is the single source of truth for>
+Этот TEMPLATE задаёт единый канонический формат **паспорта сущности**.
 
-### EXISTENCE RULE (ABSOLUTE)
-Если сущности/файла нет в этом INDEX — он не существует в рамках scope.
-
----
-
-## 1) HOW TO USE (MANDATORY FLOW)
-1) <step>
-2) <step>
-3) <step>
+Паспорт сущности:
+- фиксирует назначение и границы ответственности;
+- задаёт интерфейсы и входы/выходы;
+- описывает правила применения;
+- содержит ссылки на применимые стандарты и шаблоны (RAW-only если система в RAW режиме).
 
 ---
 
-## 2) ORDER OF AUTHORITY (PRIORITY)
-<list of priorities>
+## 1) ABSOLUTE RULES (MUST)
+
+### 1.1 Header truth (ABSOLUTE)
+- Вся мета документа живёт **только в header**.
+- Запрещено дублировать метаданные ниже шапки.
+
+### 1.2 Scope discipline (ABSOLUTE)
+- Паспорт обязан явно указать:
+  - что входит в ответственность (IN SCOPE),
+  - что не входит (OUT OF SCOPE),
+  - условия STOP.
+
+### 1.3 RAW-only navigation
+- Если система работает в RAW-only режиме, любые ссылки даются в RAW формате.
+- PATH можно указывать только как label.
 
 ---
 
-## 3) CANON MAP (REGISTERED)
-<Numbered list with PATH + RAW links>
+## 2) REQUIRED HEADER (COPY AS BASE)
+
+# <ENTITY TITLE>
+
+FILE: <path/to/file.md>
+SCOPE: <scope text>
+SERIAL: <optional volume serial>
+LAYER: 03_SYSTEM_ENTITIES
+DOC_TYPE: ENTITY
+ENTITY_TYPE: <SPC | ORC | ENG | CTL | VAL | QA | XREF | REG | DB | OTHER>
+ENTITY_REALM: <realm folder label>
+LEVEL: <L1/L2... or role level if defined>
+MODE: <REPO (USAGE-ONLY, NO-EDIT) | EDIT>
+ROLE: <one-line role>
+STATUS: <ACTIVE | DRAFT | DEPRECATED>
+LOCK: <FIXED | OPEN>
+VERSION: <semver>
+UID: <canonical UID>
+OWNER: <SYSTEM | team>
+
+CHANGE_NOTE:
+- DATE: YYYY-MM-DD
+- TYPE: <PATCH | MINOR | MAJOR>
+- SUMMARY: "<short summary>"
+- REASON: "<why>"
+- IMPACT: "<impact>"
+- CHANGE_ID: <id>
 
 ---
 
-## 4) DOC CONTROL RULES
-- Each registered doc must have Doc Control header
-- No duplicate OWNER/LOCK/VERSION in footer
-- Naming must follow naming rules
+## 3) ENTITY PASSPORT BODY TEMPLATE (REQUIRED SECTIONS)
+
+## 3.1 PURPOSE (LAW)
+
+- Зачем сущность существует.
+    
+- Какой результат она производит (в терминах артефактов/решений/проверок).
+    
+
+## 3.2 RESPONSIBILITY (SCOPE)
+
+### IN SCOPE
+
+- список задач/решений, за которые сущность отвечает.
+    
+
+### OUT OF SCOPE
+
+- что делать нельзя/что не относится к сущности.
+    
+
+## 3.3 INPUTS / OUTPUTS (INTERFACES)
+
+### INPUTS (MINIMUM)
+
+- какие входы требуются для запуска
+    
+- какие данные обязательны
+    
+
+### OUTPUTS
+
+- какие артефакты/решения выдаёт
+    
+- формат результата (если стандартизирован)
+    
+
+## 3.4 CONSTRAINTS & POLICIES
+
+- ограничения, правила, лимиты
+    
+- ссылки на CTL/LAW/STD, если применимо
+    
+
+## 3.5 WORKFLOW (HOW TO USE)
+
+- как вызывается сущность (кто её назначает)
+    
+- типичный порядок действий
+    
+- типичный handoff (к кому передаёт дальше)
+    
+
+## 3.6 GATES & VALIDATION
+
+- какие проверки применяются к её выходу
+    
+- где находится CTL/VAL/QA в цепочке
+    
+
+## 3.7 FAILURE MODES
+
+- типовые ошибки
+    
+- как чинить
+    
+- когда эскалировать
+    
+
+## 3.8 DEPENDENCIES (RAW / UID)
+
+- список ключевых зависимостей (законы/стандарты/шаблоны)
+    
+- RAW ссылки (если разрешено), иначе UID-only
+    
+
+## 3.9 CHANGE CONTROL
+
+- как обновляется сущность
+    
+- какие протоколы применяются
+    
+- как фиксируются изменения
+    
 
 ---
 
-## FINAL RULE (LOCK)
-LOCK: <FIXED|OPEN>
---- END.
+## 4) RELATED CANON TEMPLATES (REFERENCE LINKS)
+
+(Это справочный блок. Здесь нет метаданных, только ссылки/UID.)
+
+### INDEX TEMPLATE (SoT)
+
+- FILE: `02_STANDARDS/03_TECHNICAL/02__INDEX_TEMPLATE.md`
+    
+- UID: `UE.TPL.INDEX.001`
+    
+- RAW: [https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/02_STANDARDS/03_TECHNICAL/02__INDEX_TEMPLATE.md](https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/02_STANDARDS/03_TECHNICAL/02__INDEX_TEMPLATE.md)
+    
 
 ---
 
-Дальше **FILE 12/∞** — делаю alias-pointer’ы из старых:
-- `02_STANDARDS/03_TECHNICAL/ENTITY_PASSPORT_TEMPLATE.md` → alias на `01__ENTITY_PASSPORT_TEMPLATE.md`
-- `02_STANDARDS/03_TECHNICAL/INDEX_TEMPLATE.md` → alias на `02__INDEX_TEMPLATE.md`
-
-Го?
-::contentReference[oaicite:0]{index=0}
+## 5) END
