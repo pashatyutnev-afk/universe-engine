@@ -1,6 +1,25 @@
 # 00__ROOT_INDEX__UNIVERSE_ENGINE
 
-SCOPE: Universe Engine
+FILE: 00__ROOT_INDEX__UNIVERSE_ENGINE.md
+LAYER: 00_INDEX
+INDEX_TYPE: ROOT
+LEVEL: L1
+STATUS: ACTIVE
+LOCK: FIXED
+VERSION: 3.0.0
+UID: UE.IDX.GAMES.ROOT.001
+OWNER: SYSTEM
+
+CHANGE_NOTE:
+- DATE: 2026-01-20
+- TYPE: PATCH
+- SUMMARY: "DOC CONTROL header aligned + UID assigned for ROOT index."
+- REASON: "Make ROOT index auditable and compliant with DOC CONTROL standard."
+- IMPACT: "ROOT index becomes first-class controlled document."
+- CHANGE_ID: UE.CHG.2026-01-20.ROOTIDX.001
+
+
+SCOPE: Universe Engine (Games volume)
 SERIAL: C425-B513
 DOC_TYPE: INDEX (ROOT)
 NAV_RULE: Use RAW links only

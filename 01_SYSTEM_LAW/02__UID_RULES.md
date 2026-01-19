@@ -18,6 +18,28 @@ CHANGE_NOTE:
 - TYPE: MINOR
 - SUMMARY: "Formalized UID/CHANGE_ID normalization; added artifact UID blocks; clarified registration + immutability; added volume scope tokens and legacy handling."
 - REASON: "System now enforces boot-first + artifact-doc outputs; IDs must be auditable and collision-resistant."
+
+### 1.A) ALLOWED UID SCHEMAS (LAW)
+The repository currently contains both canonical and legacy UID schemas. Both are **valid** under this law.
+
+**A) Canonical (preferred for new docs):**
+- `UE.<VOLUME>.<CLASS>.<DOMAIN>.<KIND>.<SEQ>`
+- Example: `UE.GAMES.DOC.SYSTEM.START.001`
+
+**B) Legacy-controlled schemas (allowed without UID_NORMALIZATION_NOTE):**
+- `UE.LAW.<SUBCLASS>.<SEQ>` (system law docs)
+- `UE.STD.<SUBCLASS>.<SEQ>` (standards)
+- `UE.PROTO.<SUBCLASS>.<SEQ>` (protocols)
+- `UE.IDX.<DOMAIN>.<KIND>.<SEQ>` (indexes, e.g. master indexes)
+- `UE.<VOLUME>.START.<SEQ>` or `UE.<VOLUME>.START.<KIND>.<SEQ>` (runtime entrypoints)
+
+**C) Other legacy UIDs:**
+- Allowed only if the document includes `UID_NORMALIZATION_NOTE` and a planned target UID.
+
+**Enforcement rule:**
+- New documents SHOULD use the canonical schema (A).
+- Existing documents MAY keep their legacy UID if it matches (B).
+
 - IMPACT: "New docs/entities/artifacts become uniquely traceable; change logs become deterministic."
 - CHANGE_ID: UE.CHG.2026-01-19.UID.001
 

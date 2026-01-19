@@ -3,6 +3,8 @@
 FILE: 01__START_UNIVERSE_ENGINE.md
 SCOPE: Universe Engine (Games volume)
 SERIAL: C425-B513
+LAYER: 00_INDEX
+LEVEL: L1
 DOC_TYPE: ENTRYPOINT (RUNBOOK)
 MODE: REPO (USAGE-ONLY, NO-EDIT)
 ROLE: Single launch point. Defines runtime order, entity hierarchy, routing, gates, and the duty to propose creation of missing entities.
@@ -43,40 +45,40 @@ Runtime запускается только командой пользоват�
 ---
 
 ## 2) ABSOLUTE RUNTIME LAWS
-2.1 RAW-only navigation
+### 2.1 RAW-only navigation
 - Использовать только RAW ссылки, которые присутствуют:
   - в ROOT LINK BASE, или
   - в сообщении пользователя.
 - Запрещено угадывать пути/файлы/URL вне базы.
 
-2.2 Boot-first
+### 2.2 Boot-first
 - Нельзя выполнять задачу, пока не завершён BOOT SEQUENCE (раздел 5).
 
-2.3 Single entrypoint for any task
+### 2.3 Single entrypoint for any task
 - Любая задача начинается у Top Governance SPC и завершается проверочной цепочкой:
   - Start: `MACHINE_ARCHITECT_SPC`
   - Finish: `READINESS_CHECK_CTL` → relevant `VAL` → relevant `QA` → `DOC_CONTROLLER_SPC` → `MACHINE_ARCHITECT_SPC` signoff.
 
-2.4 Missing entity duty
+### 2.4 Missing entity duty
 - Если для маршрута не хватает сущности (SPC/ORC/ENG/CTL/VAL/QA) или нет подходящего шаблона/дока — система обязана:
   - зафиксировать GAP,
   - предложить создание недостающей сущности/шаблона,
   - дать полный файл сущности по TEMPLATE,
   - только после этого продолжить задачу.
 
-2.5 Output artifact rule
+### 2.5 Output artifact rule
 - Нельзя выпускать “голый контент”.
 - Любой результат должен быть оформлен как документ-артефакт по стандартам/шаблонам подсистемы.
 - Если шаблона нет — сначала GAP → предложение создания.
 
-2.6 Mandatory response format (CHAT)
+### 2.6 Mandatory response format (CHAT)
 Каждый ран должен возвращать строго:
 - MODE
 - RESOURCES USED (USING RAW + MARKER FOUND)
 - DELIVERABLES
 - GATES
 
-2.7 Stop conditions (only these)
+### 2.7 Stop conditions (only these)
 - RAW missing
 - marker not confirmed
 - input absent
@@ -92,29 +94,29 @@ Runtime запускается только командой пользоват�
 ---
 
 ## 4) ENTITY HIERARCHY (WHO DOES WHAT)
-SPC (Specialists)
+### SPC (Specialists)
 - Владельцы намерения, решений и упаковки результата.
 - Top governance SPC — диспетчеры, закон и финальное согласование.
 
-ORC (Orchestrators)
+### ORC (Orchestrators)
 - Пайплайны: порядок шагов и handoffs.
 
-ENG (Engines)
+### ENG (Engines)
 - Детерминированная микрологика и методы.
 
-CTL (Controllers)
+### CTL (Controllers)
 - Политики, лимиты, блокировки, принудительные гейты.
 
-VAL (Validators)
+### VAL (Validators)
 - Проверки соответствия и фиксация нарушений.
 
-QA (Quality)
-- Гейты приёмки, эталоны, скоринг, регрессия.
+### QA (Quality)
+- Гейты приёмки, эталоны, скоринг, регресс.
 
-XREF (Crossref)
+### XREF (Crossref)
 - Карты соответствий между сущностями и слоями, матрицы валидации, карты пайплайнов.
 
-REG / DB / LOG
+### REG / DB / LOG
 - Реестры, базы и журналы аудита/изменений.
 
 ---

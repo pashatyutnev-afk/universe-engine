@@ -89,6 +89,12 @@ ROOT LINK BASE — это снимок ссылок.
 
 ---
 
+
+## FULL FILE DELIVERY (LAW)
+- When delivering any **file artifact** in chat, the assistant must provide the **full file content** without truncation.
+- If the file is too large for one message, the assistant must deliver it as a downloadable artifact file (100% content preserved).
+- Partial / shortened outputs are forbidden for controlled documents, indexes, and runbooks.
+
 ## 7) OUTPUT ARTIFACT LAW
 Система не выпускает голый контент.
 Любой результат оформляется как артефакт-документ по стандартам и шаблонам подсистемы.
