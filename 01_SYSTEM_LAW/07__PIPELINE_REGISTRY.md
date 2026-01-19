@@ -1,344 +1,282 @@
-# SYSTEM LAW — PIPELINE REGISTRY (CANON)
+# 07__PIPELINE_REGISTRY
 
 FILE: 01_SYSTEM_LAW/07__PIPELINE_REGISTRY.md
-SCOPE: Universe Engine
+SCOPE: Universe Engine (Games volume)
+SERIAL: C425-B513
 LAYER: 01_SYSTEM_LAW
-DOC_TYPE: LAW
-LAW_TYPE: PIPELINE_REGISTRY
-LEVEL: L1
-STATUS: DRAFT
+DOC_TYPE: REGISTRY (LAW)
+STATUS: ACTIVE
 LOCK: FIXED
-VERSION: 1.0.1
-UID: UE.LAW.PIPELINES.001
+VERSION: 2.0.0
+UID: UE.LAW.PIPELINES.REG.001
 OWNER: SYSTEM
-ROLE: Single authoritative registry of pipelines (ORC step-orders) + runtime lifecycle pipelines, with IDs, contracts, gates, and failover rules
-
-CHANGE_NOTE:
-- DATE: 2026-01-09
-- TYPE: MAJOR
-- SUMMARY: "Introduced canonical pipeline registry: IDs, record schema, lifecycle pipeline, and domain pipeline slots."
-- REASON: "Make orchestration deterministic and auditable."
-- IMPACT: "ORC/ENG/CTL/VAL/QA can reference pipelines by ID."
-- CHANGE_ID: UE.CHG.2026-01-09.LAW.PIPELINES.001
+ROLE: Canonical registry of runtime pipelines (boot, task lifecycle, routing, validation, packaging). Defines step order, mandatory gates, handoffs, and required trace evidence.
 
 CHANGE_NOTE:
 - DATE: 2026-01-19
-- TYPE: PATCH
-- SUMMARY: "Aligned with START runtime: boot-first, dispatcher entry, finish chain, artifact-only outputs, and stop-conditions-only. Added mandatory pipeline contract fields."
-- REASON: "Remove ambiguity and enforce stable routing."
-- IMPACT: "Any run can be traced to PIPELINE_ID with explicit gates."
-- CHANGE_ID: UE.CHG.2026-01-19.LAW.PIPELINES.002
+- TYPE: MINOR
+- SUMMARY: "Registry populated with canonical pipelines: BOOT, DEFAULT TASK LIFECYCLE, MISSING ENTITY CREATE, CHANGE MANAGEMENT, and domain pipeline slots."
+- REASON: "Without an explicit pipeline registry, ORC/CTL/VAL/QA cannot deterministically enforce step order and evidence."
+- IMPACT: "All runs become auditable: step order + gates + evidence are standardized."
 
 ---
 
 ## 0) PURPOSE (LAW)
-This registry defines:
-- what pipelines exist (runtime + domain orchestration)
-- how they are identified (PIPELINE_ID)
-- which entity owns each pipeline (ORC owner + governance signoff)
-- mandatory step order, handoffs, gates placement
-- failover behavior (missing entity/template/doc)
-- how pipelines are added/changed (canon protocol)
+Этот реестр фиксирует **канонические пайплайны** системы:
+- порядок шагов (step order),
+- handoffs между сущностями (SPC/ORC/ENG/CTL/VAL/QA),
+- обязательные гейты (preflight, compliance, QA, doc control),
+- требования к трассировке (что должно быть показано в выводе).
 
-If a pipeline is not in this registry, it is not runnable as a canonical route.
-
----
-
-## 1) PIPELINE ID FORMAT (ABSOLUTE)
-FORMAT: `UE.PPL.<DOMAIN>.<NAME>.<NNN>`
-
-- DOMAIN: RUNTIME | BOOT | GOV | DOC | KB | MUSIC | NARRATIVE | WORLD | VISUAL | PRODUCTION | MARKETING
-- NAME: short stable token
-- NNN: 001..999 sequence within DOMAIN
-
-Examples:
-- UE.PPL.BOOT.SEQ.001
-- UE.PPL.RUNTIME.TASK_LIFECYCLE.001
-- UE.PPL.MUSIC.ALBUM_TO_TRACK.001
+Пайплайн считается каноническим только если:
+- имеет PIPELINE_ID,
+- имеет шаги с OWNER ENTITY,
+- имеет обязательные гейты и evidence.
 
 ---
 
-## 2) PIPELINE RECORD SCHEMA (REQUIRED)
-Each pipeline record must include:
-
-- PIPELINE_ID:
-- NAME:
-- DOMAIN:
-- STATUS:
-- OWNER_ENTITY:
-- ENTRYPOINT (SPC):
-- ORC_OWNER:
-- INPUTS (MIN):
-- OUTPUT_ARTIFACT_TYPES:
-- STEPS (ORDERED):
-  - STEP_ID
-  - ROLE (SPC/ORC/ENG/CTL/VAL/QA)
-  - ENTITY (UID/Name)
-  - INPUTS
-  - OUTPUTS
-  - GATES (placed here)
-  - STOP_CONDITIONS (only allowed)
-- HANDOFFS:
-- FAILOVER (MISSING ENTITY/TEMPLATE/DOC):
-- SIGNOFF_CHAIN (MANDATORY):
-- NOTES:
+## 1) DEFINITIONS
+- **Pipeline** — последовательность шагов с handoffs и gates.
+- **Step** — атомарный шаг пайплайна.
+- **Owner Entity** — сущность, которая отвечает за шаг.
+- **Gate** — проверка, без которой нельзя идти дальше.
+- **Trace Evidence** — что должно быть предъявлено в `RESOURCES USED / DELIVERABLES / GATES`.
 
 ---
 
-## 3) ENFORCEMENT PRINCIPLE (ABSOLUTE)
-- Pipelines are executed only after BOOT completion.
-- Every task pipeline must:
-  - start at dispatcher SPC (`MACHINE_ARCHITECT_SPC`)
-  - end via acceptance chain (`READINESS_CHECK_CTL` → relevant VAL → relevant QA → `DOC_CONTROLLER_SPC` → dispatcher signoff)
-- Any output must be an artifact doc (no naked output).
-- Stop conditions allowed are exclusive:
-  - RAW missing
-  - marker not confirmed
-  - input absent
+## 2) REGISTRY FORMAT (HOW TO READ)
+Каждый пайплайн:
+
+- PIPELINE_ID: уникальный ID
+- NAME: коротко
+- TYPE: BOOT / TASK / CREATE / CHANGE / DOMAIN
+- SEVERITY: S0 (must-run) / S1 (default) / S2 (optional)
+- ENTRY: какая команда/условие запускает
+- EXIT: что считается завершением
+- STEPS: список шагов по порядку
+- REQUIRED GATES: минимальный набор гейтов
+- TRACE MINIMUM: минимальный след в чате (что обязано быть отражено)
 
 ---
 
-## 4) CANONICAL PIPELINES
+## 3) PIPELINES (REGISTRY)
 
-### 4.1 BOOT PIPELINE
-
-#### UE.PPL.BOOT.SEQ.001
-- NAME: Boot Sequence (core laws + standards + entities + KB)
-- DOMAIN: BOOT
-- STATUS: ACTIVE
-- OWNER_ENTITY: SYSTEM
-- ENTRYPOINT (SPC): MACHINE_ARCHITECT_SPC
-- ORC_OWNER: PIPELINE_ORCHESTRATOR (implicit; governed by START)
-- INPUTS (MIN):
-  - ROOT LINK BASE snapshot (RAW)
-  - START command context
-- OUTPUT_ARTIFACT_TYPES:
-  - BOOT TRACE (chat trace / audit note)
-- STEPS (ORDERED):
-  1) Load System Law index + laws (naming/UID/versioning/canon)
-  2) Load Standards (doc control, index structure, storage map, chat/change protocols)
-  3) Load Entities model + registries/templates indexes
-  4) Load KB entrypoint + KB governance rules
-  5) Confirm BOOT COMPLETE markers explicitly:
-     - naming + UID loaded
-     - doc control + index structure loaded
-     - entity model loaded
-     - KB entrypoint loaded
-  STOP_CONDITIONS:
-  - RAW missing
-  - marker not confirmed
-  - input absent
-- HANDOFFS:
-  - If boot complete → task routing may begin
-- FAILOVER:
-  - If any required link missing → STOP: RAW missing (request updated snapshot/link)
-- SIGNOFF_CHAIN (MANDATORY):
-  - MACHINE_ARCHITECT_SPC confirms boot markers in trace
-- NOTES:
-  - Boot is not optional. No execution before completion.
-
----
-
-### 4.2 GLOBAL TASK LIFECYCLE PIPELINE (DEFAULT)
-
-#### UE.PPL.RUNTIME.TASK_LIFECYCLE.001
-- NAME: Default Task Lifecycle (end-to-end)
-- DOMAIN: RUNTIME
-- STATUS: ACTIVE
-- OWNER_ENTITY: SYSTEM
-- ENTRYPOINT (SPC): MACHINE_ARCHITECT_SPC
-- ORC_OWNER: PIPELINE_ORCHESTRATOR (implicit)
-- INPUTS (MIN):
-  - TASK text
-  - ROOT snapshot links
-- OUTPUT_ARTIFACT_TYPES:
-  - One or more artifact docs (domain-specific)
-- STEPS (ORDERED):
-  1) INTAKE — MACHINE_ARCHITECT_SPC
-     - produce deterministic task spec: goal/scope/inputs/output type
-  2) ROUTING — Top Governance SPC cluster
-     - assign responsible SPC(s)
-     - select domain ORC pipeline (or default)
-  3) EXECUTION — ORC + ENG
-     - produce draft artifacts
-  4) CONTROL — CTL
-     - enforce constraints/policies, block if needed
-  5) VALIDATION — VAL
-     - record violations (if any)
-  6) QA — QA realm
-     - acceptance gates
-  7) PACKAGING — INTEGRATION_PACKER_SPC
-     - output pack formatting, filenames, structure
-  8) SIGNOFF — DOC_CONTROLLER_SPC → MACHINE_ARCHITECT_SPC
-     - final approval
-  STOP_CONDITIONS:
-  - RAW missing
-  - marker not confirmed
-  - input absent
-- HANDOFFS:
-  - Routing selects a domain pipeline ID
-- FAILOVER:
-  - Missing entity/template/doc → GAP protocol (see section 4.3)
-- SIGNOFF_CHAIN (MANDATORY):
-  - READINESS_CHECK_CTL → relevant VAL → relevant QA → DOC_CONTROLLER_SPC → MACHINE_ARCHITECT_SPC
-- NOTES:
-  - Any deviation must be recorded as a pipeline variant and registered here.
-
----
-
-### 4.3 FAILOVER PIPELINE: CREATE MISSING ENTITY / TEMPLATE
-
-#### UE.PPL.GOV.GAP_CREATE.001
-- NAME: GAP → Create Missing Entity/Template → Resume
-- DOMAIN: GOV
-- STATUS: ACTIVE
-- OWNER_ENTITY: SYSTEM
-- ENTRYPOINT (SPC): MACHINE_ARCHITECT_SPC
-- ORC_OWNER: ORC_CREATE_FLOW (if present)
-- INPUTS (MIN):
-  - GAP description (what is missing, why required)
-  - template links (RAW)
-- OUTPUT_ARTIFACT_TYPES:
-  - New entity doc (full file) and/or template doc
-  - Registry/log update proposal (artifact)
-- STEPS (ORDERED):
-  1) Declare GAP with reason + required class (SPC/ORC/ENG/CTL/VAL/QA/TPL)
-  2) Select template (RAW link must exist)
-  3) Generate minimal entity pack (full file content)
-  4) Propose registry/DB/log registration (as artifact doc)
-  5) Resume original pipeline at the blocked step
-  STOP_CONDITIONS:
-  - RAW missing
-  - marker not confirmed
-  - input absent
-- HANDOFFS:
-  - Back to the original pipeline
-- FAILOVER:
-  - If template link missing → STOP: RAW missing
-- SIGNOFF_CHAIN (MANDATORY):
-  - DOC_CONTROLLER_SPC → MACHINE_ARCHITECT_SPC
-- NOTES:
-  - This is mandatory when required entities/templates are missing.
-
----
-
-### 4.4 MUSIC DOMAIN PIPELINES (CANONICAL ROUTES)
-
-#### UE.PPL.MUSIC.GROUP_TO_ALBUM.001
-- NAME: Group → Album planning route
-- DOMAIN: MUSIC
-- STATUS: ACTIVE
-- OWNER_ENTITY: MUSIC_ORCHESTRATORS_REALM
-- ENTRYPOINT (SPC): MACHINE_ARCHITECT_SPC
-- ORC_OWNER: GROUP_TO_ALBUM_ORC
-- INPUTS (MIN):
-  - Group identity + intent
-- OUTPUT_ARTIFACT_TYPES:
-  - Album blueprint / album pack docs (domain schema)
-- STEPS (ORDERED):
-  1) INTAKE (SPC dispatcher)
-  2) ORC plan (album blueprint)
-  3) ENG execution (style, tracklist logic)
-  4) CTL policy checks (duration, prompt contract, etc)
-  5) VAL compliance (PD-only, collision, naming)
-  6) QA gates (hook/readability/UGC readiness)
-  7) PACKAGING + SIGNOFF
-  STOP_CONDITIONS:
-  - RAW missing
-  - marker not confirmed
-  - input absent
-- FAILOVER:
-  - missing music entities → run UE.PPL.GOV.GAP_CREATE.001
-- SIGNOFF_CHAIN:
-  - READINESS_CHECK_CTL → music VAL → music QA → DOC_CONTROLLER_SPC → MACHINE_ARCHITECT_SPC
-
-#### UE.PPL.MUSIC.ALBUM_TO_TRACK.001
-- NAME: Album → Track production route
-- DOMAIN: MUSIC
-- STATUS: ACTIVE
-- OWNER_ENTITY: MUSIC_ORCHESTRATORS_REALM
-- ENTRYPOINT (SPC): MACHINE_ARCHITECT_SPC
-- ORC_OWNER: ALBUM_TO_TRACK_ORC
-- INPUTS (MIN):
-  - Album blueprint
-  - Track slot (T01..TN)
-- OUTPUT_ARTIFACT_TYPES:
-  - Track card / prompt / release docs (or output pack)
-- STEPS (ORDERED):
-  1) INTAKE + slot selection
-  2) ENG: track concept + structure + lyrics framing
-  3) CTL: prompt contract / duration / variants policies
-  4) VAL: repetition/collision/rights/naming checks
-  5) QA: hook/recognition/loop/regression checks
-  6) PACK + SIGNOFF
-  STOP_CONDITIONS:
-  - RAW missing
-  - marker not confirmed
-  - input absent
-
-#### UE.PPL.MUSIC.TRACK_TEST_DOC_GATE.001
-- NAME: Track test doc → gate route
-- DOMAIN: MUSIC
-- STATUS: ACTIVE
-- OWNER_ENTITY: MUSIC_ORCHESTRATORS_REALM
-- ENTRYPOINT (SPC): MACHINE_ARCHITECT_SPC
-- ORC_OWNER: TRACK_TEST_DOC_GATE_ORC
-- INPUTS (MIN):
-  - Track artifact docs
-- OUTPUT_ARTIFACT_TYPES:
-  - Gate results note (artifact)
+# P-BOOT-001 — BOOT SEQUENCE (MANDATORY)
+- PIPELINE_ID: P-BOOT-001
+- NAME: Boot sequence
+- TYPE: BOOT
+- SEVERITY: S0
+- ENTRY:
+  - COMMAND: START_UNIVERSE_ENGINE
+  - CONDITION: any task execution requested
+- EXIT:
+  - BOOT COMPLETE MARKER подтверждён (4 пункта)
 - STEPS:
-  - READINESS_CHECK_CTL → music VAL set → music QA set → DOC controller → dispatcher signoff
+  1) Load System Law (read)
+     - OWNER ENTITY: MACHINE_ARCHITECT_SPC
+     - OUTPUT: Boot Trace: system law loaded list
+  2) Load Standards for navigation + doc control (read)
+     - OWNER ENTITY: STANDARDS_OWNER_SPC
+     - OUTPUT: Boot Trace: standards loaded list
+  3) Load Entity model + registries/templates indexes (read)
+     - OWNER ENTITY: DOC_CONTROLLER_SPC
+     - OUTPUT: Boot Trace: entity model loaded list
+  4) Load Knowledge Base entrypoint (read)
+     - OWNER ENTITY: KNOWLEDGE_INTEGRATOR_SPC (или MACHINE_ARCHITECT_SPC если нет отдельного SPC)
+     - OUTPUT: Boot Trace: KB entrypoint loaded list
+  5) Confirm BOOT COMPLETE MARKER (gate)
+     - OWNER ENTITY: READINESS_CHECK_CTL
+     - OUTPUT: Explicit marker confirmation for:
+       - Naming + UID rules loaded
+       - Doc Control + Index structure loaded
+       - Entity model loaded
+       - KB entrypoint loaded
+- REQUIRED GATES:
+  - READINESS_CHECK_CTL: BOOT markers present
+- TRACE MINIMUM:
+  - MODE
+  - RESOURCES USED: RAW links opened + “MARKER FOUND”
+  - DELIVERABLES: Boot Trace (4 groups)
+  - GATES: BOOT COMPLETE MARKER = PASS or STOP marker not confirmed
 
-#### UE.PPL.MUSIC.RELEASE_PACK.001
-- NAME: Release pack build route
-- DOMAIN: MUSIC
-- STATUS: ACTIVE
-- OWNER_ENTITY: MUSIC_ORCHESTRATORS_REALM
-- ENTRYPOINT (SPC): MACHINE_ARCHITECT_SPC
-- ORC_OWNER: RELEASE_PACK_ORC
-- INPUTS (MIN):
-  - Approved track artifacts
-- OUTPUT_ARTIFACT_TYPES:
-  - Release pack (docs bundle)
+---
+
+# P-TASK-001 — DEFAULT TASK LIFECYCLE (CANON)
+- PIPELINE_ID: P-TASK-001
+- NAME: Default task lifecycle
+- TYPE: TASK
+- SEVERITY: S1 (default for all tasks)
+- ENTRY:
+  - BOOT complete
+  - TASK present (user request)
+- EXIT:
+  - Signoff by DOC_CONTROLLER_SPC and MACHINE_ARCHITECT_SPC with required gates passed
 - STEPS:
-  - Validate metadata/credits → QA acceptance → packaging → signoff
+  1) INTAKE
+     - OWNER ENTITY: MACHINE_ARCHITECT_SPC
+     - OUTPUT: Task Spec (goal, scope, inputs, artifact type, stop risks)
+  2) ROUTING
+     - OWNER ENTITY: MACHINE_ARCHITECT_SPC (may delegate to top SPCs)
+     - OUTPUT: Route Plan (which SPC/ORC/ENG/CTL/VAL/QA are used)
+  3) EXECUTION (draft production)
+     - OWNER ENTITY: ORC (selected orchestrator)
+     - SUPPORT: ENG (selected engines)
+     - OUTPUT: Draft Artifacts (not final)
+  4) CONTROL (policy enforcement)
+     - OWNER ENTITY: CTL (domain controller + readiness)
+     - OUTPUT: Blockers or allowed actions list
+  5) VALIDATION (compliance)
+     - OWNER ENTITY: VAL (relevant validators)
+     - OUTPUT: Violation records or PASS
+  6) QA (acceptance gates)
+     - OWNER ENTITY: QA (relevant QA)
+     - OUTPUT: QA report, scoring, regression notes
+  7) PACKAGING (final file set)
+     - OWNER ENTITY: INTEGRATION_PACKER_SPC
+     - OUTPUT: Final artifacts packaged as full docs
+  8) DOC CONTROL + SIGNOFF
+     - OWNER ENTITY: DOC_CONTROLLER_SPC → MACHINE_ARCHITECT_SPC
+     - OUTPUT: Final approval note + (если нужно) changelog entry
+- REQUIRED GATES:
+  - READINESS_CHECK_CTL (preflight)
+  - relevant VAL checks
+  - relevant QA gates
+  - DOC_CONTROLLER_SPC structure compliance
+  - MACHINE_ARCHITECT_SPC signoff
+- TRACE MINIMUM:
+  - MODE: REPO (USAGE-ONLY, NO-EDIT)
+  - RESOURCES USED: RAW links for every entity/doc referenced + marker evidence
+  - DELIVERABLES: Task Spec, Route Plan, Final Artifacts
+  - GATES: list of gates with PASS/FAIL, and stop reason if stopped
 
 ---
 
-## 5) DEPRECATION & VERSIONING (ABSOLUTE)
-- Pipelines are versioned by this registry version + per-pipeline status.
-- If a pipeline is replaced:
-  - mark old pipeline as DEPRECATED
-  - create a new PIPELINE_ID
-  - add a pointer note (do not overwrite history)
+# P-GAP-001 — MISSING ENTITY OR TEMPLATE (CREATE DUTY)
+- PIPELINE_ID: P-GAP-001
+- NAME: Missing entity/template protocol
+- TYPE: CREATE
+- SEVERITY: S0 (must-run when gap detected)
+- ENTRY:
+  - During routing/execution a required entity or template is missing
+- EXIT:
+  - Gap resolved by proposing creation pack (full file) and registration steps defined
+- STEPS:
+  1) Declare GAP
+     - OWNER ENTITY: MACHINE_ARCHITECT_SPC
+     - OUTPUT: GAP statement (what missing, why required, what blocks)
+  2) Select TEMPLATE
+     - OWNER ENTITY: DOC_CONTROLLER_SPC
+     - OUTPUT: Template chosen (RAW link) + marker evidence
+  3) Generate Minimal Entity Pack (full docs)
+     - OWNER ENTITY: MACHINE_ARCHITECT_SPC + relevant domain SPC
+     - OUTPUT: Full entity doc(s) per template (not partial)
+  4) Define Registration Actions
+     - OWNER ENTITY: DOC_CONTROLLER_SPC
+     - OUTPUT: What registries/DB/logs must be updated (actions list)
+  5) Resume Original Pipeline
+     - OWNER ENTITY: MACHINE_ARCHITECT_SPC
+- REQUIRED GATES:
+  - READINESS_CHECK_CTL: “GAP resolved” marker present (template used, file produced)
+- TRACE MINIMUM:
+  - MODE
+  - RESOURCES USED: template RAW + registry RAW (if referenced)
+  - DELIVERABLES: full entity file(s) + registration action list
+  - GATES: GAP protocol PASS
 
 ---
 
-## 6) GAP: PIPELINE MISSING (MANDATORY)
-If a task requires a pipeline not listed here:
-1) Declare GAP (pipeline missing)
-2) Propose a new pipeline record (full schema)
-3) Identify ORC owner (or propose creating ORC entity)
-4) Register before using it as canonical
+# P-CHG-001 — CHANGE MANAGEMENT (LAW/STANDARD/TEMPLATE)
+- PIPELINE_ID: P-CHG-001
+- NAME: Change management protocol
+- TYPE: CHANGE
+- SEVERITY: S1 (required when editing law/standards)
+- ENTRY:
+  - Any proposed change to LAW / STANDARD / TEMPLATE documents
+- EXIT:
+  - CHANGE_NOTE and CHANGE_ID defined, version updated per policy
+- STEPS:
+  1) Change Proposal
+     - OWNER ENTITY: STANDARDS_OWNER_SPC (or GOVERNANCE_OWNER_SPC for LAW)
+     - OUTPUT: Proposed diff summary (what/why/impact)
+  2) Doc Control Alignment
+     - OWNER ENTITY: DOC_CONTROLLER_SPC
+     - OUTPUT: Updated header blocks, UID consistency, file naming compliance
+  3) Validation of Change Format
+     - OWNER ENTITY: VAL (doc control validator if exists)
+     - OUTPUT: PASS or violation record
+  4) Approval
+     - OWNER ENTITY: MACHINE_ARCHITECT_SPC
+     - OUTPUT: Signoff marker
+- REQUIRED GATES:
+  - Presence of CHANGE_NOTE block
+  - Presence of CHANGE_ID
+  - Version updated
+- TRACE MINIMUM:
+  - DELIVERABLES include updated full file (not partial) or stop with reason
 
 ---
 
-## 7) INTERFACES (RAW)
-Top governance entry (dispatcher core):
-- MACHINE_ARCHITECT_SPC
-  - https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/30_SPC__SPECIALISTS/00_TOP_GOVERNANCE/01__MACHINE_ARCHITECT_SPC.md
-- DOC_CONTROLLER_SPC
-  - https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/30_SPC__SPECIALISTS/00_TOP_GOVERNANCE/04__DOC_CONTROLLER_SPC.md
-- INTEGRATION_PACKER_SPC
-  - https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/30_SPC__SPECIALISTS/00_TOP_GOVERNANCE/06__INTEGRATION_PACKER_SPC.md
+# P-DOMAIN-001 — DOMAIN PIPELINE SLOT (ABSTRACT)
+- PIPELINE_ID: P-DOMAIN-001
+- NAME: Domain pipeline slot
+- TYPE: DOMAIN
+- SEVERITY: S2 (optional until domain is invoked)
+- ENTRY:
+  - Task specifies a domain (e.g., MUSIC / NARRATIVE / WORLD / VISUAL)
+- EXIT:
+  - Domain artifacts produced and pass domain gates
+- STEPS (abstract):
+  1) Select Domain ORC
+  2) Execute Domain ENG set
+  3) Apply Domain CTL
+  4) Run Domain VAL
+  5) Run Domain QA
+  6) Package domain artifacts
+  7) Signoff
+- REQUIRED GATES:
+  - Domain readiness gate(s)
+  - Domain QA acceptance
+- TRACE MINIMUM:
+  - Must list selected domain entities and their RAW links
 
-Core controller:
-- READINESS_CHECK_CTL
-  - https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/40_CTL__CONTROLLERS/01__READINESS_CHECK_CTL.md
+NOTE:
+- Конкретные доменные пайплайны должны быть зарегистрированы отдельными PIPELINE_ID (например P-MUSIC-001), и не могут ослаблять S0 ограничения из CONSTRAINTS_REGISTRY.
 
-Music orchestrators realm:
-- 03_SYSTEM_ENTITIES/20_ORC__ORCHESTRATORS/10_MUSIC_ORCHESTRATORS/00__README__MUSIC_ORCHESTRATORS.md
-  - https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/20_ORC__ORCHESTRATORS/10_MUSIC_ORCHESTRATORS/00__README__MUSIC_ORCHESTRATORS.md
+---
 
---- END.
+## 4) PIPELINE STEP CONTRACT (CANON)
+Каждый шаг пайплайна обязан иметь:
+- STEP_ID (внутри пайплайна)
+- OWNER ENTITY
+- INPUTS
+- OUTPUTS
+- HANDOFF TO (следующий owner)
+- GATES (если применимо)
+- EVIDENCE
+
+Если шаг не может быть исполнен из-за RAW missing:
+- STOP = RAW missing (без дополнительных причин)
+
+---
+
+## 5) TRACE REQUIREMENTS (MINIMUM FOR ANY RUN)
+Любой рантайм-ответ обязан:
+- MODE
+- RESOURCES USED (USING RAW + MARKER FOUND)
+- DELIVERABLES
+- GATES
+
+Дополнительно для пайплайнов:
+- указать PIPELINE_ID
+- указать текущий STEP и статус (PASS/FAIL/STOP)
+
+---
+
+## 6) APPENDIX: RECOMMENDED DOMAIN PIPELINES (TO REGISTER NEXT)
+(это список кандидатов, не активные пайплайны)
+
+- P-MUSIC-001: Group → Album → Track (factory route)
+- P-MUSIC-002: Track test doc gate → iteration loop
+- P-NARR-001: Scene pack build route
+- P-WORLD-001: Location/entity workshop L0→L3 promotion route
+- P-VIS-001: Visual scene prompt pack route

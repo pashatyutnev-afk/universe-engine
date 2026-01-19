@@ -1,277 +1,331 @@
-# SYSTEM LAW — CONSTRAINTS REGISTRY (CANON)
+# 06__CONSTRAINTS_REGISTRY
 
-FILE: 01_SYSTEM_LAW/06__CONSTRAINTS_REGISTRY.md  
-SCOPE: Universe Engine  
-LAYER: 01_SYSTEM_LAW  
-DOC_TYPE: LAW  
-LAW_TYPE: CONSTRAINTS  
-LEVEL: L1  
-STATUS: ACTIVE  
-LOCK: FIXED  
-VERSION: 1.0.1  
-UID: UE.LAW.CONSTRAINTS.001  
-OWNER: SYSTEM  
-ROLE: Registry of system constraints (global prohibitions/requirements) with scope, owner, priority, and enforcement to keep canon deterministic and drift-free
+FILE: 01_SYSTEM_LAW/06__CONSTRAINTS_REGISTRY.md
+SCOPE: Universe Engine (Games volume)
+SERIAL: C425-B513
+LAYER: 01_SYSTEM_LAW
+DOC_TYPE: REGISTRY (LAW)
+STATUS: ACTIVE
+LOCK: FIXED
+VERSION: 2.0.0
+UID: UE.LAW.CONSTRAINTS.REG.001
+OWNER: SYSTEM
+ROLE: Canonical registry of runtime constraints and hard-stop rules. Used by CTL/VAL/QA to block unsafe or non-compliant execution.
 
 CHANGE_NOTE:
 - DATE: 2026-01-19
-- TYPE: PATCH
-- SUMMARY: "Registry aligned with START runtime laws: added SYSTEM constraints (RAW-only, snapshot refresh, task entrypoint), added PRODUCTION artifact rule, added SUNO style constraint, and normalized formatting."
-- REASON: "Make constraints auditable and consistent with the single-entrypoint runtime and output-as-artifact policy."
-- IMPACT: "Violations become detectable by CTL/VAL/QA; runtime determinism is enforced."
-- CHANGE_ID: UE.CHG.2026-01-19.LAW.CONSTRAINTS.002
+- TYPE: MINOR
+- SUMMARY: "Registry populated with hard constraints for RAW-only nav, snapshot refresh, boot-first, single-entrypoint routing, artifact-only output, and stop conditions."
+- REASON: "Without a filled constraints registry, CTL/VAL cannot deterministically enforce system laws."
+- IMPACT: "Runtime enforcement becomes explicit: each constraint has an ID, trigger, violation format, and required fix."
 
 ---
 
 ## 0) PURPOSE (LAW)
-This registry is the single source of truth for system-level constraints.
-
-It defines:
-- the allowed constraint classes
-- a strict constraint ID format
-- the canonical record format
-- conflict resolution rules
-- enforcement expectations (who checks and how)
-
-Constraints here are invariants: they restrict what may be authored or produced anywhere in the system.
+Этот реестр фиксирует **жёсткие ограничения** (constraints), которые:
+- обязаны соблюдаться во всех рантайм-запусках,
+- используются CTL/VAL/QA для блокировок и фиксации нарушений,
+- определяют **единственные** стоп-условия рантайма.
 
 ---
 
-## 1) DEFINITIONS (STRICT)
-- **CONSTRAINT**: A mandatory prohibition/requirement that limits allowable canon content or system behavior.
-- **CLASS**: A category of constraint that defines its domain and typical owners.
-- **SCOPE**: The exact domain where the constraint applies (system-wide, a layer, a project, a family, etc.).
-- **OWNER**: The authority role responsible for keeping the constraint consistent and resolving ambiguity.
-- **ENFORCEMENT**: How the constraint is checked (manual check, QA/VAL gate, CTL blocker, pipeline rule).
-- **PRIORITY**: Severity/importance indicator (optional; only if used and only via standards enum).
+## 1) DEFINITIONS
+- **Constraint** — жёсткое правило “нельзя/обязан”.
+- **Hard Stop** — условие, при котором выполнение прекращается.
+- **Trigger** — что считается нарушением.
+- **Required Fix** — что надо сделать, чтобы продолжить.
 
 ---
 
-## 2) CONSTRAINT CLASSES (MANDATORY)
-Only these classes are allowed:
-- **SYSTEM**: governance, navigation determinism, entrypoint rules, existence/audit discipline.
-- **WORLD**: invariants of the universe/worldbuilding that must not be violated by canon content.
-- **PRODUCTION**: production formats, output packaging, delivery rules.
-- **SAFETY**: risk/safety boundaries for the system and outputs.
-- **STYLE**: style principles and non-negotiable aesthetic/format principles.
-
-Changing this class list requires canon protocol.
-
----
-
-## 3) CONSTRAINT ID FORMAT (ABSOLUTE)
-FORMAT: `UE.CNS.<CLASS>.<NNN>`
-
-- `CLASS` must be one of: SYSTEM|WORLD|PRODUCTION|SAFETY|STYLE
-- `NNN` is a 3-digit sequence (001..999) within the class
-- IDs are stable and must never be reused
-
-Examples:
-- `UE.CNS.WORLD.001`
-- `UE.CNS.SYSTEM.003`
-
----
-
-## 4) PRIORITY ENUM SOURCE (MANDATORY)
-If PRIORITY is used in a constraint record:
-- allowed values and meaning must be sourced from Standards (never invented here)
-
-Priority standard (RAW):
-- https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/02_STANDARDS/06_MARKING_STANDARDS/04__PRIORITY_S0_S3.md
-
-If priority is not needed, omit PRIORITY field.
-
----
-
-## 5) CONSTRAINT RECORD FORMAT (REGISTRY) (ABSOLUTE)
-Every constraint record MUST follow this format:
-
-- ID: `UE.CNS...`
-- CLASS: SYSTEM|WORLD|PRODUCTION|SAFETY|STYLE
-- STATEMENT (LAW): the invariant requirement/prohibition (single clear statement)
-- SCOPE: where it applies (system-wide or bounded)
-- OWNER: authority role (or SYSTEM if global)
-- PRIORITY: S0|S1|S2|S3 (optional)
-- ENFORCEMENT: how it is checked (CTL/QA/VAL/ORC/manual)
-- NOTES: clarifications, examples, edge cases (optional but recommended)
-
----
-
-## 6) CONSTRAINT PRIORITY & CONFLICT (MANDATORY)
-
-### 6.1 Conflict rule
-If two constraints appear to conflict:
-- resolve by **ORDER OF AUTHORITY** in `00__SYSTEM_LAW.md` first
-- if still ambiguous, escalate to OWNER(s) and record clarification as a change (canon protocol)
-
-### 6.2 Escalation path
-Any SPC/ENG/ORC encountering ambiguity must escalate to governance owners (SYSTEM) and log the resolution.
-
----
-
-# REGISTRY — CONSTRAINTS (CANON)
-
-## UE.CNS.WORLD.001
-- ID: UE.CNS.WORLD.001
-- CLASS: WORLD
-- STATEMENT (LAW): Great civilizations in the universe do not use currency (no money-based economy).
-- SCOPE: All worldbuilding canon (projects, KB guidance, engines outputs, specialist outputs).
-- OWNER: SYSTEM
-- PRIORITY: S1
-- ENFORCEMENT: VAL (world consistency) + CTL (canon readiness) + manual governance review on canon changes.
-- NOTES:
-  - This prohibits introducing “currency as a universal medium of exchange” for great civilizations.
-  - Barter, reputation, access rights, resource allocation, quotas, obligations, non-monetary credits may exist only if explicitly defined as **non-currency mechanisms** and do not function as money.
-  - Any exception requires explicit canon protocol approval + recorded rationale.
-
----
-
-## UE.CNS.SYSTEM.001
-- ID: UE.CNS.SYSTEM.001
-- CLASS: SYSTEM
-- STATEMENT (LAW): RAW-only navigation and no guessing are mandatory for all runtime work.
-- SCOPE: Runtime + any operation that references repository content (all layers).
-- OWNER: SYSTEM
-- PRIORITY: S0
-- ENFORCEMENT: CTL (readiness) + VAL (compliance checks) + manual governance review.
-- NOTES:
-  - Allowed sources of RAW links are only:
-    - ROOT LINK BASE snapshot (ROOT-INDEX), and/or
-    - RAW links explicitly provided by the user in the chat.
-  - If a needed RAW link is missing → STOP condition: `RAW missing`.
-
----
-
-## UE.CNS.SYSTEM.002
-- ID: UE.CNS.SYSTEM.002
-- CLASS: SYSTEM
-- STATEMENT (LAW): The ROOT-INDEX link base is a snapshot and may be refreshed only manually by the user.
-- SCOPE: Runtime navigation + routing + any link usage.
-- OWNER: SYSTEM
-- PRIORITY: S0
-- ENFORCEMENT: CTL (readiness) + VAL (compliance) + audit log notes when refreshed.
-- NOTES:
-  - The system must treat the link set as fixed until the user provides an updated ROOT-INDEX or explicit new RAW links.
-  - No “auto-update” assumptions are permitted.
-
----
-
-## UE.CNS.SYSTEM.003
-- ID: UE.CNS.SYSTEM.003
-- CLASS: SYSTEM
-- STATEMENT (LAW): Every task must start via START_UNIVERSE_ENGINE and enter through top governance dispatch; completion requires the verification chain.
-- SCOPE: All tasks, all domains.
-- OWNER: SYSTEM
-- PRIORITY: S0
-- ENFORCEMENT: CTL (readiness) + ORC (pipeline enforcement) + VAL/QA gates + DOC controller signoff.
-- NOTES:
-  - Mandatory entry dispatcher: `MACHINE_ARCHITECT_SPC`
-  - Mandatory finish chain: `READINESS_CHECK_CTL` → relevant `VAL` → relevant `QA` → `DOC_CONTROLLER_SPC` → `MACHINE_ARCHITECT_SPC` signoff
-
----
-
-## UE.CNS.PRODUCTION.001
-- ID: UE.CNS.PRODUCTION.001
-- CLASS: PRODUCTION
-- STATEMENT (LAW): No “naked output” is allowed; any result must be packaged as an artifact-document under Doc Control rules and the correct template.
-- SCOPE: Any outgoing result (content/solution/plan/track/cover/scene/entity passport).
-- OWNER: DOC_CONTROLLER_SPC (or SYSTEM if global)
-- PRIORITY: S0
-- ENFORCEMENT: DOC control checks + QA gates + VAL compliance + packaging step by INTEGRATION_PACKER_SPC.
-- NOTES:
-  - If no suitable template/entity exists → GAP must be declared and creation proposed before proceeding.
-  - For music: track outputs must map to the music artifact schema (e.g., TRACK CARD / PROMPT / RELEASE / OUTPUT_PACK).
-
----
-
-## UE.CNS.STYLE.001
-- ID: UE.CNS.STYLE.001
-- CLASS: STYLE
-- STATEMENT (LAW): For SUNO content, exclamation marks must not be used in prompts or track texts.
-- SCOPE: Any SUNO prompt text and any track text intended for SUNO.
-- OWNER: SYSTEM
-- PRIORITY: S1
-- ENFORCEMENT: CTL (prompt contract) + VAL (prompt fidelity) + QA (preflight checklist).
-- NOTES:
-  - Replace exclamation marks with punctuation such as period, dash, or ellipsis.
-  - Do not start lines with command-style interjections using an exclamation prefix.
-
----
-
-## (RESERVED) UE.CNS.WORLD.002
-- ID: UE.CNS.WORLD.002
-- CLASS: WORLD
-- STATEMENT (LAW):
-- SCOPE:
-- OWNER: SYSTEM
-- PRIORITY:
+## 2) REGISTRY FORMAT (HOW TO READ)
+Каждая запись:
+- CONSTRAINT_ID: уникальный ID ограничения
+- NAME: коротко
+- CLASS: NAV / BOOT / ROUTING / OUTPUT / CHANGE / SAFETY
+- SEVERITY: S0 (hard stop) / S1 (block) / S2 (warn)
+- STATEMENT (LAW): формулировка
+- TRIGGER: событие нарушения
+- REQUIRED FIX: что исправить
 - ENFORCEMENT:
-- NOTES:
+  - CTL: чем блокируется
+  - VAL: какое нарушение фиксируется
+  - QA: какой гейт подтверждает
+- EVIDENCE REQUIRED: что должно быть показано/указано в отчёте рантайма
 
 ---
 
-## (RESERVED) UE.CNS.PRODUCTION.002
-- ID: UE.CNS.PRODUCTION.002
-- CLASS: PRODUCTION
+## 3) CANONICAL CONSTRAINTS (REGISTRY)
+
+### C-NAV-001 — RAW-only Navigation (ABSOLUTE)
+- CONSTRAINT_ID: C-NAV-001
+- NAME: RAW-only navigation
+- CLASS: NAV
+- SEVERITY: S0
 - STATEMENT (LAW):
-- SCOPE:
-- OWNER:
-- PRIORITY:
+  - Использовать **только RAW ссылки**, которые присутствуют:
+    - в ROOT LINK BASE (ROOT-INDEX), или
+    - в сообщении пользователя.
+  - Запрещено угадывать пути/файлы/URL вне базы.
+- TRIGGER:
+  - Попытка открыть/сослаться на ресурс, которого нет в ROOT-INDEX и не прислал пользователь.
+- REQUIRED FIX:
+  - STOP: RAW missing.
+  - Запросить у пользователя RAW ссылку или обновлённый ROOT-INDEX.
 - ENFORCEMENT:
-- NOTES:
+  - CTL: READINESS_CHECK_CTL блокирует выполнение без подтверждённых RAW.
+  - VAL: VAL_VIOLATION_RECORD “RAW_OUTSIDE_LINK_BASE”.
+  - QA: QA_GATE “NAV_COMPLIANCE_PASS”.
+- EVIDENCE REQUIRED:
+  - В `RESOURCES USED` показать RAW ссылки + “MARKER FOUND”.
+
+### C-NAV-002 — Link Base Snapshot / Manual Refresh Only
+- CONSTRAINT_ID: C-NAV-002
+- NAME: Snapshot-only link base
+- CLASS: NAV
+- SEVERITY: S0
+- STATEMENT (LAW):
+  - ROOT-INDEX — это **снимок**. Он **не обновляется автоматически**.
+  - Любые новые ссылки считаются действительными только если:
+    - пользователь прислал обновлённый ROOT-INDEX, или
+    - пользователь прислал RAW ссылку в чат.
+- TRIGGER:
+  - Опора на “онлайн-репозиторий” как на обновляемую базу без явного refresh от пользователя.
+- REQUIRED FIX:
+  - STOP: marker not confirmed (если попытка продолжить без ссылок).
+  - Продолжить только после получения обновлённого ROOT-INDEX/RAW ссылок.
+- ENFORCEMENT:
+  - CTL: блок “SNAPSHOT_REFRESH_REQUIRED”.
+  - VAL: “SNAPSHOT_REFRESH_VIOLATION”.
+  - QA: “SNAPSHOT_POLICY_PASS”.
+- EVIDENCE REQUIRED:
+  - В `RESOURCES USED` указать источник: ROOT-INDEX (version/date) или user-provided RAW.
+
+### C-BOOT-001 — Boot-first Discipline
+- CONSTRAINT_ID: C-BOOT-001
+- NAME: Boot-first
+- CLASS: BOOT
+- SEVERITY: S0
+- STATEMENT (LAW):
+  - Нельзя выполнять задачу до завершения BOOT SEQUENCE.
+- TRIGGER:
+  - Любое действие “исполнения” до подтверждения BOOT COMPLETE MARKER.
+- REQUIRED FIX:
+  - STOP: marker not confirmed.
+  - Выполнить boot load по порядку и подтвердить маркеры.
+- ENFORCEMENT:
+  - CTL: READINESS_CHECK_CTL требует BOOT markers.
+  - VAL: “BOOT_NOT_COMPLETED”.
+  - QA: “BOOT_COMPLETION_GATE”.
+- EVIDENCE REQUIRED:
+  - В `RESOURCES USED` перечислить 4 группы boot docs + “MARKER FOUND” по каждому.
+
+### C-BOOT-002 — Boot Complete Marker Required
+- CONSTRAINT_ID: C-BOOT-002
+- NAME: Boot complete marker
+- CLASS: BOOT
+- SEVERITY: S0
+- STATEMENT (LAW):
+  - BOOT завершён только если явно подтверждено:
+    - Naming + UID rules loaded
+    - Doc Control + Index structure loaded
+    - Entity model loaded
+    - KB entrypoint loaded
+- TRIGGER:
+  - Отсутствует подтверждение хотя бы одного пункта.
+- REQUIRED FIX:
+  - STOP: marker not confirmed.
+- ENFORCEMENT:
+  - CTL: “BOOT_MARKER_MISSING”.
+  - VAL: “BOOT_MARKER_NOT_CONFIRMED”.
+  - QA: “BOOT_MARKER_AUDIT”.
+- EVIDENCE REQUIRED:
+  - Показать ссылки + найденные маркеры/разделы (название секции) в каждом документе.
+
+### C-ROUTE-001 — Single Entry Point (START_UNIVERSE_ENGINE only)
+- CONSTRAINT_ID: C-ROUTE-001
+- NAME: Single entrypoint command
+- CLASS: ROUTING
+- SEVERITY: S0
+- STATEMENT (LAW):
+  - Любая задача запускается только командой `START_UNIVERSE_ENGINE`.
+  - ROOT-INDEX не выполняет задач.
+- TRIGGER:
+  - Попытка трактовать ROOT-INDEX как выполнение работы, или выполнение без старта.
+- REQUIRED FIX:
+  - STOP: input absent.
+  - Пользователь должен запустить `START_UNIVERSE_ENGINE` + дать TASK.
+- ENFORCEMENT:
+  - CTL: “ENTRYPOINT_REQUIRED”.
+  - VAL: “ENTRYPOINT_BYPASS”.
+  - QA: “ENTRYPOINT_COMPLIANCE”.
+- EVIDENCE REQUIRED:
+  - Зафиксированная команда + TASK.
+
+### C-ROUTE-002 — Mandatory Dispatcher (Top Governance SPC)
+- CONSTRAINT_ID: C-ROUTE-002
+- NAME: Mandatory top dispatcher
+- CLASS: ROUTING
+- SEVERITY: S1
+- STATEMENT (LAW):
+  - Любая задача начинается у `MACHINE_ARCHITECT_SPC`.
+- TRIGGER:
+  - Попытка сразу “делать” без фиксации intake/routing.
+- REQUIRED FIX:
+  - Пройти INTAKE (goal/scope/inputs/artifact type) и ROUTING (назначение сущностей).
+- ENFORCEMENT:
+  - CTL: “DISPATCHER_INTAKE_REQUIRED”.
+  - VAL: “NO_DISPATCHER_ROUTE”.
+  - QA: “ROUTING_TRACE_PASS”.
+- EVIDENCE REQUIRED:
+  - В `DELIVERABLES` наличие Task Spec и Route Plan.
+
+### C-ROUTE-003 — Mandatory Finish Chain (Verification)
+- CONSTRAINT_ID: C-ROUTE-003
+- NAME: Mandatory finish chain
+- CLASS: ROUTING
+- SEVERITY: S1
+- STATEMENT (LAW):
+  - Завершение только через цепочку:
+    - READINESS_CHECK_CTL → relevant VAL → relevant QA → DOC_CONTROLLER_SPC → MACHINE_ARCHITECT_SPC signoff.
+- TRIGGER:
+  - Выдача результата без гейтов/валидации/док-контроля.
+- REQUIRED FIX:
+  - Прогнать result через гейты и приложить evidence.
+- ENFORCEMENT:
+  - CTL: “FINISH_CHAIN_REQUIRED”.
+  - VAL: “UNVERIFIED_OUTPUT”.
+  - QA: “ACCEPTANCE_GATE_PASS”.
+- EVIDENCE REQUIRED:
+  - Перечень пройденных гейтов + что именно проверено.
+
+### C-OUT-001 — Output Must Be Artifact Doc (No Naked Content)
+- CONSTRAINT_ID: C-OUT-001
+- NAME: Artifact-only output
+- CLASS: OUTPUT
+- SEVERITY: S0
+- STATEMENT (LAW):
+  - Любой результат оформляется как артефакт-документ по стандартам/шаблонам.
+- TRIGGER:
+  - Ответ содержит “контент” без структуры артефакта (без DOC_CONTROL, без типа из registry).
+- REQUIRED FIX:
+  - Переформатировать в корректный артефакт (TRACK_CARD / PROMPT / OUTPUT_PACK / LAW_DOC / etc).
+- ENFORCEMENT:
+  - CTL: блок “ARTIFACT_SCHEMA_REQUIRED”.
+  - VAL: “NAKED_CONTENT_OUTPUT”.
+  - QA: “ARTIFACT_SCHEMA_PASS”.
+- EVIDENCE REQUIRED:
+  - Указать ARTIFACT_TYPE + соответствие MIN_SCHEMA.
+
+### C-OUT-002 — Template First (If No Template → GAP)
+- CONSTRAINT_ID: C-OUT-002
+- NAME: Template gating
+- CLASS: OUTPUT
+- SEVERITY: S1
+- STATEMENT (LAW):
+  - Если нет подходящего шаблона/сущности — сначала GAP → предложение создания → полный файл по TEMPLATE.
+- TRIGGER:
+  - “Придумали формат” без фиксации GAP и без шаблона.
+- REQUIRED FIX:
+  - Сгенерировать сущность/шаблон по template realm, затем продолжить.
+- ENFORCEMENT:
+  - CTL: “MISSING_TEMPLATE_GAP_REQUIRED”.
+  - VAL: “TEMPLATE_BYPASS”.
+  - QA: “TEMPLATE_COMPLIANCE”.
+- EVIDENCE REQUIRED:
+  - GAP statement + ссылка на template used.
+
+### C-CHG-001 — Change Control Required for Law/Standards
+- CONSTRAINT_ID: C-CHG-001
+- NAME: Change management for laws/standards
+- CLASS: CHANGE
+- SEVERITY: S1
+- STATEMENT (LAW):
+  - Любое изменение LAW/STANDARD/TEMPLATE должно иметь CHANGE_NOTE + CHANGE_ID.
+- TRIGGER:
+  - Изменён документ без CHANGE_NOTE/CHANGE_ID.
+- REQUIRED FIX:
+  - Добавить CHANGE_NOTE и CHANGE_ID по правилам versioning.
+- ENFORCEMENT:
+  - CTL: “CHANGE_NOTE_REQUIRED”.
+  - VAL: “MISSING_CHANGE_ID”.
+  - QA: “CHANGELOG_AUDIT_PASS”.
+- EVIDENCE REQUIRED:
+  - CHANGE_NOTE блок.
+
+### C-STOP-001 — Stop Conditions Are Limited
+- CONSTRAINT_ID: C-STOP-001
+- NAME: Only defined stop conditions
+- CLASS: SAFETY
+- SEVERITY: S0
+- STATEMENT (LAW):
+  - Стоп возможен только по:
+    - RAW missing
+    - marker not confirmed
+    - input absent
+- TRIGGER:
+  - “Остановился потому что так решил” или любые другие причины.
+- REQUIRED FIX:
+  - Переформулировать в один из трёх стоп-кодов или продолжить.
+- ENFORCEMENT:
+  - CTL: “STOP_REASON_INVALID”.
+  - VAL: “INVALID_STOP_REASON”.
+  - QA: “RUN_TRACE_INTEGRITY”.
+- EVIDENCE REQUIRED:
+  - Явный стоп-код.
+
+### C-CHAT-001 — Mandatory Runtime Output Format
+- CONSTRAINT_ID: C-CHAT-001
+- NAME: Mandatory chat contract
+- CLASS: OUTPUT
+- SEVERITY: S1
+- STATEMENT (LAW):
+  - Каждый рантайм-ответ обязан быть строго:
+    - MODE
+    - RESOURCES USED (USING RAW + MARKER FOUND)
+    - DELIVERABLES
+    - GATES
+- TRIGGER:
+  - Ответ без этого формата.
+- REQUIRED FIX:
+  - Переформатировать ответ.
+- ENFORCEMENT:
+  - CTL: “CHAT_CONTRACT_REQUIRED”.
+  - VAL: “CHAT_OUTPUT_CONTRACT_VIOLATION”.
+  - QA: “TRACE_FORMAT_PASS”.
+- EVIDENCE REQUIRED:
+  - Структура 4 секции.
 
 ---
 
-## 7) BOUNDARIES (ANTI-OVERLAP)
-- This law registers constraints; it does not replace canon facts or project content.
-- Constraints do not create existence; existence is defined by canonical indexes.
-- Conflict resolution is governed by ORDER OF AUTHORITY in `00__SYSTEM_LAW.md`.
+## 4) STANDARD VIOLATION CODES (CANON)
+(используются VAL/QA как коды причин)
+
+- RAW_MISSING
+- MARKER_NOT_CONFIRMED
+- INPUT_ABSENT
+- RAW_OUTSIDE_LINK_BASE
+- SNAPSHOT_REFRESH_VIOLATION
+- BOOT_NOT_COMPLETED
+- BOOT_MARKER_NOT_CONFIRMED
+- ENTRYPOINT_BYPASS
+- NAKED_CONTENT_OUTPUT
+- TEMPLATE_BYPASS
+- MISSING_CHANGE_ID
+- INVALID_STOP_REASON
+- CHAT_OUTPUT_CONTRACT_VIOLATION
 
 ---
 
-## 8) ENFORCEMENT (MANDATORY)
-
-### 8.1 Mandatory checks
-- Every constraint uses the strict record format.
-- Every constraint has a valid ID and class.
-- Any use of PRIORITY follows the standards enum (no custom values).
-- Constraints are not duplicated elsewhere as “shadow laws”.
-
-### 8.2 Fail conditions
-- Constraint introduced outside this registry and treated as authoritative.
-- Invalid ID format or reused ID.
-- Priority values not defined by standards.
-- Constraint statement is ambiguous (multiple rules in one) without clarification.
-
-### 8.3 Fix procedure
-- Move/merge shadow constraints into this registry via canon protocol.
-- Reissue IDs if collisions occur (never reuse).
-- Clarify ambiguous constraints via change note + protocol.
-- Add enforcement mapping (VAL/QA/CTL) if currently undefined.
+## 5) ENFORCEMENT NOTES
+- Этот реестр **не заменяет** START_UNIVERSE_ENGINE, а даёт CTL/VAL/QA “таблицу блокировок”.
+- При появлении новой подсистемы (например, MUSIC) допускается добавление доменных constraints (CLASS=DOMAIN),
+  но они не могут ослабить S0 constraints.
 
 ---
 
-## 9) INTERFACES (RAW ONLY)
-- System Law index (SoT):  
-  https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01_SYSTEM_LAW/00__INDEX__SYSTEM_LAW.md
-- Core constitution:  
-  https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01_SYSTEM_LAW/00__SYSTEM_LAW.md
-- Canon protocol:  
-  https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01_SYSTEM_LAW/04__CANON_PROTOCOL.md
-- START runtime entrypoint:  
-  https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01__START_UNIVERSE_ENGINE.md
-- Standards master index:  
-  https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/02_STANDARDS/00_STANDARDS%20%E2%80%94%20MASTER%20INDEX.md
-- Priority enum standard:  
-  https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/02_STANDARDS/06_MARKING_STANDARDS/04__PRIORITY_S0_S3.md
+## 6) APPENDIX: RESERVED DOMAIN CONSTRAINTS (FUTURE)
+(добавлять только через change management)
 
----
-
-## FINAL RULE (LOCK)
-This registry is the only authoritative source of constraints.  
-Any constraint violation must be treated as a system issue until corrected or explicitly approved via canon protocol.
-
-OWNER: SYSTEM  
-LOCK: FIXED
-
---- END.
+- C-MUSIC-001 Voice diversity minimum
+- C-MUSIC-002 Anti-repetition threshold
+- C-MUSIC-003 Credits/rights compliance
