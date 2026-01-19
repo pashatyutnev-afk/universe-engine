@@ -33,7 +33,7 @@ ROOT-INDEX не выполняет задач, а даёт снимок RAW-сс
 ## 1) INPUTS (MINIMUM)
 Runtime запускается только командой пользователя:
 
-- COMMAND: `START_UNIVERSE_ENGINE`
+- COMMAND: `START_UNIVERSE_ENGINE` https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/00_INDEX/01__START_UNIVERSE_ENGINE.md
 - ROOT LINK BASE: один файл-индекс со снимком RAW ссылок
 - TASK: текст запроса пользователя
 - OPTIONAL LINKS: любые дополнительные RAW ссылки, которые пользователь прислал в чате

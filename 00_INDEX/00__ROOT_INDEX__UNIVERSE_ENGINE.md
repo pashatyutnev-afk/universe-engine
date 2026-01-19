@@ -44,7 +44,7 @@ NAV_RULE: Use RAW links only
 
 ## ENGINE START
 - START_UNIVERSE_ENGINE (single runtime entrypoint)
-  - https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01__START_UNIVERSE_ENGINE.md
+  - https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/00_INDEX/01__START_UNIVERSE_ENGINE.md
 
 ## QUICK START
 ### SYSTEM LAW
