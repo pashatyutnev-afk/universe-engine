@@ -32,13 +32,20 @@ Make entity execution deterministic and factual:
 ---
 
 # DEFINITIONS
+
 ## A) Entities
 Entity classes include: SPC / ENG / ORC / CTL / VAL / QA / XREF.
 
 ## B) Operational Global Index (ONE FILE)
-The only operational registry for entity existence and navigation:
+The only operational registry for entity existence and navigation is:
 
+- **APPENDIX A — OPERATIONAL GLOBAL INDEX (INLINE SNAPSHOT)**  
+  UID: **UE.ENT.IDX.ALL.001**  
+  NAV MODE: open this file and copy needed `RAW:` links (one-file navigation mode).
 
+> NOTE (OPERATIONAL):
+> If you later extract Appendix A into its own standalone file, keep the same UID (UE.ENT.IDX.ALL.001),
+> and in this RULE replace the pointer above with the RAW link of that standalone index file.
 
 ## C) RAW-anchored usage
 RAW-anchored usage means:
@@ -53,6 +60,7 @@ Anything else is non-existent operationally and MUST NOT be used.
 ---
 
 # RULE 1 — SPC-FIRST PYRAMID (MANDATORY)
+
 ## 1.1 Execution order (ABSOLUTE)
 Any task MUST be executed through:
 Lead SPC → Support SPC (0–3) → (optional) calls to ENG/ORC/CTL/VAL/QA
@@ -64,6 +72,7 @@ ENG/ORC/CTL/VAL/QA can be invoked ONLY by explicit Orders from Lead SPC.
 ---
 
 # RULE 2 — RAW-ONLY ENTITY NAVIGATION & DIRECTIVES (MANDATORY)
+
 ## 2.1 RAW-only invocation (ABSOLUTE)
 If any entity is invoked (SPC/ENG/ORC/CTL/VAL/QA/XREF),
 assistant MUST:
@@ -104,6 +113,7 @@ Inside DELIVERABLES the FIRST block MUST be SPC Directive Pack.
 ---
 
 # RULE 5 — COMPLIANCE NOTICE (MANDATORY USER ALERT)
+
 ## 5.1 No silent fallback (ABSOLUTE)
 If the assistant cannot comply with RAW-anchored entity usage,
 the assistant MUST explicitly notify the user in the same response.
@@ -120,6 +130,7 @@ No simulated/entity-roleplay execution is allowed.
 ---
 
 # RULE 6 — NON-FICTION ENTITY BAN (ABSOLUTE)
+
 ## 6.1 No invented entities
 Assistant MUST NOT invent, assume, or "roleplay" any entities that are not operationally real.
 
@@ -182,45 +193,21 @@ The run MUST FAIL if any of the following occurs:
 This protocol is CONTROL PLANE and has priority over any convenience heuristics.
 If any older rule conflicts, this protocol overrides it.
 
-LOCK: FIXED
-OWNER: SYSTEM
-
-
-
-SCOPE: Universe Engine
-LAYER: 03_SYSTEM_ENTITIES
-DOC_TYPE: INDEX
-INDEX_TYPE: GLOBAL_ENTITY_REGISTRY_ALL_IN_ONE
-LEVEL: L0 (OPERATIONAL SUPER-INDEX)
-STATUS: ACTIVE
-LOCK: FIXED
-VERSION: 1.0.0
-UID: UE.ENT.IDX.ALL.001
-OWNER: SYSTEM
-ROLE: One-file master list of RAW links to ALL entity files in 03_SYSTEM_ENTITIES (ENG/ORC/SPC/CTL/VAL/QA/XREF + REG/TPL)
-
-CHANGE_NOTE:
-- DATE: 2026-01-11
-- TYPE: MAJOR
-- SUMMARY: "Created one-file global registry because viewer cannot follow in-file links; includes direct RAW links to every known entity file."
-- REASON: "Operational navigation must work from a single opened file."
-- IMPACT: "Single-file browsing: copy RAW into address bar; prevents losing navigation."
-- CHANGE_ID: UE.CHG.2026-01-11.ENT.IDX.ALL.001
-
 ---
+
+# APPENDIX A — OPERATIONAL GLOBAL INDEX (INLINE SNAPSHOT)
+UID: UE.ENT.IDX.ALL.001
+INDEX_TYPE: GLOBAL_ENTITY_REGISTRY_ALL_IN_ONE
+ROLE: One-file master list of RAW links to ALL entity files in 03_SYSTEM_ENTITIES (ENG/ORC/SPC/CTL/VAL/QA/XREF + REG/TPL)
 
 ## NAV MODE (IMPORTANT)
 - Открываешь ТОЛЬКО этот файл.
 - Дальше просто копируешь нужный `RAW:` и вставляешь в адресную строку.
 - Этот индекс — “оперативный супер-индекс”. Канон-индексы по классам (ENG/SPC/...) остаются отдельными, но тут — всё в одном месте.
 
----
-
 ## EXISTENCE RULE (OPERATIONAL)
 - Этот файл фиксирует **оперативное существование** файлов сущностей для “one-file navigation mode”.
 - Если файл есть в репо, но его RAW нет здесь — считай что “в оперативной навигации он не существует”.
-
----
 
 ## BASE RAW PREFIX
 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/
@@ -722,7 +709,7 @@ RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/hea
 RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/40_CTL__CONTROLLERS/10_MUSIC_CONTROLLERS/08__AUDIENCE_SEGMENTS_CTL.md
 RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/40_CTL__CONTROLLERS/10_MUSIC_CONTROLLERS/09__QUALITY_GATES_CTL.md
 RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/40_CTL__CONTROLLERS/10_MUSIC_CONTROLLERS/10__SUNO_PHRASEBOOK_CTL.md
-RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/40_CTL__CONTROLLERS/10_MUSIC_CONTROLLERS/11__UDIO_PHRASEBOOK_CTL.md
+RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/40_CTL__CONTROLLERS/10_MUSIC_CONTROLLERS/11__udio_PHRASEBOOK_CTL.md
 RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/40_CTL__CONTROLLERS/10_MUSIC_CONTROLLERS/12__NEGATIVE_SPEC_LIBRARY_CTL.md
 RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/40_CTL__CONTROLLERS/10_MUSIC_CONTROLLERS/13__CREDITS_METADATA_POLICY_CTL.md
 
@@ -814,11 +801,5 @@ RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/hea
 
 04 — MAP PIPELINES  
 RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/90_XREF__CROSSREF/04__MAP__PIPELINES.md
-
----
-
-## FINAL RULE (LOCK)
-OWNER: SYSTEM
-LOCK: FIXED
 
 --- END.
