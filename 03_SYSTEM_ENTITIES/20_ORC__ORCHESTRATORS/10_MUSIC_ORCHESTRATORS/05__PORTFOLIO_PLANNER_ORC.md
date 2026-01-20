@@ -1,159 +1,187 @@
-# Portfolio Planner Orchestrator — ORC
-FILE: 03_SYSTEM_ENTITIES/20_ORC__ORCHESTRATORS/10_MUSIC_ORCHESTRATORS/05__PORTFOLIO_PLANNER_ORC.md
+# ORC — PORTFOLIO PLANNER (CANON)
 
-SCOPE: Universe Engine
+FILE: 03_SYSTEM_ENTITIES/20_ORC__ORCHESTRATORS/10_MUSIC_ORCHESTRATORS/05__PORTFOLIO_PLANNER_ORC.md
+SCOPE: Universe Engine (Games volume)
+SERIAL: C425-B513
 LAYER: 03_SYSTEM_ENTITIES
-ENTITY_GROUP: ORCHESTRATORS (ORC)
-ORC_FAMILY: 10_MUSIC_ORCHESTRATORS
-DOC_TYPE: ORCHESTRATOR
-ORC_TYPE: MUSIC_PORTFOLIO_PLANNING
-LEVEL: L3
+REALM: 20_ORC__ORCHESTRATORS
+FAMILY: 10_MUSIC_ORCHESTRATORS
+LEVEL: L2
+DOC_TYPE: ORC (ORCHESTRATOR)
+ENTITY_TYPE: ORCHESTRATOR
 STATUS: ACTIVE
 LOCK: FIXED
 VERSION: 1.0.0
-UID: UE.ORC.MUS.PORTFOLIO_PLANNER.001
+UID: UE.ORC.MUSIC.PORTFOLIO_PLANNER.001
 OWNER: SYSTEM
-ROLE: Plans what to produce next across groups/albums/tracks based on:
-catalog memory, collision risks, audience segments, and release cadence.
-Outputs a prioritized production queue for the Music Factory.
+ROLE: Planning-only pipeline: build a deterministic release portfolio plan (calendar/sequence/rules) without producing audio. Outputs are SPEC/PACKAGE only.
 
 CHANGE_NOTE:
-- DATE: 2026-01-12
-- TYPE: MAJOR
-- SUMMARY: "Created Portfolio Planner ORC: priority rules, inputs from take logs/releases, and queue output schema."
-- REASON: "Without portfolio planning, production repeats itself and wastes effort."
-- IMPACT: "Clear roadmap, controlled novelty, stable release cadence."
-- CHANGE_ID: UE.CHG.2026-01-12.ORC.MUS.PORTFOLIO.001
+- DATE: 2026-01-20
+- TYPE: PATCH
+- SUMMARY: "Rebuilt PORTFOLIO_PLANNER as strict planning-only contract: inputs/outputs, XREF dependencies, gate placement, and signoff chain."
+- REASON: "Prevent mixing planning with generation; make portfolio planning auditable and reproducible."
+- IMPACT: "Portfolio plans become consistent inputs for release scheduling and pipeline selection."
+- CHANGE_ID: UE.CHG.2026-01-20.ORC.PORTFOLIO.001
 
 ---
 
 ## 0) PURPOSE (LAW)
-Answer:
-**“Что делаем дальше и в каком порядке?”**
+Этот ORC строит план портфеля выпусков:
+- что и в каком порядке выпускать,
+- какие серии/темы/жанры покрываем,
+- какие ограничения и правила соблюдаем,
+- какой “следующий шаг” (какой pipeline запускать дальше).
 
-This ORC produces a deterministic **Production Queue**:
-- next groups to activate
-- next album slots to execute
-- where to inject novelty
-- what to avoid due to collisions
-- release cadence planning
+Здесь не создаются аудио-выходы. Только плановые документы.
 
 ---
 
-## 1) INPUTS (CONSUMES)
-- Catalog Memory snapshot (what exists)
-- Recent Release Packs (what shipped)
-- Take Logs (what worked/failed)
-- Audience segment goals
-- Trend/genre coverage goals (optional)
-- Capacity constraints (how many tracks per cycle)
+## 1) ABSOLUTE LAWS
+### 1.1 RAW-only navigation
+Только RAW.
+
+### 1.2 Ownership is mandatory
+Владельцы берутся только из `ORC → SPC` карты.
+
+### 1.3 Allowlist engines only
+ENG допускаются только по `ENG → ORC` allowlist для этого ORC.
+
+### 1.4 Mandatory gate order
+READINESS_CHECK_CTL → relevant VAL → relevant QA → DOC_CONTROLLER_SPC → MACHINE_ARCHITECT_SPC signoff
+
+### 1.5 Planning-only scope
+Запрещено выпускать:
+- MUSIC_TRACK_* артефакты
+- MUSIC_RELEASE_* артефакты
+Этот ORC выпускает только SPEC/PACKAGE.
 
 ---
 
-## 2) OUTPUTS (PRODUCES)
-- PORTFOLIO_PLAN (PP):
-  - prioritized queue of production tasks
-  - per task: objective + required ORC step + constraints
-- NOVELTY_MAP:
-  - which groups need novelty injection vs stability
-- COLLISION_AVOID_LIST:
-  - tokens to avoid (hooks/palettes/PD fragments)
+## 2) REQUIRED XREF (RAW)
+PIPELINES (intent → pipeline)
+RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/90_XREF__CROSSREF/04__MAP__PIPELINES.md
+
+ENG → ORC allowlist
+RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/90_XREF__CROSSREF/01__MAP__ENG_to_ORC.md
+
+ORC → SPC ownership
+RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/90_XREF__CROSSREF/02__MAP__ORC_to_SPC.md
+
+VALIDATION MATRIX
+RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/90_XREF__CROSSREF/03__MAP__VALIDATION_MATRIX.md
 
 ---
 
-## 3) REQUIRED ENTITIES (RAW LINKS)
-- Catalog Memory CTL  
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/40_CTL__CONTROLLERS/10_MUSIC_CONTROLLERS/07__CATALOG_MEMORY_CTL.md
-- Fingerprint Collision Thresholds CTL  
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/40_CTL__CONTROLLERS/10_MUSIC_CONTROLLERS/06__FINGERPRINT_COLLISION_THRESHOLDS_CTL.md
-- Take Log ENG  
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/11_MUSIC_FACTORY_ENGINES/09__TAKE_LOG_ENG.md
-- Catalog Collision ENG  
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/11_MUSIC_FACTORY_ENGINES/07__CATALOG_COLLISION_ENG.md
-- Novelty Injection ENG  
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/11_MUSIC_FACTORY_ENGINES/08__NOVELTY_INJECTION_ENG.md
+## 3) REQUIRED CONTROL (RAW)
+READINESS CHECK (mandatory)
+RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/40_CTL__CONTROLLERS/01__READINESS_CHECK_CTL.md
 
 ---
 
-## 4) PRIORITY RULES (DETERMINISTIC)
-Rank tasks using these dimensions:
+## 4) INPUTS (MINIMUM)
+### 4.1 Required
+- Portfolio horizon (например: 4 недели / 3 месяца / 20 релизов)
+- Portfolio goals (охват жанров/настроений/аудиторий) — кратко
+- Constraints:
+  - frequency (как часто выпускать)
+  - variety (минимальная дифференциация между релизами)
+  - platform focus (YouTube/streaming/etc) — как intent, без внешних ссылок
 
-P1 RELEASE_CADENCE (weight high)
-- ensure steady cadence; don’t starve releases
+### 4.2 Optional
+- Existing catalog snapshot (список уже готовых релизов/треков)
+- Brand constraints (если портфель под брендом)
 
-P2 HIT_SIGNAL (weight high)
-- if take logs show “liked/develop”, prioritize finishing and releasing
-
-P3 COLLISION_RISK (weight high)
-- if collisions increasing, prioritize novelty injection or new palette
-
-P4 COVERAGE_BALANCE (weight medium)
-- avoid all tracks being same tempo/genre/energy
-
-P5 PIPELINE_BLOCKERS (weight medium)
-- fix missing docs/packs that block next steps
+### 4.3 Stop rule
+Если нет horizon или goals → STOP: input absent
 
 ---
 
-## 5) PROCEDURE (DETERMINISTIC)
-1) Load catalog memory + last releases + recent take logs.
-2) Identify:
-   - READY_TO_RELEASE candidates (PASS winners not packaged)
-   - IN_PROGRESS candidates (liked/develop)
-   - STALE lanes (too repetitive, collision heavy)
-3) For each group:
-   - compute stability vs novelty need
-   - propose next slot to execute
-4) Build queue:
-   - top: package releases and ship
-   - then: finish in-progress winners
-   - then: generate new tracks for highest value slots (opener/single)
-5) Attach constraints to each task:
-   - avoid tokens
-   - required knobs
-   - scope mode for collision checks
-6) Output PP + novelty map.
+## 5) OUTPUTS (ARTIFACT SET)
+- PORTFOLIO_PLAN (SPEC doc) — основной документ плана
+- OPTIONAL: PORTFOLIO_PACK (PACKAGE doc) — если нужно упаковать план с приложениями
+
+Validation gates берём из `VALIDATION_MATRIX` для типов SPEC/PACKAGE.
 
 ---
 
-## 6) OUTPUT SCHEMA (MANDATORY)
-
-### PORTFOLIO_PLAN (PP)
-- DATE:
-- CAPACITY:
-- QUEUE (ranked):
-  - rank:
-    TASK_ID:
-    TARGET: (group/album/track/slot)
-    ORC_STEP: (G2A | A2T | TESTDOC | RELEASE_PACK | POET_PACK)
-    OBJECTIVE:
-    CONSTRAINTS:
-      - avoid_tokens:
-      - required_anchors:
-      - novelty_knobs (optional):
-    WHY_THIS_PRIORITY:
-
-### NOVELTY_MAP
-- GROUP_UID:
-  - mode: {STABLE | LIGHT_NOVELTY | HEAVY_NOVELTY}
-  - recommended knobs:
-
-### COLLISION_AVOID_LIST
-- tokens (compact list)
+## 6) PLANNING RULES (DETERMINISTIC)
+План обязан содержать минимум:
+- Release slots (S01..SNN) или календарные точки (W01..WNN)
+- Для каждого слота:
+  - intent (что выпускаем: single track / album pack / poet pack / etc)
+  - recommended pipeline (PIPELINE_ID из `PIPELINES` map)
+  - ownership note (primary ORC owner is resolved via ORC→SPC during execution)
+  - differentiation tag (почему это отличается от соседнего)
+- Risk notes (если есть риск однообразия / коллизий / перегруза)
 
 ---
 
-## 7) HANDOFFS (XREF)
-Feeds into:
-- `10_MUSIC_ORCHESTRATORS/01__GROUP_TO_ALBUM_ORC.md`
-- `10_MUSIC_ORCHESTRATORS/02__ALBUM_TO_TRACK_ORC.md`
-- `10_MUSIC_ORCHESTRATORS/04__RELEASE_PACK_ORC.md`
-- `10_MUSIC_ORCHESTRATORS/06__POET_PACK_ORC.md`
+## 7) PIPELINE STEPS (DETERMINISTIC)
+
+### STEP 0 — PRECHECK (CTL)
+Owner: PRIMARY_SPC (from ORC→SPC map)  
+Gate: READINESS_CHECK_CTL  
+Input: horizon + goals + constraints  
+Output: PASS/FAIL  
+Fail → STOP
 
 ---
 
-## FINAL RULE (LOCK)
-OWNER: SYSTEM
-LOCK: FIXED
+### STEP 1 — SLOT GRID BUILD (SPC)
+Owner: PRIMARY_SPC  
+Output:
+- SLOT_GRID (N слотов) с частотой и распределением
 
---- END.
+---
+
+### STEP 2 — INTENT ASSIGNMENT (SPC)
+Owner: PRIMARY_SPC  
+Action:
+- назначить intent каждому слоту
+- отметить разнообразие (variety)
+
+Output:
+- SLOT_INTENTS
+
+---
+
+### STEP 3 — PIPELINE RESOLUTION (XREF)
+Owner: ORC (this doc)  
+Action:
+- для каждого intent подобрать PIPELINE_ID по `PIPELINES` map
+Output:
+- SLOT_PIPELINE_MAP (slot → pipeline_id → primary_orc_raw)
+
+Fail:
+- если intent не маппится → STOP: marker not confirmed (need new pipeline record)
+
+---
+
+### STEP 4 — VALIDATION + QA (by matrix)
+Owner: relevant VAL + relevant QA  
+Action:
+- применить матрицу к типу SPEC (и PACKAGE если делаем pack)
+Output:
+- VIOLATIONS / QA_VERDICT
+
+FAIL → возврат на STEP 1–3
+
+---
+
+### STEP 5 — DOC CONTROL + SIGNOFF
+Owner: DOC_CONTROLLER_SPC → MACHINE_ARCHITECT_SPC  
+Output:
+- FINAL PORTFOLIO_PLAN (и optional pack)
+
+---
+
+## 8) EXTENSION POLICY (STRICT)
+Если нужно добавить новый тип слота/intent:
+1) обновить `PIPELINES` map (PATCH)
+2) при необходимости обновить `VALIDATION_MATRIX` (PATCH)
+3) затем обновить этот ORC (PATCH)
+
+---
+
+END.

@@ -1,82 +1,104 @@
-# MUSIC QA — REALM (README)
-FILE: 03_SYSTEM_ENTITIES/60_QA__QUALITY/10_MUSIC_QA/00__README__MUSIC_QA.md
+# MUSIC QA (QUALITY) — REALM README (CANON)
 
-SCOPE: Universe Engine
+FILE: 03_SYSTEM_ENTITIES/60_QA__QUALITY/10_MUSIC_QA/00__README__MUSIC_QA.md
+SCOPE: Universe Engine (Games volume)
+SERIAL: C425-B513
 LAYER: 03_SYSTEM_ENTITIES
-ENTITY_GROUP: QUALITY (QA)
-QA_REALM: 10_MUSIC_QA
-DOC_TYPE: README
-README_TYPE: REALM
-LEVEL: L3
+REALM: 60_QA__QUALITY
+FAMILY: 10_MUSIC_QA
+DOC_TYPE: README (FAMILY)
+LEVEL: L2
 STATUS: ACTIVE
 LOCK: FIXED
 VERSION: 1.0.0
-UID: UE.QA.REALM.MUSIC.001
+UID: UE.QA.MUSIC.REALM.README.001
 OWNER: SYSTEM
-ROLE: Operational entrypoint for Music QA gates (human/heuristic listening checks) used by TEST→DOC gate and portfolio planning.
-QA does not define rules (CTL) and does not create content (ENG); it evaluates outputs.
+ROLE: Canonical usage contract for music QA gates. Defines matrix-driven QA selection, verdict format, and how QA integrates into ORC pipelines after CTL+VAL.
 
 CHANGE_NOTE:
-- DATE: 2026-01-12
-- TYPE: MAJOR
-- SUMMARY: "Created Music QA realm README: scope, gate semantics, and RAW-only navigation."
-- REASON: "QA layer must provide consistent listening tests for track selection and regression control."
-- IMPACT: "More consistent PASS/WARN/FAIL decisions and cleaner catalog quality."
-- CHANGE_ID: UE.CHG.2026-01-12.QA.REALM.MUSIC.001
+- DATE: 2026-01-20
+- TYPE: PATCH
+- SUMMARY: "Rebuilt MUSIC_QA README as deterministic QA contract aligned with Validation Matrix + ORC flows; added standard QA verdict format."
+- REASON: "Remove ambiguity: QA must be selected and applied deterministically, and its outcomes must be auditable."
+- IMPACT: "Music outputs pass consistent acceptance gates; FAIL routes back to producing ORC without guessing."
+- CHANGE_ID: UE.CHG.2026-01-20.QA.MUSIC.README.001
 
 ---
 
-## 0) PURPOSE (LAW)
-QA answers:
-**“Would a human scroll/loop/recognize this fast, and does it hold up in real usage?”**
+## 0) WHAT IS QA (IN MUSIC)
+QA — приемка/гейты качества.  
+QA проверяет “готово ли выпускать/паковать”, а не “соответствует ли правилам” (это VAL).
 
-- CTL = rules & thresholds
-- VAL = deterministic checks
-- QA = experiential checks / listening panels / heuristic tests
-- ORC = when to run QA and what to do with outcomes
-
----
-
-## 1) QA DECISION SEMANTICS (STANDARD)
-Each QA check outputs:
-- RESULT: {PASS | WARN | FAIL}
-- NOTES: short bullets
-- FIX_SUGGESTION: 1–2 knobs max (what to change)
-
-PASS:
-- acceptable for next gate stage
-
-WARN:
-- promising but needs small fix
-
-FAIL:
-- not viable; redesign or regenerate
+QA НЕ ДЕЛАЕТ:
+- не создаёт контент,
+- не заменяет CTL/VAL,
+- не назначает владельцев (ORC→SPC),
+- не выбирает пайплайны (PIPELINES map),
+- не добавляет обязательные гейты без PATCH матрицы.
 
 ---
 
-## 2) WHERE QA IS USED
-Primary usage:
-- Track TEST → DOC Gate ORC  
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/20_ORC__ORCHESTRATORS/10_MUSIC_ORCHESTRATORS/03__TRACK_TEST_DOC_GATE_ORC.md
+## 1) ABSOLUTE RULES
+### 1.1 Matrix-driven QA selection
+Какие QA-гейты обязательны — определяется `VALIDATION_MATRIX` по ARTIFACT_TYPE.
 
-Secondary usage:
-- Portfolio Planner ORC  
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/20_ORC__ORCHESTRATORS/10_MUSIC_ORCHESTRATORS/05__PORTFOLIO_PLANNER_ORC.md
+### 1.2 Placement order
+QA всегда после CTL и VAL:
+READINESS_CHECK_CTL → required CTL → required VAL → required QA → DOC_CONTROL
+
+### 1.3 RAW-only navigation
+Только RAW ссылки.
+
+### 1.4 Output format is mandatory
+Каждый QA гейт должен выдавать QA_VERDICT в стандартном формате.
 
 ---
 
-## 3) QA GATES IN THIS REALM (RAW NAV)
+## 2) REQUIRED REFERENCES (RAW)
+VALIDATION MATRIX (required gates per artifact type)
+RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/90_XREF__CROSSREF/03__MAP__VALIDATION_MATRIX.md
 
-00 — README MUSIC QA  
-RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/60_QA__QUALITY/10_MUSIC_QA/00__README__MUSIC_QA.md
+PIPELINES (intent → pipeline selection)
+RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/90_XREF__CROSSREF/04__MAP__PIPELINES.md
 
-01 — SCROLL STOP 5s QA  
+---
+
+## 3) HOW ORC USES QA (CANON FLOW)
+1) ORC определяет ARTIFACT_TYPE (CARD | PROMPT | RELEASE | PACK | SPEC)
+2) ORC читает `VALIDATION_MATRIX` и получает REQUIRED_QA
+3) ORC применяет REQUIRED_QA к артефакту после CTL+VAL
+4) QA возвращает:
+   - VERDICT (PASS/WARN/FAIL)
+   - SCORES (если применимо)
+   - FAIL_REASONS / FIX_GUIDE
+5) FAIL → возврат в producing ORC (обычно ALBUM→TRACK или RELEASE_PACK) и повтор QA после исправления
+
+---
+
+## 4) QA VERDICT FORMAT (REQUIRED)
+Каждый QA результат должен содержать минимум:
+
+- QA_CHECK_ID: (file/uid of QA gate)
+- ARTIFACT_TYPE: (CARD | PROMPT | RELEASE | PACK | SPEC)
+- TARGET_RAW: (raw link to the checked artifact)
+- VERDICT: PASS | WARN | FAIL
+- SCORE: (0-100 or N/A)
+- REASONS: bullet list (concise)
+- FIX_REQUIRED: bullet list
+- RETURN_TO: (which ORC pipeline should repair; raw link)
+
+---
+
+## 5) MUSIC QA INVENTORY (CANON LIST, RAW)
+00 — MUSIC QA README (this doc)
+
+01 — SCROLL STOP 5S QA  
 RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/60_QA__QUALITY/10_MUSIC_QA/01__SCROLL_STOP_5S_QA.md
 
-02 — LOOP 15s QA  
+02 — LOOP 15S QA  
 RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/60_QA__QUALITY/10_MUSIC_QA/02__LOOP_15S_QA.md
 
-03 — RECOGNITION 10s QA  
+03 — RECOGNITION 10S QA  
 RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/60_QA__QUALITY/10_MUSIC_QA/03__RECOGNITION_10S_QA.md
 
 04 — CREATOR PANEL QA  
@@ -99,17 +121,25 @@ RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/hea
 
 ---
 
-## 4) QA VS VAL (BOUNDARY)
-- QA may recommend changes but does not define law thresholds.
-- If QA conflicts with VAL, ORC decides outcome based on Quality Gates CTL.
+## 6) COMMON RETURN ROUTES (CANON)
+- Fix track artifacts (CARD/PROMPT/RELEASE):
+  - return_to: ALBUM_TO_TRACK ORC  
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/20_ORC__ORCHESTRATORS/10_MUSIC_ORCHESTRATORS/02__ALBUM_TO_TRACK_ORC.md
 
-Quality Gates CTL reference:
-RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/40_CTL__CONTROLLERS/10_MUSIC_CONTROLLERS/09__QUALITY_GATES_CTL.md
+- Fix release packaging:
+  - return_to: RELEASE_PACK ORC  
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/20_ORC__ORCHESTRATORS/10_MUSIC_ORCHESTRATORS/04__RELEASE_PACK_ORC.md
+
+- Re-run doc readiness:
+  - return_to: TRACK_TEST_DOC_GATE ORC  
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/20_ORC__ORCHESTRATORS/10_MUSIC_ORCHESTRATORS/03__TRACK_TEST_DOC_GATE_ORC.md
 
 ---
 
-## FINAL RULE (LOCK)
-OWNER: SYSTEM
-LOCK: FIXED
+## 7) CHANGE POLICY (LOCK)
+- Любые изменения QA-гейтов: PATCH + CHANGE_NOTE.
+- Чтобы сделать QA-гейт обязательным для типа артефакта — сначала PATCH `VALIDATION_MATRIX`.
 
---- END.
+---
+
+END.

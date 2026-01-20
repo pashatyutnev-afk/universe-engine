@@ -1,91 +1,102 @@
-# MUSIC VALIDATORS — REALM (README)
-FILE: 03_SYSTEM_ENTITIES/50_VAL__VALIDATORS/10_MUSIC_VALIDATORS/00__README__MUSIC_VALIDATORS.md
+# MUSIC VALIDATORS (VAL) — REALM README (CANON)
 
-SCOPE: Universe Engine
+FILE: 03_SYSTEM_ENTITIES/50_VAL__VALIDATORS/10_MUSIC_VALIDATORS/00__README__MUSIC_VALIDATORS.md
+SCOPE: Universe Engine (Games volume)
+SERIAL: C425-B513
 LAYER: 03_SYSTEM_ENTITIES
-ENTITY_GROUP: VALIDATORS (VAL)
-VAL_REALM: 10_MUSIC_VALIDATORS
-DOC_TYPE: README
-README_TYPE: REALM
-LEVEL: L3
+REALM: 50_VAL__VALIDATORS
+FAMILY: 10_MUSIC_VALIDATORS
+DOC_TYPE: README (FAMILY)
+LEVEL: L2
 STATUS: ACTIVE
 LOCK: FIXED
 VERSION: 1.0.0
-UID: UE.VAL.REALM.MUSIC.001
+UID: UE.VAL.MUSIC.REALM.README.001
 OWNER: SYSTEM
-ROLE: Operational entrypoint for Music Validators: deterministic PASS/WARN/FAIL checks used by
-Track TEST→DOC gate and Release readiness.
+ROLE: Canonical usage contract for music validators. Defines how VAL is selected via Validation Matrix, how it is applied inside ORC, and the standard violation record format.
 
 CHANGE_NOTE:
-- DATE: 2026-01-12
-- TYPE: MAJOR
-- SUMMARY: "Created Music Validators realm README: scope, decision semantics, and RAW-only navigation."
-- REASON: "VAL layer must provide consistent checks for the music factory gates."
-- IMPACT: "Deterministic gate decisions; less subjective drift; cleaner release readiness."
-- CHANGE_ID: UE.CHG.2026-01-12.VAL.REALM.MUSIC.001
+- DATE: 2026-01-20
+- TYPE: PATCH
+- SUMMARY: "Rebuilt MUSIC_VALIDATORS README as matrix-driven validation contract aligned with ORC flows. Added standard violation output format."
+- REASON: "Remove ambiguity: validators must be applied deterministically and produce auditable violations."
+- IMPACT: "Pipelines can enforce compliance consistently; failures route back to producing ORC without guessing."
+- CHANGE_ID: UE.CHG.2026-01-20.VAL.MUSIC.README.001
 
 ---
 
-## 0) PURPOSE (LAW)
-Validators answer one question:
-**“Is this output allowed to proceed?”**
+## 0) WHAT IS VAL (IN MUSIC)
+VAL (Validators) — проверки соответствия (compliance), которые:
+- оценивают документ/артефакт по правилам,
+- фиксируют нарушения в стандартном формате,
+- дают требования к исправлению.
 
-VAL is not creative and not policy-writing.
-- CTL = rules source (laws, thresholds, contracts)
-- VAL = deterministic checks against CTL and expected artifacts
-- QA = human/heuristic listening panels and experiential gates
-- ORC = when to run gates and what to do with results
-
----
-
-## 1) SCOPE
-### In scope
-- Hook timing and early recognition compliance
-- UGC readiness compliance
-- Repeat/spam guard (lyrics/hook repetition behavior)
-- PD-only compliance (when PD pipeline used)
-- Collision blocking (near-duplicate prevention)
-- Release pack readiness validation
-- Naming collision validation
-- Prompt fidelity validation
-- Credits/rights metadata validation
-- Voice diversity validation
-
-### Out of scope
-- designing policies (CTL)
-- content creation (ENG/SPC)
-- subjective aesthetic evaluation (QA)
+VAL НЕ ДЕЛАЕТ:
+- не выполняет упаковку релиза,
+- не заменяет QA (приёмка/скоринг),
+- не назначает владельцев (это ORC→SPC),
+- не выбирает ORC/ENG (это PIPELINES map и ENG→ORC).
 
 ---
 
-## 2) DECISION SEMANTICS (STANDARD)
-Every validator must output:
-- DECISION: {PASS | WARN | FAIL}
-- REASONS: short bullet list
-- REQUIRED_ACTION (if WARN/FAIL): what must change
+## 1) ABSOLUTE RULES
+### 1.1 Matrix-driven selection
+Какие валидаторы обязательны — определяется `VALIDATION_MATRIX` по ARTIFACT_TYPE.
+Нельзя “по желанию” делать валидатор обязательным без PATCH матрицы.
 
-### PASS
-- constraints satisfied; may proceed to next step
+### 1.2 Placement order
+VAL применяется после CTL (политики), но до QA.
+Канон по умолчанию:
+READINESS_CHECK_CTL → required CTL → required VAL → required QA → DOC_CONTROL
 
-### WARN
-- fixable with 1–2 knobs; may proceed only if ORC allows WARN
-- must output required knobs to change and re-check plan
+### 1.3 RAW-only navigation
+Только RAW ссылки.
 
-### FAIL
-- hard violation; must stop and redesign / regenerate
-
----
-
-## 3) WHERE VAL IS USED (FACTORY GATES)
-- Track TEST → DOC Gate ORC uses validators to decide if a take becomes “doc-worthy”.
-- Release Pack ORC uses readiness validators to ensure packaging completeness.
+### 1.4 Output format is mandatory
+Каждый VAL обязан выдавать VIOLATION RECORD(ы) в стандартном формате.
 
 ---
 
-## 4) NAV (RAW LINKS) — 10_MUSIC_VALIDATORS
+## 2) REQUIRED REFERENCES (RAW)
+VALIDATION MATRIX (required gates per artifact type)
+RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/90_XREF__CROSSREF/03__MAP__VALIDATION_MATRIX.md
 
-00 — README MUSIC VALIDATORS  
-RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/50_VAL__VALIDATORS/10_MUSIC_VALIDATORS/00__README__MUSIC_VALIDATORS.md
+PIPELINES (intent → pipeline selection)
+RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/90_XREF__CROSSREF/04__MAP__PIPELINES.md
+
+---
+
+## 3) HOW ORC USES VAL (CANON FLOW)
+1) ORC определяет ARTIFACT_TYPE (card/prompt/release/pack/spec)
+2) ORC читает `VALIDATION_MATRIX` и получает REQUIRED_VAL
+3) ORC вызывает REQUIRED_VAL на соответствующем шаге
+4) VAL возвращает:
+   - VERDICT (PASS/FAIL)
+   - VIOLATION_RECORDS (0..n)
+   - FIX_GUIDE (что исправлять)
+5) Если FAIL:
+   - ORC возвращает на producing step (обычно ALBUM→TRACK или RELEASE_PACK)
+   - повторяет VAL после исправления
+
+---
+
+## 4) VIOLATION RECORD FORMAT (REQUIRED)
+Каждая запись нарушения должна содержать минимум:
+
+- VIOLATION_ID: (локальный id)
+- VALIDATOR_ID: (file/uid of validator)
+- ARTIFACT_TYPE: (CARD | PROMPT | RELEASE | PACK | SPEC)
+- TARGET_RAW: (raw link to the checked artifact)
+- SEVERITY: (S0 BLOCKER | S1 MAJOR | S2 MINOR | S3 NOTE)
+- RULE: (short rule statement)
+- EVIDENCE: (what exactly failed, concise)
+- FIX_REQUIRED: (what must change)
+- RETURN_TO: (which ORC pipeline should repair; raw link)
+
+---
+
+## 5) MUSIC VALIDATORS INVENTORY (CANON LIST, RAW)
+00 — MUSIC VALIDATORS README (this doc)
 
 01 — HOOK TIMING VAL  
 RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/50_VAL__VALIDATORS/10_MUSIC_VALIDATORS/01__HOOK_TIMING_VAL.md
@@ -119,8 +130,25 @@ RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/hea
 
 ---
 
-## FINAL RULE (LOCK)
-OWNER: SYSTEM
-LOCK: FIXED
+## 6) COMMON RETURN ROUTES (CANON)
+- Fix track docs (CARD/PROMPT/RELEASE):
+  - return_to: ALBUM_TO_TRACK ORC  
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/20_ORC__ORCHESTRATORS/10_MUSIC_ORCHESTRATORS/02__ALBUM_TO_TRACK_ORC.md
 
---- END.
+- Fix release packaging:
+  - return_to: RELEASE_PACK ORC  
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/20_ORC__ORCHESTRATORS/10_MUSIC_ORCHESTRATORS/04__RELEASE_PACK_ORC.md
+
+- Fix doc readiness checks:
+  - return_to: TRACK_TEST_DOC_GATE ORC  
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/20_ORC__ORCHESTRATORS/10_MUSIC_ORCHESTRATORS/03__TRACK_TEST_DOC_GATE_ORC.md
+
+---
+
+## 7) CHANGE POLICY (LOCK)
+- Любые изменения валидаторов: PATCH + CHANGE_NOTE.
+- Чтобы сделать валидатор обязательным для типа артефакта — сначала PATCH `VALIDATION_MATRIX`.
+
+---
+
+END.
