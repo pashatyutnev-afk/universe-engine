@@ -1,69 +1,133 @@
-# CTL ENTITY — TEMPLATE
-FILE: 03_SYSTEM_ENTITIES/40_CTL__CONTROLLERS/00__TEMPLATES/00__TEMPLATE__CTL_ENTITY.md
+# 00__TEMPLATE__CTL_ENTITY
 
-SCOPE: Universe Engine / CTL Template
-ENTITY_GROUP: ENT
-CATEGORY: CTL
+FILE: 03_SYSTEM_ENTITIES/40_CTL__CONTROLLERS/00__TEMPLATES/00__TEMPLATE__CTL_ENTITY.md
+SCOPE: Universe Engine / Controllers (CTL) / Template
+SERIAL: C425-B513
+LAYER: 03_SYSTEM_ENTITIES
+DOC_TYPE: TEMPLATE
 LEVEL: L1
 STATUS: ACTIVE
 LOCK: FIXED
-VERSION: 1.0
+VERSION: 2.0.0
+UID: UE.CTL.TPL.ENTITY.001
 OWNER: SYSTEM
-ROLE: Универсальный шаблон CTL: контракт + формат checkpoint.
+ROLE: Canonical template for CTL controllers: doc control + mini-contract + checkpoint rules + blockers.
 
-SOURCE OF TRUTH:
-- UID Standard: `02_STANDARDS/01_SPECIFICATIONS/UID_AND_MARKING_SPEC.md`
-- CTL Rules: `03_SYSTEM_ENTITIES/40_CTL__CONTROLLERS/01__RULES__CTL.md`
+CHANGE_NOTE:
+- DATE: 2026-01-20
+- TYPE: MAJOR
+- SUMMARY: "Template upgraded to DOC CONTROL + RAW-only + mandatory contract fields."
+- REASON: "Prevent creation of 'old style' controllers that drift from canon."
+- IMPACT: "All new CTL files become consistent and audit-friendly."
 
 ---
 
 ## 0) HEADER (REQUIRED)
-UID: <UE.ENT.CTL.<FAMILY>.<NAME>>
-FAMILY: <GOV|PROD|GEN>
-STATUS: <DRAFT|ACTIVE|DEPRECATED|ARCHIVED>
-LOCK: <OPEN|FIXED>
-VERSION: <1.0>
-OWNER: <SYSTEM|YOU>
+(Заполнить полностью)
+
+FILE:
+SCOPE:
+SERIAL:
+LAYER: 03_SYSTEM_ENTITIES
+DOC_TYPE: CTL (CONTROLLER)
+LEVEL: L2 (ENTITY)
+STATUS: ACTIVE
+LOCK: FIXED
+VERSION: 1.0.0
+UID:
+OWNER: SYSTEM
 ROLE: <что контролирует, 1 строка>
+
+CHANGE_NOTE:
+- DATE:
+- TYPE: PATCH|MINOR|MAJOR
+- SUMMARY:
+- REASON:
+- IMPACT:
+- CHANGE_ID:
 
 ---
 
 ## 1) PURPOSE (REQUIRED)
-- что проверяет
-- где используется (какие ORC/какие шаги)
+- Что проверяет контроллер
+- Где используется (какие ORC шаги или какой маршрут)
+- Какие артефакты считает обязательными
+- Что является STOP (S0/S1)
 
 ---
 
 ## 2) MINI-CONTRACT (MANDATORY)
 CONSUMES:
 - []
+
 PRODUCES:
 - []
+
 DEPENDS_ON:
 - []
+
 OUTPUT_TARGET:
-- <PRJ|OUT|LOG>
+- LOG | PRJ | OUT
 
 ---
 
-## 3) CHECKPOINT FORMAT (MANDATORY)
-CHECKPOINT_NAME: <UPPER_SNAKE_CASE>
+## 3) CHECKPOINTS (MANDATORY)
+(минимум один)
 
-REQUIRES (ARTIFACTS):
-- <required_01>
-- <required_02>
+CHECKPOINT:
+- NAME:
+- APPLIES_TO: <artifact type / step name>
+- REQUIRES (ARTIFACTS):
+  - <list>
+- CHECKS:
+  - <explicit testable checks>
+- OUTPUT:
+  - STATE: READY | BLOCKED | DONE | SKIP
+  - BLOCKERS:
+    - (если BLOCKED) список blocker записей по шаблону CTL_BLOCKER
 
-CHECKS:
-- <check_01>
-- <check_02>
+---
 
-OUTPUT:
-- STATE: <READY|BLOCKED|DONE|SKIP>
-- BLOCKERS: <list or []>
+## 4) BLOCKERS (FORMAT)
+Использовать единый формат blocker:
+
+BLOCKER:
+- CODE:
+- SEVERITY: S0 | S1 | S2 | S3
+- MESSAGE: ""
+- REQUIRED_ACTION: ""
 
 ---
 
-## 4) NOTES (OPTIONAL)
+## 5) RELATIONS (OPTIONAL BUT RECOMMENDED)
+CALLS: []
+CONSUMES: []
+PRODUCES: []
+DEPENDS_ON: []
+VALIDATES: []
+QUALITY_GATES: []
+GOVERNS: []
+REFERENCES: []
 
 ---
-END.
+
+## 6) INTERFACES (RAW)
+- UID RULES: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01_SYSTEM_LAW/02__UID_RULES.md
+- DOC CONTROL: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/02_STANDARDS/01_SPECIFICATIONS/03__DOC_CONTROL_STANDARD.md
+- CTL RULES: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/40_CTL__CONTROLLERS/01__RULES__CTL.md
+- CTL INDEX (SoT): https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/40_CTL__CONTROLLERS/02__INDEX_ALL_CONTROLLERS.md
+- CTL BLOCKER TEMPLATE: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/40_CTL__CONTROLLERS/00__TEMPLATES/00__TEMPLATE__CTL_BLOCKER.md
+
+---
+
+## 7) KNOWLEDGE BASE (KB) SCOPE
+KB Inputs:
+- optional: контрольные чек-листы, примеры blockers, эталоны gate-отчётов
+
+KB Outputs:
+- none
+
+Boundaries:
+- CTL не создаёт доменные правила и не подменяет стандарты
+
+--- END.

@@ -1,172 +1,138 @@
-# CONTROLLER TEMPLATE — UNIVERSAL ENFORCEMENT RULESET
-FILE: 00__TEMPLATE__CONTROLLER.md
+# 00__TEMPLATE__CONTROLLER
 
-SCOPE: Universe Engine
-LAYER: CTL
+FILE: 03_SYSTEM_ENTITIES/40_CTL__CONTROLLERS/00__TEMPLATE__CONTROLLER.md
+SCOPE: Universe Engine / Controllers (CTL) / Universal Controller Template (Legacy Base)
+SERIAL: C425-B513
+LAYER: 03_SYSTEM_ENTITIES
 DOC_TYPE: TEMPLATE
-ENTITY_KIND: GENERIC
-PROJECT_SCOPE: GLOBAL
-OUTPUT_LEVEL: N/A
-ID: CTL.TEMPLATE.UNIVERSAL
+LEVEL: L1
 STATUS: ACTIVE
-VERSION: 2.0
-ROLE: Universal template for CTL controllers. Defines enforcement rules for structure, levels (L0→L3), registry/xref requirements, and prevention of hidden dependencies.
+LOCK: FIXED
+VERSION: 2.1.0
+UID: UE.CTL.TPL.CONTROLLER.UNIVERSAL.001
+OWNER: SYSTEM
+ROLE: Universal template for CTL controllers. Defines enforcement policy structure and a canonical rule format. Used as a base reference, not as a substitute for CTL entity template.
+
+CHANGE_NOTE:
+- DATE: 2026-01-20
+- TYPE: PATCH
+- SUMMARY: "Wrapped legacy template into DOC CONTROL, clarified relationship to CTL entity template and RAW-only interfaces."
+- REASON: "Legacy header drift conflicted with DOC CONTROL standard."
+- IMPACT: "Template becomes compatible with current documentation system."
 
 ---
 
 ## 0) PURPOSE (LAW)
-
-Controller — это механизм enforcement.
+Controller — механизм enforcement.
 Он:
-- проверяет, что артефакт создан в правильном месте (path)
-- проверяет, что уровень (L0/L1/L2/L3) корректен
+- проверяет, что артефакт создан в правильном месте (path rules if applicable)
+- проверяет корректность уровня (L0/L1/L2/L3) если это часть домена
 - проверяет, что обязательные REG/XREF обновления выполнены
 - запрещает hidden dependencies
-- может отклонять (REJECT) артефакты/шаги пайплайна
+- может блокировать продвижение (REJECT / BLOCKED)
 
-### ENFORCEMENT RULE
-> Если CTL правило нарушено — результат считается invalid и не может быть promoted.
+Enforcement rule:
+Если CTL правило нарушено — результат считается invalid и не может быть promoted без контролируемого исключения.
 
 ---
 
 ## 1) CONTROLLER IDENTITY (MANDATORY)
-
-CTL_NAME: <UPPER_SNAKE_CASE>
-CTL_ID: <CTL.<DOMAIN>.<NN>.<CTL_NAME>>
-
-DOMAIN: <REG|XREF|ENG|PRJ|WORKSHOP|CANON|OUTPUT|GENERIC>
+CTL_NAME:
+CTL_ID:
+DOMAIN:
 APPLIES_TO:
-- SCOPE: <GLOBAL|PRJ:<PROJECT_ID>>
-- ENTITY_KIND: <CHR|LOC|OBJ|SYS|FAC|EVT|CPT|REL|ARC|STY|EXP|GENERIC>
+- SCOPE:
+- ENTITY_KIND:
 - LEVELS: [L0_INTAKE, L1_DRAFT, L2_CANON, L3_OUTPUT]
-
-OWNER: Universe Engine
-LOCK: OPEN
+OWNER: SYSTEM
+LOCK: FIXED
 
 ---
 
 ## 2) POLICY (WHAT THIS CONTROLLER ENFORCES)
-
-POLICY_TYPE: <PATH_ENFORCEMENT|LEVEL_ENFORCEMENT|REGISTRY_ENFORCEMENT|XREF_ENFORCEMENT|DEPENDENCY_ENFORCEMENT|PROMOTION_ENFORCEMENT>
-
+POLICY_TYPE:
 SEVERITY:
-- VIOLATION_LEVEL: <WARN|ERROR|FATAL>
-- DEFAULT_ACTION: <ALLOW_WITH_NOTE|BLOCK|REJECT>
+- VIOLATION_LEVEL:
+- DEFAULT_ACTION:
 
 ---
 
 ## 3) RULE SET (MANDATORY)
-
-Each rule must be explicit and testable.
+Каждое правило должно быть явным и проверяемым.
 
 ### 3.1 Rule format
 RULE:
-- RULE_ID: <CTL...R01 / R02...>
-- NAME: <short>
-- CONDITION: <human readable>
+- RULE_ID:
+- NAME:
+- CONDITION:
 - CHECK:
-  - inputs: [<paths/ids/metadata>]
-  - logic: <what must be true>
-- PASS_ACTION: <ALLOW|ALLOW_WITH_NOTE>
-- FAIL_ACTION: <BLOCK|REJECT>
-- FAIL_MESSAGE: <exact message>
-- FIX_GUIDE: <how to fix in 1–3 bullets>
+  - inputs: []
+  - logic:
+- PASS_ACTION:
+- FAIL_ACTION:
+- FAIL_MESSAGE:
+- FIX_GUIDE:
 
 ---
 
-## 4) CANONICAL CONTROLLER PACK (RECOMMENDED BASE RULES)
+## 4) RECOMMENDED BASE RULES (OPTIONAL)
+Этот блок — примеры и базовые направления. Применять только если домен это использует.
 
-### 4.1 Path enforcement (WORKSHOP)
-R01 — Output must be under workshop root:
-- Must match: `05_PROJECTS/<PROJECT_ID>/01_WORKSHOP/<CATEGORY>/<ENTITY>/<LEVEL_FOLDER>/...`
+### 4.1 Level enforcement (example)
+- No skip promotion: L2 cannot exist without L1 lineage unless exception logged
+- L3 must reference L2 (XREF CANON_REF required)
 
-R02 — Category must match ENTITY_KIND:
-- CHR -> 01_CHARACTERS
-- LOC -> 02_LOCATIONS
-- OBJ -> 03_OBJECTS
-- SYS -> 04_SYSTEMS
-- FAC -> 05_FACTIONS
-- EVT -> 06_EVENTS
-- CPT -> 07_CONCEPTS
-- REL -> 08_RELATIONSHIPS
-- ARC -> 09_ARCS
-- STY -> 10_STYLES
-- EXP -> 11_EXPERIMENTS
-- Outputs -> 05_PROJECT__L3
+### 4.2 Registry enforcement (example)
+- If OUTPUT_LEVEL == L2 → registry entry required
+- If OUTPUT_LEVEL == L3 → registry entry required
 
-### 4.2 Level enforcement
-R03 — No skip promotion:
-- L2_CANON cannot be created if there is no L1_DRAFT lineage (unless exception is logged)
-R04 — L3_OUTPUT must reference L2_CANON (XREF CANON_REF required)
-
-### 4.3 Registry enforcement
-R05 — L2_CANON must be registered:
-- If OUTPUT_LEVEL == L2_CANON → REG entry required
-R06 — L3_OUTPUT must be registered:
-- If OUTPUT_LEVEL == L3_OUTPUT → REG entry required
-
-### 4.4 XREF enforcement
-R07 — No orphan outputs:
-- If L3_OUTPUT exists → must have CANON_REF to L2_CANON in XREF index
-R08 — Dependencies must be mirrored:
-- If engine declares DEPENDS_ON → XREF DEPENDS_ON record must exist
-
-### 4.5 Hidden dependency enforcement
-R09 — If an artifact uses/mentions another artifact/entity as prerequisite:
-- must create XREF DEPENDS_ON or CANON_REF (depending on type)
+### 4.3 Hidden dependency enforcement (example)
+- If artifact uses another artifact/entity as prerequisite → XREF record required
 
 ---
 
 ## 5) EXCEPTIONS (CONTROLLED)
-
-EXCEPTIONS are allowed only if:
-- logged in governance (Audit Log)
-- have WHY and APPROVER
+Исключения разрешены только если:
+- зафиксированы в governance/audit
+- имеют WHY и APPROVER
 
 EXCEPTION_RECORD_FORMAT:
-- ITEM: <id/path>
-- RULE_ID: <...>
-- WHY: <...>
-- APPROVED_BY: <ENG.GOV.07.DECISION_APPROVAL or MANUAL>
-- AT: <YYYY-MM-DD>
+- ITEM:
+- RULE_ID:
+- WHY:
+- APPROVED_BY:
+- AT:
 
 ---
 
 ## 6) SYSTEM INTERFACE (MANDATORY)
+INPUTS:
+- artifacts: [candidate outputs, pipeline steps]
+- sources: [REG entries, XREF indexes, headers]
 
-## SYSTEM INTERFACE
-- INPUTS:
-  - artifacts: [candidate outputs, pipeline steps]
-  - sources: [REG entries, XREF indexes, engine headers, workshop paths]
-- OUTPUTS:
-  - artifacts: [PASS/FAIL decisions, enforcement notes]
-  - target_path: <may write to audit log / ctl reports>
+OUTPUTS:
+- decisions: [PASS/FAIL, notes]
 - REGISTRY_UPDATES:
-  - required: NO (CTL itself usually does not register outputs)
-  - registries: []
-  - entries_to_add: []
+  - required: NO (обычно CTL не регистрирует, он требует)
 - XREF_UPDATES:
-  - required: NO (CTL requires others to update XREF; it can demand it)
-  - record_types: []
-  - xref_targets: []
-- GATES:
-  - validators: [] 
-  - qa_checks: [] 
-- ORCHESTRATION:
-  - orc_owner: [<ORC ids that call this CTL>]
-  - ctl_enforcers: []  # self
+  - required: NO (обычно CTL не пишет, он требует)
+
+GATES:
+- validators: []
+- qa_checks: []
+
+ORCHESTRATION:
+- orc_owner: []
+- ctl_enforcers: [self]
 
 ---
 
 ## 7) RAW LINK (MANDATORY)
-
-RAW: <raw github link to this controller file>
+RAW:
 
 ---
 
-## FINAL RULE (LOCK)
-
-> CTL rules are enforcement law. Violations block promotion and canonization unless exception is approved.
-
-OWNER: Universe Engine  
-LOCK: OPEN
+## 8) INTERFACES (RAW)
+- DOC CONTROL: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/02_STANDARDS/01_SPECIFICATIONS/03__DOC_CONTROL_STANDARD.md
+- CTL ENTITY TEMPLATE: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/40_CTL__CONTROLLERS/00__TEMPLATES/00__TEMPLATE__CTL_ENTITY.md
+- CTL RULES: https
