@@ -1,131 +1,167 @@
-# KB — RELATION GRAPH TEMPLATE (REL + XREF) (CANON)
-FILE: 04_KNOWLEDGE_BASE/40_RELATION_XREF/06__KB_RELATION_GRAPH_TEMPLATE.md
+# 06__KB_RELATION_GRAPH_TEMPLATE.md
 
-SCOPE: Universe Engine
+SCOPE: Universe Engine (Games volume)
 LAYER: 04_KNOWLEDGE_BASE
-DOC_TYPE: KB_MODULE
-KB_TYPE: TEMPLATE
+DOC_TYPE: TEMPLATE
+KB_TYPE: GRAPH_ARTIFACT
 LEVEL: L2
-STATUS: DRAFT
+STATUS: ACTIVE
 LOCK: FIXED
 VERSION: 1.0.0
 UID: UE.KB.TPL.REL_GRAPH.006
-OWNER: SYSTEM
-ROLE: Canonical template to express module relationships as a graph: REL (semantic edges) + XREF (UID-only pointers). Ensures consistent dependency mapping, optional complements, governance edges, and deprecation links.
+OWNER: KB_GOVERNANCE
+ROLE: Template for a KB Relation Graph artifact. Provides a stable, auditable way to record REL edges (UID-only) with canonical relation types and rationale.
 
 CHANGE_NOTE:
-- DATE: 2026-01-14
-- TYPE: MAJOR
-- SUMMARY: "Introduced canonical REL+XREF graph template for KB modules and maps."
-- REASON: "Without a template, relations drift and cannot be audited/visualized consistently."
-- IMPACT: "All KB modules can publish a consistent relationship block; enables future graph checks and tooling."
-- CHANGE_ID: UE.CHG.2026-01-14.KB.TPL.006
+- DATE: 2026-01-20
+- TYPE: CREATE
+- SUMMARY: "Introduced relation graph artifact template: edges as UID->UID, canonical REL_TYPE, mandatory WHY, optional tags, and minimal validation checklist."
+- REASON: "Need a reusable format to audit relations without mixing NAV links or free-form prose."
+- IMPACT: "REL graphs become comparable across modules and can be validated mechanically."
+- CHANGE_ID: UE.CHG.2026-01-20.KB.REL_GRAPH.006
 
 ---
 
-## 0) PURPOSE (KB)
-Provide a copy-paste template for relationship graph blocks:
-- REL: semantic edges (depends_on, complements, governed_by, validated_by, supersedes, etc.)
-- XREF: UID-only pointers (identity references)
-
-This template does not include navigation links.
-RAW navigation remains in KB master index.
-
----
-
-## 1) ABSOLUTE RULES
-- REL types must use the canonical REL dictionary.
-- XREF targets must be UID-only (no URL/PATH).
-- WHY is mandatory for every edge.
-- Keep graph minimal: 3–10 edges is typical.
+## 0) PURPOSE (LAW)
+Этот шаблон используется для создания отдельного артефакта “RELATION GRAPH”, где связи описаны:
+- строго как **UID → UID**,
+- только разрешёнными `REL_TYPE`,
+- с обязательным `WHY`,
+- без URL/RAW в REL.
 
 ---
 
-## 2) WHEN TO USE
-Use this template in:
-- TOPIC modules (methods)
-- MAP modules (selection logic)
-- POLICY modules (governance constraints)
-- Any module that should be linked into the KB graph
+## 1) KB SCOPE (REQUIRED)
+KB INPUTS:
+- UID источника (FROM_UID)
+- UID цели (TO_UID)
+- REL_TYPE из канонического словаря
+- WHY (рационал)
+
+KB OUTPUTS:
+- Таблица/список EDGE записей, пригодный для аудита и валидации
+
+KB BOUNDARIES:
+- Этот граф **не** является master-index
+- Этот граф **не** задаёт NAV (куда кликать) — только семантические связи
+- Этот граф **не** доказывает факты, он фиксирует отношения и их обоснование
+
+KB RAW REFERENCES (IF ANY):
+- KB MASTER INDEX:
+  - https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/04_KNOWLEDGE_BASE/00__INDEX__KNOWLEDGE_BASE.md
+- KB RULES:
+  - https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/04_KNOWLEDGE_BASE/00_KB_GOVERNANCE/01__RULES__KB.md
 
 ---
 
-## 3) REL GRAPH TEMPLATE (COPY)
-REL:
-- REL: depends_on -> <TARGET_UID_OR_LABEL> | WHY: <short reason>
-- REL: complements -> <TARGET_UID_OR_LABEL> | WHY: <short reason>
-- REL: governed_by -> <TARGET_UID_OR_LABEL> | WHY: <short reason>
-- REL: constrained_by -> <TARGET_UID_OR_LABEL> | WHY: <short reason>
-- REL: validated_by -> <TARGET_UID_OR_LABEL> | WHY: <short reason>
-- REL: produces -> <TARGET_UID_OR_LABEL> | WHY: <short reason>
-- REL: part_of -> <TARGET_UID_OR_LABEL> | WHY: <short reason>
+## 2) ABSOLUTE GRAPH LAWS (BINDING)
+### 2.1 UID-only edges
+- EDGE записи используют только UID.
+- В EDGE запрещены URL/RAW/пути.
 
-Deprecation (only when replacing):
-- REL: supersedes -> <OLD_UID> | WHY: <replacement reason>
-- REL: deprecated_by -> <NEW_UID> | WHY: <pointer to new canon>
+### 2.2 Canonical REL_TYPE only
+- REL_TYPE обязан быть из канонического словаря типов связей.
+- Если нужен новый тип — change-management, иначе нельзя.
 
-Rules:
-- Use only relations that apply.
-- Do not include empty placeholders in final docs.
+### 2.3 Mandatory WHY
+- WHY обязателен для каждого ребра.
+
+### 2.4 No silent unknowns
+- Если целевой UID неизвестен — использовать `GAP:<...>` (см. раздел 6).
 
 ---
 
-## 4) XREF BLOCK TEMPLATE (UID-ONLY)
-XREF:
-- XREF: <TARGET_UID> | WHY: <short reason>
-- XREF: <TARGET_UID> | WHY: <short reason>
+## 3) TEMPLATE — GRAPH HEADER (REQUIRED)
+Скопируй и заполни:
 
-Rules:
-- UID-only; no labels or paths.
-- One target per line.
+GRAPH:
+- GRAPH_UID: <UE...>
+- TITLE: <human readable name>
+- SCOPE: <what this graph covers>
+- OWNER: <owner>
+- STATUS: ACTIVE
+- LOCK: FIXED
+- VERSION: <x.y.z>
+- DATE: <YYYY-MM-DD>
+- SOURCE_DOC_UIDS:
+  - <UE...>
+  - <UE...>
 
----
-
-## 5) MINIMAL GRAPH PATTERNS (RECOMMENDED)
-### Pattern A — Typical TOPIC module
-REL:
-- REL: governed_by -> UE.KB.DICT.XREF_RULES.005 | WHY: must follow UID-only reference rules
-- REL: depends_on -> <PREREQ_UID> | WHY: prerequisite method
-- REL: complements -> <OPTIONAL_UID> | WHY: deepening pack
-XREF:
-- XREF: UE.KB.DICT.REL_TYPES.004 | WHY: relation vocabulary
-- XREF: UE.KB.DICT.XREF_RULES.005 | WHY: UID-only reference policy
-
-### Pattern B — MAP module
-REL:
-- REL: governed_by -> UE.KB.DICT.XREF_RULES.005 | WHY: maps must keep UID-only references
-- REL: maps_to -> <LABEL_OR_UID> | WHY: label translation / scope mapping
-XREF:
-- XREF: <RELATED_MAP_UID> | WHY: companion selection map
-
-### Pattern C — POLICY module
-REL:
-- REL: governed_by -> <GOV_UID> | WHY: policy hierarchy
-- REL: constrained_by -> <CONSTRAINT_UID> | WHY: enforce limits
-XREF:
-- XREF: <APPLIES_TO_UID> | WHY: typical module that uses the policy
+NOTES:
+- <optional notes>
 
 ---
 
-## 6) QA CHECKLIST (PASS/FAIL)
-PASS IF:
-- REL types are from canonical enum
-- all edges have WHY
-- XREF is UID-only
-- no URLs/PATH used as references
-- graph is minimal and relevant
+## 4) TEMPLATE — EDGE TABLE (RECOMMENDED)
+Формат таблицы (Markdown):
 
-FAIL IF:
-- custom relation types appear
-- missing WHY
-- any URL/PATH in XREF
-- deprecation edges used without proper replacement logic
+| EDGE_ID | FROM_UID | REL_TYPE | TO_UID | WHY | TAGS | CONFIDENCE |
+|---|---|---|---|---|---|---|
+| E001 | UE... | depends_on | UE... | ... | ... | HIGH |
+
+Правила:
+- EDGE_ID уникален внутри графа.
+- CONFIDENCE: HIGH / MED / LOW (опционально, но полезно для аудита).
+- TAGS: список кратких меток (опционально).
 
 ---
 
-## 7) RELATED (UID-ONLY)
-XREF:
-- XREF: UE.KB.DICT.REL_TYPES.004 | WHY: relation types vocabulary
-- XREF: UE.KB.DICT.XREF_RULES.005 | WHY: UID-only XREF rules
+## 5) TEMPLATE — EDGE LIST (ALTERNATIVE)
+Если таблица не подходит, допустим список:
 
---- END.
+- EDGE_ID: E001
+  FROM_UID: UE...
+  REL_TYPE: depends_on
+  TO_UID: UE...
+  WHY: ...
+  TAGS: [ ... ]
+  CONFIDENCE: HIGH
+
+---
+
+## 6) GAP NOTATION (ALLOWED)
+Если цели ещё нет в каноне:
+
+| EDGE_ID | FROM_UID | REL_TYPE | TO_UID | WHY | TAGS | CONFIDENCE |
+|---|---|---|---|---|---|---|
+| E099 | UE... | depends_on | GAP:UE.KB.... | Need missing module for validation | gap | LOW |
+
+Правила GAP:
+- `TO_UID` начинается с `GAP:`
+- WHY описывает причину
+- TAGS включает `gap`
+
+---
+
+## 7) INTERFACES (RAW-ONLY, OPTIONAL)
+Этот граф сам по себе не обязан иметь NAV, но можно указать “куда смотреть”:
+
+- KB MASTER INDEX
+  - PURPOSE: Canonical KB entrypoint
+  - RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/04_KNOWLEDGE_BASE/00__INDEX__KNOWLEDGE_BASE.md
+
+---
+
+## 8) COMPLIANCE CHECKLIST (REQUIRED)
+### 8.1 Edge encoding
+- [ ] FROM_UID / TO_UID — только UID (или GAP:UID)
+- [ ] REL_TYPE — только из канонического словаря
+- [ ] WHY присутствует в каждом EDGE
+- [ ] Нет URL/RAW/путей в EDGE
+
+### 8.2 Graph header
+- [ ] GRAPH_UID задан
+- [ ] VERSION задана
+- [ ] SOURCE_DOC_UIDS перечислены (если применимо)
+
+### 8.3 Optional quality
+- [ ] CONFIDENCE заполнен там, где есть неопределённость
+- [ ] TAGS используются для группировки/поиска
+
+---
+
+## 9) OPTIONAL CHANGE LOG
+- 2026-01-20 — CREATE — v1.0.0
+
+---
+## END
