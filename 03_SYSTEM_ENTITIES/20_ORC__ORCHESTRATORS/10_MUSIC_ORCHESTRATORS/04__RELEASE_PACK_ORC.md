@@ -14,52 +14,57 @@ LOCK: FIXED
 VERSION: 1.0.0
 UID: UE.ORC.MUSIC.RELEASE_PACK.001
 OWNER: SYSTEM
-ROLE: Deterministic pipeline: consolidate track artifacts into a release pack (self-contained), enforce required gates, and prepare for publication handoff.
+ROLE: Deterministic packaging pipeline: assemble a self-contained MUSIC_RELEASE_PACK from validated track artifacts. Matrix-driven CTL/VAL/QA, allowlisted ENG only, explicit ownership and signoff.
 
 CHANGE_NOTE:
 - DATE: 2026-01-20
 - TYPE: PATCH
-- SUMMARY: "Rebuilt RELEASE_PACK ORC as strict contract: inputs/outputs, packaging rules, XREF dependencies, mandatory gates, and signoff chain."
-- REASON: "Prevent incomplete packs and un-audited releases. Ensure navigation and credits consistency."
-- IMPACT: "Release packs become deterministic and publish-ready with clear gate compliance."
+- SUMMARY: "Rebuilt RELEASE_PACK_ORC as strict contract: inputs/outputs, matrix-driven gates, pointer completeness rules, allowlist engines, and deterministic failover."
+- REASON: "Release packaging must be auditable and reproducible; prevent broken pointers/credits/rights/collision issues."
+- IMPACT: "Release packs become self-contained, validated, and safe to publish; downstream distribution is stable."
 - CHANGE_ID: UE.CHG.2026-01-20.ORC.RPACK.001
 
 ---
 
 ## 0) PURPOSE (LAW)
-Этот ORC собирает и упаковывает релиз (один трек или набор треков) в самодостаточный release pack.
-Обязанности:
-- выбрать состав пакета (что входит),
-- проверить обязательные гейты по матрице,
-- обеспечить навигационную целостность,
-- оформить результат как документ-артефакт (PACKAGE).
+Этот ORC собирает релизный пакет (PACKAGE) из уже подготовленных артефактов треков:
+- Track Card
+- Track Prompt
+- Track Release
+и оформляет один self-contained релизный пакет (MUSIC_RELEASE_PACK), проходящий CTL/VAL/QA по матрице.
 
 ---
 
 ## 1) ABSOLUTE LAWS
 ### 1.1 RAW-only navigation
-Только RAW ссылки из ROOT LINK BASE или присланные пользователем.
+Только RAW ссылки.
 
 ### 1.2 Ownership is mandatory
-Владельцы берутся только из `ORC → SPC` карты.
+PRIMARY_SPC берётся только из `ORC → SPC`.
 
 ### 1.3 Allowlist engines only
-Использовать ENG только по `ENG → ORC` allowlist.
+ENG разрешены только по `ENG → ORC` allowlist.
 
-### 1.4 Mandatory gate order
-READINESS_CHECK_CTL → relevant VAL → relevant QA → DOC_CONTROLLER_SPC → MACHINE_ARCHITECT_SPC signoff
+### 1.4 Matrix-driven gates only
+Обязательные CTL/VAL/QA берутся из `VALIDATION_MATRIX` по ARTIFACT_TYPE.
 
 ### 1.5 Package must be self-contained
-Release pack не может быть “списком в чате”.
-Это документ-артефакт, который:
-- содержит явные RAW pointers на все элементы,
-- содержит структуру, состав, версии, и правила публикации (если применимо),
-- не имеет “битых ссылок”.
+Пакет обязан содержать рабочие RAW pointers на все компоненты.
+Если любой pointer невалиден → FAIL.
+
+### 1.6 Mandatory gate order
+READINESS_CHECK_CTL → REQUIRED_CTL → REQUIRED_VAL → REQUIRED_QA → DOC_CONTROLLER_SPC → MACHINE_ARCHITECT_SPC signoff
+
+### 1.7 Stop conditions
+Только:
+- RAW missing
+- marker not confirmed
+- input absent
 
 ---
 
 ## 2) REQUIRED XREF (RAW)
-PIPELINES (intent → pipeline)
+PIPELINES
 RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/90_XREF__CROSSREF/04__MAP__PIPELINES.md
 
 ENG → ORC allowlist
@@ -77,149 +82,163 @@ RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/hea
 READINESS CHECK (mandatory)
 RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/40_CTL__CONTROLLERS/01__READINESS_CHECK_CTL.md
 
-MUSIC CTL FAMILY (policies)
-RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/40_CTL__CONTROLLERS/10_MUSIC_CONTROLLERS/00__README__MUSIC_CONTROLLERS.md
-
 ---
 
 ## 4) INPUTS (MINIMUM)
 ### 4.1 Required
-Один из вариантов:
-A) Single Track Release
-- MUSIC_TRACK_CARD (final)
-- MUSIC_TRACK_PROMPT (final)
-- MUSIC_TRACK_RELEASE (final)
+Для каждого включаемого трека — рабочие RAW ссылки:
+- MUSIC_TRACK_CARD (RAW)
+- MUSIC_TRACK_PROMPT (RAW)
+- MUSIC_TRACK_RELEASE (RAW)
 
-B) Multi Track Release
-- список треков, каждый с (CARD + PROMPT + RELEASE)
+Также:
+- Release intent (single / ep / album pack) — коротко
+- Pack target (platform/purpose) — коротко
 
-### 4.2 Optional context
-- Brand context (если релиз привязан к бренду/лейблу)
-- Album context (если релиз = часть альбома)
-- Distribution targets (YouTube / streaming / etc) как метаданные (без внешних ссылок, только intent)
+### 4.2 Optional
+- Variants intent (shorts, instrumental, etc) — если реально будет упаковано
+- Catalog memory snapshot (если есть)
 
 ### 4.3 Stop rule
-Если нет минимум одного трека с финальными артефактами → STOP: input absent
+Если нет ни одного полного набора (card+prompt+release) → STOP: input absent
 
 ---
 
 ## 5) OUTPUTS (ARTIFACT SET)
-- MUSIC_RELEASE_PACK (PACKAGE doc)
-- OPTIONAL: per-track summary blocks (внутри пакета)
-- OPTIONAL: publish checklist (если задан стандартом, иначе не изобретается)
+- MUSIC_RELEASE_PACK (PACKAGE doc) — главный выход
+- PACK_MANIFEST (внутри PACKAGE: список всех компонентов и их pointers)
 
-Required gates for MUSIC_RELEASE_PACK берутся из `VALIDATION_MATRIX`.
+Примечание:
+- Обязательные гейты на PACKAGE берутся из `VALIDATION_MATRIX` (ARTIFACT_TYPE: PACKAGE и MUSIC_RELEASE_PACK если выделяешь отдельно).
 
 ---
 
-## 6) PACKAGING RULES (STRICT)
-### 6.1 Contents must be explicit
-Пакет обязан перечислить:
-- включённые треки (UID + title),
-- RAW ссылки на card/prompt/release каждого трека,
-- версии каждого файла (если указаны в файлах),
-- кредиты/права (отсылка на политику, без переизобретения).
-
-### 6.2 Navigation integrity
-- все RAW ссылки должны открываться
-- отсутствующие файлы = GAP → STOP: input absent (для комплекта)
-
-### 6.3 Naming consistency
-- единый стиль названий (group/album/track)
-- отсутствие конфликтов имен (если выявляется → фиксируется в violations)
-
-### 6.4 Variants
-Если трек имеет варианты:
-- перечислить вариант как отдельную запись (Variant_ID)
-- привязать к RELEASE_VARIANTS_CTL (если используется)
+## 6) PACKAGE CONTENT (CANON REQUIREMENTS)
+Пакет обязан содержать минимум:
+- PACK_ID / UID / VERSION / STATUS / LOCK
+- INTENT (что это за релиз)
+- COMPONENTS:
+  - for each track:
+    - CARD_RAW
+    - PROMPT_RAW
+    - RELEASE_RAW
+- CREDITS & RIGHTS block (ссылка/summary на track release metadata)
+- VARIANTS block (если есть)
+- QA/VAL/CTL trace summary (коротко: что применили и какой verdict)
 
 ---
 
 ## 7) PIPELINE STEPS (DETERMINISTIC)
 
 ### STEP 0 — PRECHECK (CTL)
-Owner: PRIMARY_SPC (из ORC→SPC)  
+Owner: PRIMARY_SPC (from ORC→SPC map)  
 Gate: READINESS_CHECK_CTL  
-Input: состав релиза + ссылки на артефакты  
-Output: PASS/FAIL
-
-Fail → STOP (по CTL).
+Input: track sets + release intent  
+Output: PASS/FAIL  
+Fail → STOP
 
 ---
 
-### STEP 1 — MANIFEST BUILD (SPC)
+### STEP 1 — INVENTORY & POINTER CHECK
 Owner: PRIMARY_SPC  
-Input: список треков + их финальные артефакты  
+Action:
+- составить inventory по трекам
+- проверить что каждый RAW открывается
 Output:
-- PACK_MANIFEST (таблица состава)
-- MISSING_ITEMS list (если есть)
+- INVENTORY_TABLE
+- MISSING_RAW list
 
-If missing → STOP: input absent
+If missing → STOP: RAW missing
 
 ---
 
-### STEP 2 — POLICY APPLICATION (CTL)
+### STEP 2 — APPLY DOC-GATE (OPTIONAL BUT RECOMMENDED)
+Owner: PRIMARY_SPC  
+Action:
+- если пайплайн требует: прогнать TRACK_TEST_DOC_GATE_ORC до упаковки
+Output:
+- DOC_GATE_VERDICT
+
+Notes:
+- Обязательность doc-gate определяется твоим процессом; обязательность CTL/VAL/QA для артефактов всё равно берётся из матрицы.
+
+---
+
+### STEP 3 — ASSEMBLE PACKAGE DRAFT
+Owner: PRIMARY_SPC + allowlisted ENG methods  
+Constraint:
+- ENG использовать только allowlisted (см. ENG→ORC).
+Output:
+- MUSIC_RELEASE_PACK_DRAFT (with manifest + pointers)
+
+---
+
+### STEP 4 — MATRIX RESOLUTION FOR PACKAGE
+Owner: ORC (this doc)  
+Action:
+- определить ARTIFACT_TYPE = PACKAGE (и/или MUSIC_RELEASE_PACK если ты выделяешь отдельным типом)
+- получить REQUIRED_CTL/VAL/QA из `VALIDATION_MATRIX`
+Output:
+- REQUIRED_GATES_FOR_PACK
+
+If matrix row missing → STOP: marker not confirmed
+
+---
+
+### STEP 5 — APPLY REQUIRED CTL
 Owner: PRIMARY_SPC + CTL  
-Apply:
-- QUALITY_GATES_CTL
-- FINGERPRINT_COLLISION_THRESHOLDS_CTL (если релиз требует анти-коллизии)
-- CREDITS_METADATA_POLICY_CTL
-- RELEASE_VARIANTS_CTL (если есть варианты)
-
+Action:
+- применить все REQUIRED_CTL к пакету (и к компонентам, если CTL требует)
 Output:
-- POLICIES_APPLIED (список)
-- REQUIRED_QA_SET (ссылка на матрицу по типу MUSIC_RELEASE_PACK)
+- CTL_VERDICT (PASS/FAIL) + FIX_REQUIREMENTS
+
+FAIL → return to STEP 3 (или к producing ORC, если проблема в компонентах)
 
 ---
 
-### STEP 3 — VALIDATION + QA (by matrix)
-Owner: relevant VAL + relevant QA  
-Rules:
-- REQUIRED_VAL и REQUIRED_QA берутся из `VALIDATION_MATRIX` по ARTIFACT_TYPE = MUSIC_RELEASE_PACK
-- дополнительно проверяются связи/битые ссылки/конфликты
-
+### STEP 6 — APPLY REQUIRED VAL
+Owner: REQUIRED VAL (by matrix)  
 Output:
-- VIOLATIONS (if any)
+- VIOLATION_RECORDS
+- VAL_VERDICT
+
+FAIL → return to producing ORC (обычно ALBUM→TRACK) или к STEP 3 если чисто packaging
+
+---
+
+### STEP 7 — APPLY REQUIRED QA
+Owner: REQUIRED QA (by matrix)  
+Output:
 - QA_VERDICT (PASS/WARN/FAIL)
+- FIX_REQUIRED
 
-FAIL → вернуть на STEP 1/2 (исправление состава/метаданных)
-
----
-
-### STEP 4 — PACK DOCUMENT ASSEMBLY (SPC)
-Owner: PRIMARY_SPC  
-Output:
-- MUSIC_RELEASE_PACK document (self-contained)
-- внутри: manifest + ссылки + notes
+FAIL → return to producing ORC or STEP 3
 
 ---
 
-### STEP 5 — DOC CONTROL + SIGNOFF
+### STEP 8 — DOC CONTROL + SIGNOFF
 Owner: DOC_CONTROLLER_SPC → MACHINE_ARCHITECT_SPC  
 Action:
-- doc control fields, UID/version/naming compliance
+- doc control целостность
 - финальная подпись
-
 Output:
-- FINAL MUSIC_RELEASE_PACK
+- FINAL MUSIC_RELEASE_PACK (PACKAGE)
 
 ---
 
-## 8) HANDOFFS (CANON)
-- PRIMARY_SPC: сборка и решения по составу пакета
-- CTL: политики и readiness
-- VAL: фиксация нарушений
-- QA: приемка по гейтам
-- DOC_CONTROLLER_SPC: doc control проверка
-- MACHINE_ARCHITECT_SPC: финальный signoff
+## 8) FAILOVER (STRICT)
+- Если проблема в компонентах трека → вернуть в ALBUM_TO_TRACK ORC
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/20_ORC__ORCHESTRATORS/10_MUSIC_ORCHESTRATORS/02__ALBUM_TO_TRACK_ORC.md
+
+- Если проблема только в упаковке → вернуться на STEP 3 и пересобрать пакет.
 
 ---
 
 ## 9) EXTENSION POLICY (STRICT)
-Если добавляем новый тип релиз-пакета или новые требования:
-1) сначала обновить VALIDATION_MATRIX (PATCH)
-2) затем обновить XREF maps (если нужно)
-3) затем обновить этот ORC (PATCH)
+Если добавляем новые типы пакетов/вариантов:
+1) обновить `VALIDATION_MATRIX` (PATCH)
+2) при необходимости обновить `ENG→ORC` allowlist (PATCH)
+3) обновить этот ORC (PATCH)
 
 ---
 
