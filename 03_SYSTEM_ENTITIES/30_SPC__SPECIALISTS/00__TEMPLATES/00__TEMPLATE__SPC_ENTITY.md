@@ -1,184 +1,112 @@
-# SPC SPECIALIST — TEMPLATE (CANON)
-FILE: 03_SYSTEM_ENTITIES/30_SPC__SPECIALISTS/<FAMILY_FOLDER>/NN__<SPECIALIST_NAME>_SPC.md
+# SPC ENTITY — TEMPLATE (CANON)
 
-SCOPE: Universe Engine
+FILE: 03_SYSTEM_ENTITIES/30_SPC__SPECIALISTS/00__TEMPLATES/00__TEMPLATE__SPC_ENTITY.md
+SCOPE: Universe Engine (Games volume) / System Entities / Specialists (SPC)
+SERIAL: C425-B513
 LAYER: 03_SYSTEM_ENTITIES
-ENTITY_GROUP: SPECIALISTS (SPC)
-DOC_TYPE: ENTITY
-ENTITY_TYPE: SPECIALIST
-LEVEL: L2
-STATUS: DRAFT
-LOCK: OPEN
-VERSION: 0.1.0
-UID: <UE.SPC.<FAMILY>.<SPECIALIST>.NNN>
-OWNER: <SYSTEM|<ROLE/NAME>>
-ROLE: Specialist definition + contract + behavior + outputs + checklists
+DOC_TYPE: TEMPLATE
+TEMPLATE_TYPE: SPC_ENTITY
+LEVEL: L1
+STATUS: ACTIVE
+LOCK: FIXED
+VERSION: 1.1.0
+UID: UE.TPL.SPC.ENTITY.001
+OWNER: SYSTEM
+ROLE: Canonical template to create any SPC entity file (scope + boundaries + mini-contract + packaging outputs).
 
 CHANGE_NOTE:
-- DATE: <YYYY-MM-DD>
-- TYPE: <NEW|PATCH|MAJOR>
-- SUMMARY: "<what changed>"
-- REASON: "<why>"
-- IMPACT: "<what this affects>"
-- CHANGE_ID: <UE.CHG.<YYYY-MM-DD>.SPC.<FAMILY>.<SPECIALIST>.<NNN>>
+- DATE: 2026-01-20
+- TYPE: MINOR
+- SUMMARY: "Normalized template: strict mini-contract + boundaries + packaging outputs + RAW-only interfaces."
+- REASON: "Prevent incomplete specialists and role contamination."
+- IMPACT: "SPC creation becomes consistent across families."
+- CHANGE_ID: UE.CHG.2026-01-20.TPL.SPC.ENTITY.001
 
 ---
 
-## 0) SPECIALIST ID (HUMAN)
-**SPECIALIST NAME:** `<SPECIALIST_NAME>`  
-**FAMILY:** `<FAMILY_FOLDER>`  
-**PRIMARY MODE:** `<Generate|Structure|Constrain|Validate|Package|Schedule>`  
-**PRIMARY DOMAIN:** `<Narrative|Character|World|Visual|Sound|Production|Marketing|Research|Governance|Meta>`  
+## 0) HEADER (REQUIRED)
+UID:
+FAMILY:
+LEVEL: L2
+STATUS: ACTIVE
+LOCK: FIXED
+VERSION: 1.0.0
+OWNER: SYSTEM
+ROLE: "<one line: what this SPC owns>"
 
 ---
 
-## 1) MISSION (LAW)
-<1–3 строки: зачем существует этот специалист.>
+## 1) PURPOSE (REQUIRED)
+- кратко: зачем SPC существует
+- какую часть пайплайна обслуживает
+- какие решения принимает
 
 ---
 
-## 2) SCOPE (WHAT I DO)
-### 2.1 Responsibilities (core)
-- <responsibility 1>
-- <responsibility 2>
-- <responsibility 3>
+## 2) SCOPE & BOUNDARIES (HARD)
+### 2.1 In scope
+- <hard statements>
 
-### 2.2 Boundaries (what I do NOT do)
-- <hard boundary 1>
-- <hard boundary 2>
-- <hard boundary 3>
+### 2.2 Out of scope
+- <hard statements>
 
-### 2.3 Decision authority
-- **Can decide:** <what this SPC can finalize>
-- **Must escalate:** <what requires Governance/Owner/another SPC>
+### 2.3 Collision rule
+- если пересечение с другим SPC/ENG/ORC → куда маршрутизировать и где остановиться
 
 ---
 
-## 3) INPUT / OUTPUT CONTRACT (MANDATORY)
-### 3.1 INPUTS (CONSUMES)
-Pick 3–10 typical inputs:
-- <input artifact/type 1>
-- <input artifact/type 2>
-- <input artifact/type 3>
+## 3) MINI-CONTRACT (MANDATORY)
+SPECIALIZATION_SCOPE:
+- <what this SPC owns>
 
-### 3.2 OUTPUTS (PRODUCES)
-Pick 3–10 typical outputs:
-- <output artifact/type 1>
-- <output artifact/type 2>
-- <output artifact/type 3>
+CONSUMES:
+- <1..N concrete inputs>
 
-### 3.3 OUTPUT TARGET (WHERE IT GOES)
-- Default target path/realm: `<e.g. 05_PROJECTS/... or 04_KNOWLEDGE_BASE/...>`
-- Output naming rules: `<short>`
+PRODUCES:
+- <1..N concrete artifacts/documents>
 
----
+DEPENDS_ON:
+- [] OR
+- <explicit dependencies (uids/roles)>
 
-## 4) WORK METHOD (HOW I THINK)
-### 4.1 Default workflow (steps)
-1) <step 1>
-2) <step 2>
-3) <step 3>
-4) <step 4>
-
-### 4.2 Heuristics (rules of thumb)
-- <heuristic 1>
-- <heuristic 2>
-- <heuristic 3>
-
-### 4.3 What I optimize for (priority order)
-1) <priority 1>
-2) <priority 2>
-3) <priority 3>
+OUTPUT_TARGET:
+- PRJ | OUT | AST | LOG | KB (если реально создаётся KB модуль)
 
 ---
 
-## 5) QUALITY CHECKLIST (MANDATORY)
-Before delivering output, ensure:
-- [ ] <check 1>
-- [ ] <check 2>
-- [ ] <check 3>
-- [ ] <check 4>
-- [ ] <check 5>
+## 4) PACKAGING LAW (MANDATORY)
+- SPC никогда не отдаёт голый контент
+- каждый PRODUCES должен быть оформлен документом-артефактом
+- если шаблон отсутствует → GAP → создать шаблон → продолжить
 
 ---
 
-## 6) FAIL MODES (KNOWN ERRORS)
-### 6.1 Common mistakes I must avoid
-- <mistake 1>
-- <mistake 2>
-- <mistake 3>
-
-### 6.2 Red flags (STOP CONDITIONS)
-- <stop condition 1>
-- <stop condition 2>
-- <stop condition 3>
-
-### 6.3 Recovery actions
-- If <problem>, then: <action>
-- If <problem>, then: <action>
+## 5) DEFAULT WORKFLOW (OPTIONAL)
+1) intake
+2) decision
+3) packaging
+4) handoff to governance chain
 
 ---
 
-## 7) INTERFACES (SYSTEM STITCHING)
-### 7.1 Primary ENG links (where I’m primary)
-- `<ENG_FILE_OR_NAME>` — why I’m primary
-- `<ENG_FILE_OR_NAME>` — why I’m primary
+## 6) KNOWLEDGE BASE (KB) SCOPE
+KB INPUTS:
+- <what this SPC uses from KB>
 
-### 7.2 Secondary ENG links (where I support)
-- `<ENG_FILE_OR_NAME>` — what I supply
-- `<ENG_FILE_OR_NAME>` — what I supply
+KB OUTPUTS:
+- none (unless explicitly producing KB module)
 
-### 7.3 ORC usage (how orchestrators call me)
-- Trigger conditions: <when ORC calls this SPC>
-- Input packet format: <what ORC should pass>
-- Output packet format: <what I return>
-
-### 7.4 VAL / QA gates (what validates my output)
-- Required validators/QA:
-  - `<VAL/QA gate 1>`
-  - `<VAL/QA gate 2>`
-- What I must provide to pass:
-  - <evidence/checklist/links>
+BOUNDARIES:
+- SPC не хранит знания как SoT
 
 ---
 
-## 8) OUTPUT PACK — STANDARD FORMAT (MANDATORY)
-> Это “форма выдачи” спеца. Любой ответ/результат должен укладываться сюда.
-
-### 8.1 Output header
-- **Context:** <1–2 строки>
-- **Assumptions:** <bullets>
-- **Constraints:** <bullets>
-
-### 8.2 Main deliverable
-- <structured block / sections>
-
-### 8.3 Decisions made
-- <decision 1> | WHY: <short reason>
-- <decision 2> | WHY: <short reason>
-
-### 8.4 Open questions (allowed only if needed)
-- <question 1>
-- <question 2>
-
-### 8.5 Next steps
-- <step 1>
-- <step 2>
-
----
-
-## 9) COMPLIANCE (SYSTEM LAW / STANDARDS)
-- Naming / UID / Status / Lock must follow system rules.
-- This SPC must not violate family boundaries.
-- Any changes must be reflected in CHANGE_NOTE and synced with SPC global index.
-
----
-
-## FINAL RULE (LOCK)
-Этот SPC определяет **поведение и контракт** роли `<SPECIALIST_NAME>`.  
-Нарушение границ считается ошибкой канона.
-
-OWNER: <SYSTEM|...>  
-LOCK: <OPEN|FIXED>
+## 7) INTERFACES (RAW ONLY)
+- SPC GLOBAL REGISTRY (SoT):
+  - RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/30_SPC__SPECIALISTS/02__INDEX_ALL_SPECIALISTS.md
+- SPC RULESET:
+  - RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/30_SPC__SPECIALISTS/01__RULES__SPC.md
+- SPC OUTPUT PACK TEMPLATE:
+  - RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/30_SPC__SPECIALISTS/00__TEMPLATES/00__TEMPLATE__SPC_OUTPUT_PACK.md
 
 --- END.
