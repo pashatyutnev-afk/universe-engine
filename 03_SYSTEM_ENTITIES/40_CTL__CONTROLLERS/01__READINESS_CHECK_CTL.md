@@ -1,137 +1,159 @@
-# 01__READINESS_CHECK_CTL
+# CONTROLLERS (CTL) — RULESET (LAW) (CANON)
 
-FILE: 03_SYSTEM_ENTITIES/40_CTL__CONTROLLERS/01__READINESS_CHECK_CTL.md
-SCOPE: Universe Engine / Controllers (CTL) / Default Readiness Gate
+FILE: 03_SYSTEM_ENTITIES/40_CTL__CONTROLLERS/01__RULES__CTL.md
+SCOPE: Universe Engine (Games volume) / System Entities / Controllers (CTL)
 SERIAL: C425-B513
 LAYER: 03_SYSTEM_ENTITIES
-DOC_TYPE: CTL (CONTROLLER)
-LEVEL: L2 (ENTITY)
+DOC_TYPE: RULESET
+ENTITY_GROUP: CONTROLLERS (CTL)
+LEVEL: L1
 STATUS: ACTIVE
 LOCK: FIXED
 VERSION: 2.0.0
-UID: UE.ENT.CTL.GEN.READINESS_CHECK.001
+UID: UE.CTL.RULES.001
 OWNER: SYSTEM
-ROLE: Default readiness controller. Provides universal readiness gate with profiles. Includes SCENE_PACK profile as baseline.
+ROLE: Hard rules for CTL controllers: gate semantics, checkpoint schema, blocker schema, role boundaries, and stop behavior.
 
 CHANGE_NOTE:
 - DATE: 2026-01-20
 - TYPE: MAJOR
-- SUMMARY: "Converted readiness check from single SCENE_PACK-only gate into universal readiness controller with profiles."
-- REASON: "START requires readiness gate in finish chain for any task; single-type gate caused routing ambiguity."
-- IMPACT: "One readiness controller can be reused across domains; profiles keep checks explicit."
+- SUMMARY: "Rebuilt CTL ruleset to DOC CONTROL + RAW-only interfaces; removed legacy UID spec pointers; hardened gate/order semantics and conflict rules."
+- REASON: "Old rules had drift and weak enforcement contract."
+- IMPACT: "CTL becomes deterministic and machine-checkable across ORC pipelines."
+- CHANGE_ID: UE.CHG.2026-01-20.CTL.RULES.002
 
 ---
 
-## 0) PURPOSE (LAW)
-Этот контроллер — базовый gate готовности.
-Он не оценивает качество (QA) и не валидирует канон (VAL).
-Он проверяет минимальную готовность входного артефакта к продвижению по пайплайну.
+## 0) CORE LAW
+CTL отвечает за:
+- контроль состояния выполнения (execution state)
+- проверку обязательных артефактов/полей/регистраций в точке gate
+- блокировку/разблокировку по условиям CTL
+- выдачу blockers в едином формате
+
+CTL НЕ отвечает за:
+- доменные решения (SPC/ENG)
+- структурную валидацию законов/канона (VAL)
+- художественное качество/естественность (QA)
+
+Нарушение границ роли → S0.
 
 ---
 
-## 1) MINI-CONTRACT (MANDATORY)
+## 1) EXISTENCE RULE (ABSOLUTE)
+CTL контроллер является каноном только если:
+- зарегистрирован в CTL Global Registry (SoT)
+- имеет UID
+- оформлен по CTL Entity Template (или допустимому base-template как reference)
+
+---
+
+## 2) CTL MINI-CONTRACT (MANDATORY)
+Каждый CTL обязан иметь MINI-CONTRACT:
+
 CONSUMES:
-- artifact_candidate (любой тип)
-- artifact_type (string)
-- expected_minimum (optional)
+- контекст пайплайна (минимум: что проверяем + где применяется)
+- входные артефакты для проверки (списком)
 
 PRODUCES:
-- READINESS_REPORT (PASS/FAIL)
-- MISSING_LIST (what is missing)
-- BLOCKERS_LIST (if FAIL)
+- checkpoint status
+- blockers list (если BLOCKED)
 
 DEPENDS_ON:
-- []
+- ORC (как минимум: шаг/ожидаемые outputs) или []
 
 OUTPUT_TARGET:
-- LOG
+- LOG | PRJ | OUT (куда фиксируется результат контроля)
+
+Если mini-contract отсутствует → INVALID (S0).
 
 ---
 
-## 2) UNIVERSAL BASE CHECKS (MANDATORY)
-Эти проверки применяются ко всем типам артефактов.
+## 3) CHECKPOINT STATES (CANON)
+Каждый CTL checkpoint обязан вернуть ровно одно состояние:
+- READY — можно продолжать
+- BLOCKED — нельзя продолжать
+- DONE — checkpoint выполнен (фиксируем completion)
+- SKIP — разрешённый пропуск (только если ORC явно допускает)
 
-S0 FAIL if any:
-- отсутствует DOC CONTROL header (FILE/SCOPE/LAYER/DOC_TYPE/STATUS/LOCK/VERSION/UID/OWNER/ROLE)
-- UID пустой
-- VERSION пустой
-- STATUS/LOCK отсутствуют
-
-S1 FAIL (или BLOCKED) if any:
-- отсутствует PURPOSE
-- отсутствует MINI-CONTRACT (если это сущность-исполнитель: CTL/ORC/ENG/SPC/VAL/QA)
-- отсутствуют ссылки на SoT стандарты, если контроллер явно ссылается на стандарты
+Если state не из списка → INVALID (S0).
 
 ---
 
-## 3) PROFILES (EXPLICIT CHECKSETS)
-Профили применяются по `artifact_type`.
-Если профиль не найден, применяется только UNIVERSAL BASE CHECKS.
+## 4) CHECKPOINT SCHEMA (MANDATORY)
+Каждый CTL должен содержать минимум один checkpoint:
 
-### PROFILE: SCENE_PACK (4TRACK)  (baseline)
-S0 FAIL if any:
-- missing TRACK NAR
-- missing TRACK VIS
-- missing TRACK SND
-- missing TRACK MOT
-- any track exists but has 0 events
-- missing META.GOAL
-
-S1 WARN (can be BLOCKED if policy requires):
-- META.TONE empty
-- CONSTRAINTS empty (warn if финальный прогон)
-- LINKS missing when required by brief
-
-SoT references for this profile:
-- MARKING: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/02_STANDARDS/01_SPECIFICATIONS/01__UID_AND_MARKING_STANDARD.md
-- SCENE 4TRACK: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/02_STANDARDS/01_SPECIFICATIONS/05__SCENE_STACK_4TRACK_STANDARD.md
-- STORAGE MAP: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/02_STANDARDS/01_SPECIFICATIONS/02__STORAGE_MAP_STANDARD.md
-
-### PROFILE: MUSIC_TRACK (placeholder)
-(добавлять проверки по мере появления стандартов, без угадывания)
-
-### PROFILE: INDEX_DOC (placeholder)
-(минимум: doc control + наличие списка RAW ссылок или явной политики индекса)
-
-### PROFILE: ENTITY_DOC (SPC/ORC/ENG/CTL/VAL/QA) (placeholder)
-(минимум: doc control + purpose + mini-contract + interfaces raw)
+CHECKPOINT:
+- NAME:
+- APPLIES_TO:
+- REQUIRES (ARTIFACTS):
+- CHECKS:
+- OUTPUT:
+- STATE: READY | BLOCKED | DONE | SKIP
+- BLOCKERS: (обязателен, если BLOCKED)
 
 ---
 
-## 4) OUTPUT FORMAT (MANDATORY)
-RESULT: PASS|FAIL
-TARGET: <artifact_type>
-MISSING:
-- <items>
-BLOCKERS:
-- (если FAIL) blockers list
-NOTES: ""
+## 5) BLOCKERS FORMAT (MANDATORY)
+Если state = BLOCKED:
+- список blockers обязателен
+- каждый blocker строго по шаблону `CTL_BLOCKER`
+
+BLOCKER:
+- CODE:
+- SEVERITY: S0 | S1 | S2 | S3
+- MESSAGE: ""
+- REQUIRED_ACTION: ""
+
+Severity meaning:
+- S0: нарушен закон/канон/навигация/контракт (стоп)
+- S1: критично для корректного результата (обычно стоп)
+- S2: важно, но может быть отложено если ORC разрешает
+- S3: уведомление/улучшение
 
 ---
 
-## 5) RELATIONS (MANDATORY)
-CALLS: []
-CONSUMES: [artifact_candidate]
-PRODUCES: [LOG]
-DEPENDS_ON: [SoT standards when profile requires]
+## 6) INTERACTION WITH ORC (GATES)
+Если ORC step имеет `GATE: CTL`:
+- CTL обязан проверить REQUIRES/ CHECKS для данного шага
+- CTL обязан вернуть STATE
+- ORC обязан остановиться при BLOCKED, если есть S0/S1 blockers
+- ORC может продолжить при S2/S3 только если это явно разрешено policy/notes ORC
 
 ---
 
-## 6) INTERFACES (RAW)
-- UID RULES: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01_SYSTEM_LAW/02__UID_RULES.md
-- DOC CONTROL: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/02_STANDARDS/01_SPECIFICATIONS/03__DOC_CONTROL_STANDARD.md
-- CTL RULES: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/40_CTL__CONTROLLERS/01__RULES__CTL.md
+## 7) CONFLICT RULE (S0)
+Если CTL начинает:
+- “решать как должно быть” (роль ENG/SPC)
+- “утверждать закон/канон” (роль VAL)
+- “оценивать качество/естественность” (роль QA)
+это S0: role contamination.
 
 ---
 
-## 7) KNOWLEDGE BASE (KB) SCOPE
-KB Inputs:
-- optional примеры readiness отчётов и типовые missing-листы
+## 8) KNOWLEDGE BASE (KB) SCOPE
+KB INPUTS:
+- playbooks/checklists по типовым контролям
+- примеры blockers и gate отчётов
 
-KB Outputs:
+KB OUTPUTS:
 - none
 
-Boundaries:
-- readiness не делает доменные решения и не заменяет QA/VAL
+BOUNDARIES:
+- KB не является обязательным входом для CTL; CTL должен быть самодостаточен.
+
+---
+
+## 9) INTERFACES (RAW ONLY)
+- CTL REALM README:
+  - RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/40_CTL__CONTROLLERS/00__README__CTL_REALM.md
+- CTL GLOBAL REGISTRY (SoT):
+  - RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/40_CTL__CONTROLLERS/02__INDEX_ALL_CONTROLLERS.md
+- CTL CREATE FLOW:
+  - RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/40_CTL__CONTROLLERS/03__CREATE_FLOW__CTL.md
+- CTL ENTITY TEMPLATE:
+  - RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/40_CTL__CONTROLLERS/00__TEMPLATES/00__TEMPLATE__CTL_ENTITY.md
+- CTL BLOCKER TEMPLATE:
+  - RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/40_CTL__CONTROLLERS/00__TEMPLATES/00__TEMPLATE__CTL_BLOCKER.md
 
 --- END.

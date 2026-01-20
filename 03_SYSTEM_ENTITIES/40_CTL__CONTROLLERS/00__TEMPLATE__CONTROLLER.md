@@ -1,38 +1,39 @@
-# 00__TEMPLATE__CONTROLLER
+# 00__TEMPLATE__CONTROLLER (LEGACY UNIVERSAL BASE)
 
 FILE: 03_SYSTEM_ENTITIES/40_CTL__CONTROLLERS/00__TEMPLATE__CONTROLLER.md
-SCOPE: Universe Engine / Controllers (CTL) / Universal Controller Template (Legacy Base)
+SCOPE: Universe Engine (Games volume) / Controllers (CTL) / Universal Controller Template (Legacy Base)
 SERIAL: C425-B513
 LAYER: 03_SYSTEM_ENTITIES
 DOC_TYPE: TEMPLATE
 LEVEL: L1
 STATUS: ACTIVE
 LOCK: FIXED
-VERSION: 2.1.0
+VERSION: 2.1.1
 UID: UE.CTL.TPL.CONTROLLER.UNIVERSAL.001
 OWNER: SYSTEM
-ROLE: Universal template for CTL controllers. Defines enforcement policy structure and a canonical rule format. Used as a base reference, not as a substitute for CTL entity template.
+ROLE: Legacy base template for CTL controllers (policy/rules format). Reference only — not a substitute for CTL entity template.
 
 CHANGE_NOTE:
 - DATE: 2026-01-20
 - TYPE: PATCH
-- SUMMARY: "Wrapped legacy template into DOC CONTROL, clarified relationship to CTL entity template and RAW-only interfaces."
-- REASON: "Legacy header drift conflicted with DOC CONTROL standard."
-- IMPACT: "Template becomes compatible with current documentation system."
+- SUMMARY: "Fixed broken interface section + aligned formatting to DOC CONTROL; clarified relationship to CTL entity template; added KB scope."
+- REASON: "Legacy file had truncated RAW interface and could cause nav drift."
+- IMPACT: "Template becomes safe to reference without breaking RAW-only navigation."
+- CHANGE_ID: UE.CHG.2026-01-20.CTL.TPL.LEGACY.001
 
 ---
 
 ## 0) PURPOSE (LAW)
 Controller — механизм enforcement.
 Он:
-- проверяет, что артефакт создан в правильном месте (path rules if applicable)
-- проверяет корректность уровня (L0/L1/L2/L3) если это часть домена
-- проверяет, что обязательные REG/XREF обновления выполнены
-- запрещает hidden dependencies
-- может блокировать продвижение (REJECT / BLOCKED)
+- проверяет обязательные артефакты/поля/регистрации (если это политика CTL)
+- проверяет корректность уровней/линковки (если домен это использует)
+- запрещает hidden dependencies (если политика CTL)
+- может блокировать продвижение (BLOCKED) через blockers
 
-Enforcement rule:
-Если CTL правило нарушено — результат считается invalid и не может быть promoted без контролируемого исключения.
+ВАЖНО:
+- Этот файл — базовый “формат правил” (legacy).
+- Для создания нового контроллера использовать `00__TEMPLATE__CTL_ENTITY.md`.
 
 ---
 
@@ -76,8 +77,6 @@ RULE:
 ---
 
 ## 4) RECOMMENDED BASE RULES (OPTIONAL)
-Этот блок — примеры и базовые направления. Применять только если домен это использует.
-
 ### 4.1 Level enforcement (example)
 - No skip promotion: L2 cannot exist without L1 lineage unless exception logged
 - L3 must reference L2 (XREF CANON_REF required)
@@ -112,27 +111,41 @@ INPUTS:
 
 OUTPUTS:
 - decisions: [PASS/FAIL, notes]
-- REGISTRY_UPDATES:
-  - required: NO (обычно CTL не регистрирует, он требует)
-- XREF_UPDATES:
-  - required: NO (обычно CTL не пишет, он требует)
-
-GATES:
-- validators: []
-- qa_checks: []
-
-ORCHESTRATION:
-- orc_owner: []
-- ctl_enforcers: [self]
+- BLOCKERS: (если FAIL) — по `CTL_BLOCKER`
 
 ---
 
-## 7) RAW LINK (MANDATORY)
-RAW:
+## 7) KNOWLEDGE BASE (KB) SCOPE
+KB INPUTS:
+- примеры policy/rule sets
+- типовые blockers и формулировки REQUIRED_ACTION
+
+KB OUTPUTS:
+- none
+
+BOUNDARIES:
+- template не создаёт доменные решения и не подменяет VAL/QA.
 
 ---
 
-## 8) INTERFACES (RAW)
-- DOC CONTROL: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/02_STANDARDS/01_SPECIFICATIONS/03__DOC_CONTROL_STANDARD.md
-- CTL ENTITY TEMPLATE: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/40_CTL__CONTROLLERS/00__TEMPLATES/00__TEMPLATE__CTL_ENTITY.md
-- CTL RULES: https
+## 8) INTERFACES (RAW ONLY)
+- DOC CONTROL:
+  - RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/02_STANDARDS/01_SPECIFICATIONS/03__DOC_CONTROL_STANDARD.md
+- UID RULES:
+  - RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01_SYSTEM_LAW/02__UID_RULES.md
+- CTL REALM README:
+  - RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/40_CTL__CONTROLLERS/00__README__CTL_REALM.md
+- CTL RULES:
+  - RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/40_CTL__CONTROLLERS/01__RULES__CTL.md
+- CTL ENTITY TEMPLATE (PRIMARY FOR NEW CONTROLLERS):
+  - RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/40_CTL__CONTROLLERS/00__TEMPLATES/00__TEMPLATE__CTL_ENTITY.md
+- CTL BLOCKER TEMPLATE:
+  - RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/40_CTL__CONTROLLERS/00__TEMPLATES/00__TEMPLATE__CTL_BLOCKER.md
+- CTL GLOBAL REGISTRY (SoT):
+  - RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/40_CTL__CONTROLLERS/02__INDEX_ALL_CONTROLLERS.md
+- CTL CREATE FLOW:
+  - RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/40_CTL__CONTROLLERS/03__CREATE_FLOW__CTL.md
+- READINESS CHECK (DEFAULT CTL):
+  - RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/40_CTL__CONTROLLERS/01__READINESS_CHECK_CTL.md
+
+--- END.
