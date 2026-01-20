@@ -1,72 +1,70 @@
-# XREF CREATE FLOW — CANON
+# XREF — CREATE / UPDATE FLOW (CANON)
 
 FILE: 03_SYSTEM_ENTITIES/90_XREF__CROSSREF/02__CREATE_FLOW__XREF.md
-SCOPE: Universe Engine (Games volume) / System Entities / Crossref (XREF)
+SCOPE: Universe Engine (Games volume)
 SERIAL: C425-B513
 LAYER: 03_SYSTEM_ENTITIES
-DOC_TYPE: WORKFLOW
-ENTITY_GROUP: CROSSREF (XREF)
-LEVEL: L1
+REALM: 90_XREF__CROSSREF
+DOC_TYPE: RUNBOOK
+LEVEL: L2
 STATUS: ACTIVE
 LOCK: FIXED
 VERSION: 1.0.0
-UID: UE.XREF.CREATE_FLOW.001
+UID: UE.XREF.RUNBOOK.CREATE_FLOW.001
 OWNER: SYSTEM
-ROLE: Canonical creation workflow for XREF maps/records: template → UID → file → SoT registration → gate checks.
+ROLE: Deterministic procedure to add or update XREF maps safely.
 
 CHANGE_NOTE:
 - DATE: 2026-01-20
-- TYPE: MINOR
-- SUMMARY: "Created XREF create flow to enforce registry-first mapping discipline."
-- REASON: "Avoid non-registered maps and implicit routing."
-- IMPACT: "New maps become deterministic and auditable."
-- CHANGE_ID: UE.CHG.2026-01-20.XREF.CREATEFLOW.001
+- TYPE: CREATE
+- SUMMARY: "Created runbook for XREF updates: schema-first, anti-dup, version bumps, gates."
+- REASON: "Prevent accidental drift while expanding system."
+- IMPACT: "XREF maintenance becomes repeatable and auditable."
+- CHANGE_ID: UE.CHG.2026-01-20.XREF.RUNBOOK.001
 
 ---
 
-## 0) CORE LAW
-XREF map/record exists in canon only if registered in XREF INDEX (SoT).
+## 0) PURPOSE (LAW)
+Этот RUNBOOK описывает, как безопасно добавлять/обновлять XREF карты.
 
 ---
 
-## 1) STEPS (CANON ORDER)
-1) Select artifact type:
-- MAP / MATRIX / PIPELINE_MAP / RECORD
-
-2) Assign UID:
-- use UID rules
-
-3) Create file from template:
-- MAP/INDEX: use `00__TEMPLATE__XREF_INDEX.md` when creating an index
-- RECORD: use `00__TEMPLATE__XREF_RECORD.md`
-
-4) Fill mandatory sections:
-- scope, applies_when, mapping, validation
-
-5) Register in XREF INDEX (SoT):
-- add RAW link entry
-- ensure minimal map set coverage stays complete
-
-6) Gate check:
-- RAW-only links
-- role boundaries respected
-- resolvable mapping
+## 1) INPUTS (MINIMUM)
+- intent: что добавляем (ENG→ORC / ORC→SPC / validation / pipelines)
+- target file: какой MAP документ
+- new rows: новые записи или изменение существующих
+- reason + impact (1–2 строки)
 
 ---
 
-## 2) STOP CONDITIONS (ONLY THESE)
-- RAW missing (no template/index link)
-- marker not confirmed (gate fail)
-- input absent (no mapping target)
+## 2) PROCEDURE (MANDATORY ORDER)
+1) SELECT MAP
+- выбери нужный MAP файл по типу соответствия.
+
+2) SCHEMA CHECK
+- убедись, что все обязательные поля присутствуют.
+
+3) ANTI-DUP CHECK
+- проверь, что запись не дублирует существующую связь (same key).
+
+4) APPLY CHANGE
+- добавь/обнови строку(и).
+
+5) VERSION BUMP + CHANGE_NOTE
+- bump VERSION в заголовке (PATCH/MINOR по масштабу).
+- обнови CHANGE_NOTE (summary/reason/impact/change_id).
+
+6) DOC-CONTROL READY
+- форма, поля, табличность, отсутствие мусора.
+
+7) UPDATE REALM INDEX (IF NEEDED)
+- если добавился новый файл в реалме — обнови `00__INDEX__CROSSREF.md` (только список+назначение).
 
 ---
 
-## 3) INTERFACES (RAW ONLY)
-- XREF INDEX (SoT):
-  - RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/90_XREF__CROSSREF/00__INDEX__CROSSREF.md
-- XREF TEMPLATE (INDEX):
-  - RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/90_XREF__CROSSREF/00__TEMPLATE__XREF_INDEX.md
-- XREF TEMPLATE (RECORD):
-  - RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/90_XREF__CROSSREF/00__TEMPLATE__XREF_RECORD.md
+## 3) OUTPUT
+- updated MAP file(s)
+- optionally updated realm index
+- short “what changed” note (если требуется для пакета поставки)
 
 --- END.

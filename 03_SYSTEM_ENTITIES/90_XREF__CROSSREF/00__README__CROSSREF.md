@@ -1,130 +1,78 @@
-# CROSSREF (XREF) — REALM README (CANON)
+# CROSSREF REALM — README (CANON)
 
 FILE: 03_SYSTEM_ENTITIES/90_XREF__CROSSREF/00__README__CROSSREF.md
-SCOPE: Universe Engine (Games volume) / System Entities / Crossref (XREF)
+SCOPE: Universe Engine (Games volume)
 SERIAL: C425-B513
 LAYER: 03_SYSTEM_ENTITIES
+REALM: 90_XREF__CROSSREF
 DOC_TYPE: README (REALM)
-ENTITY_GROUP: CROSSREF (XREF)
-LEVEL: L1
+LEVEL: L2
 STATUS: ACTIVE
 LOCK: FIXED
 VERSION: 1.0.0
-UID: UE.XREF.REALM.001
+UID: UE.XREF.REALM.README.001
 OWNER: SYSTEM
-ROLE: Canonical boundaries + SoT navigation for cross-reference maps (RAW-only). Defines what XREF is and is not.
+ROLE: Explains what CROSSREF is, what lives here, and how maps are authored/maintained.
 
 CHANGE_NOTE:
 - DATE: 2026-01-20
-- TYPE: MAJOR
-- SUMMARY: "Rebuilt XREF realm README to DOC CONTROL, RAW-only interfaces, strict role boundaries, and SoT index definition."
-- REASON: "Prevent broken routing due to missing/implicit mappings and mixed responsibilities."
-- IMPACT: "Routing becomes deterministic: engines/pipelines/validators are discoverable via explicit maps."
-- CHANGE_ID: UE.CHG.2026-01-20.XREF.REALM.001
+- TYPE: CREATE
+- SUMMARY: "Created deterministic README for XREF realm: purpose, boundaries, artifacts, authoring rules."
+- REASON: "Make routing visible and auditable; reduce guesswork."
+- IMPACT: "XREF becomes stable SoT for stitching maps and pipeline discoverability."
+- CHANGE_ID: UE.CHG.2026-01-20.XREF.README.001
 
 ---
 
 ## 0) PURPOSE (LAW)
-XREF слой — это карты соответствий, которые делают систему навигируемой и проверяемой:
-- какие ENG используются в каких ORC шагах
-- какие SPC получают результат какого ORC шага
-- какая цепочка CTL → VAL → QA применяется к типу задачи/артефакта
-- какие пайплайны считаются каноническими (pipeline maps)
-
-XREF — это SoT для связей (links of meaning), а не хранилище контента.
+`90_XREF__CROSSREF` — слой “стыковки”.
+Здесь лежат карты соответствий между сущностями и слоями: ENG↔ORC↔SPC, пайплайны, матрицы валидации, правила XREF.
 
 ---
 
-## 1) SCOPE
-Этот realm применяется ко всем файлам внутри:
-- `03_SYSTEM_ENTITIES/90_XREF__CROSSREF/**`
-
-Source of truth (SoT) XREF слоя:
-- `03_SYSTEM_ENTITIES/90_XREF__CROSSREF/00__INDEX__CROSSREF.md`
-
----
-
-## 2) ROLE BOUNDARIES (HARD)
-### 2.1 XREF OWNS
-- карты соответствий между сущностями/слоями (maps)
-- матрицы проверок (validation matrix)
-- карты пайплайнов (pipeline maps)
-- правила “куда идти дальше” (routing by map), но без принятия решений за SPC/ORC
-
-### 2.2 XREF DOES NOT OWN
-- порядок исполнения шагов (это ORC)
-- методы/микрологика (это ENG)
-- политики/лимиты (это CTL)
-- формальная проверка соответствия законам (это VAL)
-- оценка качества (это QA)
-- доменные решения/упаковка результата (это SPC)
-
-Нарушение границ = S0 (role contamination).
+## 1) WHAT LIVES HERE (SCOPE)
+- Realm index: `00__INDEX__CROSSREF.md`
+- Rules: `01__RULES__XREF.md`
+- Maps:
+  - ENG → ORC: `01__MAP__ENG_TO_ORC.md`
+  - ORC → SPC: `02__MAP__ORC_TO_SPC.md`
+  - Validation matrix: `03__MAP__VALIDATION_MATRIX.md`
+  - Pipelines: `04__MAP__PIPELINES.md`
+- Authoring flow: `02__CREATE_FLOW__XREF.md`
+- Templates:
+  - XREF index template
+  - XREF record template
 
 ---
 
-## 3) EXISTENCE LAW (ABSOLUTE)
-XREF карта/матрица считается каноном только если:
-- оформлена как документ с DOC CONTROL
-- имеет UID
-- зарегистрирована в `00__INDEX__CROSSREF.md` (SoT)
-
-Файл в репо без регистрации → NON-CANON / ignored.
-
----
-
-## 4) MINIMUM CANON MAP SET (REQUIRED)
-В каноне должен существовать минимум:
-- ENG → ORC map
-- ORC → SPC map
-- Validation matrix (CTL/VAL/QA placement)
-- Pipeline map (что считать каноническими пайплайнами)
-
-Если минимальный набор отсутствует → routing становится неполным.
+## 2) BOUNDARIES (HARD)
+IN SCOPE:
+- Только карты/правила/матрицы/переходы.
+OUT OF SCOPE:
+- Сами сущности (SPC/ORC/ENG/CTL/VAL/QA) — они живут в своих реестрах.
+- Изменение стандартов — это 02_STANDARDS и STANDARDS OWNER.
 
 ---
 
-## 5) HOW XREF IS USED (RUNTIME)
-- При routing задачи: Top Governance SPC / ORC смотрит XREF карты, чтобы выбрать:
-  - какой ORC пайплайн применить
-  - какие ENG нужны внутри ORC
-  - какие SPC упаковывают результат
-  - где стоят CTL/VAL/QA гейты
-
-Если карта отсутствует:
-- фиксируется GAP
-- предлагается создание недостающей XREF карты/записи
-- после этого задача продолжается
+## 3) PRIMARY LAW
+- XREF не “описание в чате”. XREF — это документы-артефакты.
+- XREF должен быть:
+  - детерминированным (одна интерпретация),
+  - проверяемым (табличная/схемная форма),
+  - пригодным для маршрутизации (routing-ready).
 
 ---
 
-## 6) KNOWLEDGE BASE (KB) SCOPE
+## 4) KNOWLEDGE BASE (KB) SCOPE
 KB INPUTS:
-- методы построения карт
-- примеры корректных матриц и пайплайнов
-
+- примеры карт и схем маршрутизации
 KB OUTPUTS:
-- none (XREF не является KB модулем)
-
-BOUNDARIES:
-- XREF хранит только связи/карты, не хранит “знания домена” как KB SoT.
+- нет, если отдельно не поставлена задача “KB module”
 
 ---
 
-## 7) INTERFACES (RAW ONLY)
-- XREF INDEX (SoT):
-  - RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/90_XREF__CROSSREF/00__INDEX__CROSSREF.md
-- MAP: ENG → ORC:
-  - RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/90_XREF__CROSSREF/01__MAP__ENG_to_ORC.md
-- MAP: ORC → SPC:
-  - RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/90_XREF__CROSSREF/02__MAP__ORC_to_SPC.md
-- MAP: VALIDATION MATRIX:
-  - RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/90_XREF__CROSSREF/03__MAP__VALIDATION_MATRIX.md
-- MAP: PIPELINES:
-  - RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/90_XREF__CROSSREF/04__MAP__PIPELINES.md
-- XREF TEMPLATE (INDEX):
-  - RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/90_XREF__CROSSREF/00__TEMPLATE__XREF_INDEX.md
-- XREF TEMPLATE (RECORD):
-  - RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/90_XREF__CROSSREF/00__TEMPLATE__XREF_RECORD.md
+## 5) INTERFACES (RAW ONLY)
+- Runtime entrypoint:
+  - https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/00_INDEX/01__START_UNIVERSE_ENGINE.md
 
 --- END.
