@@ -1,176 +1,208 @@
-# POET PD POLICY — CTL
-FILE: 03_SYSTEM_ENTITIES/40_CTL__CONTROLLERS/10_MUSIC_CONTROLLERS/05__POET_PD_POLICY_CTL.md
+# CTL — POET PD POLICY (CANON)
 
-SCOPE: Universe Engine
+FILE: 03_SYSTEM_ENTITIES/40_CTL__CONTROLLERS/10_MUSIC_CONTROLLERS/05__POET_PD_POLICY_CTL.md
+SCOPE: Universe Engine (Games volume)
+SERIAL: C425-B513
 LAYER: 03_SYSTEM_ENTITIES
-ENTITY_GROUP: CONTROLLERS (CTL)
-CTL_REALM: 10_MUSIC_CONTROLLERS
-DOC_TYPE: CONTROLLER
-CTL_TYPE: POET_PD_POLICY
-LEVEL: L3
+REALM: 40_CTL__CONTROLLERS
+FAMILY: 10_MUSIC_CONTROLLERS
+LEVEL: L2
+DOC_TYPE: CTL (CONTROLLER)
+ENTITY_TYPE: CONTROLLER
 STATUS: ACTIVE
 LOCK: FIXED
 VERSION: 1.0.0
-UID: UE.CTL.MUS.POET_PD_POLICY.001
+UID: UE.CTL.MUSIC.POET_PD_POLICY.001
 OWNER: SYSTEM
-ROLE: Defines PD-only policy constraints for lyric sourcing and usage:
-eligibility evidence categories, strictness modes, fragment-size limits, “no full poem dump” rule,
-translation constraints, and required output artifacts for the PD pipeline.
+ROLE: Enforce public-domain-only (or explicitly licensed) poetry usage. Requires KB-provenance markers, forbids guessing, defines excerpting limits, and outputs deterministic policy verdicts.
 
 CHANGE_NOTE:
-- DATE: 2026-01-12
-- TYPE: MAJOR
-- SUMMARY: "Created Poet PD Policy CTL: strictness modes, eligibility evidence, fragment limits, and prohibitions for PD-only lyrics."
-- REASON: "PD pipeline must be deterministic and safe; eligibility must not be guessed."
-- IMPACT: "Safer PD workflow + cleaner mosaics + reduced overuse."
-- CHANGE_ID: UE.CHG.2026-01-12.CTL.POET.PD_POLICY.001
+- DATE: 2026-01-20
+- TYPE: PATCH
+- SUMMARY: "Hardened PD-only policy: explicit KB provenance requirements, no-guessing enforcement, excerpt limits, and mandatory CTL_VERDICT format."
+- REASON: "Prevent copyright-risk ingestion and eliminate 'unknown origin' text usage."
+- IMPACT: "Poet packs and any lyric prompts referencing poetry become auditable and rights-safe."
+- CHANGE_ID: UE.CHG.2026-01-20.CTL.POETPD.001
 
 ---
 
 ## 0) PURPOSE (LAW)
-This controller defines the **PD-only law** for lyrics:
-- what counts as PD-eligible (evidence)
-- what to do when evidence is missing (UNCERTAIN handling)
-- how much text may be used as fragments
-- what is prohibited (full poem dumps, risky translations)
-- what artifacts must be produced by the PD pipeline
+Эта политика определяет, когда и как можно использовать поэзию/выдержки в системе:
+- при сборке `POET_PACK_SPEC`,
+- при использовании поэтических строк в `MUSIC_TRACK_PROMPT`,
+- при любом “корпусном” выборе текста, который не является оригинальным текстом пользователя.
 
-CTL is the law source; engines/orchestrators must implement it.
+Цель: PD-only (или явно разрешённая лицензия в KB) с доказуемым происхождением (provenance).
 
 ---
 
-## 1) POLICY MODES (STRICTNESS)
-One of the following modes must be selected for a run:
+## 1) ABSOLUTE RULES
+### 1.1 KB source lock (no fantasy)
+Любой текст, который не является оригинальным вводом пользователя, обязан иметь источник в KB.
+Запрещено:
+- угадывать автора/произведение,
+- брать “из головы” или “из интернета без KB записи”,
+- ссылаться на источник без RAW указателя на KB-объект.
 
-- MODE.STRICT (default)
-- MODE.STANDARD
-- MODE.LENIENT (only if explicitly allowed by governance)
+### 1.2 PD-only by default
+По умолчанию разрешено только PD.
+Исключение возможно только если KB явно содержит лицензированное разрешение (см. 4.3), и это отмечено в provenance.
 
-### MODE.STRICT (default)
-- UNCERTAIN = FAIL (do not use)
-- requires strong evidence category (see Section 2)
+### 1.3 Provenance is mandatory
+Каждый корпусный элемент (строка/выдержка/фрагмент) обязан иметь:
+- KB_SOURCE_RAW (конкретный KB item/module RAW)
+- SOURCE_STATUS marker (PD_CONFIRMED или LICENSE_CONFIRMED)
+Если маркера нет → FAIL.
 
-### MODE.STANDARD
-- UNCERTAIN may be allowed only if a trusted PD pool is used (pre-approved corpus)
-- still forbids copyrighted text
+### 1.4 Excerpting, not dumping
+Запрещено вставлять целые произведения “простынёй” в выдачи, если нет явного разрешающего маркера в KB.
+По умолчанию: только короткие выдержки (см. 5).
 
-### MODE.LENIENT
-- allows broader inference, but must be explicitly approved
-- still must not request copyrighted text in prompts
-
----
-
-## 2) ELIGIBILITY EVIDENCE CATEGORIES
-PD Filter engine must classify evidence:
-
-E1 — EXPLICIT PD STATEMENT (strong)
-- explicit “public domain” statement from an accepted source
-
-E2 — AUTHOR DEATH YEAR RULE (strong, if known)
-- author death year provided and meets threshold
-
-E3 — PUBLICATION YEAR RULE (fallback)
-- publication year provided and meets threshold
-
-E4 — TRUSTED PD POOL MEMBERSHIP (strong if pool is approved)
-- candidate belongs to a pre-approved PD corpus set
-
-E5 — UNKNOWN / INSUFFICIENT
-- missing key fields; evidence not acceptable
+### 1.5 Deterministic verdict
+Контроллер обязан выдавать CTL_VERDICT в стандартном формате (см. 7).  
+FAIL блокирует дальнейший пайплайн до исправления.
 
 ---
 
-## 3) THRESHOLDS (PARAMETERS)
-This CTL defines policy parameters used by PD Filter.
+## 2) REQUIRED REFERENCES (RAW)
+KB MASTER INDEX  
+RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/04_KNOWLEDGE_BASE/00__INDEX__KNOWLEDGE_BASE.md
 
-### Default thresholds (placeholders; adjustable by governance)
-- DEATH_YEAR_THRESHOLD_YEARS: 70
-- PUBLICATION_YEAR_THRESHOLD_YEARS: 95
+KB RULES  
+RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/04_KNOWLEDGE_BASE/00_KB_GOVERNANCE/01__RULES__KB.md
 
-Notes:
-- These thresholds are applied as policy parameters, not legal advice.
-- If governance later defines different thresholds, update this CTL version.
+KB SOURCE LOCK (NO FANTASY)  
+RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/04_KNOWLEDGE_BASE/00_KB_GOVERNANCE/12__KB_SOURCE_LOCK_NO_FANTASY.md
 
----
+POET PACK ORC (primary consumer)  
+RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/20_ORC__ORCHESTRATORS/10_MUSIC_ORCHESTRATORS/06__POET_PACK_ORC.md
 
-## 4) UNCERTAIN HANDLING (MANDATORY)
-If PD Filter output is UNCERTAIN:
-- MODE.STRICT: treat as FAIL, stop candidate
-- MODE.STANDARD: allow only if E4 trusted pool membership exists
-- MODE.LENIENT: allow only with recorded rationale and increased collision/rights checks
+PD ONLY (validator)  
+RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/50_VAL__VALIDATORS/10_MUSIC_VALIDATORS/04__PD_ONLY_VAL.md
 
----
-
-## 5) FRAGMENT SIZE LIMITS (NO DUMPS)
-This policy enforces fragments-only usage.
-
-### Fragment length caps (default)
-- MAX_LINES_PER_FRAGMENT: 2
-- MAX_CHARS_PER_FRAGMENT: 200
-
-### Pack caps
-- MAX_FRAGMENTS_PER_JUICE_PACK: 20
-- MAX_TOTAL_FRAGMENT_TEXT_CHARS_PER_PACK: 2000
-
-Hard rule:
-- No full poem output.
-- No contiguous long stanza copying.
+VALIDATION MATRIX  
+RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/90_XREF__CROSSREF/03__MAP__VALIDATION_MATRIX.md
 
 ---
 
-## 6) TRANSLATION & MODERN ADAPTATION RULES (RISK)
-- Avoid “modern translations” unless explicitly PD and allowed by evidence.
-- If translation status is unknown: treat as risk → FAIL in STRICT mode.
-- Prefer original-language PD texts when possible, then minimal adaptation in mosaic.
+## 3) WHERE THIS CTL APPLIES
+### 3.1 Artifact types (minimum)
+- POET_PACK_SPEC
+- MUSIC_TRACK_PROMPT (если внутри есть поэтические строки/выдержки не от пользователя)
+- Любой документ, который хранит корпусные строки (по решению матрицы)
+
+### 3.2 Invocation rule
+Если артефакт содержит внешние строки поэзии:
+- этот CTL обязателен до любого PD/rights валидатора.
 
 ---
 
-## 7) REQUIRED PD PIPELINE ARTIFACTS
-If PD mode is used, the pipeline MUST produce:
-- PD_ELIGIBILITY_REPORT (PASS/FAIL/UNCERTAIN + evidence)
-- FIT_RANKING (top candidates + rationale)
-- JUICE_PACK (ranked fragments + tags + cadence)
-- MOSAIC_DRAFT (section-labeled, paste-ready)
-- EXCERPT_COLLISION_REPORT (PASS/WARN/BLOCK + blocklist/penalties)
+## 4) DEFINITIONS (CANON)
+### 4.1 “User original”
+Текст, который пользователь написал сам в чате и явно передал как свой (или как разрешённый к использованию).
+
+### 4.2 “Corpus text”
+Любые строки/выдержки/фразы, которые не являются user original.
+
+### 4.3 Allowed source statuses (must be explicit)
+Разрешённые статусы источника:
+- PD_CONFIRMED
+- LICENSE_CONFIRMED
+
+Запрещено:
+- PD_UNKNOWN
+- LICENSE_UNKNOWN
+- “скорее всего PD”
+- “кажется разрешено”
+
+### 4.4 Provenance block (minimum fields)
+Любой corpus text обязан ссылаться на provenance:
+- KB_SOURCE_RAW: (raw link)
+- SOURCE_STATUS: PD_CONFIRMED | LICENSE_CONFIRMED
+- SOURCE_NOTE: коротко (что именно подтверждает статус, без угадываний)
 
 ---
 
-## 8) PROHIBITED REQUESTS (HARD BLOCKERS)
-PD mode must NOT:
-- request or include copyrighted poems/lyrics
-- paste full poems as output
-- rely on “guessing” PD status without evidence
-- reuse the same famous lines repeatedly (collision guard must run)
+## 5) EXCERPT LIMITS (DEFAULT)
+Это лимиты по умолчанию, если KB не содержит специальный маркер разрешения на полный текст.
+
+### 5.1 Per excerpt
+- максимум 2–4 строки, или
+- максимум 240 символов (что наступит раньше)
+
+### 5.2 Per poet pack item
+- 1–3 выдержки на item_id (каждая со своим provenance)
+- запрещено собирать “полное стихотворение” кусками без явного KB-разрешения
+
+### 5.3 Full text exception
+Полный текст произведения допускается только если KB-источник содержит явный маркер:
+- FULL_TEXT_ALLOWED (в любом явном виде внутри KB записи)
+и одновременно SOURCE_STATUS = PD_CONFIRMED или LICENSE_CONFIRMED.
+
+Если маркера FULL_TEXT_ALLOWED нет → полный текст запрещён.
+
+### 5.4 Anti-collision note (recommended)
+По возможности избегать самых “узнаваемых” строк, если цель — вариативность каталога.  
+Если используешь известную строку — пометь это в CORPUS ITEM как “high-recognition”.
 
 ---
 
-## 9) DEPENDENCY REFERENCES (RAW)
-Implemented by:
-- PD Filter ENG  
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/13_POET_PD_CORPUS_ENGINES/01__PD_FILTER_ENG.md
-- Poem Fit Scoring ENG  
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/13_POET_PD_CORPUS_ENGINES/02__POEM_FIT_SCORING_ENG.md
-- Juice Extractor ENG  
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/13_POET_PD_CORPUS_ENGINES/03__JUICE_EXTRACTOR_ENG.md
-- Mosaic Composer ENG  
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/13_POET_PD_CORPUS_ENGINES/04__MOSAIC_COMPOSER_ENG.md
-- Excerpt Collision Guard ENG  
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/13_POET_PD_CORPUS_ENGINES/05__EXCERPT_COLLISION_ENG.md
+## 6) REQUIRED CHECKS (DETERMINISTIC)
+### CHECK A — KB pointers present
+- Для каждого corpus item существует KB_SOURCE_RAW.
+Если отсутствует → FAIL (input absent / RAW missing).
 
-Orchestrated by:
-- Poet Pack ORC  
+### CHECK B — Source status marker present
+- Для каждого corpus item есть SOURCE_STATUS = PD_CONFIRMED или LICENSE_CONFIRMED.
+Если отсутствует → FAIL (marker not confirmed).
+
+### CHECK C — Excerpt limits respected
+- По умолчанию соблюдены лимиты 5.1–5.3.
+Если нарушено → FAIL (policy violation).
+
+### CHECK D — Provenance completeness
+- У каждого corpus item есть provenance block минимум по 4.4.
+Если нет → FAIL (marker not confirmed).
+
+---
+
+## 7) CTL VERDICT FORMAT (REQUIRED)
+Каждый запуск контроллера обязан вернуть:
+
+- CTL_ID: UE.CTL.MUSIC.POET_PD_POLICY.001
+- TARGET_ARTIFACT_TYPE: (POET_PACK_SPEC | MUSIC_TRACK_PROMPT | OTHER)
+- TARGET_RAW: (raw link to checked artifact)
+- VERDICT: PASS | FAIL
+- FINDINGS:
+  - bullet list
+- REQUIRED_FIXES:
+  - bullet list (empty if PASS)
+- FAIL_CLASS:
+  - RAW missing | marker not confirmed | input absent | policy violation
+- RETURN_TO:
+  - raw link to repair ORC (default: POET_PACK_ORC or ALBUM_TO_TRACK_ORC)
+
+Default return routes:
+- POET_PACK fixes:
   RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/20_ORC__ORCHESTRATORS/10_MUSIC_ORCHESTRATORS/06__POET_PACK_ORC.md
-
-Validator alignment:
-- PD Only VAL  
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/50_VAL__VALIDATORS/10_MUSIC_VALIDATORS/04__PD_ONLY_VAL.md
-- Credits/Rights VAL  
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/50_VAL__VALIDATORS/10_MUSIC_VALIDATORS/09__CREDITS_RIGHTS_VAL.md
+- Track prompt fixes:
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/20_ORC__ORCHESTRATORS/10_MUSIC_ORCHESTRATORS/02__ALBUM_TO_TRACK_ORC.md
 
 ---
 
-## FINAL RULE (LOCK)
-OWNER: SYSTEM
-LOCK: FIXED
+## 8) ENFORCEMENT NOTES (NON-OPTIONAL)
+- Если provenance не доказан в KB, контроллер не “догадывается” и не ищет снаружи.
+- Любая попытка обойти политику (вставить текст без KB статуса) = FAIL.
+- Этот CTL не заменяет PD_ONLY_VAL, а подготавливает структуру и блокирует “неподтверждённое” ещё до валидации.
 
---- END.
+---
+
+## 9) CHANGE POLICY (LOCK)
+Любые изменения порогов/исключений:
+- только PATCH
+- обязательно обновить CHANGE_NOTE
+- если меняется обязательность применения CTL для типов артефактов — обновить `VALIDATION_MATRIX`
+
+---
+
+END.

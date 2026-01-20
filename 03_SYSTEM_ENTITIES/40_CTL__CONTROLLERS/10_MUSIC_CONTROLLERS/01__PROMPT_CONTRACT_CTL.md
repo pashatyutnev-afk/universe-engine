@@ -1,184 +1,199 @@
-# PROMPT CONTRACT — CTL
-FILE: 03_SYSTEM_ENTITIES/40_CTL__CONTROLLERS/10_MUSIC_CONTROLLERS/01__PROMPT_CONTRACT_CTL.md
+# CTL — PROMPT CONTRACT (MUSIC) (CANON)
 
-SCOPE: Universe Engine
+FILE: 03_SYSTEM_ENTITIES/40_CTL__CONTROLLERS/10_MUSIC_CONTROLLERS/01__PROMPT_CONTRACT_CTL.md
+SCOPE: Universe Engine (Games volume)
+SERIAL: C425-B513
 LAYER: 03_SYSTEM_ENTITIES
-ENTITY_GROUP: CONTROLLERS (CTL)
-CTL_REALM: 10_MUSIC_CONTROLLERS
-DOC_TYPE: CONTROLLER
-CTL_TYPE: PROMPT_CONTRACT
-LEVEL: L3
+REALM: 40_CTL__CONTROLLERS
+FAMILY: 10_MUSIC_CONTROLLERS
+LEVEL: L2
+DOC_TYPE: CTL (CONTROLLER)
+ENTITY_TYPE: CONTROLLER
 STATUS: ACTIVE
 LOCK: FIXED
 VERSION: 1.0.0
-UID: UE.CTL.MUS.PROMPT_CONTRACT.001
+UID: UE.CTL.MUSIC.PROMPT_CONTRACT.001
 OWNER: SYSTEM
-ROLE: Defines the mandatory structure and constraints for platform-native prompt packs (Suno/Udio):
-field schema, ordering rules, length limits, variant rules, negative spec rules, and prohibited patterns.
+ROLE: Enforce deterministic prompt structure for MUSIC_TRACK_PROMPT. Ensures required fields exist, forbids external text without KB provenance, and outputs a strict CTL verdict trace compatible with ORC pipelines and validators.
 
 CHANGE_NOTE:
-- DATE: 2026-01-12
-- TYPE: MAJOR
-- SUMMARY: "Created Prompt Contract CTL: required prompt-pack schema, ordering, length limits, variant rules, and prohibitions."
-- REASON: "Without a contract, prompts drift, contradict themselves, and waste takes."
-- IMPACT: "Higher prompt fidelity + repeatable production + cleaner QA/VAL gating."
-- CHANGE_ID: UE.CHG.2026-01-12.CTL.PROMPT.CONTRACT.001
+- DATE: 2026-01-20
+- TYPE: PATCH
+- SUMMARY: "Hardened MUSIC prompt contract: mandatory fields, KB provenance hooks, negative spec requirements, and strict CTL_VERDICT format."
+- REASON: "Prevent unusable prompts, missing constraints, and rights-risk text injection."
+- IMPACT: "All track prompts become machine-checkable, reproducible, and safe for catalog production."
+- CHANGE_ID: UE.CHG.2026-01-20.CTL.PROMPT.001
 
 ---
 
 ## 0) PURPOSE (LAW)
-This controller defines **what a valid prompt pack must look like**.
-All engines/orchestrators/specialists that output prompts must follow this contract.
+Этот CTL проверяет, что `MUSIC_TRACK_PROMPT` соответствует контракту:
+- структура и обязательные поля присутствуют
+- негативные ограничения заданы
+- если используется corpus text (не user original) — есть KB provenance и соблюдена PD политика
+- промпт пригоден для downstream ORC (ALBUM→TRACK, DOC-GATE, RELEASE-PACK)
 
 ---
 
-## 1) CONTRACT PRINCIPLES (ABSOLUTE)
-- Contract defines **structure + limits**, not creative content.
-- Prompts must be **platform-native** (Suno pack always; Udio optional).
-- Prompts must be **non-contradictory**: tags, instruction, negatives must align.
-- Identity anchors (Style Fingerprint) must be **encoded early**.
-- Variants must preserve identity; only change duration/section density/intro method.
+## 1) ABSOLUTE RULES
+### 1.1 RAW-only navigation
+Только RAW.
+
+### 1.2 No external text without KB provenance
+Если в промпте есть строки/выдержки/цитаты, которые не являются user original:
+- обязателен provenance блок (см. 5)
+- обязателен PD policy (см. 3.2)
+Иначе → FAIL.
+
+### 1.3 Deterministic contract
+Промпт должен быть разложим на фиксированные поля (без “свалки текста”).
+Если поля смешаны/невозможно проверить → FAIL.
+
+### 1.4 Verdict must be explicit
+CTL обязан возвращать CTL_VERDICT (см. 7). FAIL блокирует пайплайн.
 
 ---
 
-## 2) REQUIRED OUTPUT PACKS (MANDATORY)
-### 2.1 SUNO PACK (ALWAYS)
-A valid output MUST include:
-- Suno.Lyrics
-- Suno.Styles
-- Suno.Instruction
-- Suno.Negative
+## 2) APPLICABILITY
+### 2.1 Target artifact type
+- MUSIC_TRACK_PROMPT
 
-### 2.2 UDIO PACK (OPTIONAL)
-If produced, MUST include:
-- Udio.Tags
-- Udio.Instruction
-- Udio.Negative
-- Udio.Lyrics (only if lyrical)
+### 2.2 Invocation points
+- при создании/редактировании трека (ALBUM_TO_TRACK_ORC)
+- при DOC-GATE (TRACK_TEST_DOC_GATE_ORC), если матрица требует
 
 ---
 
-## 3) FIELD SCHEMA (MANDATORY)
+## 3) REQUIRED REFERENCES (RAW)
 
-### 3.1 Suno.Lyrics
-Allowed modes:
-- LYRICAL: RU by default (unless track says otherwise)
-- INSTRUMENTAL: use exact token `Instrumental`
+### 3.1 KB boundary law
+KB SOURCE LOCK / NO FANTASY  
+RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/04_KNOWLEDGE_BASE/00_KB_GOVERNANCE/12__KB_SOURCE_LOCK_NO_FANTASY.md
 
-Allowed section labels:
-- [Verse]
-- [Chorus]
-- [Bridge]
-- [Outro]
-- [Intro] (optional)
+### 3.2 Poetry policy hooks (if corpus used)
+POET PD POLICY (CTL)  
+RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/40_CTL__CONTROLLERS/10_MUSIC_CONTROLLERS/05__POET_PD_POLICY_CTL.md
 
-Rules:
-- Lyrics must not be a full poem dump; must be “song-structured”.
-- Chorus repeat must have at least 1 small variation if repeats exist.
+PD ONLY (VAL)  
+RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/50_VAL__VALIDATORS/10_MUSIC_VALIDATORS/04__PD_ONLY_VAL.md
 
-### 3.2 Suno.Styles (tag list)
-- Ordered list of tags (6–12 recommended).
-- Hard max: 16 tags.
-- Must follow Tag Ordering Rule (Section 4).
+### 3.3 Recommended companion CTL
+DURATION POLICY (CTL)  
+RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/40_CTL__CONTROLLERS/10_MUSIC_CONTROLLERS/03__DURATION_POLICY_CTL.md
 
-### 3.3 Suno.Instruction
-- Short executable paragraph (not an essay).
-- Must include:
-  - hook timing intent (e.g., “hook early” with window)
-  - repetition/variation intent (“repeat with variation”)
-  - UGC clip window intent (at least one)
-  - signature tag placement intent (early + loop imprint) if defined
-
-### 3.4 Suno.Negative
-- Concrete avoid list.
-- Recommended: 8–20 items.
-- Hard max: 30 items.
-- No vague “bad/boring” negatives.
+NEGATIVE SPEC LIBRARY (CTL)  
+RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/40_CTL__CONTROLLERS/10_MUSIC_CONTROLLERS/12__NEGATIVE_SPEC_LIBRARY_CTL.md
 
 ---
 
-## 4) TAG ORDERING RULE (MANDATORY)
-Tag order must follow:
-1) genre family (primary)
-2) era / reference vibe (optional)
-3) instrumentation palette
-4) groove / tempo feel
-5) vocal style (if lyrical)
-6) mood / emotion
-7) mix aesthetic traits
-8) signature tag hint
+## 4) CONTRACT SHAPE (REQUIRED SECTIONS)
+`MUSIC_TRACK_PROMPT` должен содержать минимум:
 
-Rule:
-- Do NOT list conflicting genres as equals unless Fusion Recipe explicitly defines it.
-- If fusion exists, describe it in instruction as “A with B influence on <axis>”.
+### 4.1 HEADER / META
+- TRACK_UID (or placeholder)
+- TRACK_TITLE
+- GROUP (name/uid if known)
+- ALBUM (name/uid if known)
+- VERSION / STATUS / LOCK
 
----
+### 4.2 INTENT
+- GENRE_STYLE (short)
+- MOOD_ENERGY (short)
+- DIFFERENTIATION_NOTE (1–2 строки: чем отличается)
+- LANGUAGE (if any)
 
-## 5) LENGTH LIMITS (SAFETY)
-These are operational constraints to avoid “prompt bloat”.
+### 4.3 STRUCTURE
+- SECTION_PLAN (intro/verse/chorus/bridge/outro) или эквивалентный план
+- HOOK_INTENT (коротко: где и какой хук)
 
-- Suno.Instruction: max 3–6 lines equivalent (compact paragraph).
-- Negative list: max 30 bullets.
-- Tag list: max 16 tags.
-- Lyrics: keep proportional to variant (SHORT vs FULL).
+### 4.4 VOCAL / PERFORMANCE (optional but recommended)
+- VOICE_INTENT (gender/age/timbre vibe as text)
+- DELIVERY_INTENT (soft/aggressive/whisper etc)
 
----
+### 4.5 LYRICS MODE (REQUIRED)
+Одно из:
+- LYRICS_MODE: ORIGINAL (user original / new writing)
+- LYRICS_MODE: CORPUS (poet/excerpts/mosaic)
+- LYRICS_MODE: INSTRUMENTAL (no lyrics)
 
-## 6) VARIANT RULES (MANDATORY)
-A “variant pack” is allowed only if:
-- identity anchors remain unchanged
-- only these knobs may change:
-  - duration target
-  - section budgets (how many lines in verse/chorus)
-  - intro entry method (direct vs primed)
-  - density (more/less lyrics)
+Если LYRICS_MODE = CORPUS → обязателен блок 5 (provenance).
 
-Mandatory variant names:
-- SHORT
-- FULL
-- ALT_INTRO (optional)
+### 4.6 NEGATIVE SPEC (REQUIRED)
+- NEGATIVE_SPEC: список ограничений (bullet list)
+Должен быть не пустым.
 
----
-
-## 7) PROHIBITED PATTERNS (HARD BLOCKERS)
-Prompts must not include:
-- contradictory instructions (e.g., “slow ballad” + “fast upbeat”)
-- conflicting tag sets (e.g., 3 unrelated genres without fusion rules)
-- “spam repeat” cues (encouraging identical phrase loops)
-- “wall of negatives” that kills the vibe (too long/too generic)
-- instructions that violate Duration Policy or UGC Ruleset (handled by other CTL but must not contradict)
+### 4.7 DURATION TARGET (REQUIRED)
+- DURATION_TARGET (seconds or short range)
+- HOOK_TIMING_INTENT (например: early hook)
 
 ---
 
-## 8) REQUIRED CONSISTENCY CHECKS (PRE-VAL)
-Before shipping a prompt pack, the producer must confirm:
-- tags align with instruction (no contradictions)
-- negatives do not contradict required anchors
-- hook timing intent exists
-- at least one UGC-friendly moment intent exists
-- chorus repeat-safe intent exists if chorus repeats
-- if lyrics PD-only mode is used: prompt does not request copyrighted text
+## 5) CORPUS / PROVENANCE BLOCK (REQUIRED WHEN CORPUS)
+Если LYRICS_MODE = CORPUS, в промпте обязателен блок:
+
+- KB_SOURCE_RAW: raw link
+- SOURCE_STATUS: PD_CONFIRMED | LICENSE_CONFIRMED
+- SOURCE_NOTE: short
+- FULL_TEXT_ALLOWED: present only if full text is used
+- EXCERPTS: list of excerpts (short) or references to POET_PACK_SPEC items
+
+Запрещено:
+- вставлять corpus lines без KB_SOURCE_RAW
+- писать “из такого-то стихотворения” без provenance markers
 
 ---
 
-## 9) DEPENDENCY REFERENCES (RAW)
-These are not optional in usage; they are the standard policy sources.
+## 6) DETERMINISTIC CHECKS (WHAT THIS CTL ENFORCES)
+### CHECK A — required sections exist
+Поля 4.1, 4.2, 4.3, 4.5, 4.6, 4.7 присутствуют.
+Иначе → FAIL (marker not confirmed).
 
-- Duration Policy CTL  
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/40_CTL__CONTROLLERS/10_MUSIC_CONTROLLERS/03__DURATION_POLICY_CTL.md
-- UGC Viral Ruleset CTL  
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/40_CTL__CONTROLLERS/10_MUSIC_CONTROLLERS/02__UGC_VIRAL_RULESET_CTL.md
-- Negative Spec Library CTL  
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/40_CTL__CONTROLLERS/10_MUSIC_CONTROLLERS/12__NEGATIVE_SPEC_LIBRARY_CTL.md
+### CHECK B — NEGATIVE_SPEC not empty
+Если пусто → FAIL (policy violation).
 
-Validator alignment:
-- Prompt Fidelity VAL  
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/50_VAL__VALIDATORS/10_MUSIC_VALIDATORS/08__PROMPT_FIDELITY_VAL.md
+### CHECK C — LYRICS_MODE is valid
+Только ORIGINAL | CORPUS | INSTRUMENTAL.
+Иначе → FAIL.
+
+### CHECK D — CORPUS provenance present when needed
+Если CORPUS и нет блока 5 → FAIL (marker not confirmed).
+
+### CHECK E — No “external claims”
+Если в тексте промпта встречается ссылка/источник без KB_SOURCE_RAW → FAIL (policy violation).
+
+### CHECK F — duration declared
+DURATION_TARGET обязан быть явным.  
+Если отсутствует → FAIL.
 
 ---
 
-## FINAL RULE (LOCK)
-OWNER: SYSTEM
-LOCK: FIXED
+## 7) CTL VERDICT FORMAT (REQUIRED)
+Каждый запуск контроллера обязан вернуть:
 
---- END.
+- CTL_ID: UE.CTL.MUSIC.PROMPT_CONTRACT.001
+- TARGET_ARTIFACT_TYPE: MUSIC_TRACK_PROMPT
+- TARGET_RAW: (raw link)
+- VERDICT: PASS | FAIL
+- FINDINGS:
+  - bullet list
+- REQUIRED_FIXES:
+  - bullet list (empty if PASS)
+- FAIL_CLASS:
+  - RAW missing | marker not confirmed | input absent | policy violation
+- RETURN_TO:
+  - default repair ORC RAW
+
+Default return route:
+ALBUM_TO_TRACK_ORC  
+RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/20_ORC__ORCHESTRATORS/10_MUSIC_ORCHESTRATORS/02__ALBUM_TO_TRACK_ORC.md
+
+---
+
+## 8) NOTES (STRICT)
+- Этот CTL не “улучшает” промпт, а только проверяет контракт и блокирует несоответствия.
+- Детальные правила длительности/негативов могут быть усилены отдельными CTL (см. 3.3).
+- Если нужно расширить контракт полями (например, credits intent, platform intent) — делать PATCH этого CTL и синхронизировать Validation Matrix.
+
+---
+
+END.

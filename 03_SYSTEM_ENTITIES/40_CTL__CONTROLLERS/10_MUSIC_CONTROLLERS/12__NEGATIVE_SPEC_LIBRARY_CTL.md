@@ -1,201 +1,173 @@
-# NEGATIVE SPEC LIBRARY — CTL
-FILE: 03_SYSTEM_ENTITIES/40_CTL__CONTROLLERS/10_MUSIC_CONTROLLERS/12__NEGATIVE_SPEC_LIBRARY_CTL.md
+# CTL — NEGATIVE SPEC LIBRARY (MUSIC) (CANON)
 
-SCOPE: Universe Engine
+FILE: 03_SYSTEM_ENTITIES/40_CTL__CONTROLLERS/10_MUSIC_CONTROLLERS/12__NEGATIVE_SPEC_LIBRARY_CTL.md
+SCOPE: Universe Engine (Games volume)
+SERIAL: C425-B513
 LAYER: 03_SYSTEM_ENTITIES
-ENTITY_GROUP: CONTROLLERS (CTL)
-CTL_REALM: 10_MUSIC_CONTROLLERS
-DOC_TYPE: CONTROLLER
-CTL_TYPE: NEGATIVE_SPEC_LIBRARY
-LEVEL: L3
+REALM: 40_CTL__CONTROLLERS
+FAMILY: 10_MUSIC_CONTROLLERS
+LEVEL: L2
+DOC_TYPE: CTL (CONTROLLER)
+ENTITY_TYPE: CONTROLLER
 STATUS: ACTIVE
 LOCK: FIXED
 VERSION: 1.0.0
-UID: UE.CTL.MUS.NEGATIVE_SPEC_LIBRARY.001
+UID: UE.CTL.MUSIC.NEGATIVE_SPEC_LIBRARY.001
 OWNER: SYSTEM
-ROLE: Reusable negative-spec packs (“DON'T” packs) to prevent platform hallucination, clichés, bad loops,
-unwanted genre drift, muddy vocals, and overproduction. Used by Prompt Compiler / Prompt Architect and enforced by
-Repeat Guard / Prompt Fidelity gates.
+ROLE: Enforce non-empty, structured negative specs in prompts and provide a canonical “negative library” baseline that reduces repetition, artifacts, and low-quality generations. Blocks empty negatives and uncontrolled drift.
 
 CHANGE_NOTE:
-- DATE: 2026-01-12
-- TYPE: MAJOR
-- SUMMARY: "Rebuilt Negative Spec Library as operational pack registry: standardized packs, selection rules, and hard blockers."
-- REASON: "Prior file was a 1-line stub; production needs deterministic reusable negative packs."
-- IMPACT: "Cleaner outputs, fewer spam loops, less drift, higher prompt fidelity."
-- CHANGE_ID: UE.CHG.2026-01-12.CTL.NEGATIVE.SPECS.001
+- DATE: 2026-01-20
+- TYPE: PATCH
+- SUMMARY: "Standardized negative spec: mandatory baseline set + structure + drift control. Added strict verdict and fix guidance."
+- REASON: "Empty or random negatives cause quality collapse, repetition, and noisy artifacts."
+- IMPACT: "Prompts become more stable across runs; regression is reduced; validators/QA gain consistent baseline."
+- CHANGE_ID: UE.CHG.2026-01-20.CTL.NEGSPEC.001
 
 ---
 
 ## 0) PURPOSE (LAW)
-Negative Spec Library provides **standard reusable negative packs** that can be attached to prompts.
-It prevents repeated failure modes:
-- endless repetition loops
-- mumble / unclear diction
-- unwanted genre drift / genre soup
-- overproduced clutter and loss of groove
-- cliché lyric lines and generic phrasing
-
-This CTL defines:
-- available packs
-- when to use which pack
-- how many packs may be attached (anti-bloat)
+Этот CTL:
+1) заставляет каждый `MUSIC_TRACK_PROMPT` иметь NEGATIVE_SPEC (не пустой),
+2) проверяет, что NEGATIVE_SPEC структурирован и содержит базовые запреты,
+3) предотвращает “дрейф” негативов, когда каждый трек делает свой хаос.
 
 ---
 
-## 1) PACK SELECTION RULE (MANDATORY)
-Default selection per track:
-- MUST include **1–2 packs** by default.
-- MAY include **up to 3 packs** when risk is high (repair mode).
-- HARD MAX: 4 packs (requires explicit reason recorded in output notes).
+## 1) ABSOLUTE RULES
+### 1.1 Negative spec required
+NEGATIVE_SPEC обязателен и не может быть пустым.
 
-Never add raw long “walls of negatives”.
-Always prefer packs.
+### 1.2 Baseline required
+В NEGATIVE_SPEC обязан присутствовать BASELINE (минимальный набор запретов).
+Если отсутствует → FAIL.
 
----
+### 1.3 No contradictory negatives
+NEGATIVE_SPEC не должен противоречить INTENT (например, запрет “no vocals” при LYRICS_MODE != INSTRUMENTAL).
+Если противоречит → FAIL.
 
-## 2) PACK OUTPUT FORMAT (MANDATORY)
-Each pack must define:
-- PACK_ID
-- PURPOSE
-- NEGATIVE_ITEMS (concrete, short)
-- WHEN_TO_USE
-- CONFLICTS / NOTES (optional)
-
-Prompt producers must output:
-- SELECTED_PACKS: [PACK_ID...]
-- EXPANDED_NEGATIVES: merged list (deduped, concrete)
+### 1.4 Deterministic verdict
+CTL возвращает CTL_VERDICT (см. 7). FAIL блокирует пайплайн.
 
 ---
 
-## 3) PACKS (REUSABLE / CANON)
-
-### PACK: NO_ENDLESS_REPEAT
-PACK_ID: NO_ENDLESS_REPEAT
-PURPOSE: Prevent identical phrase loops / chant spam / copy-paste chorus repeats.
-NEGATIVE_ITEMS:
-- "no endless repetition"
-- "no chant spam"
-- "avoid repeating the exact same line over and over"
-- "no copy-paste chorus loops"
-- "avoid stuck hook loops"
-WHEN_TO_USE:
-- always for UGC-first OR when Repeat Guard risk is medium/high
+## 2) APPLICABILITY
+### 2.1 Artifact types
+- MUSIC_TRACK_PROMPT (minimum)
+- MUSIC_RELEASE_PACK (если pack содержит “prompt variants”)
 
 ---
 
-### PACK: CLEAR_DICTION
-PACK_ID: CLEAR_DICTION
-PURPOSE: Prevent mumble and unclear consonants; keep lead intelligible.
-NEGATIVE_ITEMS:
-- "no mumble vocals"
-- "clear diction, avoid slurred consonants"
-- "avoid muddy lead vocal"
-- "no buried vocals"
-WHEN_TO_USE:
-- lyrical tracks, RU vocals, or when recognition depends on Q-line
+## 3) REQUIRED REFERENCES (RAW)
+PROMPT CONTRACT (MUSIC)  
+RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/40_CTL__CONTROLLERS/10_MUSIC_CONTROLLERS/01__PROMPT_CONTRACT_CTL.md
+
+(quality context)
+REGRESSION_GUARD_QA  
+RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/60_QA__QUALITY/10_MUSIC_QA/09__REGRESSION_GUARD_QA.md
 
 ---
 
-### PACK: NO_UNWANTED_GENRE_DRIFT
-PACK_ID: NO_UNWANTED_GENRE_DRIFT
-PURPOSE: Prevent random genre switching and accidental style collapse.
-NEGATIVE_ITEMS:
-- "no genre switching"
-- "avoid genre soup"
-- "no unexpected style changes"
-- "do not drift away from the core genre identity"
-WHEN_TO_USE:
-- fusion risk exists OR identity anchors must stay locked
+## 4) NEGATIVE SPEC FORMAT (REQUIRED)
+NEGATIVE_SPEC должен быть списком (bullets) и иметь структуру:
+
+- BASELINE:
+  - ...
+- CONTENT_SAFETY (optional):
+  - ...
+- AUDIO_QUALITY:
+  - ...
+- ARRANGEMENT (optional):
+  - ...
+- VOCAL (conditional):
+  - ...
+- LYRICS (conditional):
+  - ...
+- STYLE_LOCK (optional):
+  - ...
+
+Разрешено:
+- добавлять трек-специфичные запреты
+Запрещено:
+- удалять baseline
+- превращать NEGATIVE_SPEC в одну строку “no bad stuff”
 
 ---
 
-### PACK: KEEP_SPACE_NOT_OVERPRODUCED
-PACK_ID: KEEP_SPACE_NOT_OVERPRODUCED
-PURPOSE: Prevent overproduction clutter; keep groove and space.
-NEGATIVE_ITEMS:
-- "no overproduced wall of sound"
-- "avoid cluttered layers"
-- "avoid too many random instruments"
-- "no excessive effects that smear the groove"
-WHEN_TO_USE:
-- when mixes get busy, or groove clarity is a known risk
+## 5) BASELINE LIBRARY (CANON MIN SET)
+Это минимальный baseline, который обязан быть в каждом промпте (как смысловые запреты, без привязки к конкретной платформе):
+
+### 5.1 BASELINE (mandatory bullets)
+- avoid excessive repetition of the same line/phrase
+- avoid unintelligible / mumbled vocals
+- avoid clipping / distortion / harsh sibilance
+- avoid random noise, glitches, artifacts
+- avoid off-key / unstable pitch (unless explicitly desired)
+- avoid chaotic structure (must follow section plan)
+- avoid generic placeholder lyrics / nonsense syllables
+- avoid abrupt ending (unless intentional)
+
+### 5.2 Conditional baseline rules
+Если LYRICS_MODE = INSTRUMENTAL:
+- baseline must include: no lyrics / no vocal phrases
+
+Если вокал обязателен (LYRICS_MODE != INSTRUMENTAL):
+- baseline must NOT include “no vocals”
 
 ---
 
-### PACK: NO_CLICHE_LYRICS
-PACK_ID: NO_CLICHE_LYRICS
-PURPOSE: Prevent generic cliché lines and cheap phrases.
-NEGATIVE_ITEMS:
-- "avoid cliché lyrics"
-- "no generic love song phrases"
-- "avoid overused slogans"
-- "no corny punchlines"
-WHEN_TO_USE:
-- lyrical tracks, especially meme/punch or emo-quote modes
+## 6) REQUIRED CHECKS (DETERMINISTIC)
+### CHECK A — NEGATIVE_SPEC present and not empty
+Если отсутствует/пустой → FAIL (marker not confirmed)
+
+### CHECK B — BASELINE present
+Если отсутствует блок BASELINE или он пустой → FAIL (marker not confirmed)
+
+### CHECK C — Baseline contains minimum intents
+Baseline должен покрывать минимум:
+- repetition control
+- intelligibility / vocal clarity
+- audio artifacts/noise
+- structure adherence
+
+Если нет хотя бы одного — FAIL (policy violation)
+
+### CHECK D — No contradictions
+- LYRICS_MODE vs negatives
+- VOCAL intent vs negatives
+Если есть противоречие → FAIL (policy violation)
+
+### CHECK E — Prompt contract consistency
+Если это MUSIC_TRACK_PROMPT:
+- NEGATIVE_SPEC должен соответствовать PROMPT_CONTRACT (не пустой, bullets)
+Если нет → FAIL (marker not confirmed)
 
 ---
 
-### PACK: NO_MUDDY_LOW_END
-PACK_ID: NO_MUDDY_LOW_END
-PURPOSE: Prevent muddy low end that kills groove and translation.
-NEGATIVE_ITEMS:
-- "no muddy bass"
-- "avoid boomy low end"
-- "no distorted low-end blur"
-WHEN_TO_USE:
-- club/gym energy, bass-driven tracks, or translation issues flagged
+## 7) CTL VERDICT FORMAT (REQUIRED)
+- CTL_ID: UE.CTL.MUSIC.NEGATIVE_SPEC_LIBRARY.001
+- TARGET_ARTIFACT_TYPE: (MUSIC_TRACK_PROMPT | MUSIC_RELEASE_PACK | OTHER)
+- TARGET_RAW: (raw link)
+- VERDICT: PASS | FAIL
+- FINDINGS:
+  - bullet list
+- REQUIRED_FIXES:
+  - bullet list (empty if PASS)
+- FAIL_CLASS:
+  - RAW missing | marker not confirmed | input absent | policy violation
+- RETURN_TO:
+  - default repair ORC RAW
+
+Default return route:
+ALBUM_TO_TRACK_ORC  
+RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/20_ORC__ORCHESTRATORS/10_MUSIC_ORCHESTRATORS/02__ALBUM_TO_TRACK_ORC.md
 
 ---
 
-### PACK: NO_GENERIC_VOCAL
-PACK_ID: NO_GENERIC_VOCAL
-PURPOSE: Prevent “same vocalist everywhere” syndrome (generic delivery).
-NEGATIVE_ITEMS:
-- "avoid generic pop vocal delivery"
-- "no bland lead vocal"
-- "avoid samey vocal tone"
-WHEN_TO_USE:
-- when vocal diversity is a key objective or catalog sameness is detected
+## 8) CHANGE POLICY (LOCK)
+- Менять baseline только PATCH
+- Если baseline становится обязательным для новых типов артефактов — синхронизировать Validation Matrix
 
 ---
 
-## 4) DEDUP & BLOAT CONTROL (HARD RULES)
-- Deduplicate identical negatives across packs.
-- Remove vague negatives ("bad", "boring", "viral", "cool").
-- Keep final negative list:
-  - recommended 8–20 items
-  - hard max 30 items (Prompt Contract CTL)
-
----
-
-## 5) REQUIRED USAGE (WHO MUST APPLY THIS)
-- Prompt Compiler ENG must select 1–2 packs by default.
-- Prompt Architect SPC must ensure negatives remain concrete and deduped.
-- Track Factory must carry selected packs into prompt pack snapshots.
-- TEST→DOC gate uses Repeat Guard + Prompt Fidelity to catch violations.
-
----
-
-## 6) DEPENDENCIES (RAW)
-Must align with:
-- Prompt Contract CTL  
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/40_CTL__CONTROLLERS/10_MUSIC_CONTROLLERS/01__PROMPT_CONTRACT_CTL.md
-- Suno Phrasebook CTL  
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/40_CTL__CONTROLLERS/10_MUSIC_CONTROLLERS/10__SUNO_PHRASEBOOK_CTL.md
-- Udio Phrasebook CTL  
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/40_CTL__CONTROLLERS/10_MUSIC_CONTROLLERS/11__UDIO_PHRASEBOOK_CTL.md
-
-Validator alignment:
-- Repeat Guard VAL  
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/50_VAL__VALIDATORS/10_MUSIC_VALIDATORS/03__REPEAT_GUARD_VAL.md
-- Prompt Fidelity VAL  
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/50_VAL__VALIDATORS/10_MUSIC_VALIDATORS/08__PROMPT_FIDELITY_VAL.md
-
----
-
-## FINAL RULE (LOCK)
-OWNER: SYSTEM
-LOCK: FIXED
-
---- END.
+END.

@@ -1,160 +1,209 @@
-# KB — RULES (GOVERNANCE LAW) (CANON)
-FILE: 04_KNOWLEDGE_BASE/00_KB_GOVERNANCE/01__RULES__KB.md
+# KB RULES (CANON)
 
-SCOPE: Universe Engine
+FILE: 04_KNOWLEDGE_BASE/00_KB_GOVERNANCE/01__RULES__KB.md
+SCOPE: Universe Engine (Games volume)
+SERIAL: C425-B513
 LAYER: 04_KNOWLEDGE_BASE
 REALM: 00_KB_GOVERNANCE
-DOC_TYPE: RULE
-INDEX_TYPE: GOVERNANCE_RULESET
+DOC_TYPE: RULES
 LEVEL: L2
 STATUS: ACTIVE
 LOCK: FIXED
 VERSION: 1.0.0
-UID: UE.KB.RULES.GOV.001
+UID: UE.KB.RULES.001
 OWNER: SYSTEM
-ROLE: Operational rule set for Knowledge Base usage: RAW-only navigation, UID-only XREF, no-fantasy execution, trace discipline, ACTIVE-first access, and hard-stop protocols for gaps/contradictions.
+ROLE: Canon rules for Knowledge Base layer: navigation, structure, provenance, state, and how runtime entities consume KB safely. Enforces Source Lock and prevents non-auditable content use.
 
 CHANGE_NOTE:
-- DATE: 2026-01-14
-- TYPE: MAJOR
-- SUMMARY: "Established KB governance rules: deterministic NAV, no-fantasy, trace, ACTIVE-first, and stop/ingest protocols."
-- REASON: "KB is the quality backbone; rules must prevent drift, invention, and broken navigation."
-- IMPACT: "Entities use KB reproducibly; audits and certification become possible."
-- CHANGE_ID: UE.CHG.2026-01-14.KB.GOV.RULES.001
+- DATE: 2026-01-20
+- TYPE: PATCH
+- SUMMARY: "Rebuilt KB rules to align with Source Lock: RAW-only, mandatory provenance markers, module state discipline, and deterministic consumption interface for ORC/CTL/VAL."
+- REASON: "Stop uncontrolled ingestion and ensure KB can be used by pipelines without guessing."
+- IMPACT: "KB becomes enforceable contract: content is auditable and validator-compatible."
+- CHANGE_ID: UE.CHG.2026-01-20.KB.RULES.001
 
 ---
 
 ## 0) PURPOSE (LAW)
-These rules govern how ANY entity uses the Knowledge Base.
-They apply before domain knowledge.
+KB — это слой знаний, который:
+- хранит проверяемые материалы, правила, таксономии, методики и корпуса,
+- даёт системе разрешённые источники и “пакеты компетенций”,
+- обеспечивает происхождение (provenance) и границы использования.
+
+KB не “поисковик” и не “память по ощущениям”.
+KB — контролируемое хранилище с правилами входа и выхода.
 
 ---
 
-## 1) NAVIGATION LAW (ABSOLUTE)
-R1 — Single entrypoint
-- KB navigation/existence authority is ONLY:
-  - `04_KNOWLEDGE_BASE/00__INDEX__KNOWLEDGE_BASE.md`
+## 1) ABSOLUTE RULES
+### 1.1 RAW-only navigation
+- Все ссылки в KB и на KB — только RAW.
+- Запрещено угадывать пути/файлы.
 
-R2 — RAW-only navigation
-- Any KB module must be opened via RAW link from the master index.
-- PATH is a label only; PATH must not be used as navigation mechanism.
+### 1.2 Source Lock is absolute
+- Нельзя использовать non-user content, если он не представлен как KB-tracked source.
+- Применяется закон Source Lock:
 
-R3 — Existence rule
-- If a KB file is not registered in the master index, it is NON-CANON / ignored operationally.
+KB SOURCE LOCK / NO FANTASY  
+RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/04_KNOWLEDGE_BASE/00_KB_GOVERNANCE/12__KB_SOURCE_LOCK_NO_FANTASY.md
 
----
+### 1.3 Provenance is mandatory for external content
+- Любой KB источник, из которого берётся non-user content, обязан содержать:
+  - KB_SOURCE_RAW
+  - SOURCE_STATUS (PD_CONFIRMED | LICENSE_CONFIRMED)
+  - SOURCE_NOTE
+  - FULL_TEXT_ALLOWED (только если нужен полный текст)
 
-## 2) NO-FANTASY EXECUTION (ABSOLUTE)
-R4 — No invented facts
-- Do not state as FACT anything not supported by:
-  - opened KB modules (from master index), OR
-  - already-opened modules reused from memory without distortion.
+Если маркеры отсутствуют → нарушение границы (marker not confirmed).
 
-R5 — No invented sources
-- Never fabricate citations, standards, URLs, or “I read it somewhere”.
-
-R6 — Missing knowledge → STOP or GAP
-- If required knowledge is missing:
-  - STOP, OR
-  - create a GAP record and follow ingest workflow.
-- No “silent fill” by guessing.
-
----
-
-## 3) XREF / REL DISCIPLINE (ABSOLUTE)
-R7 — UID-only XREF
-- Operational cross-references MUST be UID-only.
-- URLs/PATH must not appear in XREF authority blocks.
-
-R8 — REL is semantic, XREF is linking
-- REL types express meaning (depends_on, governed_by, validated_by, supersedes).
-- XREF lists related UIDs for navigation-of-meaning (not URLs).
+### 1.4 Deterministic consumption
+- ORC/CTL/VAL/QA должны потреблять KB только через:
+  - KB index entrypoints,
+  - явные KB scope pointers,
+  - явные provenance markers.
+Никаких “вроде бы это из…”.
 
 ---
 
-## 4) TRACE DISCIPLINE (MANDATORY)
-R9 — Every KB-driven output must include RUN_TRACE
-Minimum fields:
-- KB_SOURCES (UID-only) + WHY
-- MEMORY_REUSE: YES/NO
-- STATUS_USED: ACTIVE_ONLY | MIXED
-- WEB_LOOKUP_USED: YES/NO (+ notice if YES)
+## 2) KB ENTRYPOINTS (RAW)
+KB MASTER INDEX  
+RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/04_KNOWLEDGE_BASE/00__INDEX__KNOWLEDGE_BASE.md
 
-R10 — No trace, no authority
-- If trace is missing, output must not claim compliance/authority.
+KB REALM README  
+RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/04_KNOWLEDGE_BASE/00_KB_GOVERNANCE/00__README__KB_REALM.md
 
 ---
 
-## 5) ACCESS POLICY (ACTIVE-FIRST)
-R11 — ACTIVE-first
-- Prefer ACTIVE modules.
-- If any DRAFT module is used → STATUS_USED must be MIXED.
+## 3) KB SCOPE (KB inputs, outputs, boundaries)
+### 3.1 KB Inputs
+- KB modules/items/records stored as repo documents.
+- User original content can be referenced, but it must be explicitly marked as user original (no provenance required).
 
-R12 — DEPRECATED is not authority
-- Deprecated modules may be used only as pointers to replacements.
+### 3.2 KB Outputs
+- KB-tracked sources usable by runtime (with provenance markers).
+- Topic modules, playbooks, checklists, rubric sets, domain rules.
+- Competence packs bound to entities (SPC/ENG/ORC/CTL/VAL/QA) when applicable.
 
----
-
-## 6) HARD STOPS (GATES)
-R13 — Stop on contradictions (critical)
-- If CRITICAL/MAJOR contradiction is detected and unresolved:
-  - STOP or trigger contradiction protocol.
-- Do not proceed as if resolved.
-
-R14 — Stop on governance missing
-- If governance minimum set is missing/unavailable:
-  - STOP.
-
-R15 — Stop on broken navigation
-- If RAW links are missing/broken for required modules:
-  - STOP and fix master index integrity.
+### 3.3 KB Boundaries
+- KB does not accept “external truth” without recording.
+- Any non-user content must be representable as KB object + provenance markers.
+- If the required KB source is missing → task must STOP or create KB object via templates.
 
 ---
 
-## 7) CREATION / UPDATE DISCIPLINE (CONTROL)
-R16 — Version + change note
-- Any meaningful change requires version bump and CHANGE_NOTE update.
+## 4) KB STRUCTURE RULES (CANON)
+KB хранится как набор модулей и библиотечных объектов.
 
-R17 — Audit for high impact
-- Mandatory audit events for:
-  - governance changes
-  - taxonomy changes
-  - master index changes
-  - deprecations/replacements
-  - certifications
+### 4.1 Module (KB_MODULE)
+Модуль — атомарный контейнер знаний под одну тему/роль/область.
+Использовать шаблон:
 
-R18 — No duplicates
-- Do not create duplicate “same meaning” modules.
-- Aliases are POINTER-only.
+TEMPLATE: KB MODULE  
+RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/04_KNOWLEDGE_BASE/00_KB_GOVERNANCE/20__TEMPLATE__KB_MODULE.md
 
----
+### 4.2 Library item (KB_LIBRARY_ITEM)
+Элемент библиотеки — атомарный объект (источник, кейс, инструмент, эталон, список).
+Использовать шаблон:
 
-## 8) MINIMUM GOVERNANCE SET (OPERATIONAL)
-For any KB run, the minimum governance context is:
-- this file (RULES KB)
-- XREF rules
-- REL types
-- doc control (when creating/updating/certifying)
+TEMPLATE: KB LIBRARY ITEM  
+RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/04_KNOWLEDGE_BASE/00_KB_GOVERNANCE/21__TEMPLATE__KB_LIBRARY_ITEM.md
+
+### 4.3 Atomicity (no mega-docs)
+- Один модуль = одна тема.
+- Если документ растёт и содержит несколько тем → split.
 
 ---
 
-## 9) HARD FAIL CONDITIONS (ABSOLUTE)
-FAIL IF:
-- KB navigation not via master index RAW
-- unregistered file treated as existing
-- any invented fact/source presented as KB-backed truth
-- URL/PATH used as operational authority reference (instead of UID-only)
-- trace omitted or lied about
-- deprecated module treated as authority
+## 5) KB MODULE STATE SYSTEM (REQUIRED)
+Каждый KB модуль обязан иметь состояние (state) и фиксированный жизненный цикл.
+
+MODULE STATE SYSTEM  
+RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/04_KNOWLEDGE_BASE/00_KB_GOVERNANCE/14__KB_MODULE_STATE_SYSTEM.md
+
+Правило:
+- если модуль не в состоянии ACTIVE/APPROVED (как определено системой состояний) — использовать его в прод-пайплайнах запрещено.
 
 ---
 
-## 10) RELATED (UID-ONLY)
-XREF:
-- XREF: UE.KB.STD.RUN_TRACE_MIN.067 | WHY: minimum trace structure
-- XREF: UE.KB.RULE.NO_FANTASY_EXEC.063 | WHY: execution integrity baseline
-- XREF: UE.KB.PROC.GAP_HANDLING.066 | WHY: how to handle missing knowledge
-- XREF: UE.KB.PROC.CONTRADICTIONS.065 | WHY: how to handle contradictions
-- XREF: UE.KB.CHK.MASTER_INDEX_INTEGRITY.071 | WHY: index integrity gate
+## 6) PROVENANCE RULES (STRICT)
+### 6.1 Where provenance must appear
+Provenance обязателен:
+- в KB источниках (source items),
+- в любых downstream документах, которые включают non-user content (цитаты/выдержки/корпуса).
 
---- END.
+### 6.2 Minimal provenance fields (repeat)
+- KB_SOURCE_RAW
+- SOURCE_STATUS: PD_CONFIRMED | LICENSE_CONFIRMED
+- SOURCE_NOTE
+- FULL_TEXT_ALLOWED (если используется полный текст)
+
+### 6.3 Excerpt rule (default)
+Если FULL_TEXT_ALLOWED отсутствует:
+- использовать только короткие выдержки
+- полный текст запрещён
+
+---
+
+## 7) KB CONSUMPTION INTERFACE (HOW RUNTIME USES KB)
+### 7.1 Required “KB scope” pointer
+Любой пайплайн, который потребляет KB, обязан иметь явный вход:
+- KB_SCOPE_RAW: raw link(s) на модуль(и)/элементы KB
+
+Если KB_SCOPE_RAW не дан → STOP: input absent
+
+### 7.2 No outside lookup in runtime by default
+Если нужен внешний материал:
+- сначала создать/зарегистрировать KB объект (с provenance)
+- только потом использовать
+
+### 7.3 Domain policy hooks (example: music poetry)
+Для поэзии/корпуса применяются доменные CTL/VAL:
+
+POET PD POLICY (CTL)  
+RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/40_CTL__CONTROLLERS/10_MUSIC_CONTROLLERS/05__POET_PD_POLICY_CTL.md
+
+PD ONLY (VAL)  
+RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/50_VAL__VALIDATORS/10_MUSIC_VALIDATORS/04__PD_ONLY_VAL.md
+
+---
+
+## 8) INDEXING & NAVIGATION RULES
+### 8.1 Canon entrypoint
+Единственная точка входа в KB слой — `00__INDEX__KNOWLEDGE_BASE.md` (RAW).
+Все новые модули/под-индексы должны быть зарегистрированы там по правилам KB.
+
+### 8.2 No duplicate entrypoints
+Запрещено создавать параллельные “главные индексы” KB.
+
+### 8.3 UID / naming
+KB документы обязаны соответствовать системным правилам UID/названий (глобальные правила тома).
+
+---
+
+## 9) QA / CONSISTENCY (MINIMUM)
+KB модуль считается пригодным для использования только если:
+- имеет корректный DOC CONTROL header,
+- имеет state (и state разрешён для использования),
+- имеет корректные RAW pointers,
+- для источников: имеет provenance markers,
+- не нарушает Source Lock.
+
+---
+
+## 10) STOP CONDITIONS (KB CONTEXT)
+KB блокирует выполнение (через контракты пайплайна), если:
+- RAW missing (невозможно открыть KB pointer)
+- marker not confirmed (нет provenance/status/state)
+- input absent (нет KB scope / нет нужного KB объекта)
+
+---
+
+## 11) CHANGE POLICY (LOCK)
+Изменения правил KB:
+- только PATCH
+- обязательно обновить CHANGE_NOTE
+- если меняются provenance/status markers — синхронизировать доменные CTL/VAL и Validation Matrix.
+
+---
+
+END.

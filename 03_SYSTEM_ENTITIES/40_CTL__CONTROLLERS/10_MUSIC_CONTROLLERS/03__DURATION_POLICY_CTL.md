@@ -1,166 +1,158 @@
-# DURATION POLICY — CTL
-FILE: 03_SYSTEM_ENTITIES/40_CTL__CONTROLLERS/10_MUSIC_CONTROLLERS/03__DURATION_POLICY_CTL.md
+# CTL — DURATION POLICY (MUSIC) (CANON)
 
-SCOPE: Universe Engine
+FILE: 03_SYSTEM_ENTITIES/40_CTL__CONTROLLERS/10_MUSIC_CONTROLLERS/03__DURATION_POLICY_CTL.md
+SCOPE: Universe Engine (Games volume)
+SERIAL: C425-B513
 LAYER: 03_SYSTEM_ENTITIES
-ENTITY_GROUP: CONTROLLERS (CTL)
-CTL_REALM: 10_MUSIC_CONTROLLERS
-DOC_TYPE: CONTROLLER
-CTL_TYPE: DURATION_POLICY
-LEVEL: L3
+REALM: 40_CTL__CONTROLLERS
+FAMILY: 10_MUSIC_CONTROLLERS
+LEVEL: L2
+DOC_TYPE: CTL (CONTROLLER)
+ENTITY_TYPE: CONTROLLER
 STATUS: ACTIVE
 LOCK: FIXED
 VERSION: 1.0.0
-UID: UE.CTL.MUS.DURATION_POLICY.001
+UID: UE.CTL.MUSIC.DURATION_POLICY.001
 OWNER: SYSTEM
-ROLE: Defines duration targets and structure budgets for variants (SHORT/FULL/ALT_INTRO),
-including hook timing windows, section density rules, and prohibitions that prevent dead intros and overly long builds.
-Used by Duration Strategy ENG, Hook/UGC engines, Prompt Compiler, and QA/VAL gates.
+ROLE: Enforce explicit duration targets and hook timing intent for track prompts and release packs. Prevents ambiguous runtime lengths and aligns with short-form QA gates.
 
 CHANGE_NOTE:
-- DATE: 2026-01-12
-- TYPE: MAJOR
-- SUMMARY: "Created Duration Policy CTL: duration modes, hook timing windows, section budgets, and variant rules."
-- REASON: "Without duration law, outputs drift in length, intros become long, and UGC variants fail."
-- IMPACT: "Consistent runtimes, earlier hooks, better loop behavior."
-- CHANGE_ID: UE.CHG.2026-01-12.CTL.DURATION.POLICY.001
+- DATE: 2026-01-20
+- TYPE: PATCH
+- SUMMARY: "Formalized duration policy: required DURATION_TARGET, hook timing intent, and allowed ranges for different release intents."
+- REASON: "Without duration policy, prompts drift and QA gates become inconsistent."
+- IMPACT: "Track outputs become comparable and short-form ready; ORC pipelines gain deterministic constraints."
+- CHANGE_ID: UE.CHG.2026-01-20.CTL.DURATION.001
 
 ---
 
 ## 0) PURPOSE (LAW)
-This controller defines **duration rules** and **structure budgets**.
-It does not decide creative content; it sets constraints for engines and gates.
+Эта политика заставляет каждый трек иметь:
+- явную цель длительности (DURATION_TARGET)
+- намерение тайминга хука (HOOK_TIMING_INTENT)
+
+И запрещает расплывчатые “как получится”.
 
 ---
 
-## 1) DURATION MODES (STANDARD)
-A production run must select one of:
+## 1) ABSOLUTE RULES
+### 1.1 Explicit duration required
+Если артефакт подразумевает генерацию/публикацию трека, DURATION_TARGET обязателен.
+Если отсутствует → FAIL.
 
-- MODE.SHORT (UGC-first)
-- MODE.FULL (song-first)
-- MODE.ALT_INTRO (repair variant, optional)
+### 1.2 Hook timing intent required
+HOOK_TIMING_INTENT обязателен для вокальных/лирик треков.
+Если трек инструментальный — можно указать “instrumental hook” или “motif entry”.
 
----
-
-## 2) TARGET DURATIONS (DEFAULT BANDS)
-These are target bands; engines may output within band unless higher-level plan overrides.
-
-- SHORT: ~0:45 to ~1:30
-- FULL: ~2:00 to ~3:30
-- ALT_INTRO: same as SHORT or FULL (depends on base), but changes intro behavior
-
-If platform requires specific max/min, it must be encoded elsewhere; this CTL defines defaults.
+### 1.3 Deterministic verdict
+CTL выдаёт PASS/FAIL с требуемыми исправлениями.
 
 ---
 
-## 3) HOOK TIMING WINDOWS (MANDATORY)
-Hook timing expectations by mode:
+## 2) APPLICABILITY
+### 2.1 Artifact types (minimum)
+- MUSIC_TRACK_PROMPT
+- MUSIC_RELEASE_PACK (если пак собирает варианты/шортсы)
 
-### SHORT
-- identity stamp: 0–7s
-- Hook_1 must appear by: 10–20s
-- Clip window should be available by: 10–30s
-
-### FULL
-- identity stamp: 0–10s
-- Hook_1 must appear by: 15–30s
-- Clip window should be available by: 15–45s
-
-ALT_INTRO:
-- forces “direct entry” or “microhook priming”
-- goal: move hook earlier or make recognition faster
+### 2.2 Invocation points
+- ALBUM_TO_TRACK_ORC (на этапе промпта)
+- RELEASE_PACK_ORC (на этапе упаковки, если есть variants)
 
 ---
 
-## 4) SECTION BUDGETS (STRUCTURE LIMITS)
-These are budgets for lyrics/sections, not strict templates.
+## 3) REQUIRED REFERENCES (RAW)
+PROMPT CONTRACT (MUSIC)
+RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/40_CTL__CONTROLLERS/10_MUSIC_CONTROLLERS/01__PROMPT_CONTRACT_CTL.md
 
-### SHORT (UGC-first)
-- Intro: 0–2 lines (or none)
-- Chorus (hook): 4–6 lines max
-- Verse: 2–6 lines max
-- Chorus repeat: allowed, must vary at least 1 line
-- Bridge: optional, 0–2 lines max
-- Outro: 0–2 lines (loop-friendly)
+QA hooks (context):
+SCROLL_STOP_5S_QA  
+RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/60_QA__QUALITY/10_MUSIC_QA/01__SCROLL_STOP_5S_QA.md
 
-### FULL (song-first)
-- Verse 1: 4–10 lines
-- Chorus: 6–8 lines
-- Verse 2: 4–10 lines (variation)
-- Chorus repeat: allowed, must vary at least 1 small knob (line/phrase)
-- Bridge: optional 2–6 lines
-- Final chorus: allowed
+LOOP_15S_QA  
+RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/60_QA__QUALITY/10_MUSIC_QA/02__LOOP_15S_QA.md
+
+RECOGNITION_10S_QA  
+RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/60_QA__QUALITY/10_MUSIC_QA/03__RECOGNITION_10S_QA.md
 
 ---
 
-## 5) INTRO POLICY (ANTI-DEAD INTRO)
-Hard rule:
-- No long ambient intro before identity stamp.
+## 4) POLICY (ALLOWED TARGETS)
+Политика задаёт “разрешённые” диапазоны по intent.
+Если intent неизвестен — применяем DEFAULT.
 
-Allowed intro styles:
-- direct entry (hook-adjacent)
-- microhook priming
-- signature tag intro (S-tag) + immediate groove
+### 4.1 DEFAULT (general track)
+- DURATION_TARGET: 120–200s (2:00–3:20)
 
-Prohibited:
-- intros that delay recognition beyond hook timing windows
-- long spoken/ambient build for UGC variants
+### 4.2 SHORT-FRIENDLY (platform short readiness)
+- DURATION_TARGET: 90–150s (1:30–2:30)
 
----
+### 4.3 UGC HOOK-FIRST
+- DURATION_TARGET: 80–130s (1:20–2:10)
 
-## 6) VARIANT RULES (MANDATORY)
-If variants are produced:
-- SHORT and FULL must preserve identity anchors.
-- ALT_INTRO exists only to repair:
-  - late hook
-  - weak recognition
-  - dead intro
-
-ALT_INTRO may change:
-- intro method
-- early hook positioning
-but must not change:
-- style fingerprint anchors
-- primary genre identity
+### 4.4 LONGFORM (rare)
+- DURATION_TARGET: 180–260s (3:00–4:20)
+Требует явного маркера:
+- LONGFORM_ALLOWED: true (в артефакте)
 
 ---
 
-## 7) PASS/FAIL CRITERIA (FOR GATES)
-PASS when:
-- track stays within target band (or close)
-- hook appears within timing window for selected mode
-- identity stamp occurs early
-- structure budgets respected (no bloated chorus)
-- intro policy satisfied
+## 5) HOOK TIMING POLICY
+### 5.1 Required field
+HOOK_TIMING_INTENT must be one of:
+- EARLY (hook ≤ 0:15)
+- MID (hook 0:16–0:35)
+- LATE (hook > 0:35)
+- INSTRUMENTAL_MOTIF (instrumental motif entry ≤ 0:20)
 
-WARN when:
-- minor timing drift (hook slightly late) but fixable with ALT_INTRO
-- short variant too long but can be trimmed
+Если значение не из списка → FAIL.
 
-FAIL when:
-- hook far outside window
-- long dead intro persists
-- structure is bloated and not UGC-usable (in SHORT mode)
+### 5.2 Default
+Если не указано, но трек вокальный/лирик → FAIL (не подставлять молча).
 
 ---
 
-## 8) REFERENCES (RAW)
-Used by:
-- Duration Strategy ENG  
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/11_MUSIC_FACTORY_ENGINES/05__DURATION_STRATEGY_ENG.md
-- Viral Hook Blueprint ENG  
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/12_TREND_GENRE_ENGINES/04__VIRAL_HOOK_BLUEPRINT_ENG.md
-- UGC Moment Map ENG  
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/12_TREND_GENRE_ENGINES/05__UGC_MOMENT_MAP_ENG.md
+## 6) REQUIRED CHECKS (DETERMINISTIC)
+### CHECK A — DURATION_TARGET present
+- must be explicit seconds or range in seconds
+If missing → FAIL_CLASS: marker not confirmed
 
-Validator alignment:
-- Hook Timing VAL  
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/50_VAL__VALIDATORS/10_MUSIC_VALIDATORS/01__HOOK_TIMING_VAL.md
+### CHECK B — Range fits policy
+- если DURATION_TARGET выходит за пределы выбранного режима и нет маркера LONGFORM_ALLOWED → FAIL_CLASS: policy violation
+
+### CHECK C — HOOK_TIMING_INTENT valid
+- must be enum from 5.1
+Else → FAIL_CLASS: policy violation
+
+### CHECK D — Consistency with prompt contract
+- если артефакт MUSIC_TRACK_PROMPT — он обязан содержать DURATION_TARGET и HOOK_TIMING_INTENT также по PROMPT_CONTRACT
+Если промпт контракт не соблюдён → FAIL (marker not confirmed)
 
 ---
 
-## FINAL RULE (LOCK)
-OWNER: SYSTEM
-LOCK: FIXED
+## 7) CTL VERDICT FORMAT (REQUIRED)
+- CTL_ID: UE.CTL.MUSIC.DURATION_POLICY.001
+- TARGET_ARTIFACT_TYPE: (MUSIC_TRACK_PROMPT | MUSIC_RELEASE_PACK | OTHER)
+- TARGET_RAW: (raw link)
+- VERDICT: PASS | FAIL
+- FINDINGS:
+  - bullet list
+- REQUIRED_FIXES:
+  - bullet list (empty if PASS)
+- FAIL_CLASS:
+  - RAW missing | marker not confirmed | input absent | policy violation
+- RETURN_TO:
+  - default repair ORC RAW
 
---- END.
+Default return route:
+ALBUM_TO_TRACK_ORC  
+RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/20_ORC__ORCHESTRATORS/10_MUSIC_ORCHESTRATORS/02__ALBUM_TO_TRACK_ORC.md
+
+---
+
+## 8) CHANGE POLICY (LOCK)
+- Менять диапазоны/enum только PATCH
+- Если меняется требование для типов артефактов — синхронизировать Validation Matrix
+
+---
+
+END.

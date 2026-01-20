@@ -1,180 +1,203 @@
-# FINGERPRINT COLLISION THRESHOLDS — CTL
-FILE: 03_SYSTEM_ENTITIES/40_CTL__CONTROLLERS/10_MUSIC_CONTROLLERS/06__FINGERPRINT_COLLISION_THRESHOLDS_CTL.md
+# CTL — FINGERPRINT COLLISION THRESHOLDS (MUSIC) (CANON)
 
-SCOPE: Universe Engine
+FILE: 03_SYSTEM_ENTITIES/40_CTL__CONTROLLERS/10_MUSIC_CONTROLLERS/06__FINGERPRINT_COLLISION_THRESHOLDS_CTL.md
+SCOPE: Universe Engine (Games volume)
+SERIAL: C425-B513
 LAYER: 03_SYSTEM_ENTITIES
-ENTITY_GROUP: CONTROLLERS (CTL)
-CTL_REALM: 10_MUSIC_CONTROLLERS
-DOC_TYPE: CONTROLLER
-CTL_TYPE: FINGERPRINT_COLLISION_THRESHOLDS
-LEVEL: L3
+REALM: 40_CTL__CONTROLLERS
+FAMILY: 10_MUSIC_CONTROLLERS
+LEVEL: L2
+DOC_TYPE: CTL (CONTROLLER)
+ENTITY_TYPE: CONTROLLER
 STATUS: ACTIVE
 LOCK: FIXED
 VERSION: 1.0.0
-UID: UE.CTL.MUS.FINGERPRINT_COLLISION_THRESHOLDS.001
+UID: UE.CTL.MUSIC.FINGERPRINT_THRESHOLDS.001
 OWNER: SYSTEM
-ROLE: Defines collision thresholds and actions for Style Fingerprint similarity across the catalog:
-when to allow, warn, penalize, or block near-duplicate tracks/groups based on fingerprint overlap.
-Used by Catalog Collision ENG, Collision Blocker VAL, and portfolio planning.
+ROLE: Defines collision thresholds and mandatory actions when new track candidates are too similar to existing catalog items. Provides deterministic severity bands and required remediation routes, without relying on any specific audio fingerprinting tool.
 
 CHANGE_NOTE:
-- DATE: 2026-01-12
-- TYPE: MAJOR
-- SUMMARY: "Created fingerprint collision thresholds: scope modes, similarity components, default thresholds, and required actions (allow/warn/block)."
-- REASON: "Main failure mode: catalog sameness (same vocal feel, same hook grammar, same palette) causing repeatable patterns."
-- IMPACT: "Higher differentiation, safer scaling, fewer identical outputs."
-- CHANGE_ID: UE.CHG.2026-01-12.CTL.FINGERPRINT.COLLISION.001
+- DATE: 2026-01-20
+- TYPE: PATCH
+- SUMMARY: "Introduced collision threshold bands (S0–S3) with deterministic actions, integrating with catalog memory and collision/repeat validators."
+- REASON: "Catalog quality degrades when near-duplicates slip through; thresholds must be explicit."
+- IMPACT: "Pipelines can block or redirect similar outputs consistently; QA/regression becomes enforceable."
+- CHANGE_ID: UE.CHG.2026-01-20.CTL.FPTH.001
 
 ---
 
 ## 0) PURPOSE (LAW)
-This controller defines **when two outputs are “too similar”** and what to do about it:
-- ALLOW (safe)
-- PENALIZE (soft push away)
-- WARN (must inject novelty)
-- BLOCK (do not ship; redesign)
+Эта политика задаёт:
+- как классифицировать “похожесть” трека на существующие треки каталога (collision),
+- какие действия обязательны по каждому уровню (block / rework / tag / allow),
+- как оформлять решение в виде trace.
 
-CTL defines thresholds; implementation lives in ENG/VAL/QA.
-
----
-
-## 1) SCOPE MODES (WHERE COLLISIONS ARE CHECKED)
-- SCOPE.GROUP (default): within one group catalog
-- SCOPE.ALBUM: within an album (slot-to-slot)
-- SCOPE.GLOBAL: across all groups (optional strict mode)
-
-Default enforcement:
-- production uses SCOPE.GROUP
-- album pipelines also enforce SCOPE.ALBUM
-- SCOPE.GLOBAL used only for heavy scaling / high-volume output
+Важно: политика не привязана к конкретному алгоритму отпечатка — она задаёт пороги как абстрактные “similarity score” в диапазоне 0.00–1.00.
 
 ---
 
-## 2) FINGERPRINT COMPONENTS (WHAT IS COMPARED)
-Collision scoring must consider these components (not all must be present, but missing fields reduce confidence):
+## 1) ABSOLUTE RULES
+### 1.1 Explicit similarity score required
+Если пайплайн утверждает “похоже/не похоже”, должен быть явный SCORE (0.00–1.00) или иной численный эквивалент, приведённый к шкале 0–1.
 
-C1 GENRE IDENTITY
-- primary genre family + fusion structure (if any)
+Если нет численного значения → FAIL (marker not confirmed).
 
-C2 INSTRUMENTATION PALETTE
-- dominant instruments / timbre palette
+### 1.2 Deterministic banding
+SCORE обязан быть отнесён к одному из бэндов (S0–S3) ниже.  
+Иное — запрещено.
 
-C3 GROOVE / TEMPO BAND
-- tempo band + rhythmic feel
-
-C4 VOCAL IDENTITY
-- vocal role + timbre hints (or “instrumental”)
-
-C5 HOOK GRAMMAR
-- hook type pattern (chant / slogan / motif), repeat geometry
-
-C6 SIGNATURE TAG (S-TAG)
-- presence and pattern of identity tag
+### 1.3 Mandatory action per band
+Каждый бэнд имеет обязательное действие и return route.  
+Нельзя “просто оставить как есть” при S0/S1.
 
 ---
 
-## 3) SIMILARITY SCORE (NORMALIZED)
-A run must compute a normalized similarity score:
-- SIMILARITY_0_1 where 0 = unrelated, 1 = identical.
+## 2) APPLICABILITY
+### 2.1 Artifact contexts
+- MUSIC_TRACK_CARD (as catalog candidate)
+- MUSIC_TRACK_RELEASE (as publish candidate)
+- RELEASE_PACK variants (if generating multiple versions)
 
-Recommended model (policy-level, not implementation):
-- weighted similarity over components C1..C6
-- weights may be adapted per scope (album cares more about hook and vocal diversity)
-
----
-
-## 4) DEFAULT THRESHOLDS (POLICY PARAMETERS)
-These defaults apply unless overridden by governance.
-
-### 4.1 Global thresholds (generic)
-- ALLOW: SIM < 0.70
-- PENALIZE: 0.70 ≤ SIM < 0.78
-- WARN: 0.78 ≤ SIM < 0.86
-- BLOCK: SIM ≥ 0.86
-
-### 4.2 Album thresholds (stricter for uniqueness)
-- ALLOW: SIM < 0.65
-- PENALIZE: 0.65 ≤ SIM < 0.74
-- WARN: 0.74 ≤ SIM < 0.82
-- BLOCK: SIM ≥ 0.82
-
-### 4.3 Group thresholds (balanced)
-- ALLOW: SIM < 0.68
-- PENALIZE: 0.68 ≤ SIM < 0.76
-- WARN: 0.76 ≤ SIM < 0.84
-- BLOCK: SIM ≥ 0.84
+### 2.2 Invocation points (typical)
+- ALBUM_TO_TRACK_ORC: после первичной генерации кандидата (pre-pack)
+- TRACK_TEST_DOC_GATE_ORC: перед PASS на упаковку (если матрица требует)
+- RELEASE_PACK_ORC: перед финальной публикацией вариантов
 
 ---
 
-## 5) REQUIRED ACTIONS BY SEVERITY (MANDATORY)
-### ALLOW
-- proceed, log similarity score for memory
+## 3) REQUIRED REFERENCES (RAW)
+CATALOG MEMORY (CTL)  
+RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/40_CTL__CONTROLLERS/10_MUSIC_CONTROLLERS/07__CATALOG_MEMORY_CTL.md
 
-### PENALIZE
-- proceed but require at least one novelty knob in next iteration:
-  - change one component among {C2 palette, C3 groove/tempo, C5 hook grammar}
-- scoring engines should lower ranking for near-duplicates
+COLLISION BLOCKER (VAL)  
+RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/50_VAL__VALIDATORS/10_MUSIC_VALIDATORS/05__COLLISION_BLOCKER_VAL.md
 
-### WARN
-- must apply novelty injection before shipping:
-  - change at least two knobs
-  - one must be from {C4 vocal identity OR C5 hook grammar}
-- run collision check again after mutation
+REPEAT GUARD (VAL)  
+RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/50_VAL__VALIDATORS/10_MUSIC_VALIDATORS/03__REPEAT_GUARD_VAL.md
 
-### BLOCK
-- do not ship / do not document as winner
-- forced redesign:
-  - new hook grammar AND new palette OR new vocal identity
-- re-run validators/QA after redesign
+REGRESSION GUARD (QA)  
+RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/60_QA__QUALITY/10_MUSIC_QA/09__REGRESSION_GUARD_QA.md
 
 ---
 
-## 6) NOVELTY KNOB MENU (APPROVED MUTATIONS)
-Allowed knobs (choose minimal set to clear WARN/BLOCK):
-- K1: change hook grammar (chant → motif → slogan, etc.)
-- K2: change instrumentation palette (swap dominant timbre family)
-- K3: change groove/tempo band (adjacent band preferred)
-- K4: change vocal identity (new role / duet split / instrumental)
-- K5: change signature tag pattern (new S-tag)
-- K6: limit fusion axes (reduce drift while changing uniqueness driver)
+## 4) THRESHOLD BANDS (CANON)
+Assume similarity SCORE ∈ [0.00, 1.00], where 1.00 = identical.
 
-Forbidden knobs:
-- random genre switching without fusion recipe
-- changing identity anchors defined as “locked” in Style Fingerprint (unless approved by group creative director)
+### BAND S0 — HARD COLLISION (BLOCK)
+- SCORE ≥ 0.92
+Meaning:
+- near-duplicate / same melody/hook/structure or obvious clone
+Action (mandatory):
+- BLOCK packaging/publishing
+- require rework with “one-axis change” or new blueprint slot
+Return:
+- ALBUM_TO_TRACK_ORC (rework) or GROUP_TO_ALBUM_ORC (replan)
+
+### BAND S1 — STRONG SIMILARITY (REWORK REQUIRED)
+- 0.85 ≤ SCORE < 0.92
+Meaning:
+- very similar fingerprint; high risk of catalog duplication
+Action (mandatory):
+- REWORK required
+- must specify “differentiation axis” (only one axis per patch run)
+Return:
+- ALBUM_TO_TRACK_ORC (patch prompt)
+
+### BAND S2 — MODERATE SIMILARITY (ALLOW WITH TAG + DIFFERENTIATION NOTE)
+- 0.70 ≤ SCORE < 0.85
+Meaning:
+- noticeable similarity but may be acceptable if positioned as variant
+Action (mandatory):
+- ALLOW only if:
+  - tagged as VARIANT (or “close sibling”)
+  - differentiation note exists in TRACK_CARD
+Return:
+- ALBUM_TO_TRACK_ORC (update card/notes) if missing tags/notes
+
+### BAND S3 — LOW SIMILARITY (ALLOW)
+- SCORE < 0.70
+Meaning:
+- acceptable uniqueness
+Action:
+- allow
 
 ---
 
-## 7) OUTPUT EXPECTATIONS (FOR ENGINES/VAL)
-Any collision check output must include:
-- scope mode
-- similarity score
-- top matching “nearest neighbor” references (IDs, not full text)
-- severity (ALLOW/PENALIZE/WARN/BLOCK)
-- required actions and chosen knobs
+## 5) REQUIRED EVIDENCE (MINIMUM TRACE)
+Каждое решение по коллизии обязано фиксировать:
+
+- FP_POLICY_ID: UE.CTL.MUSIC.FINGERPRINT_THRESHOLDS.001
+- TARGET_TRACK_UID (or placeholder)
+- COMPARATORS:
+  - list of compared catalog items (UIDs or pointers)
+- SCORE:
+  - numeric score 0.00–1.00
+- BAND:
+  - S0 | S1 | S2 | S3
+- ACTION:
+  - BLOCK | REWORK | ALLOW_WITH_TAG | ALLOW
+- REQUIRED_PATCH_AXIS (only for S0/S1):
+  - one of: MELODY | HARMONY | RHYTHM | TEMPO | ARRANGEMENT | VOCAL_STYLE | LYRICS_APPROACH | SOUND_DESIGN
+- RETURN_TO (if not ALLOW):
+  - raw pointer route
+
+Если missing SCORE/BAND/ACTION → FAIL (marker not confirmed)
 
 ---
 
-## 8) REFERENCES (RAW)
-Used by:
-- Catalog Memory CTL  
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/40_CTL__CONTROLLERS/10_MUSIC_CONTROLLERS/07__CATALOG_MEMORY_CTL.md
+## 6) DETERMINISTIC CHECKS
+### CHECK A — score present and valid
+- must be numeric
+- 0.00 ≤ score ≤ 1.00
+Else → FAIL (marker not confirmed)
 
-Applied by:
-- Catalog Collision ENG  
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/11_MUSIC_FACTORY_ENGINES/07__CATALOG_COLLISION_ENG.md
-- Novelty Injection ENG  
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/11_MUSIC_FACTORY_ENGINES/08__NOVELTY_INJECTION_ENG.md
+### CHECK B — band assigned correctly
+- band must match thresholds in section 4
+Else → FAIL (policy violation)
 
-Validator alignment:
-- Collision Blocker VAL  
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/50_VAL__VALIDATORS/10_MUSIC_VALIDATORS/05__COLLISION_BLOCKER_VAL.md
-- Catalog Differentiation QA  
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/60_QA__QUALITY/10_MUSIC_QA/07__CATALOG_DIFFERENTIATION_QA.md
+### CHECK C — action matches band
+- S0 must be BLOCK
+- S1 must be REWORK
+- S2 must be ALLOW_WITH_TAG
+- S3 must be ALLOW
+Else → FAIL (policy violation)
+
+### CHECK D — remediation info for S0/S1
+- REQUIRED_PATCH_AXIS must be present
+- return route must be present
+Else → FAIL (marker not confirmed)
 
 ---
 
-## FINAL RULE (LOCK)
-OWNER: SYSTEM
-LOCK: FIXED
+## 7) DEFAULT RETURN ROUTES (RAW)
+ALBUM_TO_TRACK_ORC (patch/rework)  
+RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/20_ORC__ORCHESTRATORS/10_MUSIC_ORCHESTRATORS/02__ALBUM_TO_TRACK_ORC.md
 
---- END.
+GROUP_TO_ALBUM_ORC (replan)  
+RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/20_ORC__ORCHESTRATORS/10_MUSIC_ORCHESTRATORS/01__GROUP_TO_ALBUM_ORC.md
+
+---
+
+## 8) CTL VERDICT FORMAT (REQUIRED)
+- CTL_ID: UE.CTL.MUSIC.FINGERPRINT_THRESHOLDS.001
+- TARGET_ARTIFACT_TYPE: (MUSIC_TRACK_CARD | MUSIC_TRACK_RELEASE | MUSIC_RELEASE_PACK | OTHER)
+- TARGET_RAW: (raw link)
+- VERDICT: PASS | FAIL
+- FINDINGS:
+  - bullet list
+- REQUIRED_FIXES:
+  - bullet list (empty if PASS)
+- FAIL_CLASS:
+  - RAW missing | marker not confirmed | input absent | policy violation
+- RETURN_TO:
+  - default return route raw
+
+---
+
+## 9) CHANGE POLICY (LOCK)
+- Пороги менять только PATCH
+- Если меняются обязательные поля trace — синхронизировать validators/QA and Validation Matrix.
+
+---
+
+END.

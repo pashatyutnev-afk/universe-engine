@@ -1,135 +1,186 @@
-# KB SOURCE-LOCK / NO FANTASY — ABSOLUTE EXECUTION LAW (KB)
-FILE: 04_KNOWLEDGE_BASE/00_KB_GOVERNANCE/12__KB_SOURCE_LOCK_NO_FANTASY.md
+# KB LAW — SOURCE LOCK / NO FANTASY (CANON)
 
-SCOPE: Universe Engine
+FILE: 04_KNOWLEDGE_BASE/00_KB_GOVERNANCE/12__KB_SOURCE_LOCK_NO_FANTASY.md
+SCOPE: Universe Engine (Games volume)
+SERIAL: C425-B513
 LAYER: 04_KNOWLEDGE_BASE
-DOC_TYPE: RULE
-INDEX_TYPE: SOURCE_LOCK_POLICY (KB)
-LEVEL: L1
-STATUS: DRAFT
-LOCK: OPEN
+REALM: 00_KB_GOVERNANCE
+DOC_TYPE: LAW (KB_GOVERNANCE)
+LEVEL: L2
+STATUS: ACTIVE
+LOCK: FIXED
 VERSION: 1.0.0
-UID: UE.KB.RULE.SOURCE_LOCK.001
+UID: UE.KB.LAW.SOURCE_LOCK.001
 OWNER: SYSTEM
-ROLE: Absolute ban on invented knowledge; enforce strict source-locked usage of KB modules and controlled Memory-OK mode; defines hard-stop conditions
+ROLE: Absolute KB boundary law. Forbids “fantasy sources”: no external facts/text/assets may enter runtime unless represented as KB-tracked source with RAW provenance markers. Defines mandatory provenance markers used by CTL/VAL.
 
 CHANGE_NOTE:
-- DATE: 2026-01-14
-- TYPE: MAJOR
-- SUMMARY: "Created KB source-lock law: no-fantasy ban, source-first execution, memory rules, and hard-stop enforcement."
-- REASON: "KB must remain factual and deterministic; prevents drift and hallucinated rules."
-- IMPACT: "All entity outputs become auditable; any missing source triggers hard fail; Memory-OK becomes safe only for VERIFIED modules."
-- CHANGE_ID: UE.CHG.2026-01-14.KB.SOURCELOCK.001
+- DATE: 2026-01-20
+- TYPE: PATCH
+- SUMMARY: "Hardened KB Source Lock: mandatory provenance markers (PD_CONFIRMED / LICENSE_CONFIRMED / FULL_TEXT_ALLOWED), RAW-only references, and strict boundary enforcement for any non-user-origin content."
+- REASON: "Prevent uncontrolled ingestion, copyright risk, and unverifiable ‘from the internet’ claims."
+- IMPACT: "All corpus/text/facts used by pipelines become auditable and validator-compatible."
+- CHANGE_ID: UE.CHG.2026-01-20.KB.SOURCELOCK.001
 
 ---
 
 ## 0) PURPOSE (LAW)
-Этот документ запрещает фантазию и вводит строгий режим применения KB:
-- любое знание должно быть привязано к источнику (source-locked),
-- память допускается только как контролируемый режим (Memory-OK),
-- при нарушении — hard stop.
+Это закон “Источник только через KB”.
+Система не имеет права использовать:
+- факты, тексты, данные, изображения, выдержки, цитаты, биографии, справочные сведения,
+- любые материалы, которые не являются “user original”,
+если они не представлены как KB-объект с явными маркерами происхождения (provenance) и статусами разрешённости.
 
 ---
 
-## 1) ABSOLUTE BAN: NO FANTASY
-Запрещено:
-- придумывать правила/пороги/процедуры,
-- добавлять “логически очевидные” детали,
-- улучшать смысл источника,
-- смешивать разные источники в одно “правило” без явного указания.
+## 1) DEFINITIONS (CANON)
+### 1.1 User original
+Контент, который пользователь явно передал как свой ввод в чате (или явно разрешённый им текст/данные).
 
-Любое утверждение в работе системы должно быть:
-- либо прямым применением KB-источника,
-- либо точным воспроизведением ранее открытого VERIFIED модуля (Memory-OK).
+### 1.2 External / non-user content
+Любой контент, который не является user original:
+- corpus/поэзия/цитаты
+- факты/справка
+- данные/таблицы/перечни
+- любые “нашёл в сети” материалы
 
----
-
-## 2) SOURCE-FIRST EXECUTION (ABSOLUTE)
-Если модуль указан в KB_SOURCES как REQUIRED:
-- модуль должен быть открыт по RAW (или доступен в текущем рабочем контексте),
-- правило/процедура применяется строго как в источнике.
-
-Запрещено:
-- “вспоминать” UNREAD/READ_ONCE модуль без открытия,
-- заменять чтение “логикой”.
+### 1.3 KB-tracked source
+Источник считается допустимым только если он:
+- представлен в Knowledge Base как объект/запись (module/item/record),
+- имеет RAW pointer на KB объект,
+- содержит обязательные маркеры provenance и статуса (см. 3).
 
 ---
 
-## 3) MEMORY POLICY (CONTROLLED)
-### 3.1 Memory-OK (allowed)
-Память разрешена только если одновременно выполняется:
-- модуль ранее открывался,
-- модуль имеет состояние VERIFIED,
-- смысл воспроизводится без изменений,
-- нет противоречий с другими VERIFIED источниками.
+## 2) ABSOLUTE BOUNDARY RULES
+### 2.1 RAW-only
+Любые ссылки на KB-источники — только RAW.
 
-### 3.2 Memory-NO (forbidden)
-Запрещено использовать память если:
-- модуль UNREAD или READ_ONCE,
-- модуль изменялся после последнего применения (версии разные),
-- есть сомнения в точности формулировки,
-- есть конфликт норм.
+### 2.2 No fantasy sources (absolute)
+Запрещено использовать внешние материалы “на словах”:
+- “в Википедии написано”
+- “в интернете есть”
+- “по памяти”
+- “примерно так”
+Пока нет KB-tracked source → считается отсутствующим.
 
-### 3.3 Memory conflict rule
-Если “память” и “текущий источник” расходятся:
-- источник имеет приоритет,
-- модуль должен быть переоткрыт и перепроверен,
-- результат без переоткрытия — запрещён.
+### 2.3 No external lookup in runtime by default
+Если задаче нужен внешний источник:
+- сначала должен появиться KB-объект/запись источника (с provenance),
+- только потом материалы из него могут использоваться в пайплайнах.
 
----
-
-## 4) EVIDENCE REQUIREMENT (MANDATORY)
-Любой результат обязан иметь доказательство:
-- список KB_SOURCES (REQUIRED/OPTIONAL) в PATH формате,
-- список KB_GATES (проверки) в PATH формате,
-- указание режима:
-  - SOURCE_LOCK: ON/OFF
-  - MEMORY_MODE: ON (VERIFIED only) / OFF
-
-Если SOURCE_LOCK: OFF → результат запрещён.
+### 2.4 Stop conditions
+Если требуется внешний контент и нет KB-tracked source:
+- STOP: input absent (KB source missing)
+или
+- STOP: marker not confirmed (provenance/status missing)
 
 ---
 
-## 5) HARD STOP CONDITIONS (MANDATORY)
-Выполнение должно остановиться (HARD FAIL), если:
-- REQUIRED источник недоступен/битый,
-- REQUIRED модуль не открыт и Memory-OK нельзя применить,
-- обнаружена попытка “додумать”,
-- обнаружено противоречие норм без policy/решения,
-- ссылка ведёт на файл вне master-index (оперативно не существует).
+## 3) MANDATORY PROVENANCE MARKERS (REQUIRED)
+Любой KB-tracked source, из которого берётся non-user content, обязан содержать минимум:
+
+### 3.1 KB_SOURCE_RAW
+RAW ссылка на конкретный KB объект, который представляет источник.
+
+### 3.2 SOURCE_STATUS (required, strict enum)
+Допустимые статусы:
+- PD_CONFIRMED
+- LICENSE_CONFIRMED
+
+Запрещены любые прочие/свободные формулировки:
+- PD_UNKNOWN
+- LICENSE_UNKNOWN
+- “скорее всего PD”
+- “кажется разрешено”
+
+### 3.3 SOURCE_NOTE (required)
+Короткая заметка, что именно подтверждает статус.
+Без догадок и без “кажется”.
+
+### 3.4 FULL_TEXT_ALLOWED (optional, explicit)
+Если в пайплайне используется полный текст произведения (а не короткая выдержка),
+в KB-источнике должен быть явный маркер:
+- FULL_TEXT_ALLOWED
+
+Если маркера нет — полный текст запрещён (использовать только выдержки).
 
 ---
 
-## 6) SAFE COMPOSITION RULE (WHEN MULTIPLE SOURCES)
-Если результат опирается на несколько источников:
-- каждый источник должен быть перечислен отдельно в KB_SOURCES,
-- конфликтующие нормы должны быть зафиксированы через policy (CTL) или через явный “conflicts_with” REL + решение.
+## 4) KB SCOPE (BOUNDARIES)
+### 4.1 KB Inputs
+- KB modules/items/records, созданные и сохранённые в репозитории как документы.
+- User original (как отдельный режим: “не требует KB источника”).
 
-Запрещено:
-- “сшивать” источники так, что теряется, откуда взято правило.
+### 4.2 KB Outputs
+- Разрешённые к использованию “источники” и “корпуса” для доменных пайплайнов.
+- Provenance-ready записи, которые могут пройти CTL/VAL.
 
----
+### 4.3 KB Boundaries
+- KB не принимает “внешнюю правду” без фиксации.
+- Всё external должно быть: (a) зафиксировано в KB, (b) иметь SOURCE_STATUS, (c) иметь provenance markers.
 
-## 7) COMMON VIOLATIONS (EXAMPLES)
-### Violation 1 — “Logic fill”
-Симптом: добавлена деталь, которой нет в источнике (“логично же”).
-Решение: удалить деталь или найти модуль-источник, где это сказано.
+### 4.4 KB Entry RAW
+KB MASTER INDEX (entrypoint)
+RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/04_KNOWLEDGE_BASE/00__INDEX__KNOWLEDGE_BASE.md
 
-### Violation 2 — “Memory without VERIFIED”
-Симптом: применена память по UNREAD/READ_ONCE.
-Решение: переоткрыть модуль или остановить run.
-
-### Violation 3 — “Hidden source”
-Симптом: сказано “я использовал KB”, но нет списка KB_SOURCES.
-Решение: FAIL, пока не будет evidence block.
+KB RULES
+RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/04_KNOWLEDGE_BASE/00_KB_GOVERNANCE/01__RULES__KB.md
 
 ---
 
-## 8) QUICK CHECK (FAST)
-Source-lock соблюдён, если:
-- любой ключевой тезис можно привязать к KB_SOURCES,
-- нет новых деталей без источника,
-- память используется только VERIFIED,
-- при сомнении выбран re-open, а не домысел.
+## 5) INTERFACES (RAW)
+### 5.1 Policy interface (MUSIC poetry)
+POET PD POLICY (CTL)
+RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/40_CTL__CONTROLLERS/10_MUSIC_CONTROLLERS/05__POET_PD_POLICY_CTL.md
 
---- END.
+PD ONLY (VAL)
+RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/50_VAL__VALIDATORS/10_MUSIC_VALIDATORS/04__PD_ONLY_VAL.md
+
+POET PACK ORC (consumer)
+RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/20_ORC__ORCHESTRATORS/10_MUSIC_ORCHESTRATORS/06__POET_PACK_ORC.md
+
+---
+
+## 6) ENFORCEMENT RULES (HOW TO USE THIS LAW)
+### 6.1 If a pipeline needs external content
+Pipeline обязан:
+1) запросить KB scope link (или KB source record RAW),
+2) убедиться, что у источника есть SOURCE_STATUS,
+3) применить доменный CTL/VAL (если матрица требует),
+4) только затем использовать контент.
+
+### 6.2 If provenance is incomplete
+Если нет KB_SOURCE_RAW или SOURCE_STATUS:
+- это не “почти готово”
+- это FAIL и STOP (marker not confirmed)
+
+### 6.3 Allowed minimal excerpt mode (default)
+Если FULL_TEXT_ALLOWED нет:
+- использовать только короткие выдержки
+- полные тексты запрещены
+
+---
+
+## 7) REQUIRED OUTPUT MARKERS (FOR DOWNSTREAM DOCS)
+Любой документ, который включает non-user content, обязан хранить рядом:
+
+- KB_SOURCE_RAW: (raw link)
+- SOURCE_STATUS: PD_CONFIRMED | LICENSE_CONFIRMED
+- SOURCE_NOTE: short
+- FULL_TEXT_ALLOWED: (if full text used)
+
+Если документ хранит несколько corpus items:
+- каждый item обязан иметь provenance блок.
+
+---
+
+## 8) CHANGE POLICY (LOCK)
+Любые изменения статусов/маркеров/границ:
+- только PATCH
+- обязательно обновить CHANGE_NOTE
+- если изменение влияет на доменные CTL/VAL — синхронизировать соответствующие файлы и Validation Matrix.
+
+---
+
+END.
