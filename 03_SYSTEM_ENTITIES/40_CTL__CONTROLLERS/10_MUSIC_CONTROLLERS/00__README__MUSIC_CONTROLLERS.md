@@ -1,124 +1,120 @@
-# MUSIC CONTROLLERS — REALM (README)
-FILE: 03_SYSTEM_ENTITIES/40_CTL__CONTROLLERS/10_MUSIC_CONTROLLERS/00__README__MUSIC_CONTROLLERS.md
+# MUSIC CONTROLLERS (CTL) — REALM README (CANON)
 
-SCOPE: Universe Engine
+FILE: 03_SYSTEM_ENTITIES/40_CTL__CONTROLLERS/10_MUSIC_CONTROLLERS/00__README__MUSIC_CONTROLLERS.md
+SCOPE: Universe Engine (Games volume)
+SERIAL: C425-B513
 LAYER: 03_SYSTEM_ENTITIES
-ENTITY_GROUP: CONTROLLERS (CTL)
-CTL_REALM: MUSIC_CONTROLLERS
-DOC_TYPE: README
-README_TYPE: REALM
-LEVEL: L3
+REALM: 40_CTL__CONTROLLERS
+FAMILY: 10_MUSIC_CONTROLLERS
+DOC_TYPE: README (FAMILY)
+LEVEL: L2
 STATUS: ACTIVE
 LOCK: FIXED
 VERSION: 1.0.0
-UID: UE.CTL.REALM.MUSIC.001
+UID: UE.CTL.MUSIC.REALM.README.001
 OWNER: SYSTEM
-ROLE: Operational entrypoint for Music Controllers (rules/policies/thresholds) consumed by ORC/ENG/SPC/VAL/QA in the music factory.
+ROLE: Onboarding + navigation for music-specific CTL policies (prompt contracts, viral constraints, duration policy, release variants, collisions, QA gates, etc).
 
 CHANGE_NOTE:
-- DATE: 2026-01-12
-- TYPE: MAJOR
-- SUMMARY: "Created missing Music Controllers realm README: scope, boundaries, and RAW-only navigation to all CTL files."
-- REASON: "Factory needs a single operational entrypoint for constraints; CTL is the law source."
-- IMPACT: "Deterministic runs; fewer contradictions; cleaner gates."
-- CHANGE_ID: UE.CHG.2026-01-12.CTL.REALM.MUSIC.001
+- DATE: 2026-01-20
+- TYPE: PATCH
+- SUMMARY: "Initialized canonical README for MUSIC_CONTROLLERS family with RAW-only navigation and usage rules."
+- REASON: "Make CTL music policies discoverable and consistently applied in music pipelines."
+- IMPACT: "Music pipeline routing can reliably reference CTL policies without guessing."
+- CHANGE_ID: UE.CHG.2026-01-20.CTL.MUSIC.README.001
 
 ---
 
 ## 0) PURPOSE (LAW)
-This realm defines **the rules** (controllers) for music production:
-- what is allowed / forbidden
-- thresholds and quality gates
-- prompt structure contracts
-- duration rules and release variants
-- PD-only policies (lyrics)
-- catalog memory + collision control policies
-- phrasebooks and negative spec libraries
-- metadata/credits policy
-
-CTL = rules.  
-ENG = how.  
-ORC = order.  
-VAL/QA = checks.
+Это README семейства `10_MUSIC_CONTROLLERS`.
+Он отвечает за:
+- что регулируют музыкальные CTL;
+- как их применять в пайплайнах;
+- как навигироваться по файлам семейства (RAW-only).
 
 ---
 
-## 1) SCOPE & BOUNDARIES
+## 1) ABSOLUTE RULES
+### 1.1 RAW-only navigation
+Использовать только RAW ссылки.
 
-### In scope
-- Policies / thresholds / contracts used by Music Factory.
-- Deterministic constraints that other entities must apply.
+### 1.2 CTL role boundary
+CTL задаёт политики/лимиты/обязательные гейты.
+CTL не пишет “контент”, а регулирует его производство через ограничения.
 
-### Out of scope
-- Creative generation logic (ENG).
-- Execution ordering (ORC).
-- Validation logic (VAL) and QA tests (QA).
-
----
-
-## 2) KNOWLEDGE BASE (KB) SCOPE
-### Inputs
-- operational constraints needed by the factory (prompt, UGC, duration, PD, collision, naming/credits metadata)
-
-### Outputs
-- CTL documents that define:
-  - rules / thresholds
-  - standard schemas
-  - enforcement expectations for VAL/QA
-
-### Boundaries
-- CTL must not contain “creative content”; only principles, constraints, thresholds, and allowed formats.
+### 1.3 Readiness gate is mandatory
+Перед любым музыкальным выполнением ран должен пройти `READINESS_CHECK_CTL` (если рантайм включён через START).
 
 ---
 
-## 3) NAV (RAW LINKS) — 10_MUSIC_CONTROLLERS
+## 2) WHEN TO USE THIS FAMILY
+Использовать `10_MUSIC_CONTROLLERS`, когда задача относится к:
+- генерации/редактуре промптов (SUNO/UDIO/универсал),
+- UGC/viral требованиям,
+- длительности/структуре/вариантам релиза,
+- политике прав/PD/кредитов,
+- порогам коллизий и памяти каталога,
+- сегментам аудитории,
+- качественным гейтам музыкального выхода.
 
-00 — README MUSIC CONTROLLERS  
-RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/40_CTL__CONTROLLERS/10_MUSIC_CONTROLLERS/00__README__MUSIC_CONTROLLERS.md
+---
 
-01 — PROMPT CONTRACT CTL  
+## 3) DEFAULT APPLICATION POINTS (PIPELINE)
+Рекомендуемое место применения (по порядку):
+1) после выбора группы/альбома/трека — применить PROMPT_CONTRACT
+2) до генерации — применить UGC/DURATION/VARIANTS политики
+3) после генерации — применить COLLISION/MEMORY/QA gates
+4) перед упаковкой релиза — применить CREDITS/METADATA policy
+
+---
+
+## 4) NAVIGATION (CANON LIST, RAW)
+Family Path: `03_SYSTEM_ENTITIES/40_CTL__CONTROLLERS/10_MUSIC_CONTROLLERS/`
+
+01 — PROMPT CONTRACT  
 RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/40_CTL__CONTROLLERS/10_MUSIC_CONTROLLERS/01__PROMPT_CONTRACT_CTL.md
 
-02 — UGC VIRAL RULESET CTL  
+02 — UGC VIRAL RULESET  
 RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/40_CTL__CONTROLLERS/10_MUSIC_CONTROLLERS/02__UGC_VIRAL_RULESET_CTL.md
 
-03 — DURATION POLICY CTL  
+03 — DURATION POLICY  
 RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/40_CTL__CONTROLLERS/10_MUSIC_CONTROLLERS/03__DURATION_POLICY_CTL.md
 
-04 — RELEASE VARIANTS CTL  
+04 — RELEASE VARIANTS  
 RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/40_CTL__CONTROLLERS/10_MUSIC_CONTROLLERS/04__RELEASE_VARIANTS_CTL.md
 
-05 — POET PD POLICY CTL  
+05 — POET PD POLICY  
 RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/40_CTL__CONTROLLERS/10_MUSIC_CONTROLLERS/05__POET_PD_POLICY_CTL.md
 
-06 — FINGERPRINT COLLISION THRESHOLDS CTL  
+06 — FINGERPRINT COLLISION THRESHOLDS  
 RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/40_CTL__CONTROLLERS/10_MUSIC_CONTROLLERS/06__FINGERPRINT_COLLISION_THRESHOLDS_CTL.md
 
-07 — CATALOG MEMORY CTL  
+07 — CATALOG MEMORY  
 RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/40_CTL__CONTROLLERS/10_MUSIC_CONTROLLERS/07__CATALOG_MEMORY_CTL.md
 
-08 — AUDIENCE SEGMENTS CTL  
+08 — AUDIENCE SEGMENTS  
 RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/40_CTL__CONTROLLERS/10_MUSIC_CONTROLLERS/08__AUDIENCE_SEGMENTS_CTL.md
 
-09 — QUALITY GATES CTL  
+09 — QUALITY GATES  
 RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/40_CTL__CONTROLLERS/10_MUSIC_CONTROLLERS/09__QUALITY_GATES_CTL.md
 
-10 — SUNO PHRASEBOOK CTL  
+10 — SUNO PHRASEBOOK  
 RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/40_CTL__CONTROLLERS/10_MUSIC_CONTROLLERS/10__SUNO_PHRASEBOOK_CTL.md
 
-11 — UDIO PHRASEBOOK CTL  
+11 — UDIO PHRASEBOOK  
 RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/40_CTL__CONTROLLERS/10_MUSIC_CONTROLLERS/11__UDIO_PHRASEBOOK_CTL.md
 
-12 — NEGATIVE SPEC LIBRARY CTL  
+12 — NEGATIVE SPEC LIBRARY  
 RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/40_CTL__CONTROLLERS/10_MUSIC_CONTROLLERS/12__NEGATIVE_SPEC_LIBRARY_CTL.md
 
-13 — CREDITS METADATA POLICY CTL  
+13 — CREDITS METADATA POLICY  
 RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/40_CTL__CONTROLLERS/10_MUSIC_CONTROLLERS/13__CREDITS_METADATA_POLICY_CTL.md
 
 ---
 
-## FINAL RULE (LOCK)
-OWNER: SYSTEM
-LOCK: FIXED
+## 5) CHANGE POLICY (LOCK)
+- Новая политика/контроллер добавляется только через PATCH в соответствующем файле + регистрация в `INDEX_ALL_CONTROLLERS`.
+- README обновляется только PATCH и не содержит исполняемых решений.
 
---- END.
+---  
+END.

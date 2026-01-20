@@ -11,7 +11,7 @@ INDEX_TYPE: GLOBAL_CONTROLLER_REGISTRY
 LEVEL: L1
 STATUS: ACTIVE
 LOCK: FIXED
-VERSION: 1.0.2
+VERSION: 1.0.3
 UID: UE.CTL.IDX.ALL.001
 OWNER: SYSTEM
 ROLE: Canonical navigation law + existence registry for all CTL controller families and instances (RAW-ONLY NAV)
@@ -19,10 +19,10 @@ ROLE: Canonical navigation law + existence registry for all CTL controller famil
 CHANGE_NOTE:
 - DATE: 2026-01-20
 - TYPE: PATCH
-- SUMMARY: "Index header cleaned for readability; readiness gate reference kept; CTL registry links preserved."
-- REASON: "Align CTL registry with restored READINESS_CHECK_CTL controller semantics and keep navigation deterministic."
-- IMPACT: "CTL layer remains deterministic and compatible with START finish chain."
-- CHANGE_ID: UE.CHG.2026-01-20.CTL.IDX.ALL.003
+- SUMMARY: "Fixed UDIO phrasebook RAW link casing to match existing file. No other changes."
+- REASON: "Prevent broken navigation due to filename case mismatch."
+- IMPACT: "CTL index links become reliable; no 404 on UDIO phrasebook."
+- CHANGE_ID: UE.CHG.2026-01-20.CTL.IDX.ALL.004
 
 ---
 
@@ -139,7 +139,7 @@ RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/hea
 RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/40_CTL__CONTROLLERS/10_MUSIC_CONTROLLERS/10__SUNO_PHRASEBOOK_CTL.md
 
 11 — UDIO PHRASEBOOK  
-RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/40_CTL__CONTROLLERS/10_MUSIC_CONTROLLERS/11__udio_PHRASEBOOK_CTL.md
+RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/40_CTL__CONTROLLERS/10_MUSIC_CONTROLLERS/11__UDIO_PHRASEBOOK_CTL.md
 
 12 — NEGATIVE SPEC LIBRARY  
 RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/40_CTL__CONTROLLERS/10_MUSIC_CONTROLLERS/12__NEGATIVE_SPEC_LIBRARY_CTL.md
