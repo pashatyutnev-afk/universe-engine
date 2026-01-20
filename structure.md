@@ -1,6 +1,4 @@
-Структура папок тома Games
-Серийный номер тома: C425-B513
-D:.
+
 |   structure.md
 |   structure.txt
 |   

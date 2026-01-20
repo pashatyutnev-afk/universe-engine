@@ -28,6 +28,8 @@ CHANGE_NOTE:
 Этот файл — единственный рабочий рантайм-энтрипоинт.  
 ROOT-INDEX не выполняет задач, а даёт снимок RAW-ссылок.
 
+обязательно смотри на структуру, что бы понимать как ориентироваться:  https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/structure.md
+
 ---
 
 ## 1) INPUTS (MINIMUM)
