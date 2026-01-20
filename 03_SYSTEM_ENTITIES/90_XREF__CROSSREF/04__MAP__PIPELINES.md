@@ -1,181 +1,190 @@
-# XREF MAP — PIPELINES (CANON)
+# XREF — MAP: PIPELINES (ORC ROUTES ↔ GATES) (CANON)
 
 FILE: 03_SYSTEM_ENTITIES/90_XREF__CROSSREF/04__MAP__PIPELINES.md
 SCOPE: Universe Engine (Games volume)
 SERIAL: C425-B513
 LAYER: 03_SYSTEM_ENTITIES
 REALM: 90_XREF__CROSSREF
-DOC_TYPE: MAP
-MAP_TYPE: PIPELINES
+DOC_TYPE: MAP (XREF)
 LEVEL: L2
 STATUS: ACTIVE
 LOCK: FIXED
 VERSION: 1.0.0
-UID: UE.XREF.MAP.PIPELINES.001
+UID: UE.XREF.MAP.PIPELINES.004
 OWNER: SYSTEM
-ROLE: Deterministic pipeline selection (intent → pipeline). Defines primary ORC, required XREF maps, mandatory gate order, and expected output artifact types.
+ROLE: Single canonical map that ties each allowed PIPELINE_ID to its ENTRY_ORC and mandatory gate set (CTL/VAL/QA) + KB consumption flag. Must match PIPELINE_REGISTRY. Used for deterministic routing and for validation matrix alignment.
 
 CHANGE_NOTE:
 - DATE: 2026-01-20
 - TYPE: PATCH
-- SUMMARY: "Initialized minimal canonical pipeline selection map for MUSIC routes + generic pipeline orchestrator route. No guessing, RAW-only."
-- REASON: "Make routing deterministic and auditable, prevent implicit selection of ORC/owners/engines/gates."
-- IMPACT: "System can select the correct ORC and enforce gates consistently for music production."
-- CHANGE_ID: UE.CHG.2026-01-20.XREF.PIPELINES.001
+- SUMMARY: "Synced pipeline map with PIPELINE_REGISTRY: ORC entrypoints, KB flags, required gates, outputs, default returns."
+- REASON: "Prevent invisible routes and gate drift between ORC/CTL/VAL/QA."
+- IMPACT: "Routing and enforcement become auditable and consistent across the system."
+- CHANGE_ID: UE.CHG.2026-01-20.XREF.PIPEMAP.004
 
 ---
 
 ## 0) PURPOSE (LAW)
-Эта карта отвечает на вопрос: “по intent задачи какой пайплайн запускать”.
-Пайплайн = правила выбора ORC + обязательные зависимости + expected outputs.
+Эта карта отвечает на вопрос:
+какой ORC маршрут разрешён и какие гейты обязаны быть пройдены.
+
+Карта обязана:
+- 1:1 соответствовать `01_SYSTEM_LAW/07__PIPELINE_REGISTRY.md`
+- использовать RAW ссылки
+- явно указывать KB_CONSUMPTION
+
+Если карта расходится с реестром пайплайнов → FAIL_CLASS: marker not confirmed (до синхронизации).
 
 ---
 
-## 1) ABSOLUTE RULES
-### 1.1 RAW-only navigation
-Навигация только по RAW.
+## 1) REQUIRED REFERENCES (RAW)
+PIPELINE REGISTRY (LAW)  
+https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01_SYSTEM_LAW/07__PIPELINE_REGISTRY.md
 
-### 1.2 Determinism
-Если intent не матчится ни с одной записью → STOP: marker not confirmed (needs new pipeline record).
-
-### 1.3 Mandatory dependencies
-Каждый пайплайн обязан ссылаться на:
-- ORC (primary)
-- ORC→SPC ownership map
-- ENG→ORC allowlist map
-- Validation Matrix map
+MUSIC ORC REALM README (context)  
+https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/20_ORC__ORCHESTRATORS/10_MUSIC_ORCHESTRATORS/00__README__MUSIC_ORCHESTRATORS.md
 
 ---
 
-## 2) REQUIRED XREF MAPS (RAW)
-ORC → SPC (ownership)
-RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/90_XREF__CROSSREF/02__MAP__ORC_to_SPC.md
+## 2) MAP RECORD FORMAT (CANON)
+Each MAP record must contain:
 
-ENG → ORC (allowlist)
-RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/90_XREF__CROSSREF/01__MAP__ENG_to_ORC.md
-
-VALIDATION MATRIX
-RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/90_XREF__CROSSREF/03__MAP__VALIDATION_MATRIX.md
-
----
-
-## 3) REQUIRED CORE CONTROL (RAW)
-READINESS CHECK (mandatory)
-RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/40_CTL__CONTROLLERS/01__READINESS_CHECK_CTL.md
-
----
-
-## 4) PIPELINE RECORD SCHEMA (CANON)
-Каждая запись обязана иметь:
 - PIPELINE_ID
-- INTENT_KEYWORDS (comma list)
-- PRIMARY_ORC_RAW
-- PRIMARY_SPC_RULE (reference: use ORC→SPC map)
-- REQUIRED_XREF (always the 3 maps in section 2)
-- REQUIRED_GATES_ORDER (canonical order)
-- OUTPUT_ARTIFACT_TYPES (comma list)
-- NOTES
+- DOMAIN
+- ENTRY_ORC_RAW (or NONE if gate-only)
+- KB_CONSUMPTION: TRUE | FALSE | CONDITIONAL
+- REQUIRED_GATES:
+  - CTL: list of RAW
+  - VAL: list of RAW
+  - QA:  list of RAW
+- OUTPUTS: list (artifact names)
+- DEFAULT_RETURN_RAW
 
 ---
 
-## 5) CANONICAL GATE ORDER (DEFAULT)
-READINESS_CHECK_CTL → relevant VAL (by Validation Matrix) → relevant QA (by Validation Matrix) → DOC_CONTROLLER_SPC → MACHINE_ARCHITECT_SPC signoff
+## 3) PIPELINE MAP (ALLOWED)
+
+### UE.PIPE.SYSTEM.READINESS.000
+DOMAIN: SYSTEM  
+ENTRY_ORC_RAW: NONE  
+KB_CONSUMPTION: CONDITIONAL  
+REQUIRED_GATES:  
+- CTL:
+  - https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/40_CTL__CONTROLLERS/01__READINESS_CHECK_CTL.md
+- VAL: NONE
+- QA:  NONE  
+OUTPUTS:
+- READINESS_TRACE (PASS/FAIL)  
+DEFAULT_RETURN_RAW:
+- https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/00_INDEX/01__START_UNIVERSE_ENGINE.md
 
 ---
 
-# 6) PIPELINES REGISTRY (MINIMUM CANON SET)
-
-## 6.1 PIPELINE — GROUP → ALBUM
-PIPELINE_ID: PIPE.MUSIC.GROUP_TO_ALBUM.001
-INTENT_KEYWORDS: group setup, group foundation, create album blueprint, album plan, group-to-album
-PRIMARY_ORC_RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/20_ORC__ORCHESTRATORS/10_MUSIC_ORCHESTRATORS/01__GROUP_TO_ALBUM_ORC.md
-PRIMARY_SPC_RULE: use ORC→SPC map for ORC_ID ORC.MUSIC.GROUP_TO_ALBUM.001
-REQUIRED_XREF: ORC→SPC, ENG→ORC, VALIDATION_MATRIX
-REQUIRED_GATES_ORDER: default (section 5)
-OUTPUT_ARTIFACT_TYPES: PACKAGE
-NOTES: Produces album blueprint pack and/or structured docs required for track production.
-
----
-
-## 6.2 PIPELINE — ALBUM → TRACK
-PIPELINE_ID: PIPE.MUSIC.ALBUM_TO_TRACK.001
-INTENT_KEYWORDS: make track, track production, album-to-track, generate prompt, track card, track release
-PRIMARY_ORC_RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/20_ORC__ORCHESTRATORS/10_MUSIC_ORCHESTRATORS/02__ALBUM_TO_TRACK_ORC.md
-PRIMARY_SPC_RULE: use ORC→SPC map for ORC_ID ORC.MUSIC.ALBUM_TO_TRACK.001
-REQUIRED_XREF: ORC→SPC, ENG→ORC, VALIDATION_MATRIX
-REQUIRED_GATES_ORDER: default (section 5)
-OUTPUT_ARTIFACT_TYPES: MUSIC_TRACK_CARD, MUSIC_TRACK_PROMPT, MUSIC_TRACK_RELEASE
-NOTES: Core track pipeline. All outputs must be documents, never bare chat content.
+### UE.PIPE.MUSIC.GROUP_TO_ALBUM.101
+DOMAIN: MUSIC  
+ENTRY_ORC_RAW:
+- https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/20_ORC__ORCHESTRATORS/10_MUSIC_ORCHESTRATORS/01__GROUP_TO_ALBUM_ORC.md  
+KB_CONSUMPTION: FALSE  
+REQUIRED_GATES:
+- CTL:
+  - https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/40_CTL__CONTROLLERS/10_MUSIC_CONTROLLERS/01__PROMPT_CONTRACT_CTL.md
+- VAL: NONE
+- QA:  NONE  
+OUTPUTS:
+- ALBUM_BLUEPRINT  
+DEFAULT_RETURN_RAW:
+- https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/20_ORC__ORCHESTRATORS/10_MUSIC_ORCHESTRATORS/01__GROUP_TO_ALBUM_ORC.md
 
 ---
 
-## 6.3 PIPELINE — TRACK TEST DOC GATE
-PIPELINE_ID: PIPE.MUSIC.TRACK_TEST_DOC_GATE.001
-INTENT_KEYWORDS: track doc gate, test doc, pre-release doc check, track readiness docs
-PRIMARY_ORC_RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/20_ORC__ORCHESTRATORS/10_MUSIC_ORCHESTRATORS/03__TRACK_TEST_DOC_GATE_ORC.md
-PRIMARY_SPC_RULE: use ORC→SPC map for ORC_ID ORC.MUSIC.TRACK_TEST_DOC_GATE.001
-REQUIRED_XREF: ORC→SPC, ENG→ORC, VALIDATION_MATRIX
-REQUIRED_GATES_ORDER: default (section 5)
-OUTPUT_ARTIFACT_TYPES: SPEC, MAP, RUNBOOK
-NOTES: Doc-gate pipeline. Used to enforce contracts and readiness on track documentation artifacts.
+### UE.PIPE.MUSIC.ALBUM_TO_TRACK.102
+DOMAIN: MUSIC  
+ENTRY_ORC_RAW:
+- https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/20_ORC__ORCHESTRATORS/10_MUSIC_ORCHESTRATORS/02__ALBUM_TO_TRACK_ORC.md  
+KB_CONSUMPTION: CONDITIONAL  
+REQUIRED_GATES:
+- CTL:
+  - https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/40_CTL__CONTROLLERS/10_MUSIC_CONTROLLERS/01__PROMPT_CONTRACT_CTL.md
+  - https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/40_CTL__CONTROLLERS/10_MUSIC_CONTROLLERS/06__FINGERPRINT_COLLISION_THRESHOLDS_CTL.md
+- VAL:
+  - https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/50_VAL__VALIDATORS/10_MUSIC_VALIDATORS/03__REPEAT_GUARD_VAL.md
+  - https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/50_VAL__VALIDATORS/10_MUSIC_VALIDATORS/05__COLLISION_BLOCKER_VAL.md
+- QA:  NONE  
+OUTPUTS:
+- TRACK_CARD
+- TRACK_PROMPT  
+DEFAULT_RETURN_RAW:
+- https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/20_ORC__ORCHESTRATORS/10_MUSIC_ORCHESTRATORS/02__ALBUM_TO_TRACK_ORC.md
 
 ---
 
-## 6.4 PIPELINE — RELEASE PACK
-PIPELINE_ID: PIPE.MUSIC.RELEASE_PACK.001
-INTENT_KEYWORDS: release pack, publish pack, pack release, prepare release, distribution pack
-PRIMARY_ORC_RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/20_ORC__ORCHESTRATORS/10_MUSIC_ORCHESTRATORS/04__RELEASE_PACK_ORC.md
-PRIMARY_SPC_RULE: use ORC→SPC map for ORC_ID ORC.MUSIC.RELEASE_PACK.001
-REQUIRED_XREF: ORC→SPC, ENG→ORC, VALIDATION_MATRIX
-REQUIRED_GATES_ORDER: default (section 5)
-OUTPUT_ARTIFACT_TYPES: MUSIC_RELEASE_PACK, PACKAGE
-NOTES: Consolidates final track artifacts into a self-contained pack with working RAW pointers.
+### UE.PIPE.MUSIC.TRACK_TEST_GATE.103
+DOMAIN: MUSIC  
+ENTRY_ORC_RAW:
+- https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/20_ORC__ORCHESTRATORS/10_MUSIC_ORCHESTRATORS/03__TRACK_TEST_DOC_GATE_ORC.md  
+KB_CONSUMPTION: CONDITIONAL  
+REQUIRED_GATES:
+- CTL: MATRIX_SELECTED
+- VAL: MATRIX_SELECTED
+- QA:  MATRIX_SELECTED  
+OUTPUTS:
+- TEST_GATE_VERDICT
+- REQUIRED_FIXES_LIST  
+DEFAULT_RETURN_RAW:
+- https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/20_ORC__ORCHESTRATORS/10_MUSIC_ORCHESTRATORS/02__ALBUM_TO_TRACK_ORC.md
 
 ---
 
-## 6.5 PIPELINE — PORTFOLIO PLANNER
-PIPELINE_ID: PIPE.MUSIC.PORTFOLIO_PLANNER.001
-INTENT_KEYWORDS: portfolio plan, release calendar, portfolio strategy, plan releases
-PRIMARY_ORC_RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/20_ORC__ORCHESTRATORS/10_MUSIC_ORCHESTRATORS/05__PORTFOLIO_PLANNER_ORC.md
-PRIMARY_SPC_RULE: use ORC→SPC map for ORC_ID ORC.MUSIC.PORTFOLIO_PLANNER.001
-REQUIRED_XREF: ORC→SPC, ENG→ORC, VALIDATION_MATRIX
-REQUIRED_GATES_ORDER: default (section 5)
-OUTPUT_ARTIFACT_TYPES: SPEC, PACKAGE
-NOTES: Planning-only pipeline. Produces structured planning artifacts; no audio outputs required.
+### UE.PIPE.MUSIC.RELEASE_PACK.104
+DOMAIN: MUSIC  
+ENTRY_ORC_RAW:
+- https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/20_ORC__ORCHESTRATORS/10_MUSIC_ORCHESTRATORS/04__RELEASE_PACK_ORC.md  
+KB_CONSUMPTION: CONDITIONAL  
+REQUIRED_GATES:
+- CTL:
+  - https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/40_CTL__CONTROLLERS/10_MUSIC_CONTROLLERS/13__CREDITS_METADATA_POLICY_CTL.md
+- VAL:
+  - https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/50_VAL__VALIDATORS/10_MUSIC_VALIDATORS/06__RELEASE_PACK_READY_VAL.md
+  - https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/50_VAL__VALIDATORS/10_MUSIC_VALIDATORS/09__CREDITS_RIGHTS_VAL.md
+- QA:  NONE  
+OUTPUTS:
+- MUSIC_RELEASE_PACK  
+DEFAULT_RETURN_RAW:
+- https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/20_ORC__ORCHESTRATORS/10_MUSIC_ORCHESTRATORS/04__RELEASE_PACK_ORC.md
 
 ---
 
-## 6.6 PIPELINE — POET PACK
-PIPELINE_ID: PIPE.MUSIC.POET_PACK.001
-INTENT_KEYWORDS: poet pack, poem selection, PD corpus, lyrics source pack
-PRIMARY_ORC_RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/20_ORC__ORCHESTRATORS/10_MUSIC_ORCHESTRATORS/06__POET_PACK_ORC.md
-PRIMARY_SPC_RULE: use ORC→SPC map for ORC_ID ORC.MUSIC.POET_PACK.001
-REQUIRED_XREF: ORC→SPC, ENG→ORC, VALIDATION_MATRIX
-REQUIRED_GATES_ORDER: default (section 5)
-OUTPUT_ARTIFACT_TYPES: PACKAGE, SPEC
-NOTES: Selects/curates allowed poet materials and packages them as deterministic inputs.
+### UE.PIPE.MUSIC.POET_PACK.105
+DOMAIN: MUSIC  
+ENTRY_ORC_RAW:
+- https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/20_ORC__ORCHESTRATORS/10_MUSIC_ORCHESTRATORS/06__POET_PACK_ORC.md  
+KB_CONSUMPTION: TRUE  
+REQUIRED_GATES:
+- CTL:
+  - https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/40_CTL__CONTROLLERS/10_MUSIC_CONTROLLERS/05__POET_PD_POLICY_CTL.md
+- VAL:
+  - https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/50_VAL__VALIDATORS/10_MUSIC_VALIDATORS/04__PD_ONLY_VAL.md
+- QA:  NONE  
+OUTPUTS:
+- POET_PACK (with provenance + excerpt policy + handoff block)  
+DEFAULT_RETURN_RAW:
+- https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/20_ORC__ORCHESTRATORS/10_MUSIC_ORCHESTRATORS/06__POET_PACK_ORC.md
 
 ---
 
-## 6.7 PIPELINE — GENERIC ROUTING (AMBIGUOUS INTENT)
-PIPELINE_ID: PIPE.CORE.ROUTING.DEFAULT.001
-INTENT_KEYWORDS: ambiguous, unknown route, routing help, decide pipeline
-PRIMARY_ORC_RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/20_ORC__ORCHESTRATORS/01_CORE_ORCHESTRATORS/05__PIPELINE_ORCHESTRATOR_ENG.md
-PRIMARY_SPC_RULE: use ORC→SPC map for ORC_ID ORC.CORE.PIPELINE_ORCHESTRATOR.001
-REQUIRED_XREF: ORC→SPC, ENG→ORC, VALIDATION_MATRIX
-REQUIRED_GATES_ORDER: default (section 5)
-OUTPUT_ARTIFACT_TYPES: RUNBOOK, MAP, SPEC, PACKAGE
-NOTES: Used only when intent cannot be mapped. Must end by proposing a new explicit pipeline record.
+## 4) SYNC RULE (LAW)
+Эта карта обязана быть синхронизирована с PIPELINE REGISTRY:
+- если пайплайн добавлен/изменён в реестре — он должен появиться здесь в тот же change pack
+- если пайплайн deprecated — запись остаётся, но помечается в NOTES (если вводится блок NOTES)
 
 ---
 
-## 7) EXTENSION POLICY (STRICT)
-Чтобы добавить новый PIPELINE:
-1) создать запись в этом файле (PATCH)
-2) обеспечить существование ORC по RAW
-3) обеспечить наличие ORC→SPC ownership (для этого ORC)
-4) обеспечить ENG→ORC allowlist (для этого ORC)
-5) обеспечить Validation Matrix coverage (artifact types)
+## 5) STOP CONDITIONS (MAP AUDIT)
+Если при аудите карты найдено:
+- пайплайн есть тут, но нет в реестре (или наоборот)
+- ссылка не RAW
+- обязательные гейты не совпадают
+→ STOP: marker not confirmed
 
 ---
 
