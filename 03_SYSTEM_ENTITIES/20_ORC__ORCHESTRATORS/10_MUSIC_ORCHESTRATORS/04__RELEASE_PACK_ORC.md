@@ -1,202 +1,226 @@
-# Release Pack Orchestrator — ORC
-FILE: 03_SYSTEM_ENTITIES/20_ORC__ORCHESTRATORS/10_MUSIC_ORCHESTRATORS/04__RELEASE_PACK_ORC.md
+# ORC — RELEASE PACK (CANON)
 
-SCOPE: Universe Engine
+FILE: 03_SYSTEM_ENTITIES/20_ORC__ORCHESTRATORS/10_MUSIC_ORCHESTRATORS/04__RELEASE_PACK_ORC.md
+SCOPE: Universe Engine (Games volume)
+SERIAL: C425-B513
 LAYER: 03_SYSTEM_ENTITIES
-ENTITY_GROUP: ORCHESTRATORS (ORC)
-ORC_FAMILY: 10_MUSIC_ORCHESTRATORS
-DOC_TYPE: ORCHESTRATOR
-ORC_TYPE: MUSIC_RELEASE_PIPELINE
-LEVEL: L3
+REALM: 20_ORC__ORCHESTRATORS
+FAMILY: 10_MUSIC_ORCHESTRATORS
+LEVEL: L2
+DOC_TYPE: ORC (ORCHESTRATOR)
+ENTITY_TYPE: ORCHESTRATOR
 STATUS: ACTIVE
 LOCK: FIXED
 VERSION: 1.0.0
-UID: UE.ORC.MUS.RELEASE_PACK.001
+UID: UE.ORC.MUSIC.RELEASE_PACK.001
 OWNER: SYSTEM
-ROLE: Orchestrates packaging of PASS-approved tracks/albums into a Release Pack:
-variant planning, naming and platform titles, metadata + credits policy, QA/VAL snapshot,
-and final upload-ready checklist.
-
-Uses Release Pack ENG as pack builder and Naming engines for titles.
+ROLE: Deterministic pipeline: consolidate track artifacts into a release pack (self-contained), enforce required gates, and prepare for publication handoff.
 
 CHANGE_NOTE:
-- DATE: 2026-01-12
-- TYPE: MAJOR
-- SUMMARY: "Created Release Pack orchestrator: required inputs from TEST→DOC gate, naming pipeline integration, and final readiness checks."
-- REASON: "Release packaging must be deterministic and compliant; titles/variants/metadata must be consistent."
-- IMPACT: "Cleaner releases + fewer platform issues + faster publishing."
-- CHANGE_ID: UE.CHG.2026-01-12.ORC.MUS.RELEASE_PACK.001
+- DATE: 2026-01-20
+- TYPE: PATCH
+- SUMMARY: "Rebuilt RELEASE_PACK ORC as strict contract: inputs/outputs, packaging rules, XREF dependencies, mandatory gates, and signoff chain."
+- REASON: "Prevent incomplete packs and un-audited releases. Ensure navigation and credits consistency."
+- IMPACT: "Release packs become deterministic and publish-ready with clear gate compliance."
+- CHANGE_ID: UE.CHG.2026-01-20.ORC.RPACK.001
 
 ---
 
 ## 0) PURPOSE (LAW)
-Turn PASS-approved track(s) into an upload-ready Release Pack by:
-- choosing variants (per policy)
-- producing titles per platform (collision-safe)
-- producing metadata + credits note (policy)
-- producing readiness snapshot and export checklist
+Этот ORC собирает и упаковывает релиз (один трек или набор треков) в самодостаточный release pack.
+Обязанности:
+- выбрать состав пакета (что входит),
+- проверить обязательные гейты по матрице,
+- обеспечить навигационную целостность,
+- оформить результат как документ-артефакт (PACKAGE).
 
 ---
 
-## 1) INPUTS (CONSUMES)
-Required (from TEST→DOC gate):
-- DOC_PACK:
-  - Track Card final
-  - Winner take record
-  - Prompt pack frozen
-  - QA/VAL snapshot
-  - memory tokens update note
+## 1) ABSOLUTE LAWS
+### 1.1 RAW-only navigation
+Только RAW ссылки из ROOT LINK BASE или присланные пользователем.
 
-Optional:
-- Album context (if album release)
-- Desired release date/window
-- Series markers (if series)
+### 1.2 Ownership is mandatory
+Владельцы берутся только из `ORC → SPC` карты.
 
----
+### 1.3 Allowlist engines only
+Использовать ENG только по `ENG → ORC` allowlist.
 
-## 2) OUTPUTS (PRODUCES)
-- Release Pack (track or album):
-  - Release Passport
-  - Variant Manifest
-  - Platform Titles Pack
-  - Metadata Sheet
-  - Credits & Rights Note
-  - QA/VAL Snapshot
-  - Export Checklist
+### 1.4 Mandatory gate order
+READINESS_CHECK_CTL → relevant VAL → relevant QA → DOC_CONTROLLER_SPC → MACHINE_ARCHITECT_SPC signoff
+
+### 1.5 Package must be self-contained
+Release pack не может быть “списком в чате”.
+Это документ-артефакт, который:
+- содержит явные RAW pointers на все элементы,
+- содержит структуру, состав, версии, и правила публикации (если применимо),
+- не имеет “битых ссылок”.
 
 ---
 
-## 3) REQUIRED ENTITIES (RAW LINKS)
+## 2) REQUIRED XREF (RAW)
+PIPELINES (intent → pipeline)
+RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/90_XREF__CROSSREF/04__MAP__PIPELINES.md
 
-### Release packaging ENG
-- Release Pack ENG  
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/11_MUSIC_FACTORY_ENGINES/06__RELEASE_PACK_ENG.md
+ENG → ORC allowlist
+RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/90_XREF__CROSSREF/01__MAP__ENG_to_ORC.md
 
-### Controllers (policy)
-- Release Variants CTL  
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/40_CTL__CONTROLLERS/10_MUSIC_CONTROLLERS/04__RELEASE_VARIANTS_CTL.md
-- Credits/Metadata Policy CTL  
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/40_CTL__CONTROLLERS/10_MUSIC_CONTROLLERS/13__CREDITS_METADATA_POLICY_CTL.md
+ORC → SPC ownership
+RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/90_XREF__CROSSREF/02__MAP__ORC_to_SPC.md
 
-### Naming engines (titles)
-- Naming Brief ENG  
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/14_NAMING_IDENTITY_ENGINES/01__NAMING_BRIEF_ENG.md
-- Naming Generation ENG  
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/14_NAMING_IDENTITY_ENGINES/02__NAMING_GENERATION_ENG.md
-- Naming Collision ENG  
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/14_NAMING_IDENTITY_ENGINES/03__NAMING_COLLISION_ENG.md
-- Platform Format Titles ENG  
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/14_NAMING_IDENTITY_ENGINES/04__PLATFORM_FORMAT_TITLES_ENG.md
-- Series Naming ENG (optional)  
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/14_NAMING_IDENTITY_ENGINES/05__SERIES_NAMING_ENG.md
-
-### Validators
-- Release Pack Ready VAL  
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/50_VAL__VALIDATORS/10_MUSIC_VALIDATORS/06__RELEASE_PACK_READY_VAL.md
-- Naming Collision VAL  
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/50_VAL__VALIDATORS/10_MUSIC_VALIDATORS/07__NAMING_COLLISION_VAL.md
-- Credits/Rights VAL (if PD or policy requires)  
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/50_VAL__VALIDATORS/10_MUSIC_VALIDATORS/09__CREDITS_RIGHTS_VAL.md
+VALIDATION MATRIX
+RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/90_XREF__CROSSREF/03__MAP__VALIDATION_MATRIX.md
 
 ---
 
-## 4) PIPELINE (DETERMINISTIC)
+## 3) REQUIRED CONTROL (RAW)
+READINESS CHECK (mandatory)
+RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/40_CTL__CONTROLLERS/01__READINESS_CHECK_CTL.md
 
-### STEP 0 — Load policy constraints
-Load CTL:
-- Release variants policy
-- Credits/metadata policy
+MUSIC CTL FAMILY (policies)
+RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/40_CTL__CONTROLLERS/10_MUSIC_CONTROLLERS/00__README__MUSIC_CONTROLLERS.md
+
+---
+
+## 4) INPUTS (MINIMUM)
+### 4.1 Required
+Один из вариантов:
+A) Single Track Release
+- MUSIC_TRACK_CARD (final)
+- MUSIC_TRACK_PROMPT (final)
+- MUSIC_TRACK_RELEASE (final)
+
+B) Multi Track Release
+- список треков, каждый с (CARD + PROMPT + RELEASE)
+
+### 4.2 Optional context
+- Brand context (если релиз привязан к бренду/лейблу)
+- Album context (если релиз = часть альбома)
+- Distribution targets (YouTube / streaming / etc) как метаданные (без внешних ссылок, только intent)
+
+### 4.3 Stop rule
+Если нет минимум одного трека с финальными артефактами → STOP: input absent
+
+---
+
+## 5) OUTPUTS (ARTIFACT SET)
+- MUSIC_RELEASE_PACK (PACKAGE doc)
+- OPTIONAL: per-track summary blocks (внутри пакета)
+- OPTIONAL: publish checklist (если задан стандартом, иначе не изобретается)
+
+Required gates for MUSIC_RELEASE_PACK берутся из `VALIDATION_MATRIX`.
+
+---
+
+## 6) PACKAGING RULES (STRICT)
+### 6.1 Contents must be explicit
+Пакет обязан перечислить:
+- включённые треки (UID + title),
+- RAW ссылки на card/prompt/release каждого трека,
+- версии каждого файла (если указаны в файлах),
+- кредиты/права (отсылка на политику, без переизобретения).
+
+### 6.2 Navigation integrity
+- все RAW ссылки должны открываться
+- отсутствующие файлы = GAP → STOP: input absent (для комплекта)
+
+### 6.3 Naming consistency
+- единый стиль названий (group/album/track)
+- отсутствие конфликтов имен (если выявляется → фиксируется в violations)
+
+### 6.4 Variants
+Если трек имеет варианты:
+- перечислить вариант как отдельную запись (Variant_ID)
+- привязать к RELEASE_VARIANTS_CTL (если используется)
+
+---
+
+## 7) PIPELINE STEPS (DETERMINISTIC)
+
+### STEP 0 — PRECHECK (CTL)
+Owner: PRIMARY_SPC (из ORC→SPC)  
+Gate: READINESS_CHECK_CTL  
+Input: состав релиза + ссылки на артефакты  
+Output: PASS/FAIL
+
+Fail → STOP (по CTL).
+
+---
+
+### STEP 1 — MANIFEST BUILD (SPC)
+Owner: PRIMARY_SPC  
+Input: список треков + их финальные артефакты  
+Output:
+- PACK_MANIFEST (таблица состава)
+- MISSING_ITEMS list (если есть)
+
+If missing → STOP: input absent
+
+---
+
+### STEP 2 — POLICY APPLICATION (CTL)
+Owner: PRIMARY_SPC + CTL  
+Apply:
+- QUALITY_GATES_CTL
+- FINGERPRINT_COLLISION_THRESHOLDS_CTL (если релиз требует анти-коллизии)
+- CREDITS_METADATA_POLICY_CTL
+- RELEASE_VARIANTS_CTL (если есть варианты)
 
 Output:
-- RELEASE_POLICY_SNAPSHOT (short)
+- POLICIES_APPLIED (список)
+- REQUIRED_QA_SET (ссылка на матрицу по типу MUSIC_RELEASE_PACK)
 
 ---
 
-### STEP 1 — Decide variants
-Using Release Variants CTL, decide:
-- MAIN (required)
-- SHORT_CUT (recommended if UGC-ready)
-- ALT / INSTRUMENTAL / EXTENDED (optional)
+### STEP 3 — VALIDATION + QA (by matrix)
+Owner: relevant VAL + relevant QA  
+Rules:
+- REQUIRED_VAL и REQUIRED_QA берутся из `VALIDATION_MATRIX` по ARTIFACT_TYPE = MUSIC_RELEASE_PACK
+- дополнительно проверяются связи/битые ссылки/конфликты
 
 Output:
-- VARIANT_PLAN (manifest draft)
+- VIOLATIONS (if any)
+- QA_VERDICT (PASS/WARN/FAIL)
+
+FAIL → вернуть на STEP 1/2 (исправление состава/метаданных)
 
 ---
 
-### STEP 2 — Produce naming (titles)
-Run naming pipeline:
-1) Naming Brief (target type = TRACK or ALBUM)
-2) Naming Generation (candidates)
-3) Naming Collision (scope per policy)
-4) Platform Format Titles (YouTube/Streaming/Short-form)
+### STEP 4 — PACK DOCUMENT ASSEMBLY (SPC)
+Owner: PRIMARY_SPC  
+Output:
+- MUSIC_RELEASE_PACK document (self-contained)
+- внутри: manifest + ссылки + notes
 
-Validate:
-- Naming Collision VAL
+---
+
+### STEP 5 — DOC CONTROL + SIGNOFF
+Owner: DOC_CONTROLLER_SPC → MACHINE_ARCHITECT_SPC  
+Action:
+- doc control fields, UID/version/naming compliance
+- финальная подпись
 
 Output:
-- PLATFORM_TITLES_PACK
-- SAFE_FALLBACK_TITLES
+- FINAL MUSIC_RELEASE_PACK
 
 ---
 
-### STEP 3 — Credits & metadata
-Using Credits/Metadata Policy:
-- build metadata sheet fields required by release pack
-- build credits/rights note
-- if PD used: ensure PD marking exists
-
-Validate (if required):
-- Credits/Rights VAL
-
-Output:
-- METADATA_SHEET
-- CREDITS_RIGHTS_NOTE
+## 8) HANDOFFS (CANON)
+- PRIMARY_SPC: сборка и решения по составу пакета
+- CTL: политики и readiness
+- VAL: фиксация нарушений
+- QA: приемка по гейтам
+- DOC_CONTROLLER_SPC: doc control проверка
+- MACHINE_ARCHITECT_SPC: финальный signoff
 
 ---
 
-### STEP 4 — Build Release Pack via ENG
-Run Release Pack ENG using:
-- DOC_PACK
-- VARIANT_PLAN
-- PLATFORM_TITLES_PACK
-- METADATA_SHEET
-- CREDITS_RIGHTS_NOTE
-- QA/VAL snapshot
-
-Output:
-- RELEASE_PACK (draft)
+## 9) EXTENSION POLICY (STRICT)
+Если добавляем новый тип релиз-пакета или новые требования:
+1) сначала обновить VALIDATION_MATRIX (PATCH)
+2) затем обновить XREF maps (если нужно)
+3) затем обновить этот ORC (PATCH)
 
 ---
 
-### STEP 5 — Readiness validation
-Run:
-- Release Pack Ready VAL
-
-If FAIL:
-- fix missing pieces (variants/titles/metadata) and rerun Step 4–5.
-
-Output:
-- RELEASE_PACK_READY (PASS/FAIL) + reasons
-
----
-
-### STEP 6 — Export checklist
-Emit:
-- upload file list
-- filename-safe strings
-- per-platform notes (if any)
-
----
-
-## 5) HANDOFFS (XREF)
-Downstream:
-- Portfolio Planner ORC (to schedule next releases)  
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/20_ORC__ORCHESTRATORS/10_MUSIC_ORCHESTRATORS/05__PORTFOLIO_PLANNER_ORC.md
-
----
-
-## FINAL RULE (LOCK)
-OWNER: SYSTEM
-LOCK: FIXED
-
---- END.
+END.

@@ -1,107 +1,126 @@
-# MUSIC ORCHESTRATORS — REALM (README)
-FILE: 03_SYSTEM_ENTITIES/20_ORC__ORCHESTRATORS/10_MUSIC_ORCHESTRATORS/00__README__MUSIC_ORCHESTRATORS.md
+# MUSIC ORCHESTRATORS (ORC) — REALM README (CANON)
 
-SCOPE: Universe Engine
+FILE: 03_SYSTEM_ENTITIES/20_ORC__ORCHESTRATORS/10_MUSIC_ORCHESTRATORS/00__README__MUSIC_ORCHESTRATORS.md
+SCOPE: Universe Engine (Games volume)
+SERIAL: C425-B513
 LAYER: 03_SYSTEM_ENTITIES
-ENTITY_GROUP: ORCHESTRATORS (ORC)
-ORC_FAMILY: 10_MUSIC_ORCHESTRATORS
-DOC_TYPE: README
-README_TYPE: REALM
-LEVEL: L3
+REALM: 20_ORC__ORCHESTRATORS
+FAMILY: 10_MUSIC_ORCHESTRATORS
+DOC_TYPE: README (FAMILY)
+LEVEL: L2
 STATUS: ACTIVE
 LOCK: FIXED
 VERSION: 1.0.0
-UID: UE.ORC.REALM.MUSIC.001
+UID: UE.ORC.MUSIC.REALM.README.001
 OWNER: SYSTEM
-ROLE: Operational entrypoint for music production pipelines (group → album → track → test/doc gate → release pack),
-plus portfolio planning and poet pack preparation.
+ROLE: Canonical onboarding + navigation for music ORC pipelines. Defines how to route, which maps to consult, and mandatory gates. No guessing.
 
 CHANGE_NOTE:
-- DATE: 2026-01-12
-- TYPE: MAJOR
-- SUMMARY: "Created missing Music Orchestrators realm README: scope, pipeline order, and RAW-only navigation."
-- REASON: "ORC layer must provide deterministic execution order across ENG/CTL/VAL/QA."
-- IMPACT: "Stable production flow; less chaos; faster iteration."
-- CHANGE_ID: UE.CHG.2026-01-12.ORC.REALM.MUSIC.001
+- DATE: 2026-01-20
+- TYPE: PATCH
+- SUMMARY: "Initialized music orchestrators README aligned with XREF maps (pipelines, owners, ENG allowlist, validation matrix)."
+- REASON: "Make music routing deterministic and auditable. Prevent implicit engine usage and ambiguous ownership."
+- IMPACT: "Music runs can reference a stable routing procedure and required gate order."
+- CHANGE_ID: UE.CHG.2026-01-20.ORC.MUSIC.README.001
 
 ---
 
-## 0) PURPOSE (LAW)
-This realm defines “how we run the factory”:
-- what runs first / second / third
-- what artifacts are expected at each step
-- where gates happen (TEST→DOC)
-- when we package releases and plan portfolio
+## 0) WHAT IS ORC (IN MUSIC)
+ORC (Orchestrators) — это пайплайны.
+ORC отвечает за:
+- порядок шагов (что за чем),
+- handoffs между SPC/ENG/CTL/VAL/QA,
+- требования к входам/выходам шага,
+- привязку к гейтам.
 
-ORC does not invent creative content — it orchestrates engines/controllers/validators.
-
----
-
-## 1) SCOPE & BOUNDARIES
-
-### In scope
-- Sequencing Music Factory engines (11_*) and Trend/Genre engines (12_*)
-- Calling PD corpus pipeline (13_*) when lyrics use PD-only mode
-- Calling naming pipeline (14_*) for titles
-- Enforcing gates via CTL/VAL/QA references
-
-### Out of scope
-- Writing engines themselves
-- Policy definitions (CTL ownership)
-- Validator logic (VAL ownership)
-- QA test design (QA ownership)
+ORC не заменяет:
+- SPC (намерение/решения/упаковка),
+- ENG (методы),
+- CTL (политики и обязательные гейты),
+- VAL (проверки соответствия),
+- QA (приёмка/скоринг).
 
 ---
 
-## 2) PIPELINE ORDER (LAW) — MUSIC FACTORY EXECUTION
-1) GROUP → ALBUM  
-2) ALBUM → TRACK  
-3) TRACK TEST → DOC GATE  
-4) RELEASE PACK  
-5) PORTFOLIO PLANNER  
-6) POET PACK
+## 1) ABSOLUTE RULES
+### 1.1 RAW-only navigation
+Навигация только по RAW ссылкам.
 
-Notes:
-- 03 is mandatory: docs only for PASS winners.
-- 06 is used when PD corpus is needed as an input pack for track generation.
+### 1.2 Determinism via XREF
+Любой запуск музыкального маршрута должен ссылаться на XREF карты:
+- pipelines (intent → pipeline)
+- ORC→SPC (ownership)
+- ENG→ORC (allowlist)
+- validation matrix (required gates per artifact type)
 
----
-
-## 3) OUTPUT ARTIFACTS (MINIMUM)
-- Group Pack (identity + cast + fingerprint pointers)
-- Album Pack (blueprint + slot briefs)
-- Track Pack (prompt pack + test batch + PASS/FAIL)
-- Doc Pack (only if PASS)
-- Release Pack (variants + titles + metadata + snapshot)
-- Portfolio Plan (what to produce next)
-- Poet Pack (PD shortlist + juice + mosaic draft pointers)
+### 1.3 Mandatory gate order
+По умолчанию для любого музыкального ORC:
+READINESS_CHECK_CTL → relevant VAL → relevant QA → DOC_CONTROLLER_SPC → MACHINE_ARCHITECT_SPC signoff
 
 ---
 
-## 4) NAV (RAW LINKS)
+## 2) REQUIRED XREF MAPS (RAW)
+04 — PIPELINES (intent → pipeline selection)  
+RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/90_XREF__CROSSREF/04__MAP__PIPELINES.md
 
-01 — Group to Album ORC  
+02 — ORC → SPC (ownership map)  
+RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/90_XREF__CROSSREF/02__MAP__ORC_to_SPC.md
+
+01 — ENG → ORC (allowlist)  
+RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/90_XREF__CROSSREF/01__MAP__ENG_to_ORC.md
+
+03 — VALIDATION MATRIX (required CTL/VAL/QA by artifact type)  
+RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/90_XREF__CROSSREF/03__MAP__VALIDATION_MATRIX.md
+
+---
+
+## 3) HOW TO RUN MUSIC ROUTE (SHORT PROCEDURE)
+1) Определи intent задачи (например: собрать альбом, собрать трек, подготовить релиз-пак).
+2) Открой `04__MAP__PIPELINES.md` и выбери PIPELINE_ID.
+3) Возьми PRIMARY_ORC и REQUIRED_GATES ORDER из пайплайна.
+4) Открой `02__MAP__ORC_to_SPC.md` и зафиксируй PRIMARY_SPC владельца (handoff owners).
+5) Открой `01__MAP__ENG_to_ORC.md` и проверь allowlist ENG для выбранного ORC.
+6) Применяй `03__MAP__VALIDATION_MATRIX.md` для каждого выпускаемого артефакта (card/prompt/release/pack).
+7) Если чего-то не хватает (ORC/ENG/CTL/VAL/QA/Template):
+   - фиксируй GAP,
+   - создавай недостающее по шаблону,
+   - только потом продолжай.
+
+---
+
+## 4) NAVIGATION (CANON LIST, RAW)
+Family Path: `03_SYSTEM_ENTITIES/20_ORC__ORCHESTRATORS/10_MUSIC_ORCHESTRATORS/`
+
+01 — GROUP → ALBUM ORC  
 RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/20_ORC__ORCHESTRATORS/10_MUSIC_ORCHESTRATORS/01__GROUP_TO_ALBUM_ORC.md
 
-02 — Album to Track ORC  
+02 — ALBUM → TRACK ORC  
 RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/20_ORC__ORCHESTRATORS/10_MUSIC_ORCHESTRATORS/02__ALBUM_TO_TRACK_ORC.md
 
-03 — Track Test Doc Gate ORC  
+03 — TRACK TEST DOC GATE ORC  
 RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/20_ORC__ORCHESTRATORS/10_MUSIC_ORCHESTRATORS/03__TRACK_TEST_DOC_GATE_ORC.md
 
-04 — Release Pack ORC  
+04 — RELEASE PACK ORC  
 RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/20_ORC__ORCHESTRATORS/10_MUSIC_ORCHESTRATORS/04__RELEASE_PACK_ORC.md
 
-05 — Portfolio Planner ORC  
+05 — PORTFOLIO PLANNER ORC  
 RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/20_ORC__ORCHESTRATORS/10_MUSIC_ORCHESTRATORS/05__PORTFOLIO_PLANNER_ORC.md
 
-06 — Poet Pack ORC  
+06 — POET PACK ORC  
 RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/20_ORC__ORCHESTRATORS/10_MUSIC_ORCHESTRATORS/06__POET_PACK_ORC.md
 
 ---
 
-## FINAL RULE (LOCK)
-OWNER: SYSTEM
-LOCK: FIXED
+## 5) BOUNDARIES (STRICT)
+- ORC не тянет “любой ENG”. Только allowlist через `01__MAP__ENG_to_ORC.md`.
+- ORC не назначает владельца “по логике”. Только `02__MAP__ORC_to_SPC.md`.
+- ORC не выпускает “голый контент”. Любой выход должен быть артефактом и пройти required gates по `03__MAP__VALIDATION_MATRIX.md`.
 
---- END.
+---
+
+## 6) CHANGE POLICY (LOCK)
+- Любые изменения: только PATCH + CHANGE_NOTE.
+- Добавление нового ORC: сначала файл ORC по шаблону, затем регистрация в XREF картах и индексах.
+
+---  
+END.

@@ -1,205 +1,230 @@
-# Album → Track Orchestrator — ORC
-FILE: 03_SYSTEM_ENTITIES/20_ORC__ORCHESTRATORS/10_MUSIC_ORCHESTRATORS/02__ALBUM_TO_TRACK_ORC.md
+# ORC — ALBUM → TRACK (CANON)
 
-SCOPE: Universe Engine
+FILE: 03_SYSTEM_ENTITIES/20_ORC__ORCHESTRATORS/10_MUSIC_ORCHESTRATORS/02__ALBUM_TO_TRACK_ORC.md
+SCOPE: Universe Engine (Games volume)
+SERIAL: C425-B513
 LAYER: 03_SYSTEM_ENTITIES
-ENTITY_GROUP: ORCHESTRATORS (ORC)
-ORC_FAMILY: 10_MUSIC_ORCHESTRATORS
-DOC_TYPE: ORCHESTRATOR
-ORC_TYPE: MUSIC_PIPELINE
-LEVEL: L3
+REALM: 20_ORC__ORCHESTRATORS
+FAMILY: 10_MUSIC_ORCHESTRATORS
+LEVEL: L2
+DOC_TYPE: ORC (ORCHESTRATOR)
+ENTITY_TYPE: ORCHESTRATOR
 STATUS: ACTIVE
 LOCK: FIXED
 VERSION: 1.0.0
-UID: UE.ORC.MUS.ALBUM_TO_TRACK.001
+UID: UE.ORC.MUSIC.ALBUM_TO_TRACK.001
 OWNER: SYSTEM
-ROLE: Deterministic pipeline that executes an Album Blueprint slot-by-slot into Track Packs:
-builds hook/ugc plans, compiles prompts, runs take batches, and produces PASS/FAIL-ready candidates.
-
-Delegates the actual generation logic to Track Factory and Trend/Genre engines.
+ROLE: Deterministic pipeline: album blueprint → track artifacts (card/prompt/release) with mandatory gates, ownership, and allowlisted engines.
 
 CHANGE_NOTE:
-- DATE: 2026-01-12
-- TYPE: MAJOR
-- SUMMARY: "Created Album→Track orchestrator: slot execution order, required artifacts, and minimal repeat-safe iteration loop."
-- REASON: "Album planning must translate into repeatable track execution without drift."
-- IMPACT: "Faster production, fewer repeats, cleaner handoff to TEST→DOC gate."
-- CHANGE_ID: UE.CHG.2026-01-12.ORC.MUS.A2T.001
+- DATE: 2026-01-20
+- TYPE: PATCH
+- SUMMARY: "Rebuilt ALBUM→TRACK orchestrator as a strict contract: inputs/outputs, handoffs, XREF dependencies, mandatory gate order."
+- REASON: "Remove ambiguity: ORC must not guess engines, owners, or gate placement."
+- IMPACT: "Music production becomes auditable and repeatable across runs."
+- CHANGE_ID: UE.CHG.2026-01-20.ORC.A2T.001
 
 ---
 
 ## 0) PURPOSE (LAW)
-Turn an Album Blueprint into executable track production runs by:
-- selecting slot(s) to produce
-- running the required engines in the correct order
-- outputting a Track Pack per slot (ready for TEST→DOC gate ORC)
+Этот ORC определяет порядок шагов для преобразования альбомного blueprint в комплект трек-артефактов.
+ORC не генерирует контент сам, а управляет:
+- шагами,
+- handoffs,
+- применением CTL/VAL/QA гейтов,
+- упаковкой результатов в канонические документы.
 
 ---
 
-## 1) INPUTS (CONSUMES)
-Required:
-- Group Pack:
-  - Group DNA Spec
-  - Artist Roster Spec
-  - Style Fingerprint Pack
-  - Constraints Pack + Negative Specs
-- Album Pack:
-  - Album Blueprint (SoT)
-  - Tracklist Skeleton (slots)
-  - Track Role Map + duration mix
-- Slot selection:
-  - SLOT_ID list (e.g., 01, 02, 03) or “next slot”
+## 1) ABSOLUTE LAWS
+### 1.1 RAW-only navigation
+Использовать только RAW ссылки из ROOT LINK BASE или присланные пользователем.
 
-Optional:
-- PD lyric mode flag per slot: {PD_ONLY | instrumental | open}
-- collision strictness level (group-only vs global)
+### 1.2 Ownership is mandatory
+ORC обязан опираться на карту владельцев `ORC → SPC`.
+Нельзя назначать владельцев “по логике”.
 
----
+### 1.3 Allowlist engines only
+ORC обязан опираться на карту `ENG → ORC`.
+Нельзя использовать ENG вне allowlist.
 
-## 2) OUTPUTS (PRODUCES)
-Per slot (Track Pack):
-- Track Intent Brief (slot requirements)
-- Hook Stack + Viral Hook Blueprint + UGC Moment Map
-- Prompt Pack (Suno mandatory, Udio optional)
-- Test Batch Plan (N takes + knobs)
-- Take Log draft entry (IDs + short notes)
-- Pre-check notes (collision risk intent)
+### 1.4 Mandatory gate order
+По умолчанию для каждого артефакта в этом пайплайне:
+READINESS_CHECK_CTL → relevant VAL → relevant QA → DOC_CONTROLLER_SPC → MACHINE_ARCHITECT_SPC signoff
+
+### 1.5 Output artifact rule
+Запрещён “голый контент”. Каждый результат оформляется как документ-артефакт.
 
 ---
 
-## 3) REQUIRED ENTITIES (RAW LINKS)
+## 2) REQUIRED XREF (RAW)
+PIPELINES (intent → pipeline)
+RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/90_XREF__CROSSREF/04__MAP__PIPELINES.md
 
-### Execution engine (core)
-- Track Factory ENG  
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/11_MUSIC_FACTORY_ENGINES/04__TRACK_FACTORY_ENG.md
-- Duration Strategy ENG  
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/11_MUSIC_FACTORY_ENGINES/05__DURATION_STRATEGY_ENG.md
+ENG → ORC allowlist
+RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/90_XREF__CROSSREF/01__MAP__ENG_to_ORC.md
 
-### Trend/Genre (hook + prompt)
-- Earworm Hook Stack  
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/12_TREND_GENRE_ENGINES/06__EARWORM_HOOK_STACK_ENG.md
-- Viral Hook Blueprint  
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/12_TREND_GENRE_ENGINES/04__VIRAL_HOOK_BLUEPRINT_ENG.md
-- UGC Moment Map  
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/12_TREND_GENRE_ENGINES/05__UGC_MOMENT_MAP_ENG.md
-- Prompt Compiler  
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/12_TREND_GENRE_ENGINES/07__PROMPT_COMPILER_ENG.md
+ORC → SPC ownership
+RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/90_XREF__CROSSREF/02__MAP__ORC_to_SPC.md
 
-### PD corpus (optional lyrical mode)
-- Poet Pack ORC (if PD-only)  
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/20_ORC__ORCHESTRATORS/10_MUSIC_ORCHESTRATORS/06__POET_PACK_ORC.md
-
-### Controllers
-- Prompt Contract  
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/40_CTL__CONTROLLERS/10_MUSIC_CONTROLLERS/01__PROMPT_CONTRACT_CTL.md
-- Duration Policy  
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/40_CTL__CONTROLLERS/10_MUSIC_CONTROLLERS/03__DURATION_POLICY_CTL.md
-- Negative Spec Library  
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/40_CTL__CONTROLLERS/10_MUSIC_CONTROLLERS/12__NEGATIVE_SPEC_LIBRARY_CTL.md
-- Catalog Memory  
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/40_CTL__CONTROLLERS/10_MUSIC_CONTROLLERS/07__CATALOG_MEMORY_CTL.md
+VALIDATION MATRIX
+RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/90_XREF__CROSSREF/03__MAP__VALIDATION_MATRIX.md
 
 ---
 
-## 4) PIPELINE (DETERMINISTIC PER SLOT)
+## 3) REQUIRED CONTROL (RAW)
+READINESS CHECK (mandatory)
+RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/40_CTL__CONTROLLERS/01__READINESS_CHECK_CTL.md
 
-### STEP 0 — Select slot
-Pick SLOT_ID(s) from Album Blueprint.
-If none specified: pick next “highest priority” slot (opener or lead single).
+MUSIC CTL FAMILY (policies)
+RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/40_CTL__CONTROLLERS/10_MUSIC_CONTROLLERS/00__README__MUSIC_CONTROLLERS.md
+
+---
+
+## 4) INPUTS (MINIMUM)
+### 4.1 Required
+- Album context (минимум один из):
+  - `00__ALBUM__PASSPORT.md`
+  - `01__ALBUM__BLUEPRINT.md`
+- Group context (если доступно):
+  - `00__GROUP__PASSPORT.md`
+  - `01__GROUP__STYLE.md`
+
+### 4.2 Task inputs
+- Target: какой трек делаем (T01..Txx) или список треков
+- Format intent: какой тип трека/настроение/роль в альбоме (из blueprint)
+- Platform target: Suno/Udio/Universal (если применимо)
+
+### 4.3 Stop rule
+Если нет альбомного blueprint и невозможно определить цель трека → STOP: input absent
+
+---
+
+## 5) OUTPUTS (ARTIFACT SET)
+Минимальный набор на 1 трек (строго как документы):
+- MUSIC_TRACK_CARD
+- MUSIC_TRACK_PROMPT
+- MUSIC_TRACK_RELEASE (когда есть релизный результат или релиз-пак стадия)
+
+Матрица гейтов для каждого типа берётся из `VALIDATION_MATRIX`.
+
+---
+
+## 6) PIPELINE STEPS (DETERMINISTIC)
+Каждый шаг должен оставлять trace: что принято, что выдано, кто владелец.
+
+### STEP 0 — PRECHECK (CTL)
+Owner: PRIMARY_SPC (из ORC→SPC map)  
+Gate: READINESS_CHECK_CTL  
+Input: TASK + album blueprint + root link base context  
+Output: READINESS_VERDICT PASS/FAIL
+
+Fail → STOP по причине из CTL.
+
+---
+
+### STEP 1 — TRACK SELECTION (SPC handoff)
+Owner: PRIMARY_SPC  
+Input: album blueprint + task target  
+Output:
+- TRACK_TARGET (Txx)
+- TRACK_ROLE_IN_ALBUM (hook/bridge/intro/outro/peak etc)
+- REQUIRED_ARTIFACTS (card/prompt/release)
+
+Notes:
+- Не допускается выбор “примерно такой трек”. Нужна явная фиксация TRACK_TARGET.
+
+---
+
+### STEP 2 — ENGINE SELECTION (ORC + XREF)
+Owner: ORC (this file)  
+Constraint:
+- использовать только allowlisted ENG реалмы из `ENG→ORC` для данного ORC.
 
 Output:
-- SLOT_EXEC_PLAN (slot list + order)
+- ALLOWED_ENG_REALMS_USED (список реалмов, ссылками на README реалмов)
+- OPTIONAL_ENGINE_NOTES (что для чего)
+
+Fail:
+- если для нужного действия нет allowlisted ENG реалма → STOP: marker not confirmed (это GAP)
 
 ---
 
-### STEP 1 — Build Track Intent Brief
-From Album Blueprint slot:
-- role type
-- duration mode (short/full)
-- required hook type / UGC intent
-- forbidden overlaps (album-internal)
+### STEP 3 — PROMPT CONTRACT APPLICATION (CTL)
+Owner: PRIMARY_SPC + CTL policy application  
+Apply CTL policies (по необходимости):
+- PROMPT_CONTRACT_CTL
+- DURATION_POLICY_CTL
+- RELEASE_VARIANTS_CTL (если нужен вариант)
+- NEGATIVE_SPEC_LIBRARY_CTL (если применимо)
 
 Output:
-- TRACK_INTENT_BRIEF
+- PROMPT_CONTRACT_STATE (кратко: что применили)
+- CONSTRAINTS_APPLIED (список)
+
+Notes:
+- Контроллеры не создают текст за ORC. Они ограничивают форму и требования.
 
 ---
 
-### STEP 2 — PD input (optional)
-If slot lyrical mode is PD_ONLY:
-- run Poet Pack ORC to produce:
-  - shortlist + juice + mosaic draft pointers
-Else:
-- set lyrics mode to instrumental or open per plan.
+### STEP 4 — DRAFT ARTIFACTS (ENG execution via ORC)
+Owner: PRIMARY_SPC (решения) + ENG (методы)  
+Produces drafts:
+- TRACK_CARD_DRAFT
+- TRACK_PROMPT_DRAFT
+
+Output target:
+- оформляется как документы (не как “в чат текстом без шапки”)
+
+---
+
+### STEP 5 — VALIDATION + QA (by matrix)
+Owner: relevant VAL + relevant QA  
+Input: drafts  
+Rules:
+- REQUIRED_VAL и REQUIRED_QA берутся из `VALIDATION_MATRIX` по ARTIFACT_TYPE.
 
 Output:
-- LYRICS_INPUT_PACK (optional)
+- VIOLATIONS (если есть)
+- QA_VERDICT (PASS/WARN/FAIL по доменным правилам QA, если определены)
+
+Fail handling:
+- FAIL → возврат на STEP 3/4 (исправление) без выхода из allowlist и без смены владельцев.
 
 ---
 
-### STEP 3 — Hook planning
-Run:
-- Earworm Hook Stack (H1/H2/S-tag/Q-line if lyrical)
-- UGC Moment Map (clip windows)
-- Viral Hook Blueprint (timing + geometry)
+### STEP 6 — DOC CONTROL + SIGNOFF
+Owner: DOC_CONTROLLER_SPC → MACHINE_ARCHITECT_SPC  
+Action:
+- проверка doc control полей, UID, version, naming consistency
+- финальная подпись цепочки
 
 Output:
-- HOOK_PLAN_PACK
+- FINAL_ARTIFACTS (card/prompt/release) готовые
 
 ---
 
-### STEP 4 — Prompt compilation
-Run:
-- Prompt Compiler → produce:
-  - Suno pack (mandatory)
-  - optional Udio pack
-  - variants: short/full/alt intro (if needed)
-
-Output:
-- PROMPT_PACK
-
----
-
-### STEP 5 — Execution via Track Factory
-Run Track Factory with:
-- group identity + cast + fingerprint
-- slot brief + hook plan + prompt pack
-- duration strategy/policy + negative specs
-- optional PD lyric mosaic draft
-
-Output:
-- TEST_BATCH_PLAN
-- TAKE_LOG_DRAFT (IDs only)
-- TRACK_PACK (candidate + metadata placeholders)
+## 7) HANDOFFS (CANON)
+- ORC owner (this doc) управляет шагами и обязательными картами.
+- PRIMARY_SPC владеет решениями и упаковкой результата.
+- CTL применяет политики и readiness gate.
+- VAL фиксирует нарушения соответствия.
+- QA фиксирует приемку/скоринг.
+- DOC_CONTROLLER_SPC проверяет doc control и корректность упаковки.
+- MACHINE_ARCHITECT_SPC закрывает ран.
 
 ---
 
-### STEP 6 — Pre-handoff note to TEST→DOC gate
-Package the slot output into:
-- TRACK_PACK_READY_FOR_GATE
-including:
-- prompt pack snapshot
-- top take ids (if any)
-- known risks (if any)
+## 8) EXTENSION POLICY (STRICT)
+Если нужно добавить:
+- новый тип артефакта
+- новый обязательный гейт
+- новый ENG реалм для этого ORC
+
+Сначала:
+1) обновить XREF карты (validation matrix / eng→orc / orc→spc) как PATCH
+2) затем обновить этот ORC как PATCH
 
 ---
 
-## 5) LOOP RULE (ITERATION)
-If Track Factory returns FAIL:
-- update only 1–2 knobs (hook grammar / intro stamp / palette)
-- re-run Step 3–5
-- stop after policy max iterations (set elsewhere)
-
----
-
-## 6) HANDOFFS (XREF)
-NEXT ORC:
-- Track Test → Doc Gate ORC  
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/20_ORC__ORCHESTRATORS/10_MUSIC_ORCHESTRATORS/03__TRACK_TEST_DOC_GATE_ORC.md
-
----
-
-## FINAL RULE (LOCK)
-OWNER: SYSTEM
-LOCK: FIXED
-
---- END.
+END.
