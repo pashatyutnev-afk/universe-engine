@@ -1,9 +1,16 @@
-
+D:.
 |   structure.md
 |   structure.txt
 |   
++---.obsidian
+|       app.json
+|       appearance.json
+|       core-plugins.json
+|       workspace.json
+|       
 +---00_INDEX
 |       00__ROOT_INDEX__UNIVERSE_ENGINE.md
+|       01__START_UNIVERSE_ENGINE.md
 |       
 +---01_SYSTEM_LAW
 |       00__INDEX__SYSTEM_LAW.md
@@ -15,6 +22,7 @@
 |       05__ARTIFACT_SCHEMA_REGISTRY.md
 |       06__CONSTRAINTS_REGISTRY.md
 |       07__PIPELINE_REGISTRY.md
+|       08__KB_INTEGRATION_LAW.md
 |       
 +---02_STANDARDS
 |   |   00_STANDARDS — MASTER INDEX.md
@@ -26,6 +34,7 @@
 |   +---00_GOVERNANCE
 |   |       01__LAW__SPC_GOVERNANCE_AND_SIGNOFF.md
 |   |       02__LAW__CHAT_ENTRYPOINT_PROTOCOL.md
+|   |       03__LAW__TASK_ENTRYPOINT_AND_SIGNOFF.md
 |   |       
 |   +---01_SPECIFICATIONS
 |   |   |   01__UID_AND_MARKING_STANDARD.md
@@ -40,6 +49,7 @@
 |   |   |   07__DOC_REGISTRY_STANDARD.md
 |   |   |   08__ENTITY_MODEL_SPEC.md
 |   |   |   09__INDEX_STRUCTURE_SPEC.md
+|   |   |   10__KB_CONSUMPTION_ROUTING_STANDARD.md
 |   |   |   
 |   |   \---10_MUSIC_SYSTEM
 |   |           00__README__MUSIC_SYSTEM.md
@@ -108,11 +118,10 @@
 |   |   |   00__README__ENGINES_REALM.md
 |   |   |   01__RULES__ENGINES.md
 |   |   |   02__INDEX_ALL_ENGINES.md
+|   |   |   03__ENG_CREATE_FLOW.md
 |   |   |   
 |   |   +---00_GOVERNANCE_ENGINES
 |   |   |       00__README__GOVERNANCE_ENGINES.md
-|   |   |       00__TEMPLATE__ENGINE__GOVERNANCE_ENGINES.md
-|   |   |       00__TEMPLATE__README__GOVERNANCE_ENGINES.md
 |   |   |       01__AUDIT_LOG_ENG.md
 |   |   |       02__CANON_AUTHORITY_ENG.md
 |   |   |       03__RULE_HIERARCHY_ENG.md
@@ -126,16 +135,12 @@
 |   |   |       
 |   |   +---01_CORE_ENGINES
 |   |   |       00__README__CORE_ENGINES.md
-|   |   |       00__TEMPLATE__ENGINE__CORE_ENGINES.md
-|   |   |       00__TEMPLATE__README__CORE_ENGINES.md
 |   |   |       01__CORE_IDENTITY_ENG.md
 |   |   |       02__CORE_STATE_ENG.md
 |   |   |       03__CORE_LIFECYCLE_ENG.md
 |   |   |       
 |   |   +---02_DOMAIN_NARRATIVE_ENGINES
 |   |   |       00__README__DOMAIN_NARRATIVE_ENGINES.md
-|   |   |       00__TEMPLATE__ENGINE__DOMAIN_NARRATIVE_ENGINES.md
-|   |   |       00__TEMPLATE__README__DOMAIN_NARRATIVE_ENGINES.md
 |   |   |       01__NARRATIVE_LOGIC_ENG.md
 |   |   |       02__STORY_STRUCTURE_ENG.md
 |   |   |       03__DRAMATIC_ARC_ENG.md
@@ -149,8 +154,6 @@
 |   |   |       
 |   |   +---03_DOMAIN_CHARACTER_ENGINES
 |   |   |       00__README__DOMAIN_CHARACTER_ENGINES.md
-|   |   |       00__TEMPLATE__ENGINE__DOMAIN_CHARACTER_ENGINES.md
-|   |   |       00__TEMPLATE__README__DOMAIN_CHARACTER_ENGINES.md
 |   |   |       01__CHARACTER_CORE_ENG.md
 |   |   |       02__MOTIVATION_DESIRE_ENG.md
 |   |   |       03__MORAL_VALUE_ENG.md
@@ -164,8 +167,6 @@
 |   |   |       
 |   |   +---04_DOMAIN_WORLD_ENGINES
 |   |   |       00__README__DOMAIN_WORLD_ENGINES.md
-|   |   |       00__TEMPLATE__ENGINE__DOMAIN_WORLD_ENGINES.md
-|   |   |       00__TEMPLATE__README__DOMAIN_WORLD_ENGINES.md
 |   |   |       01__WORLD_STRUCTURE_ENG.md
 |   |   |       02__WORLD_LAW_ENG.md
 |   |   |       03__TIMELINE_EPOCH_ENG.md
@@ -179,8 +180,6 @@
 |   |   |       
 |   |   +---05_EXPRESSION_ENGINES
 |   |   |       00__README__EXPRESSION_ENGINES.md
-|   |   |       00__TEMPLATE__ENGINE__EXPRESSION_ENGINES.md
-|   |   |       00__TEMPLATE__README__EXPRESSION_ENGINES.md
 |   |   |       01__EVENT_ENG.md
 |   |   |       02__CAUSE_EFFECT_ENG.md
 |   |   |       03__CONFLICT_ENG.md
@@ -193,8 +192,6 @@
 |   |   |       
 |   |   +---06_GENRE_STYLE_ENGINES
 |   |   |       00__README__GENRE_STYLE_ENGINES.md
-|   |   |       00__TEMPLATE__ENGINE__GENRE_STYLE_ENGINES.md
-|   |   |       00__TEMPLATE__README__GENRE_STYLE_ENGINES.md
 |   |   |       01__TONE_MOOD_ENG.md
 |   |   |       02__ATMOSPHERE_ENG.md
 |   |   |       03__EMOTIONAL_RESONANCE_ENG.md
@@ -204,8 +201,6 @@
 |   |   |       
 |   |   +---07_PRODUCTION_FORMAT_ENGINES
 |   |   |       00__README__PRODUCTION_FORMAT_ENGINES.md
-|   |   |       00__TEMPLATE__ENGINE__PRODUCTION_FORMAT_ENGINES.md
-|   |   |       00__TEMPLATE__README__PRODUCTION_FORMAT_ENGINES.md
 |   |   |       01__GENRE_ENG.md
 |   |   |       02__GENRE_BLENDING_ENG.md
 |   |   |       03__FORMAT_ADAPTATION_ENG.md
@@ -217,8 +212,6 @@
 |   |   |       
 |   |   +---08_KNOWLEDGE_PRODUCTION_ENGINES
 |   |   |       00__README__KNOWLEDGE_PRODUCTION_ENGINES.md
-|   |   |       00__TEMPLATE__ENGINE__KNOWLEDGE_PRODUCTION_ENGINES.md
-|   |   |       00__TEMPLATE__README__KNOWLEDGE_PRODUCTION_ENGINES.md
 |   |   |       01__VISUAL_COMPOSITION_ENG.md
 |   |   |       02__ART_STYLE_ENG.md
 |   |   |       03__CAMERA_CINEMATOGRAPHY_ENG.md
@@ -230,8 +223,6 @@
 |   |   |       
 |   |   +---09_SOUND_MUSIC_ENGINES
 |   |   |       00__README__SOUND_MUSIC_ENGINES.md
-|   |   |       00__TEMPLATE__ENGINE__SOUND_MUSIC_ENGINES.md
-|   |   |       00__TEMPLATE__README__SOUND_MUSIC_ENGINES.md
 |   |   |       01__MUSIC_COMPOSITION_ENG.md
 |   |   |       02__SONG_STRUCTURE_ENG.md
 |   |   |       03__HARMONY_CHORD_ENG.md
@@ -248,8 +239,6 @@
 |   |   |       
 |   |   +---10_META_EVOLUTION_ENGINES
 |   |   |       00__README__META_EVOLUTION_ENGINES.md
-|   |   |       00__TEMPLATE__ENGINE__META_EVOLUTION_ENGINES.md
-|   |   |       00__TEMPLATE__README__META_EVOLUTION_ENGINES.md
 |   |   |       01__LEARNING_ENG.md
 |   |   |       02__PATTERN_EXTRACTION_ENG.md
 |   |   |       03__OPTIMIZATION_ENG.md
@@ -258,8 +247,6 @@
 |   |   |       
 |   |   +---11_MUSIC_FACTORY_ENGINES
 |   |   |       00__README__MUSIC_FACTORY_ENGINES.md
-|   |   |       00__TEMPLATE__ENGINE__MUSIC_FACTORY_ENGINES.md
-|   |   |       00__TEMPLATE__README__MUSIC_FACTORY_ENGINES.md
 |   |   |       01__GROUP_FOUNDATION_ENG.md
 |   |   |       02__ARTIST_FACTORY_ENG.md
 |   |   |       03__ALBUM_BLUEPRINT_ENG.md
@@ -272,8 +259,6 @@
 |   |   |       
 |   |   +---12_TREND_GENRE_ENGINES
 |   |   |       00__README__TREND_GENRE_ENGINES.md
-|   |   |       00__TEMPLATE__ENGINE__TREND_GENRE_ENGINES.md
-|   |   |       00__TEMPLATE__README__TREND_GENRE_ENGINES.md
 |   |   |       01__GENRE_TAXONOMY_ENG.md
 |   |   |       02__FUSION_RECIPE_ENG.md
 |   |   |       03__STYLE_FINGERPRINT_ENG.md
@@ -284,8 +269,6 @@
 |   |   |       
 |   |   +---13_POET_PD_CORPUS_ENGINES
 |   |   |       00__README__POET_PD_CORPUS_ENGINES.md
-|   |   |       00__TEMPLATE__ENGINE__POET_PD_CORPUS_ENGINES.md
-|   |   |       00__TEMPLATE__README__POET_PD_CORPUS_ENGINES.md
 |   |   |       01__PD_FILTER_ENG.md
 |   |   |       02__POEM_FIT_SCORING_ENG.md
 |   |   |       03__JUICE_EXTRACTOR_ENG.md
@@ -294,8 +277,6 @@
 |   |   |       
 |   |   \---14_NAMING_IDENTITY_ENGINES
 |   |           00__README__NAMING_IDENTITY_ENGINES.md
-|   |           00__TEMPLATE__ENGINE__NAMING_IDENTITY_ENGINES.md
-|   |           00__TEMPLATE__README__NAMING_IDENTITY_ENGINES.md
 |   |           01__NAMING_BRIEF_ENG.md
 |   |           02__NAMING_GENERATION_ENG.md
 |   |           03__NAMING_COLLISION_ENG.md
@@ -597,6 +578,7 @@
 |   |       12__KB_SOURCE_LOCK_NO_FANTASY.md
 |   |       13__KB_MEMORY_POLICY.md
 |   |       14__KB_MODULE_STATE_SYSTEM.md
+|   |       15__KB_OPERATING_MODEL_AND_AUTHORING_RUNBOOK.md
 |   |       20__TEMPLATE__KB_MODULE.md
 |   |       21__TEMPLATE__KB_LIBRARY_ITEM.md
 |   |       22__TEMPLATE__SPC_PRO_PACK.md
@@ -1033,6 +1015,7 @@
 |   |   |       
 |   |   +---50_EXAMPLES
 |   |   |       00__README__EXAMPLES.md
+|   |   |       01__EXAMPLE__KB_CONSUMPTION_TRACE.md
 |   |   |       
 |   |   \---60_PROMPT_LIB
 |   |           00__README__PROMPT_LIB.md
@@ -1048,6 +1031,8 @@
 |           07__DEPRECATION_POINTER_STANDARD.md
 |           08__KB_MASTER_INDEX_REGISTRATION_RULES.md
 |           09__KB_SCOPE_GOVERNANCE_MINIMUM_SET.md
+|           100__KB_PIPELINE_TO_KB_SCOPE_MAP.md
+|           101__KB_GATE_TO_MODULE_MAP.md
 |           10__KB_SCOPE_REFERENCE_WHAT_GOES_THERE.md
 |           11__KB_SCOPE_TOPICS_WHAT_GOES_THERE.md
 |           12__KB_SCOPE_META_WHAT_GOES_THERE.md
