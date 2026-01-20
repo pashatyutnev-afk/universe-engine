@@ -1,4 +1,4 @@
-# ORC — POET PACK (CANON)
+# ORC — POET PACK (PD-ONLY) (CANON)
 
 FILE: 03_SYSTEM_ENTITIES/20_ORC__ORCHESTRATORS/10_MUSIC_ORCHESTRATORS/06__POET_PACK_ORC.md
 SCOPE: Universe Engine (Games volume)
@@ -14,23 +14,23 @@ LOCK: FIXED
 VERSION: 1.0.0
 UID: UE.ORC.MUSIC.POET_PACK.001
 OWNER: SYSTEM
-ROLE: Deterministic pipeline: select/curate poet materials under policy constraints (PD/allowed corpus), package them as inputs for track production. Outputs are SPEC/PACKAGE only.
+ROLE: Deterministic PD-only corpus pipeline: selects poems/excerpts from KB-approved sources, produces a reusable POET_PACK_SPEC (PD-only) for downstream music prompts. Enforces KB source lock and PD policy via CTL/VAL + matrix.
 
 CHANGE_NOTE:
 - DATE: 2026-01-20
 - TYPE: PATCH
-- SUMMARY: "Rebuilt POET_PACK as strict contract: inputs/outputs, PD-only boundary, XREF dependencies, allowlisted engines, and signoff chain."
-- REASON: "Prevent unclear rights sourcing and non-reproducible poem selection."
-- IMPACT: "Poet sources become auditable inputs for music pipelines; selection is deterministic and policy-bound."
+- SUMMARY: "Rebuilt POET_PACK_ORC as strict KB-bound PD-only pipeline: KB entrypoints, source lock, CTL/VAL enforcement, and reusable output spec."
+- REASON: "Prevent copyright-risk ingestion and 'fantasy sources'. Ensure poet packs are auditable and reusable."
+- IMPACT: "Poetry selection becomes compliant: PD-only guaranteed; downstream prompts can safely reference approved text."
 - CHANGE_ID: UE.CHG.2026-01-20.ORC.POETPACK.001
 
 ---
 
 ## 0) PURPOSE (LAW)
-Этот ORC собирает “поэт-пак” — набор разрешённых поэтических источников/фрагментов/правил отбора,
-который затем используется в ALBUM→TRACK (как вход для lyrics/mosaic).
-
-Этот ORC не создаёт треки. Только входные пакеты (SPEC/PACKAGE).
+Этот ORC создаёт POET_PACK_SPEC — документ-спеку набора поэзии/выдержек, которые:
+- происходят только из PD (public domain) или явно разрешённых источников по политике,
+- имеют доказуемое происхождение (KB provenance),
+- пригодны для многократного использования в треках/альбомах.
 
 ---
 
@@ -38,28 +38,42 @@ CHANGE_NOTE:
 ### 1.1 RAW-only navigation
 Только RAW.
 
-### 1.2 Ownership is mandatory
-Владельцы берутся только из `ORC → SPC`.
+### 1.2 KB source lock (no fantasy)
+Нельзя использовать источники, которых нет в KB/политике.
+Нельзя “угадывать” происхождение текста.
 
-### 1.3 Allowlist engines only
-ENG допускаются только по `ENG → ORC` allowlist.
+### 1.3 PD-only enforcement
+Если политика требует PD-only → обязательное выполнение PD policy CTL + PD-only VAL.
 
-### 1.4 Rights boundary (PD-only)
-Если политика требует PD-only, то любые не-PD источники запрещены.
-Если нет явного подтверждения правового режима источника → STOP: marker not confirmed (source policy gap).
+### 1.4 Matrix-driven gates
+Обязательные CTL/VAL/QA берутся из `VALIDATION_MATRIX` по ARTIFACT_TYPE: POET_PACK_SPEC.
 
-### 1.5 Mandatory gate order
-READINESS_CHECK_CTL → relevant VAL → relevant QA → DOC_CONTROLLER_SPC → MACHINE_ARCHITECT_SPC signoff
+### 1.5 Allowlist engines only
+ENG разрешены только по `ENG → ORC` allowlist.
 
-### 1.6 Planning-only scope
-Запрещены аудио-выходы.
-Выходы только: SPEC / PACKAGE.
+### 1.6 Stop conditions
+Только:
+- RAW missing
+- marker not confirmed
+- input absent
 
 ---
 
-## 2) REQUIRED XREF (RAW)
-PIPELINES (intent → pipeline)
-RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/90_XREF__CROSSREF/04__MAP__PIPELINES.md
+## 2) REQUIRED REFERENCES (RAW)
+
+### 2.1 Knowledge Base entrypoints
+KB MASTER INDEX
+RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/04_KNOWLEDGE_BASE/00__INDEX__KNOWLEDGE_BASE.md
+
+KB RULES
+RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/04_KNOWLEDGE_BASE/00_KB_GOVERNANCE/01__RULES__KB.md
+
+KB SOURCE LOCK (NO FANTASY)
+RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/04_KNOWLEDGE_BASE/00_KB_GOVERNANCE/12__KB_SOURCE_LOCK_NO_FANTASY.md
+
+### 2.2 XREF maps
+VALIDATION MATRIX
+RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/90_XREF__CROSSREF/03__MAP__VALIDATION_MATRIX.md
 
 ENG → ORC allowlist
 RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/90_XREF__CROSSREF/01__MAP__ENG_to_ORC.md
@@ -67,149 +81,149 @@ RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/hea
 ORC → SPC ownership
 RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/90_XREF__CROSSREF/02__MAP__ORC_to_SPC.md
 
-VALIDATION MATRIX
-RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/90_XREF__CROSSREF/03__MAP__VALIDATION_MATRIX.md
-
 ---
 
-## 3) REQUIRED CONTROL (RAW)
-READINESS CHECK (mandatory)
-RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/40_CTL__CONTROLLERS/01__READINESS_CHECK_CTL.md
+## 3) REQUIRED POLICY & VALIDATION (RAW)
+POET PD POLICY (CTL)
+RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/40_CTL__CONTROLLERS/10_MUSIC_CONTROLLERS/05__POET_PD_POLICY_CTL.md
+
+PD ONLY (VAL)
+RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/50_VAL__VALIDATORS/10_MUSIC_VALIDATORS/04__PD_ONLY_VAL.md
 
 ---
 
 ## 4) INPUTS (MINIMUM)
 ### 4.1 Required
-- Selection goal (для чего пак):
-  - mood/genre alignment (кратко)
-  - language constraint (если есть)
-- Rights policy:
-  - PD_ONLY = YES/NO (должно быть явно)
-- Quantity targets:
-  - number of poets (пример: 5–20)
-  - excerpt count per poet (пример: 3–10)
-- Collision constraints (optional, but recommended):
-  - avoid repeating same famous excerpts across catalog (intent-level)
+- Poet selection intent:
+  - poet name(s) or era (if known)
+  - theme/mood keywords (short)
+  - language constraint
+- Usage intent:
+  - for which group/album/track (optional pointer)
+  - target style (short)
+- KB source scope:
+  - which KB module(s) contain approved sources (RAW links if user provides)
 
-### 4.2 Optional
-- Candidate poet list (если уже есть)
-- Exclusion list (что нельзя использовать)
-
-### 4.3 Stop rule
-Если не задан rights policy (PD_ONLY YES/NO) → STOP: input absent
+### 4.2 Stop rule
+Если нет poet selection intent или нет KB source scope → STOP: input absent
 
 ---
 
-## 5) OUTPUTS (ARTIFACT SET)
-- POET_PACK_SPEC (SPEC doc)
-- POET_PACK_PACKAGE (PACKAGE doc, если нужно упаковать с приложениями)
-
-Gates берём из `VALIDATION_MATRIX` для типов SPEC/PACKAGE.
+## 5) OUTPUTS (ARTIFACT)
+- POET_PACK_SPEC (ARTIFACT_TYPE: POET_PACK_SPEC)
 
 ---
 
-## 6) POET PACK CONTENT REQUIREMENTS (STRICT)
-SPEC обязан содержать минимум:
-- policy block:
-  - PD_ONLY flag
-  - selection boundaries
-- selection method summary:
-  - критерии отбора (коротко)
-  - что считается допустимым источником
-- poet roster:
-  - Poet_ID/Name
-  - short rationale (почему подходит)
-  - planned excerpt types (theme/tone)
-- usage contract:
-  - как этот пак используется в ALBUM→TRACK
-  - какие поля должны попасть в prompt/lyrics pipeline (без генерации текста)
+## 6) POET_PACK_SPEC — MINIMUM CONTENT (CANON)
+POET_PACK_SPEC обязан содержать:
+- UID / VERSION / STATUS / LOCK
+- Poet identity (as declared)
+- Scope & intent (theme/mood/use)
+- SOURCE_PROVENANCE (REQUIRED):
+  - KB module/item RAW pointer(s)
+  - source record reference (if present)
+  - note of PD status basis (per policy)
+- CORPUS ITEMS (list):
+  - item_id
+  - excerpt (short, within allowed policy)
+  - tags (mood/imagery)
+  - collision note (avoid repeating same famous lines)
+- USAGE GUIDANCE:
+  - how to blend excerpts (mosaic allowed or not)
+  - constraints for prompts (no full poem dump unless policy allows)
 
 ---
 
 ## 7) PIPELINE STEPS (DETERMINISTIC)
 
-### STEP 0 — PRECHECK (CTL)
+### STEP 0 — PRECHECK (OWNERSHIP + READINESS)
 Owner: PRIMARY_SPC (from ORC→SPC map)  
-Gate: READINESS_CHECK_CTL  
-Input: rights policy + selection goal + targets  
-Output: PASS/FAIL  
+Action:
+- confirm KB scope links present
+- confirm PD policy applies
+Output:
+- PRECHECK: PASS/FAIL
+
 Fail → STOP
 
 ---
 
-### STEP 1 — CANDIDATE SET BUILD (SPC)
+### STEP 1 — LOAD KB SOURCES (LOCKED)
 Owner: PRIMARY_SPC  
-Input: candidate list or open selection within constraints  
-Output:
-- CANDIDATE_POETS (list)
-- EXCLUSION_RULES
-
-Notes:
-- Если источники не определены и нет механизма выбора → фиксируем GAP (нельзя угадывать).
-
----
-
-### STEP 2 — ENGINE METHOD APPLICATION (ENG via allowlist)
-Owner: PRIMARY_SPC + ENG methods  
-Constraint:
-- использовать только allowlisted ENG реалмы для этого ORC (по `ENG→ORC`).
-Output:
-- SELECTION_METHOD_TRACE (коротко: какие методы применили)
-- FILTERED_POETS list
-
-Fail:
-- если для отбора нужен ENG, которого нет в allowlist → STOP: marker not confirmed (GAP)
-
----
-
-### STEP 3 — RIGHTS CHECK (POLICY BOUNDARY)
-Owner: PRIMARY_SPC (policy enforcement)
 Action:
-- если PD_ONLY=YES, то каждый кандидат должен иметь подтверждение PD статуса внутри системы/источника
+- open KB scope modules/items by RAW
+- build source candidate list
 Output:
-- RIGHTS_VERDICT per poet: PASS/FAIL/UNKNOWN
+- KB_SOURCE_CANDIDATES
 
-If UNKNOWN and PD_ONLY=YES → STOP: marker not confirmed
+If any required KB pointer missing → STOP: RAW missing
 
 ---
 
-### STEP 4 — SPEC ASSEMBLY (SPC)
+### STEP 2 — APPLY PD POLICY CTL (REQUIRED)
+Owner: POET_PD_POLICY_CTL  
+Action:
+- enforce what is considered “PD acceptable” per policy
+Output:
+- CTL_VERDICT + REQUIREMENTS
+
+FAIL → STOP: marker not confirmed
+
+---
+
+### STEP 3 — SELECT CORPUS ITEMS (ALLOWLISTED ENG)
+Owner: PRIMARY_SPC + allowed poet corpus engines  
+Constraint:
+- ENG only from allowlist (Poet corpus engines)
+Action:
+- pick excerpts/items from KB sources
+- avoid duplicates / famous-line collisions when possible
+Output:
+- CORPUS_DRAFT
+
+---
+
+### STEP 4 — APPLY PD ONLY VAL (REQUIRED)
+Owner: PD_ONLY_VAL  
+Action:
+- validate provenance and PD compliance
+Output:
+- VAL_VERDICT + VIOLATION_RECORDS (if any)
+
+FAIL → return to STEP 3 (or STEP 1 if sources invalid)
+
+---
+
+### STEP 5 — MATRIX GATES FOR POET_PACK_SPEC
+Owner: PRIMARY_SPC  
+Action:
+- resolve row ARTIFACT_TYPE: POET_PACK_SPEC in Validation Matrix
+- apply required CTL/VAL/QA listed there
+Output:
+- GATE_TRACE + FINAL_VERDICT
+
+If matrix row missing → STOP: marker not confirmed
+
+---
+
+### STEP 6 — PACKAGE OUTPUT SPEC
 Owner: PRIMARY_SPC  
 Output:
-- POET_PACK_SPEC draft
+- POET_PACK_SPEC (final)
 
 ---
 
-### STEP 5 — VALIDATION + QA (by matrix)
-Owner: relevant VAL + relevant QA  
-Apply:
-- gates for SPEC (and PACKAGE if produced)
-Output:
-- VIOLATIONS / QA_VERDICT
-
-FAIL → return to STEP 4
+## 8) FAILOVER (STRICT)
+- Invalid/unknown source provenance → STOP or return to STEP 1
+- PD policy mismatch → STOP: marker not confirmed
+- Need new KB source module not present → STOP: input absent (user must provide KB scope link) or propose creating KB module via KB templates.
 
 ---
 
-### STEP 6 — PACKAGING (optional)
-Owner: PRIMARY_SPC  
-Output:
-- POET_PACK_PACKAGE (manifest + pointers to spec and any attachments)
-
----
-
-### STEP 7 — DOC CONTROL + SIGNOFF
-Owner: DOC_CONTROLLER_SPC → MACHINE_ARCHITECT_SPC  
-Output:
-- FINAL SPEC/PACK
-
----
-
-## 8) EXTENSION POLICY (STRICT)
-Если добавляем новый тип источников или новые обязательные проверки:
-1) обновить `VALIDATION_MATRIX` (PATCH)
-2) обновить `ENG→ORC` allowlist (если нужен новый ENG)
-3) затем обновить этот ORC (PATCH)
+## 9) EXTENSION POLICY (STRICT)
+- Change PD rules = update POET_PD_POLICY_CTL (PATCH)
+- Change required gates = update Validation Matrix (PATCH)
+- Add new poet corpus engines = update ENG→ORC allowlist (PATCH)
 
 ---
 

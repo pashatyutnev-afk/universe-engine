@@ -14,45 +14,52 @@ LOCK: FIXED
 VERSION: 1.0.0
 UID: UE.ORC.MUSIC.GROUP_TO_ALBUM.001
 OWNER: SYSTEM
-ROLE: Deterministic pipeline: group foundation → album blueprint (and minimal album docs) with strict inputs/outputs, XREF dependencies, and mandatory gates.
+ROLE: Deterministic planning pipeline: converts group identity/style into an album blueprint (track slots + intent). Produces SPEC-level planning artifacts used by ALBUM→TRACK. No audio outputs.
 
 CHANGE_NOTE:
 - DATE: 2026-01-20
 - TYPE: PATCH
-- SUMMARY: "Rebuilt GROUP→ALBUM orchestrator as strict contract: inputs/outputs, ownership/allowlist, gate placement, and packaging rules."
-- REASON: "Remove ambiguity in how albums are defined before track production. Prevent guessing of owners/engines/templates."
-- IMPACT: "Album planning becomes auditable and repeatable; downstream track pipelines get deterministic inputs."
+- SUMMARY: "Rebuilt GROUP_TO_ALBUM as strict planner: inputs/outputs, allowlisted engines, readiness gate, and deterministic album blueprint contract."
+- REASON: "ALBUM→TRACK requires a stable blueprint; avoid vague planning that breaks production."
+- IMPACT: "Album planning becomes reproducible and auditable; downstream pipelines receive complete slot spec."
 - CHANGE_ID: UE.CHG.2026-01-20.ORC.G2A.001
 
 ---
 
 ## 0) PURPOSE (LAW)
-Этот ORC создаёт фундамент группы и оформляет альбомный blueprint как канонические документы.
-Он не генерирует “музыку”, он оформляет структуру и контракт для дальнейшего ALBUM→TRACK.
+Этот ORC делает ALBUM BLUEPRINT (SPEC) из данных группы:
+- стиль/ДНК/ограничения
+- цель альбома и концепт
+- N слотов треков с intent и differentiation
+
+Выход — план (SPEC), который потом читает `ALBUM_TO_TRACK_ORC`.
 
 ---
 
 ## 1) ABSOLUTE LAWS
 ### 1.1 RAW-only navigation
-Только RAW ссылки.
+Только RAW.
 
 ### 1.2 Ownership is mandatory
-Владельцы берутся только из `ORC → SPC` карты.
+PRIMARY_SPC берётся только из `ORC → SPC`.
 
 ### 1.3 Allowlist engines only
-ENG допускаются только по `ENG → ORC` allowlist для этого ORC.
+ENG разрешены только по `ENG → ORC`.
 
-### 1.4 Mandatory gate order
-READINESS_CHECK_CTL → relevant VAL → relevant QA → DOC_CONTROLLER_SPC → MACHINE_ARCHITECT_SPC signoff
+### 1.4 No audio outputs
+Запрещено выдавать аудио/трек.
+Только план (SPEC) и связанные плановые документы.
 
-### 1.5 Output artifact rule
-Нельзя выпускать “голые списки”.
-Выход = документ-артефакт.
+### 1.5 Stop conditions
+Только:
+- RAW missing
+- marker not confirmed
+- input absent
 
 ---
 
 ## 2) REQUIRED XREF (RAW)
-PIPELINES (intent → pipeline)
+PIPELINES
 RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/90_XREF__CROSSREF/04__MAP__PIPELINES.md
 
 ENG → ORC allowlist
@@ -61,7 +68,7 @@ RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/hea
 ORC → SPC ownership
 RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/90_XREF__CROSSREF/02__MAP__ORC_to_SPC.md
 
-VALIDATION MATRIX
+VALIDATION MATRIX (for SPEC row, if applied)
 RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/90_XREF__CROSSREF/03__MAP__VALIDATION_MATRIX.md
 
 ---
@@ -74,124 +81,126 @@ RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/hea
 
 ## 4) INPUTS (MINIMUM)
 ### 4.1 Required
-- Group identity seed (любое из):
-  - Group name / working name
-  - Brand binding (если есть)
-  - Style intent (жанр/настроение/темп/язык) — коротко
-- Album intent:
-  - Album concept (1–2 строки)
-  - Album size target (пример: 7 треков)
-  - Album arc (как меняется настроение по трекам) — коротко
+- Group identity/style (RAW link if exists, else user text)
+- Album goal (what this album is for) — short
+- Album constraints:
+  - language constraint (if any)
+  - mood/genre intent (short)
+  - taboo/exclusions (optional but recommended)
+- Track count target: N
 
 ### 4.2 Optional
-- Reference constraints (что точно нельзя)
-- Platform target (Suno/Udio/Universal) — если важно для дальнейшего prompt contract
+- Audience segment intent (if used later by CTL)
+- Poet pack usage intent (if poetry-based)
 
 ### 4.3 Stop rule
-Если нет ни group seed, ни album intent → STOP: input absent
+Если нет group style или album goal или N → STOP: input absent
 
 ---
 
 ## 5) OUTPUTS (ARTIFACT SET)
-Минимальный набор:
-- ALBUM_BLUEPRINT (как документ-артефакт)
-- PACKAGE (если упаковываем как “album blueprint pack”)
-
-Примечание:
-- Точные типы файлов альбома зависят от storage map/шаблонов. ORC фиксирует требование “документ-артефакт”, а не придумывает пути.
+- ALBUM_BLUEPRINT_SPEC (SPEC doc)
+Optional:
+- ALBUM_SLOT_TABLE (может быть внутри SPEC)
+- PLANNING_NOTES (внутри SPEC)
 
 ---
 
-## 6) PIPELINE STEPS (DETERMINISTIC)
+## 6) ALBUM BLUEPRINT SPEC — MINIMUM CONTENT (CANON)
+SPEC обязан содержать минимум:
+- Album UID/Title placeholder
+- Album concept (1–3 строки)
+- Global constraints:
+  - language
+  - mood/genre intent
+  - exclusions
+- Track slot table (T01..TN):
+  - slot intent (mood/energy/story role)
+  - hook intent (if known)
+  - differentiation note (чем отличается от соседних)
+  - lyric approach (original / poetry mosaic / instrumental etc)
+- Handoff contract:
+  - “This blueprint feeds ALBUM_TO_TRACK_ORC”
+  - expected outputs per track (card/prompt/release)
+
+---
+
+## 7) PIPELINE STEPS (DETERMINISTIC)
 
 ### STEP 0 — PRECHECK (CTL)
-Owner: PRIMARY_SPC (из ORC→SPC map)  
+Owner: PRIMARY_SPC  
 Gate: READINESS_CHECK_CTL  
-Input: task + root link base + group/album intent  
+Input: group style + album goal + N  
 Output: PASS/FAIL  
 Fail → STOP
 
 ---
 
-### STEP 1 — GROUP FOUNDATION (SPC-led)
-Owner: PRIMARY_SPC  
-Input: group seed + constraints  
-Output:
-- GROUP_PROFILE_MIN (name, identity notes, style intent)
-- NAMING_NOTES (если есть риск конфликтов — фиксируем)
-
-Notes:
-- если требуется naming decision — он фиксируется как часть выхода, но без “угадывания путей”.
-
----
-
-### STEP 2 — ENGINE SELECTION (XREF allowlist)
-Owner: ORC (this doc)  
-Constraint:
-- использовать только allowlisted ENG реалмы из `ENG→ORC` для данного ORC.
-
-Output:
-- ALLOWED_ENG_REALMS_USED (RAW ссылки на README реалмов)
-Fail:
-- если нужного ENG нет в allowlist → STOP: marker not confirmed (GAP)
-
----
-
-### STEP 3 — ALBUM BLUEPRINT DRAFT (SPC + ENG methods)
-Owner: PRIMARY_SPC (решения) + ENG (методы)  
-Output draft:
-- ALBUM_BLUEPRINT_DRAFT with:
-  - tracklist skeleton (T01..Txx)
-  - role of each track (intro/peak/bridge/outro)
-  - mood/tempo trajectory
-  - constraints per track (если нужно)
-
----
-
-### STEP 4 — VALIDATION + QA (by matrix)
-Owner: relevant VAL + relevant QA  
-Rule:
-- применяем `VALIDATION_MATRIX` к типам артефактов, которые выпускаем (обычно SPEC/PACKAGE).
-Output:
-- VIOLATIONS (если есть)
-- QA_VERDICT
-
-FAIL → вернуть на STEP 3 (исправление)
-
----
-
-### STEP 5 — PACKAGING (if needed)
+### STEP 1 — LOAD GROUP CONSTRAINTS
 Owner: PRIMARY_SPC  
 Action:
-- оформить blueprint как документ-артефакт
-- если требуется пакет: сделать PACKAGE документ с pointers на blueprint и связанные элементы
-
+- зафиксировать стиль/ДНК/ограничения в плановом виде
 Output:
-- FINAL ALBUM BLUEPRINT
-- OPTIONAL: ALBUM BLUEPRINT PACK
+- GROUP_CONSTRAINTS_BLOCK
 
 ---
 
-### STEP 6 — DOC CONTROL + SIGNOFF
-Owner: DOC_CONTROLLER_SPC → MACHINE_ARCHITECT_SPC  
+### STEP 2 — BUILD ALBUM CONCEPT
+Owner: PRIMARY_SPC + allowlisted ENG methods  
+Constraint:
+- использовать только allowlisted ENG (см. ENG→ORC запись для GROUP→ALBUM)
 Output:
-- signoff подтверждён, версия/UID/статусы корректны
+- ALBUM_CONCEPT_BLOCK (concise)
 
 ---
 
-## 7) HANDOFFS (CANON)
-- PRIMARY_SPC: решение структуры альбома и упаковка
-- CTL: readiness и stop-логика
-- VAL/QA: приемка по матрице
-- DOC_CONTROLLER_SPC: doc control
-- MACHINE_ARCHITECT_SPC: финальный signoff
+### STEP 3 — BUILD TRACK SLOT TABLE
+Owner: PRIMARY_SPC + allowlisted ENG methods  
+Action:
+- создать T01..TN
+- для каждого: intent + differentiation
+Output:
+- TRACK_SLOT_TABLE
 
 ---
 
-## 8) EXTENSION POLICY (STRICT)
-Если появляются новые артефакты или требования:
-1) сначала правим XREF карты (validation matrix / eng allowlist / owners)
-2) затем правим этот ORC (PATCH)
+### STEP 4 — ASSEMBLE SPEC DRAFT
+Owner: PRIMARY_SPC  
+Output:
+- ALBUM_BLUEPRINT_SPEC_DRAFT
+
+---
+
+### STEP 5 — (OPTIONAL) APPLY SPEC GATES VIA MATRIX
+Owner: PRIMARY_SPC  
+Action:
+- если ты используешь строку ARTIFACT_TYPE: SPEC из матрицы — прогнать REQUIRED_CTL/VAL/QA
+Output:
+- SPEC_GATES_VERDICT
+
+Fail → return to STEP 4
+
+---
+
+### STEP 6 — HANDOFF TO ALBUM→TRACK
+Owner: PRIMARY_SPC  
+Output:
+- HANDOFF_RAW (pointer to spec)
+Handoff target:
+RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/20_ORC__ORCHESTRATORS/10_MUSIC_ORCHESTRATORS/02__ALBUM_TO_TRACK_ORC.md
+
+---
+
+## 8) FAILOVER (STRICT)
+- Если не хватает group style или album goal → STOP: input absent
+- Если нужен ENG, которого нет в allowlist → STOP: marker not confirmed (GAP)
+
+---
+
+## 9) EXTENSION POLICY (STRICT)
+- Новые поля blueprint = PATCH этого ORC
+- Новый ENG нужен = PATCH ENG→ORC allowlist
+- Сделать SPEC gates обязательными = PATCH Validation Matrix
 
 ---
 

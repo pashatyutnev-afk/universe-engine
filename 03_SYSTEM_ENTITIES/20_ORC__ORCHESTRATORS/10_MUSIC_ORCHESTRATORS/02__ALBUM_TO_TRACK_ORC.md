@@ -14,53 +14,60 @@ LOCK: FIXED
 VERSION: 1.0.0
 UID: UE.ORC.MUSIC.ALBUM_TO_TRACK.001
 OWNER: SYSTEM
-ROLE: Deterministic pipeline: album blueprint → track artifacts (card/prompt/release) with mandatory gates, ownership, and allowlisted engines.
+ROLE: Primary production pipeline: converts an album blueprint into track document set (CARD + PROMPT + RELEASE metadata). Matrix-driven CTL/VAL/QA, allowlisted ENG only, deterministic iteration loop.
 
 CHANGE_NOTE:
 - DATE: 2026-01-20
 - TYPE: PATCH
-- SUMMARY: "Rebuilt ALBUM→TRACK orchestrator as a strict contract: inputs/outputs, handoffs, XREF dependencies, mandatory gate order."
-- REASON: "Remove ambiguity: ORC must not guess engines, owners, or gate placement."
-- IMPACT: "Music production becomes auditable and repeatable across runs."
+- SUMMARY: "Rebuilt ALBUM_TO_TRACK as strict deterministic producer: inputs/outputs per track, one-axis iteration, matrix-driven gates, and explicit handoff to DOC-GATE and RELEASE_PACK."
+- REASON: "Prevent ad-hoc generation, missing docs, and uncontrolled changes across iterations."
+- IMPACT: "Track production becomes auditable, repeatable, and compatible with packaging and validation."
 - CHANGE_ID: UE.CHG.2026-01-20.ORC.A2T.001
 
 ---
 
 ## 0) PURPOSE (LAW)
-Этот ORC определяет порядок шагов для преобразования альбомного blueprint в комплект трек-артефактов.
-ORC не генерирует контент сам, а управляет:
-- шагами,
-- handoffs,
-- применением CTL/VAL/QA гейтов,
-- упаковкой результатов в канонические документы.
+Этот ORC создаёт документальный набор трека из альбомного плана:
+- MUSIC_TRACK_CARD
+- MUSIC_TRACK_PROMPT
+- MUSIC_TRACK_RELEASE
+
+Аудио может быть сгенерировано вне документов, но этот ORC отвечает за документы (как вход в генерацию/публикацию).
+Финальная готовность подтверждается через DOC-GATE и затем RELEASE_PACK.
 
 ---
 
 ## 1) ABSOLUTE LAWS
 ### 1.1 RAW-only navigation
-Использовать только RAW ссылки из ROOT LINK BASE или присланные пользователем.
+Только RAW.
 
 ### 1.2 Ownership is mandatory
-ORC обязан опираться на карту владельцев `ORC → SPC`.
-Нельзя назначать владельцев “по логике”.
+PRIMARY_SPC берётся только из `ORC → SPC`.
 
 ### 1.3 Allowlist engines only
-ORC обязан опираться на карту `ENG → ORC`.
-Нельзя использовать ENG вне allowlist.
+ENG разрешены только по `ENG → ORC`.
 
-### 1.4 Mandatory gate order
-По умолчанию для каждого артефакта в этом пайплайне:
-READINESS_CHECK_CTL → relevant VAL → relevant QA → DOC_CONTROLLER_SPC → MACHINE_ARCHITECT_SPC signoff
+### 1.4 Matrix-driven gates only
+Обязательные CTL/VAL/QA берутся из `VALIDATION_MATRIX` по ARTIFACT_TYPE.
 
-### 1.5 Output artifact rule
-Запрещён “голый контент”. Каждый результат оформляется как документ-артефакт.
+### 1.5 One-axis iteration discipline
+В одном цикле правки меняется только ОДНА ось:
+- либо структура (sections/arrangement)
+- либо хук (hook)
+- либо вокальная подача (delivery)
+- либо лирика/слова (lyrics)
+- либо негативные ограничения (negative spec)
+Иначе → FAIL (процессный).
+
+### 1.6 Stop conditions
+Только:
+- RAW missing
+- marker not confirmed
+- input absent
 
 ---
 
 ## 2) REQUIRED XREF (RAW)
-PIPELINES (intent → pipeline)
-RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/90_XREF__CROSSREF/04__MAP__PIPELINES.md
-
 ENG → ORC allowlist
 RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/90_XREF__CROSSREF/01__MAP__ENG_to_ORC.md
 
@@ -76,154 +83,166 @@ RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/hea
 READINESS CHECK (mandatory)
 RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/40_CTL__CONTROLLERS/01__READINESS_CHECK_CTL.md
 
-MUSIC CTL FAMILY (policies)
-RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/40_CTL__CONTROLLERS/10_MUSIC_CONTROLLERS/00__README__MUSIC_CONTROLLERS.md
-
 ---
 
 ## 4) INPUTS (MINIMUM)
 ### 4.1 Required
-- Album context (минимум один из):
-  - `00__ALBUM__PASSPORT.md`
-  - `01__ALBUM__BLUEPRINT.md`
-- Group context (если доступно):
-  - `00__GROUP__PASSPORT.md`
-  - `01__GROUP__STYLE.md`
+- Album blueprint (track list + intent per track) — RAW link if exists, else user text
+- Group style / master style — RAW link if exists, else user text
+- Track targets:
+  - number of tracks to produce (N)
+  - language constraint (if any)
+  - mood/genre intent (short)
 
-### 4.2 Task inputs
-- Target: какой трек делаем (T01..Txx) или список треков
-- Format intent: какой тип трека/настроение/роль в альбоме (из blueprint)
-- Platform target: Suno/Udio/Universal (если применимо)
+### 4.2 Optional
+- Poet pack spec (если используем поэзию/мозаику)
+- Catalog memory snapshot (что уже было, чтобы не повторяться)
 
 ### 4.3 Stop rule
-Если нет альбомного blueprint и невозможно определить цель трека → STOP: input absent
+Если нет album blueprint / track targets → STOP: input absent
 
 ---
 
-## 5) OUTPUTS (ARTIFACT SET)
-Минимальный набор на 1 трек (строго как документы):
-- MUSIC_TRACK_CARD
-- MUSIC_TRACK_PROMPT
-- MUSIC_TRACK_RELEASE (когда есть релизный результат или релиз-пак стадия)
+## 5) OUTPUTS (ARTIFACT SET) — PER TRACK
+Для каждого трека i:
+- MUSIC_TRACK_CARD (ARTIFACT_TYPE: MUSIC_TRACK_CARD)
+- MUSIC_TRACK_PROMPT (ARTIFACT_TYPE: MUSIC_TRACK_PROMPT)
+- MUSIC_TRACK_RELEASE (ARTIFACT_TYPE: MUSIC_TRACK_RELEASE)
 
-Матрица гейтов для каждого типа берётся из `VALIDATION_MATRIX`.
+Дополнительно:
+- ITERATION_LOG (короткий трейс: что меняли по one-axis)
 
 ---
 
-## 6) PIPELINE STEPS (DETERMINISTIC)
-Каждый шаг должен оставлять trace: что принято, что выдано, кто владелец.
+## 6) TRACK DOC MINIMUM CONTENT (DETERMINISTIC)
+### 6.1 CARD minimum
+- UID/Title
+- role in album (slot)
+- mood/genre tags
+- differentiation note (чем отличается от соседних)
+- pointers to prompt/release docs (или planned names)
+
+### 6.2 PROMPT minimum
+- prompt contract fields (structure)
+- negative specs
+- duration target / hook timing intent
+- optional: voice diversity intent
+
+### 6.3 RELEASE minimum
+- credits/metadata block
+- rights notes (если есть)
+- collision/fingerprint note (intent-level)
+
+---
+
+## 7) PIPELINE STEPS (DETERMINISTIC)
 
 ### STEP 0 — PRECHECK (CTL)
-Owner: PRIMARY_SPC (из ORC→SPC map)  
+Owner: PRIMARY_SPC (from ORC→SPC map)  
 Gate: READINESS_CHECK_CTL  
-Input: TASK + album blueprint + root link base context  
-Output: READINESS_VERDICT PASS/FAIL
-
-Fail → STOP по причине из CTL.
+Input: blueprint + targets  
+Output: PASS/FAIL  
+Fail → STOP
 
 ---
 
-### STEP 1 — TRACK SELECTION (SPC handoff)
+### STEP 1 — PLAN TRACK SLOTS
 Owner: PRIMARY_SPC  
-Input: album blueprint + task target  
+Action:
+- зафиксировать N слотов (T01..TN)
+- для каждого: intent + differentiation tag
 Output:
-- TRACK_TARGET (Txx)
-- TRACK_ROLE_IN_ALBUM (hook/bridge/intro/outro/peak etc)
-- REQUIRED_ARTIFACTS (card/prompt/release)
-
-Notes:
-- Не допускается выбор “примерно такой трек”. Нужна явная фиксация TRACK_TARGET.
+- TRACK_SLOT_TABLE
 
 ---
 
-### STEP 2 — ENGINE SELECTION (ORC + XREF)
-Owner: ORC (this file)  
+### STEP 2 — DRAFT DOCS (CARD/PROMPT/RELEASE)
+Owner: PRIMARY_SPC + allowlisted ENG methods  
 Constraint:
-- использовать только allowlisted ENG реалмы из `ENG→ORC` для данного ORC.
+- использовать только allowlisted ENG (см. ENG→ORC запись для ALBUM→TRACK)
+Output per track:
+- CARD_DRAFT
+- PROMPT_DRAFT
+- RELEASE_DRAFT
+- ITERATION_LOG entry (axis = NEW, first draft)
 
+---
+
+### STEP 3 — APPLY MATRIX GATES (PER ARTIFACT)
+Owner: ORC (this doc)  
+Action:
+Для каждого артефакта (CARD, PROMPT, RELEASE):
+- определить ARTIFACT_TYPE
+- получить REQUIRED_CTL/VAL/QA из `VALIDATION_MATRIX`
+- применить в каноническом порядке
+Outputs:
+- CTL_VERDICT per artifact
+- VIOLATION_RECORDS per artifact (VAL)
+- QA_VERDICT per artifact
+
+If any FAIL:
+- перейти к STEP 4 (repair loop)
+
+---
+
+### STEP 4 — REPAIR LOOP (ONE-AXIS)
+Owner: PRIMARY_SPC  
+Action:
+- выбрать ОДНУ ось изменения
+- внести минимальную правку
+- обновить ITERATION_LOG
+- повторить STEP 3 только для затронутых артефактов
+
+Stop:
+- если попытка изменить >1 оси за цикл → STOP: marker not confirmed (process violation)
+
+---
+
+### STEP 5 — HANDOFF TO DOC-GATE
+Owner: PRIMARY_SPC  
+Action:
+- после PASS по всем артефактам трека — отправить набор в TRACK_TEST_DOC_GATE_ORC
 Output:
-- ALLOWED_ENG_REALMS_USED (список реалмов, ссылками на README реалмов)
-- OPTIONAL_ENGINE_NOTES (что для чего)
+- DOC_GATE_INPUT_SET
 
-Fail:
-- если для нужного действия нет allowlisted ENG реалма → STOP: marker not confirmed (это GAP)
+DOC-GATE ORC:
+RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/20_ORC__ORCHESTRATORS/10_MUSIC_ORCHESTRATORS/03__TRACK_TEST_DOC_GATE_ORC.md
 
 ---
 
-### STEP 3 — PROMPT CONTRACT APPLICATION (CTL)
-Owner: PRIMARY_SPC + CTL policy application  
-Apply CTL policies (по необходимости):
-- PROMPT_CONTRACT_CTL
-- DURATION_POLICY_CTL
-- RELEASE_VARIANTS_CTL (если нужен вариант)
-- NEGATIVE_SPEC_LIBRARY_CTL (если применимо)
-
+### STEP 6 — READY FOR PACKAGING
+Owner: PRIMARY_SPC  
+Action:
+- если DOC-GATE PASS — трек готов к упаковке
 Output:
-- PROMPT_CONTRACT_STATE (кратко: что применили)
-- CONSTRAINTS_APPLIED (список)
+- READY_TRACK_SET (card+prompt+release)
 
-Notes:
-- Контроллеры не создают текст за ORC. Они ограничивают форму и требования.
-
----
-
-### STEP 4 — DRAFT ARTIFACTS (ENG execution via ORC)
-Owner: PRIMARY_SPC (решения) + ENG (методы)  
-Produces drafts:
-- TRACK_CARD_DRAFT
-- TRACK_PROMPT_DRAFT
-
-Output target:
-- оформляется как документы (не как “в чат текстом без шапки”)
+Packaging ORC:
+RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/20_ORC__ORCHESTRATORS/10_MUSIC_ORCHESTRATORS/04__RELEASE_PACK_ORC.md
 
 ---
 
-### STEP 5 — VALIDATION + QA (by matrix)
-Owner: relevant VAL + relevant QA  
-Input: drafts  
-Rules:
-- REQUIRED_VAL и REQUIRED_QA берутся из `VALIDATION_MATRIX` по ARTIFACT_TYPE.
-
-Output:
-- VIOLATIONS (если есть)
-- QA_VERDICT (PASS/WARN/FAIL по доменным правилам QA, если определены)
-
-Fail handling:
-- FAIL → возврат на STEP 3/4 (исправление) без выхода из allowlist и без смены владельцев.
-
----
-
-### STEP 6 — DOC CONTROL + SIGNOFF
+### STEP 7 — DOC CONTROL + SIGNOFF (PER RUN)
 Owner: DOC_CONTROLLER_SPC → MACHINE_ARCHITECT_SPC  
 Action:
-- проверка doc control полей, UID, version, naming consistency
-- финальная подпись цепочки
-
+- подтверждение что produced docs соответствуют стандартам и матрице
 Output:
-- FINAL_ARTIFACTS (card/prompt/release) готовые
+- SIGNOFF_NOTE (run-level)
 
 ---
 
-## 7) HANDOFFS (CANON)
-- ORC owner (this doc) управляет шагами и обязательными картами.
-- PRIMARY_SPC владеет решениями и упаковкой результата.
-- CTL применяет политики и readiness gate.
-- VAL фиксирует нарушения соответствия.
-- QA фиксирует приемку/скоринг.
-- DOC_CONTROLLER_SPC проверяет doc control и корректность упаковки.
-- MACHINE_ARCHITECT_SPC закрывает ран.
+## 8) FAILOVER (STRICT)
+- FAIL on CARD/PROMPT/RELEASE gates → repair loop (STEP 4)
+- FAIL on DOC-GATE → repair loop, затем снова DOC-GATE
+- Repeated catalog collision → use allowed collision/novelty engines; если не хватает — GAP (allowlist/matrix)
 
 ---
 
-## 8) EXTENSION POLICY (STRICT)
-Если нужно добавить:
-- новый тип артефакта
-- новый обязательный гейт
-- новый ENG реалм для этого ORC
-
-Сначала:
-1) обновить XREF карты (validation matrix / eng→orc / orc→spc) как PATCH
-2) затем обновить этот ORC как PATCH
+## 9) EXTENSION POLICY (STRICT)
+- Новый тип артефакта → PATCH Validation Matrix
+- Новый ENG нужен → PATCH ENG→ORC allowlist
+- Новый ownership нужен → PATCH ORC→SPC map
+Иначе STOP.
 
 ---
 
