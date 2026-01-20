@@ -1,112 +1,145 @@
-# ENG ENGINES — RULESET (LAW) — CANON FILE: 03_SYSTEM_ENTITIES/10_ENG__ENGINES/01__RULES__ENGINES.md
-SCOPE: Universe Engine
+# ENG ENGINES — RULESET (LAW) (CANON)
+
+FILE: 03_SYSTEM_ENTITIES/10_ENG__ENGINES/01__RULES__ENGINES.md
+SCOPE: Universe Engine (Games volume) / System Entities / ENGINES (ENG)
+SERIAL: C425-B513
 LAYER: 03_SYSTEM_ENTITIES
-ENTITY_GROUP: ENGINES (ENG)
 DOC_TYPE: RULESET
+ENTITY_GROUP: ENGINES (ENG)
 LEVEL: L1
 STATUS: ACTIVE
 LOCK: FIXED
-VERSION: 1.0.0
+VERSION: 1.0.1
 UID: UE.ENG.RULES.001
 OWNER: SYSTEM
-ROLE: Hard rules + gates for ENG layer. Violations mean incomplete / non-canon behavior.
+ROLE: Hard rules + gates for ENG layer. Violations mean INCOMPLETE / NON-CANON behavior.
 
 CHANGE_NOTE:
-- DATE: 2026-01-08
-- TYPE: MAJOR
-- SUMMARY: "ENG ruleset created: existence, raw-only, numbering, mini-contract, boundaries, governance compatibility."
-- REASON: "Root ENG rules were empty; stamping requires hard enforcement."
-- IMPACT: "ENG can be executed deterministically and audited."
-- CHANGE_ID: UE.CHG.2026-01-08.ENG.RULES.001
+- DATE: 2026-01-20
+- TYPE: PATCH
+- SUMMARY: "DOC CONTROL normalization: structured header + explicit gate list + KB scope + RAW interfaces. No semantic change."
+- REASON: "Make enforcement readable and consistent with other realm rulesets."
+- IMPACT: "ENG rules become auditable and easy to apply during routing."
+- CHANGE_ID: UE.CHG.2026-01-20.ENG.RULES.002
 
 ---
 
 ## 0) DEFINITIONS (STRICT)
-- CANON: только то, что зарегистрировано каноническим индексом/реестром.
-- INCOMPLETE: файл существует, но не удовлетворяет законам (не допускается как рабочий движок).
-- RAW-ONLY: ссылки только на raw.githubusercontent.com.
+- CANON: только то, что зарегистрировано каноническим индексом.
+- INCOMPLETE: файл существует, но нарушает законы (не допускается как рабочий движок).
+- RAW-ONLY: ссылки только на `raw.githubusercontent.com`.
 
 ---
 
 ## 1) HARD RULES (MUST / FORBIDDEN)
 
-### R1 (HARD) — EXISTENCE
-MUST: любой Engine/README/Template семьи должен быть зарегистрирован в каноническом ENG INDEX.
-FORBIDDEN: использовать “файл в папке” как канон без регистрации.
+### R1 — EXISTENCE MUST (HARD)
+MUST:
+- любой Engine/README/Template семьи зарегистрирован в каноническом ENG INDEX.
 
-### R2 (HARD) — RAW-ONLY NAVIGATION
-MUST: индексы/реестры/README обязаны давать raw-links.
-FORBIDDEN: github.com UI ссылки в канонической навигации.
+FORBIDDEN:
+- считать “файл в папке” каноном без регистрации.
 
-### R3 (HARD) — NAMING & NUMBERING
-MUST: имя файла `NN__NAME_ENG.md` и номер в индексе совпадают.
-MUST: README семьи всегда `00__README__...`.
-FORBIDDEN: пропуски/двойные номера внутри семьи.
+### R2 — RAW-ONLY NAVIGATION MUST (HARD)
+MUST:
+- индексы/реестры/README дают RAW ссылки.
 
-### R4 (HARD) — STATUS/LOCK STRICT SET
-MUST: STATUS ∈ {DRAFT, ACTIVE, DEPRECATED, ARCHIVED} и встречается ровно один раз.
-MUST: LOCK ∈ {OPEN, FIXED} и встречается ровно один раз.
-FORBIDDEN: второй STATUS/LOCK в конце файла.
+FORBIDDEN:
+- github.com UI ссылки в канонической навигации.
 
-### R5 (HARD) — MINI-CONTRACT LAW
-MUST: каждый Engine содержит MINI-CONTRACT:
-CONSUMES / PRODUCES / DEPENDS_ON / OUTPUT_TARGET.
-FORBIDDEN: “вода” вместо артефактов (idea/thing/etc).
-Если MINI-CONTRACT vague → INVALID.
+### R3 — NAMING & NUMBERING MUST (HARD)
+MUST:
+- имя файла `NN__..._ENG.md` и номер в индексе совпадают.
+- README семьи всегда `00__README__..._ENGINES.md`.
 
-### R6 (HARD) — BOUNDARIES
-MUST: каждый Engine содержит BOUNDARIES:
-IN SCOPE / OUT OF SCOPE / COLLISION RULE.
-FORBIDDEN: дублирование области другого семейства без collision rule.
+FORBIDDEN:
+- пропуски/двойные номера внутри семьи.
 
-### R7 (HARD) — OUTPUT SCHEMAS
-MUST: для каждого PRODUCES артефакта задана минимальная схема:
-MUST / OPTIONAL / VALIDATION / STORAGE.
+### R4 — STATUS/LOCK STRICT SET MUST (HARD)
+MUST:
+- STATUS ∈ {DRAFT, ACTIVE, DEPRECATED, ARCHIVED} и встречается ровно один раз.
+- LOCK ∈ {OPEN, FIXED} и встречается ровно один раз.
 
-### R8 (HARD) — DEPENDENCY VISIBILITY
-MUST: любые зависимости прописаны в DEPENDS_ON.
-MUST: если существует governance dependency registry — зависимость отражена там.
-FORBIDDEN: скрытые зависимости.
+FORBIDDEN:
+- второй STATUS/LOCK в конце файла.
 
-### R9 (HARD) — GOVERNANCE PIPELINE COMPATIBILITY
-MUST: любые canon-impacting изменения проходят governance pipeline.
-MUST: canon-impacting изменения фиксируются audit записью (append-only).
+### R5 — MINI-CONTRACT LAW MUST (HARD)
+MUST:
+- каждый Engine содержит MINI-CONTRACT: CONSUMES / PRODUCES / DEPENDS_ON / OUTPUT_TARGET.
+
+FORBIDDEN:
+- “вода” вместо артефактов (idea/thing/etc).
+Если MINI-CONTRACT расплывчатый → INVALID.
+
+### R6 — BOUNDARIES MUST (HARD)
+MUST:
+- каждый Engine содержит BOUNDARIES: IN SCOPE / OUT OF SCOPE / COLLISION RULE.
+
+FORBIDDEN:
+- дублировать область другого семейства без collision rule.
+
+### R7 — OUTPUT SCHEMAS MUST (HARD)
+MUST:
+- для каждого PRODUCES артефакта задана минимальная схема:
+  - MUST / OPTIONAL / VALIDATION / STORAGE
+
+### R8 — DEPENDENCY VISIBILITY MUST (HARD)
+MUST:
+- любые зависимости прописаны в DEPENDS_ON.
+
+FORBIDDEN:
+- скрытые зависимости.
+
+### R9 — GOVERNANCE COMPATIBILITY MUST (HARD)
+MUST:
+- canon-impacting изменения проходят governance pipeline
+- фиксируются audit записью (append-only)
 
 ---
 
 ## 2) GATES (FAST ENFORCEMENT)
 G0 — Header Gate:
-- корректный CANON FILE path
-- корректные FAMILY/CLASS/LEVEL
-- STATUS/LOCK валидны
+- корректный DOC CONTROL header
+- валидные STATUS/LOCK
 
 G1 — Contract Gate:
 - MINI-CONTRACT конкретный
-- OUTPUT_TARGET заполнен (хотя бы MANDATORY)
+- OUTPUT_TARGET заполнен
 
 G2 — Boundary Gate:
-- BOUNDARIES не пустой
+- BOUNDARIES не пустые
 - collision rule определён
 
 G3 — Schema Gate:
 - output schemas существуют на каждый PRODUCES
 
 G4 — Canon Gate:
-- зарегистрирован в индексе raw-link
-- если canon-impacting — audit record существует
+- зарегистрирован в индексе RAW link
+- если canon-impacting — audit запись существует
 
-Если любой Gate FAIL → файл считается INCOMPLETE.
+Если любой gate FAIL → Engine INCOMPLETE.
 
 ---
-## LINK RESOLUTION RULE (OPERATIONAL)
-- RAW links are the only navigation mechanism.
-- When a user provides an operational index (or subset), it becomes the only allowed link library.
-- No link guessing is allowed.
 
-## 3) REFERENCES (RAW ONLY)
+## 3) KNOWLEDGE BASE (KB) SCOPE
+KB INPUTS:
+- стандарты оформления/контроля (Doc Control, Index Structure)
+- правила идентичности (Naming, UID)
+- доменные стандарты по тематике движка
+
+KB OUTPUTS:
+- none (ENG не является KB модулем)
+
+BOUNDARIES:
+- правила/методы и схемы результата — да
+- хранение контента и знаний как SoT — нет
+
+---
+
+## 4) REFERENCES (RAW ONLY)
 - ENG REALM README:
-  https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/00__README__ENGINES_REALM.md
-- ENG INDEX_ALL_ENGINES:
-  https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/02__INDEX_ALL_ENGINES.md
+  - RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/00__README__ENGINES_REALM.md
+- ENG GLOBAL REGISTRY:
+  - RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/02__INDEX_ALL_ENGINES.md
 
 --- END.
