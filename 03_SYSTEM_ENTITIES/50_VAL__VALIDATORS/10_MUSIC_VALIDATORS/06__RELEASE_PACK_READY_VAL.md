@@ -1,184 +1,183 @@
-# RELEASE PACK READY — VAL
-FILE: 03_SYSTEM_ENTITIES/50_VAL__VALIDATORS/10_MUSIC_VALIDATORS/06__RELEASE_PACK_READY_VAL.md
+# VAL — RELEASE PACK READY (MUSIC) (CANON)
 
-SCOPE: Universe Engine
+FILE: 03_SYSTEM_ENTITIES/50_VAL__VALIDATORS/10_MUSIC_VALIDATORS/06__RELEASE_PACK_READY_VAL.md
+SCOPE: Universe Engine (Games volume)
+SERIAL: C425-B513
 LAYER: 03_SYSTEM_ENTITIES
-ENTITY_GROUP: VALIDATORS (VAL)
-VAL_REALM: 10_MUSIC_VALIDATORS
-DOC_TYPE: VALIDATOR
-VAL_TYPE: RELEASE_PACK_READY
-LEVEL: L3
+REALM: 50_VAL__VALIDATORS
+FAMILY: 10_MUSIC_VALIDATORS
+LEVEL: L2
+DOC_TYPE: VAL (VALIDATOR)
+ENTITY_TYPE: VALIDATOR
 STATUS: ACTIVE
 LOCK: FIXED
 VERSION: 1.0.0
-UID: UE.VAL.MUS.RELEASE_PACK_READY.001
+UID: UE.VAL.MUSIC.RELEASE_PACK_READY.001
 OWNER: SYSTEM
-ROLE: Validates Release Pack completeness and policy compliance:
-required variants present, platform titles present, metadata/credits present, filename-safe strings present,
-and QA/VAL snapshots attached. Blocks shipping if mandatory components missing.
+ROLE: Validates that a MUSIC_RELEASE_PACK is complete, structured, and publish-ready: required files/sections exist, metadata and credits are present, rights/provenance are clear, and variants are declared. Produces deterministic violation records and blocks final packaging when incomplete.
 
 CHANGE_NOTE:
-- DATE: 2026-01-12
-- TYPE: MAJOR
-- SUMMARY: "Created Release Pack Ready validator: deterministic checklist aligned to Release Variants and Credits/Metadata policies."
-- REASON: "Releases fail when packs are incomplete or inconsistent; this validator prevents broken uploads."
-- IMPACT: "Cleaner publishing and consistent catalog artifacts."
-- CHANGE_ID: UE.CHG.2026-01-12.VAL.RELEASE_PACK_READY.001
+- DATE: 2026-01-20
+- TYPE: PATCH
+- SUMMARY: "Rebuilt release pack readiness validator: checks minimum structure, metadata/credits compliance, rights provenance, and variant declarations."
+- REASON: "Release packs were passing without consistent structure and publish-ready fields."
+- IMPACT: "Packaging becomes reliable; downstream distribution processes become deterministic."
+- CHANGE_ID: UE.CHG.2026-01-20.VAL.RELPACK.001
 
 ---
 
 ## 0) PURPOSE (LAW)
-Answer:
-**“Is the Release Pack complete and compliant with policies?”**
+Этот валидатор отвечает на один вопрос:
+Готов ли релиз-пак к публикации без ручных догадок?
 
-This validator checks Release Pack structure against CTL:
-- Release Variants
-- Credits & Metadata Policy
-- Naming/platform title availability (when required)
-
----
-
-## 1) INPUTS (CONSUMES)
-Required:
-- RELEASE_PACK_REF (or embedded pack fields)
-- VARIANT_MANIFEST:
-  - list of variants included (labels)
-  - for each: winner take id + prompt snapshot ref
-- PLATFORM_TITLES_PACK_REF (or titles embedded)
-- METADATA_SHEET_REF (or embedded)
-- CREDITS_RIGHTS_NOTE_REF (or embedded)
-- QA_VAL_SNAPSHOT_REF
-- FILENAME_SAFE_STRINGS_PRESENT: YES/NO
-
-Optional:
-- PD_MODE_USED: YES/NO
-- PD_ARTIFACT_REFS (if PD_MODE_USED)
+Проверяется:
+- структура и обязательные элементы пакета
+- метаданные и кредиты
+- права на текст/источники (если corpus)
+- описание вариантов (shorts/alt/clean/etc)
 
 ---
 
-## 2) OUTPUT (PRODUCES)
-- DECISION: {PASS | WARN | FAIL}
-- REASONS: short bullets
-- REQUIRED_ACTION:
-  - {NONE | ADD_MISSING_VARIANTS | ADD_PLATFORM_TITLES | ADD_METADATA | ADD_CREDITS | ADD_FILENAME_SAFE | FIX_PD_FIELDS}
-- RETEST_NOTES: 1–2 actions max
+## 1) ABSOLUTE RULES
+### 1.1 Target must be explicit
+Должен быть явный TARGET_RAW на конкретный `MUSIC_RELEASE_PACK` документ/папку/паспорт.
+
+Если отсутствует → FAIL_CLASS: input absent.
+
+### 1.2 No silent pass
+Если отсутствует обязательный элемент — всегда FAIL с REQUIRED_FIX.
+
+### 1.3 Deterministic evidence
+Каждое нарушение должно ссылаться на конкретный отсутствующий блок/файл/маркер.
 
 ---
 
-## 3) RULE SOURCES (CTL) — RAW
-Release Variants CTL:
-RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/40_CTL__CONTROLLERS/10_MUSIC_CONTROLLERS/04__RELEASE_VARIANTS_CTL.md
+## 2) APPLICABILITY
+- MUSIC_RELEASE_PACK (primary)
 
-Credits & Metadata Policy CTL:
+Invocation:
+- RELEASE_PACK_ORC (before final signoff)
+- DOC_CONTROLLER_SPC signoff chain (as required validator)
+
+---
+
+## 3) REQUIRED REFERENCES (RAW)
+MUSIC RELEASE PACK STANDARD  
+RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/02_STANDARDS/01_SPECIFICATIONS/10_MUSIC_SYSTEM/05__MUSIC_RELEASE_PACK_STANDARD.md
+
+RELEASE PACK ORC  
+RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/20_ORC__ORCHESTRATORS/10_MUSIC_ORCHESTRATORS/04__RELEASE_PACK_ORC.md
+
+CREDITS & METADATA POLICY (CTL)  
 RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/40_CTL__CONTROLLERS/10_MUSIC_CONTROLLERS/13__CREDITS_METADATA_POLICY_CTL.md
 
-Quality gates policy:
-RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/40_CTL__CONTROLLERS/10_MUSIC_CONTROLLERS/09__QUALITY_GATES_CTL.md
+CREDITS & RIGHTS (VAL)  
+RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/50_VAL__VALIDATORS/10_MUSIC_VALIDATORS/09__CREDITS_RIGHTS_VAL.md
 
 ---
 
-## 4) CHECKLIST (DETERMINISTIC)
+## 4) MINIMUM PACK CONTENT (CANON)
+Validator expects the pack to contain, at minimum:
 
-### CHECK A — Required variants present
-- MAIN must exist always.
-- If objective requires UGC-first: SHORT_CUT must exist.
-- Variant labels must be from allowed set (no invented labels).
+### 4.1 PACK PASSPORT / INDEX
+- PACK_UID (or placeholder)
+- TRACK_UID
+- PACK_INTENT (single / EP / album track / shorts variants)
+- FILE LIST (or pointers)
 
-FAIL if MAIN missing.
-FAIL if UGC-first required but SHORT_CUT missing.
-WARN if optional variants present but incomplete.
+### 4.2 METADATA BLOCK
+- as required by CREDITS_METADATA_POLICY_CTL (minimum fields)
 
----
+### 4.3 CREDITS BLOCK
+- as required by CREDITS_METADATA_POLICY_CTL
 
-### CHECK B — Each variant has required contents
-For each included variant:
-- winner take id present
-- frozen prompt pack ref present
-- duration mode label present
-- QA/VAL snapshot ref (or global ref) present
+### 4.4 RIGHTS / PROVENANCE
+- required if lyrics/corpus used (SOURCE_STATUS, KB_SOURCE_RAW, etc)
 
-FAIL if any included variant lacks winner take id or prompt ref.
-WARN if minor fields missing but fixable.
-
----
-
-### CHECK C — Platform titles pack present
-- PLATFORM_TITLES_PACK must exist (at least streaming + YouTube titles).
-FAIL if missing.
+### 4.5 VARIANTS (if any)
+If pack intent includes variants:
+- VARIANT_LIST with names and purpose (e.g., SHORTS_15S, CLEAN, ALT_HOOK)
+- For each variant: duration target and hook timing intent (if applicable)
 
 ---
 
-### CHECK D — Metadata and credits present
-- Metadata sheet must include required core fields (group/track/title/uid/dates/genre/mood/language).
-- Credits/rights note must exist.
+## 5) VALIDATION CHECKS (DETERMINISTIC)
+### CHECK A — pack standard alignment marker
+Pack must declare it follows release pack standard (explicit reference or marker).
+If missing → VIOLATION: STANDARD_REF_MISSING (S1)
 
-FAIL if metadata missing.
-FAIL if credits/rights missing.
+### CHECK B — pack passport/index present
+If missing → VIOLATION: PACK_PASSPORT_MISSING (S0)
 
----
+### CHECK C — metadata present
+If missing required metadata fields → VIOLATION: METADATA_INCOMPLETE (S0)
 
-### CHECK E — Filename-safe strings present
-- GROUP_NAME_SAFE, TRACK_TITLE_SAFE, VARIANT_LABEL_SAFE should exist.
-FAIL if missing.
+### CHECK D — credits present
+If missing/empty → VIOLATION: CREDITS_INCOMPLETE (S0)
 
----
+### CHECK E — rights/provenance compliance
+If CORPUS used and provenance missing or SOURCE_STATUS not confirmed → VIOLATION: RIGHTS_NOT_CLEAR (S0)
 
-### CHECK F — PD fields (conditional)
-If PD_MODE_USED=YES:
-- PD policy mode declared
-- PD eligibility report ref exists
-- excerpt collision report ref exists
-FAIL if missing key PD refs.
+### CHECK F — variants declared when needed
+If pack intent includes variants but no variant list → VIOLATION: VARIANTS_MISSING (S1)
 
----
-
-## 5) DECISION LOGIC
-PASS when:
-- all required checks pass
-
-WARN when:
-- pack is complete enough but has fixable minor omissions
-  (e.g., filename-safe missing for one platform title)
-
-FAIL when:
-- any mandatory component missing (variants/titles/metadata/credits)
-- PD required fields missing in PD mode
+### CHECK G — variant fields completeness
+For each variant (if present):
+- name present
+- purpose present
+- (recommended) duration target present
+If missing → VIOLATION: VARIANT_FIELDS_INCOMPLETE (S2)
 
 ---
 
-## 6) REQUIRED ACTIONS
-- ADD_MISSING_VARIANTS:
-  - generate required variant via Release Pack ORC and include refs
-- ADD_PLATFORM_TITLES:
-  - run naming pipeline and platform titles engine
-- ADD_METADATA / ADD_CREDITS:
-  - populate required fields and attach refs
-- ADD_FILENAME_SAFE:
-  - produce sanitized strings
-- FIX_PD_FIELDS:
-  - attach missing PD refs or switch text mode away from PD
+## 6) VIOLATION RECORD FORMAT (REQUIRED)
+- VAL_ID: UE.VAL.MUSIC.RELEASE_PACK_READY.001
+- TARGET_ARTIFACT_TYPE: MUSIC_RELEASE_PACK
+- TARGET_RAW: (raw link)
+- VIOLATION_CODE: (section 7)
+- SEVERITY: S0 | S1 | S2 | S3
+- EVIDENCE:
+  - bullet list (missing blocks/fields)
+- REQUIRED_FIX:
+  - bullet list
+- RETURN_TO:
+  - RELEASE_PACK_ORC raw
 
 ---
 
-## 7) OUTPUT SCHEMA (MANDATORY)
-RELEASE_PACK_READY_VAL_RESULT:
-- RELEASE_UID:
-- DECISION: {PASS | WARN | FAIL}
-- MISSING:
-  - variants:
-  - titles:
-  - metadata:
-  - credits:
-  - filename_safe:
-  - pd_fields:
-- REASONS: [...]
-- REQUIRED_ACTION: ...
-- RETEST_NOTES: [...]
+## 7) VIOLATION CODES (CANON)
+- STANDARD_REF_MISSING (S1)
+- PACK_PASSPORT_MISSING (S0)
+- METADATA_INCOMPLETE (S0)
+- CREDITS_INCOMPLETE (S0)
+- RIGHTS_NOT_CLEAR (S0)
+- VARIANTS_MISSING (S1)
+- VARIANT_FIELDS_INCOMPLETE (S2)
 
 ---
 
-## FINAL RULE (LOCK)
-OWNER: SYSTEM
-LOCK: FIXED
+## 8) VERDICT RULES
+PASS:
+- no S0/S1 violations
+- S2 only allowed if pack intent is not “publish now” (otherwise treat as S1 by ORC)
 
---- END.
+FAIL:
+- any S0
+- any S1
+- or S2 when pack is marked PUBLISH_READY=true
+
+---
+
+## 9) DEFAULT RETURN ROUTE (RAW)
+RELEASE_PACK_ORC  
+RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/20_ORC__ORCHESTRATORS/10_MUSIC_ORCHESTRATORS/04__RELEASE_PACK_ORC.md
+
+---
+
+## 10) CHANGE POLICY (LOCK)
+- If release pack standard changes, update this validator via PATCH.
+- Keep in sync with CREDITS_METADATA_POLICY_CTL and CREDITS_RIGHTS_VAL.
+
+---
+
+END.

@@ -1,188 +1,174 @@
-# CREDITS & RIGHTS — VAL
-FILE: 03_SYSTEM_ENTITIES/50_VAL__VALIDATORS/10_MUSIC_VALIDATORS/09__CREDITS_RIGHTS_VAL.md
+# VAL — CREDITS & RIGHTS (MUSIC RELEASE COMPLIANCE) (CANON)
 
-SCOPE: Universe Engine
+FILE: 03_SYSTEM_ENTITIES/50_VAL__VALIDATORS/10_MUSIC_VALIDATORS/09__CREDITS_RIGHTS_VAL.md
+SCOPE: Universe Engine (Games volume)
+SERIAL: C425-B513
 LAYER: 03_SYSTEM_ENTITIES
-ENTITY_GROUP: VALIDATORS (VAL)
-VAL_REALM: 10_MUSIC_VALIDATORS
-DOC_TYPE: VALIDATOR
-VAL_TYPE: CREDITS_RIGHTS
-LEVEL: L3
+REALM: 50_VAL__VALIDATORS
+FAMILY: 10_MUSIC_VALIDATORS
+LEVEL: L2
+DOC_TYPE: VAL (VALIDATOR)
+ENTITY_TYPE: VALIDATOR
 STATUS: ACTIVE
 LOCK: FIXED
 VERSION: 1.0.0
-UID: UE.VAL.MUS.CREDITS_RIGHTS.001
+UID: UE.VAL.MUSIC.CREDITS_RIGHTS.001
 OWNER: SYSTEM
-ROLE: Validates presence and coherence of required credits/metadata fields and text-mode attribution:
-ensures TEXT_MODE is declared, PD fields are present when PD used, and release docs do not contain prohibited full-text dumps.
-Aligned to Credits & Metadata Policy CTL and Poet PD Policy.
+ROLE: Hard validator for release-time rights clarity and credits completeness. Enforces KB provenance markers for any non-user lyrics/corpus usage and blocks publishing when rights are ambiguous. Produces deterministic violations.
 
 CHANGE_NOTE:
-- DATE: 2026-01-12
-- TYPE: MAJOR
-- SUMMARY: "Created Credits & Rights validator: required fields checks, PD attribution checks, and no-dump enforcement."
-- REASON: "Release packaging fails when metadata/credits are missing or PD mode lacks attribution and evidence."
-- IMPACT: "Consistent catalog docs and safer attribution handling."
-- CHANGE_ID: UE.CHG.2026-01-12.VAL.CREDITS.RIGHTS.001
+- DATE: 2026-01-20
+- TYPE: PATCH
+- SUMMARY: "Rebuilt credits/rights validator: strict provenance checks, required credits fields, and publish-blocking severity for any ambiguity."
+- REASON: "Rights ambiguity is the highest-risk failure mode; must be enforced at VAL level."
+- IMPACT: "No release can pass without explicit rights provenance or original declaration."
+- CHANGE_ID: UE.CHG.2026-01-20.VAL.CREDITS.001
 
 ---
 
 ## 0) PURPOSE (LAW)
-Answer:
-**“Are credits/metadata and text-mode attribution complete and coherent?”**
+Этот валидатор проверяет два блока:
+1) CREDITS — минимальный набор полей заполнен
+2) RIGHTS — ясность прав на текст/источник (особенно для CORPUS)
 
-This validator enforces internal policy requirements for documentation and release packaging.
-It does not provide legal conclusions.
-
----
-
-## 1) INPUTS (CONSUMES)
-Required:
-- METADATA_FIELDS (core set):
-  - GROUP_NAME, TRACK_TITLE, TRACK_UID
-  - LANGUAGE_PRIMARY
-  - GENRE_STACK, MOOD_STACK
-  - DURATION_MODE, UGC_MODE
-  - WINNER_TAKE_ID
-  - PROMPT_PACK_FROZEN_REF
-- CREDITS_FIELDS (core set):
-  - MUSIC_CREDIT / SYSTEM marker
-  - MIX_CREDIT / MASTER_CREDIT (role/system)
-  - VOCAL credits if lyrical
-- TEXT_MODE: {ORIGINAL | PD_VERBATIM | PD_MOSAIC | ADAPTATION | INSPIRED}
-Optional:
-- PD_FIELDS (required if TEXT_MODE indicates PD use):
-  - PD_POLICY_MODE
-  - PD_ELIGIBILITY_REPORT_REF
-  - EXCERPT_COLLISION_REPORT_REF
-  - AUTHOR/WORK/SOURCE_REF/ATTRIBUTION_LINE (if tracked)
-
-Recommended:
-- CONTENT_SAFETY_NOTE: "no full poem dump" compliance statement (optional)
+Если есть сомнение → FAIL.
 
 ---
 
-## 2) OUTPUT (PRODUCES)
-- DECISION: {PASS | WARN | FAIL}
-- REASONS: (short bullets)
-- REQUIRED_ACTION:
-  - {NONE | ADD_METADATA_FIELDS | ADD_CREDITS_FIELDS | FIX_TEXT_MODE | ADD_PD_ATTRIBUTION | REMOVE_DUMPED_TEXT}
-- RETEST_NOTES: 1–2 actions max
+## 1) ABSOLUTE RULES
+### 1.1 Source Lock is absolute
+Все non-user lyrics/corpus обязаны иметь KB provenance.
+
+KB SOURCE LOCK / NO FANTASY  
+RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/04_KNOWLEDGE_BASE/00_KB_GOVERNANCE/12__KB_SOURCE_LOCK_NO_FANTASY.md
+
+### 1.2 No “unknown status”
+SOURCE_STATUS может быть только:
+- PD_CONFIRMED
+- LICENSE_CONFIRMED
+Иначе → FAIL.
+
+### 1.3 Release-time enforcement
+Если документ помечен как PUBLISH_READY (или находится в release pack):
+- любые нарушения прав/кредитов считаются блокирующими (S0/S1).
 
 ---
 
-## 3) RULE SOURCES (CTL) — RAW
-Credits & Metadata Policy CTL:
+## 2) APPLICABILITY
+- MUSIC_TRACK_RELEASE
+- MUSIC_RELEASE_PACK
+
+Invocation:
+- RELEASE_PACK_ORC (final)
+- DOC_CONTROLLER_SPC signoff chain
+
+---
+
+## 3) REQUIRED REFERENCES (RAW)
+CREDITS & METADATA POLICY (CTL)  
 RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/40_CTL__CONTROLLERS/10_MUSIC_CONTROLLERS/13__CREDITS_METADATA_POLICY_CTL.md
 
-Poet PD Policy CTL:
-RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/40_CTL__CONTROLLERS/10_MUSIC_CONTROLLERS/05__POET_PD_POLICY_CTL.md
-
-Quality gates policy:
-RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/40_CTL__CONTROLLERS/10_MUSIC_CONTROLLERS/09__QUALITY_GATES_CTL.md
+RELEASE PACK READY (VAL)  
+RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/50_VAL__VALIDATORS/10_MUSIC_VALIDATORS/06__RELEASE_PACK_READY_VAL.md
 
 ---
 
-## 4) CHECKS (DETERMINISTIC)
+## 4) REQUIRED FIELDS (MINIMUM)
+### 4.1 CREDITS required
+- MUSIC_BY
+- LYRICS_BY (or N/A if INSTRUMENTAL)
+- VOCALS (or N/A if INSTRUMENTAL)
+Optional but recommended:
+- MIX_MASTER
+- ARTWORK
 
-### CHECK A — Core metadata present
-FAIL if any of these are missing:
-- GROUP_NAME
-- TRACK_TITLE
-- TRACK_UID
-- LANGUAGE_PRIMARY
-- GENRE_STACK
-- MOOD_STACK
-- WINNER_TAKE_ID
-- PROMPT_PACK_FROZEN_REF
+### 4.2 RIGHTS required
+- LYRICS_MODE: ORIGINAL | CORPUS | INSTRUMENTAL
 
-WARN if optional but useful fields missing (dates, platform targets).
+If LYRICS_MODE = ORIGINAL:
+- RIGHTS_NOTE must state original text (user/system)
 
----
+If LYRICS_MODE = CORPUS:
+- KB_SOURCE_RAW
+- SOURCE_STATUS: PD_CONFIRMED | LICENSE_CONFIRMED
+- SOURCE_NOTE
+- FULL_TEXT_ALLOWED (only if full text used)
 
-### CHECK B — Core credits present
-FAIL if:
-- no music/system credit marker exists
-- mix/master credit markers missing (role or system)
-WARN if:
-- secondary roles missing (producer/prompt architect etc.)
-
----
-
-### CHECK C — TEXT_MODE declared
-FAIL if TEXT_MODE missing.
+If LYRICS_MODE = INSTRUMENTAL:
+- RIGHTS optional
 
 ---
 
-### CHECK D — PD attribution completeness (conditional)
-If TEXT_MODE in {PD_VERBATIM, PD_MOSAIC}:
-FAIL if any missing:
-- PD_POLICY_MODE
-- PD_ELIGIBILITY_REPORT_REF
-- EXCERPT_COLLISION_REPORT_REF
-WARN if missing:
-- AUTHOR/WORK/ATTRIBUTION_LINE (depending on whether project tracks them)
+## 5) VALIDATION CHECKS
+### CHECK A — credits present
+If any required field missing/empty → VIOLATION: CREDITS_MISSING_FIELDS (S1)
 
-If TEXT_MODE is ORIGINAL:
-- PD fields should not be required.
+### CHECK B — lyrics mode declared
+If missing/invalid → VIOLATION: LYRICS_MODE_MISSING (S0)
 
----
+### CHECK C — ORIGINAL requires rights note
+If ORIGINAL and RIGHTS_NOTE missing → VIOLATION: ORIGINAL_RIGHTS_NOTE_MISSING (S1)
 
-### CHECK E — No full-text dumps (hard)
-FAIL if documentation contains:
-- full poem dumps or long contiguous source text (policy violation)
-WARN if:
-- text length seems excessive and should be reduced to fragments/structured lyrics.
+### CHECK D — CORPUS requires provenance
+If CORPUS and any of required provenance fields missing → VIOLATION: CORPUS_PROVENANCE_MISSING (S0)
 
-(Detection method is operational; this validator enforces the rule conceptually.)
+### CHECK E — SOURCE_STATUS strict enum
+If CORPUS and SOURCE_STATUS not in allowed enum → VIOLATION: SOURCE_STATUS_INVALID (S0)
 
----
+### CHECK F — full text requires explicit allowance
+If full lyrics text included and FULL_TEXT_ALLOWED missing → VIOLATION: FULL_TEXT_NOT_ALLOWED (S0)
 
-## 5) DECISION LOGIC
-PASS when:
-- core metadata and credits present
-- TEXT_MODE present and coherent
-- if PD mode used: required PD refs present
-- no dump violations
-
-WARN when:
-- minor optional fields missing
-- PD attribution partially missing but fixable
-
-FAIL when:
-- any core metadata missing
-- TEXT_MODE missing
-- PD required fields missing in PD mode
-- full-text dump detected
+### CHECK G — no external source claims
+If rights refer to an external source without KB_SOURCE_RAW → VIOLATION: NON_KB_SOURCE_REFERENCE (S0)
 
 ---
 
-## 6) REQUIRED ACTIONS
-- ADD_METADATA_FIELDS: populate missing required metadata fields
-- ADD_CREDITS_FIELDS: add required credit markers/roles
-- FIX_TEXT_MODE: set correct mode and align fields
-- ADD_PD_ATTRIBUTION: attach PD refs and attribution line
-- REMOVE_DUMPED_TEXT: reduce to fragments/structured lyrics and re-run PD checks
+## 6) VIOLATION RECORD FORMAT (REQUIRED)
+- VAL_ID: UE.VAL.MUSIC.CREDITS_RIGHTS.001
+- TARGET_ARTIFACT_TYPE: (MUSIC_TRACK_RELEASE | MUSIC_RELEASE_PACK | OTHER)
+- TARGET_RAW: (raw link)
+- VIOLATION_CODE: (section 7)
+- SEVERITY: S0 | S1 | S2 | S3
+- EVIDENCE:
+  - bullet list (missing fields / bad status)
+- REQUIRED_FIX:
+  - bullet list
+- RETURN_TO:
+  - release pack ORC raw
 
 ---
 
-## 7) OUTPUT SCHEMA (MANDATORY)
-CREDITS_RIGHTS_VAL_RESULT:
-- TRACK_UID:
-- TEXT_MODE:
-- MISSING_METADATA_FIELDS: [...]
-- MISSING_CREDITS_FIELDS: [...]
-- PD_FIELDS_STATUS: {NA | OK | MISSING}
-- DUMP_VIOLATION: {NO | SUSPECTED | YES}
-- DECISION: {PASS | WARN | FAIL}
-- REASONS: [...]
-- REQUIRED_ACTION: ...
-- RETEST_NOTES: [...]
+## 7) VIOLATION CODES (CANON)
+- CREDITS_MISSING_FIELDS (S1)
+- LYRICS_MODE_MISSING (S0)
+- ORIGINAL_RIGHTS_NOTE_MISSING (S1)
+- CORPUS_PROVENANCE_MISSING (S0)
+- SOURCE_STATUS_INVALID (S0)
+- FULL_TEXT_NOT_ALLOWED (S0)
+- NON_KB_SOURCE_REFERENCE (S0)
 
 ---
 
-## FINAL RULE (LOCK)
-OWNER: SYSTEM
-LOCK: FIXED
+## 8) VERDICT RULES
+PASS:
+- no S0/S1 violations
 
---- END.
+FAIL:
+- any S0
+- any S1 (when PUBLISH_READY=true or in release pack)
+
+---
+
+## 9) DEFAULT RETURN ROUTE (RAW)
+RELEASE_PACK_ORC  
+RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/20_ORC__ORCHESTRATORS/10_MUSIC_ORCHESTRATORS/04__RELEASE_PACK_ORC.md
+
+---
+
+## 10) CHANGE POLICY (LOCK)
+- Keep aligned with KB Source Lock and Credits/Metadata CTL
+- Any change to allowed statuses or fields → PATCH + sync related validators
+
+---
+
+END.
