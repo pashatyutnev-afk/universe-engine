@@ -10,17 +10,17 @@ MODE: REPO (USAGE-ONLY, NO-EDIT)
 ROLE: Single launch point. Defines runtime order, entity hierarchy, routing, gates, and the duty to propose creation of missing entities.
 STATUS: ACTIVE
 LOCK: FIXED
-VERSION: 2.0.1
+VERSION: 2.1.0
 UID: UE.GAMES.START.001
 OWNER: SYSTEM
 
 CHANGE_NOTE:
-- DATE: 2026-01-19
+- DATE: 2026-01-20
 - TYPE: PATCH
-- SUMMARY: "Doc Control alignment + explicit boot confirmation gates + clarified snapshot/refresh handling."
-- REASON: "Enforce boot-first discipline and remove ambiguity about whether standards/templates were loaded."
-- IMPACT: "Runtime becomes auditable: boot gates explicit, stop conditions explicit, output contract stable."
-- CHANGE_ID: UE.CHG.2026-01-19.START.001
+- SUMMARY: "Clarified structure.md as non-normative map + added Boot Trace contract + core realm entry links + resolved GAP vs STOP semantics."
+- REASON: "Prevent navigation ambiguity, reduce runtime stalls, and make boot confirmation auditable."
+- IMPACT: "Boot confirmation becomes deterministic, routing becomes faster, GAP creation becomes a legal branch, STOP conditions remain strict."
+- CHANGE_ID: UE.CHG.2026-01-20.START.002
 
 ---
 
@@ -28,14 +28,21 @@ CHANGE_NOTE:
 Этот файл — единственный рабочий рантайм-энтрипоинт.  
 ROOT-INDEX не выполняет задач, а даёт снимок RAW-ссылок.
 
-обязательно смотри на структуру, что бы понимать как ориентироваться:  https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/structure.md
+### 0.1 ORIENTATION MAP (NON-NORMATIVE)
+`structure.md` используется только как карта ориентира "как устроены папки".
+- Это НЕ источник истины.
+- Это НЕ основание для навигации.
+- Навигация и допустимые ссылки определяются только ROOT-INDEX и/или RAW ссылками, которые пользователь прислал в сообщении.
+
+ORIENTATION MAP (RAW):
+- https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/structure.md
 
 ---
 
 ## 1) INPUTS (MINIMUM)
 Runtime запускается только командой пользователя:
 
-- COMMAND: `START_UNIVERSE_ENGINE` https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/00_INDEX/01__START_UNIVERSE_ENGINE.md
+- COMMAND: `START_UNIVERSE_ENGINE`
 - ROOT LINK BASE: один файл-индекс со снимком RAW ссылок
 - TASK: текст запроса пользователя
 - OPTIONAL LINKS: любые дополнительные RAW ссылки, которые пользователь прислал в чате
@@ -47,6 +54,7 @@ Runtime запускается только командой пользоват�
 ---
 
 ## 2) ABSOLUTE RUNTIME LAWS
+
 ### 2.1 RAW-only navigation
 - Использовать только RAW ссылки, которые присутствуют:
   - в ROOT LINK BASE, или
@@ -59,28 +67,38 @@ Runtime запускается только командой пользоват�
 ### 2.3 Single entrypoint for any task
 - Любая задача начинается у Top Governance SPC и завершается проверочной цепочкой:
   - Start: `MACHINE_ARCHITECT_SPC`
-  - Finish: `READINESS_CHECK_CTL` → relevant `VAL` → relevant `QA` → `DOC_CONTROLLER_SPC` → `MACHINE_ARCHITECT_SPC` signoff.
+  - Finish (minimum): `READINESS_CHECK_CTL` → `DOC_CONTROLLER_SPC` → `MACHINE_ARCHITECT_SPC` signoff
+  - Extended chain (when relevant): `READINESS_CHECK_CTL` → relevant `VAL` → relevant `QA` → `DOC_CONTROLLER_SPC` → `MACHINE_ARCHITECT_SPC` signoff
 
-### 2.4 Missing entity duty
-- Если для маршрута не хватает сущности (SPC/ORC/ENG/CTL/VAL/QA) или нет подходящего шаблона/дока — система обязана:
-  - зафиксировать GAP,
-  - предложить создание недостающей сущности/шаблона,
-  - дать полный файл сущности по TEMPLATE,
-  - только после этого продолжить задачу.
+### 2.4 Minimal entity usage (default)
+- По умолчанию выбирать минимально-достаточный набор сущностей (без лишних вопросов).
+- Запрещено подключать лишние сущности "на всякий случай".
+- Исключение: если без сущности невозможно пройти гейт (CTL/VAL/QA) или оформить артефакт по стандарту.
 
-### 2.5 Output artifact rule
-- Нельзя выпускать “голый контент”.
+### 2.5 Missing entity duty (GAP BRANCH)
+Если для маршрута не хватает сущности (SPC/ORC/ENG/CTL/VAL/QA) или нет подходящего шаблона/дока — система обязана:
+- зафиксировать GAP,
+- предложить создание недостающей сущности/шаблона,
+- дать полный файл сущности по TEMPLATE,
+- после этого продолжить задачу по пайплайну.
+
+ВАЖНО:
+- GAP BRANCH разрешён как часть рантайма.
+- STOP применяется только по разделу 2.8 (ниже).
+
+### 2.6 Output artifact rule
+- Нельзя выпускать "голый контент".
 - Любой результат должен быть оформлен как документ-артефакт по стандартам/шаблонам подсистемы.
 - Если шаблона нет — сначала GAP → предложение создания.
 
-### 2.6 Mandatory response format (CHAT)
+### 2.7 Mandatory response format (CHAT)
 Каждый ран должен возвращать строго:
 - MODE
 - RESOURCES USED (USING RAW + MARKER FOUND)
 - DELIVERABLES
 - GATES
 
-### 2.7 Stop conditions (only these)
+### 2.8 Stop conditions (only these)
 - RAW missing
 - marker not confirmed
 - input absent
@@ -174,7 +192,14 @@ BOOT = чтение ключевых законов/стандартов, без
 - 04_KNOWLEDGE_BASE / 00_KB_GOVERNANCE / 01__RULES__KB.md
   - https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/04_KNOWLEDGE_BASE/00_KB_GOVERNANCE/01__RULES__KB.md
 
-### 5.5 BOOT COMPLETE MARKER (REQUIRED)
+### 5.5 BOOT TRACE (CHAT CONTRACT)
+BOOT считается выполненным только если в текущем ответе (RESOURCES USED) перечислено:
+- каждая загруженная ссылка (RAW)
+- и для каждой указан "MARKER FOUND" (конкретный заголовок/маркер внутри документа)
+
+Если любой пункт не подтверждён → STOP: marker not confirmed
+
+### 5.6 BOOT COMPLETE MARKER (REQUIRED)
 BOOT считается завершённым только если явно подтверждено:
 - Naming + UID rules loaded
 - Doc Control + Index structure loaded
@@ -190,7 +215,7 @@ BOOT считается завершённым только если явно п
 - цель, область, тип артефакта, минимальные входы
 
 2) ROUTING (TOP GOVERNANCE SPC)
-- назначение сущностей
+- назначение сущностей (минимально-достаточно)
 - выбор ORC пайплайна
 
 3) EXECUTION (ORC + ENG)
