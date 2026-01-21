@@ -8,10 +8,12 @@ D:.
 |       app.json
 |       appearance.json
 |       core-plugins.json
+|       graph.json
 |       workspace.json
 |       
 +---00_INDEX
-|       00__ROOT_INDEX__UNIVERSE_ENGINE.md
+|       00__ROOT_INDEX__UNIVERSE_ENGINE__PART1.md
+|       00__ROOT_INDEX__UNIVERSE_ENGINE__PART2.md
 |       01__START_UNIVERSE_ENGINE.md
 |       
 +---01_SYSTEM_LAW
