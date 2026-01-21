@@ -62,7 +62,9 @@ FILE_COUNT: 975
 <details>
 <summary><b>00_INDEX</b></summary>
 
-- **00_INDEX/00__ROOT_INDEX__UNIVERSE_ENGINE.md** → https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/00_INDEX/00__ROOT_INDEX__UNIVERSE_ENGINE.md
+- **00_INDEX/00__ROOT_INDEX__UNIVERSE_ENGINE.md** → 
+https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/00_INDEX/00__ROOT_INDEX__UNIVERSE_ENGINE__PART1.md
+https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/00_INDEX/00__ROOT_INDEX__UNIVERSE_ENGINE__PART2.md
 - **00_INDEX/01__START_UNIVERSE_ENGINE.md** → https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/00_INDEX/01__START_UNIVERSE_ENGINE.md
 
 </details>
