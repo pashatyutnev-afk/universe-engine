@@ -1,15 +1,12 @@
 D:.
+|   00__README__ROOT.md
 |   structure.md
 |   structure.txt
+|   _MANIFEST.txt
 |   
-+---.obsidian
-|       app.json
-|       appearance.json
-|       core-plugins.json
-|       workspace.json
-|       
 +---00_INDEX
-|       00__ROOT_INDEX__UNIVERSE_ENGINE.md
+|       00__ROOT_INDEX__UNIVERSE_ENGINE__PART1.md
+|       00__ROOT_INDEX__UNIVERSE_ENGINE__PART2.md
 |       01__START_UNIVERSE_ENGINE.md
 |       
 +---01_SYSTEM_LAW
@@ -28,15 +25,18 @@ D:.
 |   |   00_STANDARDS — MASTER INDEX.md
 |   |   
 |   +---00_CANON
+|   |       00__INDEX__CANON.md
 |   |       01__ARCHITECTURE_OVERVIEW.md
 |   |       02__SYSTEM_CANON.md
 |   |       
 |   +---00_GOVERNANCE
+|   |       00__INDEX__GOVERNANCE.md
 |   |       01__LAW__SPC_GOVERNANCE_AND_SIGNOFF.md
 |   |       02__LAW__CHAT_ENTRYPOINT_PROTOCOL.md
 |   |       03__LAW__TASK_ENTRYPOINT_AND_SIGNOFF.md
 |   |       
 |   +---01_SPECIFICATIONS
+|   |   |   00__INDEX__SPECIFICATIONS.md
 |   |   |   01__UID_AND_MARKING_STANDARD.md
 |   |   |   02__STORAGE_MAP_STANDARD.md
 |   |   |   03__DOC_CONTROL_STANDARD.md
@@ -52,6 +52,7 @@ D:.
 |   |   |   10__KB_CONSUMPTION_ROUTING_STANDARD.md
 |   |   |   
 |   |   \---10_MUSIC_SYSTEM
+|   |           00__INDEX__MUSIC_SYSTEM.md
 |   |           00__README__MUSIC_SYSTEM.md
 |   |           01__MUSIC_DOC_SCHEMA_STANDARD.md
 |   |           02__MUSIC_UID_NAMING_STANDARD.md
@@ -63,20 +64,24 @@ D:.
 |   |           08__MUSIC_GROUP_ALBUM_TRACK_STRUCTURE_STANDARD.md
 |   |           
 |   +---02_PROTOCOLS
+|   |       00__INDEX__PROTOCOLS.md
 |   |       01__CHANGE_MANAGEMENT_PROTOCOL.md
 |   |       02__CHAT_PROTOCOL.md
 |   |       
 |   +---03_TECHNICAL
+|   |       00__INDEX__TECHNICAL.md
 |   |       01__ENTITY_PASSPORT_TEMPLATE.md
 |   |       02__INDEX_TEMPLATE.md
 |   |       
 |   +---04_TERMS_DEFINITIONS
+|   |       00__INDEX__TERMS.md
 |   |       01__GLOSSARY.md
 |   |       
 |   +---05_REQUIREMENTS_TZ
 |   |       00__INDEX.md
 |   |       
 |   \---06_MARKING_STANDARDS
+|           00__INDEX__MARKING_STANDARDS.md
 |           01__ID_STANDARD.md
 |           02__STORAGE_MAP.md
 |           03__STATUS_LOCK_VERSION.md
@@ -121,6 +126,7 @@ D:.
 |   |   |   03__ENG_CREATE_FLOW.md
 |   |   |   
 |   |   +---00_GOVERNANCE_ENGINES
+|   |   |       00__INDEX__00_GOVERNANCE_ENGINES.md
 |   |   |       00__README__GOVERNANCE_ENGINES.md
 |   |   |       01__AUDIT_LOG_ENG.md
 |   |   |       02__CANON_AUTHORITY_ENG.md
@@ -134,12 +140,14 @@ D:.
 |   |   |       10__VERSIONING_MEMORY_ENG.md
 |   |   |       
 |   |   +---01_CORE_ENGINES
+|   |   |       00__INDEX__01_CORE_ENGINES.md
 |   |   |       00__README__CORE_ENGINES.md
 |   |   |       01__CORE_IDENTITY_ENG.md
 |   |   |       02__CORE_STATE_ENG.md
 |   |   |       03__CORE_LIFECYCLE_ENG.md
 |   |   |       
 |   |   +---02_DOMAIN_NARRATIVE_ENGINES
+|   |   |       00__INDEX__02_DOMAIN_NARRATIVE_ENGINES.md
 |   |   |       00__README__DOMAIN_NARRATIVE_ENGINES.md
 |   |   |       01__NARRATIVE_LOGIC_ENG.md
 |   |   |       02__STORY_STRUCTURE_ENG.md
@@ -153,6 +161,7 @@ D:.
 |   |   |       10__THEME_MEANING_ENG.md
 |   |   |       
 |   |   +---03_DOMAIN_CHARACTER_ENGINES
+|   |   |       00__INDEX__03_DOMAIN_CHARACTER_ENGINES.md
 |   |   |       00__README__DOMAIN_CHARACTER_ENGINES.md
 |   |   |       01__CHARACTER_CORE_ENG.md
 |   |   |       02__MOTIVATION_DESIRE_ENG.md
@@ -166,6 +175,7 @@ D:.
 |   |   |       10__CHARACTER_EVOLUTION_ENG.md
 |   |   |       
 |   |   +---04_DOMAIN_WORLD_ENGINES
+|   |   |       00__INDEX__04_DOMAIN_WORLD_ENGINES.md
 |   |   |       00__README__DOMAIN_WORLD_ENGINES.md
 |   |   |       01__WORLD_STRUCTURE_ENG.md
 |   |   |       02__WORLD_LAW_ENG.md
@@ -179,6 +189,7 @@ D:.
 |   |   |       10__ENVIRONMENT_ECOLOGY_ENG.md
 |   |   |       
 |   |   +---05_EXPRESSION_ENGINES
+|   |   |       00__INDEX__05_EXPRESSION_ENGINES.md
 |   |   |       00__README__EXPRESSION_ENGINES.md
 |   |   |       01__EVENT_ENG.md
 |   |   |       02__CAUSE_EFFECT_ENG.md
@@ -191,6 +202,7 @@ D:.
 |   |   |       09__RANDOMNESS_CHAOS_ENG.md
 |   |   |       
 |   |   +---06_GENRE_STYLE_ENGINES
+|   |   |       00__INDEX__06_GENRE_STYLE_ENGINES.md
 |   |   |       00__README__GENRE_STYLE_ENGINES.md
 |   |   |       01__TONE_MOOD_ENG.md
 |   |   |       02__ATMOSPHERE_ENG.md
@@ -200,6 +212,7 @@ D:.
 |   |   |       06__SENSORY_DETAIL_ENG.md
 |   |   |       
 |   |   +---07_PRODUCTION_FORMAT_ENGINES
+|   |   |       00__INDEX__07_PRODUCTION_FORMAT_ENGINES.md
 |   |   |       00__README__PRODUCTION_FORMAT_ENGINES.md
 |   |   |       01__GENRE_ENG.md
 |   |   |       02__GENRE_BLENDING_ENG.md
@@ -211,6 +224,7 @@ D:.
 |   |   |       08__GAME_NARRATIVE_ENG.md
 |   |   |       
 |   |   +---08_KNOWLEDGE_PRODUCTION_ENGINES
+|   |   |       00__INDEX__08_KNOWLEDGE_PRODUCTION_ENGINES.md
 |   |   |       00__README__KNOWLEDGE_PRODUCTION_ENGINES.md
 |   |   |       01__VISUAL_COMPOSITION_ENG.md
 |   |   |       02__ART_STYLE_ENG.md
@@ -222,6 +236,7 @@ D:.
 |   |   |       08__SOUND_MUSIC_ENG.md
 |   |   |       
 |   |   +---09_SOUND_MUSIC_ENGINES
+|   |   |       00__INDEX__09_SOUND_MUSIC_ENGINES.md
 |   |   |       00__README__SOUND_MUSIC_ENGINES.md
 |   |   |       01__MUSIC_COMPOSITION_ENG.md
 |   |   |       02__SONG_STRUCTURE_ENG.md
@@ -238,6 +253,7 @@ D:.
 |   |   |       13__MIX_MASTER_ENG.md
 |   |   |       
 |   |   +---10_META_EVOLUTION_ENGINES
+|   |   |       00__INDEX__10_META_EVOLUTION_ENGINES.md
 |   |   |       00__README__META_EVOLUTION_ENGINES.md
 |   |   |       01__LEARNING_ENG.md
 |   |   |       02__PATTERN_EXTRACTION_ENG.md
@@ -246,6 +262,7 @@ D:.
 |   |   |       05__FUTURE_PROJECTION_ENG.md
 |   |   |       
 |   |   +---11_MUSIC_FACTORY_ENGINES
+|   |   |       00__INDEX__11_MUSIC_FACTORY_ENGINES.md
 |   |   |       00__README__MUSIC_FACTORY_ENGINES.md
 |   |   |       01__GROUP_FOUNDATION_ENG.md
 |   |   |       02__ARTIST_FACTORY_ENG.md
@@ -258,6 +275,7 @@ D:.
 |   |   |       09__TAKE_LOG_ENG.md
 |   |   |       
 |   |   +---12_TREND_GENRE_ENGINES
+|   |   |       00__INDEX__12_TREND_GENRE_ENGINES.md
 |   |   |       00__README__TREND_GENRE_ENGINES.md
 |   |   |       01__GENRE_TAXONOMY_ENG.md
 |   |   |       02__FUSION_RECIPE_ENG.md
@@ -268,6 +286,7 @@ D:.
 |   |   |       07__PROMPT_COMPILER_ENG.md
 |   |   |       
 |   |   +---13_POET_PD_CORPUS_ENGINES
+|   |   |       00__INDEX__13_POET_PD_CORPUS_ENGINES.md
 |   |   |       00__README__POET_PD_CORPUS_ENGINES.md
 |   |   |       01__PD_FILTER_ENG.md
 |   |   |       02__POEM_FIT_SCORING_ENG.md
@@ -276,6 +295,7 @@ D:.
 |   |   |       05__EXCERPT_COLLISION_ENG.md
 |   |   |       
 |   |   \---14_NAMING_IDENTITY_ENGINES
+|   |           00__INDEX__14_NAMING_IDENTITY_ENGINES.md
 |   |           00__README__NAMING_IDENTITY_ENGINES.md
 |   |           01__NAMING_BRIEF_ENG.md
 |   |           02__NAMING_GENERATION_ENG.md
@@ -296,6 +316,7 @@ D:.
 |   |   |       00__TEMPLATE__README__ORC.md
 |   |   |       
 |   |   +---01_CORE_ORCHESTRATORS
+|   |   |       00__INDEX__CORE_ORCHESTRATORS.md
 |   |   |       00__README__ORCHESTRATORS.md
 |   |   |       01__NARRATIVE_ORCHESTRATOR_ENG.md
 |   |   |       02__CHARACTER_ORCHESTRATOR_ENG.md
@@ -304,6 +325,7 @@ D:.
 |   |   |       05__PIPELINE_ORCHESTRATOR_ENG.md
 |   |   |       
 |   |   \---10_MUSIC_ORCHESTRATORS
+|   |           00__INDEX__MUSIC_ORCHESTRATORS.md
 |   |           00__README__MUSIC_ORCHESTRATORS.md
 |   |           01__GROUP_TO_ALBUM_ORC.md
 |   |           02__ALBUM_TO_TRACK_ORC.md
@@ -319,6 +341,7 @@ D:.
 |   |   |   03__CREATE_FLOW__SPC.md
 |   |   |   
 |   |   +---00_TOP_GOVERNANCE
+|   |   |       00__INDEX__TOP_GOVERNANCE.md
 |   |   |       00__README__TOP.md
 |   |   |       01__MACHINE_ARCHITECT_SPC.md
 |   |   |       02__GOVERNANCE_OWNER_SPC.md
@@ -333,6 +356,7 @@ D:.
 |   |   |       00__TEMPLATE__SPC_OUTPUT_PACK.md
 |   |   |       
 |   |   +---01_CREATIVE
+|   |   |       00__INDEX__CREATIVE_SPECIALISTS.md
 |   |   |       00__README_CREATIVE_SPECIALISTS.md
 |   |   |       01__CREATIVE_DIRECTOR_SPC.md
 |   |   |       02__VISUAL_STYLE_ARCHITECT_SPC.md
@@ -344,6 +368,7 @@ D:.
 |   |   |       08__IDEA_GENERATOR_SPC.md
 |   |   |       
 |   |   +---02_NARRATIVE
+|   |   |       00__INDEX__NARRATIVE_SPECIALISTS.md
 |   |   |       00__README_NARRATIVE_SPECIALISTS.md
 |   |   |       01__EPISODE_SHOWRUNNER_SPC.md
 |   |   |       02__HEAD_WRITER_SPC.md
@@ -358,6 +383,7 @@ D:.
 |   |   |       11__NOVELIST_SPC.md
 |   |   |       
 |   |   +---03_CHARACTER
+|   |   |       00__INDEX__CHARACTER_SPECIALISTS.md
 |   |   |       00__README_CHARACTER_SPECIALISTS.md
 |   |   |       01__CHARACTER_ARCHITECT_SPC.md
 |   |   |       02__PERSONALITY_PSYCHOLOGIST_SPC.md
@@ -367,6 +393,7 @@ D:.
 |   |   |       06__CHARACTER_EVOLUTION_SUPERVISOR_SPC.md
 |   |   |       
 |   |   +---04_WORLD
+|   |   |       00__INDEX__WORLD_SPECIALISTS.md
 |   |   |       00__README_WORLD_SPECIALISTS.md
 |   |   |       01__WORLD_BUILDER_SPC.md
 |   |   |       02__CULTURE_SOCIETY_ARCHITECT_SPC.md
@@ -377,6 +404,7 @@ D:.
 |   |   |       07__ECOLOGY_SURVIVAL_DESIGNER_SPC.md
 |   |   |       
 |   |   +---05_VISUAL
+|   |   |       00__INDEX__VISUAL_SPECIALISTS.md
 |   |   |       00__README_VISUAL_SPECIALISTS.md
 |   |   |       01__VISUAL_DIRECTOR_SPC.md
 |   |   |       02__PRODUCTION_DESIGNER_SPC.md
@@ -386,6 +414,7 @@ D:.
 |   |   |       06__CAMERA_MOVEMENT_SPECIALIST_SPC.md
 |   |   |       
 |   |   +---06_SOUND_MUSIC
+|   |   |       00__INDEX__SOUND_MUSIC_SPECIALISTS.md
 |   |   |       00__README_SOUND_MUSIC_SPECIALISTS.md
 |   |   |       01__MUSIC_SUPERVISOR_SPC.md
 |   |   |       02__MUSIC_PRODUCER_SPC.md
@@ -409,6 +438,7 @@ D:.
 |   |   |       20__GROUP_CREATIVE_DIRECTOR_SPC.md
 |   |   |       
 |   |   +---07_PRODUCTION
+|   |   |       00__INDEX__PRODUCTION_SPECIALISTS.md
 |   |   |       00__README_PRODUCTION_SPECIALISTS.md
 |   |   |       01__EXECUTIVE_PRODUCER_SPC.md
 |   |   |       02__DIRECTOR_SPC.md
@@ -421,6 +451,7 @@ D:.
 |   |   |       09__SCHEDULE_COORDINATOR_SPC.md
 |   |   |       
 |   |   +---08_PSYCHOLOGY
+|   |   |       00__INDEX__PSYCHOLOGY_SPECIALISTS.md
 |   |   |       00__README_PSYCHOLOGY_SPECIALISTS.md
 |   |   |       01__VIEWER_PSYCHOLOGY_ANALYST_SPC.md
 |   |   |       02__EMPATHY_IDENTIFICATION_SPECIALIST_SPC.md
@@ -429,6 +460,7 @@ D:.
 |   |   |       05__BEHAVIORAL_CONSISTENCY_SPECIALIST_SPC.md
 |   |   |       
 |   |   +---09_RESEARCH
+|   |   |       00__INDEX__RESEARCH_SPECIALISTS.md
 |   |   |       00__README_RESEARCH_SPECIALISTS.md
 |   |   |       01__RESEARCH_DIRECTOR_SPC.md
 |   |   |       02__SCIENTIFIC_RESEARCHER_SPC.md
@@ -440,6 +472,7 @@ D:.
 |   |   |       08__SPECULATIVE_PLAUSIBILITY_ANALYST_SPC.md
 |   |   |       
 |   |   +---10_MARKETING
+|   |   |       00__INDEX__MARKETING_SPECIALISTS.md
 |   |   |       00__README_MARKETING_SPECIALISTS.md
 |   |   |       01__BRAND_ARCHITECT_SPC.md
 |   |   |       02__AUDIENCE_ANALYST_SPC.md
@@ -454,6 +487,7 @@ D:.
 |   |   |       11__MONETIZATION_STRATEGIST_SPC.md
 |   |   |       
 |   |   \---11_META
+|   |           00__INDEX__META_SPECIALISTS.md
 |   |           00__README_META_SPECIALISTS.md
 |   |           01__UNIVERSE_CURATOR_SPC.md
 |   |           02__SYSTEM_ARCHITECT_SPC.md
@@ -477,6 +511,7 @@ D:.
 |   |   |       00__TEMPLATE__CTL_ENTITY.md
 |   |   |       
 |   |   \---10_MUSIC_CONTROLLERS
+|   |           00__INDEX__MUSIC_CONTROLLERS.md
 |   |           00__README__MUSIC_CONTROLLERS.md
 |   |           01__PROMPT_CONTRACT_CTL.md
 |   |           02__UGC_VIRAL_RULESET_CTL.md
@@ -503,6 +538,7 @@ D:.
 |   |   |       00__TEMPLATE__VAL_VIOLATION.md
 |   |   |       
 |   |   +---10_MUSIC_VALIDATORS
+|   |   |       00__INDEX__MUSIC_VALIDATORS.md
 |   |   |       00__README__MUSIC_VALIDATORS.md
 |   |   |       01__HOOK_TIMING_VAL.md
 |   |   |       02__UGC_READY_VAL.md
@@ -537,6 +573,7 @@ D:.
 |   |   |       00__TEMPLATE__QA_ISSUE.md
 |   |   |       
 |   |   \---10_MUSIC_QA
+|   |           00__INDEX__MUSIC_QA.md
 |   |           00__README__MUSIC_QA.md
 |   |           01__SCROLL_STOP_5S_QA.md
 |   |           02__LOOP_15S_QA.md
@@ -590,6 +627,7 @@ D:.
 |   |       23__TEMPLATE__ENTITY_KB_CONNECTOR.md
 |   |       
 |   +---01_PILLARS
+|   |       00__INDEX__PILLARS.md
 |   |       00__README__PILLARS_REALM.md
 |   |       01__PILLAR__NARRATIVE_CRAFT.md
 |   |       02__PILLAR__CHARACTER_CRAFT.md
@@ -602,10 +640,12 @@ D:.
 |   |       09__PILLAR__REFERENCE_GLOSSARY.md
 |   |       
 |   +---10_TOPICS
+|   |   |   00__INDEX__TOPICS.md
 |   |   |   00__README__TOPICS_REALM.md
 |   |   |   01__TOPIC_TAXONOMY.md
 |   |   |   
 |   |   +---10_NARRATIVE
+|   |   |       00__INDEX__TOPICS_10_NARRATIVE.md
 |   |   |       00__README__TOPICS_NARRATIVE.md
 |   |   |       01__NARRATIVE__SCENE_CRAFT.md
 |   |   |       02__NARRATIVE__CAUSE_EFFECT_CHAIN.md
@@ -623,6 +663,7 @@ D:.
 |   |   |       14__NARRATIVE__THEME_MEANING_SUBSTANCE.md
 |   |   |       
 |   |   +---20_CHARACTER
+|   |   |       00__INDEX__TOPICS_20_CHARACTER.md
 |   |   |       00__README__TOPICS_CHARACTER.md
 |   |   |       01__CHARACTER__MOTIVATION_DESIRE.md
 |   |   |       02__CHARACTER__WOUND_TRAUMA.md
@@ -631,6 +672,7 @@ D:.
 |   |   |       05__CHARACTER__CHARACTER_ARC.md
 |   |   |       
 |   |   +---30_WORLD
+|   |   |       00__INDEX__TOPICS_30_WORLD.md
 |   |   |       00__README__TOPICS_WORLD.md
 |   |   |       01__WORLD__LORE_CONSISTENCY_RULES.md
 |   |   |       02__WORLD__WORLD_LAWS_CONSTRAINTS.md
@@ -646,6 +688,7 @@ D:.
 |   |   |       12__WORLD__TIMELINE_EPOCH_CAUSALITY.md
 |   |   |       
 |   |   +---40_VISUAL
+|   |   |       00__INDEX__TOPICS_40_VISUAL.md
 |   |   |       00__README__TOPICS_VISUAL.md
 |   |   |       01__VISUAL__COMPOSITION_FOUNDATIONS.md
 |   |   |       02__VISUAL__SHOT_GRAMMAR_AND_FRAMING.md
@@ -658,6 +701,7 @@ D:.
 |   |   |       09__VISUAL__CAMERA_MOVEMENT_INTENT.md
 |   |   |       
 |   |   +---50_SOUND_MUSIC
+|   |   |       00__INDEX__TOPICS_50_SOUND_MUSIC.md
 |   |   |       00__README__TOPICS_SOUND_MUSIC.md
 |   |   |       01__SOUND_MUSIC__PROMPT_CONTRACTS.md
 |   |   |       02__SOUND_MUSIC__VOICE_DIVERSITY_RULES.md
@@ -676,6 +720,7 @@ D:.
 |   |   |       15__SOUND_MUSIC__PROMPT_PHRASEBOOK_NEGATIVE_LIBRARY.md
 |   |   |       
 |   |   +---60_PRODUCTION
+|   |   |       00__INDEX__TOPICS_60_PRODUCTION.md
 |   |   |       00__README__TOPICS_PRODUCTION.md
 |   |   |       01__PRODUCTION__FORMAT_BOOK_SERIES_GAME.md
 |   |   |       02__PRODUCTION__ADAPTATION_PIPELINE.md
@@ -685,6 +730,7 @@ D:.
 |   |   |       06__PRODUCTION__QA_GATES_RUBRICS.md
 |   |   |       
 |   |   +---70_MARKETING
+|   |   |       00__INDEX__TOPICS_70_MARKETING.md
 |   |   |       00__README__TOPICS_MARKETING.md
 |   |   |       01__MARKETING__POSITIONING_BRAND_ARCHETYPE.md
 |   |   |       02__MARKETING__AUDIENCE_SEGMENTS_PERSONAS.md
@@ -696,6 +742,7 @@ D:.
 |   |   |       08__MARKETING__MONETIZATION_STRATEGY.md
 |   |   |       
 |   |   +---80_META
+|   |   |       00__INDEX__TOPICS_80_META.md
 |   |   |       00__README__TOPICS_META.md
 |   |   |       01__META__KNOWLEDGE_BASE_USAGE_PROTOCOL.md
 |   |   |       02__META__KB_INDEX_NAVIGATION_STANDARD.md
@@ -704,6 +751,7 @@ D:.
 |   |   |       05__META__KB_QA_AUDIT_CHECKS.md
 |   |   |       
 |   |   \---90_REFERENCE
+|   |           00__INDEX__TOPICS_90_REFERENCE.md
 |   |           00__README__TOPICS_REFERENCE.md
 |   |           01__GLOSSARY__AUDIO_MIX_MASTER_TERMS.md
 |   |           02__GLOSSARY__CINEMATOGRAPHY_SHOT_TERMS.md
@@ -721,7 +769,10 @@ D:.
 |   |   |   |   01__TEMPLATE__SPC_PRO_PACK_STRUCTURE.md
 |   |   |   |   
 |   |   |   +---PRO_PACKS
+|   |   |   |   |   00__INDEX__PRO_PACKS.md
+|   |   |   |   |   
 |   |   |   |   +---01__MUSIC_SUPERVISOR_SPC
+|   |   |   |   |   |   00__INDEX__PACK_CONTENTS.md
 |   |   |   |   |   |   00__PACK_PASSPORT.md
 |   |   |   |   |   |   01__SCOPE_AND_SKILL_TREE.md
 |   |   |   |   |   |   02__GOLDEN_PRINCIPLES_AND_LIMITS.md
@@ -756,6 +807,7 @@ D:.
 |   |   |   |   |           04__CASE__EDGE_001.md
 |   |   |   |   |           
 |   |   |   |   +---02__MUSIC_PRODUCER_SPC
+|   |   |   |   |   |   00__INDEX__PACK_CONTENTS.md
 |   |   |   |   |   |   00__PACK_PASSPORT.md
 |   |   |   |   |   |   01__SCOPE_AND_SKILL_TREE.md
 |   |   |   |   |   |   02__GOLDEN_PRINCIPLES_AND_LIMITS.md
@@ -790,6 +842,7 @@ D:.
 |   |   |   |   |           04__CASE__EDGE_001.md
 |   |   |   |   |           
 |   |   |   |   +---03__COMPOSER_SPC
+|   |   |   |   |   |   00__INDEX__PACK_CONTENTS.md
 |   |   |   |   |   |   00__PACK_PASSPORT.md
 |   |   |   |   |   |   01__SCOPE_AND_SKILL_TREE.md
 |   |   |   |   |   |   02__GOLDEN_PRINCIPLES_AND_LIMITS.md
@@ -824,6 +877,7 @@ D:.
 |   |   |   |   |           04__CASE__EDGE_001.md
 |   |   |   |   |           
 |   |   |   |   +---04__SONGWRITER_SPC
+|   |   |   |   |   |   00__INDEX__PACK_CONTENTS.md
 |   |   |   |   |   |   00__PACK_PASSPORT.md
 |   |   |   |   |   |   01__SCOPE_AND_SKILL_TREE.md
 |   |   |   |   |   |   02__GOLDEN_PRINCIPLES_AND_LIMITS.md
@@ -858,6 +912,7 @@ D:.
 |   |   |   |   |           04__CASE__EDGE_001.md
 |   |   |   |   |           
 |   |   |   |   +---05__LYRICIST_SPC
+|   |   |   |   |   |   00__INDEX__PACK_CONTENTS.md
 |   |   |   |   |   |   00__PACK_PASSPORT.md
 |   |   |   |   |   |   01__SCOPE_AND_SKILL_TREE.md
 |   |   |   |   |   |   02__GOLDEN_PRINCIPLES_AND_LIMITS.md
@@ -1091,6 +1146,7 @@ D:.
 |   |   |   |   |               25__CASE__GOOD_007.md
 |   |   |   |   |               
 |   |   |   |   +---06__ARRANGER_SPC
+|   |   |   |   |   |   00__INDEX__PACK_CONTENTS.md
 |   |   |   |   |   |   00__PACK_PASSPORT.md
 |   |   |   |   |   |   01__SCOPE_AND_SKILL_TREE.md
 |   |   |   |   |   |   02__GOLDEN_PRINCIPLES_AND_LIMITS.md
@@ -1125,6 +1181,7 @@ D:.
 |   |   |   |   |           04__CASE__EDGE_001.md
 |   |   |   |   |           
 |   |   |   |   +---07__VOCAL_DIRECTOR_SPC
+|   |   |   |   |   |   00__INDEX__PACK_CONTENTS.md
 |   |   |   |   |   |   00__PACK_PASSPORT.md
 |   |   |   |   |   |   01__SCOPE_AND_SKILL_TREE.md
 |   |   |   |   |   |   02__GOLDEN_PRINCIPLES_AND_LIMITS.md
@@ -1159,6 +1216,7 @@ D:.
 |   |   |   |   |           04__CASE__EDGE_001.md
 |   |   |   |   |           
 |   |   |   |   +---08__SOUND_DESIGNER_SPC
+|   |   |   |   |   |   00__INDEX__PACK_CONTENTS.md
 |   |   |   |   |   |   00__PACK_PASSPORT.md
 |   |   |   |   |   |   01__SCOPE_AND_SKILL_TREE.md
 |   |   |   |   |   |   02__GOLDEN_PRINCIPLES_AND_LIMITS.md
@@ -1193,6 +1251,7 @@ D:.
 |   |   |   |   |           04__CASE__EDGE_001.md
 |   |   |   |   |           
 |   |   |   |   +---09__MIX_ENGINEER_SPC
+|   |   |   |   |   |   00__INDEX__PACK_CONTENTS.md
 |   |   |   |   |   |   00__PACK_PASSPORT.md
 |   |   |   |   |   |   01__SCOPE_AND_SKILL_TREE.md
 |   |   |   |   |   |   02__GOLDEN_PRINCIPLES_AND_LIMITS.md
@@ -1227,6 +1286,7 @@ D:.
 |   |   |   |   |           04__CASE__EDGE_001.md
 |   |   |   |   |           
 |   |   |   |   +---10__MASTERING_ENGINEER_SPC
+|   |   |   |   |   |   00__INDEX__PACK_CONTENTS.md
 |   |   |   |   |   |   00__PACK_PASSPORT.md
 |   |   |   |   |   |   01__SCOPE_AND_SKILL_TREE.md
 |   |   |   |   |   |   02__GOLDEN_PRINCIPLES_AND_LIMITS.md
@@ -1261,6 +1321,7 @@ D:.
 |   |   |   |   |           04__CASE__EDGE_001.md
 |   |   |   |   |           
 |   |   |   |   +---11__AUDIO_QA_SPC
+|   |   |   |   |   |   00__INDEX__PACK_CONTENTS.md
 |   |   |   |   |   |   00__PACK_PASSPORT.md
 |   |   |   |   |   |   01__SCOPE_AND_SKILL_TREE.md
 |   |   |   |   |   |   02__GOLDEN_PRINCIPLES_AND_LIMITS.md
@@ -1295,6 +1356,7 @@ D:.
 |   |   |   |   |           04__CASE__EDGE_001.md
 |   |   |   |   |           
 |   |   |   |   +---12__PROMPT_ARCHITECT_SPC
+|   |   |   |   |   |   00__INDEX__PACK_CONTENTS.md
 |   |   |   |   |   |   00__PACK_PASSPORT.md
 |   |   |   |   |   |   01__SCOPE_AND_SKILL_TREE.md
 |   |   |   |   |   |   02__GOLDEN_PRINCIPLES_AND_LIMITS.md
@@ -1329,6 +1391,7 @@ D:.
 |   |   |   |   |           04__CASE__EDGE_001.md
 |   |   |   |   |           
 |   |   |   |   +---13__UGC_DIRECTOR_SPC
+|   |   |   |   |   |   00__INDEX__PACK_CONTENTS.md
 |   |   |   |   |   |   00__PACK_PASSPORT.md
 |   |   |   |   |   |   01__SCOPE_AND_SKILL_TREE.md
 |   |   |   |   |   |   02__GOLDEN_PRINCIPLES_AND_LIMITS.md
@@ -1363,6 +1426,7 @@ D:.
 |   |   |   |   |           04__CASE__EDGE_001.md
 |   |   |   |   |           
 |   |   |   |   +---14__EARWORM_DIRECTOR_SPC
+|   |   |   |   |   |   00__INDEX__PACK_CONTENTS.md
 |   |   |   |   |   |   00__PACK_PASSPORT.md
 |   |   |   |   |   |   01__SCOPE_AND_SKILL_TREE.md
 |   |   |   |   |   |   02__GOLDEN_PRINCIPLES_AND_LIMITS.md
@@ -1397,6 +1461,7 @@ D:.
 |   |   |   |   |           04__CASE__EDGE_001.md
 |   |   |   |   |           
 |   |   |   |   +---15__GENRE_FUSION_ARCHITECT_SPC
+|   |   |   |   |   |   00__INDEX__PACK_CONTENTS.md
 |   |   |   |   |   |   00__PACK_PASSPORT.md
 |   |   |   |   |   |   01__SCOPE_AND_SKILL_TREE.md
 |   |   |   |   |   |   02__GOLDEN_PRINCIPLES_AND_LIMITS.md
@@ -1431,6 +1496,7 @@ D:.
 |   |   |   |   |           04__CASE__EDGE_001.md
 |   |   |   |   |           
 |   |   |   |   +---16__TREND_ENGINEER_SPC
+|   |   |   |   |   |   00__INDEX__PACK_CONTENTS.md
 |   |   |   |   |   |   00__PACK_PASSPORT.md
 |   |   |   |   |   |   01__SCOPE_AND_SKILL_TREE.md
 |   |   |   |   |   |   02__GOLDEN_PRINCIPLES_AND_LIMITS.md
@@ -1465,6 +1531,7 @@ D:.
 |   |   |   |   |           04__CASE__EDGE_001.md
 |   |   |   |   |           
 |   |   |   |   +---17__POET_JUICE_EDITOR_SPC
+|   |   |   |   |   |   00__INDEX__PACK_CONTENTS.md
 |   |   |   |   |   |   00__PACK_PASSPORT.md
 |   |   |   |   |   |   01__SCOPE_AND_SKILL_TREE.md
 |   |   |   |   |   |   02__GOLDEN_PRINCIPLES_AND_LIMITS.md
@@ -1499,6 +1566,7 @@ D:.
 |   |   |   |   |           04__CASE__EDGE_001.md
 |   |   |   |   |           
 |   |   |   |   +---18__MOSAIC_EDITOR_SPC
+|   |   |   |   |   |   00__INDEX__PACK_CONTENTS.md
 |   |   |   |   |   |   00__PACK_PASSPORT.md
 |   |   |   |   |   |   01__SCOPE_AND_SKILL_TREE.md
 |   |   |   |   |   |   02__GOLDEN_PRINCIPLES_AND_LIMITS.md
@@ -1533,6 +1601,7 @@ D:.
 |   |   |   |   |           04__CASE__EDGE_001.md
 |   |   |   |   |           
 |   |   |   |   +---19__ALBUM_SHOWRUNNER_SPC
+|   |   |   |   |   |   00__INDEX__PACK_CONTENTS.md
 |   |   |   |   |   |   00__PACK_PASSPORT.md
 |   |   |   |   |   |   01__SCOPE_AND_SKILL_TREE.md
 |   |   |   |   |   |   02__GOLDEN_PRINCIPLES_AND_LIMITS.md
@@ -1567,6 +1636,7 @@ D:.
 |   |   |   |   |           04__CASE__EDGE_001.md
 |   |   |   |   |           
 |   |   |   |   \---20__GROUP_CREATIVE_DIRECTOR_SPC
+|   |   |   |       |   00__INDEX__PACK_CONTENTS.md
 |   |   |   |       |   00__PACK_PASSPORT.md
 |   |   |   |       |   01__SCOPE_AND_SKILL_TREE.md
 |   |   |   |       |   02__GOLDEN_PRINCIPLES_AND_LIMITS.md
@@ -1617,7 +1687,10 @@ D:.
 |   |   |   |   01__TEMPLATE__ENG_PACK_STRUCTURE.md
 |   |   |   |   
 |   |   |   +---ENG_PACKS
+|   |   |   |   |   00__INDEX__ENG_PACKS.md
+|   |   |   |   |   
 |   |   |   |   +---01__MUSIC_COMPOSITION_ENG
+|   |   |   |   |   |   00__INDEX__PACK_CONTENTS.md
 |   |   |   |   |   |   00__PACK_PASSPORT.md
 |   |   |   |   |   |   01__ENGINE_SCOPE_AND_IO.md
 |   |   |   |   |   |   02__METHOD_AND_PARAMETERS.md
@@ -1640,6 +1713,7 @@ D:.
 |   |   |   |   |           03__EXAMPLE__BORDERLINE.md
 |   |   |   |   |           
 |   |   |   |   +---02__SONG_STRUCTURE_ENG
+|   |   |   |   |   |   00__INDEX__PACK_CONTENTS.md
 |   |   |   |   |   |   00__PACK_PASSPORT.md
 |   |   |   |   |   |   01__ENGINE_SCOPE_AND_IO.md
 |   |   |   |   |   |   02__METHOD_AND_PARAMETERS.md
@@ -1662,6 +1736,7 @@ D:.
 |   |   |   |   |           03__EXAMPLE__BORDERLINE.md
 |   |   |   |   |           
 |   |   |   |   +---03__HARMONY_CHORD_ENG
+|   |   |   |   |   |   00__INDEX__PACK_CONTENTS.md
 |   |   |   |   |   |   00__PACK_PASSPORT.md
 |   |   |   |   |   |   01__ENGINE_SCOPE_AND_IO.md
 |   |   |   |   |   |   02__METHOD_AND_PARAMETERS.md
@@ -1684,6 +1759,7 @@ D:.
 |   |   |   |   |           03__EXAMPLE__BORDERLINE.md
 |   |   |   |   |           
 |   |   |   |   +---04__MELODY_HOOK_ENG
+|   |   |   |   |   |   00__INDEX__PACK_CONTENTS.md
 |   |   |   |   |   |   00__PACK_PASSPORT.md
 |   |   |   |   |   |   01__ENGINE_SCOPE_AND_IO.md
 |   |   |   |   |   |   02__METHOD_AND_PARAMETERS.md
@@ -1706,6 +1782,7 @@ D:.
 |   |   |   |   |           03__EXAMPLE__BORDERLINE.md
 |   |   |   |   |           
 |   |   |   |   +---05__RHYTHM_GROOVE_ENG
+|   |   |   |   |   |   00__INDEX__PACK_CONTENTS.md
 |   |   |   |   |   |   00__PACK_PASSPORT.md
 |   |   |   |   |   |   01__ENGINE_SCOPE_AND_IO.md
 |   |   |   |   |   |   02__METHOD_AND_PARAMETERS.md
@@ -1728,6 +1805,7 @@ D:.
 |   |   |   |   |           03__EXAMPLE__BORDERLINE.md
 |   |   |   |   |           
 |   |   |   |   +---06__RHYME_METER_ENG
+|   |   |   |   |   |   00__INDEX__PACK_CONTENTS.md
 |   |   |   |   |   |   00__PACK_PASSPORT.md
 |   |   |   |   |   |   01__ENGINE_SCOPE_AND_IO.md
 |   |   |   |   |   |   02__METHOD_AND_PARAMETERS.md
@@ -1750,6 +1828,7 @@ D:.
 |   |   |   |   |           03__EXAMPLE__BORDERLINE.md
 |   |   |   |   |           
 |   |   |   |   +---07__LYRICS_ENG
+|   |   |   |   |   |   00__INDEX__PACK_CONTENTS.md
 |   |   |   |   |   |   00__PACK_PASSPORT.md
 |   |   |   |   |   |   01__ENGINE_SCOPE_AND_IO.md
 |   |   |   |   |   |   02__METHOD_AND_PARAMETERS.md
@@ -1772,6 +1851,7 @@ D:.
 |   |   |   |   |           03__EXAMPLE__BORDERLINE.md
 |   |   |   |   |           
 |   |   |   |   +---08__ARRANGEMENT_INSTRUMENTATION_ENG
+|   |   |   |   |   |   00__INDEX__PACK_CONTENTS.md
 |   |   |   |   |   |   00__PACK_PASSPORT.md
 |   |   |   |   |   |   01__ENGINE_SCOPE_AND_IO.md
 |   |   |   |   |   |   02__METHOD_AND_PARAMETERS.md
@@ -1794,6 +1874,7 @@ D:.
 |   |   |   |   |           03__EXAMPLE__BORDERLINE.md
 |   |   |   |   |           
 |   |   |   |   +---09__VOCAL_PERFORMANCE_ENG
+|   |   |   |   |   |   00__INDEX__PACK_CONTENTS.md
 |   |   |   |   |   |   00__PACK_PASSPORT.md
 |   |   |   |   |   |   01__ENGINE_SCOPE_AND_IO.md
 |   |   |   |   |   |   02__METHOD_AND_PARAMETERS.md
@@ -1816,6 +1897,7 @@ D:.
 |   |   |   |   |           03__EXAMPLE__BORDERLINE.md
 |   |   |   |   |           
 |   |   |   |   +---10__SOUND_DESIGN_ENG
+|   |   |   |   |   |   00__INDEX__PACK_CONTENTS.md
 |   |   |   |   |   |   00__PACK_PASSPORT.md
 |   |   |   |   |   |   01__ENGINE_SCOPE_AND_IO.md
 |   |   |   |   |   |   02__METHOD_AND_PARAMETERS.md
@@ -1838,6 +1920,7 @@ D:.
 |   |   |   |   |           03__EXAMPLE__BORDERLINE.md
 |   |   |   |   |           
 |   |   |   |   +---11__MUSIC_STYLE_CONSISTENCY_ENG
+|   |   |   |   |   |   00__INDEX__PACK_CONTENTS.md
 |   |   |   |   |   |   00__PACK_PASSPORT.md
 |   |   |   |   |   |   01__ENGINE_SCOPE_AND_IO.md
 |   |   |   |   |   |   02__METHOD_AND_PARAMETERS.md
@@ -1860,6 +1943,7 @@ D:.
 |   |   |   |   |           03__EXAMPLE__BORDERLINE.md
 |   |   |   |   |           
 |   |   |   |   +---12__MUSIC_TO_SCENE_ENG
+|   |   |   |   |   |   00__INDEX__PACK_CONTENTS.md
 |   |   |   |   |   |   00__PACK_PASSPORT.md
 |   |   |   |   |   |   01__ENGINE_SCOPE_AND_IO.md
 |   |   |   |   |   |   02__METHOD_AND_PARAMETERS.md
@@ -1882,6 +1966,7 @@ D:.
 |   |   |   |   |           03__EXAMPLE__BORDERLINE.md
 |   |   |   |   |           
 |   |   |   |   \---13__MIX_MASTER_ENG
+|   |   |   |       |   00__INDEX__PACK_CONTENTS.md
 |   |   |   |       |   00__PACK_PASSPORT.md
 |   |   |   |       |   01__ENGINE_SCOPE_AND_IO.md
 |   |   |   |       |   02__METHOD_AND_PARAMETERS.md
@@ -1917,7 +2002,10 @@ D:.
 |   |   |   |   01__TEMPLATE__PIPELINE_CONTRACT.md
 |   |   |   |   
 |   |   |   +---ORC_PACKS
+|   |   |   |   |   00__INDEX__ORC_PACKS.md
+|   |   |   |   |   
 |   |   |   |   +---01__GROUP_TO_ALBUM_ORC
+|   |   |   |   |       00__INDEX__PACK_CONTENTS.md
 |   |   |   |   |       00__PACK_PASSPORT.md
 |   |   |   |   |       01__PIPELINE_CONTRACT.md
 |   |   |   |   |       02__PIPELINE_STEPS.md
@@ -1927,6 +2015,7 @@ D:.
 |   |   |   |   |       90__KB_SOURCES.md
 |   |   |   |   |       
 |   |   |   |   +---02__ALBUM_TO_TRACK_ORC
+|   |   |   |   |       00__INDEX__PACK_CONTENTS.md
 |   |   |   |   |       00__PACK_PASSPORT.md
 |   |   |   |   |       01__PIPELINE_CONTRACT.md
 |   |   |   |   |       02__PIPELINE_STEPS.md
@@ -1936,6 +2025,7 @@ D:.
 |   |   |   |   |       90__KB_SOURCES.md
 |   |   |   |   |       
 |   |   |   |   +---03__TRACK_TEST_DOC_GATE_ORC
+|   |   |   |   |       00__INDEX__PACK_CONTENTS.md
 |   |   |   |   |       00__PACK_PASSPORT.md
 |   |   |   |   |       01__PIPELINE_CONTRACT.md
 |   |   |   |   |       02__PIPELINE_STEPS.md
@@ -1945,6 +2035,7 @@ D:.
 |   |   |   |   |       90__KB_SOURCES.md
 |   |   |   |   |       
 |   |   |   |   +---04__RELEASE_PACK_ORC
+|   |   |   |   |       00__INDEX__PACK_CONTENTS.md
 |   |   |   |   |       00__PACK_PASSPORT.md
 |   |   |   |   |       01__PIPELINE_CONTRACT.md
 |   |   |   |   |       02__PIPELINE_STEPS.md
@@ -1954,6 +2045,7 @@ D:.
 |   |   |   |   |       90__KB_SOURCES.md
 |   |   |   |   |       
 |   |   |   |   +---05__PORTFOLIO_PLANNER_ORC
+|   |   |   |   |       00__INDEX__PACK_CONTENTS.md
 |   |   |   |   |       00__PACK_PASSPORT.md
 |   |   |   |   |       01__PIPELINE_CONTRACT.md
 |   |   |   |   |       02__PIPELINE_STEPS.md
@@ -1963,6 +2055,7 @@ D:.
 |   |   |   |   |       90__KB_SOURCES.md
 |   |   |   |   |       
 |   |   |   |   \---06__POET_PACK_ORC
+|   |   |   |           00__INDEX__PACK_CONTENTS.md
 |   |   |   |           00__PACK_PASSPORT.md
 |   |   |   |           01__PIPELINE_CONTRACT.md
 |   |   |   |           02__PIPELINE_STEPS.md
@@ -1984,7 +2077,10 @@ D:.
 |   |   |   |   01__TEMPLATE__CTL_POLICY_MODULE.md
 |   |   |   |   
 |   |   |   +---CTL_PACKS
+|   |   |   |   |   00__INDEX__CTL_PACKS.md
+|   |   |   |   |   
 |   |   |   |   +---01__PROMPT_CONTRACT_CTL
+|   |   |   |   |       00__INDEX__PACK_CONTENTS.md
 |   |   |   |   |       00__PACK_PASSPORT.md
 |   |   |   |   |       01__POLICY.md
 |   |   |   |   |       02__LIMITS_THRESHOLDS.md
@@ -1992,6 +2088,7 @@ D:.
 |   |   |   |   |       90__KB_SOURCES.md
 |   |   |   |   |       
 |   |   |   |   +---02__UGC_VIRAL_RULESET_CTL
+|   |   |   |   |       00__INDEX__PACK_CONTENTS.md
 |   |   |   |   |       00__PACK_PASSPORT.md
 |   |   |   |   |       01__POLICY.md
 |   |   |   |   |       02__LIMITS_THRESHOLDS.md
@@ -1999,6 +2096,7 @@ D:.
 |   |   |   |   |       90__KB_SOURCES.md
 |   |   |   |   |       
 |   |   |   |   +---03__DURATION_POLICY_CTL
+|   |   |   |   |       00__INDEX__PACK_CONTENTS.md
 |   |   |   |   |       00__PACK_PASSPORT.md
 |   |   |   |   |       01__POLICY.md
 |   |   |   |   |       02__LIMITS_THRESHOLDS.md
@@ -2006,6 +2104,7 @@ D:.
 |   |   |   |   |       90__KB_SOURCES.md
 |   |   |   |   |       
 |   |   |   |   +---04__RELEASE_VARIANTS_CTL
+|   |   |   |   |       00__INDEX__PACK_CONTENTS.md
 |   |   |   |   |       00__PACK_PASSPORT.md
 |   |   |   |   |       01__POLICY.md
 |   |   |   |   |       02__LIMITS_THRESHOLDS.md
@@ -2013,6 +2112,7 @@ D:.
 |   |   |   |   |       90__KB_SOURCES.md
 |   |   |   |   |       
 |   |   |   |   +---05__POET_PD_POLICY_CTL
+|   |   |   |   |       00__INDEX__PACK_CONTENTS.md
 |   |   |   |   |       00__PACK_PASSPORT.md
 |   |   |   |   |       01__POLICY.md
 |   |   |   |   |       02__LIMITS_THRESHOLDS.md
@@ -2020,6 +2120,7 @@ D:.
 |   |   |   |   |       90__KB_SOURCES.md
 |   |   |   |   |       
 |   |   |   |   +---06__FINGERPRINT_COLLISION_THRESHOLDS_CTL
+|   |   |   |   |       00__INDEX__PACK_CONTENTS.md
 |   |   |   |   |       00__PACK_PASSPORT.md
 |   |   |   |   |       01__POLICY.md
 |   |   |   |   |       02__LIMITS_THRESHOLDS.md
@@ -2027,6 +2128,7 @@ D:.
 |   |   |   |   |       90__KB_SOURCES.md
 |   |   |   |   |       
 |   |   |   |   +---07__CATALOG_MEMORY_CTL
+|   |   |   |   |       00__INDEX__PACK_CONTENTS.md
 |   |   |   |   |       00__PACK_PASSPORT.md
 |   |   |   |   |       01__POLICY.md
 |   |   |   |   |       02__LIMITS_THRESHOLDS.md
@@ -2034,6 +2136,7 @@ D:.
 |   |   |   |   |       90__KB_SOURCES.md
 |   |   |   |   |       
 |   |   |   |   +---08__AUDIENCE_SEGMENTS_CTL
+|   |   |   |   |       00__INDEX__PACK_CONTENTS.md
 |   |   |   |   |       00__PACK_PASSPORT.md
 |   |   |   |   |       01__POLICY.md
 |   |   |   |   |       02__LIMITS_THRESHOLDS.md
@@ -2041,6 +2144,7 @@ D:.
 |   |   |   |   |       90__KB_SOURCES.md
 |   |   |   |   |       
 |   |   |   |   \---09__QUALITY_GATES_CTL
+|   |   |   |           00__INDEX__PACK_CONTENTS.md
 |   |   |   |           00__PACK_PASSPORT.md
 |   |   |   |           01__POLICY.md
 |   |   |   |           02__LIMITS_THRESHOLDS.md
@@ -2059,7 +2163,10 @@ D:.
 |   |   |   |   01__TEMPLATE__VAL_VIOLATION_RECORD.md
 |   |   |   |   
 |   |   |   +---VAL_PACKS
+|   |   |   |   |   00__INDEX__VAL_PACKS.md
+|   |   |   |   |   
 |   |   |   |   +---01__HOOK_TIMING_VAL
+|   |   |   |   |       00__INDEX__PACK_CONTENTS.md
 |   |   |   |   |       00__PACK_PASSPORT.md
 |   |   |   |   |       01__CHECK_RULE.md
 |   |   |   |   |       02__VIOLATION_FORMAT.md
@@ -2068,6 +2175,7 @@ D:.
 |   |   |   |   |       90__KB_SOURCES.md
 |   |   |   |   |       
 |   |   |   |   +---02__UGC_READY_VAL
+|   |   |   |   |       00__INDEX__PACK_CONTENTS.md
 |   |   |   |   |       00__PACK_PASSPORT.md
 |   |   |   |   |       01__CHECK_RULE.md
 |   |   |   |   |       02__VIOLATION_FORMAT.md
@@ -2076,6 +2184,7 @@ D:.
 |   |   |   |   |       90__KB_SOURCES.md
 |   |   |   |   |       
 |   |   |   |   +---03__REPEAT_GUARD_VAL
+|   |   |   |   |       00__INDEX__PACK_CONTENTS.md
 |   |   |   |   |       00__PACK_PASSPORT.md
 |   |   |   |   |       01__CHECK_RULE.md
 |   |   |   |   |       02__VIOLATION_FORMAT.md
@@ -2084,6 +2193,7 @@ D:.
 |   |   |   |   |       90__KB_SOURCES.md
 |   |   |   |   |       
 |   |   |   |   +---04__PD_ONLY_VAL
+|   |   |   |   |       00__INDEX__PACK_CONTENTS.md
 |   |   |   |   |       00__PACK_PASSPORT.md
 |   |   |   |   |       01__CHECK_RULE.md
 |   |   |   |   |       02__VIOLATION_FORMAT.md
@@ -2092,6 +2202,7 @@ D:.
 |   |   |   |   |       90__KB_SOURCES.md
 |   |   |   |   |       
 |   |   |   |   +---05__COLLISION_BLOCKER_VAL
+|   |   |   |   |       00__INDEX__PACK_CONTENTS.md
 |   |   |   |   |       00__PACK_PASSPORT.md
 |   |   |   |   |       01__CHECK_RULE.md
 |   |   |   |   |       02__VIOLATION_FORMAT.md
@@ -2100,6 +2211,7 @@ D:.
 |   |   |   |   |       90__KB_SOURCES.md
 |   |   |   |   |       
 |   |   |   |   +---06__RELEASE_PACK_READY_VAL
+|   |   |   |   |       00__INDEX__PACK_CONTENTS.md
 |   |   |   |   |       00__PACK_PASSPORT.md
 |   |   |   |   |       01__CHECK_RULE.md
 |   |   |   |   |       02__VIOLATION_FORMAT.md
@@ -2108,6 +2220,7 @@ D:.
 |   |   |   |   |       90__KB_SOURCES.md
 |   |   |   |   |       
 |   |   |   |   +---07__NAMING_COLLISION_VAL
+|   |   |   |   |       00__INDEX__PACK_CONTENTS.md
 |   |   |   |   |       00__PACK_PASSPORT.md
 |   |   |   |   |       01__CHECK_RULE.md
 |   |   |   |   |       02__VIOLATION_FORMAT.md
@@ -2116,6 +2229,7 @@ D:.
 |   |   |   |   |       90__KB_SOURCES.md
 |   |   |   |   |       
 |   |   |   |   +---08__PROMPT_FIDELITY_VAL
+|   |   |   |   |       00__INDEX__PACK_CONTENTS.md
 |   |   |   |   |       00__PACK_PASSPORT.md
 |   |   |   |   |       01__CHECK_RULE.md
 |   |   |   |   |       02__VIOLATION_FORMAT.md
@@ -2124,6 +2238,7 @@ D:.
 |   |   |   |   |       90__KB_SOURCES.md
 |   |   |   |   |       
 |   |   |   |   +---09__CREDITS_RIGHTS_VAL
+|   |   |   |   |       00__INDEX__PACK_CONTENTS.md
 |   |   |   |   |       00__PACK_PASSPORT.md
 |   |   |   |   |       01__CHECK_RULE.md
 |   |   |   |   |       02__VIOLATION_FORMAT.md
@@ -2132,6 +2247,7 @@ D:.
 |   |   |   |   |       90__KB_SOURCES.md
 |   |   |   |   |       
 |   |   |   |   \---10__VOICE_DIVERSITY_VAL
+|   |   |   |           00__INDEX__PACK_CONTENTS.md
 |   |   |   |           00__PACK_PASSPORT.md
 |   |   |   |           01__CHECK_RULE.md
 |   |   |   |           02__VIOLATION_FORMAT.md
@@ -2152,7 +2268,10 @@ D:.
 |   |   |   |   01__TEMPLATE__EXEMPLAR_SET.md
 |   |   |   |   
 |   |   |   +---QA_PACKS
+|   |   |   |   |   00__INDEX__QA_PACKS.md
+|   |   |   |   |   
 |   |   |   |   +---01__SCROLL_STOP_5S_QA
+|   |   |   |   |       00__INDEX__PACK_CONTENTS.md
 |   |   |   |   |       00__PACK_PASSPORT.md
 |   |   |   |   |       01__RUBRIC.md
 |   |   |   |   |       02__PROTOCOL.md
@@ -2161,6 +2280,7 @@ D:.
 |   |   |   |   |       90__KB_SOURCES.md
 |   |   |   |   |       
 |   |   |   |   +---02__LOOP_15S_QA
+|   |   |   |   |       00__INDEX__PACK_CONTENTS.md
 |   |   |   |   |       00__PACK_PASSPORT.md
 |   |   |   |   |       01__RUBRIC.md
 |   |   |   |   |       02__PROTOCOL.md
@@ -2169,6 +2289,7 @@ D:.
 |   |   |   |   |       90__KB_SOURCES.md
 |   |   |   |   |       
 |   |   |   |   +---03__RECOGNITION_10S_QA
+|   |   |   |   |       00__INDEX__PACK_CONTENTS.md
 |   |   |   |   |       00__PACK_PASSPORT.md
 |   |   |   |   |       01__RUBRIC.md
 |   |   |   |   |       02__PROTOCOL.md
@@ -2177,6 +2298,7 @@ D:.
 |   |   |   |   |       90__KB_SOURCES.md
 |   |   |   |   |       
 |   |   |   |   +---04__CREATOR_PANEL_QA
+|   |   |   |   |       00__INDEX__PACK_CONTENTS.md
 |   |   |   |   |       00__PACK_PASSPORT.md
 |   |   |   |   |       01__RUBRIC.md
 |   |   |   |   |       02__PROTOCOL.md
@@ -2185,6 +2307,7 @@ D:.
 |   |   |   |   |       90__KB_SOURCES.md
 |   |   |   |   |       
 |   |   |   |   +---05__MIX_TRANSLATION_QA
+|   |   |   |   |       00__INDEX__PACK_CONTENTS.md
 |   |   |   |   |       00__PACK_PASSPORT.md
 |   |   |   |   |       01__RUBRIC.md
 |   |   |   |   |       02__PROTOCOL.md
@@ -2193,6 +2316,7 @@ D:.
 |   |   |   |   |       90__KB_SOURCES.md
 |   |   |   |   |       
 |   |   |   |   +---06__HOOK_PANEL_QA
+|   |   |   |   |       00__INDEX__PACK_CONTENTS.md
 |   |   |   |   |       00__PACK_PASSPORT.md
 |   |   |   |   |       01__RUBRIC.md
 |   |   |   |   |       02__PROTOCOL.md
@@ -2201,6 +2325,7 @@ D:.
 |   |   |   |   |       90__KB_SOURCES.md
 |   |   |   |   |       
 |   |   |   |   +---07__CATALOG_DIFFERENTIATION_QA
+|   |   |   |   |       00__INDEX__PACK_CONTENTS.md
 |   |   |   |   |       00__PACK_PASSPORT.md
 |   |   |   |   |       01__RUBRIC.md
 |   |   |   |   |       02__PROTOCOL.md
@@ -2209,6 +2334,7 @@ D:.
 |   |   |   |   |       90__KB_SOURCES.md
 |   |   |   |   |       
 |   |   |   |   +---08__VOICE_DIVERSITY_AUDIT_QA
+|   |   |   |   |       00__INDEX__PACK_CONTENTS.md
 |   |   |   |   |       00__PACK_PASSPORT.md
 |   |   |   |   |       01__RUBRIC.md
 |   |   |   |   |       02__PROTOCOL.md
@@ -2217,6 +2343,7 @@ D:.
 |   |   |   |   |       90__KB_SOURCES.md
 |   |   |   |   |       
 |   |   |   |   \---09__REGRESSION_GUARD_QA
+|   |   |   |           00__INDEX__PACK_CONTENTS.md
 |   |   |   |           00__PACK_PASSPORT.md
 |   |   |   |           01__RUBRIC.md
 |   |   |   |           02__PROTOCOL.md
@@ -2243,29 +2370,37 @@ D:.
 |   |               90__KB_SOURCES.md
 |   |               
 |   +---30_SHARED_LIBRARIES
+|   |   |   00__INDEX__SHARED_LIBRARIES.md
 |   |   |   00__README__SHARED_LIBRARIES_REALM.md
 |   |   |   01__LIB_TAXONOMY.md
 |   |   |   
 |   |   +---10_CHECKLISTS
+|   |   |       00__INDEX__CHECKLISTS.md
 |   |   |       00__README__CHECKLISTS.md
 |   |   |       
 |   |   +---20_RUBRICS
+|   |   |       00__INDEX__RUBRICS.md
 |   |   |       00__README__RUBRICS.md
 |   |   |       
 |   |   +---30_TEMPLATES
+|   |   |       00__INDEX__TEMPLATES.md
 |   |   |       00__README__TEMPLATES.md
 |   |   |       
 |   |   +---40_PATTERNS
+|   |   |       00__INDEX__PATTERNS.md
 |   |   |       00__README__PATTERNS.md
 |   |   |       
 |   |   +---50_EXAMPLES
+|   |   |       00__INDEX__EXAMPLES.md
 |   |   |       00__README__EXAMPLES.md
 |   |   |       01__EXAMPLE__KB_CONSUMPTION_TRACE.md
 |   |   |       
 |   |   \---60_PROMPT_LIB
+|   |           00__INDEX__PROMPT_LIB.md
 |   |           00__README__PROMPT_LIB.md
 |   |           
 |   \---40_RELATION_XREF
+|           00__INDEX__RELATION_XREF.md
 |           00__README__RELATION_XREF_REALM.md
 |           01__TASK_TO_KB_SCOPE_MAP.md
 |           02__ENTITY_TO_KB_SCOPE_MAP.md
@@ -2370,6 +2505,8 @@ D:.
 |           99__KB_QA_SCORE_REPORT_TEMPLATE.md
 |           
 +---05_PROJECTS
+|   |   00__INDEX__PROJECTS.md
+|   |   
 |   +---00_PRJ_GOVERNANCE
 |   |       00__README__PRJ_REALM.md
 |   |       01__RULES__PRJ.md
@@ -2381,11 +2518,14 @@ D:.
 |   |       07__PRJ_CREATE_FLOW.md
 |   |       
 |   +---01_WORKSHOP
+|   |   |   00__INDEX__WORKSHOP.md
 |   |   |   00__TEMPLATE__ENTITY_WORKSHOP.md
 |   |   |   00__TEMPLATE__PROJECT_INDEX.md
 |   |   |   00__TEMPLATE__PROMOTION_L0_L3.md
 |   |   |   
 |   |   +---01_CHARACTERS
+|   |   |   |   00__INDEX__01_CHARACTERS.md
+|   |   |   |   
 |   |   |   \---CHR__Имя
 |   |   |           01_INTAKE_L0.md
 |   |   |           02_DRAFT_L1.md
@@ -2393,6 +2533,8 @@ D:.
 |   |   |           04_OUTPUT_L3.md
 |   |   |           
 |   |   +---02_LOCATIONS
+|   |   |   |   00__INDEX__02_LOCATIONS.md
+|   |   |   |   
 |   |   |   +---LOC__Город_Х
 |   |   |   +---LOC__Земля
 |   |   |   |       01_INTAKE_L0.md
@@ -2402,30 +2544,48 @@ D:.
 |   |   |   |       
 |   |   |   \---LOC__Марс
 |   |   +---03_OBJECTS
+|   |   |   |   00__INDEX__03_OBJECTS.md
+|   |   |   |   
 |   |   |   +---OBJ__Артефакт
 |   |   |   \---OBJ__Мегаструктура
 |   |   +---04_SYSTEMS
+|   |   |   |   00__INDEX__04_SYSTEMS.md
+|   |   |   |   
 |   |   |   +---SYS__Магия
 |   |   |   +---SYS__Экономика
 |   |   |   \---SYS__Энергия
 |   |   +---05_FACTIONS
+|   |   |   |   00__INDEX__05_FACTIONS.md
+|   |   |   |   
 |   |   |   +---FAC__Империя
 |   |   |   \---FAC__Орден
 |   |   +---06_EVENTS
+|   |   |   |   00__INDEX__06_EVENTS.md
+|   |   |   |   
 |   |   |   +---EVT__Война
 |   |   |   \---EVT__Катастрофа
 |   |   +---07_CONCEPTS
+|   |   |   |   00__INDEX__07_CONCEPTS.md
+|   |   |   |   
 |   |   |   +---CON__Создатели
 |   |   |   \---CON__Судьба
 |   |   +---08_RELATIONSHIPS
+|   |   |   |   00__INDEX__08_RELATIONSHIPS.md
+|   |   |   |   
 |   |   |   \---REL__CHR_A__CHR_B
 |   |   +---09_ARCS
+|   |   |   |   00__INDEX__09_ARCS.md
+|   |   |   |   
 |   |   |   +---ARC__Мир
 |   |   |   \---ARC__Персонаж
 |   |   +---10_STYLES
+|   |   |   |   00__INDEX__10_STYLES.md
+|   |   |   |   
 |   |   |   +---STY__Визуал
 |   |   |   \---STY__Музыка
 |   |   \---11_EXPERIMENTS
+|   |       |   00__INDEX__11_EXPERIMENTS.md
+|   |       |   
 |   |       \---EXP__Идея
 |   +---02_INTAKE__L0
 |   |       00_INTAKE_INDEX.md
@@ -2451,6 +2611,8 @@ D:.
 |   |       SERIES.md
 |   |       
 |   +---06_OUTPUT
+|   |   |   00__INDEX__OUTPUT.md
+|   |   |   
 |   |   \---00_OUT_GOVERNANCE
 |   |           00__README__OUT_REALM.md
 |   |           01__INDEX__OUT_GLOBAL_REGISTRY.md
@@ -2460,11 +2622,15 @@ D:.
 |   |           05__OUT_CREATE_FLOW.md
 |   |           
 |   \---07_MUSIC_LABEL
+|       |   00__INDEX__MUSIC_LABEL.md
+|       |   
 |       \---10_BRANDS
 |           |   00__INDEX__ALL_BRANDS.md
+|           |   00__INDEX__BRANDS.md
 |           |   
 |           \---BRD__SEREBRYANY_VETER
 |               |   00__BRAND_PASSPORT.md
+|               |   00__INDEX__BRAND.md
 |               |   01__BRAND_DNA.md
 |               |   02__PROMPT_PRESETS.md
 |               |   
@@ -2473,9 +2639,17 @@ D:.
 |                   |   2026-01-10__TRK__SEREBRYANY_PUT__OUTPUT_PACK.md
 |                   |   
 |                   +---_AUDIO
+|                   |       00__INDEX__AUDIO.md
+|                   |       
 |                   +---_COVERS
+|                   |       00__INDEX__COVERS.md
+|                   |       
 |                   \---_SHORTS
+|                           00__INDEX__SHORTS.md
+|                           
 +---06_ASSETS
+|   |   00__INDEX__ASSETS.md
+|   |   
 |   \---00_AST_GOVERNANCE
 |           00__README__AST_REALM.md
 |           01__RULES__AST.md
@@ -2486,7 +2660,11 @@ D:.
 |           06__AST_CREATE_FLOW.md
 |           
 +---07_MODELS
+|       00__INDEX__MODELS.md
+|       00__README__MODELS.md
+|       
 +---08_DATABASES
+|   |   00__INDEX__DATABASES.md
 |   |   DB__ACTION_LEX.md
 |   |   DB__ARTIFACT_TYPES.md
 |   |   DB__DOC_REGISTRY.md
@@ -2495,7 +2673,11 @@ D:.
 |   |   DB__TRACK_TYPES.md
 |   |   
 |   \---10_MUSIC_CATALOG
+|       |   00__INDEX__MUSIC_CATALOG.md
+|       |   
 |       \---GROUPS
+|           |   00__INDEX__GROUPS.md
+|           |   
 |           +---G__UID__NAME
 |           |   |   00__GROUP__PASSPORT.md
 |           |   |   01__GROUP__STYLE.md
@@ -2531,6 +2713,7 @@ D:.
 |                       T07__ДОРОГА ДОМОЙ.md
 |                       
 \---99_LOGS
+        00__INDEX__LOGS.md
         LOG__AUDIT.md
         LOG__CHANGES.md
         

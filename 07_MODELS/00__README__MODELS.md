@@ -1,15 +1,15 @@
-# 00__INDEX__RELEASES
+# 00__README__MODELS
 
 SCOPE: Universe Engine  
 DOC_TYPE: INDEX (FOLDER)  
 STATUS: DRAFT (AUTO-GENERATED)  
 DATE: 2026-01-21  
-FOLDER: 05_PROJECTS/07_MUSIC_LABEL/10_BRANDS/BRD__SEREBRYANY_VETER/10_RELEASES
+FOLDER: 07_MODELS
 
 ---
 
 ## PURPOSE
-Быстрая навигация по содержимому папки `05_PROJECTS/07_MUSIC_LABEL/10_BRANDS/BRD__SEREBRYANY_VETER/10_RELEASES`.
+Быстрая навигация по содержимому папки `07_MODELS`.
 
 ## NAV RULES (NO-LINK MODE)
 - Не использовать кликабельные ссылки на индексы (политика репо).
