@@ -560,6 +560,10 @@ D:.
 |           
 +---04_KNOWLEDGE_BASE
 |   |   00__INDEX__KNOWLEDGE_BASE.md
+|   |   04__RELATION_TYPES_CANONICAL_DICTIONARY.md
+|   |   24__KB_RELATION_MODEL_STANDARD.md
+|   |   98__COMPLIANCE_REPORT__KB_RELATION_RESTORE.md
+|   |   99__INTEGRATION_OUTPUT_PACK__KB_RELATION_RESTORE.md
 |   |   
 |   +---00_KB_GOVERNANCE
 |   |       00__README__KB_REALM.md
@@ -579,6 +583,7 @@ D:.
 |   |       13__KB_MEMORY_POLICY.md
 |   |       14__KB_MODULE_STATE_SYSTEM.md
 |   |       15__KB_OPERATING_MODEL_AND_AUTHORING_RUNBOOK.md
+|   |       16__KB_AUTHORING_QUICKSTART.md
 |   |       20__TEMPLATE__KB_MODULE.md
 |   |       21__TEMPLATE__KB_LIBRARY_ITEM.md
 |   |       22__TEMPLATE__SPC_PRO_PACK.md
@@ -716,205 +721,885 @@ D:.
 |   |   |   |   01__TEMPLATE__SPC_PRO_PACK_STRUCTURE.md
 |   |   |   |   
 |   |   |   +---PRO_PACKS
-|   |   |   |   \---06_SOUND_MUSIC
-|   |   |   |       +---07__VOCAL_DIRECTOR_SPC
-|   |   |   |       |   |   01__SCOPE_AND_SKILL_TREE.md
-|   |   |   |       |   |   02__GOLDEN_PRINCIPLES_AND_LIMITS.md
-|   |   |   |       |   |   
-|   |   |   |       |   +---03__METHOD_PLAYBOOKS
-|   |   |   |       |   |       00__README__PLAYBOOKS.md
-|   |   |   |       |   |       01__PLAYBOOK__CORE_VOCAL_DIRECTION_WORKFLOW.md
-|   |   |   |       |   |       02__PLAYBOOK__MUST_HEAR_WORDS_PRIORITY.md
-|   |   |   |       |   |       03__PLAYBOOK__INTELLIGIBILITY_DIAGNOSE_REPAIR.md
-|   |   |   |       |   |       04__PLAYBOOK__BREATH_DENSITY_ESCALATION.md
-|   |   |   |       |   |       05__PLAYBOOK__SECTION_ARC_CONTRAST.md
-|   |   |   |       |   |       06__PLAYBOOK__TAKE_DIRECTION_PACK.md
-|   |   |   |       |   |       07__PLAYBOOK__STACKING_MINIMAL_PLAN.md
-|   |   |   |       |   |       08__PLAYBOOK__ONE_AXIS_PATCH_LOOP.md
-|   |   |   |       |   |       
-|   |   |   |       |   +---05__KB_GATES
-|   |   |   |       |   |       00__README__GATES.md
-|   |   |   |       |   |       01__GATE__INPUT_READINESS.md
-|   |   |   |       |   |       02__GATE__MUST_HEAR_TARGETS.md
-|   |   |   |       |   |       03__GATE__INTELLIGIBILITY_PASS.md
-|   |   |   |       |   |       04__GATE__DELIVERY_PROFILE_COHERENCE.md
-|   |   |   |       |   |       05__GATE__ARC_CONTRAST.md
-|   |   |   |       |   |       06__GATE__BREATH_SINGABILITY.md
-|   |   |   |       |   |       07__GATE__STACKING_CLARITY_SAFE.md
-|   |   |   |       |   |       08__GATE__TAKE_PACK_REPEATABILITY.md
-|   |   |   |       |   |       09__GATE__SCOPE_COMPLIANCE.md
-|   |   |   |       |   |       
-|   |   |   |       |   +---06__CASE_LIBRARY
-|   |   |   |       |   |       00__README__CASES.md
-|   |   |   |       |   |       01__CASE__GOOD_001.md
-|   |   |   |       |   |       02__CASE__BAD_001.md
-|   |   |   |       |   |       03__CASE__BORDERLINE_001.md
-|   |   |   |       |   |       04__CASE__EDGE_001.md
-|   |   |   |       |   |       05__CASE__BAD_002.md
-|   |   |   |       |   |       06__CASE__BORDERLINE_002.md
-|   |   |   |       |   |       07__CASE__GOOD_002.md
-|   |   |   |       |   |       08__CASE__EDGE_002.md
-|   |   |   |       |   |       09__CASE__BAD_003.md
-|   |   |   |       |   |       10__CASE__GOOD_003.md
-|   |   |   |       |   |       11__CASE__EDGE_003.md
-|   |   |   |       |   |       12__CASE__BAD_004.md
-|   |   |   |       |   |       13__CASE__BORDERLINE_003.md
-|   |   |   |       |   |       14__CASE__EDGE_004.md
-|   |   |   |       |   |       15__CASE__BAD_005.md
-|   |   |   |       |   |       16__CASE__GOOD_004.md
-|   |   |   |       |   |       17__CASE__BAD_006.md
-|   |   |   |       |   |       18__CASE__BORDERLINE_004.md
-|   |   |   |       |   |       19__CASE__GOOD_005.md
-|   |   |   |       |   |       20__CASE__EDGE_005.md
-|   |   |   |       |   |       21__CASE__BAD_007.md
-|   |   |   |       |   |       22__CASE__BORDERLINE_005.md
-|   |   |   |       |   |       23__CASE__GOOD_006.md
-|   |   |   |       |   |       24__CASE__BAD_008.md
-|   |   |   |       |   |       25__CASE__GOOD_007.md
-|   |   |   |       |   |       
-|   |   |   |       |   +---07__TOOLS
-|   |   |   |       |   |       00__README__TOOLS.md
-|   |   |   |       |   |       01__T01__INTAKE_NORMALIZER.md
-|   |   |   |       |   |       02__T02__MUST_HEAR_BUILDER.md
-|   |   |   |       |   |       03__T03__PHRASE_PROMOTION_HELPER.md
-|   |   |   |       |   |       04__T04__INTELLIGIBILITY_CHECKLIST_BUILDER.md
-|   |   |   |       |   |       05__T05__CONSONANT_ATTACK_PROTECTOR.md
-|   |   |   |       |   |       06__T06__DELIVERY_PROFILE_PRUNER.md
-|   |   |   |       |   |       07__T07__CONTRADICTION_DETECTOR.md
-|   |   |   |       |   |       08__T08__ARC_LEVER_SELECTOR.md
-|   |   |   |       |   |       09__T09__BREATH_MAP_BUILDER.md
-|   |   |   |       |   |       10__T10__DENSITY_RISK_SCAN.md
-|   |   |   |       |   |       11__T11__STACKING_SAFE_PLANNER.md
-|   |   |   |       |   |       12__T12__TAKE_PACK_BUILDER.md
-|   |   |   |       |   |       13__T13__SCOPE_AUDIT_CHECKLIST.md
-|   |   |   |       |   |       14__T14__ESCALATION_NOTE_FORMATTER.md
-|   |   |   |       |   |       15__T15__REPAIR_ROUTER.md
-|   |   |   |       |   |       16__T16__THRESHOLD_GUIDE.md
-|   |   |   |       |   |       
-|   |   |   |       |   +---08__PLAYBOOKS
-|   |   |   |       |   |       00__README__PLAYBOOKS.md
-|   |   |   |       |   |       01__PB__PROFILE_REBUILD_PRUNE.md
-|   |   |   |       |   |       02__PB__MUST_HEAR_REBUILD.md
-|   |   |   |       |   |       03__PB__INTELLIGIBILITY_REPAIR.md
-|   |   |   |       |   |       04__PB__BREATH_DENSITY_FIX.md
-|   |   |   |       |   |       05__PB__ARC_CONTRAST_FIX.md
-|   |   |   |       |   |       06__PB__TAKE_PACK_FIX.md
-|   |   |   |       |   |       07__PB__STACKING_SAFE_FIX.md
-|   |   |   |       |   |       08__PB__COMPLIANCE_ONE_AXIS_PATCH.md
-|   |   |   |       |   |       
-|   |   |   |       |   +---09__GATES
-|   |   |   |       |   |       00__README__GATES.md
-|   |   |   |       |   |       01__GATE__INPUT_READINESS.md
-|   |   |   |       |   |       02__GATE__MUST_HEAR.md
-|   |   |   |       |   |       03__GATE__INTELLIGIBILITY.md
-|   |   |   |       |   |       04__GATE__DELIVERY_COHERENCE.md
-|   |   |   |       |   |       05__GATE__ARC_CONTRAST.md
-|   |   |   |       |   |       06__GATE__BREATH_SINGABILITY.md
-|   |   |   |       |   |       07__GATE__STACKING_SAFE.md
-|   |   |   |       |   |       08__GATE__TAKE_PACK.md
-|   |   |   |       |   |       09__GATE__SCOPE_COMPLIANCE.md
-|   |   |   |       |   |       
-|   |   |   |       |   +---10__OUTPUT_PACKS
-|   |   |   |       |   |       00__README__OUTPUT_PACKS.md
-|   |   |   |       |   |       01__OUTPUT_PACK__MIN.md
-|   |   |   |       |   |       02__OUTPUT_PACK__STD.md
-|   |   |   |       |   |       03__OUTPUT_PACK__FULL.md
-|   |   |   |       |   |       
-|   |   |   |       |   +---11__PROMPT_CONTRACTS
-|   |   |   |       |   |       00__README__PROMPT_CONTRACTS.md
-|   |   |   |       |   |       01__PROMPT_CONTRACT__UNIVERSAL.md
-|   |   |   |       |   |       02__PROMPT_CONTRACT__SUNO.md
-|   |   |   |       |   |       03__PROMPT_CONTRACT__UDIO.md
-|   |   |   |       |   |       
-|   |   |   |       |   +---12__CHECKLISTS
-|   |   |   |       |   |       00__README__CHECKLISTS.md
-|   |   |   |       |   |       01__CHECKLIST__PRE_RUN_MIN_INPUTS_AND_SCOPE.md
-|   |   |   |       |   |       02__CHECKLIST__DURING_RUN_GATE_ORDER_AND_ONE_AXIS.md
-|   |   |   |       |   |       03__CHECKLIST__POST_RUN_READY_REVIEW.md
-|   |   |   |       |   |       
-|   |   |   |       |   +---13__CASE_LIBRARY
-|   |   |   |       |   |       00__README__CASE_LIBRARY.md
-|   |   |   |       |   |       01__CASE__T1__CONSONANT_LOSS.md
-|   |   |   |       |   |       02__CASE__T2__BREATH_SPLIT_P0.md
-|   |   |   |       |   |       03__CASE__T3__TARGET_BLOAT_OR_MISSING.md
-|   |   |   |       |   |       04__CASE__T4__DENSITY_UNSINGABLE.md
-|   |   |   |       |   |       05__CASE__T5__DELIVERY_MASKING.md
-|   |   |   |       |   |       06__CASE__T6__STACKING_MASKING.md
-|   |   |   |       |   |       07__CASE__T7__ARRANGEMENT_SEAT_CONFLICT.md
-|   |   |   |       |   |       08__CASE__T8__ARC_OVERLOAD_OR_FLAT.md
-|   |   |   |       |   |       09__CASE__T9__SCOPE_VIOLATION.md
-|   |   |   |       |   |       
-|   |   |   |       |   \---14__META
-|   |   |   |       |           00__README__META.md
-|   |   |   |       |           01__CHANGELOG.md
-|   |   |   |       |           02__ROADMAP.md
-|   |   |   |       |           03__KNOWN_GAPS.md
-|   |   |   |       |           04__DEPENDENCIES.md
-|   |   |   |       |           
-|   |   |   |       \---12__PROMPT_ARCHITECT_SPC
-|   |   |   |           |   00__PACK_PASSPORT.md
-|   |   |   |           |   01__SCOPE_AND_SKILL_TREE.md
-|   |   |   |           |   02__GOLDEN_PRINCIPLES_AND_LIMITS.md
-|   |   |   |           |   07__EVALUATION_RUBRIC.md
-|   |   |   |           |   08__KB_SOURCES.md
-|   |   |   |           |   09__REGRESSION_GUARD.md
-|   |   |   |           |   10__TOPIC_BINDINGS.md
-|   |   |   |           |   11__XREF_BINDINGS.md
-|   |   |   |           |   12__PACK_COMPLETION_CHECK.md
-|   |   |   |           |   
-|   |   |   |           +---03__METHOD_PLAYBOOKS
-|   |   |   |           |       00__README__PLAYBOOKS.md
-|   |   |   |           |       01__PLAYBOOK__CORE_WORKFLOW.md
-|   |   |   |           |       02__PLAYBOOK__ONE_AXIS_VARIANTS.md
-|   |   |   |           |       03__PLAYBOOK__DIAGNOSE_AND_REWORK.md
-|   |   |   |           |       04__PLAYBOOK__PATCH_PROMPT_MINIMAL_CHANGE.md
-|   |   |   |           |       05__PLAYBOOK__VOCAL_DIVERSITY_BOOST.md
-|   |   |   |           |       06__PLAYBOOK__ANTI_REPETITION_FIX.md
-|   |   |   |           |       07__PLAYBOOK__STYLE_FINGERPRINT_STABILIZER.md
-|   |   |   |           |       08__PLAYBOOK__FINAL_QA_PRECHECK.md
-|   |   |   |           |       
-|   |   |   |           +---04__CHECKLISTS
-|   |   |   |           |       00__README__CHECKLISTS.md
-|   |   |   |           |       01__CHK__READINESS.md
-|   |   |   |           |       02__CHK__QUALITY.md
-|   |   |   |           |       03__CHK__COMPLIANCE.md
-|   |   |   |           |       
-|   |   |   |           +---05__KB_GATES
-|   |   |   |           |       00__README__GATES.md
-|   |   |   |           |       01__GATE__PROMPT_CONTRACT_CLARITY.md
-|   |   |   |           |       02__GATE__VOICE_DIVERSITY_INTENT.md
-|   |   |   |           |       03__GATE__REPETITION_CONTROL_INTENT.md
-|   |   |   |           |       04__GATE__STYLE_FINGERPRINT_STABILITY.md
-|   |   |   |           |       05__GATE__ONE_AXIS_CHANGE_DISCIPLINE.md
-|   |   |   |           |       
-|   |   |   |           \---06__CASE_LIBRARY
-|   |   |   |                   00__README__CASES.md
-|   |   |   |                   01__CASE__GOOD.md
-|   |   |   |                   02__CASE__BAD.md
-|   |   |   |                   03__CASE__BORDERLINE.md
-|   |   |   |                   04__CASE__EDGE_001.md
-|   |   |   |                   05__CASE__BAD_002.md
-|   |   |   |                   06__CASE__BORDERLINE_002.md
-|   |   |   |                   07__CASE__GOOD_002.md
-|   |   |   |                   08__CASE__EDGE_002.md
-|   |   |   |                   09__CASE__BAD_003.md
-|   |   |   |                   10__CASE__GOOD_003.md
-|   |   |   |                   11__CASE__EDGE_003.md
-|   |   |   |                   12__CASE__BAD_004.md
-|   |   |   |                   13__CASE__BORDERLINE_003.md
-|   |   |   |                   14__CASE__EDGE_004.md
-|   |   |   |                   15__CASE__BAD_005.md
-|   |   |   |                   16__CASE__GOOD_004.md
-|   |   |   |                   17__CASE__BAD_006.md
-|   |   |   |                   18__CASE__BORDERLINE_004.md
-|   |   |   |                   19__CASE__GOOD_005.md
-|   |   |   |                   20__CASE__EDGE_005.md
-|   |   |   |                   21__CASE__BAD_007.md
-|   |   |   |                   22__CASE__BORDERLINE_005.md
-|   |   |   |                   23__CASE__GOOD_006.md
-|   |   |   |                   24__CASE__BAD_008.md
-|   |   |   |                   25__CASE__GOOD_007.md
-|   |   |   |                   
+|   |   |   |   +---01__MUSIC_SUPERVISOR_SPC
+|   |   |   |   |   |   00__PACK_PASSPORT.md
+|   |   |   |   |   |   01__SCOPE_AND_SKILL_TREE.md
+|   |   |   |   |   |   02__GOLDEN_PRINCIPLES_AND_LIMITS.md
+|   |   |   |   |   |   07__EVALUATION_RUBRIC.md
+|   |   |   |   |   |   08__KB_SOURCES.md
+|   |   |   |   |   |   09__REGRESSION_GUARD.md
+|   |   |   |   |   |   10__TOPIC_BINDINGS.md
+|   |   |   |   |   |   
+|   |   |   |   |   +---03__METHOD_PLAYBOOKS
+|   |   |   |   |   |       00__README__PLAYBOOKS.md
+|   |   |   |   |   |       01__PLAYBOOK__CORE_WORKFLOW.md
+|   |   |   |   |   |       02__PLAYBOOK__DIAGNOSE_AND_REWORK.md
+|   |   |   |   |   |       03__PLAYBOOK__QUALITY_POLISH.md
+|   |   |   |   |   |       
+|   |   |   |   |   +---04__CHECKLISTS
+|   |   |   |   |   |       00__README__CHECKLISTS.md
+|   |   |   |   |   |       01__CHK__READINESS.md
+|   |   |   |   |   |       02__CHK__QUALITY.md
+|   |   |   |   |   |       03__CHK__COMPLIANCE.md
+|   |   |   |   |   |       
+|   |   |   |   |   +---05__KB_GATES
+|   |   |   |   |   |       00__README__GATES.md
+|   |   |   |   |   |       01__GATE__CORE_OUTPUT_QUALITY.md
+|   |   |   |   |   |       02__GATE__CONSISTENCY.md
+|   |   |   |   |   |       03__GATE__EDGE_CASES.md
+|   |   |   |   |   |       
+|   |   |   |   |   \---06__CASE_LIBRARY
+|   |   |   |   |           00__README__CASES.md
+|   |   |   |   |           01__CASE__GOOD.md
+|   |   |   |   |           02__CASE__BAD.md
+|   |   |   |   |           03__CASE__BORDERLINE.md
+|   |   |   |   |           04__CASE__EDGE_001.md
+|   |   |   |   |           
+|   |   |   |   +---02__MUSIC_PRODUCER_SPC
+|   |   |   |   |   |   00__PACK_PASSPORT.md
+|   |   |   |   |   |   01__SCOPE_AND_SKILL_TREE.md
+|   |   |   |   |   |   02__GOLDEN_PRINCIPLES_AND_LIMITS.md
+|   |   |   |   |   |   07__EVALUATION_RUBRIC.md
+|   |   |   |   |   |   08__KB_SOURCES.md
+|   |   |   |   |   |   09__REGRESSION_GUARD.md
+|   |   |   |   |   |   10__TOPIC_BINDINGS.md
+|   |   |   |   |   |   
+|   |   |   |   |   +---03__METHOD_PLAYBOOKS
+|   |   |   |   |   |       00__README__PLAYBOOKS.md
+|   |   |   |   |   |       01__PLAYBOOK__CORE_WORKFLOW.md
+|   |   |   |   |   |       02__PLAYBOOK__DIAGNOSE_AND_REWORK.md
+|   |   |   |   |   |       03__PLAYBOOK__QUALITY_POLISH.md
+|   |   |   |   |   |       
+|   |   |   |   |   +---04__CHECKLISTS
+|   |   |   |   |   |       00__README__CHECKLISTS.md
+|   |   |   |   |   |       01__CHK__READINESS.md
+|   |   |   |   |   |       02__CHK__QUALITY.md
+|   |   |   |   |   |       03__CHK__COMPLIANCE.md
+|   |   |   |   |   |       
+|   |   |   |   |   +---05__KB_GATES
+|   |   |   |   |   |       00__README__GATES.md
+|   |   |   |   |   |       01__GATE__CORE_OUTPUT_QUALITY.md
+|   |   |   |   |   |       02__GATE__CONSISTENCY.md
+|   |   |   |   |   |       03__GATE__EDGE_CASES.md
+|   |   |   |   |   |       
+|   |   |   |   |   \---06__CASE_LIBRARY
+|   |   |   |   |           00__README__CASES.md
+|   |   |   |   |           01__CASE__GOOD.md
+|   |   |   |   |           02__CASE__BAD.md
+|   |   |   |   |           03__CASE__BORDERLINE.md
+|   |   |   |   |           04__CASE__EDGE_001.md
+|   |   |   |   |           
+|   |   |   |   +---03__COMPOSER_SPC
+|   |   |   |   |   |   00__PACK_PASSPORT.md
+|   |   |   |   |   |   01__SCOPE_AND_SKILL_TREE.md
+|   |   |   |   |   |   02__GOLDEN_PRINCIPLES_AND_LIMITS.md
+|   |   |   |   |   |   07__EVALUATION_RUBRIC.md
+|   |   |   |   |   |   08__KB_SOURCES.md
+|   |   |   |   |   |   09__REGRESSION_GUARD.md
+|   |   |   |   |   |   10__TOPIC_BINDINGS.md
+|   |   |   |   |   |   
+|   |   |   |   |   +---03__METHOD_PLAYBOOKS
+|   |   |   |   |   |       00__README__PLAYBOOKS.md
+|   |   |   |   |   |       01__PLAYBOOK__CORE_WORKFLOW.md
+|   |   |   |   |   |       02__PLAYBOOK__DIAGNOSE_AND_REWORK.md
+|   |   |   |   |   |       03__PLAYBOOK__QUALITY_POLISH.md
+|   |   |   |   |   |       
+|   |   |   |   |   +---04__CHECKLISTS
+|   |   |   |   |   |       00__README__CHECKLISTS.md
+|   |   |   |   |   |       01__CHK__READINESS.md
+|   |   |   |   |   |       02__CHK__QUALITY.md
+|   |   |   |   |   |       03__CHK__COMPLIANCE.md
+|   |   |   |   |   |       
+|   |   |   |   |   +---05__KB_GATES
+|   |   |   |   |   |       00__README__GATES.md
+|   |   |   |   |   |       01__GATE__CORE_OUTPUT_QUALITY.md
+|   |   |   |   |   |       02__GATE__CONSISTENCY.md
+|   |   |   |   |   |       03__GATE__EDGE_CASES.md
+|   |   |   |   |   |       
+|   |   |   |   |   \---06__CASE_LIBRARY
+|   |   |   |   |           00__README__CASES.md
+|   |   |   |   |           01__CASE__GOOD.md
+|   |   |   |   |           02__CASE__BAD.md
+|   |   |   |   |           03__CASE__BORDERLINE.md
+|   |   |   |   |           04__CASE__EDGE_001.md
+|   |   |   |   |           
+|   |   |   |   +---04__SONGWRITER_SPC
+|   |   |   |   |   |   00__PACK_PASSPORT.md
+|   |   |   |   |   |   01__SCOPE_AND_SKILL_TREE.md
+|   |   |   |   |   |   02__GOLDEN_PRINCIPLES_AND_LIMITS.md
+|   |   |   |   |   |   07__EVALUATION_RUBRIC.md
+|   |   |   |   |   |   08__KB_SOURCES.md
+|   |   |   |   |   |   09__REGRESSION_GUARD.md
+|   |   |   |   |   |   10__TOPIC_BINDINGS.md
+|   |   |   |   |   |   
+|   |   |   |   |   +---03__METHOD_PLAYBOOKS
+|   |   |   |   |   |       00__README__PLAYBOOKS.md
+|   |   |   |   |   |       01__PLAYBOOK__CORE_WORKFLOW.md
+|   |   |   |   |   |       02__PLAYBOOK__DIAGNOSE_AND_REWORK.md
+|   |   |   |   |   |       03__PLAYBOOK__QUALITY_POLISH.md
+|   |   |   |   |   |       
+|   |   |   |   |   +---04__CHECKLISTS
+|   |   |   |   |   |       00__README__CHECKLISTS.md
+|   |   |   |   |   |       01__CHK__READINESS.md
+|   |   |   |   |   |       02__CHK__QUALITY.md
+|   |   |   |   |   |       03__CHK__COMPLIANCE.md
+|   |   |   |   |   |       
+|   |   |   |   |   +---05__KB_GATES
+|   |   |   |   |   |       00__README__GATES.md
+|   |   |   |   |   |       01__GATE__CORE_OUTPUT_QUALITY.md
+|   |   |   |   |   |       02__GATE__CONSISTENCY.md
+|   |   |   |   |   |       03__GATE__EDGE_CASES.md
+|   |   |   |   |   |       
+|   |   |   |   |   \---06__CASE_LIBRARY
+|   |   |   |   |           00__README__CASES.md
+|   |   |   |   |           01__CASE__GOOD.md
+|   |   |   |   |           02__CASE__BAD.md
+|   |   |   |   |           03__CASE__BORDERLINE.md
+|   |   |   |   |           04__CASE__EDGE_001.md
+|   |   |   |   |           
+|   |   |   |   +---05__LYRICIST_SPC
+|   |   |   |   |   |   00__PACK_PASSPORT.md
+|   |   |   |   |   |   01__SCOPE_AND_SKILL_TREE.md
+|   |   |   |   |   |   02__GOLDEN_PRINCIPLES_AND_LIMITS.md
+|   |   |   |   |   |   07__EVALUATION_RUBRIC.md
+|   |   |   |   |   |   08__KB_SOURCES.md
+|   |   |   |   |   |   09__REGRESSION_GUARD.md
+|   |   |   |   |   |   10__TOPIC_BINDINGS.md
+|   |   |   |   |   |   
+|   |   |   |   |   +---03__METHOD_PLAYBOOKS
+|   |   |   |   |   |       00__README__PLAYBOOKS.md
+|   |   |   |   |   |       01__PLAYBOOK__CORE_WORKFLOW.md
+|   |   |   |   |   |       02__PLAYBOOK__DIAGNOSE_AND_REWORK.md
+|   |   |   |   |   |       03__PLAYBOOK__QUALITY_POLISH.md
+|   |   |   |   |   |       
+|   |   |   |   |   +---04__CHECKLISTS
+|   |   |   |   |   |       00__README__CHECKLISTS.md
+|   |   |   |   |   |       01__CHK__READINESS.md
+|   |   |   |   |   |       02__CHK__QUALITY.md
+|   |   |   |   |   |       03__CHK__COMPLIANCE.md
+|   |   |   |   |   |       
+|   |   |   |   |   +---05__KB_GATES
+|   |   |   |   |   |       00__README__GATES.md
+|   |   |   |   |   |       01__GATE__CORE_OUTPUT_QUALITY.md
+|   |   |   |   |   |       02__GATE__CONSISTENCY.md
+|   |   |   |   |   |       03__GATE__EDGE_CASES.md
+|   |   |   |   |   |       
+|   |   |   |   |   \---06__CASE_LIBRARY
+|   |   |   |   |           00__README__CASES.md
+|   |   |   |   |           01__CASE__GOOD.md
+|   |   |   |   |           02__CASE__BAD.md
+|   |   |   |   |           03__CASE__BORDERLINE.md
+|   |   |   |   |           04__CASE__EDGE_001.md
+|   |   |   |   |           
+|   |   |   |   +---06_SOUND_MUSIC
+|   |   |   |   |   +---07__VOCAL_DIRECTOR_SPC
+|   |   |   |   |   |   |   01__SCOPE_AND_SKILL_TREE.md
+|   |   |   |   |   |   |   02__GOLDEN_PRINCIPLES_AND_LIMITS.md
+|   |   |   |   |   |   |   
+|   |   |   |   |   |   +---03__METHOD_PLAYBOOKS
+|   |   |   |   |   |   |       00__README__PLAYBOOKS.md
+|   |   |   |   |   |   |       01__PLAYBOOK__CORE_VOCAL_DIRECTION_WORKFLOW.md
+|   |   |   |   |   |   |       02__PLAYBOOK__MUST_HEAR_WORDS_PRIORITY.md
+|   |   |   |   |   |   |       03__PLAYBOOK__INTELLIGIBILITY_DIAGNOSE_REPAIR.md
+|   |   |   |   |   |   |       04__PLAYBOOK__BREATH_DENSITY_ESCALATION.md
+|   |   |   |   |   |   |       05__PLAYBOOK__SECTION_ARC_CONTRAST.md
+|   |   |   |   |   |   |       06__PLAYBOOK__TAKE_DIRECTION_PACK.md
+|   |   |   |   |   |   |       07__PLAYBOOK__STACKING_MINIMAL_PLAN.md
+|   |   |   |   |   |   |       08__PLAYBOOK__ONE_AXIS_PATCH_LOOP.md
+|   |   |   |   |   |   |       
+|   |   |   |   |   |   +---05__KB_GATES
+|   |   |   |   |   |   |       00__README__GATES.md
+|   |   |   |   |   |   |       01__GATE__INPUT_READINESS.md
+|   |   |   |   |   |   |       02__GATE__MUST_HEAR_TARGETS.md
+|   |   |   |   |   |   |       03__GATE__INTELLIGIBILITY_PASS.md
+|   |   |   |   |   |   |       04__GATE__DELIVERY_PROFILE_COHERENCE.md
+|   |   |   |   |   |   |       05__GATE__ARC_CONTRAST.md
+|   |   |   |   |   |   |       06__GATE__BREATH_SINGABILITY.md
+|   |   |   |   |   |   |       07__GATE__STACKING_CLARITY_SAFE.md
+|   |   |   |   |   |   |       08__GATE__TAKE_PACK_REPEATABILITY.md
+|   |   |   |   |   |   |       09__GATE__SCOPE_COMPLIANCE.md
+|   |   |   |   |   |   |       
+|   |   |   |   |   |   +---06__CASE_LIBRARY
+|   |   |   |   |   |   |       00__README__CASES.md
+|   |   |   |   |   |   |       01__CASE__GOOD_001.md
+|   |   |   |   |   |   |       02__CASE__BAD_001.md
+|   |   |   |   |   |   |       03__CASE__BORDERLINE_001.md
+|   |   |   |   |   |   |       04__CASE__EDGE_001.md
+|   |   |   |   |   |   |       05__CASE__BAD_002.md
+|   |   |   |   |   |   |       06__CASE__BORDERLINE_002.md
+|   |   |   |   |   |   |       07__CASE__GOOD_002.md
+|   |   |   |   |   |   |       08__CASE__EDGE_002.md
+|   |   |   |   |   |   |       09__CASE__BAD_003.md
+|   |   |   |   |   |   |       10__CASE__GOOD_003.md
+|   |   |   |   |   |   |       11__CASE__EDGE_003.md
+|   |   |   |   |   |   |       12__CASE__BAD_004.md
+|   |   |   |   |   |   |       13__CASE__BORDERLINE_003.md
+|   |   |   |   |   |   |       14__CASE__EDGE_004.md
+|   |   |   |   |   |   |       15__CASE__BAD_005.md
+|   |   |   |   |   |   |       16__CASE__GOOD_004.md
+|   |   |   |   |   |   |       17__CASE__BAD_006.md
+|   |   |   |   |   |   |       18__CASE__BORDERLINE_004.md
+|   |   |   |   |   |   |       19__CASE__GOOD_005.md
+|   |   |   |   |   |   |       20__CASE__EDGE_005.md
+|   |   |   |   |   |   |       21__CASE__BAD_007.md
+|   |   |   |   |   |   |       22__CASE__BORDERLINE_005.md
+|   |   |   |   |   |   |       23__CASE__GOOD_006.md
+|   |   |   |   |   |   |       24__CASE__BAD_008.md
+|   |   |   |   |   |   |       25__CASE__GOOD_007.md
+|   |   |   |   |   |   |       
+|   |   |   |   |   |   +---07__TOOLS
+|   |   |   |   |   |   |       00__README__TOOLS.md
+|   |   |   |   |   |   |       01__T01__INTAKE_NORMALIZER.md
+|   |   |   |   |   |   |       02__T02__MUST_HEAR_BUILDER.md
+|   |   |   |   |   |   |       03__T03__PHRASE_PROMOTION_HELPER.md
+|   |   |   |   |   |   |       04__T04__INTELLIGIBILITY_CHECKLIST_BUILDER.md
+|   |   |   |   |   |   |       05__T05__CONSONANT_ATTACK_PROTECTOR.md
+|   |   |   |   |   |   |       06__T06__DELIVERY_PROFILE_PRUNER.md
+|   |   |   |   |   |   |       07__T07__CONTRADICTION_DETECTOR.md
+|   |   |   |   |   |   |       08__T08__ARC_LEVER_SELECTOR.md
+|   |   |   |   |   |   |       09__T09__BREATH_MAP_BUILDER.md
+|   |   |   |   |   |   |       10__T10__DENSITY_RISK_SCAN.md
+|   |   |   |   |   |   |       11__T11__STACKING_SAFE_PLANNER.md
+|   |   |   |   |   |   |       12__T12__TAKE_PACK_BUILDER.md
+|   |   |   |   |   |   |       13__T13__SCOPE_AUDIT_CHECKLIST.md
+|   |   |   |   |   |   |       14__T14__ESCALATION_NOTE_FORMATTER.md
+|   |   |   |   |   |   |       15__T15__REPAIR_ROUTER.md
+|   |   |   |   |   |   |       16__T16__THRESHOLD_GUIDE.md
+|   |   |   |   |   |   |       
+|   |   |   |   |   |   +---08__PLAYBOOKS
+|   |   |   |   |   |   |       00__README__PLAYBOOKS.md
+|   |   |   |   |   |   |       01__PB__PROFILE_REBUILD_PRUNE.md
+|   |   |   |   |   |   |       02__PB__MUST_HEAR_REBUILD.md
+|   |   |   |   |   |   |       03__PB__INTELLIGIBILITY_REPAIR.md
+|   |   |   |   |   |   |       04__PB__BREATH_DENSITY_FIX.md
+|   |   |   |   |   |   |       05__PB__ARC_CONTRAST_FIX.md
+|   |   |   |   |   |   |       06__PB__TAKE_PACK_FIX.md
+|   |   |   |   |   |   |       07__PB__STACKING_SAFE_FIX.md
+|   |   |   |   |   |   |       08__PB__COMPLIANCE_ONE_AXIS_PATCH.md
+|   |   |   |   |   |   |       
+|   |   |   |   |   |   +---09__GATES
+|   |   |   |   |   |   |       00__README__GATES.md
+|   |   |   |   |   |   |       01__GATE__INPUT_READINESS.md
+|   |   |   |   |   |   |       02__GATE__MUST_HEAR.md
+|   |   |   |   |   |   |       03__GATE__INTELLIGIBILITY.md
+|   |   |   |   |   |   |       04__GATE__DELIVERY_COHERENCE.md
+|   |   |   |   |   |   |       05__GATE__ARC_CONTRAST.md
+|   |   |   |   |   |   |       06__GATE__BREATH_SINGABILITY.md
+|   |   |   |   |   |   |       07__GATE__STACKING_SAFE.md
+|   |   |   |   |   |   |       08__GATE__TAKE_PACK.md
+|   |   |   |   |   |   |       09__GATE__SCOPE_COMPLIANCE.md
+|   |   |   |   |   |   |       
+|   |   |   |   |   |   +---10__OUTPUT_PACKS
+|   |   |   |   |   |   |       00__README__OUTPUT_PACKS.md
+|   |   |   |   |   |   |       01__OUTPUT_PACK__MIN.md
+|   |   |   |   |   |   |       02__OUTPUT_PACK__STD.md
+|   |   |   |   |   |   |       03__OUTPUT_PACK__FULL.md
+|   |   |   |   |   |   |       
+|   |   |   |   |   |   +---11__PROMPT_CONTRACTS
+|   |   |   |   |   |   |       00__README__PROMPT_CONTRACTS.md
+|   |   |   |   |   |   |       01__PROMPT_CONTRACT__UNIVERSAL.md
+|   |   |   |   |   |   |       02__PROMPT_CONTRACT__SUNO.md
+|   |   |   |   |   |   |       03__PROMPT_CONTRACT__UDIO.md
+|   |   |   |   |   |   |       
+|   |   |   |   |   |   +---12__CHECKLISTS
+|   |   |   |   |   |   |       00__README__CHECKLISTS.md
+|   |   |   |   |   |   |       01__CHECKLIST__PRE_RUN_MIN_INPUTS_AND_SCOPE.md
+|   |   |   |   |   |   |       02__CHECKLIST__DURING_RUN_GATE_ORDER_AND_ONE_AXIS.md
+|   |   |   |   |   |   |       03__CHECKLIST__POST_RUN_READY_REVIEW.md
+|   |   |   |   |   |   |       
+|   |   |   |   |   |   +---13__CASE_LIBRARY
+|   |   |   |   |   |   |       00__README__CASE_LIBRARY.md
+|   |   |   |   |   |   |       01__CASE__T1__CONSONANT_LOSS.md
+|   |   |   |   |   |   |       02__CASE__T2__BREATH_SPLIT_P0.md
+|   |   |   |   |   |   |       03__CASE__T3__TARGET_BLOAT_OR_MISSING.md
+|   |   |   |   |   |   |       04__CASE__T4__DENSITY_UNSINGABLE.md
+|   |   |   |   |   |   |       05__CASE__T5__DELIVERY_MASKING.md
+|   |   |   |   |   |   |       06__CASE__T6__STACKING_MASKING.md
+|   |   |   |   |   |   |       07__CASE__T7__ARRANGEMENT_SEAT_CONFLICT.md
+|   |   |   |   |   |   |       08__CASE__T8__ARC_OVERLOAD_OR_FLAT.md
+|   |   |   |   |   |   |       09__CASE__T9__SCOPE_VIOLATION.md
+|   |   |   |   |   |   |       
+|   |   |   |   |   |   \---14__META
+|   |   |   |   |   |           00__README__META.md
+|   |   |   |   |   |           01__CHANGELOG.md
+|   |   |   |   |   |           02__ROADMAP.md
+|   |   |   |   |   |           03__KNOWN_GAPS.md
+|   |   |   |   |   |           04__DEPENDENCIES.md
+|   |   |   |   |   |           
+|   |   |   |   |   \---12__PROMPT_ARCHITECT_SPC
+|   |   |   |   |       |   00__PACK_PASSPORT.md
+|   |   |   |   |       |   01__SCOPE_AND_SKILL_TREE.md
+|   |   |   |   |       |   02__GOLDEN_PRINCIPLES_AND_LIMITS.md
+|   |   |   |   |       |   07__EVALUATION_RUBRIC.md
+|   |   |   |   |       |   08__KB_SOURCES.md
+|   |   |   |   |       |   09__REGRESSION_GUARD.md
+|   |   |   |   |       |   10__TOPIC_BINDINGS.md
+|   |   |   |   |       |   11__XREF_BINDINGS.md
+|   |   |   |   |       |   12__PACK_COMPLETION_CHECK.md
+|   |   |   |   |       |   
+|   |   |   |   |       +---03__METHOD_PLAYBOOKS
+|   |   |   |   |       |       00__README__PLAYBOOKS.md
+|   |   |   |   |       |       01__PLAYBOOK__CORE_WORKFLOW.md
+|   |   |   |   |       |       02__PLAYBOOK__ONE_AXIS_VARIANTS.md
+|   |   |   |   |       |       03__PLAYBOOK__DIAGNOSE_AND_REWORK.md
+|   |   |   |   |       |       04__PLAYBOOK__PATCH_PROMPT_MINIMAL_CHANGE.md
+|   |   |   |   |       |       05__PLAYBOOK__VOCAL_DIVERSITY_BOOST.md
+|   |   |   |   |       |       06__PLAYBOOK__ANTI_REPETITION_FIX.md
+|   |   |   |   |       |       07__PLAYBOOK__STYLE_FINGERPRINT_STABILIZER.md
+|   |   |   |   |       |       08__PLAYBOOK__FINAL_QA_PRECHECK.md
+|   |   |   |   |       |       
+|   |   |   |   |       +---04__CHECKLISTS
+|   |   |   |   |       |       00__README__CHECKLISTS.md
+|   |   |   |   |       |       01__CHK__READINESS.md
+|   |   |   |   |       |       02__CHK__QUALITY.md
+|   |   |   |   |       |       03__CHK__COMPLIANCE.md
+|   |   |   |   |       |       
+|   |   |   |   |       +---05__KB_GATES
+|   |   |   |   |       |       00__README__GATES.md
+|   |   |   |   |       |       01__GATE__PROMPT_CONTRACT_CLARITY.md
+|   |   |   |   |       |       02__GATE__VOICE_DIVERSITY_INTENT.md
+|   |   |   |   |       |       03__GATE__REPETITION_CONTROL_INTENT.md
+|   |   |   |   |       |       04__GATE__STYLE_FINGERPRINT_STABILITY.md
+|   |   |   |   |       |       05__GATE__ONE_AXIS_CHANGE_DISCIPLINE.md
+|   |   |   |   |       |       
+|   |   |   |   |       \---06__CASE_LIBRARY
+|   |   |   |   |               00__README__CASES.md
+|   |   |   |   |               01__CASE__GOOD.md
+|   |   |   |   |               02__CASE__BAD.md
+|   |   |   |   |               03__CASE__BORDERLINE.md
+|   |   |   |   |               04__CASE__EDGE_001.md
+|   |   |   |   |               05__CASE__BAD_002.md
+|   |   |   |   |               06__CASE__BORDERLINE_002.md
+|   |   |   |   |               07__CASE__GOOD_002.md
+|   |   |   |   |               08__CASE__EDGE_002.md
+|   |   |   |   |               09__CASE__BAD_003.md
+|   |   |   |   |               10__CASE__GOOD_003.md
+|   |   |   |   |               11__CASE__EDGE_003.md
+|   |   |   |   |               12__CASE__BAD_004.md
+|   |   |   |   |               13__CASE__BORDERLINE_003.md
+|   |   |   |   |               14__CASE__EDGE_004.md
+|   |   |   |   |               15__CASE__BAD_005.md
+|   |   |   |   |               16__CASE__GOOD_004.md
+|   |   |   |   |               17__CASE__BAD_006.md
+|   |   |   |   |               18__CASE__BORDERLINE_004.md
+|   |   |   |   |               19__CASE__GOOD_005.md
+|   |   |   |   |               20__CASE__EDGE_005.md
+|   |   |   |   |               21__CASE__BAD_007.md
+|   |   |   |   |               22__CASE__BORDERLINE_005.md
+|   |   |   |   |               23__CASE__GOOD_006.md
+|   |   |   |   |               24__CASE__BAD_008.md
+|   |   |   |   |               25__CASE__GOOD_007.md
+|   |   |   |   |               
+|   |   |   |   +---06__ARRANGER_SPC
+|   |   |   |   |   |   00__PACK_PASSPORT.md
+|   |   |   |   |   |   01__SCOPE_AND_SKILL_TREE.md
+|   |   |   |   |   |   02__GOLDEN_PRINCIPLES_AND_LIMITS.md
+|   |   |   |   |   |   07__EVALUATION_RUBRIC.md
+|   |   |   |   |   |   08__KB_SOURCES.md
+|   |   |   |   |   |   09__REGRESSION_GUARD.md
+|   |   |   |   |   |   10__TOPIC_BINDINGS.md
+|   |   |   |   |   |   
+|   |   |   |   |   +---03__METHOD_PLAYBOOKS
+|   |   |   |   |   |       00__README__PLAYBOOKS.md
+|   |   |   |   |   |       01__PLAYBOOK__CORE_WORKFLOW.md
+|   |   |   |   |   |       02__PLAYBOOK__DIAGNOSE_AND_REWORK.md
+|   |   |   |   |   |       03__PLAYBOOK__QUALITY_POLISH.md
+|   |   |   |   |   |       
+|   |   |   |   |   +---04__CHECKLISTS
+|   |   |   |   |   |       00__README__CHECKLISTS.md
+|   |   |   |   |   |       01__CHK__READINESS.md
+|   |   |   |   |   |       02__CHK__QUALITY.md
+|   |   |   |   |   |       03__CHK__COMPLIANCE.md
+|   |   |   |   |   |       
+|   |   |   |   |   +---05__KB_GATES
+|   |   |   |   |   |       00__README__GATES.md
+|   |   |   |   |   |       01__GATE__CORE_OUTPUT_QUALITY.md
+|   |   |   |   |   |       02__GATE__CONSISTENCY.md
+|   |   |   |   |   |       03__GATE__EDGE_CASES.md
+|   |   |   |   |   |       
+|   |   |   |   |   \---06__CASE_LIBRARY
+|   |   |   |   |           00__README__CASES.md
+|   |   |   |   |           01__CASE__GOOD.md
+|   |   |   |   |           02__CASE__BAD.md
+|   |   |   |   |           03__CASE__BORDERLINE.md
+|   |   |   |   |           04__CASE__EDGE_001.md
+|   |   |   |   |           
+|   |   |   |   +---07__VOCAL_DIRECTOR_SPC
+|   |   |   |   |   |   00__PACK_PASSPORT.md
+|   |   |   |   |   |   01__SCOPE_AND_SKILL_TREE.md
+|   |   |   |   |   |   02__GOLDEN_PRINCIPLES_AND_LIMITS.md
+|   |   |   |   |   |   07__EVALUATION_RUBRIC.md
+|   |   |   |   |   |   08__KB_SOURCES.md
+|   |   |   |   |   |   09__REGRESSION_GUARD.md
+|   |   |   |   |   |   10__TOPIC_BINDINGS.md
+|   |   |   |   |   |   
+|   |   |   |   |   +---03__METHOD_PLAYBOOKS
+|   |   |   |   |   |       00__README__PLAYBOOKS.md
+|   |   |   |   |   |       01__PLAYBOOK__CORE_WORKFLOW.md
+|   |   |   |   |   |       02__PLAYBOOK__DIAGNOSE_AND_REWORK.md
+|   |   |   |   |   |       03__PLAYBOOK__QUALITY_POLISH.md
+|   |   |   |   |   |       
+|   |   |   |   |   +---04__CHECKLISTS
+|   |   |   |   |   |       00__README__CHECKLISTS.md
+|   |   |   |   |   |       01__CHK__READINESS.md
+|   |   |   |   |   |       02__CHK__QUALITY.md
+|   |   |   |   |   |       03__CHK__COMPLIANCE.md
+|   |   |   |   |   |       
+|   |   |   |   |   +---05__KB_GATES
+|   |   |   |   |   |       00__README__GATES.md
+|   |   |   |   |   |       01__GATE__CORE_OUTPUT_QUALITY.md
+|   |   |   |   |   |       02__GATE__CONSISTENCY.md
+|   |   |   |   |   |       03__GATE__EDGE_CASES.md
+|   |   |   |   |   |       
+|   |   |   |   |   \---06__CASE_LIBRARY
+|   |   |   |   |           00__README__CASES.md
+|   |   |   |   |           01__CASE__GOOD.md
+|   |   |   |   |           02__CASE__BAD.md
+|   |   |   |   |           03__CASE__BORDERLINE.md
+|   |   |   |   |           04__CASE__EDGE_001.md
+|   |   |   |   |           
+|   |   |   |   +---08__SOUND_DESIGNER_SPC
+|   |   |   |   |   |   00__PACK_PASSPORT.md
+|   |   |   |   |   |   01__SCOPE_AND_SKILL_TREE.md
+|   |   |   |   |   |   02__GOLDEN_PRINCIPLES_AND_LIMITS.md
+|   |   |   |   |   |   07__EVALUATION_RUBRIC.md
+|   |   |   |   |   |   08__KB_SOURCES.md
+|   |   |   |   |   |   09__REGRESSION_GUARD.md
+|   |   |   |   |   |   10__TOPIC_BINDINGS.md
+|   |   |   |   |   |   
+|   |   |   |   |   +---03__METHOD_PLAYBOOKS
+|   |   |   |   |   |       00__README__PLAYBOOKS.md
+|   |   |   |   |   |       01__PLAYBOOK__CORE_WORKFLOW.md
+|   |   |   |   |   |       02__PLAYBOOK__DIAGNOSE_AND_REWORK.md
+|   |   |   |   |   |       03__PLAYBOOK__QUALITY_POLISH.md
+|   |   |   |   |   |       
+|   |   |   |   |   +---04__CHECKLISTS
+|   |   |   |   |   |       00__README__CHECKLISTS.md
+|   |   |   |   |   |       01__CHK__READINESS.md
+|   |   |   |   |   |       02__CHK__QUALITY.md
+|   |   |   |   |   |       03__CHK__COMPLIANCE.md
+|   |   |   |   |   |       
+|   |   |   |   |   +---05__KB_GATES
+|   |   |   |   |   |       00__README__GATES.md
+|   |   |   |   |   |       01__GATE__CORE_OUTPUT_QUALITY.md
+|   |   |   |   |   |       02__GATE__CONSISTENCY.md
+|   |   |   |   |   |       03__GATE__EDGE_CASES.md
+|   |   |   |   |   |       
+|   |   |   |   |   \---06__CASE_LIBRARY
+|   |   |   |   |           00__README__CASES.md
+|   |   |   |   |           01__CASE__GOOD.md
+|   |   |   |   |           02__CASE__BAD.md
+|   |   |   |   |           03__CASE__BORDERLINE.md
+|   |   |   |   |           04__CASE__EDGE_001.md
+|   |   |   |   |           
+|   |   |   |   +---09__MIX_ENGINEER_SPC
+|   |   |   |   |   |   00__PACK_PASSPORT.md
+|   |   |   |   |   |   01__SCOPE_AND_SKILL_TREE.md
+|   |   |   |   |   |   02__GOLDEN_PRINCIPLES_AND_LIMITS.md
+|   |   |   |   |   |   07__EVALUATION_RUBRIC.md
+|   |   |   |   |   |   08__KB_SOURCES.md
+|   |   |   |   |   |   09__REGRESSION_GUARD.md
+|   |   |   |   |   |   10__TOPIC_BINDINGS.md
+|   |   |   |   |   |   
+|   |   |   |   |   +---03__METHOD_PLAYBOOKS
+|   |   |   |   |   |       00__README__PLAYBOOKS.md
+|   |   |   |   |   |       01__PLAYBOOK__CORE_WORKFLOW.md
+|   |   |   |   |   |       02__PLAYBOOK__DIAGNOSE_AND_REWORK.md
+|   |   |   |   |   |       03__PLAYBOOK__QUALITY_POLISH.md
+|   |   |   |   |   |       
+|   |   |   |   |   +---04__CHECKLISTS
+|   |   |   |   |   |       00__README__CHECKLISTS.md
+|   |   |   |   |   |       01__CHK__READINESS.md
+|   |   |   |   |   |       02__CHK__QUALITY.md
+|   |   |   |   |   |       03__CHK__COMPLIANCE.md
+|   |   |   |   |   |       
+|   |   |   |   |   +---05__KB_GATES
+|   |   |   |   |   |       00__README__GATES.md
+|   |   |   |   |   |       01__GATE__CORE_OUTPUT_QUALITY.md
+|   |   |   |   |   |       02__GATE__CONSISTENCY.md
+|   |   |   |   |   |       03__GATE__EDGE_CASES.md
+|   |   |   |   |   |       
+|   |   |   |   |   \---06__CASE_LIBRARY
+|   |   |   |   |           00__README__CASES.md
+|   |   |   |   |           01__CASE__GOOD.md
+|   |   |   |   |           02__CASE__BAD.md
+|   |   |   |   |           03__CASE__BORDERLINE.md
+|   |   |   |   |           04__CASE__EDGE_001.md
+|   |   |   |   |           
+|   |   |   |   +---10__MASTERING_ENGINEER_SPC
+|   |   |   |   |   |   00__PACK_PASSPORT.md
+|   |   |   |   |   |   01__SCOPE_AND_SKILL_TREE.md
+|   |   |   |   |   |   02__GOLDEN_PRINCIPLES_AND_LIMITS.md
+|   |   |   |   |   |   07__EVALUATION_RUBRIC.md
+|   |   |   |   |   |   08__KB_SOURCES.md
+|   |   |   |   |   |   09__REGRESSION_GUARD.md
+|   |   |   |   |   |   10__TOPIC_BINDINGS.md
+|   |   |   |   |   |   
+|   |   |   |   |   +---03__METHOD_PLAYBOOKS
+|   |   |   |   |   |       00__README__PLAYBOOKS.md
+|   |   |   |   |   |       01__PLAYBOOK__CORE_WORKFLOW.md
+|   |   |   |   |   |       02__PLAYBOOK__DIAGNOSE_AND_REWORK.md
+|   |   |   |   |   |       03__PLAYBOOK__QUALITY_POLISH.md
+|   |   |   |   |   |       
+|   |   |   |   |   +---04__CHECKLISTS
+|   |   |   |   |   |       00__README__CHECKLISTS.md
+|   |   |   |   |   |       01__CHK__READINESS.md
+|   |   |   |   |   |       02__CHK__QUALITY.md
+|   |   |   |   |   |       03__CHK__COMPLIANCE.md
+|   |   |   |   |   |       
+|   |   |   |   |   +---05__KB_GATES
+|   |   |   |   |   |       00__README__GATES.md
+|   |   |   |   |   |       01__GATE__CORE_OUTPUT_QUALITY.md
+|   |   |   |   |   |       02__GATE__CONSISTENCY.md
+|   |   |   |   |   |       03__GATE__EDGE_CASES.md
+|   |   |   |   |   |       
+|   |   |   |   |   \---06__CASE_LIBRARY
+|   |   |   |   |           00__README__CASES.md
+|   |   |   |   |           01__CASE__GOOD.md
+|   |   |   |   |           02__CASE__BAD.md
+|   |   |   |   |           03__CASE__BORDERLINE.md
+|   |   |   |   |           04__CASE__EDGE_001.md
+|   |   |   |   |           
+|   |   |   |   +---11__AUDIO_QA_SPC
+|   |   |   |   |   |   00__PACK_PASSPORT.md
+|   |   |   |   |   |   01__SCOPE_AND_SKILL_TREE.md
+|   |   |   |   |   |   02__GOLDEN_PRINCIPLES_AND_LIMITS.md
+|   |   |   |   |   |   07__EVALUATION_RUBRIC.md
+|   |   |   |   |   |   08__KB_SOURCES.md
+|   |   |   |   |   |   09__REGRESSION_GUARD.md
+|   |   |   |   |   |   10__TOPIC_BINDINGS.md
+|   |   |   |   |   |   
+|   |   |   |   |   +---03__METHOD_PLAYBOOKS
+|   |   |   |   |   |       00__README__PLAYBOOKS.md
+|   |   |   |   |   |       01__PLAYBOOK__CORE_WORKFLOW.md
+|   |   |   |   |   |       02__PLAYBOOK__DIAGNOSE_AND_REWORK.md
+|   |   |   |   |   |       03__PLAYBOOK__QUALITY_POLISH.md
+|   |   |   |   |   |       
+|   |   |   |   |   +---04__CHECKLISTS
+|   |   |   |   |   |       00__README__CHECKLISTS.md
+|   |   |   |   |   |       01__CHK__READINESS.md
+|   |   |   |   |   |       02__CHK__QUALITY.md
+|   |   |   |   |   |       03__CHK__COMPLIANCE.md
+|   |   |   |   |   |       
+|   |   |   |   |   +---05__KB_GATES
+|   |   |   |   |   |       00__README__GATES.md
+|   |   |   |   |   |       01__GATE__CORE_OUTPUT_QUALITY.md
+|   |   |   |   |   |       02__GATE__CONSISTENCY.md
+|   |   |   |   |   |       03__GATE__EDGE_CASES.md
+|   |   |   |   |   |       
+|   |   |   |   |   \---06__CASE_LIBRARY
+|   |   |   |   |           00__README__CASES.md
+|   |   |   |   |           01__CASE__GOOD.md
+|   |   |   |   |           02__CASE__BAD.md
+|   |   |   |   |           03__CASE__BORDERLINE.md
+|   |   |   |   |           04__CASE__EDGE_001.md
+|   |   |   |   |           
+|   |   |   |   +---12__PROMPT_ARCHITECT_SPC
+|   |   |   |   |   |   00__PACK_PASSPORT.md
+|   |   |   |   |   |   01__SCOPE_AND_SKILL_TREE.md
+|   |   |   |   |   |   02__GOLDEN_PRINCIPLES_AND_LIMITS.md
+|   |   |   |   |   |   07__EVALUATION_RUBRIC.md
+|   |   |   |   |   |   08__KB_SOURCES.md
+|   |   |   |   |   |   09__REGRESSION_GUARD.md
+|   |   |   |   |   |   10__TOPIC_BINDINGS.md
+|   |   |   |   |   |   
+|   |   |   |   |   +---03__METHOD_PLAYBOOKS
+|   |   |   |   |   |       00__README__PLAYBOOKS.md
+|   |   |   |   |   |       01__PLAYBOOK__CORE_WORKFLOW.md
+|   |   |   |   |   |       02__PLAYBOOK__DIAGNOSE_AND_REWORK.md
+|   |   |   |   |   |       03__PLAYBOOK__QUALITY_POLISH.md
+|   |   |   |   |   |       
+|   |   |   |   |   +---04__CHECKLISTS
+|   |   |   |   |   |       00__README__CHECKLISTS.md
+|   |   |   |   |   |       01__CHK__READINESS.md
+|   |   |   |   |   |       02__CHK__QUALITY.md
+|   |   |   |   |   |       03__CHK__COMPLIANCE.md
+|   |   |   |   |   |       
+|   |   |   |   |   +---05__KB_GATES
+|   |   |   |   |   |       00__README__GATES.md
+|   |   |   |   |   |       01__GATE__CORE_OUTPUT_QUALITY.md
+|   |   |   |   |   |       02__GATE__CONSISTENCY.md
+|   |   |   |   |   |       03__GATE__EDGE_CASES.md
+|   |   |   |   |   |       
+|   |   |   |   |   \---06__CASE_LIBRARY
+|   |   |   |   |           00__README__CASES.md
+|   |   |   |   |           01__CASE__GOOD.md
+|   |   |   |   |           02__CASE__BAD.md
+|   |   |   |   |           03__CASE__BORDERLINE.md
+|   |   |   |   |           04__CASE__EDGE_001.md
+|   |   |   |   |           
+|   |   |   |   +---13__UGC_DIRECTOR_SPC
+|   |   |   |   |   |   00__PACK_PASSPORT.md
+|   |   |   |   |   |   01__SCOPE_AND_SKILL_TREE.md
+|   |   |   |   |   |   02__GOLDEN_PRINCIPLES_AND_LIMITS.md
+|   |   |   |   |   |   07__EVALUATION_RUBRIC.md
+|   |   |   |   |   |   08__KB_SOURCES.md
+|   |   |   |   |   |   09__REGRESSION_GUARD.md
+|   |   |   |   |   |   10__TOPIC_BINDINGS.md
+|   |   |   |   |   |   
+|   |   |   |   |   +---03__METHOD_PLAYBOOKS
+|   |   |   |   |   |       00__README__PLAYBOOKS.md
+|   |   |   |   |   |       01__PLAYBOOK__CORE_WORKFLOW.md
+|   |   |   |   |   |       02__PLAYBOOK__DIAGNOSE_AND_REWORK.md
+|   |   |   |   |   |       03__PLAYBOOK__QUALITY_POLISH.md
+|   |   |   |   |   |       
+|   |   |   |   |   +---04__CHECKLISTS
+|   |   |   |   |   |       00__README__CHECKLISTS.md
+|   |   |   |   |   |       01__CHK__READINESS.md
+|   |   |   |   |   |       02__CHK__QUALITY.md
+|   |   |   |   |   |       03__CHK__COMPLIANCE.md
+|   |   |   |   |   |       
+|   |   |   |   |   +---05__KB_GATES
+|   |   |   |   |   |       00__README__GATES.md
+|   |   |   |   |   |       01__GATE__CORE_OUTPUT_QUALITY.md
+|   |   |   |   |   |       02__GATE__CONSISTENCY.md
+|   |   |   |   |   |       03__GATE__EDGE_CASES.md
+|   |   |   |   |   |       
+|   |   |   |   |   \---06__CASE_LIBRARY
+|   |   |   |   |           00__README__CASES.md
+|   |   |   |   |           01__CASE__GOOD.md
+|   |   |   |   |           02__CASE__BAD.md
+|   |   |   |   |           03__CASE__BORDERLINE.md
+|   |   |   |   |           04__CASE__EDGE_001.md
+|   |   |   |   |           
+|   |   |   |   +---14__EARWORM_DIRECTOR_SPC
+|   |   |   |   |   |   00__PACK_PASSPORT.md
+|   |   |   |   |   |   01__SCOPE_AND_SKILL_TREE.md
+|   |   |   |   |   |   02__GOLDEN_PRINCIPLES_AND_LIMITS.md
+|   |   |   |   |   |   07__EVALUATION_RUBRIC.md
+|   |   |   |   |   |   08__KB_SOURCES.md
+|   |   |   |   |   |   09__REGRESSION_GUARD.md
+|   |   |   |   |   |   10__TOPIC_BINDINGS.md
+|   |   |   |   |   |   
+|   |   |   |   |   +---03__METHOD_PLAYBOOKS
+|   |   |   |   |   |       00__README__PLAYBOOKS.md
+|   |   |   |   |   |       01__PLAYBOOK__CORE_WORKFLOW.md
+|   |   |   |   |   |       02__PLAYBOOK__DIAGNOSE_AND_REWORK.md
+|   |   |   |   |   |       03__PLAYBOOK__QUALITY_POLISH.md
+|   |   |   |   |   |       
+|   |   |   |   |   +---04__CHECKLISTS
+|   |   |   |   |   |       00__README__CHECKLISTS.md
+|   |   |   |   |   |       01__CHK__READINESS.md
+|   |   |   |   |   |       02__CHK__QUALITY.md
+|   |   |   |   |   |       03__CHK__COMPLIANCE.md
+|   |   |   |   |   |       
+|   |   |   |   |   +---05__KB_GATES
+|   |   |   |   |   |       00__README__GATES.md
+|   |   |   |   |   |       01__GATE__CORE_OUTPUT_QUALITY.md
+|   |   |   |   |   |       02__GATE__CONSISTENCY.md
+|   |   |   |   |   |       03__GATE__EDGE_CASES.md
+|   |   |   |   |   |       
+|   |   |   |   |   \---06__CASE_LIBRARY
+|   |   |   |   |           00__README__CASES.md
+|   |   |   |   |           01__CASE__GOOD.md
+|   |   |   |   |           02__CASE__BAD.md
+|   |   |   |   |           03__CASE__BORDERLINE.md
+|   |   |   |   |           04__CASE__EDGE_001.md
+|   |   |   |   |           
+|   |   |   |   +---15__GENRE_FUSION_ARCHITECT_SPC
+|   |   |   |   |   |   00__PACK_PASSPORT.md
+|   |   |   |   |   |   01__SCOPE_AND_SKILL_TREE.md
+|   |   |   |   |   |   02__GOLDEN_PRINCIPLES_AND_LIMITS.md
+|   |   |   |   |   |   07__EVALUATION_RUBRIC.md
+|   |   |   |   |   |   08__KB_SOURCES.md
+|   |   |   |   |   |   09__REGRESSION_GUARD.md
+|   |   |   |   |   |   10__TOPIC_BINDINGS.md
+|   |   |   |   |   |   
+|   |   |   |   |   +---03__METHOD_PLAYBOOKS
+|   |   |   |   |   |       00__README__PLAYBOOKS.md
+|   |   |   |   |   |       01__PLAYBOOK__CORE_WORKFLOW.md
+|   |   |   |   |   |       02__PLAYBOOK__DIAGNOSE_AND_REWORK.md
+|   |   |   |   |   |       03__PLAYBOOK__QUALITY_POLISH.md
+|   |   |   |   |   |       
+|   |   |   |   |   +---04__CHECKLISTS
+|   |   |   |   |   |       00__README__CHECKLISTS.md
+|   |   |   |   |   |       01__CHK__READINESS.md
+|   |   |   |   |   |       02__CHK__QUALITY.md
+|   |   |   |   |   |       03__CHK__COMPLIANCE.md
+|   |   |   |   |   |       
+|   |   |   |   |   +---05__KB_GATES
+|   |   |   |   |   |       00__README__GATES.md
+|   |   |   |   |   |       01__GATE__CORE_OUTPUT_QUALITY.md
+|   |   |   |   |   |       02__GATE__CONSISTENCY.md
+|   |   |   |   |   |       03__GATE__EDGE_CASES.md
+|   |   |   |   |   |       
+|   |   |   |   |   \---06__CASE_LIBRARY
+|   |   |   |   |           00__README__CASES.md
+|   |   |   |   |           01__CASE__GOOD.md
+|   |   |   |   |           02__CASE__BAD.md
+|   |   |   |   |           03__CASE__BORDERLINE.md
+|   |   |   |   |           04__CASE__EDGE_001.md
+|   |   |   |   |           
+|   |   |   |   +---16__TREND_ENGINEER_SPC
+|   |   |   |   |   |   00__PACK_PASSPORT.md
+|   |   |   |   |   |   01__SCOPE_AND_SKILL_TREE.md
+|   |   |   |   |   |   02__GOLDEN_PRINCIPLES_AND_LIMITS.md
+|   |   |   |   |   |   07__EVALUATION_RUBRIC.md
+|   |   |   |   |   |   08__KB_SOURCES.md
+|   |   |   |   |   |   09__REGRESSION_GUARD.md
+|   |   |   |   |   |   10__TOPIC_BINDINGS.md
+|   |   |   |   |   |   
+|   |   |   |   |   +---03__METHOD_PLAYBOOKS
+|   |   |   |   |   |       00__README__PLAYBOOKS.md
+|   |   |   |   |   |       01__PLAYBOOK__CORE_WORKFLOW.md
+|   |   |   |   |   |       02__PLAYBOOK__DIAGNOSE_AND_REWORK.md
+|   |   |   |   |   |       03__PLAYBOOK__QUALITY_POLISH.md
+|   |   |   |   |   |       
+|   |   |   |   |   +---04__CHECKLISTS
+|   |   |   |   |   |       00__README__CHECKLISTS.md
+|   |   |   |   |   |       01__CHK__READINESS.md
+|   |   |   |   |   |       02__CHK__QUALITY.md
+|   |   |   |   |   |       03__CHK__COMPLIANCE.md
+|   |   |   |   |   |       
+|   |   |   |   |   +---05__KB_GATES
+|   |   |   |   |   |       00__README__GATES.md
+|   |   |   |   |   |       01__GATE__CORE_OUTPUT_QUALITY.md
+|   |   |   |   |   |       02__GATE__CONSISTENCY.md
+|   |   |   |   |   |       03__GATE__EDGE_CASES.md
+|   |   |   |   |   |       
+|   |   |   |   |   \---06__CASE_LIBRARY
+|   |   |   |   |           00__README__CASES.md
+|   |   |   |   |           01__CASE__GOOD.md
+|   |   |   |   |           02__CASE__BAD.md
+|   |   |   |   |           03__CASE__BORDERLINE.md
+|   |   |   |   |           04__CASE__EDGE_001.md
+|   |   |   |   |           
+|   |   |   |   +---17__POET_JUICE_EDITOR_SPC
+|   |   |   |   |   |   00__PACK_PASSPORT.md
+|   |   |   |   |   |   01__SCOPE_AND_SKILL_TREE.md
+|   |   |   |   |   |   02__GOLDEN_PRINCIPLES_AND_LIMITS.md
+|   |   |   |   |   |   07__EVALUATION_RUBRIC.md
+|   |   |   |   |   |   08__KB_SOURCES.md
+|   |   |   |   |   |   09__REGRESSION_GUARD.md
+|   |   |   |   |   |   10__TOPIC_BINDINGS.md
+|   |   |   |   |   |   
+|   |   |   |   |   +---03__METHOD_PLAYBOOKS
+|   |   |   |   |   |       00__README__PLAYBOOKS.md
+|   |   |   |   |   |       01__PLAYBOOK__CORE_WORKFLOW.md
+|   |   |   |   |   |       02__PLAYBOOK__DIAGNOSE_AND_REWORK.md
+|   |   |   |   |   |       03__PLAYBOOK__QUALITY_POLISH.md
+|   |   |   |   |   |       
+|   |   |   |   |   +---04__CHECKLISTS
+|   |   |   |   |   |       00__README__CHECKLISTS.md
+|   |   |   |   |   |       01__CHK__READINESS.md
+|   |   |   |   |   |       02__CHK__QUALITY.md
+|   |   |   |   |   |       03__CHK__COMPLIANCE.md
+|   |   |   |   |   |       
+|   |   |   |   |   +---05__KB_GATES
+|   |   |   |   |   |       00__README__GATES.md
+|   |   |   |   |   |       01__GATE__CORE_OUTPUT_QUALITY.md
+|   |   |   |   |   |       02__GATE__CONSISTENCY.md
+|   |   |   |   |   |       03__GATE__EDGE_CASES.md
+|   |   |   |   |   |       
+|   |   |   |   |   \---06__CASE_LIBRARY
+|   |   |   |   |           00__README__CASES.md
+|   |   |   |   |           01__CASE__GOOD.md
+|   |   |   |   |           02__CASE__BAD.md
+|   |   |   |   |           03__CASE__BORDERLINE.md
+|   |   |   |   |           04__CASE__EDGE_001.md
+|   |   |   |   |           
+|   |   |   |   +---18__MOSAIC_EDITOR_SPC
+|   |   |   |   |   |   00__PACK_PASSPORT.md
+|   |   |   |   |   |   01__SCOPE_AND_SKILL_TREE.md
+|   |   |   |   |   |   02__GOLDEN_PRINCIPLES_AND_LIMITS.md
+|   |   |   |   |   |   07__EVALUATION_RUBRIC.md
+|   |   |   |   |   |   08__KB_SOURCES.md
+|   |   |   |   |   |   09__REGRESSION_GUARD.md
+|   |   |   |   |   |   10__TOPIC_BINDINGS.md
+|   |   |   |   |   |   
+|   |   |   |   |   +---03__METHOD_PLAYBOOKS
+|   |   |   |   |   |       00__README__PLAYBOOKS.md
+|   |   |   |   |   |       01__PLAYBOOK__CORE_WORKFLOW.md
+|   |   |   |   |   |       02__PLAYBOOK__DIAGNOSE_AND_REWORK.md
+|   |   |   |   |   |       03__PLAYBOOK__QUALITY_POLISH.md
+|   |   |   |   |   |       
+|   |   |   |   |   +---04__CHECKLISTS
+|   |   |   |   |   |       00__README__CHECKLISTS.md
+|   |   |   |   |   |       01__CHK__READINESS.md
+|   |   |   |   |   |       02__CHK__QUALITY.md
+|   |   |   |   |   |       03__CHK__COMPLIANCE.md
+|   |   |   |   |   |       
+|   |   |   |   |   +---05__KB_GATES
+|   |   |   |   |   |       00__README__GATES.md
+|   |   |   |   |   |       01__GATE__CORE_OUTPUT_QUALITY.md
+|   |   |   |   |   |       02__GATE__CONSISTENCY.md
+|   |   |   |   |   |       03__GATE__EDGE_CASES.md
+|   |   |   |   |   |       
+|   |   |   |   |   \---06__CASE_LIBRARY
+|   |   |   |   |           00__README__CASES.md
+|   |   |   |   |           01__CASE__GOOD.md
+|   |   |   |   |           02__CASE__BAD.md
+|   |   |   |   |           03__CASE__BORDERLINE.md
+|   |   |   |   |           04__CASE__EDGE_001.md
+|   |   |   |   |           
+|   |   |   |   +---19__ALBUM_SHOWRUNNER_SPC
+|   |   |   |   |   |   00__PACK_PASSPORT.md
+|   |   |   |   |   |   01__SCOPE_AND_SKILL_TREE.md
+|   |   |   |   |   |   02__GOLDEN_PRINCIPLES_AND_LIMITS.md
+|   |   |   |   |   |   07__EVALUATION_RUBRIC.md
+|   |   |   |   |   |   08__KB_SOURCES.md
+|   |   |   |   |   |   09__REGRESSION_GUARD.md
+|   |   |   |   |   |   10__TOPIC_BINDINGS.md
+|   |   |   |   |   |   
+|   |   |   |   |   +---03__METHOD_PLAYBOOKS
+|   |   |   |   |   |       00__README__PLAYBOOKS.md
+|   |   |   |   |   |       01__PLAYBOOK__CORE_WORKFLOW.md
+|   |   |   |   |   |       02__PLAYBOOK__DIAGNOSE_AND_REWORK.md
+|   |   |   |   |   |       03__PLAYBOOK__QUALITY_POLISH.md
+|   |   |   |   |   |       
+|   |   |   |   |   +---04__CHECKLISTS
+|   |   |   |   |   |       00__README__CHECKLISTS.md
+|   |   |   |   |   |       01__CHK__READINESS.md
+|   |   |   |   |   |       02__CHK__QUALITY.md
+|   |   |   |   |   |       03__CHK__COMPLIANCE.md
+|   |   |   |   |   |       
+|   |   |   |   |   +---05__KB_GATES
+|   |   |   |   |   |       00__README__GATES.md
+|   |   |   |   |   |       01__GATE__CORE_OUTPUT_QUALITY.md
+|   |   |   |   |   |       02__GATE__CONSISTENCY.md
+|   |   |   |   |   |       03__GATE__EDGE_CASES.md
+|   |   |   |   |   |       
+|   |   |   |   |   \---06__CASE_LIBRARY
+|   |   |   |   |           00__README__CASES.md
+|   |   |   |   |           01__CASE__GOOD.md
+|   |   |   |   |           02__CASE__BAD.md
+|   |   |   |   |           03__CASE__BORDERLINE.md
+|   |   |   |   |           04__CASE__EDGE_001.md
+|   |   |   |   |           
+|   |   |   |   \---20__GROUP_CREATIVE_DIRECTOR_SPC
+|   |   |   |       |   00__PACK_PASSPORT.md
+|   |   |   |       |   01__SCOPE_AND_SKILL_TREE.md
+|   |   |   |       |   02__GOLDEN_PRINCIPLES_AND_LIMITS.md
+|   |   |   |       |   07__EVALUATION_RUBRIC.md
+|   |   |   |       |   08__KB_SOURCES.md
+|   |   |   |       |   09__REGRESSION_GUARD.md
+|   |   |   |       |   10__TOPIC_BINDINGS.md
+|   |   |   |       |   
+|   |   |   |       +---03__METHOD_PLAYBOOKS
+|   |   |   |       |       00__README__PLAYBOOKS.md
+|   |   |   |       |       01__PLAYBOOK__CORE_WORKFLOW.md
+|   |   |   |       |       02__PLAYBOOK__DIAGNOSE_AND_REWORK.md
+|   |   |   |       |       03__PLAYBOOK__QUALITY_POLISH.md
+|   |   |   |       |       
+|   |   |   |       +---04__CHECKLISTS
+|   |   |   |       |       00__README__CHECKLISTS.md
+|   |   |   |       |       01__CHK__READINESS.md
+|   |   |   |       |       02__CHK__QUALITY.md
+|   |   |   |       |       03__CHK__COMPLIANCE.md
+|   |   |   |       |       
+|   |   |   |       +---05__KB_GATES
+|   |   |   |       |       00__README__GATES.md
+|   |   |   |       |       01__GATE__CORE_OUTPUT_QUALITY.md
+|   |   |   |       |       02__GATE__CONSISTENCY.md
+|   |   |   |       |       03__GATE__EDGE_CASES.md
+|   |   |   |       |       
+|   |   |   |       \---06__CASE_LIBRARY
+|   |   |   |               00__README__CASES.md
+|   |   |   |               01__CASE__GOOD.md
+|   |   |   |               02__CASE__BAD.md
+|   |   |   |               03__CASE__BORDERLINE.md
+|   |   |   |               04__CASE__EDGE_001.md
+|   |   |   |               
 |   |   |   \---SPC__TEMPLATE
 |   |   |           00__KB_PASSPORT.md
 |   |   |           01__SKILL_TREE.md
@@ -931,6 +1616,293 @@ D:.
 |   |   |   |   00__README__ENG_KB_CONNECTOR_STANDARD.md
 |   |   |   |   01__TEMPLATE__ENG_PACK_STRUCTURE.md
 |   |   |   |   
+|   |   |   +---ENG_PACKS
+|   |   |   |   +---01__MUSIC_COMPOSITION_ENG
+|   |   |   |   |   |   00__PACK_PASSPORT.md
+|   |   |   |   |   |   01__ENGINE_SCOPE_AND_IO.md
+|   |   |   |   |   |   02__METHOD_AND_PARAMETERS.md
+|   |   |   |   |   |   03__EDGE_CASES_LIBRARY.md
+|   |   |   |   |   |   04__OUTPUT_TEMPLATES.md
+|   |   |   |   |   |   07__REGRESSION_GUARD.md
+|   |   |   |   |   |   08__KB_SOURCES.md
+|   |   |   |   |   |   09__TOPIC_BINDINGS.md
+|   |   |   |   |   |   10__XREF_BINDINGS.md
+|   |   |   |   |   |   
+|   |   |   |   |   +---05__KB_GATES
+|   |   |   |   |   |       00__README__GATES.md
+|   |   |   |   |   |       01__GATE__OUTPUT_QUALITY.md
+|   |   |   |   |   |       02__GATE__CONSISTENCY.md
+|   |   |   |   |   |       
+|   |   |   |   |   \---06__EXAMPLES
+|   |   |   |   |           00__README__EXAMPLES.md
+|   |   |   |   |           01__EXAMPLE__GOOD.md
+|   |   |   |   |           02__EXAMPLE__BAD.md
+|   |   |   |   |           03__EXAMPLE__BORDERLINE.md
+|   |   |   |   |           
+|   |   |   |   +---02__SONG_STRUCTURE_ENG
+|   |   |   |   |   |   00__PACK_PASSPORT.md
+|   |   |   |   |   |   01__ENGINE_SCOPE_AND_IO.md
+|   |   |   |   |   |   02__METHOD_AND_PARAMETERS.md
+|   |   |   |   |   |   03__EDGE_CASES_LIBRARY.md
+|   |   |   |   |   |   04__OUTPUT_TEMPLATES.md
+|   |   |   |   |   |   07__REGRESSION_GUARD.md
+|   |   |   |   |   |   08__KB_SOURCES.md
+|   |   |   |   |   |   09__TOPIC_BINDINGS.md
+|   |   |   |   |   |   10__XREF_BINDINGS.md
+|   |   |   |   |   |   
+|   |   |   |   |   +---05__KB_GATES
+|   |   |   |   |   |       00__README__GATES.md
+|   |   |   |   |   |       01__GATE__OUTPUT_QUALITY.md
+|   |   |   |   |   |       02__GATE__CONSISTENCY.md
+|   |   |   |   |   |       
+|   |   |   |   |   \---06__EXAMPLES
+|   |   |   |   |           00__README__EXAMPLES.md
+|   |   |   |   |           01__EXAMPLE__GOOD.md
+|   |   |   |   |           02__EXAMPLE__BAD.md
+|   |   |   |   |           03__EXAMPLE__BORDERLINE.md
+|   |   |   |   |           
+|   |   |   |   +---03__HARMONY_CHORD_ENG
+|   |   |   |   |   |   00__PACK_PASSPORT.md
+|   |   |   |   |   |   01__ENGINE_SCOPE_AND_IO.md
+|   |   |   |   |   |   02__METHOD_AND_PARAMETERS.md
+|   |   |   |   |   |   03__EDGE_CASES_LIBRARY.md
+|   |   |   |   |   |   04__OUTPUT_TEMPLATES.md
+|   |   |   |   |   |   07__REGRESSION_GUARD.md
+|   |   |   |   |   |   08__KB_SOURCES.md
+|   |   |   |   |   |   09__TOPIC_BINDINGS.md
+|   |   |   |   |   |   10__XREF_BINDINGS.md
+|   |   |   |   |   |   
+|   |   |   |   |   +---05__KB_GATES
+|   |   |   |   |   |       00__README__GATES.md
+|   |   |   |   |   |       01__GATE__OUTPUT_QUALITY.md
+|   |   |   |   |   |       02__GATE__CONSISTENCY.md
+|   |   |   |   |   |       
+|   |   |   |   |   \---06__EXAMPLES
+|   |   |   |   |           00__README__EXAMPLES.md
+|   |   |   |   |           01__EXAMPLE__GOOD.md
+|   |   |   |   |           02__EXAMPLE__BAD.md
+|   |   |   |   |           03__EXAMPLE__BORDERLINE.md
+|   |   |   |   |           
+|   |   |   |   +---04__MELODY_HOOK_ENG
+|   |   |   |   |   |   00__PACK_PASSPORT.md
+|   |   |   |   |   |   01__ENGINE_SCOPE_AND_IO.md
+|   |   |   |   |   |   02__METHOD_AND_PARAMETERS.md
+|   |   |   |   |   |   03__EDGE_CASES_LIBRARY.md
+|   |   |   |   |   |   04__OUTPUT_TEMPLATES.md
+|   |   |   |   |   |   07__REGRESSION_GUARD.md
+|   |   |   |   |   |   08__KB_SOURCES.md
+|   |   |   |   |   |   09__TOPIC_BINDINGS.md
+|   |   |   |   |   |   10__XREF_BINDINGS.md
+|   |   |   |   |   |   
+|   |   |   |   |   +---05__KB_GATES
+|   |   |   |   |   |       00__README__GATES.md
+|   |   |   |   |   |       01__GATE__OUTPUT_QUALITY.md
+|   |   |   |   |   |       02__GATE__CONSISTENCY.md
+|   |   |   |   |   |       
+|   |   |   |   |   \---06__EXAMPLES
+|   |   |   |   |           00__README__EXAMPLES.md
+|   |   |   |   |           01__EXAMPLE__GOOD.md
+|   |   |   |   |           02__EXAMPLE__BAD.md
+|   |   |   |   |           03__EXAMPLE__BORDERLINE.md
+|   |   |   |   |           
+|   |   |   |   +---05__RHYTHM_GROOVE_ENG
+|   |   |   |   |   |   00__PACK_PASSPORT.md
+|   |   |   |   |   |   01__ENGINE_SCOPE_AND_IO.md
+|   |   |   |   |   |   02__METHOD_AND_PARAMETERS.md
+|   |   |   |   |   |   03__EDGE_CASES_LIBRARY.md
+|   |   |   |   |   |   04__OUTPUT_TEMPLATES.md
+|   |   |   |   |   |   07__REGRESSION_GUARD.md
+|   |   |   |   |   |   08__KB_SOURCES.md
+|   |   |   |   |   |   09__TOPIC_BINDINGS.md
+|   |   |   |   |   |   10__XREF_BINDINGS.md
+|   |   |   |   |   |   
+|   |   |   |   |   +---05__KB_GATES
+|   |   |   |   |   |       00__README__GATES.md
+|   |   |   |   |   |       01__GATE__OUTPUT_QUALITY.md
+|   |   |   |   |   |       02__GATE__CONSISTENCY.md
+|   |   |   |   |   |       
+|   |   |   |   |   \---06__EXAMPLES
+|   |   |   |   |           00__README__EXAMPLES.md
+|   |   |   |   |           01__EXAMPLE__GOOD.md
+|   |   |   |   |           02__EXAMPLE__BAD.md
+|   |   |   |   |           03__EXAMPLE__BORDERLINE.md
+|   |   |   |   |           
+|   |   |   |   +---06__RHYME_METER_ENG
+|   |   |   |   |   |   00__PACK_PASSPORT.md
+|   |   |   |   |   |   01__ENGINE_SCOPE_AND_IO.md
+|   |   |   |   |   |   02__METHOD_AND_PARAMETERS.md
+|   |   |   |   |   |   03__EDGE_CASES_LIBRARY.md
+|   |   |   |   |   |   04__OUTPUT_TEMPLATES.md
+|   |   |   |   |   |   07__REGRESSION_GUARD.md
+|   |   |   |   |   |   08__KB_SOURCES.md
+|   |   |   |   |   |   09__TOPIC_BINDINGS.md
+|   |   |   |   |   |   10__XREF_BINDINGS.md
+|   |   |   |   |   |   
+|   |   |   |   |   +---05__KB_GATES
+|   |   |   |   |   |       00__README__GATES.md
+|   |   |   |   |   |       01__GATE__OUTPUT_QUALITY.md
+|   |   |   |   |   |       02__GATE__CONSISTENCY.md
+|   |   |   |   |   |       
+|   |   |   |   |   \---06__EXAMPLES
+|   |   |   |   |           00__README__EXAMPLES.md
+|   |   |   |   |           01__EXAMPLE__GOOD.md
+|   |   |   |   |           02__EXAMPLE__BAD.md
+|   |   |   |   |           03__EXAMPLE__BORDERLINE.md
+|   |   |   |   |           
+|   |   |   |   +---07__LYRICS_ENG
+|   |   |   |   |   |   00__PACK_PASSPORT.md
+|   |   |   |   |   |   01__ENGINE_SCOPE_AND_IO.md
+|   |   |   |   |   |   02__METHOD_AND_PARAMETERS.md
+|   |   |   |   |   |   03__EDGE_CASES_LIBRARY.md
+|   |   |   |   |   |   04__OUTPUT_TEMPLATES.md
+|   |   |   |   |   |   07__REGRESSION_GUARD.md
+|   |   |   |   |   |   08__KB_SOURCES.md
+|   |   |   |   |   |   09__TOPIC_BINDINGS.md
+|   |   |   |   |   |   10__XREF_BINDINGS.md
+|   |   |   |   |   |   
+|   |   |   |   |   +---05__KB_GATES
+|   |   |   |   |   |       00__README__GATES.md
+|   |   |   |   |   |       01__GATE__OUTPUT_QUALITY.md
+|   |   |   |   |   |       02__GATE__CONSISTENCY.md
+|   |   |   |   |   |       
+|   |   |   |   |   \---06__EXAMPLES
+|   |   |   |   |           00__README__EXAMPLES.md
+|   |   |   |   |           01__EXAMPLE__GOOD.md
+|   |   |   |   |           02__EXAMPLE__BAD.md
+|   |   |   |   |           03__EXAMPLE__BORDERLINE.md
+|   |   |   |   |           
+|   |   |   |   +---08__ARRANGEMENT_INSTRUMENTATION_ENG
+|   |   |   |   |   |   00__PACK_PASSPORT.md
+|   |   |   |   |   |   01__ENGINE_SCOPE_AND_IO.md
+|   |   |   |   |   |   02__METHOD_AND_PARAMETERS.md
+|   |   |   |   |   |   03__EDGE_CASES_LIBRARY.md
+|   |   |   |   |   |   04__OUTPUT_TEMPLATES.md
+|   |   |   |   |   |   07__REGRESSION_GUARD.md
+|   |   |   |   |   |   08__KB_SOURCES.md
+|   |   |   |   |   |   09__TOPIC_BINDINGS.md
+|   |   |   |   |   |   10__XREF_BINDINGS.md
+|   |   |   |   |   |   
+|   |   |   |   |   +---05__KB_GATES
+|   |   |   |   |   |       00__README__GATES.md
+|   |   |   |   |   |       01__GATE__OUTPUT_QUALITY.md
+|   |   |   |   |   |       02__GATE__CONSISTENCY.md
+|   |   |   |   |   |       
+|   |   |   |   |   \---06__EXAMPLES
+|   |   |   |   |           00__README__EXAMPLES.md
+|   |   |   |   |           01__EXAMPLE__GOOD.md
+|   |   |   |   |           02__EXAMPLE__BAD.md
+|   |   |   |   |           03__EXAMPLE__BORDERLINE.md
+|   |   |   |   |           
+|   |   |   |   +---09__VOCAL_PERFORMANCE_ENG
+|   |   |   |   |   |   00__PACK_PASSPORT.md
+|   |   |   |   |   |   01__ENGINE_SCOPE_AND_IO.md
+|   |   |   |   |   |   02__METHOD_AND_PARAMETERS.md
+|   |   |   |   |   |   03__EDGE_CASES_LIBRARY.md
+|   |   |   |   |   |   04__OUTPUT_TEMPLATES.md
+|   |   |   |   |   |   07__REGRESSION_GUARD.md
+|   |   |   |   |   |   08__KB_SOURCES.md
+|   |   |   |   |   |   09__TOPIC_BINDINGS.md
+|   |   |   |   |   |   10__XREF_BINDINGS.md
+|   |   |   |   |   |   
+|   |   |   |   |   +---05__KB_GATES
+|   |   |   |   |   |       00__README__GATES.md
+|   |   |   |   |   |       01__GATE__OUTPUT_QUALITY.md
+|   |   |   |   |   |       02__GATE__CONSISTENCY.md
+|   |   |   |   |   |       
+|   |   |   |   |   \---06__EXAMPLES
+|   |   |   |   |           00__README__EXAMPLES.md
+|   |   |   |   |           01__EXAMPLE__GOOD.md
+|   |   |   |   |           02__EXAMPLE__BAD.md
+|   |   |   |   |           03__EXAMPLE__BORDERLINE.md
+|   |   |   |   |           
+|   |   |   |   +---10__SOUND_DESIGN_ENG
+|   |   |   |   |   |   00__PACK_PASSPORT.md
+|   |   |   |   |   |   01__ENGINE_SCOPE_AND_IO.md
+|   |   |   |   |   |   02__METHOD_AND_PARAMETERS.md
+|   |   |   |   |   |   03__EDGE_CASES_LIBRARY.md
+|   |   |   |   |   |   04__OUTPUT_TEMPLATES.md
+|   |   |   |   |   |   07__REGRESSION_GUARD.md
+|   |   |   |   |   |   08__KB_SOURCES.md
+|   |   |   |   |   |   09__TOPIC_BINDINGS.md
+|   |   |   |   |   |   10__XREF_BINDINGS.md
+|   |   |   |   |   |   
+|   |   |   |   |   +---05__KB_GATES
+|   |   |   |   |   |       00__README__GATES.md
+|   |   |   |   |   |       01__GATE__OUTPUT_QUALITY.md
+|   |   |   |   |   |       02__GATE__CONSISTENCY.md
+|   |   |   |   |   |       
+|   |   |   |   |   \---06__EXAMPLES
+|   |   |   |   |           00__README__EXAMPLES.md
+|   |   |   |   |           01__EXAMPLE__GOOD.md
+|   |   |   |   |           02__EXAMPLE__BAD.md
+|   |   |   |   |           03__EXAMPLE__BORDERLINE.md
+|   |   |   |   |           
+|   |   |   |   +---11__MUSIC_STYLE_CONSISTENCY_ENG
+|   |   |   |   |   |   00__PACK_PASSPORT.md
+|   |   |   |   |   |   01__ENGINE_SCOPE_AND_IO.md
+|   |   |   |   |   |   02__METHOD_AND_PARAMETERS.md
+|   |   |   |   |   |   03__EDGE_CASES_LIBRARY.md
+|   |   |   |   |   |   04__OUTPUT_TEMPLATES.md
+|   |   |   |   |   |   07__REGRESSION_GUARD.md
+|   |   |   |   |   |   08__KB_SOURCES.md
+|   |   |   |   |   |   09__TOPIC_BINDINGS.md
+|   |   |   |   |   |   10__XREF_BINDINGS.md
+|   |   |   |   |   |   
+|   |   |   |   |   +---05__KB_GATES
+|   |   |   |   |   |       00__README__GATES.md
+|   |   |   |   |   |       01__GATE__OUTPUT_QUALITY.md
+|   |   |   |   |   |       02__GATE__CONSISTENCY.md
+|   |   |   |   |   |       
+|   |   |   |   |   \---06__EXAMPLES
+|   |   |   |   |           00__README__EXAMPLES.md
+|   |   |   |   |           01__EXAMPLE__GOOD.md
+|   |   |   |   |           02__EXAMPLE__BAD.md
+|   |   |   |   |           03__EXAMPLE__BORDERLINE.md
+|   |   |   |   |           
+|   |   |   |   +---12__MUSIC_TO_SCENE_ENG
+|   |   |   |   |   |   00__PACK_PASSPORT.md
+|   |   |   |   |   |   01__ENGINE_SCOPE_AND_IO.md
+|   |   |   |   |   |   02__METHOD_AND_PARAMETERS.md
+|   |   |   |   |   |   03__EDGE_CASES_LIBRARY.md
+|   |   |   |   |   |   04__OUTPUT_TEMPLATES.md
+|   |   |   |   |   |   07__REGRESSION_GUARD.md
+|   |   |   |   |   |   08__KB_SOURCES.md
+|   |   |   |   |   |   09__TOPIC_BINDINGS.md
+|   |   |   |   |   |   10__XREF_BINDINGS.md
+|   |   |   |   |   |   
+|   |   |   |   |   +---05__KB_GATES
+|   |   |   |   |   |       00__README__GATES.md
+|   |   |   |   |   |       01__GATE__OUTPUT_QUALITY.md
+|   |   |   |   |   |       02__GATE__CONSISTENCY.md
+|   |   |   |   |   |       
+|   |   |   |   |   \---06__EXAMPLES
+|   |   |   |   |           00__README__EXAMPLES.md
+|   |   |   |   |           01__EXAMPLE__GOOD.md
+|   |   |   |   |           02__EXAMPLE__BAD.md
+|   |   |   |   |           03__EXAMPLE__BORDERLINE.md
+|   |   |   |   |           
+|   |   |   |   \---13__MIX_MASTER_ENG
+|   |   |   |       |   00__PACK_PASSPORT.md
+|   |   |   |       |   01__ENGINE_SCOPE_AND_IO.md
+|   |   |   |       |   02__METHOD_AND_PARAMETERS.md
+|   |   |   |       |   03__EDGE_CASES_LIBRARY.md
+|   |   |   |       |   04__OUTPUT_TEMPLATES.md
+|   |   |   |       |   07__REGRESSION_GUARD.md
+|   |   |   |       |   08__KB_SOURCES.md
+|   |   |   |       |   09__TOPIC_BINDINGS.md
+|   |   |   |       |   10__XREF_BINDINGS.md
+|   |   |   |       |   
+|   |   |   |       +---05__KB_GATES
+|   |   |   |       |       00__README__GATES.md
+|   |   |   |       |       01__GATE__OUTPUT_QUALITY.md
+|   |   |   |       |       02__GATE__CONSISTENCY.md
+|   |   |   |       |       
+|   |   |   |       \---06__EXAMPLES
+|   |   |   |               00__README__EXAMPLES.md
+|   |   |   |               01__EXAMPLE__GOOD.md
+|   |   |   |               02__EXAMPLE__BAD.md
+|   |   |   |               03__EXAMPLE__BORDERLINE.md
+|   |   |   |               
 |   |   |   \---ENG__TEMPLATE
 |   |   |           00__KB_PASSPORT.md
 |   |   |           01__METHOD.md
@@ -944,6 +1916,61 @@ D:.
 |   |   |   |   00__README__ORC_KB_CONNECTOR_STANDARD.md
 |   |   |   |   01__TEMPLATE__PIPELINE_CONTRACT.md
 |   |   |   |   
+|   |   |   +---ORC_PACKS
+|   |   |   |   +---01__GROUP_TO_ALBUM_ORC
+|   |   |   |   |       00__PACK_PASSPORT.md
+|   |   |   |   |       01__PIPELINE_CONTRACT.md
+|   |   |   |   |       02__PIPELINE_STEPS.md
+|   |   |   |   |       03__HANDOFFS.md
+|   |   |   |   |       04__GATES_PLACEMENT.md
+|   |   |   |   |       05__FAILOVER.md
+|   |   |   |   |       90__KB_SOURCES.md
+|   |   |   |   |       
+|   |   |   |   +---02__ALBUM_TO_TRACK_ORC
+|   |   |   |   |       00__PACK_PASSPORT.md
+|   |   |   |   |       01__PIPELINE_CONTRACT.md
+|   |   |   |   |       02__PIPELINE_STEPS.md
+|   |   |   |   |       03__HANDOFFS.md
+|   |   |   |   |       04__GATES_PLACEMENT.md
+|   |   |   |   |       05__FAILOVER.md
+|   |   |   |   |       90__KB_SOURCES.md
+|   |   |   |   |       
+|   |   |   |   +---03__TRACK_TEST_DOC_GATE_ORC
+|   |   |   |   |       00__PACK_PASSPORT.md
+|   |   |   |   |       01__PIPELINE_CONTRACT.md
+|   |   |   |   |       02__PIPELINE_STEPS.md
+|   |   |   |   |       03__HANDOFFS.md
+|   |   |   |   |       04__GATES_PLACEMENT.md
+|   |   |   |   |       05__FAILOVER.md
+|   |   |   |   |       90__KB_SOURCES.md
+|   |   |   |   |       
+|   |   |   |   +---04__RELEASE_PACK_ORC
+|   |   |   |   |       00__PACK_PASSPORT.md
+|   |   |   |   |       01__PIPELINE_CONTRACT.md
+|   |   |   |   |       02__PIPELINE_STEPS.md
+|   |   |   |   |       03__HANDOFFS.md
+|   |   |   |   |       04__GATES_PLACEMENT.md
+|   |   |   |   |       05__FAILOVER.md
+|   |   |   |   |       90__KB_SOURCES.md
+|   |   |   |   |       
+|   |   |   |   +---05__PORTFOLIO_PLANNER_ORC
+|   |   |   |   |       00__PACK_PASSPORT.md
+|   |   |   |   |       01__PIPELINE_CONTRACT.md
+|   |   |   |   |       02__PIPELINE_STEPS.md
+|   |   |   |   |       03__HANDOFFS.md
+|   |   |   |   |       04__GATES_PLACEMENT.md
+|   |   |   |   |       05__FAILOVER.md
+|   |   |   |   |       90__KB_SOURCES.md
+|   |   |   |   |       
+|   |   |   |   \---06__POET_PACK_ORC
+|   |   |   |           00__PACK_PASSPORT.md
+|   |   |   |           01__PIPELINE_CONTRACT.md
+|   |   |   |           02__PIPELINE_STEPS.md
+|   |   |   |           03__HANDOFFS.md
+|   |   |   |           04__GATES_PLACEMENT.md
+|   |   |   |           05__FAILOVER.md
+|   |   |   |           90__KB_SOURCES.md
+|   |   |   |           
 |   |   |   \---ORC__TEMPLATE
 |   |   |           00__KB_PASSPORT.md
 |   |   |           01__PIPELINE_STEPS.md
@@ -956,6 +1983,70 @@ D:.
 |   |   |   |   00__README__CTL_KB_CONNECTOR_STANDARD.md
 |   |   |   |   01__TEMPLATE__CTL_POLICY_MODULE.md
 |   |   |   |   
+|   |   |   +---CTL_PACKS
+|   |   |   |   +---01__PROMPT_CONTRACT_CTL
+|   |   |   |   |       00__PACK_PASSPORT.md
+|   |   |   |   |       01__POLICY.md
+|   |   |   |   |       02__LIMITS_THRESHOLDS.md
+|   |   |   |   |       03__EXAMPLES.md
+|   |   |   |   |       90__KB_SOURCES.md
+|   |   |   |   |       
+|   |   |   |   +---02__UGC_VIRAL_RULESET_CTL
+|   |   |   |   |       00__PACK_PASSPORT.md
+|   |   |   |   |       01__POLICY.md
+|   |   |   |   |       02__LIMITS_THRESHOLDS.md
+|   |   |   |   |       03__EXAMPLES.md
+|   |   |   |   |       90__KB_SOURCES.md
+|   |   |   |   |       
+|   |   |   |   +---03__DURATION_POLICY_CTL
+|   |   |   |   |       00__PACK_PASSPORT.md
+|   |   |   |   |       01__POLICY.md
+|   |   |   |   |       02__LIMITS_THRESHOLDS.md
+|   |   |   |   |       03__EXAMPLES.md
+|   |   |   |   |       90__KB_SOURCES.md
+|   |   |   |   |       
+|   |   |   |   +---04__RELEASE_VARIANTS_CTL
+|   |   |   |   |       00__PACK_PASSPORT.md
+|   |   |   |   |       01__POLICY.md
+|   |   |   |   |       02__LIMITS_THRESHOLDS.md
+|   |   |   |   |       03__EXAMPLES.md
+|   |   |   |   |       90__KB_SOURCES.md
+|   |   |   |   |       
+|   |   |   |   +---05__POET_PD_POLICY_CTL
+|   |   |   |   |       00__PACK_PASSPORT.md
+|   |   |   |   |       01__POLICY.md
+|   |   |   |   |       02__LIMITS_THRESHOLDS.md
+|   |   |   |   |       03__EXAMPLES.md
+|   |   |   |   |       90__KB_SOURCES.md
+|   |   |   |   |       
+|   |   |   |   +---06__FINGERPRINT_COLLISION_THRESHOLDS_CTL
+|   |   |   |   |       00__PACK_PASSPORT.md
+|   |   |   |   |       01__POLICY.md
+|   |   |   |   |       02__LIMITS_THRESHOLDS.md
+|   |   |   |   |       03__EXAMPLES.md
+|   |   |   |   |       90__KB_SOURCES.md
+|   |   |   |   |       
+|   |   |   |   +---07__CATALOG_MEMORY_CTL
+|   |   |   |   |       00__PACK_PASSPORT.md
+|   |   |   |   |       01__POLICY.md
+|   |   |   |   |       02__LIMITS_THRESHOLDS.md
+|   |   |   |   |       03__EXAMPLES.md
+|   |   |   |   |       90__KB_SOURCES.md
+|   |   |   |   |       
+|   |   |   |   +---08__AUDIENCE_SEGMENTS_CTL
+|   |   |   |   |       00__PACK_PASSPORT.md
+|   |   |   |   |       01__POLICY.md
+|   |   |   |   |       02__LIMITS_THRESHOLDS.md
+|   |   |   |   |       03__EXAMPLES.md
+|   |   |   |   |       90__KB_SOURCES.md
+|   |   |   |   |       
+|   |   |   |   \---09__QUALITY_GATES_CTL
+|   |   |   |           00__PACK_PASSPORT.md
+|   |   |   |           01__POLICY.md
+|   |   |   |           02__LIMITS_THRESHOLDS.md
+|   |   |   |           03__EXAMPLES.md
+|   |   |   |           90__KB_SOURCES.md
+|   |   |   |           
 |   |   |   \---CTL__TEMPLATE
 |   |   |           00__KB_PASSPORT.md
 |   |   |           01__POLICY.md
@@ -967,6 +2058,87 @@ D:.
 |   |   |   |   00__README__VAL_KB_CONNECTOR_STANDARD.md
 |   |   |   |   01__TEMPLATE__VAL_VIOLATION_RECORD.md
 |   |   |   |   
+|   |   |   +---VAL_PACKS
+|   |   |   |   +---01__HOOK_TIMING_VAL
+|   |   |   |   |       00__PACK_PASSPORT.md
+|   |   |   |   |       01__CHECK_RULE.md
+|   |   |   |   |       02__VIOLATION_FORMAT.md
+|   |   |   |   |       03__FIX_GUIDE.md
+|   |   |   |   |       04__TEST_CASES.md
+|   |   |   |   |       90__KB_SOURCES.md
+|   |   |   |   |       
+|   |   |   |   +---02__UGC_READY_VAL
+|   |   |   |   |       00__PACK_PASSPORT.md
+|   |   |   |   |       01__CHECK_RULE.md
+|   |   |   |   |       02__VIOLATION_FORMAT.md
+|   |   |   |   |       03__FIX_GUIDE.md
+|   |   |   |   |       04__TEST_CASES.md
+|   |   |   |   |       90__KB_SOURCES.md
+|   |   |   |   |       
+|   |   |   |   +---03__REPEAT_GUARD_VAL
+|   |   |   |   |       00__PACK_PASSPORT.md
+|   |   |   |   |       01__CHECK_RULE.md
+|   |   |   |   |       02__VIOLATION_FORMAT.md
+|   |   |   |   |       03__FIX_GUIDE.md
+|   |   |   |   |       04__TEST_CASES.md
+|   |   |   |   |       90__KB_SOURCES.md
+|   |   |   |   |       
+|   |   |   |   +---04__PD_ONLY_VAL
+|   |   |   |   |       00__PACK_PASSPORT.md
+|   |   |   |   |       01__CHECK_RULE.md
+|   |   |   |   |       02__VIOLATION_FORMAT.md
+|   |   |   |   |       03__FIX_GUIDE.md
+|   |   |   |   |       04__TEST_CASES.md
+|   |   |   |   |       90__KB_SOURCES.md
+|   |   |   |   |       
+|   |   |   |   +---05__COLLISION_BLOCKER_VAL
+|   |   |   |   |       00__PACK_PASSPORT.md
+|   |   |   |   |       01__CHECK_RULE.md
+|   |   |   |   |       02__VIOLATION_FORMAT.md
+|   |   |   |   |       03__FIX_GUIDE.md
+|   |   |   |   |       04__TEST_CASES.md
+|   |   |   |   |       90__KB_SOURCES.md
+|   |   |   |   |       
+|   |   |   |   +---06__RELEASE_PACK_READY_VAL
+|   |   |   |   |       00__PACK_PASSPORT.md
+|   |   |   |   |       01__CHECK_RULE.md
+|   |   |   |   |       02__VIOLATION_FORMAT.md
+|   |   |   |   |       03__FIX_GUIDE.md
+|   |   |   |   |       04__TEST_CASES.md
+|   |   |   |   |       90__KB_SOURCES.md
+|   |   |   |   |       
+|   |   |   |   +---07__NAMING_COLLISION_VAL
+|   |   |   |   |       00__PACK_PASSPORT.md
+|   |   |   |   |       01__CHECK_RULE.md
+|   |   |   |   |       02__VIOLATION_FORMAT.md
+|   |   |   |   |       03__FIX_GUIDE.md
+|   |   |   |   |       04__TEST_CASES.md
+|   |   |   |   |       90__KB_SOURCES.md
+|   |   |   |   |       
+|   |   |   |   +---08__PROMPT_FIDELITY_VAL
+|   |   |   |   |       00__PACK_PASSPORT.md
+|   |   |   |   |       01__CHECK_RULE.md
+|   |   |   |   |       02__VIOLATION_FORMAT.md
+|   |   |   |   |       03__FIX_GUIDE.md
+|   |   |   |   |       04__TEST_CASES.md
+|   |   |   |   |       90__KB_SOURCES.md
+|   |   |   |   |       
+|   |   |   |   +---09__CREDITS_RIGHTS_VAL
+|   |   |   |   |       00__PACK_PASSPORT.md
+|   |   |   |   |       01__CHECK_RULE.md
+|   |   |   |   |       02__VIOLATION_FORMAT.md
+|   |   |   |   |       03__FIX_GUIDE.md
+|   |   |   |   |       04__TEST_CASES.md
+|   |   |   |   |       90__KB_SOURCES.md
+|   |   |   |   |       
+|   |   |   |   \---10__VOICE_DIVERSITY_VAL
+|   |   |   |           00__PACK_PASSPORT.md
+|   |   |   |           01__CHECK_RULE.md
+|   |   |   |           02__VIOLATION_FORMAT.md
+|   |   |   |           03__FIX_GUIDE.md
+|   |   |   |           04__TEST_CASES.md
+|   |   |   |           90__KB_SOURCES.md
+|   |   |   |           
 |   |   |   \---VAL__TEMPLATE
 |   |   |           00__KB_PASSPORT.md
 |   |   |           01__CHECK_RULE.md
@@ -979,6 +2151,79 @@ D:.
 |   |   |   |   00__README__QA_KB_CONNECTOR_STANDARD.md
 |   |   |   |   01__TEMPLATE__EXEMPLAR_SET.md
 |   |   |   |   
+|   |   |   +---QA_PACKS
+|   |   |   |   +---01__SCROLL_STOP_5S_QA
+|   |   |   |   |       00__PACK_PASSPORT.md
+|   |   |   |   |       01__RUBRIC.md
+|   |   |   |   |       02__PROTOCOL.md
+|   |   |   |   |       03__EXAMPLES.md
+|   |   |   |   |       04__EXEMPLAR_SET.md
+|   |   |   |   |       90__KB_SOURCES.md
+|   |   |   |   |       
+|   |   |   |   +---02__LOOP_15S_QA
+|   |   |   |   |       00__PACK_PASSPORT.md
+|   |   |   |   |       01__RUBRIC.md
+|   |   |   |   |       02__PROTOCOL.md
+|   |   |   |   |       03__EXAMPLES.md
+|   |   |   |   |       04__EXEMPLAR_SET.md
+|   |   |   |   |       90__KB_SOURCES.md
+|   |   |   |   |       
+|   |   |   |   +---03__RECOGNITION_10S_QA
+|   |   |   |   |       00__PACK_PASSPORT.md
+|   |   |   |   |       01__RUBRIC.md
+|   |   |   |   |       02__PROTOCOL.md
+|   |   |   |   |       03__EXAMPLES.md
+|   |   |   |   |       04__EXEMPLAR_SET.md
+|   |   |   |   |       90__KB_SOURCES.md
+|   |   |   |   |       
+|   |   |   |   +---04__CREATOR_PANEL_QA
+|   |   |   |   |       00__PACK_PASSPORT.md
+|   |   |   |   |       01__RUBRIC.md
+|   |   |   |   |       02__PROTOCOL.md
+|   |   |   |   |       03__EXAMPLES.md
+|   |   |   |   |       04__EXEMPLAR_SET.md
+|   |   |   |   |       90__KB_SOURCES.md
+|   |   |   |   |       
+|   |   |   |   +---05__MIX_TRANSLATION_QA
+|   |   |   |   |       00__PACK_PASSPORT.md
+|   |   |   |   |       01__RUBRIC.md
+|   |   |   |   |       02__PROTOCOL.md
+|   |   |   |   |       03__EXAMPLES.md
+|   |   |   |   |       04__EXEMPLAR_SET.md
+|   |   |   |   |       90__KB_SOURCES.md
+|   |   |   |   |       
+|   |   |   |   +---06__HOOK_PANEL_QA
+|   |   |   |   |       00__PACK_PASSPORT.md
+|   |   |   |   |       01__RUBRIC.md
+|   |   |   |   |       02__PROTOCOL.md
+|   |   |   |   |       03__EXAMPLES.md
+|   |   |   |   |       04__EXEMPLAR_SET.md
+|   |   |   |   |       90__KB_SOURCES.md
+|   |   |   |   |       
+|   |   |   |   +---07__CATALOG_DIFFERENTIATION_QA
+|   |   |   |   |       00__PACK_PASSPORT.md
+|   |   |   |   |       01__RUBRIC.md
+|   |   |   |   |       02__PROTOCOL.md
+|   |   |   |   |       03__EXAMPLES.md
+|   |   |   |   |       04__EXEMPLAR_SET.md
+|   |   |   |   |       90__KB_SOURCES.md
+|   |   |   |   |       
+|   |   |   |   +---08__VOICE_DIVERSITY_AUDIT_QA
+|   |   |   |   |       00__PACK_PASSPORT.md
+|   |   |   |   |       01__RUBRIC.md
+|   |   |   |   |       02__PROTOCOL.md
+|   |   |   |   |       03__EXAMPLES.md
+|   |   |   |   |       04__EXEMPLAR_SET.md
+|   |   |   |   |       90__KB_SOURCES.md
+|   |   |   |   |       
+|   |   |   |   \---09__REGRESSION_GUARD_QA
+|   |   |   |           00__PACK_PASSPORT.md
+|   |   |   |           01__RUBRIC.md
+|   |   |   |           02__PROTOCOL.md
+|   |   |   |           03__EXAMPLES.md
+|   |   |   |           04__EXEMPLAR_SET.md
+|   |   |   |           90__KB_SOURCES.md
+|   |   |   |           
 |   |   |   \---QA__TEMPLATE
 |   |   |           00__KB_PASSPORT.md
 |   |   |           01__RUBRIC.md
