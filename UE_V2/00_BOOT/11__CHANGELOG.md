@@ -1,0 +1,37 @@
+# FILE: UE_V2/00_BOOT/11__CHANGELOG.md
+SCOPE: UE_V2
+LAYER: 00_BOOT
+DOC_TYPE: LOG (CHANGELOG)
+MODE: REPO (USAGE-ONLY, NO-EDIT)
+STATUS: ACTIVE
+LOCK: OPEN
+VERSION: 2.0.0
+UID: UE.V2.BOOT.CHANGELOG.001
+OWNER: SYSTEM
+
+## MARKERS
+- [M] POLICY
+- [M] ENTRY_TEMPLATE
+- [M] ENTRIES
+
+## [M] POLICY
+Логируются изменения ядра V2 и его контрактов.
+Каждая запись должна быть короткой, однозначной, без пересказа.
+
+## [M] ENTRY_TEMPLATE
+- DATE: YYYY-MM-DD
+- TYPE: ADD | PATCH | FIX | BREAK
+- TARGET: file or UID
+- SUMMARY: 1 строка
+- REASON: 1 строка
+- IMPACT: 1 строка
+- CHANGE_ID: UE.V2.CHG.YYYYMMDD.XXX
+
+## [M] ENTRIES
+- DATE: 2026-01-24
+  TYPE: ADD
+  TARGET: UE_V2/00_BOOT/*
+  SUMMARY: Boot ядро V2: START/SEQ/STOPGAP/CHATFMT/ARTRULE/MINENT/TRACE/FAILCODES/CHANGELOG
+  REASON: Нужен детерминированный рантайм без шума
+  IMPACT: Запуск V2 возможен через фиксированный BOOT
+  CHANGE_ID: UE.V2.CHG.20260124.001
