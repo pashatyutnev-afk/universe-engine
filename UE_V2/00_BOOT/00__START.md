@@ -1,60 +1,107 @@
-# FILE: UE_V2/00_BOOT/00__START.md
-SCOPE: UE_V2
-LAYER: 00_BOOT
-DOC_TYPE: ENTRYPOINT (RUNBOOK)
-MODE: REPO (USAGE-ONLY, NO-EDIT)
-STATUS: ACTIVE
-LOCK: FIXED
-VERSION: 2.0.0
+# 00__START
+
+SCOPE: Universe Engine (UE_V2)
+DOC_TYPE: BOOT / ENTRYPOINT
 UID: UE.V2.BOOT.START.001
-OWNER: SYSTEM
+VERSION: 1.1.0
+STATUS: ACTIVE
+MODE: REPO (USAGE-ONLY, NO-EDIT)
+NAV_RULE: Use RAW links only
+PURPOSE: Единая точка запуска рантайма. Запрещает обходы. Поднимает ядро и передаёт управление пайплайну.
 
-## MARKERS
-- [M] PURPOSE
-- [M] MIN_INPUTS
-- [M] ABS_LAWS
-- [M] BOOT_SEQ_LINK
-- [M] RUNTIME_PIPELINE
-- [M] OUTPUT_CONTRACT
-- [M] STOP_CONDITIONS
+---
 
-## [M] PURPOSE
-Единый энтрипоинт рантайма V2. Любая задача начинается здесь.
-Запрет обхода: ни один документ не является энтрипоинтом кроме этого.
+## [M] INTENT
+Запустить работу системы так, чтобы она:
+- не прошла мимо REG/XREF/KB/PIPE/NAV/LOG
+- не засорила контекст
+- могла работать пошагово через "го"
+- выбирала путь детерминированно через ROUTER
+
+---
 
 ## [M] MIN_INPUTS
-Runtime разрешён только если присутствует:
-- COMMAND: START_UNIVERSE_ENGINE
-- TASK: текст запроса пользователя
-- LINK_BASE: либо ROOT LINK BASE, либо набор RAW ссылок, присланных пользователем
+- TASK_TEXT (что нужно сделать)
+- OPTIONAL: MODE_HINT (FAST|RELEASE_READY|MASTERPIECE)
+- OPTIONAL: constraints (platform, duration, style, references)
 
-Если LINK_BASE отсутствует, допускается режим V2_LOCAL (без RAW), но только для генерации новых V2-документов внутри UE_V2.
+---
 
-## [M] ABS_LAWS
-1) RAW-only: использовать только RAW ссылки, которые прислал пользователь или которые уже подтверждены в текущем рантайме
-2) Boot-first: нельзя выполнять задачу до BOOT COMPLETE
-3) No guessing: запрещено угадывать пути, роли, ссылки, сущности
-4) Minimal entity usage: брать минимально-достаточный набор сущностей
-5) Artifact-only: выдавать только оформленные артефакты (документ по стандарту), без “голого контента”
-6) GAP duty: если не хватает сущности или шаблона, идти в GAP BRANCH (создать недостающее), затем продолжить
-7) STOP строго по STOP_CONDITIONS (ниже)
+## [M] START_SEQUENCE (CANON)
+S0) ENTRYPOINT CHECK
+- подтвердить, что это запуск задачи (есть TASK_TEXT)
 
-## [M] BOOT_SEQ_LINK
-BOOT порядок описан в: UE_V2/00_BOOT/01__BOOT_SEQ.md
+S1) BOOT SEQ
+- открыть: UE_V2/00_BOOT/01__BOOT_SEQ.md
+- применить: UE_V2/00_BOOT/02__STOP_GAP.md
+- включить трассу: UE_V2/00_BOOT/06__TRACE.md
+- включить коды ошибок: UE_V2/00_BOOT/07__FAIL_CODES.md
 
-## [M] RUNTIME_PIPELINE
-DEFAULT:
-- INTAKE → ROUTE → EXEC → CONTROL/VALIDATE → QA → PACKAGE → SIGNOFF
+S2) MUST_LOAD ядро
+- открыть: UE_V2/00_BOOT/08__RUNTIME_MANIFEST.md
+- подхватить MUST_LOAD_SET (только минимум)
 
-## [M] OUTPUT_CONTRACT
-Каждый ответ ассистента обязан содержать секции:
-- MODE
-- RESOURCES USED (USING RAW + MARKER FOUND)
-- DELIVERABLES
-- GATES
+S3) ROUTING
+- открыть: UE_V2/00_BOOT/09__TASK_ROUTER.md
+- сформировать ROUTE_TOKEN:
+  DOMAIN, ARTIFACT_TYPE, MODE, PIPE_SELECTED, DEFAULT_ORC, REQUIRED_IDX, REQUIRED_CHECKS, EXEC_MODE
 
-## [M] STOP_CONDITIONS
-STOP разрешён только если:
-- RAW missing (нельзя продолжать без ссылок, когда режим не V2_LOCAL)
-- marker not confirmed (нет маркера в загруженном документе)
-- input absent (нет TASK или COMMAND)
+S4) NAV
+- открыть: UE_V2/04_NAV/00__NAV_ROOT.md
+- открыть IDX из ROUTE_TOKEN (REQUIRED_IDX)
+- подтвердить доступ к REG/XREF/KB/PIPE/LOG через IDX
+
+S5) PIPE EXEC (STEP-RUN)
+- открыть: UE_V2/06_PIPE/01__PIPE_DEFAULT.md
+- если ROUTE_TOKEN.PIPE_SELECTED доменный -> handoff в него (через PIPE_DEFAULT routing)
+- включить протоколы:
+  - UE_V2/00_BOOT/10__STEP_RUN_PROTOCOL.md
+  - UE_V2/00_BOOT/12__FOCUS_LOOP_PROTOCOL.md
+  - UE_V2/00_BOOT/13__COMMANDS.md
+
+S6) LOG INIT
+- открыть: UE_V2/12_LOG/00__LOG_RULES.md
+- подтвердить, что доступны:
+  - UE_V2/12_LOG/01__RUN_LOG.md
+  - UE_V2/12_LOG/03__TOKEN_ARCHIVE.md
+  - UE_V2/12_LOG/04__DECISION_LOG.md
+
+---
+
+## [M] ANTI_NOISE_LOAD_POLICY
+- ALWAYS: START + MANIFEST + ROUTER + NAV_ROOT
+- THEN: один доменный IDX + 1–3 target файла
+- NEVER: обход IDX и массовая загрузка деревьев
+- OUTPUT-FIRST: максимум контекста отдаётся под контент/результат, не под справку
+
+---
+
+## [M] STOP / GAP
+STOP только если:
+- RAW missing для MUST_LOAD
+- marker not confirmed для MUST_LOAD
+- input absent (нет задачи)
+
+GAP если:
+- отсутствует доменный PIPE/IDX/обязательная сущность/панель по ROUTE_TOKEN
+
+---
+
+## [M] OUTPUT (START TOKEN)
+START_OUTPUT:
+- ROUTE_TOKEN (обязателен)
+- FIRST_STEP_PROMPT: "го"
+
+---
+
+## [M] GATES
+PASS если:
+- ROUTE_TOKEN сформирован
+- MUST_LOAD доступен
+- NAV_ROOT доступен
+- PIPE_DEFAULT доступен
+STOP если:
+- нет TASK_TEXT
+- MUST_LOAD missing
+GAP если:
+- отсутствует доменный пайп/индекс/обязательные проверки
