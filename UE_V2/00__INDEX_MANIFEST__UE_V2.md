@@ -74,7 +74,7 @@ INDEX_MANIFEST — мастер “таблица адресов” для ко�
   UID: UE.V2.ROOT.PIPELINE_CONTRACT.001
   KIND: PIPE
   ROLE: Root step-run navigator
-  DESC: Routes to layer pipelines via layer INDEX_MANIFEST (KEY-only)
+  DESC: Routes to layers via layer INDEX_MANIFEST (KEY-only)
   RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/00__PIPELINE_CONTRACT__UE_V2.md
   PATH: UE_V2/00__PIPELINE_CONTRACT__UE_V2.md
   MARKERS: [PIPE, MUST_LOAD, ROUTER]
@@ -83,8 +83,12 @@ INDEX_MANIFEST — мастер “таблица адресов” для ко�
   UPDATED: 2026-01-31
 
 ### [O] CONTENT (layer entrypoints)
-# RULE: Root index stores only layer INDEX_MANIFEST entrypoints (no pipeline duplicates here).
-# Layer PIPELINE_CONTRACT must be resolved inside each layer index.
+# RULE:
+# - If layer INDEX_MANIFEST RAW is known -> register as KIND: FILE with RAW.
+# - If not known yet -> register layer folder as KIND: FOLDER with RAW empty and MARKERS include GAP.
+# - No pipeline duplicates here.
+
+## READY LAYERS (index known)
 
 - KEY: UEV2.BOOT.INDEX_MANIFEST
   UID: UE.V2.BOOT.INDEX_MANIFEST.001
@@ -131,5 +135,139 @@ INDEX_MANIFEST — мастер “таблица адресов” для ко�
   PATH: UE_V2/03_ENT/00__INDEX_MANIFEST__ENT.md
   MARKERS: [INDEX, LAYER, ENT]
   STATUS: ACTIVE
+  OWNER: SYS
+  UPDATED: 2026-01-31
+
+## REGISTERED LAYERS (folder placeholders, index not registered yet)
+
+- KEY: UEV2.NAV.LAYER
+  UID:
+  KIND: FOLDER
+  ROLE: Layer folder placeholder for 04_NAV
+  DESC: Layer exists; INDEX_MANIFEST RAW not registered yet
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/04_NAV/00__INDEX_MANIFEST__NAV.md
+  PATH: UE_V2/04_NAV
+  MARKERS: [LAYER, NAV, GAP]
+  STATUS: DRAFT
+  OWNER: SYS
+  UPDATED: 2026-01-31
+
+- KEY: UEV2.KB.LAYER
+  UID:
+  KIND: FOLDER
+  ROLE: Layer folder placeholder for 05_KB
+  DESC: Layer exists; INDEX_MANIFEST RAW not registered yet
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/05_KB/00__INDEX_MANIFEST__KB.md
+  PATH: UE_V2/05_KB
+  MARKERS: [LAYER, KB, GAP]
+  STATUS: DRAFT
+  OWNER: SYS
+  UPDATED: 2026-01-31
+
+- KEY: UEV2.PIPE.LAYER
+  UID:
+  KIND: FOLDER
+  ROLE: Layer folder placeholder for 06_PIPE
+  DESC: Layer exists; INDEX_MANIFEST RAW not registered yet
+  RAW:
+  PATH: UE_V2/06_PIPE
+  MARKERS: [LAYER, PIPE, GAP]
+  STATUS: DRAFT
+  OWNER: SYS
+  UPDATED: 2026-01-31
+
+- KEY: UEV2.DOM_AUD.LAYER
+  UID:
+  KIND: FOLDER
+  ROLE: Layer folder placeholder for 07_DOM_AUD
+  DESC: Layer exists; INDEX_MANIFEST RAW not registered yet
+  RAW:
+  PATH: UE_V2/07_DOM_AUD
+  MARKERS: [LAYER, DOM, AUD, GAP]
+  STATUS: DRAFT
+  OWNER: SYS
+  UPDATED: 2026-01-31
+
+- KEY: UEV2.DOM_VIS.LAYER
+  UID:
+  KIND: FOLDER
+  ROLE: Layer folder placeholder for 08_DOM_VIS
+  DESC: Layer exists; INDEX_MANIFEST RAW not registered yet
+  RAW:
+  PATH: UE_V2/08_DOM_VIS
+  MARKERS: [LAYER, DOM, VIS, GAP]
+  STATUS: DRAFT
+  OWNER: SYS
+  UPDATED: 2026-01-31
+
+- KEY: UEV2.DOM_LOR.LAYER
+  UID:
+  KIND: FOLDER
+  ROLE: Layer folder placeholder for 09_DOM_LOR
+  DESC: Layer exists; INDEX_MANIFEST RAW not registered yet
+  RAW:
+  PATH: UE_V2/09_DOM_LOR
+  MARKERS: [LAYER, DOM, LOR, GAP]
+  STATUS: DRAFT
+  OWNER: SYS
+  UPDATED: 2026-01-31
+
+- KEY: UEV2.REL.LAYER
+  UID:
+  KIND: FOLDER
+  ROLE: Layer folder placeholder for 10_REL
+  DESC: Layer exists; INDEX_MANIFEST RAW not registered yet
+  RAW:
+  PATH: UE_V2/10_REL
+  MARKERS: [LAYER, REL, GAP]
+  STATUS: DRAFT
+  OWNER: SYS
+  UPDATED: 2026-01-31
+
+- KEY: UEV2.TKN.LAYER
+  UID:
+  KIND: FOLDER
+  ROLE: Layer folder placeholder for 11_TKN
+  DESC: Layer exists; INDEX_MANIFEST RAW not registered yet
+  RAW:
+  PATH: UE_V2/11_TKN
+  MARKERS: [LAYER, TKN, GAP]
+  STATUS: DRAFT
+  OWNER: SYS
+  UPDATED: 2026-01-31
+
+- KEY: UEV2.LEX.LAYER
+  UID:
+  KIND: FOLDER
+  ROLE: Layer folder placeholder for 12_LEX
+  DESC: Layer exists; INDEX_MANIFEST RAW not registered yet
+  RAW:
+  PATH: UE_V2/12_LEX
+  MARKERS: [LAYER, LEX, GAP]
+  STATUS: DRAFT
+  OWNER: SYS
+  UPDATED: 2026-01-31
+
+- KEY: UEV2.STR_PNT.LAYER
+  UID:
+  KIND: FOLDER
+  ROLE: Layer folder placeholder for 13_STR_PNT
+  DESC: Layer exists; INDEX_MANIFEST RAW not registered yet
+  RAW:
+  PATH: UE_V2/13_STR_PNT
+  MARKERS: [LAYER, STR_PNT, GAP]
+  STATUS: DRAFT
+  OWNER: SYS
+  UPDATED: 2026-01-31
+
+- KEY: UEV2.LOG.LAYER
+  UID:
+  KIND: FOLDER
+  ROLE: Layer folder placeholder for 14_LOG
+  DESC: Layer exists; INDEX_MANIFEST RAW not registered yet
+  RAW:
+  PATH: UE_V2/14_LOG
+  MARKERS: [LAYER, LOG, GAP]
+  STATUS: DRAFT
   OWNER: SYS
   UPDATED: 2026-01-31

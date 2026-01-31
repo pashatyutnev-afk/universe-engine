@@ -1,137 +1,343 @@
-# SYSTEM ENTITIES REALM — README (CANON)
-
-FILE: 03_SYSTEM_ENTITIES/00__README__SYSTEM_ENTITIES.md
-SCOPE: Universe Engine
-LAYER: 03_SYSTEM_ENTITIES
-DOC_TYPE: README
-LEVEL: L1
+FILE: UE_V2/03_ENT/00__INDEX_MANIFEST__ENT.md
+SCOPE: UE_V2 / 03_ENT
+DOC_TYPE: INDEX_MANIFEST
+DOMAIN: ENT
+UID: UE.V2.ENT.INDEX_MANIFEST.001
+VERSION: 1.0.0
 STATUS: ACTIVE
-LOCK: FIXED
-VERSION: 1.0.1
-UID: UE.ENT.README.SYS_ENTITIES.001
-OWNER: SYSTEM
-ROLE: Human-first entry to the Entities layer. Explains what entities are, how this layer is structured, where the canonical RULES and INDEX live, and how to navigate in RAW-only mode.
-
-CHANGE_NOTE:
-- DATE: 2026-01-20
-- TYPE: PATCH
-- SUMMARY: "Rebuilt README into strict entry guide: no type mixing, explicit entry links, RAW-only reading contract, and quick routing to RULES/INDEX."
-- REASON: "Users were stuck in loops and confusion between README/RULE/INDEX."
-- IMPACT: "Layer becomes readable in one pass and routes correctly to operational laws and registries."
-- CHANGE_ID: UE.CHG.2026-01-20.SYS_ENTITIES.README.001
+MODE: REPO (USAGE-ONLY, NO-EDIT)
+CREATED: 2026-01-31
+UPDATED: 2026-01-31
+OWNER: SYS
+NAV_RULE: RAW lives here only
 
 ---
 
-## 0) PURPOSE (WHAT IS THIS)
-`03_SYSTEM_ENTITIES` — это слой **операционных сущностей** Universe Engine.
+## [M] PURPOSE
+INDEX_MANIFEST — “таблица адресов” и кратких смыслов для реалма 03_ENT.
+Хранит RAW и машинные паспорта ENT-слоя: входы в семейства сущностей и корневые контракты/модель.
+Никаких “историй” и длинных объяснений.
 
-Сущности — это “исполнители” и “контролёры” системы:
-- кто принимает решения (SPC),
-- кто задаёт пайплайн (ORC),
-- кто выполняет детерминированную логику (ENG),
-- кто блокирует/ограничивает (CTL),
-- кто валидирует (VAL),
-- кто принимает по качеству (QA),
-- кто хранит карты соответствий (XREF),
-- плюс служебные реестры (REG) и шаблоны (TPL).
+## [M] HARD_RULES
+- RAW ссылки допускаются только тут (и в ROOT LINK BASE / START по закону системы).
+- Любая навигация по 03_ENT выполняется через KEY → RAW.
+- PIPELINE_CONTRACT ссылается только на KEY.
+- SELF запись обязательна.
+- Не обходить через PATH при наличии RAW (PATH хранится как справка).
+- Не перечислять тысячи сущностей в корневом индексе: только входы и корневые контракты.
 
-Этот README:
-- **объясняет** как устроен слой,
-- **показывает** куда идти за правилами и индексом,
-- **не заменяет** RULES и INDEX.
+## [M] INDEX_CONTEXT
+- REALM_ID: UE_V2/03_ENT
+- FOLDER_NAME: 03_ENT
+- INDEX_SCOPE_TAGS: [ENT, NAV, SYS]
 
----
+## [M] ENTRY_SCHEMA (v1)
+- KEY: <UNIQUE_KEY>
+  UID: <OPTIONAL_UID>
+  KIND: FILE|FOLDER|ENTITY|PIPE|KB|REG|XREF|LOG|STD|LAW|TPL
+  ROLE: <ONE_LINE_ROLE>
+  DESC: <ONE_LINE_DESC>
+  RAW: <RAW_URL_OR_EMPTY>
+  PATH: <REPO_PATH_OR_EMPTY>
+  MARKERS: [MUST_LOAD, ROUTER, NAV, ...]
+  STATUS: ACTIVE|DRAFT|DEPRECATED
+  OWNER: SYS|RUNTIME|USER|<TEAM>
+  UPDATED: 0000-00-00
 
-## 1) CANON ENTRYPOINTS (READ FIRST)
-В этом слое есть три канонических “входа”. Начинай всегда с них:
+## [M] ENTRIES
 
-1) README (этот файл)  
-- объясняет слой и маршрутизацию
+### [M] SELF
+- KEY: SELF
+  UID: UE.V2.ENT.INDEX_MANIFEST.001
+  KIND: FILE
+  ROLE: Self pointer for deterministic nav
+  DESC: This index-manifest file for 03_ENT
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/00__INDEX_MANIFEST__ENT.md
+  PATH: UE_V2/03_ENT/00__INDEX_MANIFEST__ENT.md
+  MARKERS: [INDEX, SELF]
+  STATUS: ACTIVE
+  OWNER: SYS
+  UPDATED: 2026-01-31
 
-2) RULES (правила слоя, что считается сущностью и как она становится operationally real)  
-RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/01__RULES__SYSTEM_ENTITIES.md
+### [M] REQUIRED (минимум для слоя)
+- KEY: INDEX_MANIFEST
+  UID: UE.V2.ENT.INDEX_MANIFEST.001
+  KIND: FILE
+  ROLE: Address table for ENT layer
+  DESC: Raw addresses + short meaning for 03_ENT
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/00__INDEX_MANIFEST__ENT.md
+  PATH: UE_V2/03_ENT/00__INDEX_MANIFEST__ENT.md
+  MARKERS: [INDEX, MUST_LOAD]
+  STATUS: ACTIVE
+  OWNER: SYS
+  UPDATED: 2026-01-31
 
-3) INDEX (канонический реестр состава слоя: что существует и где лежит)  
-RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/02__INDEX__SYSTEM_ENTITIES.md
+- KEY: PIPELINE_CONTRACT
+  UID: UE.V2.ENT.PIPELINE_CONTRACT.001
+  KIND: PIPE
+  ROLE: ENT layer step-run navigator
+  DESC: KEY-only contract; resolves targets via this INDEX_MANIFEST
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/00__PIPELINE_CONTRACT__ENT.md
+  PATH: UE_V2/03_ENT/00__PIPELINE_CONTRACT__ENT.md
+  MARKERS: [PIPE, MUST_LOAD, ROUTER]
+  STATUS: ACTIVE
+  OWNER: SYS
+  UPDATED: 2026-01-31
 
----
+### [O] CONTENT (ENT layer core files)
 
-## 2) RAW-ONLY NAVIGATION CONTRACT
-Если включён RAW-only режим:
-- навигация делается **только по RAW ссылкам**;
-- запрещено угадывать пути и имена файлов;
-- любые “операционные переходы” должны быть возможны через копирование RAW ссылки.
+- KEY: ENT.MODEL
+  UID:
+  KIND: FILE
+  ROLE: Entity model definition
+  DESC: Canon entity model, sections and invariants
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/01__ENT_MODEL.md
+  PATH: UE_V2/03_ENT/01__ENT_MODEL.md
+  MARKERS: [ENT, MODEL, MUST_LOAD]
+  STATUS: ACTIVE
+  OWNER: SYS
+  UPDATED: 2026-01-31
 
-Практика чтения:
-- открываешь INDEX слоя,
-- находишь нужный объект,
-- копируешь RAW и переходишь.
+- KEY: ENT.CONTRACT.ENT
+  UID:
+  KIND: FILE
+  ROLE: ENT contract
+  DESC: Rules for entity lifecycle and layer operations
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/02__ENT_CONTRACT.md
+  PATH: UE_V2/03_ENT/02__ENT_CONTRACT.md
+  MARKERS: [ENT, CONTRACT]
+  STATUS: ACTIVE
+  OWNER: SYS
+  UPDATED: 2026-01-31
 
----
+- KEY: ENT.CONTRACT.SPC
+  UID:
+  KIND: FILE
+  ROLE: SPC contract
+  DESC: SPC layer integration contract for entities
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/03__SPC_CONTRACT.md
+  PATH: UE_V2/03_ENT/03__SPC_CONTRACT.md
+  MARKERS: [ENT, SPC, CONTRACT]
+  STATUS: ACTIVE
+  OWNER: SYS
+  UPDATED: 2026-01-31
 
-## 3) OPERATIONAL REALITY (IMPORTANT)
-Ключевая идея слоя:
+- KEY: ENT.CONTRACT.ORC
+  UID:
+  KIND: FILE
+  ROLE: ORC contract
+  DESC: ORC integration contract for entities
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/04__ORC_CONTRACT.md
+  PATH: UE_V2/03_ENT/04__ORC_CONTRACT.md
+  MARKERS: [ENT, ORC, CONTRACT]
+  STATUS: ACTIVE
+  OWNER: SYS
+  UPDATED: 2026-01-31
 
-**Операционно реальным** считается только то, что зарегистрировано в `02__INDEX__SYSTEM_ENTITIES.md`.
+- KEY: ENT.CONTRACT.CTL
+  UID:
+  KIND: FILE
+  ROLE: CTL contract
+  DESC: CTL integration contract for entities
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/05__CTL_CONTRACT.md
+  PATH: UE_V2/03_ENT/05__CTL_CONTRACT.md
+  MARKERS: [ENT, CTL, CONTRACT]
+  STATUS: ACTIVE
+  OWNER: SYS
+  UPDATED: 2026-01-31
 
-Если файл физически есть в репозитории, но его нет в INDEX слоя:
-- он считается NON-OPERATIONAL / ignored,
-- его нельзя использовать как доказанную сущность.
+- KEY: ENT.CONTRACT.VAL
+  UID:
+  KIND: FILE
+  ROLE: VAL contract
+  DESC: VAL integration contract for entities
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/06__VAL_CONTRACT.md
+  PATH: UE_V2/03_ENT/06__VAL_CONTRACT.md
+  MARKERS: [ENT, VAL, CONTRACT]
+  STATUS: ACTIVE
+  OWNER: SYS
+  UPDATED: 2026-01-31
 
-Подробно — в RULES слоя:
-RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/01__RULES__SYSTEM_ENTITIES.md
+- KEY: ENT.CONTRACT.QA
+  UID:
+  KIND: FILE
+  ROLE: QA contract
+  DESC: QA integration contract for entities
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/07__QA_CONTRACT.md
+  PATH: UE_V2/03_ENT/07__QA_CONTRACT.md
+  MARKERS: [ENT, QA, CONTRACT]
+  STATUS: ACTIVE
+  OWNER: SYS
+  UPDATED: 2026-01-31
 
----
+- KEY: ENT.CONTRACT.XREF
+  UID:
+  KIND: FILE
+  ROLE: XREF contract
+  DESC: XREF integration contract for entities
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/08__XREF_CONTRACT.md
+  PATH: UE_V2/03_ENT/08__XREF_CONTRACT.md
+  MARKERS: [ENT, XREF, CONTRACT]
+  STATUS: ACTIVE
+  OWNER: SYS
+  UPDATED: 2026-01-31
 
-## 4) STRUCTURE (WHAT LIVES WHERE)
-Верхний уровень слоя организован по классам сущностей:
+- KEY: ENT.DOMAIN_PLUGIN
+  UID:
+  KIND: FILE
+  ROLE: Domain plugin interface
+  DESC: Domain plugin interface for ENT usage in domains
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/09__DOMAIN_PLUGIN.md
+  PATH: UE_V2/03_ENT/09__DOMAIN_PLUGIN.md
+  MARKERS: [ENT, DOM]
+  STATUS: ACTIVE
+  OWNER: SYS
+  UPDATED: 2026-01-31
 
-- `00_REG__REGISTRIES/` — реестры (журналы, deprecation, changelog, registry индексы)
-- `01_TPL__TEMPLATES/` — шаблоны для создания сущностей/документов слоя
-- `10_ENG__ENGINES/` — ENG сущности (детерминированная логика)
-- `20_ORC__ORCHESTRATORS/` — ORC сущности (пайплайны и handoffs)
-- `30_SPC__SPECIALISTS/` — SPC сущности (намерение, решения, упаковка результата)
-- `40_CTL__CONTROLLERS/` — CTL сущности (ограничения, блокировки, политики)
-- `50_VAL__VALIDATORS/` — VAL сущности (валидация и нарушения)
-- `60_QA__QUALITY/` — QA сущности (гейты качества)
-- `90_XREF__CROSSREF/` — XREF сущности (карты соответствий, матрицы)
+- KEY: ENT.REGISTRY_CONTRACT
+  UID:
+  KIND: FILE
+  ROLE: Registry contract
+  DESC: Registry discipline and operations contract for ENT
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/10__REGISTRY_CONTRACT.md
+  PATH: UE_V2/03_ENT/10__REGISTRY_CONTRACT.md
+  MARKERS: [ENT, REG]
+  STATUS: ACTIVE
+  OWNER: SYS
+  UPDATED: 2026-01-31
 
-Конкретный состав файлов — всегда через INDEX слоя:
-RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/02__INDEX__SYSTEM_ENTITIES.md
+- KEY: ENT.TEMPLATE_SET
+  UID:
+  KIND: FILE
+  ROLE: Template set definition
+  DESC: Canon template set for entity families
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/11__TEMPLATE_SET.md
+  PATH: UE_V2/03_ENT/11__TEMPLATE_SET.md
+  MARKERS: [ENT, TPL]
+  STATUS: ACTIVE
+  OWNER: SYS
+  UPDATED: 2026-01-31
 
----
+- KEY: ENT.ENTITY_MIN_PASS
+  UID:
+  KIND: FILE
+  ROLE: Minimal entity pass gate
+  DESC: Minimal pass criteria for entities (ready/not ready)
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/12__ENTITY_MIN_PASS.md
+  PATH: UE_V2/03_ENT/12__ENTITY_MIN_PASS.md
+  MARKERS: [ENT, GATE]
+  STATUS: ACTIVE
+  OWNER: SYS
+  UPDATED: 2026-01-31
 
-## 5) WHAT TO DO NEXT (QUICK ROUTES)
-Если тебе нужно:
+### [O] CONTENT (family entrypoints)
+# RULE: Root ENT index stores only family entrypoints (subrealm INDEX_MANIFEST).
+# Each family resolves its own PIPELINE_CONTRACT internally (no duplicates here).
 
-### A) “Понять правила сущностей и запреты”
-Иди в RULES:
-RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/01__RULES__SYSTEM_ENTITIES.md
+- KEY: ENT.FAM.REG.INDEX_MANIFEST
+  UID: UE.V2.REG.INDEX_MANIFEST.001
+  KIND: FILE
+  ROLE: Family index for 00_REG_ENT
+  DESC: Registry/rules tables for entities (REG_ENT)
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/00_REG_ENT/00__INDEX_MANIFEST__REG__ENT.md
+  PATH: UE_V2/03_ENT/00_REG_ENT/00__INDEX_MANIFEST__REG__ENT.md
+  MARKERS: [INDEX, ENT, REG]
+  STATUS: ACTIVE
+  OWNER: SYS
+  UPDATED: 2026-01-31
 
-### B) “Найти конкретную сущность и открыть её”
-Иди в INDEX и бери RAW:
-RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/02__INDEX__SYSTEM_ENTITIES.md
+- KEY: ENT.FAM.TPL.INDEX_MANIFEST
+  UID: UE.V2.ENT.TPL.INDEX_MANIFEST.001
+  KIND: FILE
+  ROLE: Family index for 01_TPL_ENT
+  DESC: Canon templates for entity passports (TPL_ENT)
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/01_TPL_ENT/00__INDEX_MANIFEST__TPL__ENT.md
+  PATH: UE_V2/03_ENT/01_TPL_ENT/00__INDEX_MANIFEST__TPL__ENT.md
+  MARKERS: [INDEX, ENT, TPL]
+  STATUS: ACTIVE
+  OWNER: SYS
+  UPDATED: 2026-01-31
 
-### C) “Создать новую сущность”
-Общий принцип:
-- берёшь TEMPLATE из `01_TPL__TEMPLATES/`,
-- создаёшь файл в правильном классе,
-- регистрируешь в INDEX слоя (иначе non-operational).
+- KEY: ENT.FAM.SPC.INDEX_MANIFEST
+  UID: UE.V2.ENT.SPC.INDEX_MANIFEST.001
+  KIND: FILE
+  ROLE: Family index for 10_SPC_ENT
+  DESC: Master index for SPC families (SPC_ENT)
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/10_SPC_ENT/00__INDEX_MANIFEST__SPC__ENT.md
+  PATH: UE_V2/03_ENT/10_SPC_ENT/00__INDEX_MANIFEST__SPC__ENT.md
+  MARKERS: [INDEX, ENT, SPC]
+  STATUS: ACTIVE
+  OWNER: SYS
+  UPDATED: 2026-01-31
 
----
+- KEY: ENT.FAM.ENG.LAYER
+  UID:
+  KIND: FOLDER
+  ROLE: Family folder placeholder for 20_ENG_ENT
+  DESC: Family exists; INDEX_MANIFEST not registered yet
+  RAW:
+  PATH: UE_V2/03_ENT/20_ENG_ENT
+  MARKERS: [ENT, ENG, FAMILY, GAP]
+  STATUS: DRAFT
+  OWNER: SYS
+  UPDATED: 2026-01-31
 
-## 6) COMMON FAILURE MODES (WHY PEOPLE GET STUCK)
-- **Петля README/RULE/INDEX**: когда README начинает “быть индексом” или “быть правилами”.
-- **Фантомные сущности**: файл есть, но не зарегистрирован в INDEX слоя.
-- **Угадывание путей**: попытка “догадаться где лежит сущность” вместо RAW ссылки из индекса.
-- **Смешивание типов**: RULE документ начинает превращаться в список файлов, а INDEX — в правила.
+- KEY: ENT.FAM.ORC.LAYER
+  UID:
+  KIND: FOLDER
+  ROLE: Family folder placeholder for 30_ORC_ENT
+  DESC: Family exists; INDEX_MANIFEST not registered yet
+  RAW:
+  PATH: UE_V2/03_ENT/30_ORC_ENT
+  MARKERS: [ENT, ORC, FAMILY, GAP]
+  STATUS: DRAFT
+  OWNER: SYS
+  UPDATED: 2026-01-31
 
----
+- KEY: ENT.FAM.CTL.LAYER
+  UID:
+  KIND: FOLDER
+  ROLE: Family folder placeholder for 40_CTL_ENT
+  DESC: Family exists; INDEX_MANIFEST not registered yet
+  RAW:
+  PATH: UE_V2/03_ENT/40_CTL_ENT
+  MARKERS: [ENT, CTL, FAMILY, GAP]
+  STATUS: DRAFT
+  OWNER: SYS
+  UPDATED: 2026-01-31
 
-## 7) CHANGE CONTROL REMINDER
-Любое изменение в этом слое должно быть:
-- с обновлением VERSION (semver),
-- с CHANGE_NOTE (что/почему/impact/change_id),
-- без дублирования метаданных в теле.
+- KEY: ENT.FAM.VAL.LAYER
+  UID:
+  KIND: FOLDER
+  ROLE: Family folder placeholder for 50_VAL_ENT
+  DESC: Family exists; INDEX_MANIFEST not registered yet
+  RAW:
+  PATH: UE_V2/03_ENT/50_VAL_ENT
+  MARKERS: [ENT, VAL, FAMILY, GAP]
+  STATUS: DRAFT
+  OWNER: SYS
+  UPDATED: 2026-01-31
 
---- END.
+- KEY: ENT.FAM.QA.LAYER
+  UID:
+  KIND: FOLDER
+  ROLE: Family folder placeholder for 60_QA_ENT
+  DESC: Family exists; INDEX_MANIFEST not registered yet
+  RAW:
+  PATH: UE_V2/03_ENT/60_QA_ENT
+  MARKERS: [ENT, QA, FAMILY, GAP]
+  STATUS: DRAFT
+  OWNER: SYS
+  UPDATED: 2026-01-31
+
+- KEY: ENT.FAM.XREF.LAYER
+  UID:
+  KIND: FOLDER
+  ROLE: Family folder placeholder for 90_XREF_ENT
+  DESC: Family exists; INDEX_MANIFEST not registered yet
+  RAW:
+  PATH: UE_V2/03_ENT/90_XREF_ENT
+  MARKERS: [ENT, XREF, FAMILY, GAP]
+  STATUS: DRAFT
+  OWNER: SYS
+  UPDATED: 2026-01-31

@@ -1,0 +1,145 @@
+FILE: UE_V2/06_PIPE/00__PIPELINE_CONTRACT__PIPE.md
+SCOPE: UE_V2 / 06_PIPE
+DOC_TYPE: PIPELINE_CONTRACT
+DOMAIN: PIPE
+UID: UE.V2.PIPE.PIPELINE_CONTRACT.001
+VERSION: 1.0.0
+STATUS: ACTIVE
+MODE: REPO (USAGE-ONLY, NO-EDIT)
+CREATED: 2026-01-31
+UPDATED: 2026-01-31
+OWNER: SYS
+NAV_RULE: Contract has no RAW
+
+---
+
+## [M] PURPOSE
+PIPELINE_CONTRACT — навигатор действий для реалма 06_PIPE.
+Не хранит RAW-адреса. Работает через KEY и резолвит адреса в INDEX_MANIFEST.
+Задача: выбрать нужный pipeline/control chain блок по PIPE_HINT или ROUTE_TOKEN.PIPE_SELECTED.
+
+## [M] HARD_RULES
+- Запрещено хранить RAW внутри CONTRACT (без исключений).
+- Все обращения: TARGET_KEY -> resolve via PIPE INDEX_MANIFEST -> open.
+- STEP-RUN: один шаг = одна пачка действий.
+- Никаких догадок: PIPE_HINT обязателен, если ROUTE_TOKEN не содержит PIPE_SELECTED.
+- Контракт не меняет содержимое: только детерминированно открывает нужный пайп и фиксирует handoff.
+
+## [M] REQUIRED_KEYS (must exist in PIPE INDEX_MANIFEST)
+- INDEX_MANIFEST
+- PIPELINE_CONTRACT
+- PIPE.DEFAULT
+- PIPE.GAP
+- PIPE.AUD
+- PIPE.VIS
+- PIPE.LOR
+- PIPE.REL
+
+## [M] PIPE_SELECTOR (no guessing)
+# RULE: PIPE_HINT must map to a KEY below (unless ROUTE_TOKEN has PIPE_SELECTED)
+- DEFAULT: PIPE.DEFAULT
+- GAP: PIPE.GAP
+- AUD: PIPE.AUD
+- VIS: PIPE.VIS
+- LOR: PIPE.LOR
+- REL: PIPE.REL
+- MUSIC_TRACK: PIPE.MUSIC.TRACK
+- MUSIC_LYRICS: PIPE.MUSIC.LYRICS
+- MUSIC_IDENTITY: PIPE.MUSIC.IDENTITY
+- CTL_READINESS: CTL.READINESS
+- CTL_NOISE: CTL.NOISE
+- CTL_COVERAGE: CTL.COVERAGE_GATE
+- VAL_DOC: VAL.DOC
+- VAL_AUD: VAL.AUD
+- VAL_VIS: VAL.VIS
+- VAL_CHAIN: VAL.CHAIN_COMPLETENESS
+- QA_ACCEPT: QA.ACCEPT
+- QA_PACK: QA.PACK
+- SIGNOFF: REL.SIGNOFF
+- STEP_RUN: PIPE.STEP_RUN
+- FOCUS_LOOP: PIPE.FOCUS_LOOP
+
+## [M] FAIL_CODES
+- UE.FAIL.INPUT_ABSENT
+- UE.FAIL.MISSING_KEY
+- UE.FAIL.INVALID_PIPE_HINT
+- UE.FAIL.GATE_FAIL
+
+## [M] CONTRACT_HEADER
+- REALM_ID: UE_V2/06_PIPE
+- DOMAIN: PIPE
+- ARTIFACT_TYPES: [PIPE, CTL, VAL, QA, REL, ROUTE_TOKEN, LOG]
+- DEFAULT_MODE: FAST
+
+## [M] EXEC_MODEL (how it runs)
+1) Resolve PIPE INDEX_MANIFEST via KEY: INDEX_MANIFEST
+2) Validate REQUIRED_KEYS exist
+3) Determine TARGET_PIPE_KEY:
+   - If ROUTE_TOKEN.PIPE_SELECTED exists -> use it (must be a KEY resolvable in this realm)
+   - else map PIPE_HINT via PIPE_SELECTOR
+4) Open TARGET_PIPE_KEY via INDEX_MANIFEST
+5) Emit PIPE_ROUTE_TOKEN and NEXT "го"
+
+## [M] STEP-RUN (canonical)
+- STEP: S<n>
+  GOAL: <one line>
+  INPUTS: [<tokens>]
+  TARGETS: [<KEYS_ONLY>]
+  ACTIONS:
+    - <imperative action>
+  OUTPUTS: [<tokens/artifacts>]
+  CHECKS: [<gates>]
+  FAIL: <FAIL_CODE_IF_ANY>
+  NEXT: "го"
+
+## [M] STEPS
+
+- STEP: S0
+  GOAL: Entry sanity and target selection
+  INPUTS: [TASK_TEXT, ROUTE_TOKEN?, PIPE_HINT?, MODE_HINT?]
+  TARGETS: [INDEX_MANIFEST]
+  ACTIONS:
+    - Ensure TASK_TEXT exists, else FAIL
+    - If ROUTE_TOKEN exists and has PIPE_SELECTED -> set TARGET_PIPE_KEY = PIPE_SELECTED
+    - Else ensure PIPE_HINT exists, else FAIL
+    - Validate PIPE_HINT is supported, else FAIL
+  OUTPUTS: [TASK_TOKEN, TARGET_PIPE_KEY]
+  CHECKS: [TASK_PRESENT, TARGET_SELECTED]
+  FAIL: UE.FAIL.INPUT_ABSENT
+  NEXT: "го"
+
+- STEP: S1
+  GOAL: Load PIPE realm and validate readiness
+  INPUTS: [TASK_TOKEN]
+  TARGETS: [INDEX_MANIFEST, PIPELINE_CONTRACT]
+  ACTIONS:
+    - Resolve INDEX_MANIFEST via KEY: INDEX_MANIFEST
+    - Validate REQUIRED_KEYS exist in INDEX_MANIFEST ENTRIES
+  OUTPUTS: [PIPE_READY]
+  CHECKS: [REQUIRED_KEYS_OK]
+  FAIL: UE.FAIL.MISSING_KEY
+  NEXT: "го"
+
+- STEP: S2
+  GOAL: Open the selected pipeline/control block
+  INPUTS: [TARGET_PIPE_KEY]
+  TARGETS: [INDEX_MANIFEST]
+  ACTIONS:
+    - Resolve TARGET_PIPE_KEY via PIPE INDEX_MANIFEST and open it
+    - Confirm at least one [M] marker present (MARKER FOUND)
+  OUTPUTS: [PIPE_DOC_OPENED, PIPE_ROUTE_TOKEN]
+  CHECKS: [PIPE_OPEN_OK]
+  FAIL: UE.FAIL.GATE_FAIL
+  NEXT: "го"
+
+- STEP: S3
+  GOAL: Emit PIPE_ROUTE_TOKEN and continue
+  INPUTS: [PIPE_ROUTE_TOKEN]
+  TARGETS: [INDEX_MANIFEST]
+  ACTIONS:
+    - Output PIPE_ROUTE_TOKEN: TARGET_PIPE_KEY + role + next step suggestion
+    - Provide NEXT prompt
+  OUTPUTS: [PIPE_ROUTE_TOKEN]
+  CHECKS: [PIPE_COMPLETE]
+  FAIL: UE.FAIL.GATE_FAIL
+  NEXT: "го"
