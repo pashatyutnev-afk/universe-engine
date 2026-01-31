@@ -105,3 +105,5 @@ STOP если:
 - MUST_LOAD missing
 GAP если:
 - отсутствует доменный пайп/индекс/обязательные проверки
+
+Ссылка для запуска системы: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/00__INDEX_MANIFEST__UE_V2.md
