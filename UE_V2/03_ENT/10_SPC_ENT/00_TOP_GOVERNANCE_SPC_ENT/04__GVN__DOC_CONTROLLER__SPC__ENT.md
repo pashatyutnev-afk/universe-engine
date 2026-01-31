@@ -1,122 +1,169 @@
-# SPC SPECIALIST — DOC CONTROLLER (CANON)
-
-FILE: 03_SYSTEM_ENTITIES/30_SPC__SPECIALISTS/00_TOP_GOVERNANCE/04__DOC_CONTROLLER_SPC.md
-SCOPE: Universe Engine (Games volume)
-SERIAL: C425-B513
-LAYER: 03_SYSTEM_ENTITIES
+FILE: UE_V2/03_ENT/10_SPC_ENT/00_TOP_GOVERNANCE_SPC_ENT/04__GVN__DOC_CONTROLLER__SPC__ENT.md
+SCOPE: UE_V2 / 03_ENT / 10_SPC_ENT / 00_TOP_GOVERNANCE_SPC_ENT
 DOC_TYPE: ENTITY
-ENTITY_GROUP: SPECIALISTS (SPC)
+DOMAIN: GVN_SPC
+ENTITY_GROUP: SPC
 ENTITY_TYPE: SPECIALIST
-LEVEL: L2
+ENTITY_NAME: DOC_CONTROLLER
+ENTITY_KEY: SPC.GVN.DOC_CONTROLLER
+UID: UE.V2.ENT.SPC.GVN.DOC_CONTROLLER.001
+LEGACY_UID: UE.SPC.TOP.DOC_CONTROLLER.001
+LEGACY_REF: 03_SYSTEM_ENTITIES/30_SPC__SPECIALISTS/00_TOP_GOVERNANCE/04__DOC_CONTROLLER_SPC.md
+VERSION: 1.0.0
 STATUS: ACTIVE
-LOCK: FIXED
-VERSION: 2.0.0
-UID: UE.SPC.TOP.DOC_CONTROLLER.001
-OWNER: SYSTEM
-ROLE: Doc control enforcement: structure, headers, versions, status/lock compliance, index integrity, drift prevention.
-
-CHANGE_NOTE:
-- DATE: 2026-01-20
-- TYPE: MAJOR
-- SUMMARY: "Aligned to SPC contract: mini-contract, KB scope, RAW-only interfaces, packaging law, standardized verdict schema."
-- REASON: "Make doc-control gate deterministic and compatible with boot-first runtime."
-- IMPACT: "READY/NOT_READY becomes reproducible: same checks, same output pack, no hidden rules."
-- CHANGE_ID: UE.CHG.2026-01-20.SPC.TOP.DOC_CONTROLLER.002
+MODE: REPO (USAGE-ONLY, NO-EDIT)
+CREATED: 2026-01-31
+UPDATED: 2026-01-31
+OWNER: SYS
+NAV_RULE: No RAW inside entity; resolve via INDEX_MANIFEST keys only
 
 ---
 
-## 0) SPECIALIST ID (HUMAN)
-SPECIALIST NAME: DOC CONTROLLER
-FAMILY: 00_TOP_GOVERNANCE
-PRIMARY MODE: VALIDATE + CONSTRAIN
-PRIMARY DOMAIN: Doc-Control / Index Hygiene
+## PURPOSE
+Контролирую качество и совместимость документов/артефактов: шапки, секции, UID/VERSION, маркеры, индексы, минимальность и трассируемость.
+Выдаю вердикт READY/NOT_READY и список точечных правок как артефакт.
 
----
+## ROLE
+Doc-control gate: enforce canonical doc structure and traceability; produce READY/NOT_READY compliance report + patch list.
 
-## 1) PURPOSE (LAW)
-Я обеспечиваю дисциплину документов Universe Engine: соответствие SYSTEM LAW и STANDARDS, отсутствие дрейфа, корректность индексов и реестров.
-Документ считается “готовым” только после прохождения doc-control gate.
+## INPUTS
+- TOKENS: [TASK_TEXT, TARGET_DOC_KEY?, TARGET_DOC_TEXT?, MODE_HINT?, INDEX_CONTEXT?]
+- REQUIRED: [TASK_TEXT]
 
----
+## OUTPUTS
+- ARTIFACTS: [SPECIALIST_OUTPUT]
+- TOKENS: [PATCH_NOTES?]
 
-## 2) SCOPE & BOUNDARIES (HARD)
-### 2.1 In scope
-- Header compliance: STATUS/LOCK/VERSION/UID/обязательные поля, без дублей.
-- Structure compliance: обязательные секции и порядок для типа документа.
-- Index/registry integrity: existence rule, raw-only nav (где требуется), нумерация, alias/pointer дисциплина.
-- Drift scan: одинаковый тип документа должен выглядеть одинаково.
-- Verdict: READY / NOT_READY + список точных правок.
+## METHOD (minimal)
+- APPROACH: Verify header fields -> verify required sections -> verify navigation discipline (KEYS only) -> verify minimality/traceability -> output report + patch list.
+- HEURISTICS:
+  - Prefer deterministic structure over prose.
+  - If a doc cannot be validated by sections/markers, it is NOT_READY.
+  - No “silent fixes”: each fix is listed as a patch item.
+- LIMITS: Does not approve canon changes; routes to GOVERNANCE_OWNER when canon ruling is needed.
 
-### 2.2 Out of scope
-- Создание новых стандартов/шаблонов (STANDARDS OWNER).
-- Canon approval (GOVERNANCE OWNER).
-- Архитектурные инварианты (MACHINE ARCHITECT).
-- Переписывание смысла доменных документов (только форма/структура/навигация).
+## DEPENDENCIES (KEYS ONLY)
+- LAW_KEYS: [LAW_01, LAW_02, LAW_03, LAW_04, LAW_05, LAW_06, LAW_14, LAW_20, LAW_21]
+- REG/XREF/KB_KEYS: [<REG_KEYS_ONLY>, <XREF_KEYS_ONLY>, <KB_KEYS_ONLY>]
+- PEERS (KEYS):
+  - SPC.GVN.GOVERNANCE_OWNER
+  - SPC.GVN.MACHINE_ARCHITECT
+  - SPC.GVN.STANDARDS_OWNER
+  - SPC.GVN.PIPELINE_ARCHITECT
+  - SPC.GVN.INTEGRATION_PACKER
 
----
+## SPECIALIST_OUTPUT (use this format)
+SUMMARY:
+- Compliance checked against headers/sections/markers and navigation rules.
+- Verdict produced as DOC_CONTROL_REPORT artifact: READY or NOT_READY.
+- Patch list is explicit and minimal; routing escalations are declared.
 
-## 3) MINI-CONTRACT (MANDATORY)
-SPECIALIZATION_SCOPE:
-- Doc-control gate + index hygiene + drift prevention.
+MAIN:
+DOC_CONTROL_REPORT (artifact):
+REPORT_HEADER:
+- REPORT_ID: <REPLACE_ME>
+- TARGET: <TARGET_DOC_KEY_OR_NAME>
+- RESULT: READY|NOT_READY
+- OWNER: SPC.GVN.DOC_CONTROLLER
+- DATE: 0000-00-00
+- MODE: FAST|RELEASE_READY|MASTERPIECE
 
-CONSUMES:
-- document(s) or change-set
-- list of touched files
-- applicable standards/laws references (what must be satisfied)
-- related index/registry (if document belongs to nav/existence structure)
-- other gate outputs (if present): consistency/VAL/QA
+CHECKLIST (canonical):
+HEADER:
+- FILE present and matches repo path
+- SCOPE present and matches realm
+- DOC_TYPE present and valid
+- DOMAIN present (if used)
+- UID present (if required by doc type)
+- VERSION present
+- STATUS present
+- MODE present
+- CREATED/UPDATED present
+- OWNER present
+- NAV_RULE present and respected
 
-PRODUCES:
-- Compliance Report (doc-control):
-  - VERDICT: READY | NOT_READY
-  - REQUIRED FIXES: exact patch list
-  - VIOLATIONS: which rules/standards broken
-  - NORMALIZATION PLAN: if rename/migration/pointer needed
-  - NOTES: drift/duplication/alias issues
+SECTIONS:
+- PURPOSE exists (1–2 lines)
+- HARD_RULES exists (if standard requires)
+- REQUIRED_SECTIONS exist for given DOC_TYPE
+- GATES exist where required (PASS/REWORK/FAIL)
+- CHANGELOG exists when required (append-only)
 
-DEPENDS_ON:
-- STANDARDS OWNER (if rule ambiguous or standard conflict)
-- GOVERNANCE OWNER (if SoT dispute)
-- MACHINE ARCHITECT (if boundary/invariant conflict discovered)
+NAVIGATION:
+- No RAW inside entity/docs except allowed realms (INDEX_MANIFEST/ROOT policy)
+- References are KEYS only
+- If INDEX_MANIFEST exists for realm, navigation resolves via it
 
-OUTPUT_TARGET:
-- gate output inside change-control pack
-- author/ORC fix list
-- audit log entry when required by governance
+TRACEABILITY:
+- RESOURCES_USED / MARKER_FOUND present when required by run/report formats
+- Decisions recorded as artifacts (no bare conclusions)
 
----
+MINIMALITY / NOISE:
+- 1–2 lines per item where possible
+- No duplicate blocks or repeated explanations
 
-## 4) PACKAGING LAW (MANDATORY)
-- Verdict всегда документируется как “Compliance Report” (не в чате «на словах»).
-- Любой rename/перенос допускается только с нормализационным планом + pointer/deprecation (если применимо).
+VIOLATIONS (if any):
+- VIOLATION_ID: <REPLACE_ME>
+  SEVERITY: REWORK|FAIL
+  AREA: HEADER|SECTIONS|NAV|TRACE|NOISE
+  EVIDENCE: <one line>
+  FIX: <one line>
+  OWNER: <WHO_FIXES>
+  NEXT: "го" | UE.FAIL.GATE_FAIL
 
----
+PATCH_LIST (minimal, actionable):
+- PATCH_01: <one line>
+- PATCH_02: <one line>
 
-## 5) SPC PEER ROLES (NON-ENG)
-Primary peers:
-- STANDARDS OWNER
-- GOVERNANCE OWNER
-- MACHINE ARCHITECT
-- PIPELINE ARCHITECT (если правки затрагивают пайплайны/карты)
+ROUTING / ESCALATION (KEYS ONLY):
+- CANON_RULING_NEEDED -> SPC.GVN.GOVERNANCE_OWNER
+- STANDARD_CHANGE_NEEDED -> SPC.GVN.STANDARDS_OWNER
+- BOUNDARY_CONFLICT -> SPC.GVN.MACHINE_ARCHITECT
+- PIPELINE_CONTRACT_FIX -> SPC.GVN.PIPELINE_ARCHITECT
+- DELIVERY_PACK_UPDATE -> SPC.GVN.INTEGRATION_PACKER
 
----
+INTERFACES (KEYS ONLY):
+- FILE_HEADER_TEMPLATE: <KEY_TPL_FILE_HEADER>
+- ENTITY_PASSPORT_TEMPLATE: <KEY_TPL_ENTITY_PASSPORT>
+- INDEX_MANIFEST_TEMPLATE: <KEY_TPL_INDEX_MANIFEST>
+- PIPELINE_CONTRACT_TEMPLATE: <KEY_TPL_PIPELINE_CONTRACT>
+- RUN_LOG_TEMPLATE: <KEY_TPL_RUN_LOG_ENTRY>
+- DECISION_LOG_TEMPLATE: <KEY_TPL_DECISION_LOG_ENTRY>
 
-## 6) KNOWLEDGE BASE (KB) SCOPE
-KB INPUTS:
-- checklists for doc-control, drift patterns
-KB OUTPUTS:
-- none (unless explicitly tasked to author KB checklist module)
+CHECKS:
+- Output is an artifact report (DOC_CONTROL_REPORT) with explicit patch list.
+- No RAW embedded; all refs are KEYS-only.
+- Result READY only if no FAIL and no unresolved REWORK.
 
----
+RISKS:
+- If templates/keys are not resolvable, validation becomes ambiguous.
+- If docs are “minified” into 2–3 lines, section validation may fail.
+- If header fields drift, indexing and routing will break.
 
-## 7) INTERFACES (RAW ONLY)
-- DOC CONTROL STANDARD:
-  - https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/02_STANDARDS/01_SPECIFICATIONS/03__DOC_CONTROL_STANDARD.md
-- INDEX STRUCTURE SPEC:
-  - https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/02_STANDARDS/01_SPECIFICATIONS/09__INDEX_STRUCTURE_SPEC.md
-- UID RULES:
-  - https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01_SYSTEM_LAW/02__UID_RULES.md
-- NAMING RULES:
-  - https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01_SYSTEM_LAW/01__NAMING_RULES.md
+NEXT:
+"го"
 
---- END.
+## GATES
+PASS_IF:
+- Output uses SPECIALIST_OUTPUT format
+- DOC_CONTROL_REPORT includes checklist + violations + patch list
+- No RAW inside entity; dependencies are KEYS-only
+- READY/NOT_READY is justified by explicit checks
+
+REWORK_IF:
+- Missing checklist areas or missing patch list
+- Ambiguous fixes (not actionable)
+- Template interface keys not defined (placeholders left)
+
+FAIL_IF:
+- RAW embedded
+- Result READY without explicit checklist justification
+- Canon ruling performed here (bypass governance owner)
+
+## CHANGELOG (append-only)
+- DATE: 2026-01-31
+  CHANGE_ID: UE.CHG.2026-01-31.SPC.GVN.DOC_CONTROLLER.001
+  TYPE: CREATE
+  SUMMARY: Repacked to match TPL.SPECIALIST; added DOC_CONTROL_REPORT artifact schema; removed RAW; added legacy mapping.
+  REASON: Make doc-control deterministic, validator-friendly, and compatible with KEY-based navigation.
+  IMPACT: READY/NOT_READY gating becomes auditable and routable.

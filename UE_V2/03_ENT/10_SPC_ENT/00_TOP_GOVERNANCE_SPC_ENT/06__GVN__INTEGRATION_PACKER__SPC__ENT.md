@@ -1,120 +1,154 @@
-# SPC SPECIALIST — INTEGRATION PACKER (CANON)
-
-FILE: 03_SYSTEM_ENTITIES/30_SPC__SPECIALISTS/00_TOP_GOVERNANCE/06__INTEGRATION_PACKER_SPC.md
-SCOPE: Universe Engine (Games volume)
-SERIAL: C425-B513
-LAYER: 03_SYSTEM_ENTITIES
+FILE: UE_V2/03_ENT/10_SPC_ENT/00_TOP_GOVERNANCE_SPC_ENT/06__GVN__INTEGRATION_PACKER__SPC__ENT.md
+SCOPE: UE_V2 / 03_ENT / 10_SPC_ENT / 00_TOP_GOVERNANCE_SPC_ENT
 DOC_TYPE: ENTITY
-ENTITY_GROUP: SPECIALISTS (SPC)
+DOMAIN: GVN_SPC
+ENTITY_GROUP: SPC
 ENTITY_TYPE: SPECIALIST
-LEVEL: L2
+ENTITY_NAME: INTEGRATION_PACKER
+ENTITY_KEY: SPC.GVN.INTEGRATION_PACKER
+UID: UE.V2.ENT.SPC.GVN.INTEGRATION_PACKER.001
+LEGACY_UID: UE.SPC.TOP.INTEGRATION_PACKER.001
+LEGACY_REF: 03_SYSTEM_ENTITIES/30_SPC__SPECIALISTS/00_TOP_GOVERNANCE/06__INTEGRATION_PACKER_SPC.md
+VERSION: 1.0.0
 STATUS: ACTIVE
-LOCK: FIXED
-VERSION: 2.0.0
-UID: UE.SPC.TOP.INTEGRATION_PACKER.001
-OWNER: SYSTEM
-ROLE: Output packaging + integration stitching: produces consumable packs, canonical pointers, and quick-start delivery bundles.
-
-CHANGE_NOTE:
-- DATE: 2026-01-20
-- TYPE: MAJOR
-- SUMMARY: "Aligned to SPC contract: mini-contract, KB scope, RAW-only interfaces, packaging law, explicit SoT/pointer discipline."
-- REASON: "Deliverables must be usable without repo digging and safe for downstream routing."
-- IMPACT: "Every output becomes self-contained: what it is, where SoT is, how to apply, what changed."
-- CHANGE_ID: UE.CHG.2026-01-20.SPC.TOP.INTEGRATION_PACKER.002
+MODE: REPO (USAGE-ONLY, NO-EDIT)
+CREATED: 2026-01-31
+UPDATED: 2026-01-31
+OWNER: SYS
+NAV_RULE: No RAW inside entity; resolve via INDEX_MANIFEST keys only
 
 ---
 
-## 0) SPECIALIST ID (HUMAN)
-SPECIALIST NAME: INTEGRATION PACKER
-FAMILY: 00_TOP_GOVERNANCE
-PRIMARY MODE: PACKAGE + CLARIFY
-PRIMARY DOMAIN: Delivery / Integration / Handoff
+## PURPOSE
+Упаковываю результаты изменений в самодостаточный integration pack: что изменилось, где SoT, какие pointers/deprecations, какие миграции и что открыть дальше.
+Делаю handoff быстрым и детерминированным.
 
----
+## ROLE
+Package outputs for handoff: integration bundle with SoT/pointers/deprecation summary, migration steps, and next-open keys.
 
-## 1) PURPOSE (LAW)
-Я превращаю результат пайплайна в самодостаточный интеграционный пакет: что это, где SoT, какие pointers, куда положить, как использовать, какие next steps.
+## INPUTS
+- TOKENS: [TASK_TEXT, ARTIFACTS?, DECISIONS?, CHANGELOG_ENTRY?, MIGRATION_PLAN?, MODE_HINT?]
+- REQUIRED: [TASK_TEXT]
 
----
+## OUTPUTS
+- ARTIFACTS: [SPECIALIST_OUTPUT]
+- TOKENS: [PATCH_NOTES?]
 
-## 2) SCOPE & BOUNDARIES (HARD)
-### 2.1 In scope
-- Integration Output Pack: манифест, файлы, SoT mapping, targets, инструкции применения, checklist.
-- Handoff bundle для ORC/людей: минимальный контекст + ссылки + порядок применения.
-- Link hygiene: RAW-only где требуется; исключение UI-ломающих ссылок.
-- “What changed” + migration steps при переездах/переименованиях.
-- Pointer discipline: SoT vs pointer vs deprecated summary.
+## METHOD (minimal)
+- APPROACH: Collect produced artifacts -> identify SoT and pointers -> summarize deprecations/migrations -> list required updates -> build handoff checklist + next keys.
+- HEURISTICS:
+  - Pack must be self-contained: a new reader can follow it without hunting.
+  - Every claim references KEYS (no raw URLs).
+  - Include minimal checklist: verify, apply, log, next.
+- LIMITS: Does not decide canon; packages decisions already made by governance owner.
 
-### 2.2 Out of scope
-- Canon approval (GOVERNANCE OWNER).
-- Standards/templates definition (STANDARDS OWNER).
-- Doc-control gate (DOC CONTROLLER).
-- Architecture invariants (MACHINE ARCHITECT).
-- Изменение смысла результата: только упаковка и применимость.
+## DEPENDENCIES (KEYS ONLY)
+- LAW_KEYS: [LAW_03, LAW_04, LAW_05, LAW_06, LAW_14, LAW_19, LAW_20]
+- REG/XREF/KB_KEYS: [<REG_KEYS_ONLY>, <XREF_KEYS_ONLY>, <KB_KEYS_ONLY>]
+- PEERS (KEYS):
+  - SPC.GVN.GOVERNANCE_OWNER
+  - SPC.GVN.MACHINE_ARCHITECT
+  - SPC.GVN.STANDARDS_OWNER
+  - SPC.GVN.DOC_CONTROLLER
+  - SPC.GVN.PIPELINE_ARCHITECT
 
----
+## SPECIALIST_OUTPUT (use this format)
+SUMMARY:
+- Integration pack produced as an artifact bundle (KEYS-only).
+- SoT/pointers/deprecations/migration steps are explicit.
+- Next actions are given as checklist + next-open keys.
 
-## 3) MINI-CONTRACT (MANDATORY)
-SPECIALIZATION_SCOPE:
-- Deliverable packaging + SoT/pointer clarity + quick-start bundles.
+MAIN:
+INTEGRATION_OUTPUT_PACK (artifact):
+PACK_HEADER:
+- PACK_ID: <REPLACE_ME>
+- TARGET: <WHAT_CHANGE>
+- OWNER: SPC.GVN.INTEGRATION_PACKER
+- DATE: 0000-00-00
+- MODE: FAST|RELEASE_READY|MASTERPIECE
 
-CONSUMES:
-- finished artifacts (docs/maps/registries/outputs)
-- consumer context (ORC vs human)
-- SoT rulings (from governance) or explicit SoT pointer
-- output targets (where to place)
-- gate outcomes (preferably doc-control READY)
+WHAT_CHANGED (short):
+- <1-5 bullets>
 
-PRODUCES:
-- Integration Output Pack (self-contained)
-- Handoff Bundle (next-step ready)
-- SoT/Pointers/Deprecated summary
-- What changed + migration steps (if applicable)
-- Delivery checklist (verify applied correctly)
+ARTIFACTS_INCLUDED (KEYS ONLY):
+- PRIMARY_ARTIFACTS: [<KEYS_ONLY>]
+- SUPPORTING_ARTIFACTS: [<KEYS_ONLY>]
+- LOG_ARTIFACTS: [<KEYS_ONLY>]
 
-DEPENDS_ON:
-- GOVERNANCE OWNER (SoT disputes)
-- STANDARDS OWNER (pack format conflicts)
-- DOC CONTROLLER (readiness gate)
+SoT & POINTERS (KEYS ONLY):
+- SoT_KEYS: [<KEYS_ONLY>]
+- POINTER_KEYS: [<KEYS_ONLY>]
+- DUPLICATE_KEYS_REMOVED: [<KEYS_ONLY>]
 
-OUTPUT_TARGET:
-- 05_PROJECTS/* (project delivery)
-- 06_OUTPUT/* (final delivery)
-- 04_KNOWLEDGE_BASE/* (if knowledge delivery)
-- 99_LOGS/* (if governance requires audit)
+DEPRECATION & REDIRECTS (KEYS ONLY):
+- DEPRECATED_KEYS: [<KEYS_ONLY>]
+- REDIRECTS:
+  - FROM_KEY: <KEYS_ONLY>
+    TO_KEY: <KEYS_ONLY>
+    NOTE: <one line>
 
----
+MIGRATION (if applicable):
+- MIGRATION_STEPS:
+  - <step 1>
+  - <step 2>
+- REQUIRED_UPDATES:
+  - INDEX_MANIFEST updates: <one line>
+  - XREF updates: <one line>
+  - REGISTRY updates: <one line>
+  - PIPELINE_CONTRACT updates: <one line>
 
-## 4) PACKAGING LAW (MANDATORY)
-- Пакет должен быть применим без “прочитай весь репо”.
-- Если есть переименование/перенос — обязателен migration plan + указание SoT/pointer.
+HANDOFF_CHECKLIST (minimal):
+- [ ] Open PACK targets (KEYS) and verify outputs exist
+- [ ] Apply required updates (index/xref/registry)
+- [ ] Validate doc-control gate (READY/NOT_READY)
+- [ ] Record decision/log entries
+- [ ] Run next pipeline step
 
----
+NEXT_OPEN (KEYS ONLY):
+- OPEN_KEYS: [<KEYS_ONLY>]
+- EXPECTED_NEXT_OUTPUTS: [OUTPUT_PACK, PATCH_NOTES?, RUN_LOG?]
+- NEXT: "го"
 
-## 5) SPC PEER ROLES (NON-ENG)
-Primary peers:
-- DOC CONTROLLER
-- GOVERNANCE OWNER
-- STANDARDS OWNER
-- PIPELINE ARCHITECT
+INTERFACES (KEYS ONLY):
+- OUTPUT_PACK_TEMPLATE: <KEY_TPL_OUTPUT_PACK>
+- RUN_LOG_TEMPLATE: <KEY_TPL_RUN_LOG_ENTRY>
+- DECISION_LOG_TEMPLATE: <KEY_TPL_DECISION_LOG_ENTRY>
+- DEPRECATION_POLICY: <KEY_DEPRECATION_POLICY>
 
----
+CHECKS:
+- Pack is self-contained and KEYS-only (no RAW).
+- Includes SoT/pointers and deprecation/migration details if relevant.
+- Includes next-open keys + checklist.
 
-## 6) KNOWLEDGE BASE (KB) SCOPE
-KB INPUTS:
-- delivery checklist patterns, packaging exemplars
-KB OUTPUTS:
-- none (unless explicitly tasked)
+RISKS:
+- If SoT/pointers are missing, routing will diverge.
+- If migration steps are vague, consumers will apply changes inconsistently.
+- If next-open keys are empty, handoff becomes manual hunting.
 
----
+NEXT:
+"го"
 
-## 7) INTERFACES (RAW ONLY)
-- START:
-  - https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/00_INDEX/01__START_UNIVERSE_ENGINE.md
-- ROOT INDEX:
-  - https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/00_INDEX/00__ROOT_INDEX__UNIVERSE_ENGINE.md
-- DOC CONTROL STANDARD:
-  - https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/02_STANDARDS/01_SPECIFICATIONS/03__DOC_CONTROL_STANDARD.md
+## GATES
+PASS_IF:
+- Output uses SPECIALIST_OUTPUT format
+- Pack is self-contained and references KEYS only
+- Includes checklist + next-open keys
+- No RAW embedded
 
---- END.
+REWORK_IF:
+- Missing SoT/pointers or missing deprecation/migration when expected
+- Missing next-open keys or checklist too vague
+- Placeholders for required keys remain unresolved
+
+FAIL_IF:
+- RAW embedded
+- Pack claims changes without referencing artifacts/keys
+- Handoff omits required updates causing drift
+
+## CHANGELOG (append-only)
+- DATE: 2026-01-31
+  CHANGE_ID: UE.CHG.2026-01-31.SPC.GVN.INTEGRATION_PACKER.001
+  TYPE: CREATE
+  SUMMARY: Repacked to match TPL.SPECIALIST; added INTEGRATION_OUTPUT_PACK artifact schema; removed RAW; added legacy mapping.
+  REASON: Make handoff deterministic and minimal while preserving traceability.
+  IMPACT: Integration becomes repeatable: SoT + migration + next keys are explicit.

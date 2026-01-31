@@ -73,8 +73,8 @@ INDEX_MANIFEST — “таблица адресов” и кратких смы�
 - KEY: PIPELINE_CONTRACT
   UID: UE.V2.ENT.SPC.GVN.PIPELINE_CONTRACT.001
   KIND: PIPE
-  ROLE: Navigator for realm actions
-  DESC: Uses KEYS, resolves RAW via INDEX_MANIFEST
+  ROLE: Realm step-run navigator
+  DESC: KEY-only contract; resolves targets via this INDEX_MANIFEST
   RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/10_SPC_ENT/00_TOP_GOVERNANCE_SPC_ENT/00__PIPELINE_CONTRACT__GVN__SPC__ENT.md
   PATH: UE_V2/03_ENT/10_SPC_ENT/00_TOP_GOVERNANCE_SPC_ENT/00__PIPELINE_CONTRACT__GVN__SPC__ENT.md
   MARKERS: [PIPE, MUST_LOAD, ROUTER]
@@ -82,76 +82,76 @@ INDEX_MANIFEST — “таблица адресов” и кратких смы�
   OWNER: SYS
   UPDATED: 2026-01-31
 
-### [O] CONTENT (SPC governance set)
+### [O] CONTENT (SPC governance specialists)
 
 - KEY: SPC.GVN.MACHINE_ARCHITECT
-  UID:
+  UID: UE.V2.ENT.SPC.GVN.MACHINE_ARCHITECT.001
   KIND: ENTITY
-  ROLE: Governance machine architect
-  DESC: Top governance: system architecture ownership
+  ROLE: Architecture invariants and layer boundaries owner
+  DESC: Defines interfaces/SoT discipline; emits ADR/Boundary/Interface artifacts; escalates canon/standards
   RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/10_SPC_ENT/00_TOP_GOVERNANCE_SPC_ENT/01__GVN__MACHINE_ARCHITECT__SPC__ENT.md
   PATH: UE_V2/03_ENT/10_SPC_ENT/00_TOP_GOVERNANCE_SPC_ENT/01__GVN__MACHINE_ARCHITECT__SPC__ENT.md
-  MARKERS: [SPC, GVN]
+  MARKERS: [SPC, GVN, SPECIALIST, ARCH]
   STATUS: ACTIVE
   OWNER: SYS
   UPDATED: 2026-01-31
 
 - KEY: SPC.GVN.GOVERNANCE_OWNER
-  UID:
+  UID: UE.V2.ENT.SPC.GVN.GOVERNANCE_OWNER.001
   KIND: ENTITY
-  ROLE: Governance owner
-  DESC: Canon governance ownership and arbitration rules
+  ROLE: Canon verdict owner (approve/reject/needs_revision)
+  DESC: Issues governance decision record; sets conditions; locks SoT/pointers; triggers deprecation/migration
   RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/10_SPC_ENT/00_TOP_GOVERNANCE_SPC_ENT/02__GVN__GOVERNANCE_OWNER__SPC__ENT.md
   PATH: UE_V2/03_ENT/10_SPC_ENT/00_TOP_GOVERNANCE_SPC_ENT/02__GVN__GOVERNANCE_OWNER__SPC__ENT.md
-  MARKERS: [SPC, GVN]
+  MARKERS: [SPC, GVN, SPECIALIST, CANON]
   STATUS: ACTIVE
   OWNER: SYS
   UPDATED: 2026-01-31
 
 - KEY: SPC.GVN.STANDARDS_OWNER
-  UID:
+  UID: UE.V2.ENT.SPC.GVN.STANDARDS_OWNER.001
   KIND: ENTITY
-  ROLE: Standards owner
-  DESC: Owns standards lifecycle and compliance gates
+  ROLE: Standards and templates lifecycle owner
+  DESC: Publishes STD_PACK with gates; defines migrations/deprecations for standards and templates
   RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/10_SPC_ENT/00_TOP_GOVERNANCE_SPC_ENT/03__GVN__STANDARDS_OWNER__SPC__ENT.md
   PATH: UE_V2/03_ENT/10_SPC_ENT/00_TOP_GOVERNANCE_SPC_ENT/03__GVN__STANDARDS_OWNER__SPC__ENT.md
-  MARKERS: [SPC, GVN, STD]
+  MARKERS: [SPC, GVN, SPECIALIST, STD]
   STATUS: ACTIVE
   OWNER: SYS
   UPDATED: 2026-01-31
 
 - KEY: SPC.GVN.DOC_CONTROLLER
-  UID:
+  UID: UE.V2.ENT.SPC.GVN.DOC_CONTROLLER.001
   KIND: ENTITY
-  ROLE: Documentation controller
-  DESC: Controls doc structure, headers, minimality, traceability
+  ROLE: Doc-control gate and compliance enforcer
+  DESC: Produces DOC_CONTROL_REPORT (READY/NOT_READY) with violations and patch list; routes escalations
   RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/10_SPC_ENT/00_TOP_GOVERNANCE_SPC_ENT/04__GVN__DOC_CONTROLLER__SPC__ENT.md
   PATH: UE_V2/03_ENT/10_SPC_ENT/00_TOP_GOVERNANCE_SPC_ENT/04__GVN__DOC_CONTROLLER__SPC__ENT.md
-  MARKERS: [SPC, GVN, DOC]
+  MARKERS: [SPC, GVN, SPECIALIST, DOC]
   STATUS: ACTIVE
   OWNER: SYS
   UPDATED: 2026-01-31
 
 - KEY: SPC.GVN.PIPELINE_ARCHITECT
-  UID:
+  UID: UE.V2.ENT.SPC.GVN.PIPELINE_ARCHITECT.001
   KIND: ENTITY
-  ROLE: Pipeline architect
-  DESC: Designs STEP-RUN contracts and routing policies
+  ROLE: Pipeline contracts architect (step-run, gates, routing)
+  DESC: Produces PIPELINE_DEFINITION_PACK; ensures KEY-only routing; defines handoff schema and required updates
   RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/10_SPC_ENT/00_TOP_GOVERNANCE_SPC_ENT/05__GVN__PIPELINE_ARCHITECT__SPC__ENT.md
   PATH: UE_V2/03_ENT/10_SPC_ENT/00_TOP_GOVERNANCE_SPC_ENT/05__GVN__PIPELINE_ARCHITECT__SPC__ENT.md
-  MARKERS: [SPC, GVN, PIPE]
+  MARKERS: [SPC, GVN, SPECIALIST, PIPE]
   STATUS: ACTIVE
   OWNER: SYS
   UPDATED: 2026-01-31
 
 - KEY: SPC.GVN.INTEGRATION_PACKER
-  UID:
+  UID: UE.V2.ENT.SPC.GVN.INTEGRATION_PACKER.001
   KIND: ENTITY
-  ROLE: Integration packer
-  DESC: Packs outputs and integration bundles for handoff
+  ROLE: Handoff and integration bundle packer
+  DESC: Produces INTEGRATION_OUTPUT_PACK with SoT/pointers/deprecation/migration + next-open keys + checklist
   RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/10_SPC_ENT/00_TOP_GOVERNANCE_SPC_ENT/06__GVN__INTEGRATION_PACKER__SPC__ENT.md
   PATH: UE_V2/03_ENT/10_SPC_ENT/00_TOP_GOVERNANCE_SPC_ENT/06__GVN__INTEGRATION_PACKER__SPC__ENT.md
-  MARKERS: [SPC, GVN, OUTPUT]
+  MARKERS: [SPC, GVN, SPECIALIST, OUTPUT]
   STATUS: ACTIVE
   OWNER: SYS
   UPDATED: 2026-01-31

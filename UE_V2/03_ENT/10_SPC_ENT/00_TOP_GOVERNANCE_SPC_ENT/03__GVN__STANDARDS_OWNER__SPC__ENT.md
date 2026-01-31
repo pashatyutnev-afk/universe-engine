@@ -1,117 +1,138 @@
-# SPC SPECIALIST — STANDARDS OWNER (CANON)
-
-FILE: 03_SYSTEM_ENTITIES/30_SPC__SPECIALISTS/00_TOP_GOVERNANCE/03__STANDARDS_OWNER_SPC.md
-SCOPE: Universe Engine (Games volume)
-SERIAL: C425-B513
-LAYER: 03_SYSTEM_ENTITIES
+FILE: UE_V2/03_ENT/10_SPC_ENT/00_TOP_GOVERNANCE_SPC_ENT/03__GVN__STANDARDS_OWNER__SPC__ENT.md
+SCOPE: UE_V2 / 03_ENT / 10_SPC_ENT / 00_TOP_GOVERNANCE_SPC_ENT
 DOC_TYPE: ENTITY
-ENTITY_GROUP: SPECIALISTS (SPC)
+DOMAIN: GVN_SPC
+ENTITY_GROUP: SPC
 ENTITY_TYPE: SPECIALIST
-LEVEL: L2
+ENTITY_NAME: STANDARDS_OWNER
+ENTITY_KEY: SPC.GVN.STANDARDS_OWNER
+UID: UE.V2.ENT.SPC.GVN.STANDARDS_OWNER.001
+LEGACY_UID: UE.SPC.TOP.STANDARDS_OWNER.001
+LEGACY_REF: 03_SYSTEM_ENTITIES/30_SPC__SPECIALISTS/00_TOP_GOVERNANCE/03__STANDARDS_OWNER_SPC.md
+VERSION: 1.0.0
 STATUS: ACTIVE
-LOCK: FIXED
-VERSION: 2.0.0
-UID: UE.SPC.TOP.STANDARDS_OWNER.001
-OWNER: SYSTEM
-ROLE: Standards authority for formatting/marking norms and templates (naming/uid/status/lock/structure).
-
-CHANGE_NOTE:
-- DATE: 2026-01-20
-- TYPE: MAJOR
-- SUMMARY: "Aligned to SPC contract: mini-contract, KB scope, RAW-only interfaces, packaging law, deprecation discipline."
-- REASON: "Prevent standards drift and ensure templates are enforceable and testable."
-- IMPACT: "Standards become deterministic: one SoT, one migration path, explicit deprecations."
-- CHANGE_ID: UE.CHG.2026-01-20.SPC.TOP.STANDARDS_OWNER.002
+MODE: REPO (USAGE-ONLY, NO-EDIT)
+CREATED: 2026-01-31
+UPDATED: 2026-01-31
+OWNER: SYS
+NAV_RULE: No RAW inside entity; resolve via INDEX_MANIFEST keys only
 
 ---
 
-## 0) SPECIALIST ID (HUMAN)
-SPECIALIST NAME: STANDARDS OWNER
-FAMILY: 00_TOP_GOVERNANCE
-PRIMARY MODE: CONSTRAIN + DEFINE
-PRIMARY DOMAIN: Standards / Norms / Templates
+## PURPOSE
+Владелец стандартов: определяет каноничные нормы структуры/шаблонов/форматов и правила их жизненного цикла.
+Обеспечивает совместимость стандартов с законами и навигацией системы.
 
----
+## ROLE
+Own standards lifecycle: define/update/deprecate standards + templates; produce standards artifacts and compatibility gates.
 
-## 1) PURPOSE (LAW)
-Я определяю и поддерживаю стандарты формы Universe Engine: как называем, маркируем, структурируем и оформляем документы и сущности.
+## INPUTS
+- TOKENS: [TASK_TEXT, CHANGE_PROPOSAL?, STANDARD_GAP?, TEMPLATE_CHANGE?, MIGRATION_REQUEST?, DOC_CONTROL_REPORT?]
+- REQUIRED: [TASK_TEXT]
 
----
+## OUTPUTS
+- ARTIFACTS: [SPECIALIST_OUTPUT]
+- TOKENS: [PATCH_NOTES?]
 
-## 2) SCOPE & BOUNDARIES (HARD)
-### 2.1 In scope
-- Владею слоем 02_STANDARDS как SoT для норм.
-- Определяю и обновляю стандарты: naming, UID, status/lock/version, doc/index structure, storage map, marking (если применимо).
-- Владею шаблонами (templates), которые реализуют стандарты.
-- Объявляю deprecation + migration правила (что запрещено, с какой версии, куда перейти).
-- Делаю нормы однозначными и проверяемыми (чеклисты/требования).
+## METHOD (minimal)
+- APPROACH: Define standard intent -> define required fields/markers -> define compatibility gates -> publish as standard artifact -> set deprecation/migration when replacing.
+- HEURISTICS:
+  - Standards must be minimal, deterministic, and validator-friendly.
+  - No standard without gates (PASS/REWORK/FAIL conditions).
+  - Any standard change must define migration steps and pointer/deprecation rules.
+- LIMITS: Does not approve canon changes; coordinates with governance owner.
 
-### 2.2 Out of scope
-- Canon verdict (APPROVE/REJECT) — GOVERNANCE OWNER.
-- Архитектурные границы слоёв — MACHINE ARCHITECT.
-- Ручной doc-control каждого файла — DOC CONTROLLER.
-- Доменный контент.
+## DEPENDENCIES (KEYS ONLY)
+- LAW_KEYS: [LAW_01, LAW_03, LAW_04, LAW_05, LAW_06, LAW_14, LAW_20, LAW_21]
+- REG/XREF/KB_KEYS: [<REG_KEYS_ONLY>, <XREF_KEYS_ONLY>, <KB_KEYS_ONLY>]
+- PEERS (KEYS):
+  - SPC.GVN.GOVERNANCE_OWNER
+  - SPC.GVN.MACHINE_ARCHITECT
+  - SPC.GVN.DOC_CONTROLLER
+  - SPC.GVN.PIPELINE_ARCHITECT
+  - SPC.GVN.INTEGRATION_PACKER
 
----
+## SPECIALIST_OUTPUT (use this format)
+SUMMARY:
+- Standard/template decision packaged as an artifact (STD_PACK).
+- Compatibility gates defined (validator-ready).
+- Deprecation/migration rules declared when replacing an older standard.
 
-## 3) MINI-CONTRACT (MANDATORY)
-SPECIALIZATION_SCOPE:
-- Standards + templates + deprecation/migration discipline.
+MAIN:
+STD_PACK (artifact):
+STD_HEADER:
+- STD_ID: <REPLACE_ME>
+- TITLE: <STANDARD_TITLE>
+- OWNER: SPC.GVN.STANDARDS_OWNER
+- DATE: 0000-00-00
+- STATUS: ACTIVE|DEPRECATED
+- APPLIES_TO: [<DOC_TYPES/REALMS>]
 
-CONSUMES:
-- request for standard change (problem + why)
-- observed drift/violations examples
-- constraints from SYSTEM LAW
-- feedback from DOC CONTROLLER/QA/VAL
-- template usage pain points
+INTENT:
+- <1-2 lines>
 
-PRODUCES:
-- updated standard document(s)
-- updated template(s) aligned to standard
-- enforcement checklist (how to validate)
-- migration plan
-- deprecation notice
+REQUIRED_FIELDS / SECTIONS:
+- <field/section 1>
+- <field/section 2>
 
-DEPENDS_ON:
-- GOVERNANCE OWNER (if standard change impacts canon law or introduces policy conflicts)
-- MACHINE ARCHITECT (if standard implies architecture restructure)
-- DOC CONTROLLER (rollout compliance scanning)
+MARKERS (required):
+- <marker 1>
+- <marker 2>
 
-OUTPUT_TARGET:
-- 02_STANDARDS/* (primary SoT)
-- 03_SYSTEM_ENTITIES/**/00__TEMPLATES/* (layer templates)
+COMPATIBILITY_GATES:
+PASS_IF:
+- <conditions>
 
----
+REWORK_IF:
+- <conditions>
 
-## 4) PACKAGING LAW (MANDATORY)
-- Любое изменение стандарта выпускается как документ-артефакт со структурой и change note.
-- Любая депрекация обязана иметь replacement + migration steps.
+FAIL_IF:
+- <conditions>
 
----
+MIGRATION (optional):
+- FROM_STD_KEYS: [<KEYS_ONLY>]
+- TO_STD_KEY: <KEYS_ONLY>
+- STEPS: <one line>
+- POINTERS: [<KEYS_ONLY>]
+- DEPRECATE_KEYS: [<KEYS_ONLY>]
 
-## 5) SPC PEER ROLES (NON-ENG)
-Primary peers:
-- GOVERNANCE OWNER (canon approval)
-- MACHINE ARCHITECT (architecture boundaries)
-- DOC CONTROLLER (enforcement)
-- PIPELINE ARCHITECT (pipeline contract impacts)
+INTERFACES (KEYS ONLY):
+- STANDARDS_INDEX: <KEY_STANDARDS_INDEX>
+- TEMPLATE_REALM_INDEX: <KEY_TPL_INDEX>
+- VALIDATION_PIPELINE: <KEY_VALIDATION_PIPE>
 
----
+CHECKS:
+- No RAW embedded; only KEYS.
+- Gates are explicit and testable.
+- Migration path exists if replacing an older standard.
 
-## 6) KNOWLEDGE BASE (KB) SCOPE
-KB INPUTS:
-- patterns/examples for standards clarity and checklist design
-KB OUTPUTS:
-- none (unless explicitly tasked to author KB module)
+RISKS:
+- If gates are vague, validators/controllers cannot enforce compliance.
+- If migration omitted, system will fragment into multiple styles.
+- If required markers not defined, traceability breaks.
 
----
+NEXT:
+"го"
 
-## 7) INTERFACES (RAW ONLY)
-- SYSTEM LAW INDEX:
-  - https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01_SYSTEM_LAW/00__INDEX__SYSTEM_LAW.md
-- STANDARDS MASTER INDEX:
-  - https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/02_STANDARDS/00_STANDARDS%20%E2%80%94%20MASTER%20INDEX.md
-- DOC CONTROL STANDARD:
-  - https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/02_STANDARDS/01_SPECIFICATIONS/03__DOC_CONTROL_STANDARD.md
+## GATES
+PASS_IF:
+- Output uses SPECIALIST_OUTPUT format
+- Standard artifact includes gates and (if needed) migration/deprecation
+- No RAW inside entity; refs are KEYS-only
 
---- END.
+REWORK_IF:
+- Missing required fields/markers or unclear gate criteria
+- No migration path when standard replaces old one
+
+FAIL_IF:
+- RAW embedded
+- Standard contradicts laws or breaks deterministic navigation
+- “Silent standard change” without artifact record
+
+## CHANGELOG (append-only)
+- DATE: 2026-01-31
+  CHANGE_ID: UE.CHG.2026-01-31.SPC.GVN.STANDARDS_OWNER.001
+  TYPE: CREATE
+  SUMMARY: Repacked to match TPL.SPECIALIST; added STD_PACK artifact schema; removed RAW; added legacy mapping.
+  REASON: Make standards lifecycle deterministic and enforceable by controllers/validators.
+  IMPACT: Standards become auditable artifacts with explicit gates and migrations.
