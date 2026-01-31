@@ -83,255 +83,254 @@ INDEX_MANIFEST — “таблица адресов” и кратких смы�
   UPDATED: 2026-01-31
 
 ### [O] CONTENT (laws)
-# NOTE: RAW заполнить после подтверждения точных имён файлов (расширение/паттерн).
-- KEY: LAW.SYS_01
-  UID: UE.V2.SYS.LAW.001
+- KEY: LAW_01
+  UID:
   KIND: LAW
-  ROLE: System law block 01
-  DESC: Canon rule set (slot 01)
-  RAW: 
-  PATH: UE_V2/01_SYS/02_SYS_LAW/SYS_LAW_01
+  ROLE: Canon integrity
+  DESC: Canon Integrity: единый смысл, нет внутренних конфликтов
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/01_SYS/02_SYS_LAW/SYS__LAW_01.md
+  PATH: UE_V2/01_SYS/02_SYS_LAW/SYS__LAW_01.md
   MARKERS: [LAW]
   STATUS: ACTIVE
   OWNER: SYS
   UPDATED: 2026-01-31
 
-- KEY: LAW.SYS_02
-  UID: UE.V2.SYS.LAW.002
+- KEY: LAW_02
+  UID:
   KIND: LAW
-  ROLE: System law block 02
-  DESC: Canon rule set (slot 02)
-  RAW:
-  PATH: UE_V2/01_SYS/02_SYS_LAW/SYS_LAW_02
+  ROLE: Identity stability
+  DESC: Identity Stability: UID/версии фиксируют сущность и историю
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/01_SYS/02_SYS_LAW/SYS__LAW_02.md
+  PATH: UE_V2/01_SYS/02_SYS_LAW/SYS__LAW_02.md
   MARKERS: [LAW]
   STATUS: ACTIVE
   OWNER: SYS
   UPDATED: 2026-01-31
 
-- KEY: LAW.SYS_03
-  UID: UE.V2.SYS.LAW.003
+- KEY: LAW_03
+  UID:
   KIND: LAW
-  ROLE: System law block 03
-  DESC: Canon rule set (slot 03)
-  RAW:
-  PATH: UE_V2/01_SYS/02_SYS_LAW/SYS_LAW_03
+  ROLE: Artifact only
+  DESC: Artifact Only: нет “голого контента”, только артефакт
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/01_SYS/02_SYS_LAW/SYS__LAW_03.md
+  PATH: UE_V2/01_SYS/02_SYS_LAW/SYS__LAW_03.md
   MARKERS: [LAW]
   STATUS: ACTIVE
   OWNER: SYS
   UPDATED: 2026-01-31
 
-- KEY: LAW.SYS_04
-  UID: UE.V2.SYS.LAW.004
+- KEY: LAW_04
+  UID:
   KIND: LAW
-  ROLE: System law block 04
-  DESC: Canon rule set (slot 04)
-  RAW:
-  PATH: UE_V2/01_SYS/02_SYS_LAW/SYS_LAW_04
+  ROLE: Navigation integrity
+  DESC: Navigation Integrity: RAW-only, no guessing
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/01_SYS/02_SYS_LAW/SYS__LAW_04.md
+  PATH: UE_V2/01_SYS/02_SYS_LAW/SYS__LAW_04.md
+  MARKERS: [LAW, NAV]
+  STATUS: ACTIVE
+  OWNER: SYS
+  UPDATED: 2026-01-31
+
+- KEY: LAW_05
+  UID:
+  KIND: LAW
+  ROLE: Minimality
+  DESC: Minimality: минимально-достаточные сущности и тексты
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/01_SYS/02_SYS_LAW/SYS__LAW_05.md
+  PATH: UE_V2/01_SYS/02_SYS_LAW/SYS__LAW_05.md
   MARKERS: [LAW]
   STATUS: ACTIVE
   OWNER: SYS
   UPDATED: 2026-01-31
 
-- KEY: LAW.SYS_05
-  UID: UE.V2.SYS.LAW.005
+- KEY: LAW_06
+  UID:
   KIND: LAW
-  ROLE: System law block 05
-  DESC: Canon rule set (slot 05)
-  RAW:
-  PATH: UE_V2/01_SYS/02_SYS_LAW/SYS_LAW_05
+  ROLE: Traceability
+  DESC: Traceability: всё проверяемо по маркерам и трассе
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/01_SYS/02_SYS_LAW/SYS__LAW_06.md
+  PATH: UE_V2/01_SYS/02_SYS_LAW/SYS__LAW_06.md
+  MARKERS: [LAW, TRACE]
+  STATUS: ACTIVE
+  OWNER: SYS
+  UPDATED: 2026-01-31
+
+- KEY: LAW_07
+  UID:
+  KIND: LAW
+  ROLE: Wear texture
+  DESC: Wear Texture: допустимая “текстура износа” (WTI)
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/01_SYS/02_SYS_LAW/SYS__LAW_07.md
+  PATH: UE_V2/01_SYS/02_SYS_LAW/SYS__LAW_07.md
   MARKERS: [LAW]
   STATUS: ACTIVE
   OWNER: SYS
   UPDATED: 2026-01-31
 
-- KEY: LAW.SYS_06
-  UID: UE.V2.SYS.LAW.006
+- KEY: LAW_08
+  UID:
   KIND: LAW
-  ROLE: System law block 06
-  DESC: Canon rule set (slot 06)
-  RAW:
-  PATH: UE_V2/01_SYS/02_SYS_LAW/SYS_LAW_06
+  ROLE: Inverse contrast
+  DESC: Inverse Contrast: громко→тихо как осознанная форма
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/01_SYS/02_SYS_LAW/SYS__LAW_08.md
+  PATH: UE_V2/01_SYS/02_SYS_LAW/SYS__LAW_08.md
   MARKERS: [LAW]
   STATUS: ACTIVE
   OWNER: SYS
   UPDATED: 2026-01-31
 
-- KEY: LAW.SYS_07
-  UID: UE.V2.SYS.LAW.007
+- KEY: LAW_09
+  UID:
   KIND: LAW
-  ROLE: System law block 07
-  DESC: Canon rule set (slot 07)
-  RAW:
-  PATH: UE_V2/01_SYS/02_SYS_LAW/SYS_LAW_07
+  ROLE: Readability boundary
+  DESC: Readability Boundary: граница читаемости (RI)
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/01_SYS/02_SYS_LAW/SYS__LAW_09.md
+  PATH: UE_V2/01_SYS/02_SYS_LAW/SYS__LAW_09.md
   MARKERS: [LAW]
   STATUS: ACTIVE
   OWNER: SYS
   UPDATED: 2026-01-31
 
-- KEY: LAW.SYS_08
-  UID: UE.V2.SYS.LAW.008
+- KEY: LAW_10
+  UID:
   KIND: LAW
-  ROLE: System law block 08
-  DESC: Canon rule set (slot 08)
-  RAW:
-  PATH: UE_V2/01_SYS/02_SYS_LAW/SYS_LAW_08
+  ROLE: Non-clone variance
+  DESC: Non-Clone Variance: “единая ДНК”, но не клоны
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/01_SYS/02_SYS_LAW/SYS__LAW_10.md
+  PATH: UE_V2/01_SYS/02_SYS_LAW/SYS__LAW_10.md
   MARKERS: [LAW]
   STATUS: ACTIVE
   OWNER: SYS
   UPDATED: 2026-01-31
 
-- KEY: LAW.SYS_09
-  UID: UE.V2.SYS.LAW.009
+- KEY: LAW_11
+  UID:
   KIND: LAW
-  ROLE: System law block 09
-  DESC: Canon rule set (slot 09)
-  RAW:
-  PATH: UE_V2/01_SYS/02_SYS_LAW/SYS_LAW_09
+  ROLE: Low-end anchor
+  DESC: Low-End Anchor: tight low end и якоря саба
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/01_SYS/02_SYS_LAW/SYS__LAW_11.md
+  PATH: UE_V2/01_SYS/02_SYS_LAW/SYS__LAW_11.md
   MARKERS: [LAW]
   STATUS: ACTIVE
   OWNER: SYS
   UPDATED: 2026-01-31
 
-- KEY: LAW.SYS_10
-  UID: UE.V2.SYS.LAW.010
+- KEY: LAW_12
+  UID:
   KIND: LAW
-  ROLE: System law block 10
-  DESC: Canon rule set (slot 10)
-  RAW:
-  PATH: UE_V2/01_SYS/02_SYS_LAW/SYS_LAW_10
+  ROLE: Impact predict
+  DESC: Impact Predict: прогноз нейро-реакции (Alienation/Rage/Hope)
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/01_SYS/02_SYS_LAW/SYS__LAW_12.md
+  PATH: UE_V2/01_SYS/02_SYS_LAW/SYS__LAW_12.md
   MARKERS: [LAW]
   STATUS: ACTIVE
   OWNER: SYS
   UPDATED: 2026-01-31
 
-- KEY: LAW.SYS_11
-  UID: UE.V2.SYS.LAW.011
+- KEY: LAW_13
+  UID:
   KIND: LAW
-  ROLE: System law block 11
-  DESC: Canon rule set (slot 11)
-  RAW:
-  PATH: UE_V2/01_SYS/02_SYS_LAW/SYS_LAW_11
+  ROLE: Silence point
+  DESC: Silence Point: провал в тишину как целевое состояние
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/01_SYS/02_SYS_LAW/SYS__LAW_13.md
+  PATH: UE_V2/01_SYS/02_SYS_LAW/SYS__LAW_13.md
   MARKERS: [LAW]
   STATUS: ACTIVE
   OWNER: SYS
   UPDATED: 2026-01-31
 
-- KEY: LAW.SYS_12
-  UID: UE.V2.SYS.LAW.012
+- KEY: LAW_14
+  UID:
   KIND: LAW
-  ROLE: System law block 12
-  DESC: Canon rule set (slot 12)
-  RAW:
-  PATH: UE_V2/01_SYS/02_SYS_LAW/SYS_LAW_12
-  MARKERS: [LAW]
+  ROLE: Acceptance and release
+  DESC: Acceptance & Release: приёмка, rework, выпуск
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/01_SYS/02_SYS_LAW/SYS__LAW_14.md
+  PATH: UE_V2/01_SYS/02_SYS_LAW/SYS__LAW_14.md
+  MARKERS: [LAW, RELEASE]
   STATUS: ACTIVE
   OWNER: SYS
   UPDATED: 2026-01-31
 
-- KEY: LAW.SYS_13
-  UID: UE.V2.SYS.LAW.013
+- KEY: LAW_15
+  UID:
   KIND: LAW
-  ROLE: System law block 13
-  DESC: Canon rule set (slot 13)
-  RAW:
-  PATH: UE_V2/01_SYS/02_SYS_LAW/SYS_LAW_13
-  MARKERS: [LAW]
+  ROLE: Visual-audio link
+  DESC: Visual-Audio Link: аудио-метрики управляют визуалом
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/01_SYS/02_SYS_LAW/SYS__LAW_15.md
+  PATH: UE_V2/01_SYS/02_SYS_LAW/SYS__LAW_15.md
+  MARKERS: [LAW, VIS, AUD]
   STATUS: ACTIVE
   OWNER: SYS
   UPDATED: 2026-01-31
 
-- KEY: LAW.SYS_14
-  UID: UE.V2.SYS.LAW.014
+- KEY: LAW_16
+  UID:
   KIND: LAW
-  ROLE: System law block 14
-  DESC: Canon rule set (slot 14)
-  RAW:
-  PATH: UE_V2/01_SYS/02_SYS_LAW/SYS_LAW_14
-  MARKERS: [LAW]
+  ROLE: ROOT index access only
+  DESC: ROOT_INDEX используется только для выдачи RAW-доступа
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/01_SYS/02_SYS_LAW/SYS__LAW_16.md
+  PATH: UE_V2/01_SYS/02_SYS_LAW/SYS__LAW_16.md
+  MARKERS: [LAW, NAV]
   STATUS: ACTIVE
   OWNER: SYS
   UPDATED: 2026-01-31
 
-- KEY: LAW.SYS_15
-  UID: UE.V2.SYS.LAW.015
+- KEY: LAW_17
+  UID:
   KIND: LAW
-  ROLE: System law block 15
-  DESC: Canon rule set (slot 15)
-  RAW:
-  PATH: UE_V2/01_SYS/02_SYS_LAW/SYS_LAW_15
-  MARKERS: [LAW]
+  ROLE: Single entrypoint start
+  DESC: Единая точка запуска рантайма — START
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/01_SYS/02_SYS_LAW/SYS__LAW_17.md
+  PATH: UE_V2/01_SYS/02_SYS_LAW/SYS__LAW_17.md
+  MARKERS: [LAW, NAV]
   STATUS: ACTIVE
   OWNER: SYS
   UPDATED: 2026-01-31
 
-- KEY: LAW.SYS_16
-  UID: UE.V2.SYS.LAW.016
+- KEY: LAW_18
+  UID:
   KIND: LAW
-  ROLE: System law block 16
-  DESC: Canon rule set (slot 16)
-  RAW:
-  PATH: UE_V2/01_SYS/02_SYS_LAW/SYS_LAW_16
-  MARKERS: [LAW]
+  ROLE: Must-load manifest
+  DESC: RUNTIME_MANIFEST обязателен, MUST_LOAD ядра
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/01_SYS/02_SYS_LAW/SYS__LAW_18.md
+  PATH: UE_V2/01_SYS/02_SYS_LAW/SYS__LAW_18.md
+  MARKERS: [LAW, MUST_LOAD]
   STATUS: ACTIVE
   OWNER: SYS
   UPDATED: 2026-01-31
 
-- KEY: LAW.SYS_17
-  UID: UE.V2.SYS.LAW.017
+- KEY: LAW_19
+  UID:
   KIND: LAW
-  ROLE: System law block 17
-  DESC: Canon rule set (slot 17)
-  RAW:
-  PATH: UE_V2/01_SYS/02_SYS_LAW/SYS_LAW_17
-  MARKERS: [LAW]
+  ROLE: Route via xref reg kb
+  DESC: Выбор маршрута через REG+XREF+KB_SCOPE, по памяти запрещено
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/01_SYS/02_SYS_LAW/SYS__LAW_19.md
+  PATH: UE_V2/01_SYS/02_SYS_LAW/SYS__LAW_19.md
+  MARKERS: [LAW, ROUTE]
   STATUS: ACTIVE
   OWNER: SYS
   UPDATED: 2026-01-31
 
-- KEY: LAW.SYS_18
-  UID: UE.V2.SYS.LAW.018
+- KEY: LAW_20
+  UID:
   KIND: LAW
-  ROLE: System law block 18
-  DESC: Canon rule set (slot 18)
-  RAW:
-  PATH: UE_V2/01_SYS/02_SYS_LAW/SYS_LAW_18
-  MARKERS: [LAW]
+  ROLE: Noise budget
+  DESC: Жёсткие лимиты на контекст/участников/варианты
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/01_SYS/02_SYS_LAW/SYS__LAW_20.md
+  PATH: UE_V2/01_SYS/02_SYS_LAW/SYS__LAW_20.md
+  MARKERS: [LAW, LIMITS]
   STATUS: ACTIVE
   OWNER: SYS
   UPDATED: 2026-01-31
 
-- KEY: LAW.SYS_19
-  UID: UE.V2.SYS.LAW.019
+- KEY: LAW_21
+  UID:
   KIND: LAW
-  ROLE: System law block 19
-  DESC: Canon rule set (slot 19)
-  RAW:
-  PATH: UE_V2/01_SYS/02_SYS_LAW/SYS_LAW_19
-  MARKERS: [LAW]
-  STATUS: ACTIVE
-  OWNER: SYS
-  UPDATED: 2026-01-31
-
-- KEY: LAW.SYS_20
-  UID: UE.V2.SYS.LAW.020
-  KIND: LAW
-  ROLE: System law block 20
-  DESC: Canon rule set (slot 20)
-  RAW:
-  PATH: UE_V2/01_SYS/02_SYS_LAW/SYS_LAW_20
-  MARKERS: [LAW]
-  STATUS: ACTIVE
-  OWNER: SYS
-  UPDATED: 2026-01-31
-
-- KEY: LAW.SYS_21
-  UID: UE.V2.SYS.LAW.021
-  KIND: LAW
-  ROLE: System law block 21
-  DESC: Canon rule set (slot 21)
-  RAW:
-  PATH: UE_V2/01_SYS/02_SYS_LAW/SYS_LAW_21
-  MARKERS: [LAW]
+  ROLE: Focus-loop allowed
+  DESC: Многопроходная доработка одного фокуса разрешена (FOCUS-LOOP)
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/01_SYS/02_SYS_LAW/SYS__LAW_21.md
+  PATH: UE_V2/01_SYS/02_SYS_LAW/SYS__LAW_21.md
+  MARKERS: [LAW, LOOP]
   STATUS: ACTIVE
   OWNER: SYS
   UPDATED: 2026-01-31
