@@ -22,7 +22,7 @@ PIPELINE_CONTRACT — навигатор действий для реалма TO
 - Все обращения: TARGET_KEY -> resolve via INDEX_MANIFEST -> open.
 - Выполнение по STEP-RUN: один шаг = одна пачка действий.
 - Каждый шаг должен выдавать NEXT_PROMPT: "го" или FAIL_CODE.
-- Выбор ролей/файлов — минимально-достаточный, без раздувания.
+- Выходы SPC-ролей принимаются только в формате SPECIALIST_OUTPUT.
 
 ## [M] REQUIRED_KEYS (must exist in INDEX_MANIFEST)
 - INDEX_MANIFEST
@@ -37,7 +37,7 @@ PIPELINE_CONTRACT — навигатор действий для реалма TO
 ## [M] CONTRACT_HEADER
 - REALM_ID: UE_V2/03_ENT/10_SPC_ENT/00_TOP_GOVERNANCE_SPC_ENT
 - DOMAIN: GVN_SPC
-- ARTIFACT_TYPES: [INDEX, PIPE, ENTITY, OUTPUT_PACK, LOG]
+- ARTIFACT_TYPES: [INDEX, PIPE, ENTITY, SPECIALIST_OUTPUT, LOG]
 - DEFAULT_MODE: FAST
 
 ## [M] EXEC_MODEL (how it runs)
@@ -45,9 +45,16 @@ PIPELINE_CONTRACT — навигатор действий для реалма TO
 2) Validate REQUIRED_KEYS exist in INDEX_MANIFEST ENTRIES
 3) Build WORK_SET_KEYS using KEYS only
 4) Run steps sequentially (STEP-RUN)
-5) Return OUTPUT_PACK (or PATCH_NOTES) + NEXT prompt
+5) Return SPECIALIST_OUTPUT (or PATCH_NOTES) + NEXT prompt
 
-## [M] STEP-RUN (canonical)
+## [M] FAIL_CODES
+- UE.FAIL.INPUT_ABSENT
+- UE.FAIL.MISSING_KEY
+- UE.FAIL.GATE_FAIL
+- UE.FAIL.OUTPUT_SCHEMA_MISSING
+
+## [M] STEPS
+
 - STEP: S0
   GOAL: Entry sanity and task framing
   INPUTS: [TASK_TEXT, MODE_HINT?]
@@ -80,15 +87,15 @@ PIPELINE_CONTRACT — навигатор действий для реалма TO
   ACTIONS:
     - Resolve selected SPC keys via INDEX_MANIFEST
     - Open only minimal set required by TASK_TOKEN
-    - Produce OUTPUT_PACK: GOV_DECISIONS + ROUTING_HINTS + PATCH_NOTES?
-  OUTPUTS: [OUTPUT_PACK, PATCH_NOTES?]
-  CHECKS: [QUALITY_GATE]
-  FAIL: UE.FAIL.GATE_FAIL
+    - Produce SPECIALIST_OUTPUT for the selected SPC role(s)
+  OUTPUTS: [SPECIALIST_OUTPUT, PATCH_NOTES?]
+  CHECKS: [SPECIALIST_OUTPUT_SCHEMA_OK, QUALITY_GATE]
+  FAIL: UE.FAIL.OUTPUT_SCHEMA_MISSING
   NEXT: "го"
 
 - STEP: S3
   GOAL: Trace and return
-  INPUTS: [OUTPUT_PACK, DECISIONS?]
+  INPUTS: [SPECIALIST_OUTPUT, DECISIONS?]
   TARGETS: [INDEX_MANIFEST]
   ACTIONS:
     - Summarize RESOURCES_USED and MARKER_FOUND (trace)
