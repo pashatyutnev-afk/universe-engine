@@ -61,20 +61,6 @@ PIPELINE_CONTRACT — навигатор действий для реалма 02
 4) Run steps sequentially (STEP-RUN)
 
 ## [M] STEP-RUN (canonical)
-Each step block format:
-- STEP: S<n>
-  GOAL: <one line>
-  INPUTS: [<tokens>]
-  TARGETS: [<KEYS_ONLY>]
-  ACTIONS:
-    - <imperative action>
-  OUTPUTS: [<tokens/artifacts>]
-  CHECKS: [<gates>]
-  FAIL: <FAIL_CODE_IF_ANY>
-  NEXT: "го"
-
-## [M] STEPS (skeleton)
-
 - STEP: S0
   GOAL: Entry sanity and task framing
   INPUTS: [TASK_TEXT, MODE_HINT?]
@@ -92,8 +78,7 @@ Each step block format:
   INPUTS: [TASK_TOKEN]
   TARGETS: [INDEX_MANIFEST, PIPELINE_CONTRACT]
   ACTIONS:
-    - Resolve INDEX_MANIFEST via KEY: INDEX_MANIFEST
-    - Validate REQUIRED_KEYS exist in INDEX_MANIFEST ENTRIES
+    - Resolve required KEYS and confirm they exist
     - Build WORK_SET_KEYS (INDEX_MANIFEST + 1-5 LAW keys relevant to TASK_TOKEN)
   OUTPUTS: [WORK_SET_KEYS]
   CHECKS: [REQUIRED_KEYS_OK]
@@ -118,9 +103,9 @@ Each step block format:
   INPUTS: [LAW_SUMMARY, DECISIONS]
   TARGETS: [INDEX_MANIFEST]
   ACTIONS:
-    - If LOG layer is enabled, write RUN_LOG_ENTRY and DECISION_LOG_ENTRY
-    - Archive LAW_SUMMARY token if required
-  OUTPUTS: [RUN_LOG?, DECISION_LOG?]
-  CHECKS: [LOG_WRITTEN?]
+    - Write RUN_LOG_ENTRY
+    - Write DECISION_LOG_ENTRY when route/choice made
+  OUTPUTS: [RUN_LOG, DECISION_LOG]
+  CHECKS: [LOG_WRITTEN]
   FAIL: UE.FAIL.LOG_MISSING
   NEXT: "го"
