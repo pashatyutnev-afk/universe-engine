@@ -1,160 +1,60 @@
-# SPC FAMILY REALM — PSYCHOLOGY SPECIALISTS (CANON)
-FILE: 03_SYSTEM_ENTITIES/30_SPC__SPECIALISTS/08_PSYCHOLOGY/00__README_PSYCHOLOGY_SPECIALISTS.md
-
-SCOPE: Universe Engine
-LAYER: 03_SYSTEM_ENTITIES
-ENTITY_GROUP: SPECIALISTS (SPC)
-DOC_TYPE: README
-INDEX_TYPE: FAMILY_REALM
-LEVEL: L2
-STATUS: ACTIVE
-LOCK: FIXED
+FILE: UE_V2/03_ENT/10_SPC_ENT/08_PSYCHOLOGY_SPC_ENT/00__PIPELINE_CONTRACT__PSY__SPC__ENT.md
+SCOPE: UE_V2 / 03_ENT / 10_SPC_ENT / 08_PSYCHOLOGY_SPC_ENT
+DOC_TYPE: PIPELINE_CONTRACT
+DOMAIN: PSY_SPC
+UID: UE.V2.ENT.SPC.PSY.PIPELINE_CONTRACT.001
 VERSION: 1.0.0
-UID: UE.SPC.REALM.PSYCHOLOGY.001
-OWNER: SYSTEM
-ROLE: Family realm definition + boundaries + navigation rules for SPC family `08_PSYCHOLOGY`
-
-CHANGE_NOTE:
-- DATE: 2026-01-09
-- TYPE: MAJOR
-- SUMMARY: "Established PSYCHOLOGY SPC family realm: audience psychology, empathy/identification, emotional impact, nonverbal behavior, and behavioral consistency as deterministic support layer."
-- REASON: "Need systematic control of emotional delivery and audience response without random guessing; ensure character behavior remains credible."
-- IMPACT: "Narrative becomes more effective and consistent: clearer emotional targets, better empathy mechanics, reduced behavior drift."
-- CHANGE_ID: UE.CHG.2026-01-09.SPC.REALM.PSYCHOLOGY.001
+STATUS: ACTIVE
+MODE: REPO (USAGE-ONLY, NO-EDIT)
+CREATED: 2026-01-31
+UPDATED: 2026-01-31
+OWNER: SYS
+NAV_RULE: Contract has no RAW
 
 ---
 
-## 0) PURPOSE (LAW)
-Семейство `08_PSYCHOLOGY` отвечает за психологическую управляемость контента:
-- как аудитория воспринимает события и смысл
-- как возникает эмпатия/идентификация
-- как проектируется эмоциональный удар и послевкусие
-- как невербальное поведение поддерживает правдоподобие
-- как удерживается поведенческая консистентность персонажей
+## [M] PURPOSE
+Step-run contract for PSYCHOLOGY_SPC_ENT.
+Resolves psychology specialists by KEY via INDEX_MANIFEST and selects minimal set per task.
 
-Цель семьи — сделать реакции аудитории и поведение персонажей **детерминированными**, а не “на авось”.
+## [M] HARD_RULES
+- No RAW inside this contract.
+- Resolve targets via INDEX_MANIFEST only.
+- Minimal opens: 1–3 specialists unless task explicitly requests full board.
 
----
+## [M] REQUIRED_KEYS (must exist in INDEX_MANIFEST)
+- INDEX_MANIFEST
+- PIPELINE_CONTRACT
+- SPC.PSY.VIEWER_PSYCHOLOGY_ANALYST
+- SPC.PSY.EMPATHY_IDENTIFICATION_SPECIALIST
+- SPC.PSY.EMOTIONAL_IMPACT_DESIGNER
+- SPC.PSY.NONVERBAL_BEHAVIOR_ANALYST
+- SPC.PSY.BEHAVIORAL_CONSISTENCY_SPECIALIST
 
-## 1) EXISTENCE + NAV RULE (MANDATORY)
-- Специалист существует для системы **только если**:
-  1) зарегистрирован в глобальном SPC INDEX:
-     `03_SYSTEM_ENTITIES/30_SPC__SPECIALISTS/02__INDEX_ALL_SPECIALISTS.md`
-  2) и файл лежит по каноническому пути
-- Любые файлы в папке без регистрации — **NON-CANON / ignored**
-- Каноническая навигация по семье — через RAW ссылки глобального SPC INDEX
+## [M] ROLE_SELECTOR (deterministic)
+- VIEWER: [SPC.PSY.VIEWER_PSYCHOLOGY_ANALYST]
+- EMP: [SPC.PSY.EMPATHY_IDENTIFICATION_SPECIALIST]
+- IMPACT: [SPC.PSY.EMOTIONAL_IMPACT_DESIGNER]
+- NVRB: [SPC.PSY.NONVERBAL_BEHAVIOR_ANALYST]
+- CONSIST: [SPC.PSY.BEHAVIORAL_CONSISTENCY_SPECIALIST]
+- CORE: [SPC.PSY.VIEWER_PSYCHOLOGY_ANALYST, SPC.PSY.EMOTIONAL_IMPACT_DESIGNER]
+- FULL: [SPC.PSY.VIEWER_PSYCHOLOGY_ANALYST, SPC.PSY.EMPATHY_IDENTIFICATION_SPECIAList, SPC.PSY.EMOTIONAL_IMPACT_DESIGNER, SPC.PSY.NONVERBAL_BEHAVIOR_ANALYST, SPC.PSY.BEHAVIORAL_CONSISTENCY_SPECIALIST]
 
----
+## [M] STEP-RUN (high level)
 
-## 2) FAMILY SCOPE
-**FAMILY NAME:** PSYCHOLOGY SPECIALISTS  
-**FAMILY PATH:** `03_SYSTEM_ENTITIES/30_SPC__SPECIALISTS/08_PSYCHOLOGY/`
+S0) SANITY
+- ensure TASK_TEXT exists
+- resolve INDEX_MANIFEST via KEY: INDEX_MANIFEST
+- validate REQUIRED_KEYS exist
 
-### 2.1 Covered domains (what we DO)
-- Audience response modeling (Viewer Psychology)
-- Empathy & identification mechanisms
-- Emotional impact design (setup → hit → aftertaste)
-- Nonverbal behavior analysis (body language, micro-signals)
-- Behavioral consistency enforcement (no drift)
+S1) SELECT
+- if PSY_HINT missing -> default WORK_SET = CORE
+- else map via ROLE_SELECTOR (cap to 1–3 keys unless MODE=MASTERPIECE or PSY_HINT=FULL)
 
-### 2.2 Hard boundaries (what we DO NOT do)
-- Мы не переписываем сюжет вместо `02_NARRATIVE`, а даём психологические требования/гейты.
-- Мы не ставим “актерскую режиссуру” (это Director), но даём behavioral signals и risk notes.
-- Мы не делаем монтажные решения — только психологические риски/ограничения.
-- Мы не утверждаем канон мира/лора — соблюдаем и эскалируем конфликты.
+S2) OPEN
+- open selected specialists by KEY (resolve via INDEX_MANIFEST)
 
----
-
-## 3) KNOWLEDGE BASE (KB) SCOPE (MANDATORY)
-### 3.1 KB INPUTS
-- Character Craft realm (психология персонажей)  
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/04_KNOWLEDGE_BASE/02__CHARACTER_CRAFT.md
-- Narrative Craft realm (эмоциональные арки/смысл)  
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/04_KNOWLEDGE_BASE/01__NARRATIVE_CRAFT.md
-- Reference Glossary (термины)  
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/04_KNOWLEDGE_BASE/07__REFERENCE_GLOSSARY.md
-- Research & Fact Checking realm (если нужны исследования восприятия)  
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/04_KNOWLEDGE_BASE/08__RESEARCH_FACT_CHECKING.md
-
-### 3.2 KB OUTPUTS
-- Чеклисты empathy/impact/consistency как унифицированные “гейты”.
-- Типовые “behavior drift patterns” и способы их обнаружения.
-
-### 3.3 KB BOUNDARIES
-- Не фиксируем медицинские/клинические утверждения как факты без Research/Validators.
-- Не подменяем драматургию: мы задаём психологические constraints, а не сюжет.
-
----
-
-## 4) INTERFACES (SYSTEM LINKS) — RAW ONLY
-### 4.1 ENG (Engines) — typical support
-- Emotional resonance engine  
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/06_GENRE_STYLE_ENGINES/03__EMOTIONAL_RESONANCE_ENG.md
-- Character psychology engine  
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/03_DOMAIN_CHARACTER_ENGINES/04__CHARACTER_PSYCHOLOGY_ENG.md
-- Character behavior engine  
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/03_DOMAIN_CHARACTER_ENGINES/05__CHARACTER_BEHAVIOR_ENG.md
-
-### 4.2 ORC — typical usage
-ORC вызывает PSYCHOLOGY SPC когда нужно:
-- оценить, что зритель поймёт/почувствует (Viewer Psychology Analyst)
-- обеспечить идентификацию/эмпатию (Empathy Identification Specialist)
-- спроектировать эмоциональный “удар” (Emotional Impact Designer)
-- проверить невербальные сигналы и правдоподобие (Nonverbal Behavior Analyst)
-- зафиксировать консистентность поведения (Behavioral Consistency Specialist)
-
-### 4.3 QA / VAL gates
-Типовые гейты:
-- empathy gate (зритель “сцепился” с персонажем?)
-- clarity + impact gate (удар дошёл?)
-- behavior drift gate (персонаж не ломается?)
-- nonverbal plausibility gate (сигналы не противоречат словам?)
-
----
-
-## 5) FAMILY STANDARDS (MANDATORY RULES)
-### 5.1 Anti-overlap (role separation)
-- Viewer Psychology Analyst: модель аудитории и восприятия.
-- Empathy Identification Specialist: механики привязки к персонажам.
-- Emotional Impact Designer: дизайн удара/послевкусия и эмоциональных “ключей”.
-- Nonverbal Behavior Analyst: невербальные сигналы, согласованность тела/голоса.
-- Behavioral Consistency Specialist: детектор и фиксер дрейфа поведения.
-
-### 5.2 Evidence law (psychology is testable)
-Любое психологическое решение должно быть описано как:
-- target emotion / target belief
-- triggers (что вызывает)
-- fail conditions (как понять что не работает)
-- mitigation (как чинить)
-
-### 5.3 Non-editing decision boundary
-PSYCHOLOGY не принимает монтажных решений.  
-Мы выдаём только:
-- психологические риски (если темп/склейки ломают эмоцию)
-- требования сохранения ключевых моментов (MUST keep)
-- рекомендации на уровне принципов
-
----
-
-## 6) WHEN TO CREATE A NEW PSYCHOLOGY SPECIALIST (GATE)
-Новый PSYCHOLOGY SPC создаётся только если:
-- появляется устойчивый тип психологических задач, не закрытый текущими 5 ролями
-- нужен отдельный контракт (например “Trauma sensitivity reviewer” при росте требований)
-- роль становится постоянной дырой в пайплайне
-
----
-
-## 7) FAMILY NAV — SPECIALISTS (ORDER IS LAW)
-01 — VIEWER PSYCHOLOGY ANALYST  
-02 — EMPATHY IDENTIFICATION SPECIALIST  
-03 — EMOTIONAL IMPACT DESIGNER  
-04 — NONVERBAL BEHAVIOR ANALYST  
-05 — BEHAVIORAL CONSISTENCY SPECIALIST  
-
----
-
-## FINAL RULE (LOCK)
-Этот README задаёт границы семьи `08_PSYCHOLOGY`.  
-Если нет target emotion, triggers и fail conditions — психологический слой превращается в угадайку и ломает эффективность истории.
-
---- END.
+S3) OUTPUT
+- emit PSY_SPC_TOKEN:
+  - selected_keys
+  - next: "го"
