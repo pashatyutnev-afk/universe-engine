@@ -24,8 +24,8 @@ PIPELINE_CONTRACT — навигатор действий для реалма TP
 - Каждый шаг обязан выдавать NEXT_PROMPT: "го" или FAIL_CODE.
 
 ## [M] REQUIRED_KEYS (must exist in INDEX_MANIFEST)
-- TPL.INDEX_MANIFEST
-- TPL.PIPELINE_CONTRACT
+- INDEX_MANIFEST
+- PIPELINE_CONTRACT
 - TPL.ENGINE
 - TPL.ORCHESTRATOR
 - TPL.SPECIALIST
@@ -41,11 +41,10 @@ PIPELINE_CONTRACT — навигатор действий для реалма TP
 - DEFAULT_MODE: FAST
 
 ## [M] EXEC_MODEL (how it runs)
-1) Resolve INDEX_MANIFEST via KEY: TPL.INDEX_MANIFEST
+1) Resolve INDEX_MANIFEST via KEY: INDEX_MANIFEST
 2) Validate REQUIRED_KEYS exist in INDEX_MANIFEST
 3) Build WORK_SET (what to open) using KEYS only
 4) Run steps sequentially (STEP-RUN)
-5) Log decisions and run entries via LOG templates (when LOG layer exists)
 
 ## [M] STEP-RUN (canonical)
 Each step block format:
@@ -65,7 +64,7 @@ Each step block format:
 - STEP: S0
   GOAL: Entry sanity and task framing
   INPUTS: [TASK_TEXT, MODE_HINT?]
-  TARGETS: [TPL.INDEX_MANIFEST]
+  TARGETS: [INDEX_MANIFEST]
   ACTIONS:
     - Ensure TASK_TEXT exists, else FAIL
     - Decide EXEC_MODE using MODE_HINT or DEFAULT_MODE
@@ -77,9 +76,9 @@ Each step block format:
 - STEP: S1
   GOAL: Load minimal navigation layer for realm
   INPUTS: [TASK_TOKEN]
-  TARGETS: [TPL.INDEX_MANIFEST, TPL.PIPELINE_CONTRACT]
+  TARGETS: [INDEX_MANIFEST, PIPELINE_CONTRACT]
   ACTIONS:
-    - Resolve TPL.INDEX_MANIFEST and confirm it opens
+    - Resolve INDEX_MANIFEST and confirm it opens
     - Validate REQUIRED_KEYS exist in INDEX_MANIFEST ENTRIES
     - Build WORK_SET_KEYS (INDEX_MANIFEST + 1-3 relevant templates by task)
   OUTPUTS: [WORK_SET_KEYS]
@@ -103,7 +102,7 @@ Each step block format:
 - STEP: S3
   GOAL: Log and archive tokens
   INPUTS: [ARTIFACTS, DECISIONS]
-  TARGETS: [TPL.INDEX_MANIFEST]
+  TARGETS: [INDEX_MANIFEST]
   ACTIONS:
     - Write RUN_LOG_ENTRY if LOG layer is present in realm
     - Write DECISION_LOG_ENTRY when route/choice made
