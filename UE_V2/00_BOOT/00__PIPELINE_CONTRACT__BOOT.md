@@ -1,0 +1,131 @@
+FILE: UE_V2/00_BOOT/00__PIPELINE_CONTRACT__BOOT.md
+SCOPE: UE_V2 / 00_BOOT
+DOC_TYPE: PIPELINE_CONTRACT
+DOMAIN: BOOT
+UID: UE.V2.BOOT.PIPELINE_CONTRACT.001
+VERSION: 1.0.0
+STATUS: ACTIVE
+MODE: REPO (USAGE-ONLY, NO-EDIT)
+CREATED: 2026-01-31
+UPDATED: 2026-01-31
+OWNER: SYS
+NAV_RULE: Contract has no RAW
+
+---
+
+## [M] PURPOSE
+PIPELINE_CONTRACT — навигатор действий для реалма 00_BOOT.
+Не хранит RAW-адреса. Работает через KEY и резолвит адреса в INDEX_MANIFEST.
+Цель: детерминированно загрузить BOOT ядро (MUST_LOAD) и подтвердить маркеры.
+
+## [M] HARD_RULES
+- Запрещено хранить RAW внутри CONTRACT (без исключений).
+- Все обращения: TARGET_KEY -> resolve via INDEX_MANIFEST -> open.
+- Выполнение по STEP-RUN: один шаг = одна пачка действий.
+- Никаких догадок и keyword-scan: BOOT всегда выполняется в фиксированном порядке.
+- Каждый шаг должен выдавать NEXT_PROMPT: "го" или FAIL_CODE.
+
+## [M] REQUIRED_KEYS (must exist in INDEX_MANIFEST)
+- INDEX_MANIFEST
+- PIPELINE_CONTRACT
+
+# BOOT core (по BOOT_SEQ / MUST_LOAD логике)
+- BOOT.START
+- BOOT.STOP_GAP
+- BOOT.CHAT_FMT
+- BOOT.ART_RULE
+- BOOT.MIN_ENT
+- BOOT.TRACE
+- BOOT.FAIL_CODES
+- BOOT.RUNTIME_MANIFEST
+- BOOT.TASK_ROUTER
+- BOOT.STEP_RUN_PROTOCOL
+- BOOT.FOCUS_LOOP_PROTOCOL
+- BOOT.COMMANDS
+
+# NAV bootstrap maps (если они часть BOOT политики)
+- BOOT.ROOT_LINK_BASE.PART1
+- BOOT.ROOT_LINK_BASE.PART2
+
+## [M] CONTRACT_HEADER
+- REALM_ID: UE_V2/00_BOOT
+- DOMAIN: BOOT
+- ARTIFACT_TYPES: [INDEX, PIPE, BOOT_TOKEN, ROUTE_TOKEN]
+- DEFAULT_MODE: FAST
+
+## [M] FAIL_CODES
+- UE.FAIL.INPUT_ABSENT
+- UE.FAIL.MISSING_KEY
+- UE.FAIL.MARKER_NOT_CONFIRMED
+- UE.FAIL.RAW_MISSING
+
+## [M] EXEC_MODEL (how it runs)
+1) Resolve INDEX_MANIFEST via KEY: INDEX_MANIFEST
+2) Validate REQUIRED_KEYS exist in INDEX_MANIFEST
+3) Open BOOT core documents in fixed order (KEYS only)
+4) Confirm markers (MARKER FOUND) for each opened doc
+5) Produce BOOT_TOKEN summary and NEXT prompt
+
+## [M] STEP-RUN (canonical)
+Each step block format:
+- STEP: S<n>
+  GOAL: <one line>
+  INPUTS: [<tokens>]
+  TARGETS: [<KEYS_ONLY>]
+  ACTIONS:
+    - <imperative action>
+  OUTPUTS: [<tokens/artifacts>]
+  CHECKS: [<gates>]
+  FAIL: <FAIL_CODE_IF_ANY>
+  NEXT: "го"
+
+## [M] STEPS
+
+- STEP: S0
+  GOAL: Entry sanity
+  INPUTS: [TASK_TEXT, MODE_HINT?]
+  TARGETS: [INDEX_MANIFEST]
+  ACTIONS:
+    - Ensure TASK_TEXT exists, else FAIL
+    - Decide EXEC_MODE using MODE_HINT or DEFAULT_MODE
+  OUTPUTS: [TASK_TOKEN, EXEC_MODE]
+  CHECKS: [TASK_PRESENT]
+  FAIL: UE.FAIL.INPUT_ABSENT
+  NEXT: "го"
+
+- STEP: S1
+  GOAL: Load BOOT navigation layer and validate readiness
+  INPUTS: [TASK_TOKEN]
+  TARGETS: [INDEX_MANIFEST, PIPELINE_CONTRACT]
+  ACTIONS:
+    - Resolve INDEX_MANIFEST via KEY: INDEX_MANIFEST
+    - Validate keys: INDEX_MANIFEST, PIPELINE_CONTRACT exist
+    - Validate ALL REQUIRED_KEYS exist in INDEX_MANIFEST ENTRIES
+  OUTPUTS: [BOOT_READY]
+  CHECKS: [REQUIRED_KEYS_OK]
+  FAIL: UE.FAIL.MISSING_KEY
+  NEXT: "го"
+
+- STEP: S2
+  GOAL: Open BOOT core in deterministic order (KEYS only)
+  INPUTS: [TASK_TOKEN]
+  TARGETS: [BOOT.START, BOOT.STOP_GAP, BOOT.CHAT_FMT, BOOT.ART_RULE, BOOT.MIN_ENT, BOOT.TRACE, BOOT.FAIL_CODES, BOOT.RUNTIME_MANIFEST, BOOT.TASK_ROUTER, BOOT.STEP_RUN_PROTOCOL, BOOT.FOCUS_LOOP_PROTOCOL, BOOT.COMMANDS, BOOT.ROOT_LINK_BASE.PART1, BOOT.ROOT_LINK_BASE.PART2]
+  ACTIONS:
+    - Resolve and open each TARGET in order via INDEX_MANIFEST
+    - Confirm at least one [M] marker per doc (MARKER FOUND)
+  OUTPUTS: [BOOT_DOC_SET, MARKERS_CONFIRMED]
+  CHECKS: [RAW_OK, MARKERS_OK]
+  FAIL: UE.FAIL.MARKER_NOT_CONFIRMED
+  NEXT: "го"
+
+- STEP: S3
+  GOAL: Emit BOOT_TOKEN and continue
+  INPUTS: [BOOT_DOC_SET, MARKERS_CONFIRMED, EXEC_MODE]
+  TARGETS: [INDEX_MANIFEST]
+  ACTIONS:
+    - Produce BOOT_TOKEN: list of opened KEYS + marker refs + gates PASS/FAIL
+    - Provide NEXT prompt
+  OUTPUTS: [BOOT_TOKEN]
+  CHECKS: [BOOT_COMPLETE]
+  FAIL: UE.FAIL.RAW_MISSING
+  NEXT: "го"
