@@ -1,220 +1,161 @@
-# TPL ENGINE — ENTITY TEMPLATE (CANON)
-
-FILE: 03_SYSTEM_ENTITIES/01_TPL__TEMPLATES/10__TPL__ENGINE.md
-SCOPE: Universe Engine (Games volume) / System Entities / Templates (TPL)
-SERIAL: C425-B513
-LAYER: 03_SYSTEM_ENTITIES
+FILE: UE_V2/03_ENT/01_TPL_ENT/10__TPL__ENGINE__ENT.md
+SCOPE: UE_V2 / 03_ENT / 01_TPL_ENT
 DOC_TYPE: TEMPLATE
-TEMPLATE_TYPE: ENTITY_ENGINE
-LEVEL: L1
-STATUS: ACTIVE
-LOCK: FIXED
-VERSION: 1.0.1
-UID: UE.TPL.ENG.001
-OWNER: SYSTEM
-ROLE: Canonical template to create any ENG Engine file (structure + mini-contract + boundaries + registration checklist).
-
-CHANGE_NOTE:
-- DATE: 2026-01-20
-- TYPE: PATCH
-- SUMMARY: "Cleaned path placeholders (no double slashes), clarified target file naming, added KB scope + RAW-only references."
-- REASON: "Prevent malformed file paths and keep template aligned with boot-first runtime."
-- IMPACT: "Engine stamping becomes cleaner and less error-prone."
-- CHANGE_ID: UE.CHG.2026-01-20.TPL.ENG.002
-
----
-
-## 0) PURPOSE
-This template is used to create a new engine file inside:
-- `03_SYSTEM_ENTITIES/10_ENG__ENGINES/<FAMILY_FOLDER>/NN__<ENGINE_NAME>_ENG.md`
-
-It enforces:
-- canonical header
-- mandatory boundaries
-- mandatory mini-contract (CONSUMES/PRODUCES/DEPENDS_ON/OUTPUT_TARGET)
-- minimal output schemas
-- registration checklist (index + dependency visibility)
-
----
-
-## 1) TARGET
-TARGET_CLASS: ENG  
-TARGET_LAYER: 03_SYSTEM_ENTITIES  
-TARGET_FOLDER: `03_SYSTEM_ENTITIES/10_ENG__ENGINES/`
-
-REQUIRED_INDEX (GLOBAL):
-- `03_SYSTEM_ENTITIES/10_ENG__ENGINES/02__INDEX_ALL_ENGINES.md`
-
-REQUIRED_REALM_README (GLOBAL):
-- `03_SYSTEM_ENTITIES/10_ENG__ENGINES/00__README__ENGINES_REALM.md`
-
-REQUIRED_RULESET (GLOBAL):
-- `03_SYSTEM_ENTITIES/10_ENG__ENGINES/01__RULES__ENGINES.md`
-
----
-
-## 2) STRUCTURE SKELETON (COPY BELOW INTO NEW ENGINE FILE)
-IMPORTANT:
-- keep the section order exactly
-- keep RAW references in interfaces where possible
-- do not add second STATUS/LOCK blocks at file end
-
---- CUT HERE ---
-
-# <ENGINE NAME> — ENGINE (ENG)
-
-FILE: 03_SYSTEM_ENTITIES/10_ENG__ENGINES/<FAMILY_FOLDER>/NN__<ENGINE_NAME>_ENG.md
-SCOPE: Universe Engine (Games volume)
-SERIAL: C425-B513
-LAYER: 03_SYSTEM_ENTITIES
-DOC_TYPE: ENGINE
-ENGINE_TYPE: <FAMILY_OR_DOMAIN>
-LEVEL: L2
-STATUS: ACTIVE
-LOCK: FIXED
+TEMPLATE_FOR: ENTITY_PASSPORT (ENGINE)
+DOMAIN: ENT
+UID: UE.V2.ENT.TPL.ENGINE.001
 VERSION: 1.0.0
-UID: <UID>
-OWNER: SYSTEM
-ROLE: <one line: what this engine deterministically does>
-
-CHANGE_NOTE:
-- DATE: <YYYY-MM-DD>
-- TYPE: <PATCH|MINOR|MAJOR>
-- SUMMARY: "<what changed>"
-- REASON: "<why>"
-- IMPACT: "<impact>"
-- CHANGE_ID: <CHANGE_ID>
+STATUS: ACTIVE
+MODE: REPO (USAGE-ONLY, NO-EDIT)
+CREATED: 2026-01-31
+UPDATED: 2026-01-31
+OWNER: SYS
+NAV_RULE: Template has no RAW
 
 ---
 
-## 0) PURPOSE (ENGINE LAW)
-- <what problem it solves>
-- <what it outputs>
-- <what it guarantees>
+## [M] PURPOSE
+Шаблон паспорта сущности типа ENGINE.
+ENGINE — исполняемый модуль домена: принимает INPUT_TOKENS, применяет правила/пайп, выдаёт ARTIFACTS.
 
----
+## [M] HARD_RULES
+- Никаких RAW внутри паспорта. Адреса резолвятся через INDEX_MANIFEST.
+- Все внешние ссылки только как KEYS (INDEX_MANIFEST KEYS).
+- Минимальность: 1–2 строки на секцию, без лирики.
+- Любой выход — артефакт (OUTPUT_PACK / PATCH_NOTES / TOKENS), не “голый текст”.
+- Трассируемость: каждый прогон фиксирует RESOURCES_USED + MARKER_FOUND + GATES.
 
-## 1) SCOPE & BOUNDARIES (CRITICAL)
-### 1.1 In scope
-- <hard in-scope statements>
+## [M] REQUIRED_FIELDS (header)
+- FILE
+- SCOPE
+- DOC_TYPE
+- ENTITY_TYPE
+- UID
+- VERSION
+- STATUS
+- MODE
+- CREATED
+- UPDATED
+- OWNER
 
-### 1.2 Out of scope
-- <hard out-of-scope statements>
+## [M] REQUIRED_SECTIONS
+- PURPOSE
+- ROLE
+- CAPABILITIES
+- INPUTS
+- OUTPUTS
+- DEPENDENCIES (KEYS ONLY)
+- EXECUTION_MODEL
+- ARTIFACTS
+- INTERFACES (KEYS ONLY)
+- KB_SCOPE
+- GATES
+- CHANGELOG
 
-### 1.3 Collision rule (anti-duplication)
-- If overlap with <other family/engine> → route to: <preferred engine/orc/spc> and stop here.
+## [M] TOKEN_MODEL
+INPUT_TOKENS:
+- TASK_TEXT
+- CONTEXT_MIN?
+- MODE_HINT?
 
----
+OUTPUT_TOKENS:
+- ARTIFACTS
+- PATCH_NOTES?
+- RUN_SUMMARY
 
-## 2) INPUTS / OUTPUTS (MINI-CONTRACT — MANDATORY)
-CONSUMES:
-- <1..7 concrete input artifacts>
+## [M] GATES (canonical)
+PASS_IF:
+- UID present
+- VERSION present
+- Required sections present
+- Outputs are artifacts (not raw chat)
 
-PRODUCES:
-- <1..7 concrete output artifacts>
+REWORK_IF:
+- Missing CAPABILITIES/INPUTS/OUTPUTS clarity
+- Dependencies exceed minimal set
+- Over-noise in sections
 
-DEPENDS_ON:
-- [] OR
-- <explicit dependencies>
+FAIL_IF:
+- RAW embedded
+- Key references bypass INDEX_MANIFEST
+- Contradicting rules inside passport
 
-OUTPUT_TARGET:
-- <KB|PRJ|OUT|AST|LOG|DB> (choose at least one primary)
+## [M] BODY_TEMPLATE
 
----
+### ENTITY_HEADER
+ENTITY_TYPE: ENGINE
+ENTITY_NAME: <REPLACE_ME>
+ENTITY_KEY: <KEY_FOR_INDEX_MANIFEST>         # e.g. ENT.ENGINE.AUD.MIX.001 (your system decides)
+DOMAIN_TAGS: [<LIST>]                         # e.g. [AUD], [VIS], [SYS]
+OWNER_TEAM: <SYS|TEAM>
+LIFECYCLE: ACTIVE|DRAFT|DEPRECATED
 
-## 3) OUTPUT SCHEMAS (MANDATORY)
-For each PRODUCES artifact define:
+### PURPOSE
+<1-2 lines>
 
-### 3.X <ARTIFACT_NAME>
-MUST:
-- <fields required>
+### ROLE
+Что делает этот ENGINE в системе (одной строкой).
 
-OPTIONAL:
-- <fields optional>
+### CAPABILITIES
+- <capability 1>
+- <capability 2>
+- <capability 3>
 
-VALIDATION:
-- <what must be true to pass>
+### INPUTS
+- TOKENS: [TASK_TEXT, <OTHER_TOKENS...>]
+- REQUIRED_CONTEXT: <one line>
+- ASSUMPTIONS: <one line>
 
-STORAGE:
-- <where it should live and naming expectations>
+### OUTPUTS
+- ARTIFACTS: [<OUTPUT_PACK_TYPE>, <OTHER_ARTIFACTS...>]
+- TOKENS: [RUN_SUMMARY, PATCH_NOTES?]
 
----
+### DEPENDENCIES (KEYS ONLY)
+- INDEX_KEYS: [<KEYS_ONLY>]                   # references to REG/XREF/KB/LAW/STD as KEYS
+- OPTIONAL_KEYS: [<KEYS_ONLY>]
 
-## 4) WORKFLOW (HOW IT RUNS)
-### 4.1 Steps (deterministic)
-1) <step>
-2) <step>
-3) <step>
+### EXECUTION_MODEL
+- EXEC_MODE: FAST|RELEASE_READY|MASTERPIECE
+- STEP_STYLE: STEP-RUN
+- DEFAULT_STRATEGY: <one line>
 
-### 4.2 Default heuristics
-- <rules of thumb that stay deterministic>
+### ARTIFACTS
+- OUTPUT_PACK: <OUTPUT_PACK_TYPE>
+- STRUCTURE:
+  - SUMMARY: <1-3 bullets>
+  - MAIN: <core result>
+  - CHECKS: <gate results>
+  - NEXT: <go / next step>
 
-### 4.3 Failure modes
-- <S0 blockers>
-- <S1 blockers>
-- <S2 non-blocking issues>
+### INTERFACES (KEYS ONLY)
+- INPUT_INTERFACES: [<KEYS_ONLY>]
+- OUTPUT_INTERFACES: [<KEYS_ONLY>]
+- NOTES: "Resolve via INDEX_MANIFEST only"
 
----
+### KB_SCOPE
+KB_INPUTS:
+- <what knowledge is allowed/needed>
 
-## 5) QUALITY BAR (WHAT “DONE” MEANS)
-- <acceptance bar>
-- <no drift rules>
+KB_OUTPUTS:
+- <what gets written/produced>
 
----
+KB_BOUNDARIES:
+- No guessing
+- No RAW inside entity
+- Only sources resolved via INDEX_MANIFEST keys
 
-## 6) INTEGRATION & XREF (WHEN APPLICABLE)
-### 6.1 Required registries / maps
-- Dependency registry record needed: YES/NO
-- XREF map update needed: YES/NO
+### GATES
+PASS_IF:
+- <list>
 
-### 6.2 External interfaces (RAW references only)
-- <RAW link 1>
-- <RAW link 2>
+REWORK_IF:
+- <list>
 
----
+FAIL_IF:
+- <list>
 
-## 7) KNOWLEDGE BASE (KB) SCOPE
-KB INPUTS:
-- <what knowledge this engine consumes>
-
-KB OUTPUTS:
-- none (unless explicitly producing a KB module artifact)
-
-BOUNDARIES:
-- <what this engine will never do>
-
----
-
-## FINAL RULE (LOCK)
-OWNER: SYSTEM
-LOCK: <OPEN|FIXED>
-
---- END.
-
---- CUT HERE ---
-
----
-
-## 3) INDEX + REGISTRATION CHECKLIST (MANDATORY)
-When a new engine is created:
-1) Add its RAW link to:
-   - `03_SYSTEM_ENTITIES/10_ENG__ENGINES/02__INDEX_ALL_ENGINES.md`
-2) Ensure it is placed in the correct FAMILY folder
-3) Ensure filename number `NN__` matches index order inside FAMILY
-4) Ensure FAMILY README exists and is coherent
-5) Ensure MINI-CONTRACT is concrete (no vague artifacts)
-6) Ensure BOUNDARIES + collision rule exist
-7) If DEPENDS_ON is not empty:
-   - ensure dependency visibility is not hidden (registry/map if applicable)
-
----
-
-## 4) INTERFACES (RAW ONLY)
-- ENG REALM README:
-  - RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/00__README__ENGINES_REALM.md
-- ENG RULESET:
-  - RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/01__RULES__ENGINES.md
-- ENG GLOBAL INDEX:
-  - RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/02__INDEX_ALL_ENGINES.md
-
---- END.
+### CHANGELOG (append-only)
+- DATE: 0000-00-00
+  CHANGE_ID: <REPLACE_ME>
+  TYPE: CREATE|UPDATE|DEPRECATE
+  NOTES: <one line>

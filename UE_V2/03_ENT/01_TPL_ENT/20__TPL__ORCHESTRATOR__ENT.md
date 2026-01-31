@@ -1,206 +1,152 @@
-# TPL ORCHESTRATOR — ENTITY TEMPLATE (CANON)
-FILE: 03_SYSTEM_ENTITIES/01_TPL__TEMPLATES/20__TPL__ORCHESTRATOR.md
-
-SCOPE: Universe Engine
-LAYER: 03_SYSTEM_ENTITIES
-ENTITY_GROUP: TEMPLATES (TPL)
+FILE: UE_V2/03_ENT/01_TPL_ENT/20__TPL__ORCHESTRATOR__ENT.md
+SCOPE: UE_V2 / 03_ENT / 01_TPL_ENT
 DOC_TYPE: TEMPLATE
-TEMPLATE_TYPE: ENTITY_ORCHESTRATOR
-LEVEL: L1
-STATUS: ACTIVE
-LOCK: FIXED
+TEMPLATE_FOR: ENTITY_PASSPORT (ORCHESTRATOR)
+DOMAIN: ENT
+UID: UE.V2.ENT.TPL.ORCHESTRATOR.001
 VERSION: 1.0.0
-UID: UE.TPL.ORC.001
-OWNER: SYSTEM
-ROLE: Canonical template to create any ORC Orchestrator file (pipeline contract + gates + registration checklist)
-
-CHANGE_NOTE:
-- DATE: 2026-01-11
-- TYPE: MAJOR
-- SUMMARY: "Created ORC orchestrator template: pipeline spec, inputs/outputs, gates, dependency/xref, registration checklist."
-- REASON: "Orchestrators must be deterministic and auditable."
-- IMPACT: "Stable pipelines + no missing gate/spec."
-- CHANGE_ID: UE.CHG.2026-01-11.TPL.ORC.001
+STATUS: ACTIVE
+MODE: REPO (USAGE-ONLY, NO-EDIT)
+CREATED: 2026-01-31
+UPDATED: 2026-01-31
+OWNER: SYS
+NAV_RULE: Template has no RAW
 
 ---
 
-## 0) PURPOSE
-This template creates an ORC file that defines a deterministic pipeline:
-- what stages exist
-- what entities are invoked (ENG/SPC/CTL/VAL/QA)
-- what gates block progression
-- what artifacts are produced and where they go
+## [M] PURPOSE
+Шаблон паспорта сущности ORCHESTRATOR.
+ORCHESTRATOR собирает WORK_SET, выбирает роли/шаблоны по REG+XREF+KB_SCOPE, запускает STEP-RUN и формирует OUTPUT_PACK.
 
----
+## [M] HARD_RULES
+- Никаких RAW внутри. Только KEYS.
+- ROUTING: выбор участников только через REG + XREF + KB_SCOPE (KEYS ONLY).
+- STEP-RUN обязателен: каждый этап = одна пачка действий.
+- Каждый этап выдаёт NEXT: "го" или FAIL_CODE.
+- Не раздувать состав: минимально-достаточный WORK_SET.
 
-## 1) TARGET
-TARGET_CLASS: ORC  
-TARGET_FOLDER: `03_SYSTEM_ENTITIES/20_ORC__ORCHESTRATORS/`  
-REQUIRED_INDEX_OWNER (GLOBAL): `03_SYSTEM_ENTITIES/20_ORC__ORCHESTRATORS/02__INDEX_ALL_ORCHESTRATORS`  
-REQUIRED_FAMILY_README: `03_SYSTEM_ENTITIES/20_ORC__ORCHESTRATORS/<FAMILY>/00__README__<FAMILY>.md` (if family uses a README)
+## [M] REQUIRED_SECTIONS
+- PURPOSE
+- ROUTING_RULES
+- WORK_SET_POLICY
+- STEP_RUN
+- INPUTS/OUTPUTS
+- INTERFACES (KEYS ONLY)
+- KB_SCOPE
+- GATES
+- CHANGELOG
 
----
+## [M] FAIL_CODES (canonical)
+- UE.FAIL.INPUT_ABSENT
+- UE.FAIL.MISSING_KEY
+- UE.FAIL.GATE_FAIL
+- UE.FAIL.LOG_MISSING
 
-## 2) STRUCTURE SKELETON (COPY BELOW INTO NEW ORC FILE)
-> IMPORTANT: keep the section order exactly.
-> ORC must be readable as a pipeline spec without opening any other files.
+## [M] BODY_TEMPLATE
 
---- CUT HERE ---
+### ENTITY_HEADER
+ENTITY_TYPE: ORCHESTRATOR
+ENTITY_NAME: <REPLACE_ME>
+ENTITY_KEY: <KEY_FOR_INDEX_MANIFEST>
+DOMAIN_TAGS: [<LIST>]
+OWNER_TEAM: <SYS|TEAM>
+LIFECYCLE: ACTIVE|DRAFT|DEPRECATED
 
-# <ORC TITLE> — ORCHESTRATOR (ORC)
-FILE: 03_SYSTEM_ENTITIES/20_ORC__ORCHESTRATORS/<FAMILY_PATH>/NN__<ORC_NAME>_ORC.md
+### PURPOSE
+<1-2 lines>
 
-SCOPE: Universe Engine
-LAYER: 03_SYSTEM_ENTITIES
-ENTITY_GROUP: ORCHESTRATORS (ORC)
-DOC_TYPE: ORCHESTRATOR
-ORC_TYPE: <CORE|DOMAIN|PRODUCTION|MUSIC|META>
-LEVEL: <L1|L2|L3>
-STATUS: <DRAFT|ACTIVE|DEPRECATED|ARCHIVED>
-LOCK: <OPEN|FIXED>
-VERSION: <X.Y.Z>
-UID: <UE.ORC.<FAMILY>.<NAME>.<NNN>>
-OWNER: SYSTEM
-ROLE: <One-line: what this orchestrator pipeline does>
+### ROUTING_RULES (KEYS ONLY)
+- REG_KEYS: [<KEYS_ONLY>]                     # registries for types/minset
+- XREF_KEYS: [<KEYS_ONLY>]                    # how to pick roles/entities
+- KB_KEYS: [<KEYS_ONLY>]                      # allowed KB scope
+- LAW_KEYS: [LAW_01, LAW_02, LAW_03, LAW_04, LAW_05, LAW_06, LAW_14, LAW_19, LAW_20, LAW_21]
 
-CHANGE_NOTE:
-- DATE: <YYYY-MM-DD>
-- TYPE: <MAJOR|MINOR|PATCH>
-- SUMMARY: "<what changed>"
-- REASON: "<why>"
-- IMPACT: "<impact>"
-- CHANGE_ID: <UE.CHG.YYYY-MM-DD....>
+### WORK_SET_POLICY
+- MAX_ROLES: <number>                          # default 3-5
+- MIN_SET_REQUIRED: true
+- SELECTION_CRITERIA: <one line>
+- NO_GUESS: true
 
----
+### INPUTS
+- TOKENS: [TASK_TEXT, MODE_HINT?]
+- REQUIRED: [TASK_TEXT]
 
-## 0) PURPOSE (PIPELINE LAW)
-- <When this ORC is invoked>
-- <What outcome it guarantees>
-- <What it must never do (boundaries)>
+### OUTPUTS
+- ARTIFACTS: [OUTPUT_PACK, RUN_LOG?, DECISION_LOG?]
+- TOKENS: [WORK_SET_KEYS, RUN_SUMMARY]
 
----
+### STEP_RUN
+- STEP: S0
+  GOAL: Task sanity + exec mode
+  INPUTS: [TASK_TEXT, MODE_HINT?]
+  TARGETS: [INDEX_MANIFEST]
+  ACTIONS:
+    - Ensure TASK_TEXT exists
+    - Set EXEC_MODE (DEFAULT if no hint)
+  OUTPUTS: [TASK_TOKEN, EXEC_MODE]
+  CHECKS: [TASK_PRESENT]
+  FAIL: UE.FAIL.INPUT_ABSENT
+  NEXT: "го"
 
-## 1) INPUTS / OUTPUTS (PIPELINE CONTRACT — MANDATORY)
-CONSUMES:
-- <1..5 input artifacts>
+- STEP: S1
+  GOAL: Build minimal WORK_SET
+  INPUTS: [TASK_TOKEN]
+  TARGETS: [INDEX_MANIFEST]
+  ACTIONS:
+    - Validate MIN_SET keys exist
+    - Select required roles/entities via REG+XREF+KB_SCOPE (KEYS ONLY)
+  OUTPUTS: [WORK_SET_KEYS]
+  CHECKS: [REQUIRED_KEYS_OK]
+  FAIL: UE.FAIL.MISSING_KEY
+  NEXT: "го"
 
-PRODUCES:
-- <1..5 output artifacts>
+- STEP: S2
+  GOAL: Execute domain run
+  INPUTS: [WORK_SET_KEYS, TASK_TOKEN, EXEC_MODE]
+  TARGETS: [<WORK_SET_KEYS_ONLY>]
+  ACTIONS:
+    - Resolve keys via INDEX_MANIFEST
+    - Open minimal set
+    - Produce OUTPUT_PACK artifact
+  OUTPUTS: [OUTPUT_PACK, PATCH_NOTES?]
+  CHECKS: [QUALITY_GATE]
+  FAIL: UE.FAIL.GATE_FAIL
+  NEXT: "го"
 
-DEPENDS_ON:
-- [] OR
-- - <RAW link(s) to prerequisite ORC/ENG/CTL>
+- STEP: S3
+  GOAL: Trace + log
+  INPUTS: [OUTPUT_PACK, DECISIONS]
+  TARGETS: [<LOG_KEYS_ONLY>]
+  ACTIONS:
+    - Write RUN_LOG_ENTRY
+    - Write DECISION_LOG_ENTRY (if routing/choice made)
+  OUTPUTS: [RUN_LOG?, DECISION_LOG?]
+  CHECKS: [LOG_WRITTEN?]
+  FAIL: UE.FAIL.LOG_MISSING
+  NEXT: "го"
 
-OUTPUT_TARGET:
-- <where produced artifacts are stored>
+### INTERFACES (KEYS ONLY)
+- INPUT_INTERFACES: [<KEYS_ONLY>]
+- OUTPUT_INTERFACES: [<KEYS_ONLY>]
 
----
+### KB_SCOPE
+KB_INPUTS:
+- Only allowed KB keys via routing policy
+KB_OUTPUTS:
+- Output pack + logs only
+KB_BOUNDARIES:
+- No guessing, no RAW
 
-## 2) PIPELINE STAGES (DETERMINISTIC)
-Define stages as a strict ordered list.
+### GATES
+PASS_IF:
+- WORK_SET minimal + trace present
+REWORK_IF:
+- Over-noise / too many roles / unclear outputs
+FAIL_IF:
+- RAW embedded / bypass manifest / missing required keys
 
-### Stage 01 — <NAME>
-GOAL:
-- <what this stage achieves>
-
-INVOKES:
-- ENGINES:
-  - <RAW: ...> (optional)
-- SPECIALISTS:
-  - <RAW: ...> (optional)
-- CONTROLLERS:
-  - <RAW: ...> (optional)
-- VALIDATORS:
-  - <RAW: ...> (optional)
-- QA:
-  - <RAW: ...> (optional)
-
-ARTIFACTS OUT:
-- <what this stage outputs>
-
-GATES (BLOCKING RULES):
-- <which validator/qa/controller blocks progress>
-
-FAIL / FIX:
-- FAIL IF: <condition>
-- FIX BY: <action>
-
-### Stage 02 — <NAME>
-(repeat)
-
----
-
-## 3) CONTROL LAYER (POLICIES USED)
-- CTL references (RAW-only):
-  - <RAW: ...>
-- Default policies (short):
-  - <policy name>: <what it enforces>
-
----
-
-## 4) VALIDATION MATRIX (WHAT IS CHECKED)
-- VAL references (RAW-only):
-  - <RAW: ...>
-- What each VAL checks:
-  - <VAL name> → <check>
-
----
-
-## 5) QA CHECKS (HUMAN/FAST TESTS)
-- QA references (RAW-only):
-  - <RAW: ...>
-- Minimum QA bar:
-  - <test 1>
-  - <test 2>
-
----
-
-## 6) COLLISION / NOVELTY / MEMORY (IF APPLICABLE)
-- Catalog memory used? <YES/NO>
-- Collision thresholds / rules: <short>
-- Novelty injection strategy: <short>
-
----
-
-## 7) INTEGRATION & XREF (MANDATORY WHEN APPLICABLE)
-- Needs XREF map updates? <YES/NO>
-- Needs dependency registry record? <YES/NO>
-- External interfaces (RAW-only):
-  - <RAW: ...>
-
----
-
-## 8) OUTPUT PACK SPEC (IF THIS ORC PRODUCES A PACK)
-Define:
-- pack contents list
-- naming convention
-- release variants (if any)
-
----
-
-## FINAL RULE (LOCK)
-OWNER: SYSTEM
-LOCK: <OPEN|FIXED>
-
---- END.
-
---- CUT HERE ---
-
----
-
-## 3) INDEX + REGISTRATION CHECKLIST (MANDATORY)
-When a new ORC is created:
-1) Add RAW link to `20_ORC__ORCHESTRATORS/02__INDEX_ALL_ORCHESTRATORS`
-2) Ensure correct FAMILY folder + correct numbering `NN__`
-3) Ensure gates are explicit (VAL/QA/CTL listed)
-4) If it introduces dependencies:
-   - register them in the relevant dependency registry / xref map (if required)
-5) Ensure OUTPUT_TARGET is defined (no “somewhere”)
-
----
-
-## FINAL RULE (LOCK)
-OWNER: SYSTEM
-LOCK: FIXED
-
---- END.
+### CHANGELOG (append-only)
+- DATE: 0000-00-00
+  CHANGE_ID: <REPLACE_ME>
+  TYPE: CREATE|UPDATE|DEPRECATE
+  NOTES: <one line>
