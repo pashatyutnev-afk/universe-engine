@@ -1,0 +1,80 @@
+FILE: UE_V2/03_ENT/90_XREF/00__INDEX_MANIFEST__XREF.md
+SCOPE: Universe Engine (UE_V2)
+DOC_TYPE: INDEX_MANIFEST
+DOMAIN: XREF
+UID: UE.V2.XREF.INDEX_MANIFEST.001
+VERSION: 1.0.0
+STATUS: ACTIVE
+MODE: REPO (USAGE-ONLY, NO-EDIT)
+NAV_RULE: RAW-ONLY
+CREATED: 2026-01-30
+OWNER: SYS
+
+---
+
+# INDEX_MANIFEST — XREF
+
+PURPOSE:
+Единая адресная таблица папки XREF. Хранит RAW для всех XREF-документов и является единственным источником адресов для PIPELINE_CONTRACT и рантайма.
+
+ANTI_NOISE:
+- RAW хранится только здесь.
+- Навигация по XREF: KEY → RAW.
+- Запрещено дублировать RAW в других файлах XREF.
+
+---
+
+## KEYSPACE (XREF)
+KEY_FORMAT:
+XREF.<OBJECT>
+
+RESOLUTION_RULE:
+KEY → RAW берётся только из TABLE ниже.
+
+---
+
+## TABLE (ADDRESS BOOK)
+
+> Заполни колонку RAW реальными RAW-ссылками, когда будешь вставлять.
+
+| KEY | FILE | DOC_TYPE | PURPOSE_BRIEF | STATUS | RAW |
+|---|---|---|---|---|---|
+| XREF.INDEX_MANIFEST | 00__INDEX_MANIFEST__XREF.md | INDEX_MANIFEST | Адресная таблица XREF | ACTIVE | <PASTE_RAW> |
+| XREF.PIPELINE_CONTRACT | 00__PIPELINE_CONTRACT__XREF.md | PIPELINE_CONTRACT | Навигатор XREF маппингов | ACTIVE | <PASTE_RAW> |
+| XREF.DOMAIN_MAP | 01__XREF__DOMAIN_MAP__XREF.md | XREF_MAP | Домены ↔ папки/семантика | ACTIVE | <PASTE_RAW> |
+| XREF.ROLE_MAP | 02__XREF__ROLE_MAP__XREF.md | XREF_MAP | Роли ↔ типы сущностей ↔ ответственность | ACTIVE | <PASTE_RAW> |
+| XREF.VALIDATION_MATRIX | 03__MAP__VALIDATION_MATRIX__XREF.md | XREF_MATRIX | Какие проверки обязательны где | ACTIVE | <PASTE_RAW> |
+| XREF.PIPELINES_MAP | 04__MAP__PIPELINES__XREF.md | XREF_MAP | Пайпы ↔ домены ↔ триггеры | ACTIVE | <PASTE_RAW> |
+| XREF.ENTITY_IO_TYPES | 05__MAP__ENTITY_IO_TYPES__XREF.md | XREF_SCHEMA_MAP | Типы входов/выходов сущностей | ACTIVE | <PASTE_RAW> |
+| XREF.KB_SCOPE_BINDINGS | 06__MAP__KB_SCOPE_BINDINGS__XREF.md | XREF_MAP | KB_SCOPE ↔ домены ↔ сущности | ACTIVE | <PASTE_RAW> |
+| XREF.COVERAGE_TO_ENTITIES | 07__MAP__COVERAGE_TO_ENTITIES__XREF.md | XREF_MATRIX | Покрытие функций ↔ сущности | ACTIVE | <PASTE_RAW> |
+| XREF.DEFAULT_CHAIN | 08__MAP__DEFAULT_CHAIN__XREF.md | XREF_CHAIN | Дефолтная цепочка вызовов | ACTIVE | <PASTE_RAW> |
+| XREF.ENG_TO_ORC | 09__MAP__ENG_to_ORC__XREF.md | XREF_MAP | ENG outputs ↔ ORC handoff | ACTIVE | <PASTE_RAW> |
+| XREF.ORC_TO_SPC | 10__MAP__ORC_to_SPC__XREF.md | XREF_MAP | ORC states ↔ SPC checkpoints | ACTIVE | <PASTE_RAW> |
+
+---
+
+## MUST_LOAD (XREF)
+MIN_SET_KEYS:
+- XREF.INDEX_MANIFEST
+- XREF.PIPELINE_CONTRACT
+- XREF.DEFAULT_CHAIN
+- XREF.VALIDATION_MATRIX
+- XREF.ROLE_MAP
+
+OPTIONAL_KEYS:
+- XREF.DOMAIN_MAP
+- XREF.PIPELINES_MAP
+- XREF.ENTITY_IO_TYPES
+- XREF.KB_SCOPE_BINDINGS
+- XREF.COVERAGE_TO_ENTITIES
+- XREF.ENG_TO_ORC
+- XREF.ORC_TO_SPC
+
+---
+
+## GUARDS
+STOP_IF:
+- RAW missing for any MIN_SET_KEYS
+GAP_IF:
+- requested KEY absent in TABLE
