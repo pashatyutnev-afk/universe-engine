@@ -169,7 +169,7 @@ INDEX_MANIFEST — мастер “таблица адресов” для ко�
   KIND: FOLDER
   ROLE: Layer folder placeholder for 06_PIPE
   DESC: Layer exists; INDEX_MANIFEST RAW not registered yet
-  RAW:
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/06_PIPE/00__INDEX_MANIFEST__PIPE.md
   PATH: UE_V2/06_PIPE
   MARKERS: [LAYER, PIPE, GAP]
   STATUS: DRAFT
@@ -181,7 +181,7 @@ INDEX_MANIFEST — мастер “таблица адресов” для ко�
   KIND: FOLDER
   ROLE: Layer folder placeholder for 07_DOM_AUD
   DESC: Layer exists; INDEX_MANIFEST RAW not registered yet
-  RAW:
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/07_DOM_AUD/00__INDEX_MANIFEST__DOM__AUD.md
   PATH: UE_V2/07_DOM_AUD
   MARKERS: [LAYER, DOM, AUD, GAP]
   STATUS: DRAFT
@@ -193,7 +193,7 @@ INDEX_MANIFEST — мастер “таблица адресов” для ко�
   KIND: FOLDER
   ROLE: Layer folder placeholder for 08_DOM_VIS
   DESC: Layer exists; INDEX_MANIFEST RAW not registered yet
-  RAW:
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/08_DOM_VIS/00__INDEX_MANIFEST__DOM__VIS.md
   PATH: UE_V2/08_DOM_VIS
   MARKERS: [LAYER, DOM, VIS, GAP]
   STATUS: DRAFT
@@ -205,7 +205,7 @@ INDEX_MANIFEST — мастер “таблица адресов” для ко�
   KIND: FOLDER
   ROLE: Layer folder placeholder for 09_DOM_LOR
   DESC: Layer exists; INDEX_MANIFEST RAW not registered yet
-  RAW:
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/09_DOM_LOR/00__INDEX_MANIFEST__DOM__LOR.md
   PATH: UE_V2/09_DOM_LOR
   MARKERS: [LAYER, DOM, LOR, GAP]
   STATUS: DRAFT
@@ -217,7 +217,7 @@ INDEX_MANIFEST — мастер “таблица адресов” для ко�
   KIND: FOLDER
   ROLE: Layer folder placeholder for 10_REL
   DESC: Layer exists; INDEX_MANIFEST RAW not registered yet
-  RAW:
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/10_REL/00__INDEX_MANIFEST__REL.md
   PATH: UE_V2/10_REL
   MARKERS: [LAYER, REL, GAP]
   STATUS: DRAFT
@@ -229,7 +229,7 @@ INDEX_MANIFEST — мастер “таблица адресов” для ко�
   KIND: FOLDER
   ROLE: Layer folder placeholder for 11_TKN
   DESC: Layer exists; INDEX_MANIFEST RAW not registered yet
-  RAW:
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/11_TKN/00__INDEX_MANIFEST__TKN.md
   PATH: UE_V2/11_TKN
   MARKERS: [LAYER, TKN, GAP]
   STATUS: DRAFT
@@ -241,7 +241,7 @@ INDEX_MANIFEST — мастер “таблица адресов” для ко�
   KIND: FOLDER
   ROLE: Layer folder placeholder for 12_LEX
   DESC: Layer exists; INDEX_MANIFEST RAW not registered yet
-  RAW:
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/12_LEX/00__INDEX_MANIFEST__TKN.md
   PATH: UE_V2/12_LEX
   MARKERS: [LAYER, LEX, GAP]
   STATUS: DRAFT
@@ -253,7 +253,7 @@ INDEX_MANIFEST — мастер “таблица адресов” для ко�
   KIND: FOLDER
   ROLE: Layer folder placeholder for 13_STR_PNT
   DESC: Layer exists; INDEX_MANIFEST RAW not registered yet
-  RAW:
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/13_STR_PNT/00__INDEX_MANIFEST__STR__PNT.md
   PATH: UE_V2/13_STR_PNT
   MARKERS: [LAYER, STR_PNT, GAP]
   STATUS: DRAFT
@@ -265,7 +265,7 @@ INDEX_MANIFEST — мастер “таблица адресов” для ко�
   KIND: FOLDER
   ROLE: Layer folder placeholder for 14_LOG
   DESC: Layer exists; INDEX_MANIFEST RAW not registered yet
-  RAW:
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/14_LOG/00__INDEX_MANIFEST__STR__PNT.md
   PATH: UE_V2/14_LOG
   MARKERS: [LAYER, LOG, GAP]
   STATUS: DRAFT
