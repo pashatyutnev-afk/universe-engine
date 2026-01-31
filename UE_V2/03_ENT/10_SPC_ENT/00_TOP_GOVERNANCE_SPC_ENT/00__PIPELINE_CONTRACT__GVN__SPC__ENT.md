@@ -48,25 +48,6 @@ PIPELINE_CONTRACT — навигатор действий для реалма TO
 5) Return OUTPUT_PACK (or PATCH_NOTES) + NEXT prompt
 
 ## [M] STEP-RUN (canonical)
-Each step block format:
-- STEP: S<n>
-  GOAL: <one line>
-  INPUTS: [<tokens>]
-  TARGETS: [<KEYS_ONLY>]
-  ACTIONS:
-    - <imperative action>
-  OUTPUTS: [<tokens/artifacts>]
-  CHECKS: [<gates>]
-  FAIL: <FAIL_CODE_IF_ANY>
-  NEXT: "го"
-
-## [M] FAIL_CODES
-- UE.FAIL.INPUT_ABSENT
-- UE.FAIL.MISSING_KEY
-- UE.FAIL.GATE_FAIL
-
-## [M] STEPS
-
 - STEP: S0
   GOAL: Entry sanity and task framing
   INPUTS: [TASK_TEXT, MODE_HINT?]
