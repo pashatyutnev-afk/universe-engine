@@ -83,11 +83,13 @@ INDEX_MANIFEST — “таблица адресов” и кратких смы�
   UPDATED: 2026-01-31
 
 ### [O] CONTENT (laws)
+# NOTE: UID optional here (do not guess). Use LAW file as ground truth.
+
 - KEY: LAW_01
   UID:
   KIND: LAW
   ROLE: Canon integrity
-  DESC: Canon Integrity: единый смысл, нет внутренних конфликтов
+  DESC: Canon Integrity
   RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/01_SYS/02_SYS_LAW/SYS__LAW_01.md
   PATH: UE_V2/01_SYS/02_SYS_LAW/SYS__LAW_01.md
   MARKERS: [LAW]
@@ -99,7 +101,7 @@ INDEX_MANIFEST — “таблица адресов” и кратких смы�
   UID:
   KIND: LAW
   ROLE: Identity stability
-  DESC: Identity Stability: UID/версии фиксируют сущность и историю
+  DESC: Identity Stability
   RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/01_SYS/02_SYS_LAW/SYS__LAW_02.md
   PATH: UE_V2/01_SYS/02_SYS_LAW/SYS__LAW_02.md
   MARKERS: [LAW]
@@ -111,7 +113,7 @@ INDEX_MANIFEST — “таблица адресов” и кратких смы�
   UID:
   KIND: LAW
   ROLE: Artifact only
-  DESC: Artifact Only: нет “голого контента”, только артефакт
+  DESC: Artifact Only
   RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/01_SYS/02_SYS_LAW/SYS__LAW_03.md
   PATH: UE_V2/01_SYS/02_SYS_LAW/SYS__LAW_03.md
   MARKERS: [LAW]
@@ -123,7 +125,7 @@ INDEX_MANIFEST — “таблица адресов” и кратких смы�
   UID:
   KIND: LAW
   ROLE: Navigation integrity
-  DESC: Navigation Integrity: RAW-only, no guessing
+  DESC: Navigation Integrity
   RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/01_SYS/02_SYS_LAW/SYS__LAW_04.md
   PATH: UE_V2/01_SYS/02_SYS_LAW/SYS__LAW_04.md
   MARKERS: [LAW, NAV]
@@ -135,7 +137,7 @@ INDEX_MANIFEST — “таблица адресов” и кратких смы�
   UID:
   KIND: LAW
   ROLE: Minimality
-  DESC: Minimality: минимально-достаточные сущности и тексты
+  DESC: Minimality
   RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/01_SYS/02_SYS_LAW/SYS__LAW_05.md
   PATH: UE_V2/01_SYS/02_SYS_LAW/SYS__LAW_05.md
   MARKERS: [LAW]
@@ -147,7 +149,7 @@ INDEX_MANIFEST — “таблица адресов” и кратких смы�
   UID:
   KIND: LAW
   ROLE: Traceability
-  DESC: Traceability: всё проверяемо по маркерам и трассе
+  DESC: Traceability
   RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/01_SYS/02_SYS_LAW/SYS__LAW_06.md
   PATH: UE_V2/01_SYS/02_SYS_LAW/SYS__LAW_06.md
   MARKERS: [LAW, TRACE]
@@ -159,7 +161,7 @@ INDEX_MANIFEST — “таблица адресов” и кратких смы�
   UID:
   KIND: LAW
   ROLE: Wear texture
-  DESC: Wear Texture: допустимая “текстура износа” (WTI)
+  DESC: Wear Texture
   RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/01_SYS/02_SYS_LAW/SYS__LAW_07.md
   PATH: UE_V2/01_SYS/02_SYS_LAW/SYS__LAW_07.md
   MARKERS: [LAW]
@@ -171,7 +173,7 @@ INDEX_MANIFEST — “таблица адресов” и кратких смы�
   UID:
   KIND: LAW
   ROLE: Inverse contrast
-  DESC: Inverse Contrast: громко→тихо как осознанная форма
+  DESC: Inverse Contrast
   RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/01_SYS/02_SYS_LAW/SYS__LAW_08.md
   PATH: UE_V2/01_SYS/02_SYS_LAW/SYS__LAW_08.md
   MARKERS: [LAW]
@@ -183,7 +185,7 @@ INDEX_MANIFEST — “таблица адресов” и кратких смы�
   UID:
   KIND: LAW
   ROLE: Readability boundary
-  DESC: Readability Boundary: граница читаемости (RI)
+  DESC: Readability Boundary
   RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/01_SYS/02_SYS_LAW/SYS__LAW_09.md
   PATH: UE_V2/01_SYS/02_SYS_LAW/SYS__LAW_09.md
   MARKERS: [LAW]
@@ -195,7 +197,7 @@ INDEX_MANIFEST — “таблица адресов” и кратких смы�
   UID:
   KIND: LAW
   ROLE: Non-clone variance
-  DESC: Non-Clone Variance: “единая ДНК”, но не клоны
+  DESC: Non-Clone Variance
   RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/01_SYS/02_SYS_LAW/SYS__LAW_10.md
   PATH: UE_V2/01_SYS/02_SYS_LAW/SYS__LAW_10.md
   MARKERS: [LAW]
@@ -207,7 +209,7 @@ INDEX_MANIFEST — “таблица адресов” и кратких смы�
   UID:
   KIND: LAW
   ROLE: Low-end anchor
-  DESC: Low-End Anchor: tight low end и якоря саба
+  DESC: Low-End Anchor
   RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/01_SYS/02_SYS_LAW/SYS__LAW_11.md
   PATH: UE_V2/01_SYS/02_SYS_LAW/SYS__LAW_11.md
   MARKERS: [LAW]
@@ -219,7 +221,7 @@ INDEX_MANIFEST — “таблица адресов” и кратких смы�
   UID:
   KIND: LAW
   ROLE: Impact predict
-  DESC: Impact Predict: прогноз нейро-реакции (Alienation/Rage/Hope)
+  DESC: Impact Predict
   RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/01_SYS/02_SYS_LAW/SYS__LAW_12.md
   PATH: UE_V2/01_SYS/02_SYS_LAW/SYS__LAW_12.md
   MARKERS: [LAW]
@@ -231,7 +233,7 @@ INDEX_MANIFEST — “таблица адресов” и кратких смы�
   UID:
   KIND: LAW
   ROLE: Silence point
-  DESC: Silence Point: провал в тишину как целевое состояние
+  DESC: Silence Point
   RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/01_SYS/02_SYS_LAW/SYS__LAW_13.md
   PATH: UE_V2/01_SYS/02_SYS_LAW/SYS__LAW_13.md
   MARKERS: [LAW]
@@ -242,8 +244,8 @@ INDEX_MANIFEST — “таблица адресов” и кратких смы�
 - KEY: LAW_14
   UID:
   KIND: LAW
-  ROLE: Acceptance and release
-  DESC: Acceptance & Release: приёмка, rework, выпуск
+  ROLE: Acceptance & release
+  DESC: Acceptance & Release
   RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/01_SYS/02_SYS_LAW/SYS__LAW_14.md
   PATH: UE_V2/01_SYS/02_SYS_LAW/SYS__LAW_14.md
   MARKERS: [LAW, RELEASE]
@@ -255,7 +257,7 @@ INDEX_MANIFEST — “таблица адресов” и кратких смы�
   UID:
   KIND: LAW
   ROLE: Visual-audio link
-  DESC: Visual-Audio Link: аудио-метрики управляют визуалом
+  DESC: Visual-Audio Link
   RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/01_SYS/02_SYS_LAW/SYS__LAW_15.md
   PATH: UE_V2/01_SYS/02_SYS_LAW/SYS__LAW_15.md
   MARKERS: [LAW, VIS, AUD]
@@ -266,8 +268,8 @@ INDEX_MANIFEST — “таблица адресов” и кратких смы�
 - KEY: LAW_16
   UID:
   KIND: LAW
-  ROLE: ROOT index access only
-  DESC: ROOT_INDEX используется только для выдачи RAW-доступа
+  ROLE: Root index access only
+  DESC: ROOT_INDEX access only
   RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/01_SYS/02_SYS_LAW/SYS__LAW_16.md
   PATH: UE_V2/01_SYS/02_SYS_LAW/SYS__LAW_16.md
   MARKERS: [LAW, NAV]
@@ -278,8 +280,8 @@ INDEX_MANIFEST — “таблица адресов” и кратких смы�
 - KEY: LAW_17
   UID:
   KIND: LAW
-  ROLE: Single entrypoint start
-  DESC: Единая точка запуска рантайма — START
+  ROLE: Single entrypoint START
+  DESC: Single entrypoint START
   RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/01_SYS/02_SYS_LAW/SYS__LAW_17.md
   PATH: UE_V2/01_SYS/02_SYS_LAW/SYS__LAW_17.md
   MARKERS: [LAW, NAV]
@@ -290,8 +292,8 @@ INDEX_MANIFEST — “таблица адресов” и кратких смы�
 - KEY: LAW_18
   UID:
   KIND: LAW
-  ROLE: Must-load manifest
-  DESC: RUNTIME_MANIFEST обязателен, MUST_LOAD ядра
+  ROLE: MUST_LOAD manifest
+  DESC: MUST_LOAD manifest
   RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/01_SYS/02_SYS_LAW/SYS__LAW_18.md
   PATH: UE_V2/01_SYS/02_SYS_LAW/SYS__LAW_18.md
   MARKERS: [LAW, MUST_LOAD]
@@ -302,8 +304,8 @@ INDEX_MANIFEST — “таблица адресов” и кратких смы�
 - KEY: LAW_19
   UID:
   KIND: LAW
-  ROLE: Route via xref reg kb
-  DESC: Выбор маршрута через REG+XREF+KB_SCOPE, по памяти запрещено
+  ROLE: Route via XREF+REG+KB
+  DESC: Route via XREF + REG + KB_SCOPE
   RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/01_SYS/02_SYS_LAW/SYS__LAW_19.md
   PATH: UE_V2/01_SYS/02_SYS_LAW/SYS__LAW_19.md
   MARKERS: [LAW, ROUTE]
@@ -315,7 +317,7 @@ INDEX_MANIFEST — “таблица адресов” и кратких смы�
   UID:
   KIND: LAW
   ROLE: Noise budget
-  DESC: Жёсткие лимиты на контекст/участников/варианты
+  DESC: Noise budget
   RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/01_SYS/02_SYS_LAW/SYS__LAW_20.md
   PATH: UE_V2/01_SYS/02_SYS_LAW/SYS__LAW_20.md
   MARKERS: [LAW, LIMITS]
@@ -327,7 +329,7 @@ INDEX_MANIFEST — “таблица адресов” и кратких смы�
   UID:
   KIND: LAW
   ROLE: Focus-loop allowed
-  DESC: Многопроходная доработка одного фокуса разрешена (FOCUS-LOOP)
+  DESC: Focus-loop allowed
   RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/01_SYS/02_SYS_LAW/SYS__LAW_21.md
   PATH: UE_V2/01_SYS/02_SYS_LAW/SYS__LAW_21.md
   MARKERS: [LAW, LOOP]
