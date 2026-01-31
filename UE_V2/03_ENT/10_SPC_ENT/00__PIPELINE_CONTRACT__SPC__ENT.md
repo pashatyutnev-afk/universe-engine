@@ -1,0 +1,149 @@
+FILE: UE_V2/03_ENT/10_SPC_ENT/00__PIPELINE_CONTRACT__SPC__ENT.md
+SCOPE: UE_V2 / 03_ENT / 10_SPC_ENT
+DOC_TYPE: PIPELINE_CONTRACT
+DOMAIN: SPC_ENT
+UID: UE.V2.ENT.SPC.PIPELINE_CONTRACT.001
+VERSION: 1.0.0
+STATUS: ACTIVE
+MODE: REPO (USAGE-ONLY, NO-EDIT)
+CREATED: 2026-01-31
+UPDATED: 2026-01-31
+OWNER: SYS
+NAV_RULE: Contract has no RAW
+
+---
+
+## [M] PURPOSE
+PIPELINE_CONTRACT — верхний навигатор выполнения для слоя 10_SPC_ENT.
+Не хранит RAW-адреса. Работает через KEY и резолвит адреса в INDEX_MANIFEST.
+Роутит в семейный реалм через его INDEX_MANIFEST и дальше передаёт управление семейному PIPELINE_CONTRACT.
+
+## [M] HARD_RULES
+- Запрещено хранить RAW внутри CONTRACT (без исключений).
+- Все обращения: TARGET_KEY -> resolve via master INDEX_MANIFEST -> open.
+- Выполнение по STEP-RUN: один шаг = одна пачка действий.
+- Никаких эвристик, никаких догадок, никаких keyword-scan.
+- FAMILY_HINT обязателен и должен быть валидным.
+- Семейный PIPELINE_CONTRACT обязателен и резолвится внутри семейного INDEX_MANIFEST.
+
+## [M] REQUIRED_KEYS (must exist in master INDEX_MANIFEST)
+- INDEX_MANIFEST
+- PIPELINE_CONTRACT
+
+- SPC.FAM.GVN.INDEX_MANIFEST
+- SPC.FAM.CRV.INDEX_MANIFEST
+- SPC.FAM.NAR.INDEX_MANIFEST
+- SPC.FAM.CHR.INDEX_MANIFEST
+- SPC.FAM.WRL.INDEX_MANIFEST
+- SPC.FAM.VIS.INDEX_MANIFEST
+- SPC.FAM.SND.INDEX_MANIFEST
+- SPC.FAM.PRD.INDEX_MANIFEST
+- SPC.FAM.PSY.INDEX_MANIFEST
+- SPC.FAM.RSC.INDEX_MANIFEST
+- SPC.FAM.MKT.INDEX_MANIFEST
+- SPC.FAM.META.INDEX_MANIFEST
+
+## [M] CONTRACT_HEADER
+- REALM_ID: UE_V2/03_ENT/10_SPC_ENT
+- DOMAIN: SPC_ENT
+- ARTIFACT_TYPES: [INDEX, PIPE, ENTITY, SPECIALIST_OUTPUT, OUTPUT_PACK, LOG]
+- DEFAULT_MODE: FAST
+
+## [M] FAMILY_SELECTOR (routing keys)
+# RULE: FAMILY_HINT must be one of these IDs (no free text).
+- GOV: SPC.FAM.GVN.INDEX_MANIFEST
+- CREATIVE: SPC.FAM.CRV.INDEX_MANIFEST
+- NARRATIVE: SPC.FAM.NAR.INDEX_MANIFEST
+- CHARACTER: SPC.FAM.CHR.INDEX_MANIFEST
+- WORLD: SPC.FAM.WRL.INDEX_MANIFEST
+- VISUAL: SPC.FAM.VIS.INDEX_MANIFEST
+- SOUND_MUSIC: SPC.FAM.SND.INDEX_MANIFEST
+- PRODUCTION: SPC.FAM.PRD.INDEX_MANIFEST
+- PSYCHOLOGY: SPC.FAM.PSY.INDEX_MANIFEST
+- RESEARCH: SPC.FAM.RSC.INDEX_MANIFEST
+- MARKETING: SPC.FAM.MKT.INDEX_MANIFEST
+- META: SPC.FAM.META.INDEX_MANIFEST
+
+## [M] FAIL_CODES
+- UE.FAIL.INPUT_ABSENT
+- UE.FAIL.MISSING_KEY
+- UE.FAIL.INVALID_FAMILY_HINT
+- UE.FAIL.FAMILY_INDEX_NOT_FOUND
+- UE.FAIL.FAMILY_PIPELINE_MISSING
+
+## [M] EXEC_MODEL (how it runs)
+1) Resolve master INDEX_MANIFEST via KEY: INDEX_MANIFEST
+2) Validate REQUIRED_KEYS exist (all family index keys must be present)
+3) Resolve FAMILY_INDEX_KEY using FAMILY_HINT via FAMILY_SELECTOR
+4) Open FAMILY_INDEX_MANIFEST (resolved from master)
+5) Inside family index, resolve KEY: PIPELINE_CONTRACT and open it
+6) Handoff: continue execution in family realm (family pipeline)
+
+## [M] STEP-RUN (canonical)
+Each step block format:
+- STEP: S<n>
+  GOAL: <one line>
+  INPUTS: [<tokens>]
+  TARGETS: [<KEYS_ONLY>]
+  ACTIONS:
+    - <imperative action>
+  OUTPUTS: [<tokens/artifacts>]
+  CHECKS: [<gates>]
+  FAIL: <FAIL_CODE_IF_ANY>
+  NEXT: "го"
+
+## [M] STEPS
+
+- STEP: S0
+  GOAL: Entry sanity and deterministic route selection
+  INPUTS: [TASK_TEXT, FAMILY_HINT, MODE_HINT?]
+  TARGETS: [INDEX_MANIFEST]
+  ACTIONS:
+    - Ensure TASK_TEXT exists, else FAIL
+    - Ensure FAMILY_HINT exists, else FAIL
+    - Decide EXEC_MODE using MODE_HINT or DEFAULT_MODE
+    - Validate FAMILY_HINT is one of FAMILY_SELECTOR IDs, else FAIL
+  OUTPUTS: [TASK_TOKEN, EXEC_MODE, FAMILY_HINT]
+  CHECKS: [TASK_PRESENT, FAMILY_HINT_PRESENT, FAMILY_HINT_VALID]
+  FAIL: UE.FAIL.INVALID_FAMILY_HINT
+  NEXT: "го"
+
+- STEP: S1
+  GOAL: Load master index and validate full readiness
+  INPUTS: [TASK_TOKEN, FAMILY_HINT]
+  TARGETS: [INDEX_MANIFEST, PIPELINE_CONTRACT]
+  ACTIONS:
+    - Resolve INDEX_MANIFEST via KEY: INDEX_MANIFEST
+    - Validate keys: INDEX_MANIFEST, PIPELINE_CONTRACT exist
+    - Validate ALL REQUIRED_KEYS exist in master INDEX_MANIFEST ENTRIES
+  OUTPUTS: [MASTER_READY]
+  CHECKS: [REQUIRED_KEYS_OK]
+  FAIL: UE.FAIL.MISSING_KEY
+  NEXT: "го"
+
+- STEP: S2
+  GOAL: Enter family realm via family index and open family pipeline
+  INPUTS: [TASK_TOKEN, EXEC_MODE, FAMILY_HINT]
+  TARGETS: [INDEX_MANIFEST]
+  ACTIONS:
+    - Map FAMILY_HINT -> FAMILY_INDEX_KEY via FAMILY_SELECTOR
+    - Ensure FAMILY_INDEX_KEY exists in master index, else FAIL
+    - Resolve and open FAMILY_INDEX_MANIFEST using FAMILY_INDEX_KEY
+    - Inside FAMILY_INDEX_MANIFEST, resolve KEY: PIPELINE_CONTRACT
+    - Open family PIPELINE_CONTRACT
+  OUTPUTS: [FAMILY_INDEX_KEY, FAMILY_PIPELINE_KEY, HANDOFF_READY]
+  CHECKS: [FAMILY_INDEX_OK, FAMILY_PIPELINE_OK]
+  FAIL: UE.FAIL.FAMILY_PIPELINE_MISSING
+  NEXT: "го"
+
+- STEP: S3
+  GOAL: Handoff summary (KEYS only) and continue
+  INPUTS: [FAMILY_INDEX_KEY, FAMILY_PIPELINE_KEY]
+  TARGETS: [INDEX_MANIFEST]
+  ACTIONS:
+    - Return route summary (which family, which keys opened)
+    - Continue in family pipeline
+  OUTPUTS: [ROUTE_SUMMARY]
+  CHECKS: [TRACE_PRESENT]
+  FAIL: UE.FAIL.MISSING_KEY
+  NEXT: "го"
