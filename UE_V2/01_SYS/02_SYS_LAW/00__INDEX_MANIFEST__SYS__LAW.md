@@ -1,35 +1,337 @@
-# FILE: UE_V2/01_LAW/00__LAW_INDEX.md
-SCOPE: UE_V2
-LAYER: 01_LAW
-DOC_TYPE: INDEX (LAWS)
-MODE: REPO (USAGE-ONLY, NO-EDIT)
+FILE: UE_V2/01_SYS/02_SYS_LAW/00__INDEX_MANIFEST__SYS__LAW.md
+SCOPE: UE_V2 / 01_SYS / 02_SYS_LAW
+DOC_TYPE: INDEX_MANIFEST
+DOMAIN: SYS_LAW
+UID: UE.V2.SYS.IDX.SYS_LAW.001
+VERSION: 1.0.0
 STATUS: ACTIVE
-LOCK: FIXED
-VERSION: 2.0.0
-UID: UE.V2.LAW.INDEX.001
-OWNER: SYSTEM
+MODE: REPO (USAGE-ONLY, NO-EDIT)
+CREATED: 2026-01-31
+UPDATED: 2026-01-31
+OWNER: SYS
+NAV_RULE: RAW lives here only
 
-## MARKERS
-- [M] LIST
-- [M] USAGE_RULE
+---
 
-## [M] LIST
-- LAW_01 — Canon Integrity: единый смысл, нет внутренних конфликтов
-- LAW_02 — Identity Stability: UID/версии фиксируют сущность и историю
-- LAW_03 — Artifact Only: нет “голого контента”, только артефакт
-- LAW_04 — Navigation Integrity: RAW-only, no guessing
-- LAW_05 — Minimality: минимально-достаточные сущности и тексты
-- LAW_06 — Traceability: всё проверяемо по маркерам и трассе
-- LAW_07 — Wear Texture: допустимая “текстура износа” (WTI)
-- LAW_08 — Inverse Contrast: громко→тихо как осознанная форма
-- LAW_09 — Readability Boundary: граница читаемости (RI)
-- LAW_10 — Non-Clone Variance: “единая ДНК”, но не клоны
-- LAW_11 — Low-End Anchor: tight low end и якоря саба
-- LAW_12 — Impact Predict: прогноз нейро-реакции (Alienation/Rage/Hope)
-- LAW_13 — Silence Point: провал в тишину как целевое состояние
-- LAW_14 — Acceptance & Release: приёмка, rework, выпуск
-- LAW_15 — Visual-Audio Link: аудио-метрики управляют визуалом
+## [M] PURPOSE
+INDEX_MANIFEST — “таблица адресов” и кратких смыслов для папки/реалма 02_SYS_LAW.
+Хранит RAW и машинные паспорта LAW-доков. Никаких “историй” и длинных объяснений.
 
-## [M] USAGE_RULE
-Любая доменная логика (AUD/VIS/LOR) обязана ссылаться на конкретный LAW_xx.
-Если правило отсутствует → GAP: создать LAW.
+## [M] HARD_RULES
+- RAW ссылки допускаются только тут (и в ROOT LINK BASE / START по закону системы).
+- Каждый элемент имеет KEY. PIPELINE_CONTRACT ссылается только на KEY.
+- Коротко: 1–2 строки смысла. Без лирики.
+- SELF запись обязательна.
+- Не обходить через PATH при наличии RAW (PATH хранится как справка).
+
+## [M] INDEX_CONTEXT
+- REALM_ID: UE_V2/01_SYS/02_SYS_LAW
+- FOLDER_NAME: 02_SYS_LAW
+- INDEX_SCOPE_TAGS: [SYS, LAW]
+
+## [M] ENTRY_SCHEMA (v1)
+- KEY: <UNIQUE_KEY>
+  UID: <OPTIONAL_UID>
+  KIND: FILE|FOLDER|ENTITY|PIPE|KB|REG|XREF|LOG|STD|LAW|TPL
+  ROLE: <ONE_LINE_ROLE>
+  DESC: <ONE_LINE_DESC>
+  RAW: <RAW_URL_OR_EMPTY>
+  PATH: <REPO_PATH_OR_EMPTY>
+  MARKERS: [MUST_LOAD, ROUTER, NAV, ...]
+  STATUS: ACTIVE|DRAFT|DEPRECATED
+  OWNER: SYS|RUNTIME|USER|<TEAM>
+  UPDATED: 0000-00-00
+
+## [M] ENTRIES
+
+### [M] SELF
+- KEY: SELF
+  UID: UE.V2.SYS.IDX.SYS_LAW.001
+  KIND: FILE
+  ROLE: Self pointer for deterministic nav
+  DESC: This index-manifest file for 02_SYS_LAW
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/01_SYS/02_SYS_LAW/00__INDEX_MANIFEST__SYS__LAW.md
+  PATH: UE_V2/01_SYS/02_SYS_LAW/00__INDEX_MANIFEST__SYS__LAW.md
+  MARKERS: [INDEX, SELF]
+  STATUS: ACTIVE
+  OWNER: SYS
+  UPDATED: 2026-01-31
+
+### [M] REQUIRED (минимум для реалма)
+- KEY: INDEX_MANIFEST
+  UID: UE.V2.SYS.IDX.SYS_LAW.001
+  KIND: FILE
+  ROLE: Address table for realm
+  DESC: Raw addresses + short meaning for 02_SYS_LAW
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/01_SYS/02_SYS_LAW/00__INDEX_MANIFEST__SYS__LAW.md
+  PATH: UE_V2/01_SYS/02_SYS_LAW/00__INDEX_MANIFEST__SYS__LAW.md
+  MARKERS: [INDEX, MUST_LOAD]
+  STATUS: ACTIVE
+  OWNER: SYS
+  UPDATED: 2026-01-31
+
+- KEY: PIPELINE_CONTRACT
+  UID: UE.V2.SYS.PIPE.SYS_LAW.001
+  KIND: PIPE
+  ROLE: Navigator for realm actions
+  DESC: Uses KEYS, resolves RAW via INDEX_MANIFEST
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/01_SYS/02_SYS_LAW/00__PIPELINE_CONTRACT__SYS__LAW.md
+  PATH: UE_V2/01_SYS/02_SYS_LAW/00__PIPELINE_CONTRACT__SYS__LAW.md
+  MARKERS: [PIPE, MUST_LOAD, ROUTER]
+  STATUS: ACTIVE
+  OWNER: SYS
+  UPDATED: 2026-01-31
+
+### [O] CONTENT (laws)
+# NOTE: RAW заполнить после подтверждения точных имён файлов (расширение/паттерн).
+- KEY: LAW.SYS_01
+  UID: UE.V2.SYS.LAW.001
+  KIND: LAW
+  ROLE: System law block 01
+  DESC: Canon rule set (slot 01)
+  RAW: 
+  PATH: UE_V2/01_SYS/02_SYS_LAW/SYS_LAW_01
+  MARKERS: [LAW]
+  STATUS: ACTIVE
+  OWNER: SYS
+  UPDATED: 2026-01-31
+
+- KEY: LAW.SYS_02
+  UID: UE.V2.SYS.LAW.002
+  KIND: LAW
+  ROLE: System law block 02
+  DESC: Canon rule set (slot 02)
+  RAW:
+  PATH: UE_V2/01_SYS/02_SYS_LAW/SYS_LAW_02
+  MARKERS: [LAW]
+  STATUS: ACTIVE
+  OWNER: SYS
+  UPDATED: 2026-01-31
+
+- KEY: LAW.SYS_03
+  UID: UE.V2.SYS.LAW.003
+  KIND: LAW
+  ROLE: System law block 03
+  DESC: Canon rule set (slot 03)
+  RAW:
+  PATH: UE_V2/01_SYS/02_SYS_LAW/SYS_LAW_03
+  MARKERS: [LAW]
+  STATUS: ACTIVE
+  OWNER: SYS
+  UPDATED: 2026-01-31
+
+- KEY: LAW.SYS_04
+  UID: UE.V2.SYS.LAW.004
+  KIND: LAW
+  ROLE: System law block 04
+  DESC: Canon rule set (slot 04)
+  RAW:
+  PATH: UE_V2/01_SYS/02_SYS_LAW/SYS_LAW_04
+  MARKERS: [LAW]
+  STATUS: ACTIVE
+  OWNER: SYS
+  UPDATED: 2026-01-31
+
+- KEY: LAW.SYS_05
+  UID: UE.V2.SYS.LAW.005
+  KIND: LAW
+  ROLE: System law block 05
+  DESC: Canon rule set (slot 05)
+  RAW:
+  PATH: UE_V2/01_SYS/02_SYS_LAW/SYS_LAW_05
+  MARKERS: [LAW]
+  STATUS: ACTIVE
+  OWNER: SYS
+  UPDATED: 2026-01-31
+
+- KEY: LAW.SYS_06
+  UID: UE.V2.SYS.LAW.006
+  KIND: LAW
+  ROLE: System law block 06
+  DESC: Canon rule set (slot 06)
+  RAW:
+  PATH: UE_V2/01_SYS/02_SYS_LAW/SYS_LAW_06
+  MARKERS: [LAW]
+  STATUS: ACTIVE
+  OWNER: SYS
+  UPDATED: 2026-01-31
+
+- KEY: LAW.SYS_07
+  UID: UE.V2.SYS.LAW.007
+  KIND: LAW
+  ROLE: System law block 07
+  DESC: Canon rule set (slot 07)
+  RAW:
+  PATH: UE_V2/01_SYS/02_SYS_LAW/SYS_LAW_07
+  MARKERS: [LAW]
+  STATUS: ACTIVE
+  OWNER: SYS
+  UPDATED: 2026-01-31
+
+- KEY: LAW.SYS_08
+  UID: UE.V2.SYS.LAW.008
+  KIND: LAW
+  ROLE: System law block 08
+  DESC: Canon rule set (slot 08)
+  RAW:
+  PATH: UE_V2/01_SYS/02_SYS_LAW/SYS_LAW_08
+  MARKERS: [LAW]
+  STATUS: ACTIVE
+  OWNER: SYS
+  UPDATED: 2026-01-31
+
+- KEY: LAW.SYS_09
+  UID: UE.V2.SYS.LAW.009
+  KIND: LAW
+  ROLE: System law block 09
+  DESC: Canon rule set (slot 09)
+  RAW:
+  PATH: UE_V2/01_SYS/02_SYS_LAW/SYS_LAW_09
+  MARKERS: [LAW]
+  STATUS: ACTIVE
+  OWNER: SYS
+  UPDATED: 2026-01-31
+
+- KEY: LAW.SYS_10
+  UID: UE.V2.SYS.LAW.010
+  KIND: LAW
+  ROLE: System law block 10
+  DESC: Canon rule set (slot 10)
+  RAW:
+  PATH: UE_V2/01_SYS/02_SYS_LAW/SYS_LAW_10
+  MARKERS: [LAW]
+  STATUS: ACTIVE
+  OWNER: SYS
+  UPDATED: 2026-01-31
+
+- KEY: LAW.SYS_11
+  UID: UE.V2.SYS.LAW.011
+  KIND: LAW
+  ROLE: System law block 11
+  DESC: Canon rule set (slot 11)
+  RAW:
+  PATH: UE_V2/01_SYS/02_SYS_LAW/SYS_LAW_11
+  MARKERS: [LAW]
+  STATUS: ACTIVE
+  OWNER: SYS
+  UPDATED: 2026-01-31
+
+- KEY: LAW.SYS_12
+  UID: UE.V2.SYS.LAW.012
+  KIND: LAW
+  ROLE: System law block 12
+  DESC: Canon rule set (slot 12)
+  RAW:
+  PATH: UE_V2/01_SYS/02_SYS_LAW/SYS_LAW_12
+  MARKERS: [LAW]
+  STATUS: ACTIVE
+  OWNER: SYS
+  UPDATED: 2026-01-31
+
+- KEY: LAW.SYS_13
+  UID: UE.V2.SYS.LAW.013
+  KIND: LAW
+  ROLE: System law block 13
+  DESC: Canon rule set (slot 13)
+  RAW:
+  PATH: UE_V2/01_SYS/02_SYS_LAW/SYS_LAW_13
+  MARKERS: [LAW]
+  STATUS: ACTIVE
+  OWNER: SYS
+  UPDATED: 2026-01-31
+
+- KEY: LAW.SYS_14
+  UID: UE.V2.SYS.LAW.014
+  KIND: LAW
+  ROLE: System law block 14
+  DESC: Canon rule set (slot 14)
+  RAW:
+  PATH: UE_V2/01_SYS/02_SYS_LAW/SYS_LAW_14
+  MARKERS: [LAW]
+  STATUS: ACTIVE
+  OWNER: SYS
+  UPDATED: 2026-01-31
+
+- KEY: LAW.SYS_15
+  UID: UE.V2.SYS.LAW.015
+  KIND: LAW
+  ROLE: System law block 15
+  DESC: Canon rule set (slot 15)
+  RAW:
+  PATH: UE_V2/01_SYS/02_SYS_LAW/SYS_LAW_15
+  MARKERS: [LAW]
+  STATUS: ACTIVE
+  OWNER: SYS
+  UPDATED: 2026-01-31
+
+- KEY: LAW.SYS_16
+  UID: UE.V2.SYS.LAW.016
+  KIND: LAW
+  ROLE: System law block 16
+  DESC: Canon rule set (slot 16)
+  RAW:
+  PATH: UE_V2/01_SYS/02_SYS_LAW/SYS_LAW_16
+  MARKERS: [LAW]
+  STATUS: ACTIVE
+  OWNER: SYS
+  UPDATED: 2026-01-31
+
+- KEY: LAW.SYS_17
+  UID: UE.V2.SYS.LAW.017
+  KIND: LAW
+  ROLE: System law block 17
+  DESC: Canon rule set (slot 17)
+  RAW:
+  PATH: UE_V2/01_SYS/02_SYS_LAW/SYS_LAW_17
+  MARKERS: [LAW]
+  STATUS: ACTIVE
+  OWNER: SYS
+  UPDATED: 2026-01-31
+
+- KEY: LAW.SYS_18
+  UID: UE.V2.SYS.LAW.018
+  KIND: LAW
+  ROLE: System law block 18
+  DESC: Canon rule set (slot 18)
+  RAW:
+  PATH: UE_V2/01_SYS/02_SYS_LAW/SYS_LAW_18
+  MARKERS: [LAW]
+  STATUS: ACTIVE
+  OWNER: SYS
+  UPDATED: 2026-01-31
+
+- KEY: LAW.SYS_19
+  UID: UE.V2.SYS.LAW.019
+  KIND: LAW
+  ROLE: System law block 19
+  DESC: Canon rule set (slot 19)
+  RAW:
+  PATH: UE_V2/01_SYS/02_SYS_LAW/SYS_LAW_19
+  MARKERS: [LAW]
+  STATUS: ACTIVE
+  OWNER: SYS
+  UPDATED: 2026-01-31
+
+- KEY: LAW.SYS_20
+  UID: UE.V2.SYS.LAW.020
+  KIND: LAW
+  ROLE: System law block 20
+  DESC: Canon rule set (slot 20)
+  RAW:
+  PATH: UE_V2/01_SYS/02_SYS_LAW/SYS_LAW_20
+  MARKERS: [LAW]
+  STATUS: ACTIVE
+  OWNER: SYS
+  UPDATED: 2026-01-31
+
+- KEY: LAW.SYS_21
+  UID: UE.V2.SYS.LAW.021
+  KIND: LAW
+  ROLE: System law block 21
+  DESC: Canon rule set (slot 21)
+  RAW:
+  PATH: UE_V2/01_SYS/02_SYS_LAW/SYS_LAW_21
+  MARKERS: [LAW]
+  STATUS: ACTIVE
+  OWNER: SYS
+  UPDATED: 2026-01-31
