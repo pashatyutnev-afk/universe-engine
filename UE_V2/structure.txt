@@ -1,10 +1,15 @@
 Структура папок тома Games
 Серийный номер тома: C425-B513
 D:.
+|   00__INDEX_MANIFEST__UE_V2.md
+|   00__PIPELINE_CONTRACT__UE_V2.md
 |   structure.txt
 |   
 +---00_BOOT
-|       00__ROOT_INDEX__UNIVERSE_ENGINE (UE_V2).md
+|       00__INDEX_MANIFEST__BOOT.md
+|       00__PIPELINE_CONTRACT__BOOT.md
+|       00__ROOT_LINK_BASE__UE_V2__PART1.md
+|       00__ROOT_LINK_BASE__UE_V2__PART2.md
 |       00__START.md
 |       01__BOOT_SEQ.md
 |       02__STOP_GAP.md
@@ -13,28 +18,68 @@ D:.
 |       05__MIN_ENT.md
 |       06__TRACE.md
 |       07__FAIL_CODES.md
+|       08__RUNTIME_MANIFEST.md
+|       09__TASK_ROUTER.md
+|       10__STEP_RUN_PROTOCOL.md
 |       11__CHANGELOG.md
+|       12__FOCUS_LOOP_PROTOCOL.md
+|       13__COMMANDS.md
+|       14__NAV_STACK_LAW.md
+|       15__NAV_STACK_TEMPLATES.md
+|       16__FOLDER_SYSTEM_FILES_STANDARD.md
+|       17__NUMBERING_POLICY.md
+|       18__TEMPLATE_DISCOVERY_POLICY.md
+|       19__ROUTER_VS_PIPELINE_CONFLICT_RULE.md
+|       20__WORK_UNITS_STANDARD.md
+|       21__RESUME_TOKEN.md
+|       22__PATCH_PROTOCOL.md
+|       23__START_PROFILES.md
+|       24__CHECKPOINT_RULES.md
 |       
-+---01_LAW
-|       00__LAW_INDEX.md
-|       LAW_01.md
-|       LAW_02.md
-|       LAW_03.md
-|       LAW_04.md
-|       LAW_05.md
-|       LAW_06.md
-|       LAW_07.md
-|       LAW_08.md
-|       LAW_09.md
-|       LAW_10.md
-|       LAW_11.md
-|       LAW_12.md
-|       LAW_13.md
-|       LAW_14.md
-|       LAW_15.md
-|       
++---01_SYS
+|   |   00__INDEX_MANIFEST__SYS.md
+|   |   00__PIPELINE_CONTRACT__SYS.md
+|   |   
+|   +---01_TPL_SYS
+|   |       00__INDEX_MANIFEST__TPL__SYS.md
+|   |       00__PIPELINE_CONTRACT__TPL__SYS.md
+|   |       01__TPL__INDEX_MANIFEST__SYS.md
+|   |       02__TPL__PIPELINE_CONTRACT__SYS.md
+|   |       03__TPL__ENTITY_PASSPORT__SYS.md
+|   |       04__TPL__DECISION_LOG_ENTRY__SYS.md
+|   |       05__TPL__FILE_HEADER__SYS.md
+|   |       06__TPL__OUTPUT_PACK__SYS.md
+|   |       07__TPL__RUN_LOG_ENTRY__SYS.md
+|   |       TPL__SYS.md
+|   |       
+|   \---02_SYS_LAW
+|           00__INDEX_MANIFEST__SYS__LAW.md
+|           00__PIPELINE_CONTRACT__SYS__LAW.md
+|           SYS__LAW_01.md
+|           SYS__LAW_02.md
+|           SYS__LAW_03.md
+|           SYS__LAW_04.md
+|           SYS__LAW_05.md
+|           SYS__LAW_06.md
+|           SYS__LAW_07.md
+|           SYS__LAW_08.md
+|           SYS__LAW_09.md
+|           SYS__LAW_10.md
+|           SYS__LAW_11.md
+|           SYS__LAW_12.md
+|           SYS__LAW_13.md
+|           SYS__LAW_14.md
+|           SYS__LAW_15.md
+|           SYS__LAW_16.md
+|           SYS__LAW_17.md
+|           SYS__LAW_18.md
+|           SYS__LAW_19.md
+|           SYS__LAW_20.md
+|           SYS__LAW_21.md
+|           
 +---02_STD
-|       00__STD_INDEX.md
+|       00__INDEX_MANIFEST__STD.md
+|       00__PIPELINE_CONTRACT__STD.md
 |       01__DOC_FMT.md
 |       02__NAME_UID.md
 |       03__VER_CHG.md
@@ -48,440 +93,439 @@ D:.
 |       11__PACKAGING.md
 |       12__NOISE_BUDGET.md
 |       13__DICTIONARY_USE.md
+|       14__CONTRIBUTION_TOKEN_FMT.md
+|       15__STEP_TOKEN_SET.md
+|       16__COVERAGE_RULES.md
+|       17__QUESTIONS_GATE.md
+|       18__PIPELINE_STAGE_MODEL.md
+|       19__IO_TYPES.md
+|       22__SYNTHESIS_TOKEN_FMT.md
+|       23__SCORE_RUBRIC_FMT.md
+|       24__COMPONENT_TAGS.md
+|       25__ENTITY_ADDRESS_LINE_FMT.md
+|       26__ENTRYPOINT_PATTERN.md
+|       27__SCOPE_GATE_PATTERN.md
 |       
 +---03_ENT
-|   |   00__ENT_MODEL.md
-|   |   00__README__SYSTEM_ENTITIES.md
-|   |   01__ENT_CONTRACT.md
-|   |   01__RULES__SYSTEM_ENTITIES.md
-|   |   02__INDEX__SYSTEM_ENTITIES.md
-|   |   02__SPC_CONTRACT.md
-|   |   03__ORC_CONTRACT.md
-|   |   04__CTL_CONTRACT.md
-|   |   05__VAL_CONTRACT.md
-|   |   06__QA_CONTRACT.md
-|   |   07__XREF_CONTRACT.md
-|   |   08__DOMAIN_PLUGIN.md
-|   |   09__REGISTRY_CONTRACT.md
-|   |   10__TEMPLATE_SET.md
-|   |   11__ENTITY_MIN_PASS.md
+|   |   00__INDEX_MANIFEST__ENT.md
+|   |   00__PIPELINE_CONTRACT__ENT.md
+|   |   01__ENT_MODEL.md
+|   |   02__ENT_CONTRACT.md
+|   |   03__SPC_CONTRACT.md
+|   |   04__ORC_CONTRACT.md
+|   |   05__CTL_CONTRACT.md
+|   |   06__VAL_CONTRACT.md
+|   |   07__QA_CONTRACT.md
+|   |   08__XREF_CONTRACT.md
+|   |   09__DOMAIN_PLUGIN.md
+|   |   10__REGISTRY_CONTRACT.md
+|   |   11__TEMPLATE_SET.md
+|   |   12__ENTITY_MIN_PASS.md
 |   |   
-|   +---00_REG
-|   |       00__INDEX_ALL_REGISTRIES.md
-|   |       00__README_REGISTRIES.md
-|   |       00__TEMPLATE_REGISTRY.md
-|   |       01__REG_ENTITY_IDS.md
-|   |       02__REG_NAMING_RULES.md
-|   |       03__REG_PATH_MAP.md
-|   |       90__REG_CHANGELOG.md
-|   |       91__REG_DEPRECATION.md
+|   +---00_REG_ENT
+|   |       00__INDEX_MANIFEST__REG__ENT.md
+|   |       00__PIPELINE_CONTRACT__REG__ENT.md
+|   |       01__REG__ENTITY_IDS__ENT.md
+|   |       02__REG__PATH_MAP__ENT.md
+|   |       03__REG__ENTITY_CATALOG__ENT.md
+|   |       04__REG__ENTITY_TYPES__ENT.md
+|   |       05__REG__ENTITY_MIN_SET__ENT.md
+|   |       06__REG__UID__REG__ENT.md
+|   |       07__REG__ENTITY_REG__ENT.md
+|   |       08__REG__ARTIFACT_REG__ENT.md
+|   |       90__REG__CHANGELOG__ENT.md
+|   |       91__REG__DEPRECATION__ENT.md
 |   |       
-|   +---01_TPL
-|   |       00__INDEX_ALL_TEMPLATES.md
-|   |       00__README_TEMPLATES.md
-|   |       00__TEMPLATE_SYSTEM_STANDARD.md
-|   |       10__TPL__ENGINE.md
-|   |       20__TPL__ORCHESTRATOR.md
-|   |       30__TPL__SPECIALIST.md
-|   |       40__TPL__CONTROLLER.md
-|   |       50__TPL__VALIDATOR.md
-|   |       60__TPL__QA.md
-|   |       90__TPL__INDEX.md
-|   |       91__TPL__README_REALM.md
+|   +---01_TPL_ENT
+|   |       00__INDEX_MANIFEST__TPL__ENT.md
+|   |       00__PIPELINE_CONTRACT__TPL__ENT.md
+|   |       10__TPL__ENGINE__ENT.md
+|   |       20__TPL__ORCHESTRATOR__ENT.md
+|   |       30__TPL__SPECIALIST__ENT.md
+|   |       40__TPL__CONTROLLER__ENT.md
+|   |       50__TPL__VALIDATOR__ENT.md
+|   |       60__TPL__QA__ENT.md
+|   |       90__TPL__XREF__ENT.md
 |   |       
-|   +---02_ENG
-|   |   |   00__README__ENGINES_REALM.md
-|   |   |   01__RULES__ENGINES.md
-|   |   |   02__INDEX_ALL_ENGINES.md
-|   |   |   03__ENG_CREATE_FLOW.md
+|   +---10_SPC_ENT
+|   |   |   00__INDEX_MANIFEST__SPC__ENT.md
+|   |   |   00__PIPELINE_CONTRACT__SPC__ENT.md
 |   |   |   
-|   |   +---00_GOVERNANCE_ENGINES
-|   |   |       00__INDEX__00_GOVERNANCE_ENGINES.md
-|   |   |       00__README__GOVERNANCE_ENGINES.md
-|   |   |       01__AUDIT_LOG_ENG.md
-|   |   |       02__CANON_AUTHORITY_ENG.md
-|   |   |       03__RULE_HIERARCHY_ENG.md
-|   |   |       04__CHANGE_CONTROL_ENG.md
-|   |   |       05__CONSISTENCY_ENG.md
-|   |   |       06__DEPENDENCY_REGISTRY_ENG.md
-|   |   |       07__DECISION_APPROVAL_ENG.md
-|   |   |       08__SCOPE_IMPACT_ENG.md
-|   |   |       09__RISK_SAFETY_ENG.md
-|   |   |       10__VERSIONING_MEMORY_ENG.md
+|   |   +---00_TOP_GOVERNANCE_SPC_ENT
+|   |   |       00__INDEX_MANIFEST__GVN__SPC__ENT.md
+|   |   |       00__PIPELINE_CONTRACT__GVN__SPC__ENT.md
+|   |   |       01__GVN__MACHINE_ARCHITECT__SPC__ENT.md
+|   |   |       02__GVN__GOVERNANCE_OWNER__SPC__ENT.md
+|   |   |       03__GVN__STANDARDS_OWNER__SPC__ENT.md
+|   |   |       04__GVN__DOC_CONTROLLER__SPC__ENT.md
+|   |   |       05__GVN__PIPELINE_ARCHITECT__SPC__ENT.md
+|   |   |       06__GVN__INTEGRATION_PACKER__SPC__ENT.md
 |   |   |       
-|   |   +---01_CORE_ENGINES
-|   |   |       00__INDEX__01_CORE_ENGINES.md
-|   |   |       00__README__CORE_ENGINES.md
-|   |   |       01__CORE_IDENTITY_ENG.md
-|   |   |       02__CORE_STATE_ENG.md
-|   |   |       03__CORE_LIFECYCLE_ENG.md
+|   |   +---01_CREATIVE_SPC_ENT
+|   |   |       00__INDEX_MANIFEST__CRV__SPC__ENT.md
+|   |   |       00__PIPELINE_CONTRACT__CRV__SPC__ENT.md
+|   |   |       01__CRV__CREATIVE_DIRECTOR__SPC__ENT.md
+|   |   |       02__CRV__VISUAL_STYLE_ARCHITECT__SPC__ENT.md
+|   |   |       03__CRV__WORLD_AESTHETIC_DESIGNER__SPC__ENT.md
+|   |   |       04__CRV__CONCEPT_DESIGNER__SPC__ENT.md
+|   |   |       05__CRV__SYMBOLISM_METAPHOR_DESIGNER__SPC__ENT.md
+|   |   |       06__CRV__MOOD_ATMOSPHERE_CURATOR__SPC__ENT.md
+|   |   |       07__CRV__ARTISTIC_RISK_DESIGNER__SPC__ENT.md
+|   |   |       08__CRV__IDEA_GENERATOR__SPC__ENT.md
 |   |   |       
-|   |   +---02_DOMAIN_NARRATIVE_ENGINES
-|   |   |       00__INDEX__02_DOMAIN_NARRATIVE_ENGINES.md
-|   |   |       00__README__DOMAIN_NARRATIVE_ENGINES.md
-|   |   |       01__NARRATIVE_LOGIC_ENG.md
-|   |   |       02__STORY_STRUCTURE_ENG.md
-|   |   |       03__DRAMATIC_ARC_ENG.md
-|   |   |       04__SCENE_CONSTRUCTION_ENG.md
-|   |   |       05__PACING_RHYTHM_ENG.md
-|   |   |       06__TENSION_STAKES_ENG.md
-|   |   |       07__FORESHADOWING_ENG.md
-|   |   |       08__TWIST_REVEAL_ENG.md
-|   |   |       09__NARRATIVE_CONTINUITY_ENG.md
-|   |   |       10__THEME_MEANING_ENG.md
+|   |   +---02_NARRATIVE_SPC_ENT
+|   |   |       00__INDEX_MANIFEST__NRR__SPC__ENT.md
+|   |   |       00__PIPELINE_CONTRACT__NRR__SPC__ENT.md
+|   |   |       01__NRR__EPISODE_SHOWRUNNER__SPC__ENT.md
+|   |   |       02__NRR__HEAD_WRITER__SPC__ENT.md
+|   |   |       03__NRR__STORY_ARCHITECT__SPC__ENT.md
+|   |   |       04__NRR__DRAMATURG__SPC__ENT.md
+|   |   |       05__NRR__SCREENWRITER__SPC__ENT.md
+|   |   |       06__NRR__DIALOGUE_WRITER__SPC__ENT.md
+|   |   |       07__NRR__CLIFFHANGER_SPECIALIST__SPC__ENT.md
+|   |   |       08__NRR__EMOTIONAL_ARC_DESIGNER__SPC__ENT.md
+|   |   |       09__NRR__THEME_MEANING_CURATOR__SPC__ENT.md
+|   |   |       10__NRR__LORE_MASTER__SPC__ENT.md
+|   |   |       11__NRR__NOVELIST__SPC__ENT.md
 |   |   |       
-|   |   +---03_DOMAIN_CHARACTER_ENGINES
-|   |   |       00__INDEX__03_DOMAIN_CHARACTER_ENGINES.md
-|   |   |       00__README__DOMAIN_CHARACTER_ENGINES.md
-|   |   |       01__CHARACTER_CORE_ENG.md
-|   |   |       02__MOTIVATION_DESIRE_ENG.md
-|   |   |       03__MORAL_VALUE_ENG.md
-|   |   |       04__CHARACTER_PSYCHOLOGY_ENG.md
-|   |   |       05__CHARACTER_BEHAVIOR_ENG.md
-|   |   |       06__RELATIONSHIP_ENG.md
-|   |   |       07__DIALOGUE_ENG.md
-|   |   |       08__SPEECH_NATURALIZATION_ENG.md
-|   |   |       09__GROWTH_TRAUMA_ENG.md
-|   |   |       10__CHARACTER_EVOLUTION_ENG.md
+|   |   +---03_CHARACTER_SPC_ENT
+|   |   |       00__INDEX_MANIFEST__CHR__SPC__ENT.md
+|   |   |       00__PIPELINE_CONTRACT__CHR__SPC__ENT.md
+|   |   |       01__CHR__CHARACTER_ARCHITECT__SPC__ENT.md
+|   |   |       02__CHR__PERSONALITY_PSYCHOLOGIST__SPC__ENT.md
+|   |   |       03__CHR__TRAUMA_MOTIVATION_DESIGNER__SPC__ENT.md
+|   |   |       04__CHR__RELATIONSHIP_DYNAMICS_DESIGNER__SPC__ENT.md
+|   |   |       05__CHR__DIALOGUE_BEHAVIOR_ANALYST__SPC__ENT.md
+|   |   |       06__CHR__CHARACTER_EVOLUTION_SUPERVISOR__SPC__ENT.md
 |   |   |       
-|   |   +---04_DOMAIN_WORLD_ENGINES
-|   |   |       00__INDEX__04_DOMAIN_WORLD_ENGINES.md
-|   |   |       00__README__DOMAIN_WORLD_ENGINES.md
-|   |   |       01__WORLD_STRUCTURE_ENG.md
-|   |   |       02__WORLD_LAW_ENG.md
-|   |   |       03__TIMELINE_EPOCH_ENG.md
-|   |   |       04__CIVILIZATION_ENG.md
-|   |   |       05__CONFLICT_POWER_ENG.md
-|   |   |       06__GEOPOLITICS_ENG.md
-|   |   |       07__ECONOMY_RESOURCE_ENG.md
-|   |   |       08__TECHNOLOGY_MAGIC_ENG.md
-|   |   |       09__MYTHOLOGY_BELIEF_ENG.md
-|   |   |       10__ENVIRONMENT_ECOLOGY_ENG.md
+|   |   +---04_WORLD_SPC_ENT
+|   |   |       00__INDEX_MANIFEST__WRL__SPC__ENT.md
+|   |   |       00__PIPELINE_CONTRACT__WRL__SPC__ENT.md
+|   |   |       01__WRL__WORLD_BUILDER__SPC__ENT.md
+|   |   |       02__WRL__CULTURE_SOCIETY_ARCHITECT__SPC.md
+|   |   |       03__WRL__CIVILIZATION_DESIGNER__SPC__ENT.md
+|   |   |       04__WRL__GEOGRAPHY_LOCATION_DESIGNER__SPC__ENT.md
+|   |   |       05__WRL__ECONOMY_POWER_SYSTEMS_DESIGNER__SPC__ENT.md
+|   |   |       06__WRL__RELIGION_MYTHOLOGY_DESIGNER__SPC__ENT.md
+|   |   |       07__WRL__ECOLOGY_SURVIVAL_DESIGNER__SPC__ENT.md
 |   |   |       
-|   |   +---05_EXPRESSION_ENGINES
-|   |   |       00__INDEX__05_EXPRESSION_ENGINES.md
-|   |   |       00__README__EXPRESSION_ENGINES.md
-|   |   |       01__EVENT_ENG.md
-|   |   |       02__CAUSE_EFFECT_ENG.md
-|   |   |       03__CONFLICT_ENG.md
-|   |   |       04__TURNING_POINT_ENG.md
-|   |   |       05__CLIMAX_ENG.md
-|   |   |       06__RESOLUTION_ENG.md
-|   |   |       07__SYSTEM_SHOCK_ENG.md
-|   |   |       08__EVENT_SCHEDULING_ENG.md
-|   |   |       09__RANDOMNESS_CHAOS_ENG.md
+|   |   +---05_VISUAL_SPC_ENT
+|   |   |       00__INDEX_MANIFEST__VIS__SPC__ENT.md
+|   |   |       00__PIPELINE_CONTRACT__VIS__SPC__ENT.md
+|   |   |       01__VIS__VISUAL_DIRECTOR_SPC__ENT.md
+|   |   |       02__VIS__PRODUCTION_DESIGNER_SPC__ENT.md
+|   |   |       03__VIS__SCENE_VISUALIZATION_SPECIALIST_SPC__ENT.md
+|   |   |       04__VIS__STORYBOARD_ARTIST_SPC__ENT.md
+|   |   |       05__VIS__CINEMATOGRAPHER_SPC__ENT.md
+|   |   |       06__VIS__CAMERA_MOVEMENT_SPECIALIST_SPC__ENT.md
 |   |   |       
-|   |   +---06_GENRE_STYLE_ENGINES
-|   |   |       00__INDEX__06_GENRE_STYLE_ENGINES.md
-|   |   |       00__README__GENRE_STYLE_ENGINES.md
-|   |   |       01__TONE_MOOD_ENG.md
-|   |   |       02__ATMOSPHERE_ENG.md
-|   |   |       03__EMOTIONAL_RESONANCE_ENG.md
-|   |   |       04__SYMBOLISM_ENG.md
-|   |   |       05__METAPHOR_ENG.md
-|   |   |       06__SENSORY_DETAIL_ENG.md
+|   |   +---06_SOUND_MUSIC_SPC_ENT
+|   |   |       00__INDEX_MANIFEST__SND_MUS__SPC__ENT.md
+|   |   |       00__PIPELINE_CONTRACT__SND_MUS__SPC__ENT.md
+|   |   |       01__SND_MUS__MUSIC_SUPERVISOR__SPC__ENT.md
+|   |   |       02__SND_MUS__MUSIC_PRODUCER__SPC__ENT.md
+|   |   |       03__SND_MUS__COMPOSER__SPC__ENT.md
+|   |   |       04__SND_MUS__SONGWRITER__SPC__ENT.md
+|   |   |       05__SND_MUS__LYRICIST__SPC__ENT.md
+|   |   |       06__SND_MUS__ARRANGER__SPC__ENT.md
+|   |   |       07__SND_MUS__VOCAL_DIRECTOR__SPC__ENT.md
+|   |   |       08__SND_MUS__SOUND_DESIGNER__SPC__ENT.md
+|   |   |       09__SND_MUS__MIX_ENGINEER__SPC__ENT.md
+|   |   |       10__SND_MUS__MASTERING_ENGINEER__SPC__ENT.md
+|   |   |       11__SND_MUS__AUDIO_QA__SPC__ENT.md
+|   |   |       12__SND_MUS__PROMPT_ARCHITECT__SPC__ENT.md
+|   |   |       13__SND_MUS__UGC_DIRECTOR__SPC__ENT.md
+|   |   |       14__SND_MUS__EARWORM_DIRECTOR__SPC__ENT.md
+|   |   |       15__SND_MUS__GENRE_FUSION_ARCHITECT__SPC__ENT.md
+|   |   |       16__SND_MUS__TREND_ENGINEER__SPC__ENT.md
+|   |   |       17__SND_MUS__POET_JUICE_EDITOR__SPC__ENT.md
+|   |   |       18__SND_MUS__MOSAIC_EDITOR__SPC__ENT.md
+|   |   |       19__SND_MUS__ALBUM_SHOWRUNNER__SPC__ENT.md
+|   |   |       20__SND_MUS__GROUP_CREATIVE_DIRECTOR__SPC__ENT.md
 |   |   |       
-|   |   +---07_PRODUCTION_FORMAT_ENGINES
-|   |   |       00__INDEX__07_PRODUCTION_FORMAT_ENGINES.md
-|   |   |       00__README__PRODUCTION_FORMAT_ENGINES.md
-|   |   |       01__GENRE_ENG.md
-|   |   |       02__GENRE_BLENDING_ENG.md
-|   |   |       03__FORMAT_ADAPTATION_ENG.md
-|   |   |       04__BOOK_FORMAT_ENG.md
-|   |   |       05__SERIES_EPISODE_ENG.md
-|   |   |       06__SHORT_CONTENT_ENG.md
-|   |   |       07__YOUTUBE_LONGFORM_ENG.md
-|   |   |       08__GAME_NARRATIVE_ENG.md
+|   |   +---07_PRODUCTION_SPC_ENT
+|   |   |       00__INDEX_MANIFEST__PRD__SPC__ENT.md
+|   |   |       00__PIPELINE_CONTRACT__PRD__SPC__ENT.md
+|   |   |       01__PRD__EXECUTIVE_PRODUCER_SPC__ENT.md
+|   |   |       02__PRD__DIRECTOR_SPC__ENT.md
+|   |   |       03__PRD__CONTENT_PRODUCER_SPC__ENT.md
+|   |   |       04__PRD__TRANSMEDIA_PRODUCER_SPC__ENT.md
+|   |   |       05__PRD__EPISODE_CHAPTER_PLANNER_SPC__ENT.md
+|   |   |       06__PRD__PLATFORM_ADAPTATION_SPECIALIST_SPC__ENT.md
+|   |   |       07__PRD__LOCALIZATION_MANAGER_SPC__ENT.md
+|   |   |       08__PRD__RELEASE_MANAGER_SPC__ENT.md
+|   |   |       09__PRD__SCHEDULE_COORDINATOR_SPC__ENT.md
 |   |   |       
-|   |   +---08_KNOWLEDGE_PRODUCTION_ENGINES
-|   |   |       00__INDEX__08_KNOWLEDGE_PRODUCTION_ENGINES.md
-|   |   |       00__README__KNOWLEDGE_PRODUCTION_ENGINES.md
-|   |   |       01__VISUAL_COMPOSITION_ENG.md
-|   |   |       02__ART_STYLE_ENG.md
-|   |   |       03__CAMERA_CINEMATOGRAPHY_ENG.md
-|   |   |       04__LIGHTING_ENG.md
-|   |   |       05__IMAGE_GENERATION_ENG.md
-|   |   |       06__VIDEO_GENERATION_ENG.md
-|   |   |       07__EDITING_MONTAGE_ENG.md
-|   |   |       08__SOUND_MUSIC_ENG.md
+|   |   +---08_PSYCHOLOGY_SPC_ENT
+|   |   |       00__INDEX_MANIFEST__PSY__SPC__ENT.md
+|   |   |       00__PIPELINE_CONTRACT__PSY__SPC__ENT.md
+|   |   |       01__PSY__VIEWER_PSYCHOLOGY_ANALYST_SPC__ENT.md
+|   |   |       02__PSY__EMPATHY_IDENTIFICATION_SPECIALIST_SPC__ENT.md
+|   |   |       03__PSY__EMOTIONAL_IMPACT_DESIGNER_SPC__ENT.md
+|   |   |       04__PSY__NONVERBAL_BEHAVIOR_ANALYST_SPC__ENT.md
+|   |   |       05__PSY__BEHAVIORAL_CONSISTENCY_SPECIALIST_SPC__ENT.md
 |   |   |       
-|   |   +---09_SOUND_MUSIC_ENGINES
-|   |   |       00__INDEX__09_SOUND_MUSIC_ENGINES.md
-|   |   |       00__README__SOUND_MUSIC_ENGINES.md
-|   |   |       01__MUSIC_COMPOSITION_ENG.md
-|   |   |       02__SONG_STRUCTURE_ENG.md
-|   |   |       03__HARMONY_CHORD_ENG.md
-|   |   |       04__MELODY_HOOK_ENG.md
-|   |   |       05__RHYTHM_GROOVE_ENG.md
-|   |   |       06__RHYME_METER_ENG.md
-|   |   |       07__LYRICS_ENG.md
-|   |   |       08__ARRANGEMENT_INSTRUMENTATION_ENG.md
-|   |   |       09__VOCAL_PERFORMANCE_ENG.md
-|   |   |       10__SOUND_DESIGN_ENG.md
-|   |   |       11__MUSIC_STYLE_CONSISTENCY_ENG.md
-|   |   |       12__MUSIC_TO_SCENE_ENG.md
-|   |   |       13__MIX_MASTER_ENG.md
+|   |   +---09_RESEARCH_SPC_ENT
+|   |   |       00__INDEX_MANIFEST__RCH__SPC__ENT.md
+|   |   |       00__PIPELINE_CONTRACT__RCH__SPC__ENT.md
+|   |   |       01__RCH__RESEARCH_DIRECTOR_SPC__ENT.md
+|   |   |       02__RCH__SCIENTIFIC_RESEARCHER_SPC__ENT.md
+|   |   |       03__RCH__HISTORICAL_RESEARCHER_SPC__ENT.md
+|   |   |       04__RCH__CULTURAL_ANTHROPOLOGIST_SPC__ENT.md
+|   |   |       05__RCH__KNOWLEDGE_CURATOR_SPC__ENT.md
+|   |   |       06__RCH__SOURCE_VALIDATION_SPECIALIST_SPC__ENT.md
+|   |   |       07__RCH__FACT_CHECKING_SPECIALIST_SPC__ENT.md
+|   |   |       08__RCH__SPECULATIVE_PLAUSIBILITY_ANALYST_SPC__ENT.md
 |   |   |       
-|   |   +---10_META_EVOLUTION_ENGINES
-|   |   |       00__INDEX__10_META_EVOLUTION_ENGINES.md
-|   |   |       00__README__META_EVOLUTION_ENGINES.md
-|   |   |       01__LEARNING_ENG.md
-|   |   |       02__PATTERN_EXTRACTION_ENG.md
-|   |   |       03__OPTIMIZATION_ENG.md
-|   |   |       04__CREATIVE_MUTATION_ENG.md
-|   |   |       05__FUTURE_PROJECTION_ENG.md
+|   |   +---10_MARKETING_SPC_ENT
+|   |   |       00__INDEX_MANIFEST__MKT__SPC__ENT.md
+|   |   |       00__PIPELINE_CONTRACT__MKT__SPC__ENT.md
+|   |   |       01__MKT__BRAND_ARCHITECT_SPC__ENT.md
+|   |   |       02__MKT__AUDIENCE_ANALYST_SPC__ENT.md
+|   |   |       03__MKT__AUDIENCE_RESEARCH_SPECIALIST_SPC__ENT.md
+|   |   |       04__MKT__CONTENT_PACKAGING_SPECIALIST_SPC__ENT.md
+|   |   |       05__MKT__PLATFORM_DISTRIBUTION_SPECIALIST_SPC__ENT.md
+|   |   |       06__MKT__SEO_DISCOVERY_SPECIALIST_SPC__ENT.md
+|   |   |       07__MKT__TRAILER_TEASER_SPECIALIST_SPC__ENT.md
+|   |   |       08__MKT__COMMUNITY_MANAGER_SPC__ENT.md
+|   |   |       09__MKT__ENGAGEMENT_STRATEGIST_SPC__ENT.md
+|   |   |       10__MKT__GROWTH_HACKER_SPC__ENT.md
+|   |   |       11__MKT__MONETIZATION_STRATEGIST_SPC__ENT.md
 |   |   |       
-|   |   +---11_MUSIC_FACTORY_ENGINES
-|   |   |       00__INDEX__11_MUSIC_FACTORY_ENGINES.md
-|   |   |       00__README__MUSIC_FACTORY_ENGINES.md
-|   |   |       01__GROUP_FOUNDATION_ENG.md
-|   |   |       02__ARTIST_FACTORY_ENG.md
-|   |   |       03__ALBUM_BLUEPRINT_ENG.md
-|   |   |       04__TRACK_FACTORY_ENG.md
-|   |   |       05__DURATION_STRATEGY_ENG.md
-|   |   |       06__RELEASE_PACK_ENG.md
-|   |   |       07__CATALOG_COLLISION_ENG.md
-|   |   |       08__NOVELTY_INJECTION_ENG.md
-|   |   |       09__TAKE_LOG_ENG.md
-|   |   |       
-|   |   +---12_TREND_GENRE_ENGINES
-|   |   |       00__INDEX__12_TREND_GENRE_ENGINES.md
-|   |   |       00__README__TREND_GENRE_ENGINES.md
-|   |   |       01__GENRE_TAXONOMY_ENG.md
-|   |   |       02__FUSION_RECIPE_ENG.md
-|   |   |       03__STYLE_FINGERPRINT_ENG.md
-|   |   |       04__VIRAL_HOOK_BLUEPRINT_ENG.md
-|   |   |       05__UGC_MOMENT_MAP_ENG.md
-|   |   |       06__EARWORM_HOOK_STACK_ENG.md
-|   |   |       07__PROMPT_COMPILER_ENG.md
-|   |   |       
-|   |   +---13_POET_PD_CORPUS_ENGINES
-|   |   |       00__INDEX__13_POET_PD_CORPUS_ENGINES.md
-|   |   |       00__README__POET_PD_CORPUS_ENGINES.md
-|   |   |       01__PD_FILTER_ENG.md
-|   |   |       02__POEM_FIT_SCORING_ENG.md
-|   |   |       03__JUICE_EXTRACTOR_ENG.md
-|   |   |       04__MOSAIC_COMPOSER_ENG.md
-|   |   |       05__EXCERPT_COLLISION_ENG.md
-|   |   |       
-|   |   \---14_NAMING_IDENTITY_ENGINES
-|   |           00__INDEX__14_NAMING_IDENTITY_ENGINES.md
-|   |           00__README__NAMING_IDENTITY_ENGINES.md
-|   |           01__NAMING_BRIEF_ENG.md
-|   |           02__NAMING_GENERATION_ENG.md
-|   |           03__NAMING_COLLISION_ENG.md
-|   |           04__PLATFORM_FORMAT_TITLES_ENG.md
-|   |           05__SERIES_NAMING_ENG.md
+|   |   \---11_META_SPC_ENT
+|   |           00__INDEX_MANIFEST__MET__SPC__ENT.md
+|   |           00__PIPELINE_CONTRACT__MET__SPC__ENT.md
+|   |           01__MET__UNIVERSE_CURATOR_SPC__ENT.md
+|   |           02__MET__SYSTEM_ARCHITECT_SPC__ENT.md
+|   |           03__MET__RULE_SYSTEM_DESIGNER_SPC__ENT.md
+|   |           04__MET__DEPENDENCY_SUPERVISOR_SPC__ENT.md
+|   |           05__MET__KNOWLEDGE_INTEGRATOR_SPC__ENT.md
+|   |           06__MET__META_ANALYST_SPC__ENT.md
+|   |           07__MET__LONG_TERM_STRATEGY_PLANNER_SPC__ENT.md
+|   |           08__MET__EVOLUTION_SCALING_PLANNER_SPC__ENT.md
 |   |           
-|   +---03_ORC
-|   |   |   00__README__ORC_REALM.md
-|   |   |   01__RULES__ORC.md
-|   |   |   01__SCENE_PIPELINE_ORC.md
-|   |   |   02__INDEX_ALL_ORCHESTRATORS.md
-|   |   |   03__ORC_CREATE_FLOW.md
+|   +---20_ENG_ENT
+|   |   |   00__INDEX_MANIFEST__ENG__ENT.md
+|   |   |   00__PIPELINE_CONTRACT__ENG__ENT.md
 |   |   |   
-|   |   +---00__TEMPLATES
-|   |   |       00__TEMPLATE__ORC_ENTITY.md
-|   |   |       00__TEMPLATE__ORC_PIPELINE_STEP.md
-|   |   |       00__TEMPLATE__README__ORC.md
+|   |   +---00_GOVERNANCE_ENG_ENT
+|   |   |       00__INDEX_MANIFEST__GVN__ENG__ENT.md
+|   |   |       00__PIPELINE_CONTRACT__GVN__ENG__ENT.md
+|   |   |       01__GVN__AUDIT_LOG__ENG__ENT.md
+|   |   |       02__GVN__CANON_AUTHORITY__ENG__ENT.md
+|   |   |       03__GVN__RULE_HIERARCHY__ENG__ENT.md
+|   |   |       04__GVN__CHANGE_CONTROL__ENG__ENT.md
+|   |   |       05__GVN__CONSISTENCY__ENG__ENT.md
+|   |   |       06__GVN__DEPENDENCY_REGISTRY__ENG__ENT.md
+|   |   |       07__GVN__DECISION_APPROVAL__ENG__ENT.md
+|   |   |       08__GVN__SCOPE_IMPACT__ENG__ENT.md
+|   |   |       09__GVN__RISK_SAFETY__ENG__ENT.md
+|   |   |       10__GVN__VERSIONING_MEMORY__ENG__ENT.md
 |   |   |       
-|   |   +---01_CORE_ORCHESTRATORS
-|   |   |       00__INDEX__CORE_ORCHESTRATORS.md
-|   |   |       00__README__ORCHESTRATORS.md
-|   |   |       01__NARRATIVE_ORCHESTRATOR_ENG.md
-|   |   |       02__CHARACTER_ORCHESTRATOR_ENG.md
-|   |   |       03__WORLD_ORCHESTRATOR_ENG.md
-|   |   |       04__PRODUCTION_ORCHESTRATOR_ENG.md
-|   |   |       05__PIPELINE_ORCHESTRATOR_ENG.md
+|   |   +---01_CORE_ENG_ENT
+|   |   |       00__INDEX_MANIFEST__COR__ENG__ENT.md
+|   |   |       00__PIPELINE_CONTRACT__COR__ENG__ENT.md
+|   |   |       01__COR__CORE_IDENTITY__ENG__ENT.md
+|   |   |       02__COR__CORE_STATE__ENG__ENT.md
+|   |   |       03__COR__CORE_LIFECYCLE__ENG__ENT.md
 |   |   |       
-|   |   \---10_MUSIC_ORCHESTRATORS
-|   |           00__INDEX__MUSIC_ORCHESTRATORS.md
-|   |           00__README__MUSIC_ORCHESTRATORS.md
+|   |   +---02_NARRATIVE_ENG_ENT
+|   |   |       00__INDEX_MANIFEST__NRR__ENG__ENT.md
+|   |   |       00__PIPELINE_CONTRACT__NRR__ENG__ENT.md
+|   |   |       01__NRR__NARRATIVE_LOGIC_NAV__ENG__ENT.md
+|   |   |       02__NRR__STORY_STRUCTURE_NAV__ENG__ENT.md
+|   |   |       03__NRR__DRAMATIC_ARC_NAV__ENG__ENT.md
+|   |   |       04__NRR__SCENE_CONSTRUCTION__NAV__ENG__ENT.md
+|   |   |       05__NRR__PACING_RHYTHM__NAV__ENG__ENT.md
+|   |   |       06__NRR__TENSION_STAKES__NAV__ENG__ENT.md
+|   |   |       07__NRR__FORESHADOWING__NAV__ENG__ENT.md
+|   |   |       08__NRR__TWIST_REVEAL__NAV__ENG__ENT.md
+|   |   |       09__NRR__NARRATIVE_CONTINUITY__NAV__ENG__ENT.md
+|   |   |       10__NRR__THEME_MEANING__NAV__ENG__ENT.md
+|   |   |       
+|   |   +---03_CHARACTER_ENG_ENT
+|   |   |       00__INDEX_MANIFEST__CHR__ENG__ENT.md
+|   |   |       00__PIPELINE_CONTRACT__CHR__ENG__ENT.md
+|   |   |       01__CHR__CHARACTER_CORE__ENG__ENT.md
+|   |   |       02__CHR__MOTIVATION_DESIRE__ENG__ENT.md
+|   |   |       03__CHR__MORAL_VALUE__ENG__ENT.md
+|   |   |       04__CHR__CHARACTER_PSYCHOLOGY__ENG__ENT.md
+|   |   |       05__CHR__CHARACTER_BEHAVIOR__ENG__ENT.md
+|   |   |       06__CHR__RELATIONSHIP__ENG__ENT.md
+|   |   |       07__CHR__DIALOGUE__ENG__ENT.md
+|   |   |       08__CHR__SPEECH_NATURALIZATION__ENG__ENT.md
+|   |   |       09__CHR__GROWTH_TRAUMA__ENG__ENT.md
+|   |   |       10__CHR__CHARACTER_EVOLUTION__ENG__ENT.md
+|   |   |       
+|   |   +---04_WORLD_ENG_ENT
+|   |   |       00__INDEX_MANIFEST__WRL__ENG__ENT.md
+|   |   |       00__PIPELINE_CONTRACT__WRL__ENG__ENT.md
+|   |   |       01__WRL__WORLD_STRUCTURE__ENG__ENT.md
+|   |   |       02__WRL__WORLD_LAW__ENG__ENT.md
+|   |   |       03__WRL__TIMELINE_EPOCH__ENG__ENT.md
+|   |   |       04__WRL__CIVILIZATION__ENG__ENT.md
+|   |   |       05__WRL__CONFLICT_POWER__ENG__ENT.md
+|   |   |       06__WRL__GEOPOLITICS__ENG__ENT.md
+|   |   |       07__WRL__ECONOMY_RESOURCE__ENG__ENT.md
+|   |   |       08__WRL__TECHNOLOGY_MAGIC__ENG__ENT.md
+|   |   |       09__WRL__MYTHOLOGY_BELIEF__ENG__ENT.md
+|   |   |       10__WRL__ENVIRONMENT_ECOLOGY__ENG__ENT.md
+|   |   |       
+|   |   +---05_EXPRESSION_ENG_ENT
+|   |   |       00__INDEX_MANIFEST__EXP__ENG__ENT.md
+|   |   |       00__PIPELINE_CONTRACT__EXP__ENG__ENT.md
+|   |   |       01__EXP__EVENT__ENG__ENT.md
+|   |   |       02__EXP__CAUSE_EFFECT__ENG__ENT.md
+|   |   |       03__EXP__CONFLICT__ENG__ENT.md
+|   |   |       04__EXP__TURNING_POINT__ENG__ENT.md
+|   |   |       05__EXP__CLIMAX__ENG__ENT.md
+|   |   |       06__EXP__RESOLUTION__ENG__ENT.md
+|   |   |       07__EXP__SYSTEM_SHOCK__ENG__ENT.md
+|   |   |       08__EXP__EVENT_SCHEDULING__ENG__ENT.md
+|   |   |       09__EXP__RANDOMNESS_CHAOS__ENG__ENT.md
+|   |   |       
+|   |   +---06_GENRESTYLE_ENG_ENT
+|   |   |       00__INDEX_MANIFEST__GST__ENG__ENT.md
+|   |   |       00__PIPELINE_CONTRACT__GST__ENG__ENT.md
+|   |   |       01__GST__TONE_MOOD__ENG__ENT.md
+|   |   |       02__GST__ATMOSPHERE__ENG__ENT.md
+|   |   |       03__GST__EMOTIONAL_RESONANCE__ENG__ENT.md
+|   |   |       04__GST__SYMBOLISM__ENG__ENT.md
+|   |   |       05__GST__METAPHOR__ENG__ENT.md
+|   |   |       06__GST__SENSORY_DETAIL__ENG__ENT.md
+|   |   |       
+|   |   +---07_PRODUCTIONFORMAT_ENG_ENT
+|   |   |       00__INDEX_MANIFEST__PFT__ENG__ENT.md
+|   |   |       00__PIPELINE_CONTRACT__PFT__ENG__ENT.md
+|   |   |       01__PFT__GENRE__ENG__ENT.md
+|   |   |       02__PFT__GENRE_BLENDING__ENG__ENT.md
+|   |   |       03__PFT__FORMAT_ADAPTATION__ENG__ENT.md
+|   |   |       04__PFT__BOOK_FORMAT__ENG__ENT.md
+|   |   |       05__PFT__SERIES_EPISODE__ENG__ENT.md
+|   |   |       06__PFT__SHORT_CONTENT__ENG__ENT.md
+|   |   |       07__PFT__YOUTUBE_LONGFORM__ENG__ENT.md
+|   |   |       08__PFT__GAME_NARRATIVE__ENG__ENT.md
+|   |   |       
+|   |   +---08_KNOWLEDGEPRODUCTION_ENG_ENT
+|   |   |       00__INDEX_MANIFEST__KPR__ENG__ENT.md
+|   |   |       00__PIPELINE_CONTRACT__KPR__ENG__ENT.md
+|   |   |       01__KPR__VISUAL_COMPOSITION__ENG__ENT.md
+|   |   |       02__KPR__ART_STYLE__ENG__ENT.md
+|   |   |       03__KPR__CAMERA_CINEMATOGRAPHY__ENG__ENT.md
+|   |   |       04__KPR__LIGHTING__ENG__ENT.md
+|   |   |       05__KPR__IMAGE_GENERATION__ENG__ENT.md
+|   |   |       06__KPR__VIDEO_GENERATION__ENG__ENT.md
+|   |   |       07__KPR__EDITING_MONTAGE__ENG__ENT.md
+|   |   |       08__KPR__SOUND_MUSIC__ENG__ENT.md
+|   |   |       
+|   |   +---09_AUDIO_ENG_ENT
+|   |   |       00__INDEX_MANIFEST__AUD__ENG__ENT.md
+|   |   |       00__PIPELINE_CONTRACT__AUD__ENG__ENT.md
+|   |   |       01__AUD__MUSIC_COMPOSITION__ENG__ENT.md
+|   |   |       02__AUD__SONG_STRUCTURE__ENG__ENT.md
+|   |   |       03__AUD__HARMONY_CHORD__ENG__ENT.md
+|   |   |       04__AUD__MELODY_HOOK__ENG__ENT.md
+|   |   |       05__AUD__RHYTHM_GROOVE__ENG__ENT.md
+|   |   |       06__AUD__RHYME_METER__ENG__ENT.md
+|   |   |       07__AUD__LYRICS__ENG__ENT.md
+|   |   |       08__AUD__ARRANGEMENT_INSTRUMENTATION__ENG__ENT.md
+|   |   |       09__AUD__VOCAL_PERFORMANCE__ENG__ENT.md
+|   |   |       10__AUD__SOUND_DESIGN__ENG__ENT.md
+|   |   |       11__AUD__MUSIC_STYLE_CONSISTENCY__ENG__ENT.md
+|   |   |       12__AUD__MUSIC_TO_SCENE__ENG__ENT.md
+|   |   |       13__AUD__MIX_MASTER__ENG__ENT.md
+|   |   |       
+|   |   +---10_METAEVOLUTION_ENG_ENT
+|   |   |       00__INDEX_MANIFEST__MEV_ENG__ENT.md
+|   |   |       00__PIPELINE_CONTRACT__MEV__ENG__ENT.md
+|   |   |       01__MEV__LEARNING__ENG__ENT.md
+|   |   |       02__MEV__PATTERN_EXTRACTION__ENG__ENT.md
+|   |   |       03__MEV__OPTIMIZATION__ENG__ENT.md
+|   |   |       04__MEV__CREATIVE_MUTATION__ENG__ENT.md
+|   |   |       05__MEV__FUTURE_PROJECTION__ENG__ENT.md
+|   |   |       
+|   |   +---11_MUSICFACTORY_ENG_ENT
+|   |   |       00__INDEX_MANIFEST__MFX__ENG__ENT.md
+|   |   |       00__PIPELINE_CONTRACT__MFX__ENG__ENT.md
+|   |   |       01__ENT__GROUP_FOUNDATION__ENG__ENT.md
+|   |   |       02__ENT__ARTIST_FACTORY__ENG__ENT.md
+|   |   |       03__ENT__ALBUM_BLUEPRINT__ENG__ENT.md
+|   |   |       04__ENT__TRACK_FACTORY__ENG__ENT.md
+|   |   |       05__ENT__DURATION_STRATEGY__ENG__ENT.md
+|   |   |       06__ENT__RELEASE_PACK__ENG__ENT.md
+|   |   |       07__ENT__CATALOG_COLLISION__ENG__ENT.md
+|   |   |       08__ENT__NOVELTY_INJECTION__ENG__ENT.md
+|   |   |       09__ENT__TAKE_LOG__ENG__ENT.md
+|   |   |       
+|   |   +---12_TRENDGENRE_ENG_ENT
+|   |   |       00__INDEX_MANIFEST__TGR__ENG__ENT.md
+|   |   |       00__PIPELINE_CONTRACT__TGR__ENG__ENT.md
+|   |   |       01__TGR__GENRE_TAXONOMY__ENG__ENT.md
+|   |   |       02__TGR__FUSION_RECIPE__ENG__ENT.md
+|   |   |       03__TGR__STYLE_FINGERPRINT__ENG__ENT.md
+|   |   |       04__TGR__VIRAL_HOOK_BLUEPRINT__ENG__ENT.md
+|   |   |       05__TGR__UGC_MOMENT_MAP__ENG__ENT.md
+|   |   |       06__TGR__EARWORM_HOOK_STACK__ENG__ENT.md
+|   |   |       07__TGR__PROMPT_COMPILER__ENG__ENT.md
+|   |   |       
+|   |   +---13_POETCORPUS_ENG_ENT
+|   |   |       00__INDEX_MANIFEST__PCR__ENG__ENT.md
+|   |   |       00__PIPELINE_CONTRACT__PCR__ENG__ENT.md
+|   |   |       01__PCR__PD_FILTER__ENG__ENT.md
+|   |   |       02__PCR__POEM_FIT_SCORING__ENG__ENT.md
+|   |   |       03__PCR__JUICE_EXTRACTOR__ENG__ENT.md
+|   |   |       04__PCR__MOSAIC_COMPOSER__ENG__ENT.md
+|   |   |       05__PCR__EXCERPT_COLLISION__ENG__ENT.md
+|   |   |       
+|   |   \---14_NAMINGIDENTITY_ENG_ENT
+|   |           00__INDEX_MANIFEST__NID__ENG__ENT.md
+|   |           00__PIPELINE_CONTRACT__NID__ENG__ENT.md
+|   |           01__NID__NAMING_BRIEF__ENG__ENT.md
+|   |           02__NID__NAMING_GENERATION__ENG__ENT.md
+|   |           03__NID__NAMING_COLLISION__ENG__ENT.md
+|   |           04__NID__PLATFORM_FORMAT_TITLES__ENG__ENT.md
+|   |           05__NID__SERIES_NAMING__ENG__ENT.md
+|   |           
+|   +---30_ORC_ENT
+|   |   |   00__INDEX_MANIFEST__ORC__ENT.md
+|   |   |   00__PIPELINE_CONTRACT__ORC__ENT.md
+|   |   |   
+|   |   +---01_CORE_ORC
+|   |   |       00__INDEX_MANIFEST__CORE_ORC.md
+|   |   |       00__README__ORC.md
+|   |   |       01__NARRATIVE_ORC_ENG.md
+|   |   |       02__CHARACTER_ORC_ENG.md
+|   |   |       03__WORLD_ORC_ENG.md
+|   |   |       04__PRODUCTION_ORC_ENG.md
+|   |   |       05__PIPELINE_ORC_ENG.md
+|   |   |       
+|   |   \---10_MUSIC_ORC
+|   |           00__INDEX_MANIFEST__MUSIC_ORC.md
+|   |           00__README__MUSIC_ORC.md
 |   |           01__GROUP_TO_ALBUM_ORC.md
 |   |           02__ALBUM_TO_TRACK_ORC.md
 |   |           03__TRACK_TEST_DOC_GATE_ORC.md
 |   |           04__RELEASE_PACK_ORC.md
 |   |           05__PORTFOLIO_PLANNER_ORC.md
 |   |           06__POET_PACK_ORC.md
+|   |           07__TRACK_BUILD_STEP_ORC.md
+|   |           08__HOOK_FOCUS_LOOP_ORC.md
+|   |           09__MIX_FOCUS_LOOP_ORC.md
+|   |           10__LYRICS_FOCUS_LOOP_ORC.md
+|   |           11__IDENTITY_BUILD_ORC.md
+|   |           12__MERGE_SYNTHESIS_ORC.md
 |   |           
-|   +---04_SPC
-|   |   |   00__README__SPC_REALM.md
-|   |   |   01__RULES__SPC.md
-|   |   |   02__INDEX_ALL_SPECIALISTS.md
-|   |   |   03__CREATE_FLOW__SPC.md
-|   |   |   
-|   |   +---00_TOP_GOVERNANCE
-|   |   |       00__INDEX__TOP_GOVERNANCE.md
-|   |   |       00__README__TOP.md
-|   |   |       01__MACHINE_ARCHITECT_SPC.md
-|   |   |       02__GOVERNANCE_OWNER_SPC.md
-|   |   |       03__STANDARDS_OWNER_SPC.md
-|   |   |       04__DOC_CONTROLLER_SPC.md
-|   |   |       05__PIPELINE_ARCHITECT_SPC.md
-|   |   |       06__INTEGRATION_PACKER_SPC.md
-|   |   |       
-|   |   +---00__TEMPLATES
-|   |   |       00__TEMPLATE__README__SPC.md
-|   |   |       00__TEMPLATE__SPC_ENTITY.md
-|   |   |       00__TEMPLATE__SPC_OUTPUT_PACK.md
-|   |   |       
-|   |   +---01_CREATIVE
-|   |   |       00__INDEX__CREATIVE_SPECIALISTS.md
-|   |   |       00__README_CREATIVE_SPECIALISTS.md
-|   |   |       01__CREATIVE_DIRECTOR_SPC.md
-|   |   |       02__VISUAL_STYLE_ARCHITECT_SPC.md
-|   |   |       03__WORLD_AESTHETIC_DESIGNER_SPC.md
-|   |   |       04__CONCEPT_DESIGNER_SPC.md
-|   |   |       05__SYMBOLISM_METAPHOR_DESIGNER_SPC.md
-|   |   |       06__MOOD_ATMOSPHERE_CURATOR_SPC.md
-|   |   |       07__ARTISTIC_RISK_DESIGNER_SPC.md
-|   |   |       08__IDEA_GENERATOR_SPC.md
-|   |   |       
-|   |   +---02_NARRATIVE
-|   |   |       00__INDEX__NARRATIVE_SPECIALISTS.md
-|   |   |       00__README_NARRATIVE_SPECIALISTS.md
-|   |   |       01__EPISODE_SHOWRUNNER_SPC.md
-|   |   |       02__HEAD_WRITER_SPC.md
-|   |   |       03__STORY_ARCHITECT_SPC.md
-|   |   |       04__DRAMATURG_SPC.md
-|   |   |       05__SCREENWRITER_SPC.md
-|   |   |       06__DIALOGUE_WRITER_SPC.md
-|   |   |       07__CLIFFHANGER_SPECIALIST_SPC.md
-|   |   |       08__EMOTIONAL_ARC_DESIGNER_SPC.md
-|   |   |       09__THEME_MEANING_CURATOR_SPC.md
-|   |   |       10__LORE_MASTER_SPC.md
-|   |   |       11__NOVELIST_SPC.md
-|   |   |       
-|   |   +---03_CHARACTER
-|   |   |       00__INDEX__CHARACTER_SPECIALISTS.md
-|   |   |       00__README_CHARACTER_SPECIALISTS.md
-|   |   |       01__CHARACTER_ARCHITECT_SPC.md
-|   |   |       02__PERSONALITY_PSYCHOLOGIST_SPC.md
-|   |   |       03__TRAUMA_MOTIVATION_DESIGNER_SPC.md
-|   |   |       04__RELATIONSHIP_DYNAMICS_DESIGNER_SPC.md
-|   |   |       05__DIALOGUE_BEHAVIOR_ANALYST_SPC.md
-|   |   |       06__CHARACTER_EVOLUTION_SUPERVISOR_SPC.md
-|   |   |       
-|   |   +---04_WORLD
-|   |   |       00__INDEX__WORLD_SPECIALISTS.md
-|   |   |       00__README_WORLD_SPECIALISTS.md
-|   |   |       01__WORLD_BUILDER_SPC.md
-|   |   |       02__CULTURE_SOCIETY_ARCHITECT_SPC.md
-|   |   |       03__CIVILIZATION_DESIGNER_SPC.md
-|   |   |       04__GEOGRAPHY_LOCATION_DESIGNER_SPC.md
-|   |   |       05__ECONOMY_POWER_SYSTEMS_DESIGNER_SPC.md
-|   |   |       06__RELIGION_MYTHOLOGY_DESIGNER_SPC.md
-|   |   |       07__ECOLOGY_SURVIVAL_DESIGNER_SPC.md
-|   |   |       
-|   |   +---05_VISUAL
-|   |   |       00__INDEX__VISUAL_SPECIALISTS.md
-|   |   |       00__README_VISUAL_SPECIALISTS.md
-|   |   |       01__VISUAL_DIRECTOR_SPC.md
-|   |   |       02__PRODUCTION_DESIGNER_SPC.md
-|   |   |       03__SCENE_VISUALIZATION_SPECIALIST_SPC.md
-|   |   |       04__STORYBOARD_ARTIST_SPC.md
-|   |   |       05__CINEMATOGRAPHER_SPC.md
-|   |   |       06__CAMERA_MOVEMENT_SPECIALIST_SPC.md
-|   |   |       
-|   |   +---06_SOUND_MUSIC
-|   |   |       00__INDEX__SOUND_MUSIC_SPECIALISTS.md
-|   |   |       00__README_SOUND_MUSIC_SPECIALISTS.md
-|   |   |       01__MUSIC_SUPERVISOR_SPC.md
-|   |   |       02__MUSIC_PRODUCER_SPC.md
-|   |   |       03__COMPOSER_SPC.md
-|   |   |       04__SONGWRITER_SPC.md
-|   |   |       05__LYRICIST_SPC.md
-|   |   |       06__ARRANGER_SPC.md
-|   |   |       07__VOCAL_DIRECTOR_SPC.md
-|   |   |       08__SOUND_DESIGNER_SPC.md
-|   |   |       09__MIX_ENGINEER_SPC.md
-|   |   |       10__MASTERING_ENGINEER_SPC.md
-|   |   |       11__AUDIO_QA_SPC.md
-|   |   |       12__PROMPT_ARCHITECT_SPC.md
-|   |   |       13__UGC_DIRECTOR_SPC.md
-|   |   |       14__EARWORM_DIRECTOR_SPC.md
-|   |   |       15__GENRE_FUSION_ARCHITECT_SPC.md
-|   |   |       16__TREND_ENGINEER_SPC.md
-|   |   |       17__POET_JUICE_EDITOR_SPC.md
-|   |   |       18__MOSAIC_EDITOR_SPC.md
-|   |   |       19__ALBUM_SHOWRUNNER_SPC.md
-|   |   |       20__GROUP_CREATIVE_DIRECTOR_SPC.md
-|   |   |       
-|   |   +---07_PRODUCTION
-|   |   |       00__INDEX__PRODUCTION_SPECIALISTS.md
-|   |   |       00__README_PRODUCTION_SPECIALISTS.md
-|   |   |       01__EXECUTIVE_PRODUCER_SPC.md
-|   |   |       02__DIRECTOR_SPC.md
-|   |   |       03__CONTENT_PRODUCER_SPC.md
-|   |   |       04__TRANSMEDIA_PRODUCER_SPC.md
-|   |   |       05__EPISODE_CHAPTER_PLANNER_SPC.md
-|   |   |       06__PLATFORM_ADAPTATION_SPECIALIST_SPC.md
-|   |   |       07__LOCALIZATION_MANAGER_SPC.md
-|   |   |       08__RELEASE_MANAGER_SPC.md
-|   |   |       09__SCHEDULE_COORDINATOR_SPC.md
-|   |   |       
-|   |   +---08_PSYCHOLOGY
-|   |   |       00__INDEX__PSYCHOLOGY_SPECIALISTS.md
-|   |   |       00__README_PSYCHOLOGY_SPECIALISTS.md
-|   |   |       01__VIEWER_PSYCHOLOGY_ANALYST_SPC.md
-|   |   |       02__EMPATHY_IDENTIFICATION_SPECIALIST_SPC.md
-|   |   |       03__EMOTIONAL_IMPACT_DESIGNER_SPC.md
-|   |   |       04__NONVERBAL_BEHAVIOR_ANALYST_SPC.md
-|   |   |       05__BEHAVIORAL_CONSISTENCY_SPECIALIST_SPC.md
-|   |   |       
-|   |   +---09_RESEARCH
-|   |   |       00__INDEX__RESEARCH_SPECIALISTS.md
-|   |   |       00__README_RESEARCH_SPECIALISTS.md
-|   |   |       01__RESEARCH_DIRECTOR_SPC.md
-|   |   |       02__SCIENTIFIC_RESEARCHER_SPC.md
-|   |   |       03__HISTORICAL_RESEARCHER_SPC.md
-|   |   |       04__CULTURAL_ANTHROPOLOGIST_SPC.md
-|   |   |       05__KNOWLEDGE_CURATOR_SPC.md
-|   |   |       06__SOURCE_VALIDATION_SPECIALIST_SPC.md
-|   |   |       07__FACT_CHECKING_SPECIALIST_SPC.md
-|   |   |       08__SPECULATIVE_PLAUSIBILITY_ANALYST_SPC.md
-|   |   |       
-|   |   +---10_MARKETING
-|   |   |       00__INDEX__MARKETING_SPECIALISTS.md
-|   |   |       00__README_MARKETING_SPECIALISTS.md
-|   |   |       01__BRAND_ARCHITECT_SPC.md
-|   |   |       02__AUDIENCE_ANALYST_SPC.md
-|   |   |       03__AUDIENCE_RESEARCH_SPECIALIST_SPC.md
-|   |   |       04__CONTENT_PACKAGING_SPECIALIST_SPC.md
-|   |   |       05__PLATFORM_DISTRIBUTION_SPECIALIST_SPC.md
-|   |   |       06__SEO_DISCOVERY_SPECIALIST_SPC.md
-|   |   |       07__TRAILER_TEASER_SPECIALIST_SPC.md
-|   |   |       08__COMMUNITY_MANAGER_SPC.md
-|   |   |       09__ENGAGEMENT_STRATEGIST_SPC.md
-|   |   |       10__GROWTH_HACKER_SPC.md
-|   |   |       11__MONETIZATION_STRATEGIST_SPC.md
-|   |   |       
-|   |   \---11_META
-|   |           00__INDEX__META_SPECIALISTS.md
-|   |           00__README_META_SPECIALISTS.md
-|   |           01__UNIVERSE_CURATOR_SPC.md
-|   |           02__SYSTEM_ARCHITECT_SPC.md
-|   |           03__RULE_SYSTEM_DESIGNER_SPC.md
-|   |           04__DEPENDENCY_SUPERVISOR_SPC.md
-|   |           05__KNOWLEDGE_INTEGRATOR_SPC.md
-|   |           06__META_ANALYST_SPC.md
-|   |           07__LONG_TERM_STRATEGY_PLANNER_SPC.md
-|   |           08__EVOLUTION_SCALING_PLANNER_SPC.md
-|   |           
-|   +---05_CTL
+|   +---40_CTL_ENT
+|   |   |   00__INDEX_MANIFEST__CTL__ENT.md
+|   |   |   00__PIPELINE_CONTRACT__.md
 |   |   |   00__README__CTL_REALM.md
-|   |   |   00__TEMPLATE__CONTROLLER.md
-|   |   |   01__READINESS_CHECK_CTL.md
-|   |   |   01__RULES__CTL.md
-|   |   |   02__INDEX_ALL_CONTROLLERS.md
-|   |   |   03__CREATE_FLOW__CTL.md
 |   |   |   
 |   |   +---00__TEMPLATES
 |   |   |       00__TEMPLATE__CTL_BLOCKER.md
 |   |   |       00__TEMPLATE__CTL_ENTITY.md
 |   |   |       
 |   |   \---10_MUSIC_CONTROLLERS
-|   |           00__INDEX__MUSIC_CONTROLLERS.md
+|   |           00__INDEX_MANIFEST__MUSIC_CONTROLLERS.md
 |   |           00__README__MUSIC_CONTROLLERS.md
 |   |           01__PROMPT_CONTRACT_CTL.md
 |   |           02__UGC_VIRAL_RULESET_CTL.md
@@ -496,19 +540,23 @@ D:.
 |   |           11__UDIO_PHRASEBOOK_CTL.md
 |   |           12__NEGATIVE_SPEC_LIBRARY_CTL.md
 |   |           13__CREDITS_METADATA_POLICY_CTL.md
+|   |           14__STEP_BUDGET_CTL.md
+|   |           15__VARIANT_POLICY_CTL.md
+|   |           16__FOCUS_LOOP_STOP_RULES_CTL.md
+|   |           17__SYNTHESIS_MERGE_POLICY_CTL.md
 |   |           
-|   +---06_VAL
+|   +---50_VAL_ENT
+|   |   |   00__INDEX_MANIFEST__VAL_ENT.md
+|   |   |   00__PIPELINE_CONTRACT__.md
 |   |   |   00__README__VALIDATORS_REALM.md
-|   |   |   01__RULES__VAL.md
-|   |   |   02__INDEX_ALL_VALIDATORS.md
 |   |   |   03__CREATE_FLOW__VAL.md
 |   |   |   
 |   |   +---00__TEMPLATES
 |   |   |       00__TEMPLATE__VAL_ENTITY.md
 |   |   |       00__TEMPLATE__VAL_VIOLATION.md
 |   |   |       
-|   |   +---10_MUSIC_VALIDATORS
-|   |   |       00__INDEX__MUSIC_VALIDATORS.md
+|   |   +---10_MUSIC_VAL
+|   |   |       00__INDEX_MANIFEST__MUSIC_VAL.md
 |   |   |       00__README__MUSIC_VALIDATORS.md
 |   |   |       01__HOOK_TIMING_VAL.md
 |   |   |       02__UGC_READY_VAL.md
@@ -520,9 +568,13 @@ D:.
 |   |   |       08__PROMPT_FIDELITY_VAL.md
 |   |   |       09__CREDITS_RIGHTS_VAL.md
 |   |   |       10__VOICE_DIVERSITY_VAL.md
+|   |   |       11__CHAIN_COMPLETENESS_VAL.md
+|   |   |       12__COVERAGE_PASS_VAL.md
+|   |   |       13__PROMPT_SPEC_VAL.md
+|   |   |       14__SYNTHESIS_COHERENCE_VAL.md
 |   |   |       
 |   |   \---11_VALIDATION_ENGINES
-|   |           00__README__VALIDATION_ENGINES.md
+|   |           00__INDEX_MANIFEST__VAL_ENG.md
 |   |           01__ERROR_DETECTION_ENG.md
 |   |           02__FACT_CONSISTENCY_ENG.md
 |   |           03__LANGUAGE_LINGUISTICS_ENG.md
@@ -530,11 +582,11 @@ D:.
 |   |           05__HISTORICAL_ACCURACY_ENG.md
 |   |           06__SCIENTIFIC_PLAUSIBILITY_ENG.md
 |   |           
-|   +---07_QA
+|   +---60_QA_ENT
+|   |   |   00__INDEX_MANIFEST__QA.md
+|   |   |   00__PIPELINE_CONTRACT__.md
 |   |   |   00__README__QA_REALM.md
 |   |   |   01__NATURALNESS_GATE_QA.md
-|   |   |   01__RULES__QA.md
-|   |   |   02__INDEX_ALL_QA.md
 |   |   |   03__CREATE_FLOW__QA.md
 |   |   |   
 |   |   +---00__TEMPLATES
@@ -543,7 +595,7 @@ D:.
 |   |   |       00__TEMPLATE__QA_ISSUE.md
 |   |   |       
 |   |   \---10_MUSIC_QA
-|   |           00__INDEX__MUSIC_QA.md
+|   |           00__INDEX_MANIFEST__MUSIC_QA.md
 |   |           00__README__MUSIC_QA.md
 |   |           01__SCROLL_STOP_5S_QA.md
 |   |           02__LOOP_15S_QA.md
@@ -554,19 +606,25 @@ D:.
 |   |           07__CATALOG_DIFFERENTIATION_QA.md
 |   |           08__VOICE_DIVERSITY_AUDIT_QA.md
 |   |           09__REGRESSION_GUARD_QA.md
+|   |           10__TRACK_QA_PANEL_QA.md
 |   |           
-|   \---08_XREF
-|           00__INDEX__CROSSREF.md
-|           00__README__CROSSREF.md
-|           00__TEMPLATE__XREF_INDEX.md
-|           00__TEMPLATE__XREF_RECORD.md
-|           01__MAP__ENG_to_ORC.md
-|           02__MAP__ORC_to_SPC.md
-|           03__MAP__VALIDATION_MATRIX.md
-|           04__MAP__PIPELINES.md
+|   \---90_XREF_ENT
+|           00__INDEX_MANIFEST__XREF.md
+|           00__PIPELINE_CONTRACT__XREF.md
+|           01__XREF__DOMAIN_MAP__XREF.md
+|           02__XREF__ROLE_MAP__XREF.md
+|           03__MAP__VALIDATION_MATRIX__XREF.md
+|           04__MAP__PIPELINES__XREF.md
+|           05__MAP__ENTITY_IO_TYPES__XREF.md
+|           06__MAP__KB_SCOPE_BINDINGS__XREF.md
+|           07__MAP__COVERAGE_TO_ENTITIES__XREF.md
+|           08__MAP__DEFAULT_CHAIN__XREF.md
+|           09__MAP__ENG_to_ORC__XREF.md
+|           10__MAP__ORC_to_SPC__XREF.md
 |           
 +---04_NAV
-|       00__NAV_ROOT.md
+|       00__INDEX_MANIFEST__NAV.md
+|       00__PIPELINE_CONTRACT__NAV.md
 |       01__IDX_BOOT.md
 |       02__IDX_ENT.md
 |       03__IDX_PIPE.md
@@ -574,20 +632,33 @@ D:.
 |       05__IDX_AUD.md
 |       06__IDX_VIS.md
 |       07__IDX_LEX.md
+|       08__IDX_REG.md
+|       09__IDX_XREF.md
+|       10__IDX_OPERATIONS.md
+|       11__IDX_LOG.md
+|       12__IDX_MUSIC.md
 |       
 +---05_KB
-|   |   00__KB_START.md
-|   |   01__KB_RULES.md
-|   |   02__KB_INPUTS.md
-|   |   03__KB_OUTPUTS.md
-|   |   05__KB_AUD.md
-|   |   06__KB_VIS.md
-|   |   07__KB_LOR.md
+|   |   00__INDEX_MANIFEST__KB.md
+|   |   00__PIPELINE_CONTRACT__KB.md
+|   |   01__KB__SCOPE_RULES.md
+|   |   02__KB__TOKEN_LIBRARY.md
+|   |   03__KB_INPUTS.md
+|   |   04__KB_OUTPUTS.md
+|   |   05__KB_BOUNDARIES.md
+|   |   06__KB_AUD.md
+|   |   07__KB_VIS.md
+|   |   08__KB_LOR.md
+|   |   09__KB_SOURCES.md
+|   |   10__KB_SCOPE_PROFILES.md
+|   |   11__KB_NAV_ROOT.md
+|   |   12__IDX_KB_MODULES_BY_DOMAIN.md
+|   |   13__IDX_KB_MODULES_BY_TOPIC.md
 |   |   
 |   +---00_KB_GOVERNANCE
+|   |       00__INDEX_MANIFEST__KB_GOVERNANCE.md
 |   |       00__README__KB_REALM.md
 |   |       01__RULES__KB.md
-|   |       02__INDEX__KB_GLOBAL_REGISTRY.md
 |   |       02__KB_STORAGE_MAP.md
 |   |       03__KB_ENTITY_TYPES.md
 |   |       04__KB_NAMING_RULES.md
@@ -609,7 +680,7 @@ D:.
 |   |       23__TEMPLATE__ENTITY_KB_CONNECTOR.md
 |   |       
 |   +---01_PILLARS
-|   |       00__INDEX__PILLARS.md
+|   |       00__INDEX_MANIFEST__PILLARS.md
 |   |       00__README__PILLARS_REALM.md
 |   |       01__PILLAR__NARRATIVE_CRAFT.md
 |   |       02__PILLAR__CHARACTER_CRAFT.md
@@ -622,30 +693,30 @@ D:.
 |   |       09__PILLAR__REFERENCE_GLOSSARY.md
 |   |       
 |   +---10_TOPICS
-|   |   |   00__INDEX__TOPICS.md
+|   |   |   00__INDEX_MANIFEST__TOPICS.md
 |   |   |   00__README__TOPICS_REALM.md
 |   |   |   01__TOPIC_TAXONOMY.md
 |   |   |   
-|   |   +---10_NARRATIVE
-|   |   |       00__INDEX__TOPICS_10_NARRATIVE.md
-|   |   |       00__README__TOPICS_NARRATIVE.md
-|   |   |       01__NARRATIVE__SCENE_CRAFT.md
-|   |   |       02__NARRATIVE__CAUSE_EFFECT_CHAIN.md
-|   |   |       03__NARRATIVE__TENSION_STAKES.md
-|   |   |       04__NARRATIVE__TURNING_POINTS.md
-|   |   |       05__NARRATIVE__FORESHADOWING_PAYOFF.md
-|   |   |       06__NARRATIVE__PACING_RHYTHM.md
-|   |   |       07__NARRATIVE__DIALOGUE_SUBTEXT.md
-|   |   |       08__NARRATIVE__REVEALS_SECRETS_INFORMATION_FLOW.md
-|   |   |       09__NARRATIVE__CONFLICT_SCENE_DYNAMICS.md
-|   |   |       10__NARRATIVE__CHARACTER_AGENCY_DECISIONS.md
-|   |   |       11__NARRATIVE__SCENE_OBJECTIVES_OBSTACLES.md
-|   |   |       12__NARRATIVE__EXPOSITION_INTEGRATION.md
-|   |   |       13__NARRATIVE__CLIMAX_RESOLUTION_PAYOFF.md
-|   |   |       14__NARRATIVE__THEME_MEANING_SUBSTANCE.md
+|   |   +---10_NAV_SKL
+|   |   |       00__INDEX_MANIFEST__NAV_SKL.md
+|   |   |       00__PIPELINE_CONTRACT__NAV_SKL.md
+|   |   |       01__NAV__SCENE_CRAFT_SKL.md
+|   |   |       02__NAV__CAUSE_EFFECT_CHAIN_SKL.md
+|   |   |       03__NAV__TENSION_STAKES_SKL.md
+|   |   |       04__NAV__TURNING_POINTS_SKL.md
+|   |   |       05__NAV__FORESHADOWING_PAYOFF_SKL.md
+|   |   |       06__NAV__PACING_RHYTHM_SKL.md
+|   |   |       07__NAV__DIALOGUE_SUBTEXT_SKL.md
+|   |   |       08__NAV__REVEALS_SECRETS_INFORMATION_FLOW_SKL.md
+|   |   |       09__NAV__CONFLICT_SCENE_DYNAMICS_SKL.md
+|   |   |       10__NAV__CHARACTER_AGENCY_DECISIONS_SKL.md
+|   |   |       11__NAV__SCENE_OBJECTIVES_OBSTACLES_SKL.md
+|   |   |       12__NAV__EXPOSITION_INTEGRATION_SKL.md
+|   |   |       13__NAV__CLIMAX_RESOLUTION_PAYOFF_SKL.md
+|   |   |       14__NAV__THEME_MEANING_SUBSTANCE_SKL.md
 |   |   |       
 |   |   +---20_CHARACTER
-|   |   |       00__INDEX__TOPICS_20_CHARACTER.md
+|   |   |       00__INDEX_MANIFEST__CHARACTER.md
 |   |   |       00__README__TOPICS_CHARACTER.md
 |   |   |       01__CHARACTER__MOTIVATION_DESIRE.md
 |   |   |       02__CHARACTER__WOUND_TRAUMA.md
@@ -2365,8 +2436,7 @@ D:.
 |   |   |       00__README__RUBRICS.md
 |   |   |       
 |   |   +---30_TEMPLATES
-|   |   |       00__INDEX__TEMPLATES.md
-|   |   |       00__README__TEMPLATES.md
+|   |   |       00__TEMPLATE__REALM_INDEX.md
 |   |   |       
 |   |   +---40_PATTERNS
 |   |   |       00__INDEX__PATTERNS.md
@@ -2487,7 +2557,8 @@ D:.
 |           99__KB_QA_SCORE_REPORT_TEMPLATE.md
 |           
 +---06_PIPE
-|       00__PIPE_INDEX.md
+|       00__INDEX_MANIFEST__PIPE.md
+|       00__PIPELINE_CONTRACT__PIPE.md
 |       01__PIPE_DEFAULT.md
 |       02__PIPE_GAP.md
 |       03__PIPE_AUD.md
@@ -2501,9 +2572,18 @@ D:.
 |       11__QA_ACCEPT.md
 |       12__QA_PACK.md
 |       13__SIGNOFF.md
+|       14__PIPE_REL.md
+|       15__PIPE_STEP_RUN.md
+|       16__PIPE_FOCUS_LOOP.md
+|       17__VAL_CHAIN_COMPLETENESS.md
+|       18__CTL_COVERAGE_GATE.md
+|       20__PIPE_MUSIC_TRACK.md
+|       21__PIPE_MUSIC_LYRICS.md
+|       22__PIPE_MUSIC_IDENTITY.md
 |       
 +---07_DOM_AUD
-|       00__AUD_INDEX.md
+|       00__INDEX_MANIFEST__DOM__AUD.md
+|       00__PIPELINE_CONTRACT__DOM__AUD.md
 |       01__ORUM_A.md
 |       02__ORUM_B.md
 |       03__MET_RI.md
@@ -2517,6 +2597,8 @@ D:.
 |       11__MASTER_TARGETS.md
 |       
 +---08_DOM_VIS
+|       00__INDEX_MANIFEST__DOM__VIS.md
+|       00__PIPELINE_CONTRACT__DOM__VIS.md
 |       00__VIS_INDEX.md
 |       01__LAW15_MAP.md
 |       02__PROMPT_FMT.md
@@ -2529,7 +2611,8 @@ D:.
 |       09__PACK_VIS.md
 |       
 +---09_DOM_LOR
-|       00__LOR_INDEX.md
+|       00__INDEX_MANIFEST__DOM__LOR.md
+|       00__PIPELINE_CONTRACT__DOM__LOR.md
 |       01__LORE_TRIGGER.md
 |       02__RI_TO_LANG.md
 |       03__ARC_S16.md
@@ -2539,7 +2622,8 @@ D:.
 |       07__XREF_LOR.md
 |       
 +---10_REL
-|       00__REL_INDEX.md
+|       00__INDEX_MANIFEST__REL.md
+|       00__PIPELINE_CONTRACT__REL.md
 |       01__CAL_A.md
 |       02__READINESS_MATRIX.md
 |       03__ARC_IMPACT.md
@@ -2550,15 +2634,38 @@ D:.
 |       08__PACK_REL.md
 |       09__POST_REL.md
 |       
-+---11_LEX
-|       00__LEX.md
++---11_TKN
+|       00__INDEX_MANIFEST__TKN.md
+|       00__PIPELINE_CONTRACT__TKN.md
+|       01__TKN__BRIEF_TOKEN.md
+|       02__TKN__STYLE_TOKEN.md
+|       03__TKN__STRUCTURE_TOKEN.md
+|       04__TKN__LYRICS_TOKEN.md
+|       05__TKN__QA_TOKEN.md
+|       
++---12_LEX
+|       00__INDEX_MANIFEST__LEX.md
+|       00__PIPELINE_CONTRACT__LEX.md
 |       01__CODES_LAW.md
 |       02__CODES_MET.md
 |       03__CODES_PIPE.md
 |       04__CODES_VIS.md
 |       05__ABBR_RULES.md
 |       
-\---12_LOG
-        00__LOG_RULES.md
++---13_STR_PNT
+|       00__INDEX_MANIFEST__STR__PNT.md
+|       00__PIPELINE_CONTRACT__STR__PNT.md
+|       01__STR_PNT__NEW_TASK.md
+|       02__STR_PNT__PATCH_FIX.md
+|       03__STR_PNT__QA_FAIL.md
+|       04__STR_PNT__RELEASE_READY.md
+|       
+\---14_LOG
+        00__INDEX_MANIFEST__LOG.md
+        00__PIPELINE_CONTRACT__LOG.md
         01__RUN_LOG.md
+        02__CHANGE_LOG.md
+        03__TOKEN_ARCHIVE.md
+        04__DECISION_LOG.md
+        05__START_POINT_LOG.md
         

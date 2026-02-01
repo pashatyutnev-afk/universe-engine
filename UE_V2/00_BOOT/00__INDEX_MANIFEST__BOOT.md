@@ -84,30 +84,6 @@ INDEX_MANIFEST — “таблица адресов” и кратких смы�
 
 ### [O] CONTENT (boot set)
 
-- KEY: BOOT.ROOT_LINK_BASE.PART1
-  UID:
-  KIND: FILE
-  ROLE: Root link base part 1
-  DESC: RAW map (part 1) for deterministic navigation
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/00_BOOT/00__ROOT_LINK_BASE_UE_V2__PART1.md
-  PATH: UE_V2/00_BOOT/00__ROOT_LINK_BASE_UE_V2__PART1.md
-  MARKERS: [BOOT, NAV, MUST_LOAD]
-  STATUS: ACTIVE
-  OWNER: SYS
-  UPDATED: 2026-01-31
-
-- KEY: BOOT.ROOT_LINK_BASE.PART2
-  UID:
-  KIND: FILE
-  ROLE: Root link base part 2
-  DESC: RAW map (part 2) for deterministic navigation
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/00_BOOT/00__ROOT_LINK_BASE_UE_V2__PART2.md
-  PATH: UE_V2/00_BOOT/00__ROOT_LINK_BASE_UE_V2__PART2.md
-  MARKERS: [BOOT, NAV, MUST_LOAD]
-  STATUS: ACTIVE
-  OWNER: SYS
-  UPDATED: 2026-01-31
-
 - KEY: BOOT.START
   UID:
   KIND: FILE
