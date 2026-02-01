@@ -96,96 +96,96 @@ RESOLUTION_RULE: KEY -> RAW берётся только из ENTRIES ниже
   KIND: ENTITY
   ROLE: Visual composition engine
   DESC: Composition rules, framing, focal hierarchy; emits VISUAL_COMPOSITION_TOKEN
-  RAW:
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/20_ENG_ENT/08_KNOWLEDGEPRODUCTION_ENG_ENT/01__KPR__VISUAL_COMPOSITION__ENG__ENT.md
   PATH: UE_V2/03_ENT/20_ENG_ENT/08_KNOWLEDGEPRODUCTION_ENG_ENT/01__KPR__VISUAL_COMPOSITION__ENG__ENT.md
-  MARKERS: [ENG, KPR, VIS, COMP, GAP]
+  MARKERS: [ENG, KPR, VIS, COMP]
   STATUS: DRAFT
   OWNER: SYS
-  UPDATED: 2026-01-31
+  UPDATED: 2026-02-01
 
 - KEY: KPR.ART_STYLE
   UID:
   KIND: ENTITY
   ROLE: Art style engine
   DESC: Style fingerprint and constraints; emits ART_STYLE_TOKEN
-  RAW:
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/20_ENG_ENT/08_KNOWLEDGEPRODUCTION_ENG_ENT/02__KPR__ART_STYLE__ENG__ENT.md
   PATH: UE_V2/03_ENT/20_ENG_ENT/08_KNOWLEDGEPRODUCTION_ENG_ENT/02__KPR__ART_STYLE__ENG__ENT.md
-  MARKERS: [ENG, KPR, VIS, STYLE, GAP]
+  MARKERS: [ENG, KPR, VIS, STYLE]
   STATUS: DRAFT
   OWNER: SYS
-  UPDATED: 2026-01-31
+  UPDATED: 2026-02-01
 
 - KEY: KPR.CAMERA_CINEMATOGRAPHY
   UID:
   KIND: ENTITY
   ROLE: Camera and cinematography engine
   DESC: Lens/move/coverage rules; emits CAMERA_CINEMATOGRAPHY_TOKEN
-  RAW:
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/20_ENG_ENT/08_KNOWLEDGEPRODUCTION_ENG_ENT/03__KPR__CAMERA_CINEMATOGRAPHY__ENG__ENT.md
   PATH: UE_V2/03_ENT/20_ENG_ENT/08_KNOWLEDGEPRODUCTION_ENG_ENT/03__KPR__CAMERA_CINEMATOGRAPHY__ENG__ENT.md
-  MARKERS: [ENG, KPR, CAMERA, GAP]
+  MARKERS: [ENG, KPR, CAMERA]
   STATUS: DRAFT
   OWNER: SYS
-  UPDATED: 2026-01-31
+  UPDATED: 2026-02-01
 
 - KEY: KPR.LIGHTING
   UID:
   KIND: ENTITY
   ROLE: Lighting engine
   DESC: Lighting principles and scene lighting plan; emits LIGHTING_TOKEN
-  RAW:
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/20_ENG_ENT/08_KNOWLEDGEPRODUCTION_ENG_ENT/04__KPR__LIGHTING__ENG__ENT.md
   PATH: UE_V2/03_ENT/20_ENG_ENT/08_KNOWLEDGEPRODUCTION_ENG_ENT/04__KPR__LIGHTING__ENG__ENT.md
-  MARKERS: [ENG, KPR, LIGHT, GAP]
+  MARKERS: [ENG, KPR, LIGHT]
   STATUS: DRAFT
   OWNER: SYS
-  UPDATED: 2026-01-31
+  UPDATED: 2026-02-01
 
 - KEY: KPR.IMAGE_GENERATION
   UID:
   KIND: ENTITY
   ROLE: Image generation engine
   DESC: Image generation constraints/prompting; emits IMAGE_GEN_PACK
-  RAW:
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/20_ENG_ENT/08_KNOWLEDGEPRODUCTION_ENG_ENT/05__KPR__IMAGE_GENERATION__ENG__ENT.md
   PATH: UE_V2/03_ENT/20_ENG_ENT/08_KNOWLEDGEPRODUCTION_ENG_ENT/05__KPR__IMAGE_GENERATION__ENG__ENT.md
-  MARKERS: [ENG, KPR, IMG, GEN, GAP]
+  MARKERS: [ENG, KPR, IMG, GEN]
   STATUS: DRAFT
   OWNER: SYS
-  UPDATED: 2026-01-31
+  UPDATED: 2026-02-01
 
 - KEY: KPR.VIDEO_GENERATION
   UID:
   KIND: ENTITY
   ROLE: Video generation engine
   DESC: Video generation constraints/prompting; emits VIDEO_GEN_PACK
-  RAW:
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/20_ENG_ENT/08_KNOWLEDGEPRODUCTION_ENG_ENT/06__KPR__VIDEO_GENERATION__ENG__ENT.md
   PATH: UE_V2/03_ENT/20_ENG_ENT/08_KNOWLEDGEPRODUCTION_ENG_ENT/06__KPR__VIDEO_GENERATION__ENG__ENT.md
-  MARKERS: [ENG, KPR, VID, GEN, GAP]
+  MARKERS: [ENG, KPR, VID, GEN]
   STATUS: DRAFT
   OWNER: SYS
-  UPDATED: 2026-01-31
+  UPDATED: 2026-02-01
 
 - KEY: KPR.EDITING_MONTAGE
   UID:
   KIND: ENTITY
   ROLE: Editing and montage engine
   DESC: Montage rules, rhythm, transitions; emits EDITING_MONTAGE_PLAN
-  RAW:
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/20_ENG_ENT/08_KNOWLEDGEPRODUCTION_ENG_ENT/07__KPR__EDITING_MONTAGE__ENG__ENT.md
   PATH: UE_V2/03_ENT/20_ENG_ENT/08_KNOWLEDGEPRODUCTION_ENG_ENT/07__KPR__EDITING_MONTAGE__ENG__ENT.md
-  MARKERS: [ENG, KPR, EDIT, GAP]
+  MARKERS: [ENG, KPR, EDIT]
   STATUS: DRAFT
   OWNER: SYS
-  UPDATED: 2026-01-31
+  UPDATED: 2026-02-01
 
 - KEY: KPR.SOUND_MUSIC
   UID:
   KIND: ENTITY
   ROLE: Sound and music integration engine
   DESC: Sound/music binding to visual plan; emits SOUND_MUSIC_SYNC_PACK
-  RAW:
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/20_ENG_ENT/08_KNOWLEDGEPRODUCTION_ENG_ENT/08__KPR__SOUND_MUSIC__ENG__ENT.md
   PATH: UE_V2/03_ENT/20_ENG_ENT/08_KNOWLEDGEPRODUCTION_ENG_ENT/08__KPR__SOUND_MUSIC__ENG__ENT.md
-  MARKERS: [ENG, KPR, AUD, SYNC, GAP]
+  MARKERS: [ENG, KPR, AUD, SYNC]
   STATUS: DRAFT
   OWNER: SYS
-  UPDATED: 2026-01-31
+  UPDATED: 2026-02-01
 
 ---
 

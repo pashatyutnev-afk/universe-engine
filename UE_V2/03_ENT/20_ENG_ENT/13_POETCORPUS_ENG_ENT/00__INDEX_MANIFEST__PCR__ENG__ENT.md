@@ -96,60 +96,60 @@ RESOLUTION_RULE: KEY -> RAW берётся только из ENTRIES ниже
   KIND: ENTITY
   ROLE: Poetic density filter engine
   DESC: Filters corpus by poetic density / signal; emits FILTERED_CORPUS_TOKEN
-  RAW:
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/20_ENG_ENT/13_POETCORPUS_ENG_ENT/01__PCR__PD_FILTER__ENG__ENT.md
   PATH: UE_V2/03_ENT/20_ENG_ENT/13_POETCORPUS_ENG_ENT/01__PCR__PD_FILTER__ENG__ENT.md
-  MARKERS: [ENG, PCR, FILTER, GAP]
+  MARKERS: [ENG, PCR, FILTER]
   STATUS: DRAFT
   OWNER: SYS
-  UPDATED: 2026-01-31
+  UPDATED: 2026-02-01
 
 - KEY: PCR.POEM_FIT_SCORING
   UID:
   KIND: ENTITY
   ROLE: Poem fit scoring engine
   DESC: Scores candidates vs target mood/style/brief; emits POEM_FIT_SCORECARD
-  RAW:
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/20_ENG_ENT/13_POETCORPUS_ENG_ENT/02__PCR__POEM_FIT_SCORING__ENG__ENT.md
   PATH: UE_V2/03_ENT/20_ENG_ENT/13_POETCORPUS_ENG_ENT/02__PCR__POEM_FIT_SCORING__ENG__ENT.md
-  MARKERS: [ENG, PCR, SCORE, GAP]
+  MARKERS: [ENG, PCR, SCORE]
   STATUS: DRAFT
   OWNER: SYS
-  UPDATED: 2026-01-31
+  UPDATED: 2026-02-01
 
 - KEY: PCR.JUICE_EXTRACTOR
   UID:
   KIND: ENTITY
   ROLE: Juice extractor engine
   DESC: Extracts “poet juice” (hooks/lines/images); emits JUICE_PACK_TOKEN
-  RAW:
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/20_ENG_ENT/13_POETCORPUS_ENG_ENT/03__PCR__JUICE_EXTRACTOR__ENG__ENT.md
   PATH: UE_V2/03_ENT/20_ENG_ENT/13_POETCORPUS_ENG_ENT/03__PCR__JUICE_EXTRACTOR__ENG__ENT.md
-  MARKERS: [ENG, PCR, EXTRACT, GAP]
+  MARKERS: [ENG, PCR, EXTRACT]
   STATUS: DRAFT
   OWNER: SYS
-  UPDATED: 2026-01-31
+  UPDATED: 2026-02-01
 
 - KEY: PCR.MOSAIC_COMPOSER
   UID:
   KIND: ENTITY
   ROLE: Mosaic composer engine
   DESC: Composes mosaic from extracted fragments; emits MOSAIC_TEXT_PACK
-  RAW:
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/20_ENG_ENT/13_POETCORPUS_ENG_ENT/04__PCR__MOSAIC_COMPOSER__ENG__ENT.md
   PATH: UE_V2/03_ENT/20_ENG_ENT/13_POETCORPUS_ENG_ENT/04__PCR__MOSAIC_COMPOSER__ENG__ENT.md
-  MARKERS: [ENG, PCR, COMPOSE, GAP]
+  MARKERS: [ENG, PCR, COMPOSE]
   STATUS: DRAFT
   OWNER: SYS
-  UPDATED: 2026-01-31
+  UPDATED: 2026-02-01
 
 - KEY: PCR.EXCERPT_COLLISION
   UID:
   KIND: ENTITY
   ROLE: Excerpt collision engine
   DESC: Detects near-duplicates and collisions in excerpts; emits COLLISION_REPORT
-  RAW:
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/20_ENG_ENT/13_POETCORPUS_ENG_ENT/05__PCR__EXCERPT_COLLISION__ENG__ENT.md
   PATH: UE_V2/03_ENT/20_ENG_ENT/13_POETCORPUS_ENG_ENT/05__PCR__EXCERPT_COLLISION__ENG__ENT.md
-  MARKERS: [ENG, PCR, COLLISION, GAP]
+  MARKERS: [ENG, PCR, COLLISION]
   STATUS: DRAFT
   OWNER: SYS
-  UPDATED: 2026-01-31
+  UPDATED: 2026-02-01
 
 ---
 

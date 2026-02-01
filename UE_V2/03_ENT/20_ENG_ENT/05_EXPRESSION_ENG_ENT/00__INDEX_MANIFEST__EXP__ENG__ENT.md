@@ -96,108 +96,108 @@ RESOLUTION_RULE: KEY -> RAW берётся только из ENTRIES ниже
   KIND: ENTITY
   ROLE: Event engine
   DESC: Defines event units and structure; emits EVENT_MODEL_TOKEN
-  RAW:
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/20_ENG_ENT/05_EXPRESSION_ENG_ENT/01__EXP__EVENT__ENG__ENT.md
   PATH: UE_V2/03_ENT/20_ENG_ENT/05_EXPRESSION_ENG_ENT/01__EXP__EVENT__ENG__ENT.md
-  MARKERS: [ENG, EXP, EVENT, GAP]
+  MARKERS: [ENG, EXP, EVENT]
   STATUS: DRAFT
   OWNER: SYS
-  UPDATED: 2026-01-31
+  UPDATED: 2026-02-01
 
 - KEY: EXP.CAUSE_EFFECT
   UID:
   KIND: ENTITY
   ROLE: Cause-effect engine
   DESC: Builds causal links and consequences; emits CAUSE_EFFECT_GRAPH
-  RAW:
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/20_ENG_ENT/05_EXPRESSION_ENG_ENT/02__EXP__CAUSE_EFFECT__ENG__ENT.md
   PATH: UE_V2/03_ENT/20_ENG_ENT/05_EXPRESSION_ENG_ENT/02__EXP__CAUSE_EFFECT__ENG__ENT.md
-  MARKERS: [ENG, EXP, CAUSE, EFFECT, GAP]
+  MARKERS: [ENG, EXP, CAUSE, EFFECT]
   STATUS: DRAFT
   OWNER: SYS
-  UPDATED: 2026-01-31
+  UPDATED: 2026-02-01
 
 - KEY: EXP.CONFLICT
   UID:
   KIND: ENTITY
   ROLE: Conflict engine
   DESC: Conflict types, escalation rules; emits CONFLICT_STACK
-  RAW:
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/20_ENG_ENT/05_EXPRESSION_ENG_ENT/03__EXP__CONFLICT__ENG__ENT.md
   PATH: UE_V2/03_ENT/20_ENG_ENT/05_EXPRESSION_ENG_ENT/03__EXP__CONFLICT__ENG__ENT.md
-  MARKERS: [ENG, EXP, CONFLICT, GAP]
+  MARKERS: [ENG, EXP, CONFLICT]
   STATUS: DRAFT
   OWNER: SYS
-  UPDATED: 2026-01-31
+  UPDATED: 2026-02-01
 
 - KEY: EXP.TURNING_POINT
   UID:
   KIND: ENTITY
   ROLE: Turning point engine
   DESC: Defines turning points and reversals; emits TURNING_POINT_MAP
-  RAW:
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/20_ENG_ENT/05_EXPRESSION_ENG_ENT/04__EXP__TURNING_POINT__ENG__ENT.md
   PATH: UE_V2/03_ENT/20_ENG_ENT/05_EXPRESSION_ENG_ENT/04__EXP__TURNING_POINT__ENG__ENT.md
-  MARKERS: [ENG, EXP, TURN, GAP]
+  MARKERS: [ENG, EXP, TURN]
   STATUS: DRAFT
   OWNER: SYS
-  UPDATED: 2026-01-31
+  UPDATED: 2026-02-01
 
 - KEY: EXP.CLIMAX
   UID:
   KIND: ENTITY
   ROLE: Climax engine
   DESC: Climax structure and impact constraints; emits CLIMAX_BLUEPRINT
-  RAW:
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/20_ENG_ENT/05_EXPRESSION_ENG_ENT/05__EXP__CLIMAX__ENG__ENT.md
   PATH: UE_V2/03_ENT/20_ENG_ENT/05_EXPRESSION_ENG_ENT/05__EXP__CLIMAX__ENG__ENT.md
-  MARKERS: [ENG, EXP, CLIMAX, GAP]
+  MARKERS: [ENG, EXP, CLIMAX]
   STATUS: DRAFT
   OWNER: SYS
-  UPDATED: 2026-01-31
+  UPDATED: 2026-02-01
 
 - KEY: EXP.RESOLUTION
   UID:
   KIND: ENTITY
   ROLE: Resolution engine
   DESC: Resolution patterns and closure rules; emits RESOLUTION_PLAN
-  RAW:
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/20_ENG_ENT/05_EXPRESSION_ENG_ENT/06__EXP__RESOLUTION__ENG__ENT.md
   PATH: UE_V2/03_ENT/20_ENG_ENT/05_EXPRESSION_ENG_ENT/06__EXP__RESOLUTION__ENG__ENT.md
-  MARKERS: [ENG, EXP, RESOLVE, GAP]
+  MARKERS: [ENG, EXP, RESOLVE]
   STATUS: DRAFT
   OWNER: SYS
-  UPDATED: 2026-01-31
+  UPDATED: 2026-02-01
 
 - KEY: EXP.SYSTEM_SHOCK
   UID:
   KIND: ENTITY
   ROLE: System shock engine
   DESC: Controlled shock/breakpoints; emits SYSTEM_SHOCK_PROFILE
-  RAW:
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/20_ENG_ENT/05_EXPRESSION_ENG_ENT/07__EXP__SYSTEM_SHOCK__ENG__ENT.md
   PATH: UE_V2/03_ENT/20_ENG_ENT/05_EXPRESSION_ENG_ENT/07__EXP__SYSTEM_SHOCK__ENG__ENT.md
-  MARKERS: [ENG, EXP, SHOCK, GAP]
+  MARKERS: [ENG, EXP, SHOCK]
   STATUS: DRAFT
   OWNER: SYS
-  UPDATED: 2026-01-31
+  UPDATED: 2026-02-01
 
 - KEY: EXP.EVENT_SCHEDULING
   UID:
   KIND: ENTITY
   ROLE: Event scheduling engine
   DESC: Event timing, ordering, constraints; emits EVENT_SCHEDULE
-  RAW:
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/20_ENG_ENT/05_EXPRESSION_ENG_ENT/08__EXP__EVENT_SCHEDULING__ENG__ENT.md
   PATH: UE_V2/03_ENT/20_ENG_ENT/05_EXPRESSION_ENG_ENT/08__EXP__EVENT_SCHEDULING__ENG__ENT.md
-  MARKERS: [ENG, EXP, SCHED, GAP]
+  MARKERS: [ENG, EXP, SCHED]
   STATUS: DRAFT
   OWNER: SYS
-  UPDATED: 2026-01-31
+  UPDATED: 2026-02-01
 
 - KEY: EXP.RANDOMNESS_CHAOS
   UID:
   KIND: ENTITY
   ROLE: Randomness/chaos engine
   DESC: Controlled randomness and chaos budget; emits CHAOS_BUDGET_RULESET
-  RAW:
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/20_ENG_ENT/05_EXPRESSION_ENG_ENT/09__EXP__RANDOMNESS_CHAOS__ENG__ENT.md
   PATH: UE_V2/03_ENT/20_ENG_ENT/05_EXPRESSION_ENG_ENT/09__EXP__RANDOMNESS_CHAOS__ENG__ENT.md
-  MARKERS: [ENG, EXP, CHAOS, GAP]
+  MARKERS: [ENG, EXP, CHAOS]
   STATUS: DRAFT
   OWNER: SYS
-  UPDATED: 2026-01-31
+  UPDATED: 2026-02-01
 
 ---
 

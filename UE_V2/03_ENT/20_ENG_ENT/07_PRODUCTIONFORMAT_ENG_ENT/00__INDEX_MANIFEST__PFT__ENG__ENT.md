@@ -91,101 +91,101 @@ RESOLUTION_RULE: KEY -> RAW берётся только из ENTRIES ниже
 # RULE: RAW for engines must be copied from each file “Raw” button (no guessing).
 # Until RAW is fixed -> keep RAW empty and MARKERS include GAP.
 
-- KEY: PFT.GENRE
+ - KEY: PFT.GENRE
   UID:
   KIND: ENTITY
   ROLE: Genre selection engine
   DESC: Selects base genre constraints for production format; emits GENRE_SELECTION_TOKEN
-  RAW:
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/20_ENG_ENT/07_PRODUCTIONFORMAT_ENG_ENT/01__PFT__GENRE__ENG__ENT.md
   PATH: UE_V2/03_ENT/20_ENG_ENT/07_PRODUCTIONFORMAT_ENG_ENT/01__PFT__GENRE__ENG__ENT.md
-  MARKERS: [ENG, PFT, GENRE, GAP]
+  MARKERS: [ENG, PFT, GENRE]
   STATUS: DRAFT
   OWNER: SYS
-  UPDATED: 2026-01-31
+  UPDATED: 2026-02-01
 
 - KEY: PFT.GENRE_BLENDING
   UID:
   KIND: ENTITY
   ROLE: Genre blending engine
   DESC: Blends genres with constraints and risk flags; emits GENRE_BLEND_PACK
-  RAW:
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/20_ENG_ENT/07_PRODUCTIONFORMAT_ENG_ENT/02__PFT__GENRE_BLENDING__ENG__ENT.md
   PATH: UE_V2/03_ENT/20_ENG_ENT/07_PRODUCTIONFORMAT_ENG_ENT/02__PFT__GENRE_BLENDING__ENG__ENT.md
-  MARKERS: [ENG, PFT, BLEND, GAP]
+  MARKERS: [ENG, PFT, BLEND]
   STATUS: DRAFT
   OWNER: SYS
-  UPDATED: 2026-01-31
+  UPDATED: 2026-02-01
 
 - KEY: PFT.FORMAT_ADAPTATION
   UID:
   KIND: ENTITY
   ROLE: Format adaptation engine
   DESC: Adapts content to target format rules; emits FORMAT_ADAPTATION_PLAN
-  RAW:
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/20_ENG_ENT/07_PRODUCTIONFORMAT_ENG_ENT/03__PFT__FORMAT_ADAPTATION__ENG__ENT.md
   PATH: UE_V2/03_ENT/20_ENG_ENT/07_PRODUCTIONFORMAT_ENG_ENT/03__PFT__FORMAT_ADAPTATION__ENG__ENT.md
-  MARKERS: [ENG, PFT, ADAPT, GAP]
+  MARKERS: [ENG, PFT, ADAPT]
   STATUS: DRAFT
   OWNER: SYS
-  UPDATED: 2026-01-31
+  UPDATED: 2026-02-01
 
 - KEY: PFT.BOOK_FORMAT
   UID:
   KIND: ENTITY
   ROLE: Book format engine
   DESC: Defines book structure constraints; emits BOOK_FORMAT_BLUEPRINT
-  RAW:
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/20_ENG_ENT/07_PRODUCTIONFORMAT_ENG_ENT/04__PFT__BOOK_FORMAT__ENG__ENT.md
   PATH: UE_V2/03_ENT/20_ENG_ENT/07_PRODUCTIONFORMAT_ENG_ENT/04__PFT__BOOK_FORMAT__ENG__ENT.md
-  MARKERS: [ENG, PFT, BOOK, GAP]
+  MARKERS: [ENG, PFT, BOOK]
   STATUS: DRAFT
   OWNER: SYS
-  UPDATED: 2026-01-31
+  UPDATED: 2026-02-01
 
 - KEY: PFT.SERIES_EPISODE
   UID:
   KIND: ENTITY
   ROLE: Series/episode engine
   DESC: Defines episodic structure and pacing; emits SERIES_EPISODE_BLUEPRINT
-  RAW:
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/20_ENG_ENT/07_PRODUCTIONFORMAT_ENG_ENT/05__PFT__SERIES_EPISODE__ENG__ENT.md
   PATH: UE_V2/03_ENT/20_ENG_ENT/07_PRODUCTIONFORMAT_ENG_ENT/05__PFT__SERIES_EPISODE__ENG__ENT.md
-  MARKERS: [ENG, PFT, SERIES, GAP]
+  MARKERS: [ENG, PFT, SERIES]
   STATUS: DRAFT
   OWNER: SYS
-  UPDATED: 2026-01-31
+  UPDATED: 2026-02-01
 
 - KEY: PFT.SHORT_CONTENT
   UID:
   KIND: ENTITY
   ROLE: Short content engine
   DESC: Defines short-form constraints and hook pacing; emits SHORT_CONTENT_BLUEPRINT
-  RAW:
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/20_ENG_ENT/07_PRODUCTIONFORMAT_ENG_ENT/06__PFT__SHORT_CONTENT__ENG__ENT.md
   PATH: UE_V2/03_ENT/20_ENG_ENT/07_PRODUCTIONFORMAT_ENG_ENT/06__PFT__SHORT_CONTENT__ENG__ENT.md
-  MARKERS: [ENG, PFT, SHORT, GAP]
+  MARKERS: [ENG, PFT, SHORT]
   STATUS: DRAFT
   OWNER: SYS
-  UPDATED: 2026-01-31
+  UPDATED: 2026-02-01
 
 - KEY: PFT.YOUTUBE_LONGFORM
   UID:
   KIND: ENTITY
   ROLE: YouTube longform engine
   DESC: Defines longform YouTube structure and retention beats; emits YT_LONGFORM_BLUEPRINT
-  RAW:
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/20_ENG_ENT/07_PRODUCTIONFORMAT_ENG_ENT/07__PFT__YOUTUBE_LONGFORM__ENG__ENT.md
   PATH: UE_V2/03_ENT/20_ENG_ENT/07_PRODUCTIONFORMAT_ENG_ENT/07__PFT__YOUTUBE_LONGFORM__ENG__ENT.md
-  MARKERS: [ENG, PFT, YT, LONGFORM, GAP]
+  MARKERS: [ENG, PFT, YT, LONGFORM]
   STATUS: DRAFT
   OWNER: SYS
-  UPDATED: 2026-01-31
+  UPDATED: 2026-02-01
 
 - KEY: PFT.GAME_NARRATIVE
   UID:
   KIND: ENTITY
   ROLE: Game narrative engine
   DESC: Defines interactive narrative format rules; emits GAME_NARRATIVE_BLUEPRINT
-  RAW:
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/20_ENG_ENT/07_PRODUCTIONFORMAT_ENG_ENT/08__PFT__GAME_NARRATIVE__ENG__ENT.md
   PATH: UE_V2/03_ENT/20_ENG_ENT/07_PRODUCTIONFORMAT_ENG_ENT/08__PFT__GAME_NARRATIVE__ENG__ENT.md
-  MARKERS: [ENG, PFT, GAME, GAP]
+  MARKERS: [ENG, PFT, GAME]
   STATUS: DRAFT
   OWNER: SYS
-  UPDATED: 2026-01-31
+  UPDATED: 2026-02-01
 
 ---
 

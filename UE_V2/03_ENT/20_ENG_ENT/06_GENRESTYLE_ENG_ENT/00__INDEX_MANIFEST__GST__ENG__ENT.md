@@ -96,72 +96,72 @@ RESOLUTION_RULE: KEY -> RAW берётся только из ENTRIES ниже
   KIND: ENTITY
   ROLE: Tone and mood engine
   DESC: Defines tone axis and mood palette; emits TONE_MOOD_TOKEN
-  RAW:
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/20_ENG_ENT/06_GENRESTYLE_ENG_ENT/01__GST__TONE_MOOD__ENG__ENT.md
   PATH: UE_V2/03_ENT/20_ENG_ENT/06_GENRESTYLE_ENG_ENT/01__GST__TONE_MOOD__ENG__ENT.md
-  MARKERS: [ENG, GST, TONE, MOOD, GAP]
+  MARKERS: [ENG, GST, TONE, MOOD]
   STATUS: DRAFT
   OWNER: SYS
-  UPDATED: 2026-01-31
+  UPDATED: 2026-02-01
 
 - KEY: GST.ATMOSPHERE
   UID:
   KIND: ENTITY
   ROLE: Atmosphere engine
   DESC: Defines atmosphere rules and scene feel; emits ATMOSPHERE_TOKEN
-  RAW:
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/20_ENG_ENT/06_GENRESTYLE_ENG_ENT/02__GST__ATMOSPHERE__ENG__ENT.md
   PATH: UE_V2/03_ENT/20_ENG_ENT/06_GENRESTYLE_ENG_ENT/02__GST__ATMOSPHERE__ENG__ENT.md
-  MARKERS: [ENG, GST, ATM, GAP]
+  MARKERS: [ENG, GST, ATM]
   STATUS: DRAFT
   OWNER: SYS
-  UPDATED: 2026-01-31
+  UPDATED: 2026-02-01
 
 - KEY: GST.EMOTIONAL_RESONANCE
   UID:
   KIND: ENTITY
   ROLE: Emotional resonance engine
   DESC: Sets emotional targets and resonance checks; emits EMO_RESONANCE_REPORT
-  RAW:
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/20_ENG_ENT/06_GENRESTYLE_ENG_ENT/03__GST__EMOTIONAL_RESONANCE__ENG__ENT.md
   PATH: UE_V2/03_ENT/20_ENG_ENT/06_GENRESTYLE_ENG_ENT/03__GST__EMOTIONAL_RESONANCE__ENG__ENT.md
-  MARKERS: [ENG, GST, EMO, QA, GAP]
+  MARKERS: [ENG, GST, EMO, QA]
   STATUS: DRAFT
   OWNER: SYS
-  UPDATED: 2026-01-31
+  UPDATED: 2026-02-01
 
 - KEY: GST.SYMBOLISM
   UID:
   KIND: ENTITY
   ROLE: Symbolism engine
   DESC: Builds symbolism layer and anchors; emits SYMBOLISM_MAP
-  RAW:
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/20_ENG_ENT/06_GENRESTYLE_ENG_ENT/04__GST__SYMBOLISM__ENG__ENT.md
   PATH: UE_V2/03_ENT/20_ENG_ENT/06_GENRESTYLE_ENG_ENT/04__GST__SYMBOLISM__ENG__ENT.md
-  MARKERS: [ENG, GST, SYMBOL, GAP]
+  MARKERS: [ENG, GST, SYMBOL]
   STATUS: DRAFT
   OWNER: SYS
-  UPDATED: 2026-01-31
+  UPDATED: 2026-02-01
 
 - KEY: GST.METAPHOR
   UID:
   KIND: ENTITY
   ROLE: Metaphor engine
   DESC: Generates metaphor set and constraints; emits METAPHOR_PACK
-  RAW:
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/20_ENG_ENT/06_GENRESTYLE_ENG_ENT/05__GST__METAPHOR__ENG__ENT.md
   PATH: UE_V2/03_ENT/20_ENG_ENT/06_GENRESTYLE_ENG_ENT/05__GST__METAPHOR__ENG__ENT.md
-  MARKERS: [ENG, GST, META, GAP]
+  MARKERS: [ENG, GST, META]
   STATUS: DRAFT
   OWNER: SYS
-  UPDATED: 2026-01-31
+  UPDATED: 2026-02-01
 
 - KEY: GST.SENSORY_DETAIL
   UID:
   KIND: ENTITY
   ROLE: Sensory detail engine
   DESC: Adds sensory texture and detail budget; emits SENSORY_DETAIL_RULESET
-  RAW:
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/20_ENG_ENT/06_GENRESTYLE_ENG_ENT/06__GST__SENSORY_DETAIL__ENG__ENT.md
   PATH: UE_V2/03_ENT/20_ENG_ENT/06_GENRESTYLE_ENG_ENT/06__GST__SENSORY_DETAIL__ENG__ENT.md
-  MARKERS: [ENG, GST, SENSE, GAP]
+  MARKERS: [ENG, GST, SENSE]
   STATUS: DRAFT
   OWNER: SYS
-  UPDATED: 2026-01-31
+  UPDATED: 2026-02-01
 
 ---
 

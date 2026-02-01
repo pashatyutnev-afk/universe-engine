@@ -96,84 +96,84 @@ RESOLUTION_RULE: KEY -> RAW берётся только из ENTRIES ниже
   KIND: ENTITY
   ROLE: Genre taxonomy engine
   DESC: Defines/queries genre taxonomy; emits GENRE_TAXONOMY_TOKEN
-  RAW:
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/20_ENG_ENT/12_TRENDGENRE_ENG_ENT/01__TGR__GENRE_TAXONOMY__ENG__ENT.md
   PATH: UE_V2/03_ENT/20_ENG_ENT/12_TRENDGENRE_ENG_ENT/01__TGR__GENRE_TAXONOMY__ENG__ENT.md
-  MARKERS: [ENG, TGR, TAXONOMY, GAP]
+  MARKERS: [ENG, TGR, TAXONOMY]
   STATUS: DRAFT
   OWNER: SYS
-  UPDATED: 2026-01-31
+  UPDATED: 2026-02-01
 
 - KEY: TGR.FUSION_RECIPE
   UID:
   KIND: ENTITY
   ROLE: Fusion recipe engine
   DESC: Builds fusion recipes from taxonomy; emits FUSION_RECIPE_PACK
-  RAW:
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/20_ENG_ENT/12_TRENDGENRE_ENG_ENT/02__TGR__FUSION_RECIPE__ENG__ENT.md
   PATH: UE_V2/03_ENT/20_ENG_ENT/12_TRENDGENRE_ENG_ENT/02__TGR__FUSION_RECIPE__ENG__ENT.md
-  MARKERS: [ENG, TGR, RECIPE, GAP]
+  MARKERS: [ENG, TGR, RECIPE]
   STATUS: DRAFT
   OWNER: SYS
-  UPDATED: 2026-01-31
+  UPDATED: 2026-02-01
 
 - KEY: TGR.STYLE_FINGERPRINT
   UID:
   KIND: ENTITY
   ROLE: Style fingerprint engine
   DESC: Extracts style fingerprint features; emits STYLE_FINGERPRINT_TOKEN
-  RAW:
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/20_ENG_ENT/12_TRENDGENRE_ENG_ENT/03__TGR__STYLE_FINGERPRINT__ENG__ENT.md
   PATH: UE_V2/03_ENT/20_ENG_ENT/12_TRENDGENRE_ENG_ENT/03__TGR__STYLE_FINGERPRINT__ENG__ENT.md
-  MARKERS: [ENG, TGR, STYLE, GAP]
+  MARKERS: [ENG, TGR, STYLE]
   STATUS: DRAFT
   OWNER: SYS
-  UPDATED: 2026-01-31
+  UPDATED: 2026-02-01
 
 - KEY: TGR.VIRAL_HOOK_BLUEPRINT
   UID:
   KIND: ENTITY
   ROLE: Viral hook blueprint engine
   DESC: Defines viral hook patterns; emits VIRAL_HOOK_BLUEPRINT_PACK
-  RAW:
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/20_ENG_ENT/12_TRENDGENRE_ENG_ENT/04__TGR__VIRAL_HOOK_BLUEPRINT__ENG__ENT.md
   PATH: UE_V2/03_ENT/20_ENG_ENT/12_TRENDGENRE_ENG_ENT/04__TGR__VIRAL_HOOK_BLUEPRINT__ENG__ENT.md
-  MARKERS: [ENG, TGR, HOOK, VIRAL, GAP]
+  MARKERS: [ENG, TGR, HOOK, VIRAL]
   STATUS: DRAFT
   OWNER: SYS
-  UPDATED: 2026-01-31
+  UPDATED: 2026-02-01
 
 - KEY: TGR.UGC_MOMENT_MAP
   UID:
   KIND: ENTITY
   ROLE: UGC moment map engine
   DESC: Maps UGC moment triggers; emits UGC_MOMENT_MAP_TOKEN
-  RAW:
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/20_ENG_ENT/12_TRENDGENRE_ENG_ENT/05__TGR__UGC_MOMENT_MAP__ENG__ENT.md
   PATH: UE_V2/03_ENT/20_ENG_ENT/12_TRENDGENRE_ENG_ENT/05__TGR__UGC_MOMENT_MAP__ENG__ENT.md
-  MARKERS: [ENG, TGR, UGC, MAP, GAP]
+  MARKERS: [ENG, TGR, UGC, MAP]
   STATUS: DRAFT
   OWNER: SYS
-  UPDATED: 2026-01-31
+  UPDATED: 2026-02-01
 
 - KEY: TGR.EARWORM_HOOK_STACK
   UID:
   KIND: ENTITY
   ROLE: Earworm hook stack engine
   DESC: Builds earworm hook stack; emits EARWORM_HOOK_STACK_PACK
-  RAW:
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/20_ENG_ENT/12_TRENDGENRE_ENG_ENT/06__TGR__EARWORM_HOOK_STACK__ENG__ENT.md
   PATH: UE_V2/03_ENT/20_ENG_ENT/12_TRENDGENRE_ENG_ENT/06__TGR__EARWORM_HOOK_STACK__ENG__ENT.md
-  MARKERS: [ENG, TGR, HOOK, EARWORM, GAP]
+  MARKERS: [ENG, TGR, HOOK, EARWORM]
   STATUS: DRAFT
   OWNER: SYS
-  UPDATED: 2026-01-31
+  UPDATED: 2026-02-01
 
 - KEY: TGR.PROMPT_COMPILER
   UID:
   KIND: ENTITY
   ROLE: Prompt compiler engine
   DESC: Compiles prompts from TGR tokens; emits PROMPT_COMPILER_OUTPUT
-  RAW:
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/20_ENG_ENT/12_TRENDGENRE_ENG_ENT/07__TGR__PROMPT_COMPILER__ENG__ENT.md
   PATH: UE_V2/03_ENT/20_ENG_ENT/12_TRENDGENRE_ENG_ENT/07__TGR__PROMPT_COMPILER__ENG__ENT.md
-  MARKERS: [ENG, TGR, PROMPT, GAP]
+  MARKERS: [ENG, TGR, PROMPT]
   STATUS: DRAFT
   OWNER: SYS
-  UPDATED: 2026-01-31
+  UPDATED: 2026-02-01
 
 ---
 
