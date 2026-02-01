@@ -1,110 +1,128 @@
-# TREND / GENRE ENGINES — REALM (README)
-FILE: 03_SYSTEM_ENTITIES/10_ENG__ENGINES/12_TREND_GENRE_ENGINES/00__README__TREND_GENRE_ENGINES.md
-
-SCOPE: Universe Engine
-LAYER: 03_SYSTEM_ENTITIES
-ENTITY_GROUP: ENGINES (ENG)
-ENGINE_FAMILY: 12_TREND_GENRE_ENGINES
-DOC_TYPE: README
-README_TYPE: REALM
-LEVEL: L3
-STATUS: ACTIVE
-LOCK: FIXED
+FILE: UE_V2/03_ENT/20_ENG_ENT/12_TRENDGENRE_ENG_ENT/00__PIPELINE_CONTRACT__TGR__ENG__ENT.md
+SCOPE: UE_V2 / 03_ENT / 20_ENG_ENT / 12_TRENDGENRE_ENG_ENT
+DOC_TYPE: PIPELINE_CONTRACT
+DOMAIN: TGR_ENG
+UID: UE.V2.ENT.ENG.TGR.PIPELINE_CONTRACT.001
 VERSION: 1.0.0
-UID: UE.ENG.REALM.TREND_GENRE.001
-OWNER: SYSTEM
-ROLE: Operational entrypoint for Trend/Genre engines: genre language, fusion rules, style fingerprint,
-viral/UGC hook design, and platform-native prompt compilation.
-
-CHANGE_NOTE:
-- DATE: 2026-01-12
-- TYPE: MAJOR
-- SUMMARY: "Created missing realm README: scope, pipeline order, and RAW-only navigation for 12_TREND_GENRE_ENGINES."
-- REASON: "Family must be runnable from one file; without README people misuse engines and lose determinism."
-- IMPACT: "Stable genre control + hooks + prompt compatibility."
-- CHANGE_ID: UE.CHG.2026-01-12.ENG.REALM.TREND_GENRE.001
+STATUS: ACTIVE
+MODE: REPO (USAGE-ONLY, NO-EDIT)
+CREATED: 2026-01-31
+UPDATED: 2026-01-31
+OWNER: SYS
+NAV_RULE: Contract has no RAW
 
 ---
 
-## 0) PURPOSE (LAW)
-This realm converts “taste + trend” into **runnable constraints**:
-- what a genre means (taxonomy),
-- how to blend genres (fusion),
-- what must stay constant for identity (fingerprint),
-- how to design hooks for attention (viral blueprint + earworm stack),
-- how to create UGC moments,
-- how to compile prompts that generators actually follow (prompt compiler).
+## [M] PURPOSE
+PIPELINE_CONTRACT — навигатор действий для реалма TRENDGENRE_ENG_ENT (TGR).
+Не хранит RAW-адреса. Работает через KEY и резолвит адреса в INDEX_MANIFEST.
 
----
+## [M] HARD_RULES
+- No RAW inside CONTRACT.
+- Все обращения: TARGET_KEY -> resolve via INDEX_MANIFEST -> open.
+- STEP-RUN: один шаг = одна пачка действий.
+- Каждый шаг выдаёт NEXT_PROMPT: "го" или FAIL_CODE.
+- Минимальная загрузка: INDEX_MANIFEST + 1–3 engine targets.
 
-## 1) SCOPE & BOUNDARIES
+## [M] REQUIRED_KEYS (must exist in INDEX_MANIFEST)
+- INDEX_MANIFEST
+- PIPELINE_CONTRACT
+# engines may be GAP while building (allowed):
+- TGR.GENRE_TAXONOMY
+- TGR.FUSION_RECIPE
+- TGR.STYLE_FINGERPRINT
+- TGR.VIRAL_HOOK_BLUEPRINT
+- TGR.UGC_MOMENT_MAP
+- TGR.EARWORM_HOOK_STACK
+- TGR.PROMPT_COMPILER
 
-### In scope
-- Genre vocabulary and compatibility rules
-- Fusion recipes and safe blending
-- Style fingerprint anchors (identity locks)
-- Viral hook blueprint + earworm stack logic
-- UGC moment mapping
-- Prompt compilation (platform-native packs)
+## [M] CONTRACT_HEADER
+- REALM_ID: UE_V2/03_ENT/20_ENG_ENT/12_TRENDGENRE_ENG_ENT
+- DOMAIN: TGR_ENG
+- ARTIFACT_TYPES: [INDEX, PIPE, ENTITY, TOKEN_PACK]
+- DEFAULT_MODE: FAST
 
-### Out of scope
-- Audio engineering / mix / mastering decisions → `09_SOUND_MUSIC_ENGINES`
-- Enforcement laws / thresholds → CTL / VAL / QA entities
-- Naming rules and platform title formats → `14_NAMING_IDENTITY_ENGINES`
+## [M] EXEC_MODEL
+1) Resolve INDEX_MANIFEST via KEY: INDEX_MANIFEST
+2) Validate REQUIRED_KEYS exist (missing engines -> GAP allowed during build)
+3) Build WORK_SET_KEYS (KEYS only)
+4) Run steps sequentially (STEP-RUN)
+5) Output TGR_OUTPUT_PACK + NEXT "го"
 
----
+## [M] STEP-RUN (canonical)
+- STEP: S<n>
+  GOAL: <one line>
+  INPUTS: [<tokens>]
+  TARGETS: [<KEYS_ONLY>]
+  ACTIONS:
+    - <imperative action>
+  OUTPUTS: [<tokens/artifacts>]
+  CHECKS: [<gates>]
+  FAIL: <FAIL_CODE_IF_ANY>
+  NEXT: "го"
 
-## 2) PIPELINE ORDER (LAW)
-Engines must be applied in this order unless a controller explicitly overrides:
+## [M] STEPS
 
-01 — Genre Taxonomy  
-02 — Fusion Recipe  
-03 — Style Fingerprint  
-04 — Viral Hook Blueprint  
-05 — UGC Moment Map  
-06 — Earworm Hook Stack  
-07 — Prompt Compiler
+- STEP: S0
+  GOAL: Entry sanity and task framing
+  INPUTS: [TASK_TEXT, MODE_HINT?]
+  TARGETS: [INDEX_MANIFEST]
+  ACTIONS:
+    - Ensure TASK_TEXT exists, else FAIL
+    - Decide EXEC_MODE using MODE_HINT or DEFAULT_MODE
+  OUTPUTS: [TASK_TOKEN, EXEC_MODE]
+  CHECKS: [TASK_PRESENT]
+  FAIL: UE.FAIL.INPUT_ABSENT
+  NEXT: "го"
 
----
+- STEP: S1
+  GOAL: Select TGR work set (minimal opens)
+  INPUTS: [TASK_TOKEN]
+  TARGETS: [INDEX_MANIFEST, PIPELINE_CONTRACT]
+  ACTIONS:
+    - Resolve INDEX_MANIFEST via KEY: INDEX_MANIFEST
+    - Confirm REQUIRED_KEYS exist in ENTRIES
+    - Build WORK_SET_KEYS (KEYS only):
+      - taxonomy -> [TGR.GENRE_TAXONOMY]
+      - fusion recipe -> [TGR.FUSION_RECIPE]
+      - fingerprint -> [TGR.STYLE_FINGERPRINT]
+      - viral hooks -> [TGR.VIRAL_HOOK_BLUEPRINT]
+      - ugc map -> [TGR.UGC_MOMENT_MAP]
+      - earworm -> [TGR.EARWORM_HOOK_STACK]
+      - prompt compile -> [TGR.PROMPT_COMPILER]
+      - full run -> [TGR.GENRE_TAXONOMY, TGR.FUSION_RECIPE, TGR.STYLE_FINGERPRINT, TGR.VIRAL_HOOK_BLUEPRINT, TGR.UGC_MOMENT_MAP, TGR.EARWORM_HOOK_STACK, TGR.PROMPT_COMPILER]
+  OUTPUTS: [WORK_SET_KEYS]
+  CHECKS: [REQUIRED_KEYS_OK]
+  FAIL: UE.FAIL.MISSING_KEY
+  NEXT: "го"
 
-## 3) OUTPUT TYPES (WHAT THIS FAMILY PRODUCES)
-- GENRE SPEC (taxonomy result)
-- FUSION SPEC (blend plan)
-- FINGERPRINT (anchors + forbiddens)
-- HOOK PLAN (timing + geometry)
-- UGC PLAN (clip windows + moments)
-- HOOK STACK (microhooks, slogans, S-tag, H1/H2)
-- PROMPT PACKS (Suno/Udio ready)
+- STEP: S2
+  GOAL: Execute TGR engines (KEY-only orchestration)
+  INPUTS: [WORK_SET_KEYS, TASK_TOKEN]
+  TARGETS: [TGR.GENRE_TAXONOMY, TGR.FUSION_RECIPE, TGR.STYLE_FINGERPRINT, TGR.VIRAL_HOOK_BLUEPRINT, TGR.UGC_MOMENT_MAP, TGR.EARWORM_HOOK_STACK, TGR.PROMPT_COMPILER]
+  ACTIONS:
+    - Resolve and open only keys present in WORK_SET_KEYS
+    - Canonical order when multiple:
+      1) TGR.GENRE_TAXONOMY
+      2) TGR.FUSION_RECIPE
+      3) TGR.STYLE_FINGERPRINT
+      4) TGR.VIRAL_HOOK_BLUEPRINT
+      5) TGR.UGC_MOMENT_MAP
+      6) TGR.EARWORM_HOOK_STACK
+      7) TGR.PROMPT_COMPILER
+    - Produce TGR_OUTPUT_PACK (summary + outputs + checks + next-open keys)
+  OUTPUTS: [TGR_OUTPUT_PACK]
+  CHECKS: [QUALITY_GATE]
+  FAIL: UE.FAIL.GATE_FAIL
+  NEXT: "го"
 
----
-
-## 4) NAV (RAW LINKS)
-
-01 — Genre Taxonomy Engine  
-RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/12_TREND_GENRE_ENGINES/01__GENRE_TAXONOMY_ENG.md
-
-02 — Fusion Recipe Engine  
-RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/12_TREND_GENRE_ENGINES/02__FUSION_RECIPE_ENG.md
-
-03 — Style Fingerprint Engine  
-RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/12_TREND_GENRE_ENGINES/03__STYLE_FINGERPRINT_ENG.md
-
-04 — Viral Hook Blueprint Engine  
-RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/12_TREND_GENRE_ENGINES/04__VIRAL_HOOK_BLUEPRINT_ENG.md
-
-05 — UGC Moment Map Engine  
-RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/12_TREND_GENRE_ENGINES/05__UGC_MOMENT_MAP_ENG.md
-
-06 — Earworm Hook Stack Engine  
-RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/12_TREND_GENRE_ENGINES/06__EARWORM_HOOK_STACK_ENG.md
-
-07 — Prompt Compiler Engine  
-RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/12_TREND_GENRE_ENGINES/07__PROMPT_COMPILER_ENG.md
-
----
-
-## FINAL RULE (LOCK)
-OWNER: SYSTEM
-LOCK: FIXED
-
---- END.
+- STEP: S3
+  GOAL: Emit NEXT_OPEN_KEYS
+  INPUTS: [TGR_OUTPUT_PACK]
+  TARGETS: [INDEX_MANIFEST]
+  ACTIONS:
+    - Output NEXT_OPEN_KEYS list (KEYS only) for follow-up steps
+  OUTPUTS: [NEXT_OPEN_KEYS]
+  CHECKS: [OUTPUT_PRESENT]
+  FAIL: UE.FAIL.OUTPUT_MISSING
+  NEXT: "го"

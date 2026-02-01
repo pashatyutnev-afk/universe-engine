@@ -1,172 +1,137 @@
-# DOMAIN CHARACTER ENGINES (ENG) — FAMILY REALM — CANON FILE: 03_SYSTEM_ENTITIES/10_ENG__ENGINES/03_DOMAIN_CHARACTER_ENGINES/00__README__DOMAIN_CHARACTER_ENGINES.md
-SCOPE: Universe Engine
-LAYER: 03_SYSTEM_ENTITIES
-ENTITY_GROUP: ENGINES (ENG)
-DOC_TYPE: README
-FAMILY: 03_DOMAIN_CHARACTER_ENGINES
-CLASS: DOMAIN (L2)
-LEVEL: L2
-STATUS: ACTIVE
-LOCK: FIXED
+FILE: UE_V2/03_ENT/20_ENG_ENT/03_CHARACTER_ENG_ENT/00__PIPELINE_CONTRACT__CHR__ENG__ENT.md
+SCOPE: UE_V2 / 03_ENT / 20_ENG_ENT / 03_CHARACTER_ENG_ENT
+DOC_TYPE: PIPELINE_CONTRACT
+DOMAIN: CHR_ENG
+UID: UE.V2.ENT.ENG.CHR.PIPELINE_CONTRACT.001
 VERSION: 1.0.0
-UID: UE.ENG.DOM.CHARACTER.REALM.001
-OWNER: SYSTEM
-ROLE: Canonical realm file for DOMAIN CHARACTER engines.
-
-Defines what this family owns, what it forbids, and how to navigate and compose character engines without duplicating other domains.
-
-CHANGE_NOTE:
-- DATE: 2026-01-08
-- TYPE: MAJOR
-- SUMMARY: "03_DOMAIN_CHARACTER_ENGINES realm created: scope, non-goals, canon order, routing, S0 blockers, and raw-links."
-- REASON: "Family README was empty; required for deterministic stamping and anti-duplication enforcement."
-- IMPACT: "Character engines can be produced and composed without overlapping CORE/NARRATIVE/WORLD/EXPRESSION/PRODUCTION/GOVERNANCE."
-- CHANGE_ID: UE.CHG.2026-01-08.DOM.CHR.REALM.001
+STATUS: ACTIVE
+MODE: REPO (USAGE-ONLY, NO-EDIT)
+CREATED: 2026-01-31
+UPDATED: 2026-01-31
+OWNER: SYS
+NAV_RULE: Contract has no RAW
 
 ---
 
-## 0) PURPOSE (LAW)
-This FAMILY exists to define character-domain engines:
-- stable character model rules (who a character is)
-- internal drivers (motivation/values/trauma/growth)
-- external expression through behavior/speech/relationships
-- consistency across scenes, arcs, and formats (without owning narrative structure)
+## [M] PURPOSE
+PIPELINE_CONTRACT — навигатор действий для реалма CHARACTER_ENG_ENT (CHR).
+Не хранит RAW-адреса. Работает через KEY и резолвит адреса в INDEX_MANIFEST.
 
-This README is the boundary + navigation law for the family.
+## [M] HARD_RULES
+- No RAW inside CONTRACT.
+- Все обращения: TARGET_KEY -> resolve via INDEX_MANIFEST -> open.
+- STEP-RUN: один шаг = одна пачка действий.
+- Каждый шаг выдаёт NEXT_PROMPT: "го" или FAIL_CODE.
+- Минимальная загрузка: INDEX_MANIFEST + 1–3 engine targets.
 
----
+## [M] REQUIRED_KEYS (must exist in INDEX_MANIFEST)
+- INDEX_MANIFEST
+- PIPELINE_CONTRACT
+# engines may be GAP while building (allowed):
+- CHR.CHARACTER_CORE
+- CHR.MOTIVATION_DESIRE
+- CHR.MORAL_VALUE
+- CHR.CHARACTER_PSYCHOLOGY
+- CHR.CHARACTER_BEHAVIOR
+- CHR.RELATIONSHIP
+- CHR.DIALOGUE
+- CHR.SPEECH_NATURALIZATION
+- CHR.GROWTH_TRAUMA
+- CHR.CHARACTER_EVOLUTION
 
-## 1) SCOPE (WHAT THIS FAMILY OWNS)
-IN SCOPE (OWNED):
-- character identity as a narrative entity (traits, core, invariants)
-- motivation/desire systems
-- moral/value systems
-- psychology/inner state models (as character domain, not CORE state)
-- behavior rulesets (decision heuristics, habits)
-- relationship dynamics (maps, tensions, contracts)
-- dialogue principles (content + intent)
-- speech naturalization (style, realism gates for speech only)
-- growth/trauma transformations (character change logic)
+## [M] CONTRACT_HEADER
+- REALM_ID: UE_V2/03_ENT/20_ENG_ENT/03_CHARACTER_ENG_ENT
+- DOMAIN: CHR_ENG
+- ARTIFACT_TYPES: [INDEX, PIPE, ENTITY, TOKEN_PACK, OUTPUT_PACK]
+- DEFAULT_MODE: FAST
 
----
+## [M] EXEC_MODEL
+1) Resolve INDEX_MANIFEST via KEY: INDEX_MANIFEST
+2) Validate REQUIRED_KEYS exist (engines may be GAP during build)
+3) Build WORK_SET_KEYS (KEYS only)
+4) Run steps sequentially (STEP-RUN)
+5) Output CHR_OUTPUT_PACK + NEXT "го"
 
-## 2) HARD NON-GOALS (FORBIDDEN OWNERSHIP)
-This family does NOT own:
+## [M] STEP-RUN (canonical)
+- STEP: S<n>
+  GOAL: <one line>
+  INPUTS: [<tokens>]
+  TARGETS: [<KEYS_ONLY>]
+  ACTIONS:
+    - <imperative action>
+  OUTPUTS: [<tokens/artifacts>]
+  CHECKS: [<gates>]
+  FAIL: <FAIL_CODE_IF_ANY>
+  NEXT: "го"
 
-CORE:
-- system identity/state/lifecycle for the whole project/repo/system
+## [M] STEPS
 
-GOVERNANCE:
-- canon authority, approval, audit, versioning, change pipeline
+- STEP: S0
+  GOAL: Entry sanity and task framing
+  INPUTS: [TASK_TEXT, MODE_HINT?]
+  TARGETS: [INDEX_MANIFEST]
+  ACTIONS:
+    - Ensure TASK_TEXT exists, else FAIL
+    - Decide EXEC_MODE using MODE_HINT or DEFAULT_MODE
+  OUTPUTS: [TASK_TOKEN, EXEC_MODE]
+  CHECKS: [TASK_PRESENT]
+  FAIL: UE.FAIL.INPUT_ABSENT
+  NEXT: "го"
 
-NARRATIVE:
-- story structure, arcs as primary narrative architecture, continuity as system owner
-  (character engines may provide constraints, but do not own narrative canon)
+- STEP: S1
+  GOAL: Select CHR work set (minimal opens)
+  INPUTS: [TASK_TOKEN]
+  TARGETS: [INDEX_MANIFEST, PIPELINE_CONTRACT]
+  ACTIONS:
+    - Resolve INDEX_MANIFEST via KEY: INDEX_MANIFEST
+    - Confirm REQUIRED_KEYS exist in ENTRIES
+    - Build WORK_SET_KEYS (KEYS only):
+      - core -> [CHR.CHARACTER_CORE]
+      - motivation -> [CHR.MOTIVATION_DESIRE]
+      - values -> [CHR.MORAL_VALUE]
+      - psychology -> [CHR.CHARACTER_PSYCHOLOGY]
+      - behavior -> [CHR.CHARACTER_BEHAVIOR]
+      - relationship -> [CHR.RELATIONSHIP]
+      - dialogue -> [CHR.DIALOGUE]
+      - speech -> [CHR.SPEECH_NATURALIZATION]
+      - growth/trauma -> [CHR.GROWTH_TRAUMA]
+      - evolution -> [CHR.CHARACTER_EVOLUTION]
+      - full CHR run -> [CHR.CHARACTER_CORE, CHR.MOTIVATION_DESIRE, CHR.MORAL_VALUE, CHR.CHARACTER_PSYCHOLOGY, CHR.CHARACTER_BEHAVIOR, CHR.RELATIONSHIP, CHR.DIALOGUE, CHR.SPEECH_NATURALIZATION, CHR.GROWTH_TRAUMA, CHR.CHARACTER_EVOLUTION]
+  OUTPUTS: [WORK_SET_KEYS]
+  CHECKS: [REQUIRED_KEYS_OK]
+  FAIL: UE.FAIL.MISSING_KEY
+  NEXT: "го"
 
-WORLD:
-- world laws, economy, tech, ecology, geopolitics as primary owners
+- STEP: S2
+  GOAL: Execute CHR engines (KEY-only orchestration)
+  INPUTS: [WORK_SET_KEYS, TASK_TOKEN]
+  TARGETS: [CHR.CHARACTER_CORE, CHR.MOTIVATION_DESIRE, CHR.MORAL_VALUE, CHR.CHARACTER_PSYCHOLOGY, CHR.CHARACTER_BEHAVIOR, CHR.RELATIONSHIP, CHR.DIALOGUE, CHR.SPEECH_NATURALIZATION, CHR.GROWTH_TRAUMA, CHR.CHARACTER_EVOLUTION]
+  ACTIONS:
+    - Resolve and open only keys present in WORK_SET_KEYS
+    - Canonical order when multiple:
+      1) CHR.CHARACTER_CORE
+      2) CHR.MOTIVATION_DESIRE
+      3) CHR.MORAL_VALUE
+      4) CHR.CHARACTER_PSYCHOLOGY
+      5) CHR.CHARACTER_BEHAVIOR
+      6) CHR.RELATIONSHIP
+      7) CHR.DIALOGUE
+      8) CHR.SPEECH_NATURALIZATION
+      9) CHR.GROWTH_TRAUMA
+      10) CHR.CHARACTER_EVOLUTION
+    - Produce CHR_OUTPUT_PACK (summary + outputs + checks + next-open keys)
+  OUTPUTS: [CHR_OUTPUT_PACK]
+  CHECKS: [QUALITY_GATE]
+  FAIL: UE.FAIL.GATE_FAIL
+  NEXT: "го"
 
-EXPRESSION:
-- event mechanics primitives (cause/effect/conflict/climax scheduling)
-
-PRODUCTION:
-- camera, editing, acting, sound production, media implementation
-
-Rule:
-- If overlap happens, this README must declare routing to the owner family.
-
----
-
-## 3) CANON ORDER (MANDATORY NAVIGATION)
-Engines must be used in family order unless explicitly stated.
-
-01 — Character Core Engine  
-02 — Motivation & Desire Engine  
-03 — Moral & Value Engine  
-04 — Character Psychology Engine  
-05 — Character Behavior Engine  
-06 — Relationship Engine  
-07 — Dialogue Engine  
-08 — Speech Naturalization Engine  
-09 — Growth & Trauma Engine  
-10 — Character Evolution Engine  
-
----
-
-## 4) RECOMMENDED COMPOSITION (HOW ENGINES FIT TOGETHER)
-Typical build chain (example):
-- Core → Motivation → Values → Psychology → Behavior
-- Relationships (parallel) → Dialogue → Speech Naturalization
-- Growth/Trauma → Evolution (update character over time)
-
-Rule:
-- Evolution never overwrites CORE invariants without explicit justification + memory record.
-
----
-
-## 5) INPUT/OUTPUT PHILOSOPHY (FAMILY CONTRACT)
-Family engines must:
-- produce reusable artifacts (models, rulesets, constraints)
-- avoid producing “final scenes” as the primary output
-- prefer deterministic schemas over prose blobs
-
-Family outputs are designed to be consumed by:
-- NARRATIVE engines (structure/continuity)
-- EXPRESSION engines (events)
-- PRODUCTION engines (media realization)
-- ORC pipelines (orchestration layer)
-
----
-
-## 6) BOUNDARY COLLISION ROUTING (MANDATORY)
-If a question belongs to:
-- “plot order / what happens next” → NARRATIVE + EXPRESSION
-- “world rules, economy, tech” → WORLD
-- “editing rhythm / camera / staging” → PRODUCTION
-- “approval / canon change / audit” → GOVERNANCE
-- “system identity/state/lifecycle” → CORE
-
-Character family only answers:
-- “who is this person, why they act, how they speak, how they change, how they relate”.
-
----
-
-## 7) FAMILY S0 BLOCKERS (STOP CONDITIONS)
-S0-1: Engine duplicates ownership of CORE/NARRATIVE/WORLD/EXPRESSION/PRODUCTION/GOVERNANCE  
-S0-2: Engine outputs contradict CORE invariants without routing + memory  
-S0-3: Engine introduces hidden dependencies not declared in MINI-CONTRACT  
-S0-4: Family order changed without updating canonical indexes + audit/memory  
-S0-5: README loses “CANON ORDER” section format  
-
----
-
-## 8) INTEGRATION HOOKS (SYSTEM FIT)
-- CORE provides system-level invariants and identity context.
-- GOVERNANCE controls any FIXED/ACTIVE canon changes.
-- NARRATIVE consumes character constraints to keep story consistent.
-- EXPRESSION consumes behavior/motivation constraints for event realism.
-- PRODUCTION consumes dialogue/speech style to render media.
-- ORC orchestrators assemble pipelines using these outputs.
-
----
-
-## 9) RAW LINKS (MANDATORY IN REAL README, OPTIONAL IN TEMPLATE)
-REALM FILE (this file):
-- https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/03_DOMAIN_CHARACTER_ENGINES/00__README__DOMAIN_CHARACTER_ENGINES.md
-
-ENGINE TEMPLATE:
-- https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/03_DOMAIN_CHARACTER_ENGINES/00__TEMPLATE__ENGINE__DOMAIN_CHARACTER_ENGINES.md
-
-ENGINES (raw-links):
-- 01 — https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/03_DOMAIN_CHARACTER_ENGINES/01__CHARACTER_CORE_ENG.md
-- 02 — https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/03_DOMAIN_CHARACTER_ENGINES/02__MOTIVATION_DESIRE_ENG.md
-- 03 — https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/03_DOMAIN_CHARACTER_ENGINES/03__MORAL_VALUE_ENG.md
-- 04 — https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/03_DOMAIN_CHARACTER_ENGINES/04__CHARACTER_PSYCHOLOGY_ENG.md
-- 05 — https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/03_DOMAIN_CHARACTER_ENGINES/05__CHARACTER_BEHAVIOR_ENG.md
-- 06 — https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/03_DOMAIN_CHARACTER_ENGINES/06__RELATIONSHIP_ENG.md
-- 07 — https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/03_DOMAIN_CHARACTER_ENGINES/07__DIALOGUE_ENG.md
-- 08 — https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/03_DOMAIN_CHARACTER_ENGINES/08__SPEECH_NATURALIZATION_ENG.md
-- 09 — https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/03_DOMAIN_CHARACTER_ENGINES/09__GROWTH_TRAUMA_ENG.md
-- 10 — https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/03_DOMAIN_CHARACTER_ENGINES/10__CHARACTER_EVOLUTION_ENG.md
-
---- END.
+- STEP: S3
+  GOAL: Emit NEXT_OPEN_KEYS
+  INPUTS: [CHR_OUTPUT_PACK]
+  TARGETS: [INDEX_MANIFEST]
+  ACTIONS:
+    - Output NEXT_OPEN_KEYS list (KEYS only) for follow-up steps
+  OUTPUTS: [NEXT_OPEN_KEYS]
+  CHECKS: [OUTPUT_PRESENT]
+  FAIL: UE.FAIL.OUTPUT_MISSING
+  NEXT: "го"

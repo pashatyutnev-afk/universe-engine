@@ -1,188 +1,137 @@
-# GOVERNANCE ENGINES — REALM README (CANON)
-FILE: 03_SYSTEM_ENTITIES/10_ENG__ENGINES/00_GOVERNANCE_ENGINES/00__README__GOVERNANCE_ENGINES.md
-
-SCOPE: Universe Engine
-LAYER: 03_SYSTEM_ENTITIES
-ENTITY_GROUP: ENGINES (ENG)
-DOC_TYPE: REALM_README
-FAMILY: 00_GOVERNANCE_ENGINES
-CLASS: GOVERNANCE (L1)
-LEVEL: L1
+FILE: UE_V2/03_ENT/20_ENG_ENT/00_GOVERNANCE_ENG_ENT/00__PIPELINE_CONTRACT__GVN__ENG__ENT.md
+SCOPE: UE_V2 / 03_ENT / 20_ENG_ENT / 00_GOVERNANCE_ENG_ENT
+DOC_TYPE: PIPELINE_CONTRACT
+DOMAIN: GVN_ENG
+UID: UE.V2.ENT.ENG.GVN.PIPELINE_CONTRACT.001
+VERSION: 1.0.0
 STATUS: ACTIVE
-LOCK: FIXED
-VERSION: 2.0.0
-UID: UE.ENG.GOV.REALM.001
-OWNER: SYSTEM
-ROLE: Family law + boundaries + mandatory workflow for canon governance. Explains how governance engines work together (no existence authority).
-
-CHANGE_NOTE:
-- DATE: 2026-01-08
-- TYPE: MAJOR
-- SUMMARY: "README made etalon: strict boundaries, shared vocabulary, mandatory governance pipeline, storage targets, and anti-duplication laws."
-- REASON: "Stop scaffold drift. Governance family must be executable as a deterministic system."
-- IMPACT: "Governance usage becomes unambiguous and consistent across the repo."
-- CHANGE_ID: UE.CHG.2026-01-08.GOV.REALM.003
+MODE: REPO (USAGE-ONLY, NO-EDIT)
+CREATED: 2026-01-31
+UPDATED: 2026-01-31
+OWNER: SYS
+NAV_RULE: Contract has no RAW
 
 ---
 
-## 0) PURPOSE (LAW)
+## [M] PURPOSE
+PIPELINE_CONTRACT — навигатор действий для реалма GOVERNANCE_ENG_ENT (GVN).
+Не хранит RAW-адреса. Работает через KEY и резолвит адреса в INDEX_MANIFEST.
 
-Этот README описывает семейство `00_GOVERNANCE_ENGINES`:
-- **что оно такое**
-- **что оно контролирует**
-- **как им пользоваться**
-- **где хранятся записи**
+## [M] HARD_RULES
+- No RAW inside CONTRACT.
+- Все обращения: TARGET_KEY -> resolve via INDEX_MANIFEST -> open.
+- STEP-RUN: один шаг = одна пачка действий.
+- Каждый шаг выдаёт NEXT_PROMPT: "го" или FAIL_CODE.
+- Минимальная загрузка: INDEX_MANIFEST + 1–3 engine targets.
 
-IMPORTANT:
-- README **не вводит** новые сущности в канон.
-- Состав семейства (что существует) определяется только глобальными индексами/реестрами ENG.
+## [M] REQUIRED_KEYS (must exist in INDEX_MANIFEST)
+- INDEX_MANIFEST
+- PIPELINE_CONTRACT
+# engines may be GAP while building (allowed):
+- GVN.AUDIT_LOG
+- GVN.CANON_AUTHORITY
+- GVN.RULE_HIERARCHY
+- GVN.CHANGE_CONTROL
+- GVN.CONSISTENCY
+- GVN.DEPENDENCY_REGISTRY
+- GVN.DECISION_APPROVAL
+- GVN.SCOPE_IMPACT
+- GVN.RISK_SAFETY
+- GVN.VERSIONING_MEMORY
 
----
+## [M] CONTRACT_HEADER
+- REALM_ID: UE_V2/03_ENT/20_ENG_ENT/00_GOVERNANCE_ENG_ENT
+- DOMAIN: GVN_ENG
+- ARTIFACT_TYPES: [INDEX, PIPE, ENTITY, TOKEN_PACK, OUTPUT_PACK]
+- DEFAULT_MODE: FAST
 
-## 1) FAMILY MISSION (ONE SENTENCE)
+## [M] EXEC_MODEL
+1) Resolve INDEX_MANIFEST via KEY: INDEX_MANIFEST
+2) Validate REQUIRED_KEYS exist (engines may be GAP during build)
+3) Build WORK_SET_KEYS (KEYS only)
+4) Run steps sequentially (STEP-RUN)
+5) Output GVN_OUTPUT_PACK + NEXT "го"
 
-Governance Engines = система, которая превращает изменения канона в **управляемый, проверяемый и воспроизводимый** процесс.
+## [M] STEP-RUN (canonical)
+- STEP: S<n>
+  GOAL: <one line>
+  INPUTS: [<tokens>]
+  TARGETS: [<KEYS_ONLY>]
+  ACTIONS:
+    - <imperative action>
+  OUTPUTS: [<tokens/artifacts>]
+  CHECKS: [<gates>]
+  FAIL: <FAIL_CODE_IF_ANY>
+  NEXT: "го"
 
----
+## [M] STEPS
 
-## 2) WHAT THIS FAMILY OWNS (STRICT)
+- STEP: S0
+  GOAL: Entry sanity and task framing
+  INPUTS: [TASK_TEXT, MODE_HINT?]
+  TARGETS: [INDEX_MANIFEST]
+  ACTIONS:
+    - Ensure TASK_TEXT exists, else FAIL
+    - Decide EXEC_MODE using MODE_HINT or DEFAULT_MODE
+  OUTPUTS: [TASK_TOKEN, EXEC_MODE]
+  CHECKS: [TASK_PRESENT]
+  FAIL: UE.FAIL.INPUT_ABSENT
+  NEXT: "го"
 
-OWNED (в зоне ответственности):
-- Canon change pipeline (пакет изменений + гейты + закрытие)
-- Canon decision gate (ACCEPT/REJECT/CONDITIONAL)
-- Approval procedure (quorum/veto/emergency)
-- Audit (append-only след)
-- Consistency (проверка целостности канона)
-- Scope impact (blast-radius + required updates + migration law)
-- Risk safety (blockers + mitigation)
-- Dependency registry (no hidden deps)
-- Rule hierarchy (resolution of conflicts)
-- Versioning & memory (bump rules + memory packs + snapshots)
+- STEP: S1
+  GOAL: Select GVN work set (minimal opens)
+  INPUTS: [TASK_TOKEN]
+  TARGETS: [INDEX_MANIFEST, PIPELINE_CONTRACT]
+  ACTIONS:
+    - Resolve INDEX_MANIFEST via KEY: INDEX_MANIFEST
+    - Confirm REQUIRED_KEYS exist in ENTRIES
+    - Build WORK_SET_KEYS (KEYS only):
+      - audit -> [GVN.AUDIT_LOG]
+      - canon authority -> [GVN.CANON_AUTHORITY]
+      - rule hierarchy -> [GVN.RULE_HIERARCHY]
+      - change control -> [GVN.CHANGE_CONTROL]
+      - consistency -> [GVN.CONSISTENCY]
+      - dependency registry -> [GVN.DEPENDENCY_REGISTRY]
+      - decision approval -> [GVN.DECISION_APPROVAL]
+      - scope impact -> [GVN.SCOPE_IMPACT]
+      - risk/safety -> [GVN.RISK_SAFETY]
+      - versioning/memory -> [GVN.VERSIONING_MEMORY]
+      - full GVN run -> [GVN.AUDIT_LOG, GVN.CANON_AUTHORITY, GVN.RULE_HIERARCHY, GVN.CHANGE_CONTROL, GVN.CONSISTENCY, GVN.DEPENDENCY_REGISTRY, GVN.DECISION_APPROVAL, GVN.SCOPE_IMPACT, GVN.RISK_SAFETY, GVN.VERSIONING_MEMORY]
+  OUTPUTS: [WORK_SET_KEYS]
+  CHECKS: [REQUIRED_KEYS_OK]
+  FAIL: UE.FAIL.MISSING_KEY
+  NEXT: "го"
 
-NOT OWNED (запрещено забирать сюда):
-- создание контента домена (narrative/character/world)
-- производство медиаконтента как результата (визуал/звук/монтаж как творчество)
-- фактчекинг реальности/науки (это валидаторы/исследовательские движки)
-- хранение сущностей проекта (это Projects/Databases)
+- STEP: S2
+  GOAL: Execute GVN engines (KEY-only orchestration)
+  INPUTS: [WORK_SET_KEYS, TASK_TOKEN]
+  TARGETS: [GVN.AUDIT_LOG, GVN.CANON_AUTHORITY, GVN.RULE_HIERARCHY, GVN.CHANGE_CONTROL, GVN.CONSISTENCY, GVN.DEPENDENCY_REGISTRY, GVN.DECISION_APPROVAL, GVN.SCOPE_IMPACT, GVN.RISK_SAFETY, GVN.VERSIONING_MEMORY]
+  ACTIONS:
+    - Resolve and open only keys present in WORK_SET_KEYS
+    - Canonical order when multiple:
+      1) GVN.CANON_AUTHORITY
+      2) GVN.RULE_HIERARCHY
+      3) GVN.CHANGE_CONTROL
+      4) GVN.SCOPE_IMPACT
+      5) GVN.RISK_SAFETY
+      6) GVN.CONSISTENCY
+      7) GVN.DEPENDENCY_REGISTRY
+      8) GVN.DECISION_APPROVAL
+      9) GVN.AUDIT_LOG
+      10) GVN.VERSIONING_MEMORY
+    - Produce GVN_OUTPUT_PACK (summary + outputs + checks + next-open keys)
+  OUTPUTS: [GVN_OUTPUT_PACK]
+  CHECKS: [QUALITY_GATE]
+  FAIL: UE.FAIL.GATE_FAIL
+  NEXT: "го"
 
----
-
-## 3) NON-NEGOTIABLE META RULES (FAMILY)
-
-### 3.1 RAW-ONLY LINK LAW
-Внутри governance-доков любые переходы должны быть **raw-links**.
-Никаких “кликабельных путей” как навигации в смысле SoT.
-
-### 3.2 HEADER SINGLE-TRUTH LAW
-STATUS/LOCK/VERSION/UID/OWNER/ROLE существуют **только в шапке**.
-Запрещено дублировать эти поля внизу файла.
-
-### 3.3 NO HIDDEN AUTHORITY LAW
-Ни один документ семьи не может объявлять себя “единственной точкой истины о существовании” вне своего домена.
-Existence определяется каноническими индексами/реестрами верхнего уровня.
-
----
-
-## 4) SHARED ARTIFACT VOCABULARY (CANON)
-
-Эти имена артефактов используются одинаково во всех governance engines.
-
-### INPUT ARTIFACTS
-- CHANGE_PROPOSAL
-- CHANGE_NOTE
-- TARGET_LIST
-- AFFECTED_FILES_LIST
-- DIFF_SUMMARY
-- CHANGE_PACKAGE_RECORD
-- DECISION_RECORD
-- APPROVAL_RECORD
-- CONSISTENCY_REPORT
-- SCOPE_IMPACT_REPORT
-- SAFETY_ASSESSMENT_REPORT
-- DEPENDENCY_DECLARATIONS
-- DEPENDENCY_RECORDS
-- MIGRATION_MAP
-- REQUIRED_UPDATES_LIST
-- VERSION_DECISION_RECORD
-- COMPATIBILITY_CONTRACT
-- SNAPSHOT_RECORD
-- MEMORY_PACK_RECORD
-
-### OUTPUT ARTIFACTS
-- AUDIT_RECORD
-- DECISION_RECORD
-- APPROVAL_RECORD
-- CONSISTENCY_REPORT
-- SCOPE_IMPACT_REPORT
-- SAFETY_ASSESSMENT_REPORT
-- DEPENDENCY_VALIDATION_REPORT
-- VERSION_DECISION_RECORD
-- MEMORY_PACK_RECORD
-- SNAPSHOT_RECORD
-
-Hard rule:
-- если движок вводит новый термин — он должен быть согласован со словарём и добавлен через change pipeline.
-
----
-
-## 5) MANDATORY GOVERNANCE PIPELINE (CANON FLOW)
-
-Стандартный порядок для canon-impacting change:
-
-1) **Change Control** — формирует change package и гейты
-2) **Rule Hierarchy** — определяет приоритеты, фиксирует конфликт/резолв (если есть)
-3) **Scope Impact** — required updates + migration map (если структурно)
-4) **Risk Safety** — blockers + mitigation + safety decision
-5) **Decision Approval** — процедура утверждения (quorum/veto)
-6) **Canon Authority** — финальное решение (ACCEPT/REJECT/CONDITIONAL)
-7) **Apply** — применение изменений строго в рамках пакета
-8) **Audit Log** — запись APPLY + CLOSE (append-only)
-9) **Consistency (POST-VERIFY)** — PASS как условие закрытия
-10) **Versioning & Memory** — version decision + memory pack (+ snapshot при MAJOR)
-
-### Close rule (hard)
-Canon-impacting change считается “закрытым” только если есть:
-- DECISION_RECORD
-- AUDIT_RECORD (APPLY + CLOSE)
-- CONSISTENCY_REPORT (POST-VERIFY PASS / PASS_WITH_WARN policy)
-- MEMORY_PACK_RECORD
-
----
-
-## 6) STORAGE TARGETS (WHERE RECORDS LIVE)
-
-- AUDIT storage:
-  `99_LOGS/LOG__AUDIT.md`
-
-- CHANGES storage (packages / dependency edges / exception records):
-  `99_LOGS/LOG__CHANGES.md`
-
-Если нужно новое хранилище — это отдельное canon-impacting изменение.
-
----
-
-## 7) QUALITY BAR (ETALON DEFINITION)
-
-Governance engine считается “эталонным”, только если:
-- полная шапка + UID не пустой
-- mini-contract заполнен реальными артефактами
-- определены modes + gates + severity/result mapping
-- определены canonical output formats (records/reports)
-- есть примеры good/bad + edge cases
-- raw-only references
-- нет дублирования authority/existence законов
-
----
-
-## 8) REFERENCES (RAW ONLY)
-
-ENG index (roster):
-- https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/02__INDEX_ALL_ENGINES.md
-
-Audit log storage:
-- https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/99_LOGS/LOG__AUDIT.md
-
-Changes log storage:
-- https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/99_LOGS/LOG__CHANGES.md
-
---- END.
+- STEP: S3
+  GOAL: Emit NEXT_OPEN_KEYS
+  INPUTS: [GVN_OUTPUT_PACK]
+  TARGETS: [INDEX_MANIFEST]
+  ACTIONS:
+    - Output NEXT_OPEN_KEYS list (KEYS only) for follow-up steps
+  OUTPUTS: [NEXT_OPEN_KEYS]
+  CHECKS: [OUTPUT_PRESENT]
+  FAIL: UE.FAIL.OUTPUT_MISSING
+  NEXT: "го"

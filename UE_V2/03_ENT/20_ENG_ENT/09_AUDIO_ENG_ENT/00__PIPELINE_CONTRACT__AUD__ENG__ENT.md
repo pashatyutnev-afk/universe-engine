@@ -1,196 +1,146 @@
-# 09_SOUND_MUSIC_ENGINES — REALM README (CANON)
-FILE: 03_SYSTEM_ENTITIES/10_ENG__ENGINES/09_SOUND_MUSIC_ENGINES/00__README__SOUND_MUSIC_ENGINES.md
-
-SCOPE: Universe Engine
-LAYER: 03_SYSTEM_ENTITIES
-ENTITY_GROUP: ENGINES (ENG)
-DOC_TYPE: README
-FAMILY: 09_SOUND_MUSIC_ENGINES
-CLASS: SOUND (L3)
-LEVEL: L3
-STATUS: ACTIVE
-LOCK: FIXED
+FILE: UE_V2/03_ENT/20_ENG_ENT/09_AUDIO_ENG_ENT/00__PIPELINE_CONTRACT__AUD__ENG__ENT.md
+SCOPE: UE_V2 / 03_ENT / 20_ENG_ENT / 09_AUDIO_ENG_ENT
+DOC_TYPE: PIPELINE_CONTRACT
+DOMAIN: AUD_ENG
+UID: UE.V2.ENT.ENG.AUD.PIPELINE_CONTRACT.001
 VERSION: 1.0.0
-UID: UE.ENG.FAM.09.README.001
-OWNER: SYSTEM
-ROLE: Realm definition for Deep Sound & Music engines: ownership boundaries, canonical order, execution pipelines, and template contracts. Owns deep composition/harmony/melody/arrangement/vocal/sound design/mix-master.
-
-CHANGE_NOTE:
-- DATE: 2026-01-08
-- TYPE: MAJOR
-- SUMMARY: "Family README created: defines deep sound/music boundaries and canon order; production audio explicitly excluded."
-- REASON: "Stamping requires strict separation: production placement vs deep music craft."
-- IMPACT: "Music identity and sound design become reusable, auditable, and consistent across scenes."
-- CHANGE_ID: UE.CHG.2026-01-08.SOUND.MUSIC.README.001
+STATUS: ACTIVE
+MODE: REPO (USAGE-ONLY, NO-EDIT)
+CREATED: 2026-01-31
+UPDATED: 2026-01-31
+OWNER: SYS
+NAV_RULE: Contract has no RAW
 
 ---
 
-## 0) PURPOSE (LAW)
-This FAMILY owns **DEEP MUSIC + DEEP SOUND DESIGN**:
-- music identity (themes/motifs), cue taxonomy, tonal direction
-- song/cue structure (sections/forms)
-- harmony/chords system
-- melody/hook generation rules
-- rhythm/groove (musical rhythm)
-- rhyme/meter (lyric structure)
-- lyrics drafting (constrained)
-- arrangement/instrumentation (orchestration)
-- vocal performance specification
-- deep sound design language (sonic motifs/palettes)
-- style consistency enforcement for music assets
-- mapping music to scene intent (abstract hitpoints)
-- mix/master finishing policies and QC
+## [M] PURPOSE
+PIPELINE_CONTRACT — навигатор действий для реалма AUDIO_ENG_ENT (AUD).
+Не хранит RAW-адреса. Работает через KEY и резолвит адреса в INDEX_MANIFEST.
 
-Hard rule:
-- This family creates **deep audio assets & specs**. It does NOT own production placement/sync/clarity (that is 08 production sound).
+## [M] HARD_RULES
+- No RAW inside CONTRACT.
+- Все обращения: TARGET_KEY -> resolve via INDEX_MANIFEST -> open.
+- STEP-RUN: один шаг = одна пачка действий.
+- Каждый шаг выдаёт NEXT_PROMPT: "го" или FAIL_CODE.
+- Минимальная загрузка: INDEX_MANIFEST + 1–3 engine targets.
 
----
+## [M] REQUIRED_KEYS (must exist in INDEX_MANIFEST)
+- INDEX_MANIFEST
+- PIPELINE_CONTRACT
+# engines may be GAP while building (allowed):
+- AUD.MUSIC_COMPOSITION
+- AUD.SONG_STRUCTURE
+- AUD.HARMONY_CHORD
+- AUD.MELODY_HOOK
+- AUD.RHYTHM_GROOVE
+- AUD.RHYME_METER
+- AUD.LYRICS
+- AUD.ARRANGEMENT_INSTRUMENTATION
+- AUD.VOCAL_PERFORMANCE
+- AUD.SOUND_DESIGN
+- AUD.MUSIC_STYLE_CONSISTENCY
+- AUD.MUSIC_TO_SCENE
+- AUD.MIX_MASTER
 
-## 1) BOUNDARIES (STRICT)
-IN SCOPE:
-- composing and defining music/sound identities and their rulesets
-- creating musical structures and harmonic/melodic/rhythmic systems
-- generating constrained lyrics and vocal performance specs
-- defining sonic motif libraries and transformation constraints
-- enforcing music style consistency across assets
-- producing mix/master target policies, stems, QC gates
+## [M] CONTRACT_HEADER
+- REALM_ID: UE_V2/03_ENT/20_ENG_ENT/09_AUDIO_ENG_ENT
+- DOMAIN: AUD_ENG
+- ARTIFACT_TYPES: [INDEX, PIPE, ENTITY, TOKEN_PACK, OUTPUT_PACK]
+- DEFAULT_MODE: FAST
 
-OUT OF SCOPE:
-- placing audio on the edit timeline, sync to EDL, dialogue clarity guardrails (08 production sound)
-- video editing/montage decisions (08 editing engine)
-- story canon creation (domain narrative/character/world engines)
-- tone/mood/atmosphere ownership (06 family owns primitives; 09 can consume them)
+## [M] EXEC_MODEL
+1) Resolve INDEX_MANIFEST via KEY: INDEX_MANIFEST
+2) Validate REQUIRED_KEYS exist (missing engines -> GAP allowed during build)
+3) Build WORK_SET_KEYS (KEYS only)
+4) Run steps sequentially (STEP-RUN)
+5) Output AUD_OUTPUT_PACK + NEXT "го"
 
-CRITICAL BOUNDARY (from your law):
-- Production audio (sync/design/placement/clarity) → `08_KNOWLEDGE_PRODUCTION_ENGINES/08__SOUND_MUSIC_ENG.md`
-- Deep music (composition/harmony/arrangement/vocal/mix-master) → this family (09)
+## [M] STEP-RUN (canonical)
+- STEP: S<n>
+  GOAL: <one line>
+  INPUTS: [<tokens>]
+  TARGETS: [<KEYS_ONLY>]
+  ACTIONS:
+    - <imperative action>
+  OUTPUTS: [<tokens/artifacts>]
+  CHECKS: [<gates>]
+  FAIL: <FAIL_CODE_IF_ANY>
+  NEXT: "го"
 
----
+## [M] STEPS
 
-## 2) CANON ORDER (MANDATORY)
-Engines in this family are canonical in this order:
+- STEP: S0
+  GOAL: Entry sanity and task framing
+  INPUTS: [TASK_TEXT, MODE_HINT?]
+  TARGETS: [INDEX_MANIFEST]
+  ACTIONS:
+    - Ensure TASK_TEXT exists, else FAIL
+    - Decide EXEC_MODE using MODE_HINT or DEFAULT_MODE
+  OUTPUTS: [TASK_TOKEN, EXEC_MODE]
+  CHECKS: [TASK_PRESENT]
+  FAIL: UE.FAIL.INPUT_ABSENT
+  NEXT: "го"
 
-01 — Music Composition Engine  
-02 — Song Structure Engine  
-03 — Harmony / Chord Engine  
-04 — Melody / Hook Engine  
-05 — Rhythm / Groove Engine  
-06 — Rhyme / Meter Engine  
-07 — Lyrics Engine  
-08 — Arrangement / Instrumentation Engine  
-09 — Vocal Performance Engine  
-10 — Sound Design Engine  
-11 — Music Style Consistency Engine  
-12 — Music To Scene Engine  
-13 — Mix / Master Engine
+- STEP: S1
+  GOAL: Select AUD work set (minimal opens)
+  INPUTS: [TASK_TOKEN]
+  TARGETS: [INDEX_MANIFEST, PIPELINE_CONTRACT]
+  ACTIONS:
+    - Resolve INDEX_MANIFEST via KEY: INDEX_MANIFEST
+    - Confirm REQUIRED_KEYS exist in ENTRIES
+    - Build WORK_SET_KEYS (KEYS only):
+      - composition -> [AUD.MUSIC_COMPOSITION]
+      - structure -> [AUD.SONG_STRUCTURE]
+      - harmony -> [AUD.HARMONY_CHORD]
+      - melody/hook -> [AUD.MELODY_HOOK]
+      - groove -> [AUD.RHYTHM_GROOVE]
+      - meter/rhyme -> [AUD.RHYME_METER]
+      - lyrics -> [AUD.LYRICS]
+      - arrangement -> [AUD.ARRANGEMENT_INSTRUMENTATION]
+      - vocal -> [AUD.VOCAL_PERFORMANCE]
+      - sound design -> [AUD.SOUND_DESIGN]
+      - style consistency -> [AUD.MUSIC_STYLE_CONSISTENCY]
+      - music to scene -> [AUD.MUSIC_TO_SCENE]
+      - mix/master -> [AUD.MIX_MASTER]
+      - full AUD run -> [AUD.MUSIC_COMPOSITION, AUD.SONG_STRUCTURE, AUD.HARMONY_CHORD, AUD.MELODY_HOOK, AUD.RHYTHM_GROOVE, AUD.RHYME_METER, AUD.LYRICS, AUD.ARRANGEMENT_INSTRUMENTATION, AUD.VOCAL_PERFORMANCE, AUD.SOUND_DESIGN, AUD.MUSIC_STYLE_CONSISTENCY, AUD.MUSIC_TO_SCENE, AUD.MIX_MASTER]
+  OUTPUTS: [WORK_SET_KEYS]
+  CHECKS: [REQUIRED_KEYS_OK]
+  FAIL: UE.FAIL.MISSING_KEY
+  NEXT: "го"
 
-Rule:
-- 11 (consistency) can run after any subset of 01–10 outputs exist, but canon order remains for navigation.
+- STEP: S2
+  GOAL: Execute AUD engines (KEY-only orchestration)
+  INPUTS: [WORK_SET_KEYS, TASK_TOKEN]
+  TARGETS: [AUD.MUSIC_COMPOSITION, AUD.SONG_STRUCTURE, AUD.HARMONY_CHORD, AUD.MELODY_HOOK, AUD.RHYTHM_GROOVE, AUD.RHYME_METER, AUD.LYRICS, AUD.ARRANGEMENT_INSTRUMENTATION, AUD.VOCAL_PERFORMANCE, AUD.SOUND_DESIGN, AUD.MUSIC_STYLE_CONSISTENCY, AUD.MUSIC_TO_SCENE, AUD.MIX_MASTER]
+  ACTIONS:
+    - Resolve and open only keys present in WORK_SET_KEYS
+    - Canonical order when multiple:
+      1) AUD.MUSIC_COMPOSITION
+      2) AUD.SONG_STRUCTURE
+      3) AUD.HARMONY_CHORD
+      4) AUD.MELODY_HOOK
+      5) AUD.RHYTHM_GROOVE
+      6) AUD.RHYME_METER
+      7) AUD.LYRICS
+      8) AUD.ARRANGEMENT_INSTRUMENTATION
+      9) AUD.VOCAL_PERFORMANCE
+      10) AUD.SOUND_DESIGN
+      11) AUD.MUSIC_STYLE_CONSISTENCY
+      12) AUD.MUSIC_TO_SCENE
+      13) AUD.MIX_MASTER
+    - Produce AUD_OUTPUT_PACK (summary + outputs + checks + next-open keys)
+  OUTPUTS: [AUD_OUTPUT_PACK]
+  CHECKS: [QUALITY_GATE]
+  FAIL: UE.FAIL.GATE_FAIL
+  NEXT: "го"
 
----
-
-## 3) TEMPLATES (MANDATORY)
-ENGINE TEMPLATE:
-RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/09_SOUND_MUSIC_ENGINES/00__TEMPLATE__ENGINE__SOUND_MUSIC_ENGINES.md
-
-README TEMPLATE:
-RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/09_SOUND_MUSIC_ENGINES/00__TEMPLATE__README__SOUND_MUSIC_ENGINES.md
-
----
-
-## 4) CANON MAP (RAW-ONLY NAV)
-01 — Music Composition Engine  
-RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/09_SOUND_MUSIC_ENGINES/01__MUSIC_COMPOSITION_ENG.md
-
-02 — Song Structure Engine  
-RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/09_SOUND_MUSIC_ENGINES/02__SONG_STRUCTURE_ENG.md
-
-03 — Harmony / Chord Engine  
-RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/09_SOUND_MUSIC_ENGINES/03__HARMONY_CHORD_ENG.md
-
-04 — Melody / Hook Engine  
-RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/09_SOUND_MUSIC_ENGINES/04__MELODY_HOOK_ENG.md
-
-05 — Rhythm / Groove Engine  
-RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/09_SOUND_MUSIC_ENGINES/05__RHYTHM_GROOVE_ENG.md
-
-06 — Rhyme / Meter Engine  
-RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/09_SOUND_MUSIC_ENGINES/06__RHYME_METER_ENG.md
-
-07 — Lyrics Engine  
-RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/09_SOUND_MUSIC_ENGINES/07__LYRICS_ENG.md
-
-08 — Arrangement / Instrumentation Engine  
-RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/09_SOUND_MUSIC_ENGINES/08__ARRANGEMENT_INSTRUMENTATION_ENG.md
-
-09 — Vocal Performance Engine  
-RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/09_SOUND_MUSIC_ENGINES/09__VOCAL_PERFORMANCE_ENG.md
-
-10 — Sound Design Engine  
-RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/09_SOUND_MUSIC_ENGINES/10__SOUND_DESIGN_ENG.md
-
-11 — Music Style Consistency Engine  
-RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/09_SOUND_MUSIC_ENGINES/11__MUSIC_STYLE_CONSISTENCY_ENG.md
-
-12 — Music To Scene Engine  
-RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/09_SOUND_MUSIC_ENGINES/12__MUSIC_TO_SCENE_ENG.md
-
-13 — Mix / Master Engine  
-RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/09_SOUND_MUSIC_ENGINES/13__MIX_MASTER_ENG.md
-
----
-
-## 5) OUTPUT TARGETS (DEFAULT)
-Default storage (recommended):
-- PROJECT_ARTIFACTS/<project>/MUSIC/COMPOSITION/
-- PROJECT_ARTIFACTS/<project>/MUSIC/STRUCTURE/
-- PROJECT_ARTIFACTS/<project>/MUSIC/HARMONY/
-- PROJECT_ARTIFACTS/<project>/MUSIC/MELODY/
-- PROJECT_ARTIFACTS/<project>/MUSIC/RHYTHM/
-- PROJECT_ARTIFACTS/<project>/MUSIC/LYRICS_STRUCTURE/
-- PROJECT_ARTIFACTS/<project>/MUSIC/LYRICS/
-- PROJECT_ARTIFACTS/<project>/MUSIC/ARRANGEMENT/
-- PROJECT_ARTIFACTS/<project>/MUSIC/VOCALS/
-- PROJECT_ARTIFACTS/<project>/SOUND_DESIGN/
-- PROJECT_ARTIFACTS/<project>/MUSIC/CONSISTENCY/
-- PROJECT_ARTIFACTS/<project>/MUSIC/TO_SCENE/
-- PROJECT_ARTIFACTS/<project>/MUSIC/MIX_MASTER/
-
----
-
-## 6) USAGE PIPELINES (DETERMINISTIC)
-
-### A) Full Track / Song pipeline
-1) Composition (01)
-2) Structure (02)
-3) Harmony (03)
-4) Melody (04)
-5) Rhythm (05)
-6) Rhyme/Meter (06) + Lyrics (07) (if vocal)
-7) Arrangement (08)
-8) Vocal Performance (09) (if vocal)
-9) Sound Design (10) (optional)
-10) Consistency (11)
-11) Music→Scene mapping (12) (if audiovisual)
-12) Mix/Master (13)
-
-### B) Underscore / Cue pipeline
-1) Composition (01) → Structure (02) → Harmony (03) → Rhythm (05)
-2) Arrangement (08) + optional Sound Design (10)
-3) Consistency (11)
-4) Music→Scene (12) (optional)
-5) Mix/Master (13)
-
-Validation:
-- Each engine emits gates. Any S0 fail = STOP.
-
----
-
-## 7) HARD BOUNDARY NOTES (CRITICAL)
-- No placement/timecodes here. That is production audio layer.
-- No “edit rhythm” ownership here. That is production editing.
-- Lyrics must respect rhyme/meter constraints or be flagged FAIL.
-
---- END.
-
-LOCK: FIXED
+- STEP: S3
+  GOAL: Emit NEXT_OPEN_KEYS
+  INPUTS: [AUD_OUTPUT_PACK]
+  TARGETS: [INDEX_MANIFEST]
+  ACTIONS:
+    - Output NEXT_OPEN_KEYS list (KEYS only) for follow-up steps
+  OUTPUTS: [NEXT_OPEN_KEYS]
+  CHECKS: [OUTPUT_PRESENT]
+  FAIL: UE.FAIL.OUTPUT_MISSING
+  NEXT: "го"

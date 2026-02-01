@@ -1,136 +1,122 @@
-# 10_META_EVOLUTION_ENGINES — REALM README (CANON)
-FILE: 03_SYSTEM_ENTITIES/10_ENG__ENGINES/10_META_EVOLUTION_ENGINES/00__README__META_EVOLUTION_ENGINES.md
-
-SCOPE: Universe Engine
-LAYER: 03_SYSTEM_ENTITIES
-ENTITY_GROUP: ENGINES (ENG)
-DOC_TYPE: README
-FAMILY: 10_META_EVOLUTION_ENGINES
-CLASS: META (L4)
-LEVEL: L4
-STATUS: ACTIVE
-LOCK: FIXED
+FILE: UE_V2/03_ENT/20_ENG_ENT/10_METAEVOLUTION_ENG_ENT/00__PIPELINE_CONTRACT__MEV_ENG__ENT.md
+SCOPE: UE_V2 / 03_ENT / 20_ENG_ENT / 10_METAEVOLUTION_ENG_ENT
+DOC_TYPE: PIPELINE_CONTRACT
+DOMAIN: MEV_ENG
+UID: UE.V2.ENT.ENG.MEV.PIPELINE_CONTRACT.001
 VERSION: 1.0.0
-UID: UE.ENG.FAM.10.README.001
-OWNER: SYSTEM
-ROLE: Realm definition for Meta Evolution engines: learning loop, pattern capture, optimization, bounded mutation, future projection, and strict governance routing (no direct canon edits).
-
-CHANGE_NOTE:
-- DATE: 2026-01-08
-- TYPE: MAJOR
-- SUMMARY: "Family README created: defines meta-evolution scope, canon order, and governance routing."
-- REASON: "System evolution must be deterministic and canon-safe."
-- IMPACT: "Improvements become auditable, prioritized, and routed through governance."
-- CHANGE_ID: UE.CHG.2026-01-08.META.EVOLUTION.README.001
+STATUS: ACTIVE
+MODE: REPO (USAGE-ONLY, NO-EDIT)
+CREATED: 2026-01-31
+UPDATED: 2026-01-31
+OWNER: SYS
+NAV_RULE: Contract has no RAW
 
 ---
 
-## 0) PURPOSE (LAW)
-This FAMILY owns **META EVOLUTION**:
-- learning capture (lessons, hypotheses, change candidates)
-- pattern extraction (reusable patterns)
-- optimization (objective/scoring/backlog)
-- creative mutation (bounded exploration variants)
-- future projection (scenarios/roadmaps)
+## [M] PURPOSE
+PIPELINE_CONTRACT — навигатор действий для реалма METAEVOLUTION_ENG_ENT (MEV).
+Не хранит RAW-адреса. Работает через KEY и резолвит адреса в INDEX_MANIFEST.
 
-Hard rule:
-- Meta engines do not change canon directly. They produce artifacts that route through governance pipeline.
+## [M] HARD_RULES
+- No RAW inside CONTRACT.
+- Все обращения: TARGET_KEY -> resolve via INDEX_MANIFEST -> open.
+- STEP-RUN: один шаг = одна пачка действий.
+- Каждый шаг выдаёт NEXT_PROMPT: "го" или FAIL_CODE.
+- Минимальная загрузка: INDEX_MANIFEST + 1–3 engine targets.
 
----
+## [M] REQUIRED_KEYS (must exist in INDEX_MANIFEST)
+- INDEX_MANIFEST
+- PIPELINE_CONTRACT
+# engines may be GAP while building (allowed):
+- MEV.LEARNING
+- MEV.PATTERN_EXTRACTION
+- MEV.OPTIMIZATION
+- MEV.CREATIVE_MUTATION
+- MEV.FUTURE_PROJECTION
 
-## 1) BOUNDARIES (STRICT)
-IN SCOPE:
-- creating evidence-backed learning artifacts
-- extracting and formalizing reusable patterns
-- prioritizing change candidates deterministically
-- generating bounded exploration variants with safety constraints
-- producing scenario/roadmap projections with triggers and routing
+## [M] CONTRACT_HEADER
+- REALM_ID: UE_V2/03_ENT/20_ENG_ENT/10_METAEVOLUTION_ENG_ENT
+- DOMAIN: MEV_ENG
+- ARTIFACT_TYPES: [INDEX, PIPE, ENTITY, TOKEN_PACK, PATCH_PACK]
+- DEFAULT_MODE: FAST
 
-OUT OF SCOPE:
-- executing canon changes directly (governance executes)
-- writing domain content (narrative/character/world)
-- acting as QA owner (meta consumes QA outputs)
+## [M] EXEC_MODEL
+1) Resolve INDEX_MANIFEST via KEY: INDEX_MANIFEST
+2) Validate REQUIRED_KEYS exist (missing engines -> GAP allowed during build)
+3) Build WORK_SET_KEYS (KEYS only)
+4) Run steps sequentially (STEP-RUN)
+5) Output MEV_OUTPUT_PACK + NEXT "го"
 
-CRITICAL RULE:
-- Any canon-impacting change must go through:
-  - Change Control Engine
-  - Decision Approval Engine (if required)
-  - Audit Log Engine (append-only record)
+## [M] STEP-RUN (canonical)
+- STEP: S<n>
+  GOAL: <one line>
+  INPUTS: [<tokens>]
+  TARGETS: [<KEYS_ONLY>]
+  ACTIONS:
+    - <imperative action>
+  OUTPUTS: [<tokens/artifacts>]
+  CHECKS: [<gates>]
+  FAIL: <FAIL_CODE_IF_ANY>
+  NEXT: "го"
 
----
+## [M] STEPS
 
-## 2) CANON ORDER (MANDATORY)
-Engines in this family are canonical in this order:
+- STEP: S0
+  GOAL: Entry sanity and task framing
+  INPUTS: [TASK_TEXT, MODE_HINT?]
+  TARGETS: [INDEX_MANIFEST]
+  ACTIONS:
+    - Ensure TASK_TEXT exists, else FAIL
+    - Decide EXEC_MODE using MODE_HINT or DEFAULT_MODE
+  OUTPUTS: [TASK_TOKEN, EXEC_MODE]
+  CHECKS: [TASK_PRESENT]
+  FAIL: UE.FAIL.INPUT_ABSENT
+  NEXT: "го"
 
-01 — Learning Engine  
-02 — Pattern Extraction Engine  
-03 — Optimization Engine  
-04 — Creative Mutation Engine  
-05 — Future Projection Engine
+- STEP: S1
+  GOAL: Select MEV work set (minimal opens)
+  INPUTS: [TASK_TOKEN]
+  TARGETS: [INDEX_MANIFEST, PIPELINE_CONTRACT]
+  ACTIONS:
+    - Resolve INDEX_MANIFEST via KEY: INDEX_MANIFEST
+    - Confirm REQUIRED_KEYS exist in ENTRIES
+    - Build WORK_SET_KEYS (KEYS only):
+      - learning -> [MEV.LEARNING]
+      - patterns -> [MEV.PATTERN_EXTRACTION]
+      - optimization -> [MEV.OPTIMIZATION]
+      - mutation -> [MEV.CREATIVE_MUTATION]
+      - projection -> [MEV.FUTURE_PROJECTION]
+      - full MEV run -> [MEV.LEARNING, MEV.PATTERN_EXTRACTION, MEV.OPTIMIZATION, MEV.CREATIVE_MUTATION, MEV.FUTURE_PROJECTION]
+  OUTPUTS: [WORK_SET_KEYS]
+  CHECKS: [REQUIRED_KEYS_OK]
+  FAIL: UE.FAIL.MISSING_KEY
+  NEXT: "го"
 
-Notes:
-- 02 can feed 03 (patterns inform scoring).
-- 04 outputs variants that must be evaluated by 01/03 before governance.
-- 05 generates projected backlog that informs future 03 cycles.
+- STEP: S2
+  GOAL: Execute MEV engines (KEY-only orchestration)
+  INPUTS: [WORK_SET_KEYS, TASK_TOKEN]
+  TARGETS: [MEV.LEARNING, MEV.PATTERN_EXTRACTION, MEV.OPTIMIZATION, MEV.CREATIVE_MUTATION, MEV.FUTURE_PROJECTION]
+  ACTIONS:
+    - Resolve and open only keys present in WORK_SET_KEYS
+    - Canonical order when multiple:
+      1) MEV.LEARNING
+      2) MEV.PATTERN_EXTRACTION
+      3) MEV.OPTIMIZATION
+      4) MEV.CREATIVE_MUTATION
+      5) MEV.FUTURE_PROJECTION
+    - Produce MEV_OUTPUT_PACK (summary + outputs + checks + next-open keys)
+  OUTPUTS: [MEV_OUTPUT_PACK]
+  CHECKS: [QUALITY_GATE]
+  FAIL: UE.FAIL.GATE_FAIL
+  NEXT: "го"
 
----
-
-## 3) TEMPLATES (MANDATORY)
-ENGINE TEMPLATE:
-RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/10_META_EVOLUTION_ENGINES/00__TEMPLATE__ENGINE__META_EVOLUTION_ENGINES.md
-
-README TEMPLATE:
-RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/10_META_EVOLUTION_ENGINES/00__TEMPLATE__README__META_EVOLUTION_ENGINES.md
-
----
-
-## 4) CANON MAP (RAW-ONLY NAV)
-01 — Learning Engine  
-RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/10_META_EVOLUTION_ENGINES/01__LEARNING_ENG.md
-
-02 — Pattern Extraction Engine  
-RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/10_META_EVOLUTION_ENGINES/02__PATTERN_EXTRACTION_ENG.md
-
-03 — Optimization Engine  
-RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/10_META_EVOLUTION_ENGINES/03__OPTIMIZATION_ENG.md
-
-04 — Creative Mutation Engine  
-RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/10_META_EVOLUTION_ENGINES/04__CREATIVE_MUTATION_ENG.md
-
-05 — Future Projection Engine  
-RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/10_META_EVOLUTION_ENGINES/05__FUTURE_PROJECTION_ENG.md
-
----
-
-## 5) OUTPUT TARGETS (DEFAULT)
-Default storage (recommended):
-- PROJECT_ARTIFACTS/<project>/META/LEARNING/
-- PROJECT_ARTIFACTS/<project>/META/PATTERNS/
-- PROJECT_ARTIFACTS/<project>/META/OPTIMIZATION/
-- PROJECT_ARTIFACTS/<project>/META/MUTATION/
-- PROJECT_ARTIFACTS/<project>/META/PROJECTION/
-
----
-
-## 6) USAGE PIPELINE (DETERMINISTIC)
-1) Capture lessons and candidates (01).
-2) Extract reusable patterns (02).
-3) Rank and plan changes (03).
-4) Explore bounded variants (04).
-5) Project roadmap and future backlog (05).
-6) Route selected canon-impacting changes to governance:
-   - Change Control → Decision Approval (if needed) → Audit Log (append-only)
-
-Validation:
-- Each meta engine emits gates. Any S0 fail = STOP.
-
----
-
-## 7) HARD BOUNDARY NOTES (CRITICAL)
-- Meta engines cannot “hotfix” canon.
-- All canon changes must be explicit, routed, and audited.
-- Prefer deterministic scoring and bounded exploration over intuition-only edits.
-
---- END.
-
-LOCK: FIXED
+- STEP: S3
+  GOAL: Emit NEXT_OPEN_KEYS
+  INPUTS: [MEV_OUTPUT_PACK]
+  TARGETS: [INDEX_MANIFEST]
+  ACTIONS:
+    - Output NEXT_OPEN_KEYS list (KEYS only) for follow-up steps
+  OUTPUTS: [NEXT_OPEN_KEYS]
+  CHECKS: [OUTPUT_PRESENT]
+  FAIL: UE.FAIL.OUTPUT_MISSING
+  NEXT: "го"

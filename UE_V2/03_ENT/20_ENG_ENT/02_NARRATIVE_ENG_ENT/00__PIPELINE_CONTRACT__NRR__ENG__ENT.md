@@ -1,111 +1,137 @@
-# DOMAIN NARRATIVE ENGINES — REALM (README)
-FILE: 03_SYSTEM_ENTITIES/10_ENG__ENGINES/02_DOMAIN_NARRATIVE_ENGINES/00__README__DOMAIN_NARRATIVE_ENGINES.md
-
-SCOPE: Universe Engine
-LAYER: 03_SYSTEM_ENTITIES
-ENTITY_GROUP: ENGINES (ENG)
-FAMILY: 02_DOMAIN_NARRATIVE_ENGINES
-DOC_TYPE: REALM_README
-LEVEL: L2
-STATUS: ACTIVE
-LOCK: FIXED
+FILE: UE_V2/03_ENT/20_ENG_ENT/02_NARRATIVE_ENG_ENT/00__PIPELINE_CONTRACT__NRR__ENG__ENT.md
+SCOPE: UE_V2 / 03_ENT / 20_ENG_ENT / 02_NARRATIVE_ENG_ENT
+DOC_TYPE: PIPELINE_CONTRACT
+DOMAIN: NRR_ENG
+UID: UE.V2.ENT.ENG.NRR.PIPELINE_CONTRACT.001
 VERSION: 1.0.0
-UID: UE.ENG.REALM.NARRATIVE.001
-OWNER: SYSTEM
-ROLE: Family realm boundaries + terminology + output targets for narrative-domain engines.
-
-CHANGE_NOTE:
-- DATE: 2026-01-08
-- TYPE: MAJOR
-- SUMMARY: "Narrative family realm created: boundaries, outputs, and collision routing for all narrative engines."
-- REASON: "Family was empty; required for deterministic stamping of 02_DOMAIN_NARRATIVE_ENGINES."
-- IMPACT: "Narrative engines can be produced in canon order without scope drift."
-- CHANGE_ID: UE.CHG.2026-01-08.ENG.NARR.REALM.001
+STATUS: ACTIVE
+MODE: REPO (USAGE-ONLY, NO-EDIT)
+CREATED: 2026-01-31
+UPDATED: 2026-01-31
+OWNER: SYS
+NAV_RULE: Contract has no RAW
 
 ---
 
-## 0) PURPOSE (LAW)
-Семейство `02_DOMAIN_NARRATIVE_ENGINES` отвечает за **внутреннюю логику истории**:
-- почему события происходят именно так (causal + motivation fit на уровне сюжета)
-- как строится структура, арки, сцены, темп, напряжение
-- как держится непрерывность и смысл
+## [M] PURPOSE
+PIPELINE_CONTRACT — навигатор действий для реалма NARRATIVE_ENG_ENT (NRR).
+Не хранит RAW-адреса. Работает через KEY и резолвит адреса в INDEX_MANIFEST.
 
-Это НЕ “производство” и НЕ “стиль” — это **доменная логика повествования**.
+## [M] HARD_RULES
+- No RAW inside CONTRACT.
+- Все обращения: TARGET_KEY -> resolve via INDEX_MANIFEST -> open.
+- STEP-RUN: один шаг = одна пачка действий.
+- Каждый шаг выдаёт NEXT_PROMPT: "го" или FAIL_CODE.
+- Минимальная загрузка: INDEX_MANIFEST + 1–3 engine targets.
 
----
+## [M] REQUIRED_KEYS (must exist in INDEX_MANIFEST)
+- INDEX_MANIFEST
+- PIPELINE_CONTRACT
+# engines may be GAP while building (allowed):
+- NRR.NARRATIVE_LOGIC_NAV
+- NRR.STORY_STRUCTURE_NAV
+- NRR.DRAMATIC_ARC_NAV
+- NRR.SCENE_CONSTRUCTION_NAV
+- NRR.PACING_RHYTHM_NAV
+- NRR.TENSION_STAKES_NAV
+- NRR.FORESHADOWING_NAV
+- NRR.TWIST_REVEAL_NAV
+- NRR.NARRATIVE_CONTINUITY_NAV
+- NRR.THEME_MEANING_NAV
 
-## 1) SCOPE (IN / OUT)
+## [M] CONTRACT_HEADER
+- REALM_ID: UE_V2/03_ENT/20_ENG_ENT/02_NARRATIVE_ENG_ENT
+- DOMAIN: NRR_ENG
+- ARTIFACT_TYPES: [INDEX, PIPE, ENTITY, TOKEN_PACK, OUTPUT_PACK]
+- DEFAULT_MODE: FAST
 
-### IN SCOPE (OWNS)
-- Story logic / narrative causality (логические цепочки внутри истории)
-- Story-level structure (акты/арки/сцены как narrative units)
-- Pacing как **story-time** (ритм событий истории, не монтаж)
-- Stakes / tension на уровне истории
-- Foreshadow / twist / reveal как narrative mechanics
-- Continuity и смысл/тема
+## [M] EXEC_MODEL
+1) Resolve INDEX_MANIFEST via KEY: INDEX_MANIFEST
+2) Validate REQUIRED_KEYS exist (engines may be GAP during build)
+3) Build WORK_SET_KEYS (KEYS only)
+4) Run steps sequentially (STEP-RUN)
+5) Output NRR_OUTPUT_PACK + NEXT "го"
 
-### OUT OF SCOPE (HARD)
-- Production editing rhythm (монтаж, длительности кадров, склейки) → `08_KNOWLEDGE_PRODUCTION_ENGINES/07__EDITING_MONTAGE_ENG.md`
-- Visual/Audio implementation (камера/свет/звук продакшн) → семья `08_*`
-- Deep music composition/arrangement → семья `09_*`
-- Tone/mood/style constraints (атмосфера, символизм) → семья `06_*`
-- Pure event mechanics без story-meaning (тайминг/рандом) → семья `05_EXPRESSION_ENGINES` (частично)
+## [M] STEP-RUN (canonical)
+- STEP: S<n>
+  GOAL: <one line>
+  INPUTS: [<tokens>]
+  TARGETS: [<KEYS_ONLY>]
+  ACTIONS:
+    - <imperative action>
+  OUTPUTS: [<tokens/artifacts>]
+  CHECKS: [<gates>]
+  FAIL: <FAIL_CODE_IF_ANY>
+  NEXT: "го"
 
----
+## [M] STEPS
 
-## 2) COLLISION ROUTING (MANDATORY)
-Если возникает пересечение:
-- "Это про **как ощущается**?" → `06_GENRE_STYLE_ENGINES/*`
-- "Это про **как смонтировано/показано на экране**?" → `08_KNOWLEDGE_PRODUCTION_ENGINES/07__EDITING_MONTAGE_ENG.md`
-- "Это про **чистую механику события без смысла/структуры истории**?" → `05_EXPRESSION_ENGINES/*`
-- "Это про **персонажа (психология/мотивация/речь)**?" → `03_DOMAIN_CHARACTER_ENGINES/*`
+- STEP: S0
+  GOAL: Entry sanity and task framing
+  INPUTS: [TASK_TEXT, MODE_HINT?]
+  TARGETS: [INDEX_MANIFEST]
+  ACTIONS:
+    - Ensure TASK_TEXT exists, else FAIL
+    - Decide EXEC_MODE using MODE_HINT or DEFAULT_MODE
+  OUTPUTS: [TASK_TOKEN, EXEC_MODE]
+  CHECKS: [TASK_PRESENT]
+  FAIL: UE.FAIL.INPUT_ABSENT
+  NEXT: "го"
 
----
+- STEP: S1
+  GOAL: Select NRR work set (minimal opens)
+  INPUTS: [TASK_TOKEN]
+  TARGETS: [INDEX_MANIFEST, PIPELINE_CONTRACT]
+  ACTIONS:
+    - Resolve INDEX_MANIFEST via KEY: INDEX_MANIFEST
+    - Confirm REQUIRED_KEYS exist in ENTRIES
+    - Build WORK_SET_KEYS (KEYS only):
+      - logic -> [NRR.NARRATIVE_LOGIC_NAV]
+      - structure -> [NRR.STORY_STRUCTURE_NAV]
+      - dramatic arc -> [NRR.DRAMATIC_ARC_NAV]
+      - scene construction -> [NRR.SCENE_CONSTRUCTION_NAV]
+      - pacing/rhythm -> [NRR.PACING_RHYTHM_NAV]
+      - tension/stakes -> [NRR.TENSION_STAKES_NAV]
+      - foreshadowing -> [NRR.FORESHADOWING_NAV]
+      - twist/reveal -> [NRR.TWIST_REVEAL_NAV]
+      - continuity -> [NRR.NARRATIVE_CONTINUITY_NAV]
+      - theme/meaning -> [NRR.THEME_MEANING_NAV]
+      - full NRR run -> [NRR.NARRATIVE_LOGIC_NAV, NRR.STORY_STRUCTURE_NAV, NRR.DRAMATIC_ARC_NAV, NRR.SCENE_CONSTRUCTION_NAV, NRR.PACING_RHYTHM_NAV, NRR.TENSION_STAKES_NAV, NRR.FORESHADOWING_NAV, NRR.TWIST_REVEAL_NAV, NRR.NARRATIVE_CONTINUITY_NAV, NRR.THEME_MEANING_NAV]
+  OUTPUTS: [WORK_SET_KEYS]
+  CHECKS: [REQUIRED_KEYS_OK]
+  FAIL: UE.FAIL.MISSING_KEY
+  NEXT: "го"
 
-## 3) FAMILY OUTPUT TARGETS (STANDARD)
-Нарративные движки производят **story-domain артефакты** (логические, не продакшн):
-- `NARRATIVE_LOGIC_MODEL`
-- `STORY_STRUCTURE_BLUEPRINT`
-- `DRAMATIC_ARC_SPEC`
-- `SCENE_CONSTRUCTION_RULESET`
-- `PACING_PROFILE_STORY_TIME`
-- `TENSION_STAKES_MAP`
-- `FORESHADOW_PLAN`
-- `TWIST_REVEAL_PLAN`
-- `CONTINUITY_CHECKLIST`
-- `THEME_MEANING_STATEMENT`
+- STEP: S2
+  GOAL: Execute NRR engines (KEY-only orchestration)
+  INPUTS: [WORK_SET_KEYS, TASK_TOKEN]
+  TARGETS: [NRR.NARRATIVE_LOGIC_NAV, NRR.STORY_STRUCTURE_NAV, NRR.DRAMATIC_ARC_NAV, NRR.SCENE_CONSTRUCTION_NAV, NRR.PACING_RHYTHM_NAV, NRR.TENSION_STAKES_NAV, NRR.FORESHADOWING_NAV, NRR.TWIST_REVEAL_NAV, NRR.NARRATIVE_CONTINUITY_NAV, NRR.THEME_MEANING_NAV]
+  ACTIONS:
+    - Resolve and open only keys present in WORK_SET_KEYS
+    - Canonical order when multiple:
+      1) NRR.NARRATIVE_LOGIC_NAV
+      2) NRR.STORY_STRUCTURE_NAV
+      3) NRR.DRAMATIC_ARC_NAV
+      4) NRR.SCENE_CONSTRUCTION_NAV
+      5) NRR.PACING_RHYTHM_NAV
+      6) NRR.TENSION_STAKES_NAV
+      7) NRR.FORESHADOWING_NAV
+      8) NRR.TWIST_REVEAL_NAV
+      9) NRR.NARRATIVE_CONTINUITY_NAV
+      10) NRR.THEME_MEANING_NAV
+    - Produce NRR_OUTPUT_PACK (summary + outputs + checks + next-open keys)
+  OUTPUTS: [NRR_OUTPUT_PACK]
+  CHECKS: [QUALITY_GATE]
+  FAIL: UE.FAIL.GATE_FAIL
+  NEXT: "го"
 
-OUTPUT_TARGET (пока базовый, без привязки к будущим 02_STANDARDS):
-- `OUTPUT_TARGET: PROJECT_ARTIFACTS/<project>/NARRATIVE/<artifact_type>/...`
-
----
-
-## 4) TEMPLATES (CANON)
-ENGINE TEMPLATE:
-https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/02_DOMAIN_NARRATIVE_ENGINES/00__TEMPLATE__ENGINE__DOMAIN_NARRATIVE_ENGINES.md
-
-README TEMPLATE:
-https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/02_DOMAIN_NARRATIVE_ENGINES/00__TEMPLATE__README__DOMAIN_NARRATIVE_ENGINES.md
-
----
-
-## 5) MINIMUM FAMILY GATES (FAST)
-G1 — Contract: каждый движок имеет mini-contract (CONSUMES/PRODUCES/DEPENDS_ON/OUTPUT_TARGET).
-G2 — Boundary: каждый движок имеет IN/OUT + collision routing.
-G3 — Schemas: каждый PRODUCES имеет минимальную схему output (fields + validation).
-G4 — Non-duplication: никакой “монтажной” терминологии как owning-scope.
-
----
-
-## 6) DEPENDENCY BASELINE (DEFAULT)
-Нарративные движки обычно зависят от:
-- `01_CORE_ENGINES/*` (идентичность/состояние/жизненный цикл проекта/саги)
-
-Но зависимости должны быть **явными** и **минимальными**: если не нужно — `DEPENDS_ON: []`.
-
----
-
-## 7) CANON NOTE
-Семейство заполняется строго по номеру. Пропуск/перестановка = нарушение порядка канона.
-
---- END.
+- STEP: S3
+  GOAL: Emit NEXT_OPEN_KEYS
+  INPUTS: [NRR_OUTPUT_PACK]
+  TARGETS: [INDEX_MANIFEST]
+  ACTIONS:
+    - Output NEXT_OPEN_KEYS list (KEYS only) for follow-up steps
+  OUTPUTS: [NEXT_OPEN_KEYS]
+  CHECKS: [OUTPUT_PRESENT]
+  FAIL: UE.FAIL.OUTPUT_MISSING
+  NEXT: "го"

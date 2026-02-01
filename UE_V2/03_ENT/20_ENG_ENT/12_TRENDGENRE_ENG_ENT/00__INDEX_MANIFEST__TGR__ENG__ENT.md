@@ -1,33 +1,199 @@
-# 00__INDEX__12_TREND_GENRE_ENGINES
-
-SCOPE: Universe Engine  
-DOC_TYPE: INDEX (FOLDER)  
-STATUS: DRAFT (AUTO-GENERATED)  
-DATE: 2026-01-21  
-FOLDER: 03_SYSTEM_ENTITIES/10_ENG__ENGINES/12_TREND_GENRE_ENGINES
+FILE: UE_V2/03_ENT/20_ENG_ENT/12_TRENDGENRE_ENG_ENT/00__INDEX_MANIFEST__TGR__ENG__ENT.md
+SCOPE: UE_V2 / 03_ENT / 20_ENG_ENT / 12_TRENDGENRE_ENG_ENT
+DOC_TYPE: INDEX_MANIFEST
+DOMAIN: TGR_ENG
+UID: UE.V2.ENT.ENG.TGR.INDEX_MANIFEST.001
+VERSION: 1.0.0
+STATUS: ACTIVE
+MODE: REPO (USAGE-ONLY, NO-EDIT)
+CREATED: 2026-01-31
+UPDATED: 2026-01-31
+OWNER: SYS
+NAV_RULE: RAW lives here only
 
 ---
 
-## PURPOSE
-Быстрая навигация по содержимому папки `03_SYSTEM_ENTITIES/10_ENG__ENGINES/12_TREND_GENRE_ENGINES`.
+## [M] PURPOSE
+INDEX_MANIFEST — “таблица адресов” и кратких смыслов для реалма TRENDGENRE_ENG_ENT (TGR).
+Хранит RAW и машинные паспорта TGR-движков. Без длинных объяснений.
 
-## NAV RULES (NO-LINK MODE)
-- Не использовать кликабельные ссылки на индексы (политика репо).
-- Указывать только имена файлов/папок или пути текстом.
-- Этот файл — “карта”, а не каталог со ссылками.
+## [M] HARD_RULES
+- RAW ссылки допускаются только тут (и в ROOT LINK BASE / START по закону системы).
+- Любая навигация по реалму: KEY -> resolve RAW here -> open.
+- PIPELINE_CONTRACT ссылается только на KEY.
+- SELF запись обязательна.
+- Не обходить через PATH при наличии RAW (PATH хранится как справка).
+- NO GUESSING: для движков RAW заполняем только после фиксации кнопкой Raw (иначе GAP).
 
-## WHAT LIVES HERE
-- (Заполни кратко: что за папка, какие сущности/доки тут лежат, зачем.)
+## [M] INDEX_CONTEXT
+- REALM_ID: UE_V2/03_ENT/20_ENG_ENT/12_TRENDGENRE_ENG_ENT
+- FOLDER_NAME: 12_TRENDGENRE_ENG_ENT
+- INDEX_SCOPE_TAGS: [ENT, ENG, TGR]
 
-## ENTRYPOINTS
-- (Заполни: какой файл читать первым, какие 2–3 ключевых дока.)
+## [M] KEYSPACE
+KEY_FORMAT: TGR.
+RESOLUTION_RULE: KEY -> RAW берётся только из ENTRIES ниже
 
-## CONTENTS SNAPSHOT
-### Files
-- (перечень файлов, 1 строка = 1 файл)
+## [M] ENTRY_SCHEMA (v1)
+- KEY: <UNIQUE_KEY>
+  UID: <OPTIONAL_UID>
+  KIND: FILE|FOLDER|ENTITY|PIPE|KB|REG|XREF|LOG|STD|LAW|TPL
+  ROLE: <ONE_LINE_ROLE>
+  DESC: <ONE_LINE_DESC>
+  RAW: <RAW_URL_OR_EMPTY>
+  PATH: <REPO_PATH_OR_EMPTY>
+  MARKERS: [MUST_LOAD, ROUTER, NAV, ...]
+  STATUS: ACTIVE|DRAFT|DEPRECATED
+  OWNER: SYS|RUNTIME|USER|<TEAM>
+  UPDATED: 0000-00-00
 
-### Subfolders
-- (перечень подпапок, 1 строка = 1 папка)
+## [M] ENTRIES
 
-## NOTES / TODO
-- (что добавить/проверить/нормализовать)
+### [M] SELF
+- KEY: SELF
+  UID: UE.V2.ENT.ENG.TGR.INDEX_MANIFEST.001
+  KIND: FILE
+  ROLE: Self pointer for deterministic nav
+  DESC: This index-manifest file for TRENDGENRE_ENG_ENT
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/20_ENG_ENT/12_TRENDGENRE_ENG_ENT/00__INDEX_MANIFEST__TGR__ENG__ENT.md
+  PATH: UE_V2/03_ENT/20_ENG_ENT/12_TRENDGENRE_ENG_ENT/00__INDEX_MANIFEST__TGR__ENG__ENT.md
+  MARKERS: [INDEX, SELF]
+  STATUS: ACTIVE
+  OWNER: SYS
+  UPDATED: 2026-01-31
+
+### [M] REQUIRED (minimum for realm)
+- KEY: INDEX_MANIFEST
+  UID: UE.V2.ENT.ENG.TGR.INDEX_MANIFEST.001
+  KIND: FILE
+  ROLE: Address table for realm
+  DESC: Raw addresses + short meaning for TGR engines
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/20_ENG_ENT/12_TRENDGENRE_ENG_ENT/00__INDEX_MANIFEST__TGR__ENG__ENT.md
+  PATH: UE_V2/03_ENT/20_ENG_ENT/12_TRENDGENRE_ENG_ENT/00__INDEX_MANIFEST__TGR__ENG__ENT.md
+  MARKERS: [INDEX, MUST_LOAD]
+  STATUS: ACTIVE
+  OWNER: SYS
+  UPDATED: 2026-01-31
+
+- KEY: PIPELINE_CONTRACT
+  UID: UE.V2.ENT.ENG.TGR.PIPELINE_CONTRACT.001
+  KIND: PIPE
+  ROLE: Realm step-run navigator
+  DESC: KEY-only contract; resolves targets via this INDEX_MANIFEST
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/20_ENG_ENT/12_TRENDGENRE_ENG_ENT/00__PIPELINE_CONTRACT__TGR__ENG__ENT.md
+  PATH: UE_V2/03_ENT/20_ENG_ENT/12_TRENDGENRE_ENG_ENT/00__PIPELINE_CONTRACT__TGR__ENG__ENT.md
+  MARKERS: [PIPE, MUST_LOAD, ROUTER]
+  STATUS: ACTIVE
+  OWNER: SYS
+  UPDATED: 2026-01-31
+
+### [O] CONTENT (TGR engines)
+# RULE: RAW for engines must be copied from each file “Raw” button (no guessing).
+# Until RAW is fixed -> keep RAW empty and MARKERS include GAP.
+
+- KEY: TGR.GENRE_TAXONOMY
+  UID:
+  KIND: ENTITY
+  ROLE: Genre taxonomy engine
+  DESC: Defines/queries genre taxonomy; emits GENRE_TAXONOMY_TOKEN
+  RAW:
+  PATH: UE_V2/03_ENT/20_ENG_ENT/12_TRENDGENRE_ENG_ENT/01__TGR__GENRE_TAXONOMY__ENG__ENT.md
+  MARKERS: [ENG, TGR, TAXONOMY, GAP]
+  STATUS: DRAFT
+  OWNER: SYS
+  UPDATED: 2026-01-31
+
+- KEY: TGR.FUSION_RECIPE
+  UID:
+  KIND: ENTITY
+  ROLE: Fusion recipe engine
+  DESC: Builds fusion recipes from taxonomy; emits FUSION_RECIPE_PACK
+  RAW:
+  PATH: UE_V2/03_ENT/20_ENG_ENT/12_TRENDGENRE_ENG_ENT/02__TGR__FUSION_RECIPE__ENG__ENT.md
+  MARKERS: [ENG, TGR, RECIPE, GAP]
+  STATUS: DRAFT
+  OWNER: SYS
+  UPDATED: 2026-01-31
+
+- KEY: TGR.STYLE_FINGERPRINT
+  UID:
+  KIND: ENTITY
+  ROLE: Style fingerprint engine
+  DESC: Extracts style fingerprint features; emits STYLE_FINGERPRINT_TOKEN
+  RAW:
+  PATH: UE_V2/03_ENT/20_ENG_ENT/12_TRENDGENRE_ENG_ENT/03__TGR__STYLE_FINGERPRINT__ENG__ENT.md
+  MARKERS: [ENG, TGR, STYLE, GAP]
+  STATUS: DRAFT
+  OWNER: SYS
+  UPDATED: 2026-01-31
+
+- KEY: TGR.VIRAL_HOOK_BLUEPRINT
+  UID:
+  KIND: ENTITY
+  ROLE: Viral hook blueprint engine
+  DESC: Defines viral hook patterns; emits VIRAL_HOOK_BLUEPRINT_PACK
+  RAW:
+  PATH: UE_V2/03_ENT/20_ENG_ENT/12_TRENDGENRE_ENG_ENT/04__TGR__VIRAL_HOOK_BLUEPRINT__ENG__ENT.md
+  MARKERS: [ENG, TGR, HOOK, VIRAL, GAP]
+  STATUS: DRAFT
+  OWNER: SYS
+  UPDATED: 2026-01-31
+
+- KEY: TGR.UGC_MOMENT_MAP
+  UID:
+  KIND: ENTITY
+  ROLE: UGC moment map engine
+  DESC: Maps UGC moment triggers; emits UGC_MOMENT_MAP_TOKEN
+  RAW:
+  PATH: UE_V2/03_ENT/20_ENG_ENT/12_TRENDGENRE_ENG_ENT/05__TGR__UGC_MOMENT_MAP__ENG__ENT.md
+  MARKERS: [ENG, TGR, UGC, MAP, GAP]
+  STATUS: DRAFT
+  OWNER: SYS
+  UPDATED: 2026-01-31
+
+- KEY: TGR.EARWORM_HOOK_STACK
+  UID:
+  KIND: ENTITY
+  ROLE: Earworm hook stack engine
+  DESC: Builds earworm hook stack; emits EARWORM_HOOK_STACK_PACK
+  RAW:
+  PATH: UE_V2/03_ENT/20_ENG_ENT/12_TRENDGENRE_ENG_ENT/06__TGR__EARWORM_HOOK_STACK__ENG__ENT.md
+  MARKERS: [ENG, TGR, HOOK, EARWORM, GAP]
+  STATUS: DRAFT
+  OWNER: SYS
+  UPDATED: 2026-01-31
+
+- KEY: TGR.PROMPT_COMPILER
+  UID:
+  KIND: ENTITY
+  ROLE: Prompt compiler engine
+  DESC: Compiles prompts from TGR tokens; emits PROMPT_COMPILER_OUTPUT
+  RAW:
+  PATH: UE_V2/03_ENT/20_ENG_ENT/12_TRENDGENRE_ENG_ENT/07__TGR__PROMPT_COMPILER__ENG__ENT.md
+  MARKERS: [ENG, TGR, PROMPT, GAP]
+  STATUS: DRAFT
+  OWNER: SYS
+  UPDATED: 2026-01-31
+
+---
+
+## [M] LOAD_HINTS
+MIN_SET_KEYS:
+- INDEX_MANIFEST
+- PIPELINE_CONTRACT
+
+OPTIONAL_KEYS:
+- TGR.GENRE_TAXONOMY
+- TGR.FUSION_RECIPE
+- TGR.STYLE_FINGERPRINT
+- TGR.VIRAL_HOOK_BLUEPRINT
+- TGR.UGC_MOMENT_MAP
+- TGR.EARWORM_HOOK_STACK
+- TGR.PROMPT_COMPILER
+
+## [M] GUARDS
+STOP_IF:
+- RAW missing for any MIN_SET_KEYS
+GAP_IF:
+- requested KEY not present in ENTRIES
+- any engine RAW not fixed yet (expected during build)

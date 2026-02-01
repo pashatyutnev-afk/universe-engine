@@ -1,96 +1,119 @@
-# NAMING / IDENTITY ENGINES — REALM (README)
-FILE: 03_SYSTEM_ENTITIES/10_ENG__ENGINES/14_NAMING_IDENTITY_ENGINES/00__README__NAMING_IDENTITY_ENGINES.md
-
-SCOPE: Universe Engine
-LAYER: 03_SYSTEM_ENTITIES
-ENTITY_GROUP: ENGINES (ENG)
-ENGINE_FAMILY: 14_NAMING_IDENTITY_ENGINES
-DOC_TYPE: README
-README_TYPE: REALM
-LEVEL: L3
-STATUS: ACTIVE
-LOCK: FIXED
+FILE: UE_V2/03_ENT/20_ENG_ENT/14_NAMINGIDENTITY_ENG_ENT/00__PIPELINE_CONTRACT__NID__ENG__ENT.md
+SCOPE: UE_V2 / 03_ENT / 20_ENG_ENT / 14_NAMINGIDENTITY_ENG_ENT
+DOC_TYPE: PIPELINE_CONTRACT
+DOMAIN: NID_ENG
+UID: UE.V2.ENT.ENG.NID.PIPELINE_CONTRACT.001
 VERSION: 1.0.0
-UID: UE.ENG.REALM.NAMING_IDENTITY.001
-OWNER: SYSTEM
-ROLE: Operational entrypoint for naming and identity: naming brief, name generation, collision control,
-and platform-format titles for group/album/track/release.
-
-CHANGE_NOTE:
-- DATE: 2026-01-12
-- TYPE: MAJOR
-- SUMMARY: "Created realm README for 14_NAMING_IDENTITY_ENGINES: scope, pipeline order, and RAW-only navigation."
-- REASON: "Without naming system, releases collide and platforms become inconsistent."
-- IMPACT: "Deterministic titles + safer releases + higher catalog clarity."
-- CHANGE_ID: UE.CHG.2026-01-12.ENG.REALM.NAMING_IDENTITY.001
+STATUS: ACTIVE
+MODE: REPO (USAGE-ONLY, NO-EDIT)
+CREATED: 2026-01-31
+UPDATED: 2026-01-31
+OWNER: SYS
+NAV_RULE: Contract has no RAW
 
 ---
 
-## 0) PURPOSE (LAW)
-This realm standardizes naming so that:
-- names are consistent with Group DNA / Album Blueprint / Track Intent
-- names do not collide inside catalog memory
-- titles comply with platform formatting rules (YouTube / Spotify / TikTok etc.)
-- the system can produce “safe fallback titles” when collisions occur
+## [M] PURPOSE
+PIPELINE_CONTRACT — навигатор действий для реалма NAMINGIDENTITY_ENG_ENT (NID).
+Не хранит RAW-адреса. Работает через KEY и резолвит адреса в INDEX_MANIFEST.
 
----
+## [M] HARD_RULES
+- Запрещено хранить RAW внутри CONTRACT.
+- Все обращения: TARGET_KEY -> resolve via INDEX_MANIFEST -> open.
+- Выполнение по STEP-RUN: один шаг = одна пачка действий.
+- Каждый шаг должен выдавать NEXT_PROMPT: "го" или FAIL_CODE.
+- Минимальная загрузка: INDEX_MANIFEST + 1–3 target engine.
 
-## 1) SCOPE & BOUNDARIES
+## [M] REQUIRED_KEYS (must exist in INDEX_MANIFEST)
+- INDEX_MANIFEST
+- PIPELINE_CONTRACT
+- NID.NAMING_BRIEF
+- NID.NAMING_GENERATION
+- NID.NAMING_COLLISION
+- NID.PLATFORM_FORMAT_TITLES
+- NID.SERIES_NAMING
 
-### In scope
-- Naming briefs (what the name must signal)
-- Name generation (candidate lists)
-- Collision checking (within group + global optional)
-- Platform formatting (title patterns per platform)
+## [M] CONTRACT_HEADER
+- REALM_ID: UE_V2/03_ENT/20_ENG_ENT/14_NAMINGIDENTITY_ENG_ENT
+- DOMAIN: NID_ENG
+- ARTIFACT_TYPES: [INDEX, PIPE, ENTITY, TOKEN_PACK]
+- DEFAULT_MODE: FAST
 
-### Out of scope
-- Genre theory and hook engineering → `12_TREND_GENRE_ENGINES`
-- Release packaging (variants, metadata) → `11_MUSIC_FACTORY_ENGINES/06__RELEASE_PACK_ENG`
-- Enforcement thresholds/laws → CTL/VAL/QA (naming collision validator exists there)
+## [M] EXEC_MODEL
+1) Resolve INDEX_MANIFEST via KEY: INDEX_MANIFEST
+2) Validate REQUIRED_KEYS exist (or downgrade to GAP)
+3) Build WORK_SET_KEYS (KEYS only)
+4) Run steps sequentially (STEP-RUN)
+5) Output NID_OUTPUT_PACK + NEXT "го"
 
----
+## [M] STEP-RUN (canonical)
+- STEP: S<n>
+  GOAL: <one line>
+  INPUTS: [<tokens>]
+  TARGETS: [<KEYS_ONLY>]
+  ACTIONS:
+    - <imperative action>
+  OUTPUTS: [<tokens/artifacts>]
+  CHECKS: [<gates>]
+  FAIL: <FAIL_CODE_IF_ANY>
+  NEXT: "го"
 
-## 2) PIPELINE ORDER (LAW)
-Engines must be applied in this order unless a controller overrides:
+## [M] STEPS
 
-01 — Naming Brief Engine  
-02 — Naming Generation Engine  
-03 — Naming Collision Engine  
-04 — Platform Format Titles Engine  
-05 — Series Naming Engine (optional, if you run series)
+- STEP: S0
+  GOAL: Entry sanity and task framing
+  INPUTS: [TASK_TEXT, MODE_HINT?]
+  TARGETS: [INDEX_MANIFEST]
+  ACTIONS:
+    - Ensure TASK_TEXT exists, else FAIL
+    - Decide EXEC_MODE using MODE_HINT or DEFAULT_MODE
+  OUTPUTS: [TASK_TOKEN, EXEC_MODE]
+  CHECKS: [TASK_PRESENT]
+  FAIL: UE.FAIL.INPUT_ABSENT
+  NEXT: "го"
 
----
+- STEP: S1
+  GOAL: Build minimal NID work set
+  INPUTS: [TASK_TOKEN]
+  TARGETS: [INDEX_MANIFEST, PIPELINE_CONTRACT]
+  ACTIONS:
+    - Validate REQUIRED_KEYS exist in INDEX_MANIFEST ENTRIES
+    - Select WORK_SET_KEYS based on TASK_TOKEN:
+      - Always include NID.NAMING_BRIEF
+      - Include NID.NAMING_GENERATION if needs candidates
+      - Include NID.NAMING_COLLISION if needs filtering
+      - Include NID.PLATFORM_FORMAT_TITLES if platform formatting requested
+      - Include NID.SERIES_NAMING if series/season naming requested
+  OUTPUTS: [WORK_SET_KEYS]
+  CHECKS: [REQUIRED_KEYS_OK]
+  FAIL: UE.FAIL.MISSING_KEY
+  NEXT: "го"
 
-## 3) OUTPUT TYPES
-- NAMING_BRIEF (NB)
-- NAME_CANDIDATES (NC)
-- COLLISION_REPORT (NCR)
-- PLATFORM_TITLES_PACK (PTP)
-- SERIES_RULES_PACK (SRP)
+- STEP: S2
+  GOAL: Execute NID engines (KEY-only orchestration)
+  INPUTS: [WORK_SET_KEYS, TASK_TOKEN]
+  TARGETS: [NID.NAMING_BRIEF, NID.NAMING_GENERATION, NID.NAMING_COLLISION, NID.PLATFORM_FORMAT_TITLES, NID.SERIES_NAMING]
+  ACTIONS:
+    - Resolve and open only keys present in WORK_SET_KEYS
+    - Run in canonical order:
+      1) NID.NAMING_BRIEF (constraints + target)
+      2) NID.NAMING_GENERATION (variants)
+      3) NID.NAMING_COLLISION (filter)
+      4) NID.PLATFORM_FORMAT_TITLES (normalize)
+      5) NID.SERIES_NAMING (if needed)
+    - Produce NID_OUTPUT_PACK (summary + final set + checks + next keys)
+  OUTPUTS: [NID_OUTPUT_PACK]
+  CHECKS: [QUALITY_GATE]
+  FAIL: UE.FAIL.GATE_FAIL
+  NEXT: "го"
 
----
-
-## 4) NAV (RAW LINKS)
-
-01 — Naming Brief Engine  
-RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/14_NAMING_IDENTITY_ENGINES/01__NAMING_BRIEF_ENG.md
-
-02 — Naming Generation Engine  
-RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/14_NAMING_IDENTITY_ENGINES/02__NAMING_GENERATION_ENG.md
-
-03 — Naming Collision Engine  
-RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/14_NAMING_IDENTITY_ENGINES/03__NAMING_COLLISION_ENG.md
-
-04 — Platform Format Titles Engine  
-RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/14_NAMING_IDENTITY_ENGINES/04__PLATFORM_FORMAT_TITLES_ENG.md
-
-05 — Series Naming Engine  
-RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/14_NAMING_IDENTITY_ENGINES/05__SERIES_NAMING_ENG.md
-
----
-
-## FINAL RULE (LOCK)
-OWNER: SYSTEM
-LOCK: FIXED
-
---- END.
+- STEP: S3
+  GOAL: Emit next-open keys for handoff
+  INPUTS: [NID_OUTPUT_PACK]
+  TARGETS: [INDEX_MANIFEST]
+  ACTIONS:
+    - Output NEXT_OPEN_KEYS list (KEYS only) for follow-up steps
+  OUTPUTS: [NEXT_OPEN_KEYS]
+  CHECKS: [OUTPUT_PRESENT]
+  FAIL: UE.FAIL.OUTPUT_MISSING
+  NEXT: "го"

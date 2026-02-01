@@ -1,204 +1,125 @@
-# ENGINE TEMPLATE — GENRE & STYLE ENGINES (ENG) — CANON FILE: 03_SYSTEM_ENTITIES/10_ENG__ENGINES/06_GENRE_STYLE_ENGINES/00__TEMPLATE__ENGINE__GENRE_STYLE_ENGINES.md
-SCOPE: Universe Engine
-LAYER: 03_SYSTEM_ENTITIES
-ENTITY_GROUP: ENGINES (ENG)
-DOC_TYPE: TEMPLATE
-TEMPLATE_TYPE: ENGINE
-FAMILY: 06_GENRE_STYLE_ENGINES
-CLASS: STYLE (L3)
-LEVEL: L3
-STATUS: ACTIVE
-LOCK: FIXED
+FILE: UE_V2/03_ENT/20_ENG_ENT/06_GENRESTYLE_ENG_ENT/00__PIPELINE_CONTRACT__GST__ENG__ENT.md
+SCOPE: UE_V2 / 03_ENT / 20_ENG_ENT / 06_GENRESTYLE_ENG_ENT
+DOC_TYPE: PIPELINE_CONTRACT
+DOMAIN: GST_ENG
+UID: UE.V2.ENT.ENG.GST.PIPELINE_CONTRACT.001
 VERSION: 1.0.0
-UID: UE.TPL.ENG.STYLE.ENGINE.001
-OWNER: SYSTEM
-ROLE: Stamp template for any Engine inside 06_GENRE_STYLE_ENGINES. Enforces ENG ruleset gates: mini-contract, boundaries, output schemas, blockers, integration.
-
-CHANGE_NOTE:
-- DATE: 2026-01-08
-- TYPE: MAJOR
-- SUMMARY: "Created canonical engine template for 06_GENRE_STYLE_ENGINES: deterministic structure + gates + schema requirements."
-- REASON: "Stamping requires strict uniform file skeleton."
-- IMPACT: "All style engines become comparable, auditable, and non-overlapping."
-- CHANGE_ID: UE.CHG.2026-01-08.TPL.STYLE.ENGINE.001
+STATUS: ACTIVE
+MODE: REPO (USAGE-ONLY, NO-EDIT)
+CREATED: 2026-01-31
+UPDATED: 2026-01-31
+OWNER: SYS
+NAV_RULE: Contract has no RAW
 
 ---
 
-## HOW TO USE (STAMP RULE)
-1) Copy this template into a new engine file:
-   `NN__<ENGINE_NAME>_ENG.md` inside `06_GENRE_STYLE_ENGINES/`
-2) Replace all `<PLACEHOLDERS>` with concrete values.
-3) Ensure MINI-CONTRACT is concrete (no vague artifacts).
-4) Ensure BOUNDARIES are explicit (IN/OUT + collision rule).
-5) Ensure every PRODUCES has a minimal output schema in section 6.
-6) Run Gates mentally: G0..G4. If any FAIL → file is INCOMPLETE.
+## [M] PURPOSE
+PIPELINE_CONTRACT — навигатор действий для реалма GENRESTYLE_ENG_ENT (GST).
+Не хранит RAW-адреса. Работает через KEY и резолвит адреса в INDEX_MANIFEST.
 
----
+## [M] HARD_RULES
+- No RAW inside CONTRACT.
+- Все обращения: TARGET_KEY -> resolve via INDEX_MANIFEST -> open.
+- STEP-RUN: один шаг = одна пачка действий.
+- Каждый шаг выдаёт NEXT_PROMPT: "го" или FAIL_CODE.
+- Минимальная загрузка: INDEX_MANIFEST + 1–3 engine targets.
 
-# <ENGINE TITLE> ENGINE (ENG) — CANON FILE: 03_SYSTEM_ENTITIES/10_ENG__ENGINES/06_GENRE_STYLE_ENGINES/<NN__ENGINE_NAME_ENG.md>
-SCOPE: Universe Engine
-LAYER: 03_SYSTEM_ENTITIES
-ENTITY_GROUP: ENGINES (ENG)
-DOC_TYPE: ENGINE
-FAMILY: 06_GENRE_STYLE_ENGINES
-CLASS: STYLE (L3)
-LEVEL: L3
-STATUS: <DRAFT|ACTIVE|DEPRECATED|ARCHIVED>
-LOCK: <OPEN|FIXED>
-VERSION: <X.Y.Z>
-UID: <UE.ENG.STYLE.<ENGINE>.NNN>
-OWNER: <SYSTEM|TEAM|PERSON>
-ROLE: <One-sentence: what this engine does deterministically + what primitive it owns.>
+## [M] REQUIRED_KEYS (must exist in INDEX_MANIFEST)
+- INDEX_MANIFEST
+- PIPELINE_CONTRACT
+# engines may be GAP while building (allowed):
+- GST.TONE_MOOD
+- GST.ATMOSPHERE
+- GST.EMOTIONAL_RESONANCE
+- GST.SYMBOLISM
+- GST.METAPHOR
+- GST.SENSORY_DETAIL
 
-CHANGE_NOTE:
-- DATE: <YYYY-MM-DD>
-- TYPE: <MAJOR|PATCH|HOTFIX>
-- SUMMARY: "<What changed>"
-- REASON: "<Why>"
-- IMPACT: "<System impact>"
-- CHANGE_ID: <UE.CHG.YYYY-MM-DD....>
+## [M] CONTRACT_HEADER
+- REALM_ID: UE_V2/03_ENT/20_ENG_ENT/06_GENRESTYLE_ENG_ENT
+- DOMAIN: GST_ENG
+- ARTIFACT_TYPES: [INDEX, PIPE, ENTITY, TOKEN_PACK, OUTPUT_PACK]
+- DEFAULT_MODE: FAST
 
----
+## [M] EXEC_MODEL
+1) Resolve INDEX_MANIFEST via KEY: INDEX_MANIFEST
+2) Validate REQUIRED_KEYS exist (missing engines -> GAP allowed during build)
+3) Build WORK_SET_KEYS (KEYS only)
+4) Run steps sequentially (STEP-RUN)
+5) Output GST_OUTPUT_PACK + NEXT "го"
 
-## 0) PURPOSE (LAW)
-<Define the owned STYLE primitive clearly: what it is, what it is not, and why the system needs it.>
-Hard rule:
-- MUST be operational and testable: “engine produces X given Y”.
+## [M] STEP-RUN (canonical)
+- STEP: S<n>
+  GOAL: <one line>
+  INPUTS: [<tokens>]
+  TARGETS: [<KEYS_ONLY>]
+  ACTIONS:
+    - <imperative action>
+  OUTPUTS: [<tokens/artifacts>]
+  CHECKS: [<gates>]
+  FAIL: <FAIL_CODE_IF_ANY>
+  NEXT: "го"
 
----
+## [M] STEPS
 
-## 1) NON-GOALS (HARD)
-This engine does NOT:
-- <List 4–8 explicit exclusions to prevent overlap.>
-- <Include collision notes to adjacent engines (tone vs atmosphere vs symbolism etc.).>
+- STEP: S0
+  GOAL: Entry sanity and task framing
+  INPUTS: [TASK_TEXT, MODE_HINT?]
+  TARGETS: [INDEX_MANIFEST]
+  ACTIONS:
+    - Ensure TASK_TEXT exists, else FAIL
+    - Decide EXEC_MODE using MODE_HINT or DEFAULT_MODE
+  OUTPUTS: [TASK_TOKEN, EXEC_MODE]
+  CHECKS: [TASK_PRESENT]
+  FAIL: UE.FAIL.INPUT_ABSENT
+  NEXT: "го"
 
----
+- STEP: S1
+  GOAL: Select GST work set (minimal opens)
+  INPUTS: [TASK_TOKEN]
+  TARGETS: [INDEX_MANIFEST, PIPELINE_CONTRACT]
+  ACTIONS:
+    - Resolve INDEX_MANIFEST via KEY: INDEX_MANIFEST
+    - Confirm REQUIRED_KEYS exist in ENTRIES
+    - Build WORK_SET_KEYS (KEYS only):
+      - tone/mood -> [GST.TONE_MOOD]
+      - atmosphere -> [GST.ATMOSPHERE]
+      - emotional resonance -> [GST.EMOTIONAL_RESONANCE]
+      - symbolism -> [GST.SYMBOLISM]
+      - metaphor -> [GST.METAPHOR]
+      - sensory detail -> [GST.SENSORY_DETAIL]
+      - full GST run -> [GST.TONE_MOOD, GST.ATMOSPHERE, GST.EMOTIONAL_RESONANCE, GST.SYMBOLISM, GST.METAPHOR, GST.SENSORY_DETAIL]
+  OUTPUTS: [WORK_SET_KEYS]
+  CHECKS: [REQUIRED_KEYS_OK]
+  FAIL: UE.FAIL.MISSING_KEY
+  NEXT: "го"
 
-## 2) MINI-CONTRACT (MANDATORY)
-CONSUMES:
-- <1..5 concrete input artifact types, example: EVENT_PACK, SCENE_PACK, CHARACTER_PROFILE, WORLD_LAWSET, STYLE_BRIEF>
-- <No vague words like idea/thing>
+- STEP: S2
+  GOAL: Execute GST engines (KEY-only orchestration)
+  INPUTS: [WORK_SET_KEYS, TASK_TOKEN]
+  TARGETS: [GST.TONE_MOOD, GST.ATMOSPHERE, GST.EMOTIONAL_RESONANCE, GST.SYMBOLISM, GST.METAPHOR, GST.SENSORY_DETAIL]
+  ACTIONS:
+    - Resolve and open only keys present in WORK_SET_KEYS
+    - Canonical order when multiple:
+      1) GST.TONE_MOOD
+      2) GST.ATMOSPHERE
+      3) GST.EMOTIONAL_RESONANCE
+      4) GST.SYMBOLISM
+      5) GST.METAPHOR
+      6) GST.SENSORY_DETAIL
+    - Produce GST_OUTPUT_PACK (summary + outputs + checks + next-open keys)
+  OUTPUTS: [GST_OUTPUT_PACK]
+  CHECKS: [QUALITY_GATE]
+  FAIL: UE.FAIL.GATE_FAIL
+  NEXT: "го"
 
-PRODUCES:
-- <1..5 concrete output artifact types, example: TONE_PROFILE, ATMOSPHERE_LAYER_SPEC, SYMBOL_MAP, SENSORY_DETAIL_BANK>
-- <Every produced artifact MUST have a schema in section 6>
-
-DEPENDS_ON:
-- [<engine pointers or []>]
-- <If depends on other families, list them. Hidden dependencies forbidden.>
-
-OUTPUT_TARGET:
-MANDATORY:
-- PROJECT_ARTIFACTS/<project>/<STYLE|GENRE>/...
-OPTIONAL:
-- KB/<...> (if mirrored)
-
-Rule:
-- If MINI-CONTRACT is vague → INVALID.
-
----
-
-## 3) DEFINITIONS (STRICT)
-- <Term 1>: <strict definition>
-- <Term 2>: <strict definition>
-- <Include any controlled vocabulary enums you introduce.>
-
----
-
-## 4) BOUNDARIES (ANTI-DUPLICATION)
-IN SCOPE:
-- <Bullets: what this engine owns>
-
-OUT OF SCOPE (HARD):
-- <Bullets: what it never does>
-
-COLLISION RULE:
-- If request is <X> → route to <Other Engine>
-- If request is <Y> → route to <Other Family>
-- <At least 3 collision rules; keep them precise.>
-
----
-
-## 5) RULESET (THE LAW)
-R1 (HARD) MUST: <testable rule>
-R2 (HARD) MUST: <testable rule>
-R3 (HARD) FORBIDDEN: <what is not allowed>
-R4 (SOFT) SHOULD: <quality rule>
-R5 (HARD) MUST: <validation rule>
-
-Allowed enums (if any):
-- <ENUM_NAME>: {<A|B|C>}
-
----
-
-## 6) REQUIRED OUTPUT SCHEMAS (MINIMUM)
-> For EACH item in PRODUCES define one artifact schema block.
-
-ARTIFACT: <ARTIFACT_NAME_1>
-- MUST:
-  - <field>
-  - <field>
-- OPTIONAL:
-  - <field>
-- VALIDATION:
-  - <checks that make it deterministic>
-- STORAGE:
-  - PROJECT_ARTIFACTS/<project>/<path>/<file>
-
----
-
-ARTIFACT: <ARTIFACT_NAME_2>
-- MUST:
-  - <field>
-- OPTIONAL:
-  - <field>
-- VALIDATION:
-  - <checks>
-- STORAGE:
-  - PROJECT_ARTIFACTS/<project>/<path>/<file>
-
----
-
-## 7) PIPELINE (DETERMINISTIC)
-1) <Step 1: load inputs>
-2) <Step 2: transform>
-3) <Step 3: validate>
-4) <Step 4: emit outputs>
-
-Notes:
-- No “magic”: each step must be reproducible from inputs.
-
----
-
-## 8) S0 BLOCKERS (STOP)
-- S0-1: <hard fail condition>
-- S0-2: <hard fail condition>
-- S0-3: <hard fail condition>
-- S0-4: <hard fail condition>
-- S0-5: <hard fail condition>
-
-If any S0 triggers → output is INVALID.
-
----
-
-## 9) INTEGRATION (SYSTEM FIT)
-Upstream (typical):
-- <engines that provide inputs>
-
-Downstream (typical):
-- <engines that consume outputs>
-
-Compatibility notes:
-- <How to avoid overlap and enforce collision rules.>
-
----
-
-## 10) REFERENCES (RAW ONLY) (OPTIONAL)
-- Family README:
-  06_GENRE_STYLE_ENGINES/00__README__GENRE_STYLE_ENGINES.md
-- Family template:
-  06_GENRE_STYLE_ENGINES/00__TEMPLATE__ENGINE__GENRE_STYLE_ENGINES.md
-
---- END.
-
-LOCK: <OPEN|FIXED>
+- STEP: S3
+  GOAL: Emit NEXT_OPEN_KEYS
+  INPUTS: [GST_OUTPUT_PACK]
+  TARGETS: [INDEX_MANIFEST]
+  ACTIONS:
+    - Output NEXT_OPEN_KEYS list (KEYS only) for follow-up steps
+  OUTPUTS: [NEXT_OPEN_KEYS]
+  CHECKS: [OUTPUT_PRESENT]
+  FAIL: UE.FAIL.OUTPUT_MISSING
+  NEXT: "го"

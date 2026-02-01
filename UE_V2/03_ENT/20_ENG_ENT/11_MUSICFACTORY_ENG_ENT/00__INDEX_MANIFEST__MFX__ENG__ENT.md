@@ -1,33 +1,225 @@
-# 00__INDEX__11_MUSIC_FACTORY_ENGINES
-
-SCOPE: Universe Engine  
-DOC_TYPE: INDEX (FOLDER)  
-STATUS: DRAFT (AUTO-GENERATED)  
-DATE: 2026-01-21  
-FOLDER: 03_SYSTEM_ENTITIES/10_ENG__ENGINES/11_MUSIC_FACTORY_ENGINES
+FILE: UE_V2/03_ENT/20_ENG_ENT/11_MUSICFACTORY_ENG_ENT/00__INDEX_MANIFEST__MFX__ENG__ENT.md
+SCOPE: UE_V2 / 03_ENT / 20_ENG_ENT / 11_MUSICFACTORY_ENG_ENT
+DOC_TYPE: INDEX_MANIFEST
+DOMAIN: MFX_ENG
+UID: UE.V2.ENT.ENG.MFX.INDEX_MANIFEST.001
+VERSION: 1.0.0
+STATUS: ACTIVE
+MODE: REPO (USAGE-ONLY, NO-EDIT)
+CREATED: 2026-01-31
+UPDATED: 2026-01-31
+OWNER: SYS
+NAV_RULE: RAW lives here only
 
 ---
 
-## PURPOSE
-Быстрая навигация по содержимому папки `03_SYSTEM_ENTITIES/10_ENG__ENGINES/11_MUSIC_FACTORY_ENGINES`.
+## [M] PURPOSE
+INDEX_MANIFEST — “таблица адресов” и кратких смыслов для реалма MUSICFACTORY_ENG_ENT (MFX).
+Хранит RAW и машинные паспорта MFX-движков. Без длинных объяснений.
 
-## NAV RULES (NO-LINK MODE)
-- Не использовать кликабельные ссылки на индексы (политика репо).
-- Указывать только имена файлов/папок или пути текстом.
-- Этот файл — “карта”, а не каталог со ссылками.
+## [M] HARD_RULES
+- RAW ссылки допускаются только тут (и в ROOT LINK BASE / START по закону системы).
+- Любая навигация по реалму: KEY -> resolve RAW here -> open.
+- PIPELINE_CONTRACT ссылается только на KEY.
+- SELF запись обязательна.
+- Не обходить через PATH при наличии RAW (PATH хранится как справка).
+- NO GUESSING: для движков RAW заполняем только после фиксации кнопкой Raw (иначе GAP).
 
-## WHAT LIVES HERE
-- (Заполни кратко: что за папка, какие сущности/доки тут лежат, зачем.)
+## [M] INDEX_CONTEXT
+- REALM_ID: UE_V2/03_ENT/20_ENG_ENT/11_MUSICFACTORY_ENG_ENT
+- FOLDER_NAME: 11_MUSICFACTORY_ENG_ENT
+- INDEX_SCOPE_TAGS: [ENT, ENG, MFX]
 
-## ENTRYPOINTS
-- (Заполни: какой файл читать первым, какие 2–3 ключевых дока.)
+## [M] KEYSPACE
+KEY_FORMAT: MFX.
+RESOLUTION_RULE: KEY -> RAW берётся только из ENTRIES ниже
 
-## CONTENTS SNAPSHOT
-### Files
-- (перечень файлов, 1 строка = 1 файл)
+## [M] ENTRY_SCHEMA (v1)
+- KEY: <UNIQUE_KEY>
+  UID: <OPTIONAL_UID>
+  KIND: FILE|FOLDER|ENTITY|PIPE|KB|REG|XREF|LOG|STD|LAW|TPL
+  ROLE: <ONE_LINE_ROLE>
+  DESC: <ONE_LINE_DESC>
+  RAW: <RAW_URL_OR_EMPTY>
+  PATH: <REPO_PATH_OR_EMPTY>
+  MARKERS: [MUST_LOAD, ROUTER, NAV, ...]
+  STATUS: ACTIVE|DRAFT|DEPRECATED
+  OWNER: SYS|RUNTIME|USER|<TEAM>
+  UPDATED: 0000-00-00
 
-### Subfolders
-- (перечень подпапок, 1 строка = 1 папка)
+## [M] ENTRIES
 
-## NOTES / TODO
-- (что добавить/проверить/нормализовать)
+### [M] SELF
+- KEY: SELF
+  UID: UE.V2.ENT.ENG.MFX.INDEX_MANIFEST.001
+  KIND: FILE
+  ROLE: Self pointer for deterministic nav
+  DESC: This index-manifest file for MUSICFACTORY_ENG_ENT
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/20_ENG_ENT/11_MUSICFACTORY_ENG_ENT/00__INDEX_MANIFEST__MFX__ENG__ENT.md
+  PATH: UE_V2/03_ENT/20_ENG_ENT/11_MUSICFACTORY_ENG_ENT/00__INDEX_MANIFEST__MFX__ENG__ENT.md
+  MARKERS: [INDEX, SELF]
+  STATUS: ACTIVE
+  OWNER: SYS
+  UPDATED: 2026-01-31
+
+### [M] REQUIRED (minimum for realm)
+- KEY: INDEX_MANIFEST
+  UID: UE.V2.ENT.ENG.MFX.INDEX_MANIFEST.001
+  KIND: FILE
+  ROLE: Address table for realm
+  DESC: Raw addresses + short meaning for MFX engines
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/20_ENG_ENT/11_MUSICFACTORY_ENG_ENT/00__INDEX_MANIFEST__MFX__ENG__ENT.md
+  PATH: UE_V2/03_ENT/20_ENG_ENT/11_MUSICFACTORY_ENG_ENT/00__INDEX_MANIFEST__MFX__ENG__ENT.md
+  MARKERS: [INDEX, MUST_LOAD]
+  STATUS: ACTIVE
+  OWNER: SYS
+  UPDATED: 2026-01-31
+
+- KEY: PIPELINE_CONTRACT
+  UID: UE.V2.ENT.ENG.MFX.PIPELINE_CONTRACT.001
+  KIND: PIPE
+  ROLE: Realm step-run navigator
+  DESC: KEY-only contract; resolves targets via this INDEX_MANIFEST
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/20_ENG_ENT/11_MUSICFACTORY_ENG_ENT/00__PIPELINE_CONTRACT__MFX__ENG__ENT.md
+  PATH: UE_V2/03_ENT/20_ENG_ENT/11_MUSICFACTORY_ENG_ENT/00__PIPELINE_CONTRACT__MFX__ENG__ENT.md
+  MARKERS: [PIPE, MUST_LOAD, ROUTER]
+  STATUS: ACTIVE
+  OWNER: SYS
+  UPDATED: 2026-01-31
+
+### [O] CONTENT (MFX engines)
+# RULE: RAW for engines must be copied from each file “Raw” button (no guessing).
+# Until RAW is fixed -> keep RAW empty and MARKERS include GAP.
+
+- KEY: MFX.GROUP_FOUNDATION
+  UID:
+  KIND: ENTITY
+  ROLE: Group foundation engine
+  DESC: Defines group identity foundation; emits GROUP_FOUNDATION_TOKEN
+  RAW:
+  PATH: UE_V2/03_ENT/20_ENG_ENT/11_MUSICFACTORY_ENG_ENT/01__ENT__GROUP_FOUNDATION__ENG__ENT.md
+  MARKERS: [ENG, MFX, GROUP, GAP]
+  STATUS: DRAFT
+  OWNER: SYS
+  UPDATED: 2026-01-31
+
+- KEY: MFX.ARTIST_FACTORY
+  UID:
+  KIND: ENTITY
+  ROLE: Artist factory engine
+  DESC: Produces artist profiles and variants; emits ARTIST_FACTORY_PACK
+  RAW:
+  PATH: UE_V2/03_ENT/20_ENG_ENT/11_MUSICFACTORY_ENG_ENT/02__ENT__ARTIST_FACTORY__ENG__ENT.md
+  MARKERS: [ENG, MFX, ARTIST, GAP]
+  STATUS: DRAFT
+  OWNER: SYS
+  UPDATED: 2026-01-31
+
+- KEY: MFX.ALBUM_BLUEPRINT
+  UID:
+  KIND: ENTITY
+  ROLE: Album blueprint engine
+  DESC: Defines album concept/structure; emits ALBUM_BLUEPRINT_TOKEN
+  RAW:
+  PATH: UE_V2/03_ENT/20_ENG_ENT/11_MUSICFACTORY_ENG_ENT/03__ENT__ALBUM_BLUEPRINT__ENG__ENT.md
+  MARKERS: [ENG, MFX, ALBUM, GAP]
+  STATUS: DRAFT
+  OWNER: SYS
+  UPDATED: 2026-01-31
+
+- KEY: MFX.TRACK_FACTORY
+  UID:
+  KIND: ENTITY
+  ROLE: Track factory engine
+  DESC: Produces track batches; emits TRACK_FACTORY_PACK
+  RAW:
+  PATH: UE_V2/03_ENT/20_ENG_ENT/11_MUSICFACTORY_ENG_ENT/04__ENT__TRACK_FACTORY__ENG__ENT.md
+  MARKERS: [ENG, MFX, TRACK, GAP]
+  STATUS: DRAFT
+  OWNER: SYS
+  UPDATED: 2026-01-31
+
+- KEY: MFX.DURATION_STRATEGY
+  UID:
+  KIND: ENTITY
+  ROLE: Duration strategy engine
+  DESC: Sets duration targets/variants; emits DURATION_STRATEGY_TOKEN
+  RAW:
+  PATH: UE_V2/03_ENT/20_ENG_ENT/11_MUSICFACTORY_ENG_ENT/05__ENT__DURATION_STRATEGY__ENG__ENT.md
+  MARKERS: [ENG, MFX, DURATION, GAP]
+  STATUS: DRAFT
+  OWNER: SYS
+  UPDATED: 2026-01-31
+
+- KEY: MFX.RELEASE_PACK
+  UID:
+  KIND: ENTITY
+  ROLE: Release pack engine
+  DESC: Packages release assets/metadata; emits RELEASE_PACK_OUTPUT
+  RAW:
+  PATH: UE_V2/03_ENT/20_ENG_ENT/11_MUSICFACTORY_ENG_ENT/06__ENT__RELEASE_PACK__ENG__ENT.md
+  MARKERS: [ENG, MFX, RELEASE, OUTPUT, GAP]
+  STATUS: DRAFT
+  OWNER: SYS
+  UPDATED: 2026-01-31
+
+- KEY: MFX.CATALOG_COLLISION
+  UID:
+  KIND: ENTITY
+  ROLE: Catalog collision engine
+  DESC: Detects duplicates/collisions in catalog; emits CATALOG_COLLISION_REPORT
+  RAW:
+  PATH: UE_V2/03_ENT/20_ENG_ENT/11_MUSICFACTORY_ENG_ENT/07__ENT__CATALOG_COLLISION__ENG__ENT.md
+  MARKERS: [ENG, MFX, COLLISION, GAP]
+  STATUS: DRAFT
+  OWNER: SYS
+  UPDATED: 2026-01-31
+
+- KEY: MFX.NOVELTY_INJECTION
+  UID:
+  KIND: ENTITY
+  ROLE: Novelty injection engine
+  DESC: Injects novelty safely; emits NOVELTY_INJECTION_PLAN
+  RAW:
+  PATH: UE_V2/03_ENT/20_ENG_ENT/11_MUSICFACTORY_ENG_ENT/08__ENT__NOVELTY_INJECTION__ENG__ENT.md
+  MARKERS: [ENG, MFX, NOVELTY, GAP]
+  STATUS: DRAFT
+  OWNER: SYS
+  UPDATED: 2026-01-31
+
+- KEY: MFX.TAKE_LOG
+  UID:
+  KIND: ENTITY
+  ROLE: Take log engine
+  DESC: Logs takes/iterations; emits TAKE_LOG_ENTRY_PACK
+  RAW:
+  PATH: UE_V2/03_ENT/20_ENG_ENT/11_MUSICFACTORY_ENG_ENT/09__ENT__TAKE_LOG__ENG__ENT.md
+  MARKERS: [ENG, MFX, LOG, GAP]
+  STATUS: DRAFT
+  OWNER: SYS
+  UPDATED: 2026-01-31
+
+---
+
+## [M] LOAD_HINTS
+MIN_SET_KEYS:
+- INDEX_MANIFEST
+- PIPELINE_CONTRACT
+
+OPTIONAL_KEYS:
+- MFX.GROUP_FOUNDATION
+- MFX.ARTIST_FACTORY
+- MFX.ALBUM_BLUEPRINT
+- MFX.TRACK_FACTORY
+- MFX.DURATION_STRATEGY
+- MFX.RELEASE_PACK
+- MFX.CATALOG_COLLISION
+- MFX.NOVELTY_INJECTION
+- MFX.TAKE_LOG
+
+## [M] GUARDS
+STOP_IF:
+- RAW missing for any MIN_SET_KEYS
+GAP_IF:
+- requested KEY not present in ENTRIES
+- any engine RAW not fixed yet (expected during build)

@@ -1,155 +1,134 @@
-# MUSIC FACTORY ENGINES — REALM (README)
-FILE: 03_SYSTEM_ENTITIES/10_ENG__ENGINES/11_MUSIC_FACTORY_ENGINES/00__README__MUSIC_FACTORY_ENGINES.md
-
-SCOPE: Universe Engine
-LAYER: 03_SYSTEM_ENTITIES
-ENTITY_GROUP: ENGINES (ENG)
-ENGINE_FAMILY: 11_MUSIC_FACTORY_ENGINES
-DOC_TYPE: README
-LEVEL: L3
+FILE: UE_V2/03_ENT/20_ENG_ENT/11_MUSICFACTORY_ENG_ENT/00__PIPELINE_CONTRACT__MFX__ENG__ENT.md
+SCOPE: UE_V2 / 03_ENT / 20_ENG_ENT / 11_MUSICFACTORY_ENG_ENT
+DOC_TYPE: PIPELINE_CONTRACT
+DOMAIN: MFX_ENG
+UID: UE.V2.ENT.ENG.MFX.PIPELINE_CONTRACT.001
+VERSION: 1.0.0
 STATUS: ACTIVE
-LOCK: FIXED
-VERSION: 1.1.0
-UID: UE.ENG.MUS.REALM.MUSIC_FACTORY.001
-OWNER: SYSTEM
-ROLE: Defines the canonical “Music Factory” pipeline: group → artists → album → track → release pack,
-with memory/collision control and deterministic iteration.
-
-CHANGE_NOTE:
-- DATE: 2026-01-11
-- TYPE: MINOR
-- SUMMARY: "Added PIPELINE ORDER (LAW) + clarified roles of each engine; wired to Trend/Genre + Poet PD + CTL/VAL/QA."
-- REASON: "Operational music production must be deterministic and compatible with platform generation."
-- IMPACT: "Fewer repeats, stronger identity, cleaner iteration, better release readiness."
-- CHANGE_ID: UE.CHG.2026-01-11.ENG.MUS.REALM.MF.001
+MODE: REPO (USAGE-ONLY, NO-EDIT)
+CREATED: 2026-01-31
+UPDATED: 2026-01-31
+OWNER: SYS
+NAV_RULE: Contract has no RAW
 
 ---
 
-## 0) PURPOSE (LAW)
-This REALM defines how the system **mass-produces high-quality music** with:
-- stable group identity
-- controlled novelty
-- viral/UGC readiness
-- strict memory against repeats and collisions
-- prompt compatibility (Suno/Udio)
+## [M] PURPOSE
+PIPELINE_CONTRACT — навигатор действий для реалма MUSICFACTORY_ENG_ENT (MFX).
+Не хранит RAW-адреса. Работает через KEY и резолвит адреса в INDEX_MANIFEST.
 
----
+## [M] HARD_RULES
+- No RAW inside CONTRACT.
+- Все обращения: TARGET_KEY -> resolve via INDEX_MANIFEST -> open.
+- STEP-RUN: один шаг = одна пачка действий.
+- Каждый шаг выдаёт NEXT_PROMPT: "го" или FAIL_CODE.
+- Минимальная загрузка: INDEX_MANIFEST + 1–3 engine targets.
 
-## 1) SCOPE (BOUNDARIES)
-This family is responsible for **production flow** only:
-- creating/maintaining group → album → track artifacts
-- orchestrating “test → decide → document → release”
-- integrating hooks/genre fusion/poet corpus via dependencies
+## [M] REQUIRED_KEYS (must exist in INDEX_MANIFEST)
+- INDEX_MANIFEST
+- PIPELINE_CONTRACT
+# engines may be GAP while building (allowed):
+- MFX.GROUP_FOUNDATION
+- MFX.ARTIST_FACTORY
+- MFX.ALBUM_BLUEPRINT
+- MFX.TRACK_FACTORY
+- MFX.DURATION_STRATEGY
+- MFX.RELEASE_PACK
+- MFX.CATALOG_COLLISION
+- MFX.NOVELTY_INJECTION
+- MFX.TAKE_LOG
 
-Not responsible for:
-- deep genre theory (owned by `12_TREND_GENRE_ENGINES`)
-- public-domain poet filtering (owned by `13_POET_PD_CORPUS_ENGINES`)
-- enforcement rules (owned by CTL/VAL/QA entities)
+## [M] CONTRACT_HEADER
+- REALM_ID: UE_V2/03_ENT/20_ENG_ENT/11_MUSICFACTORY_ENG_ENT
+- DOMAIN: MFX_ENG
+- ARTIFACT_TYPES: [INDEX, PIPE, ENTITY, TOKEN_PACK, OUTPUT_PACK]
+- DEFAULT_MODE: FAST
 
----
+## [M] EXEC_MODEL
+1) Resolve INDEX_MANIFEST via KEY: INDEX_MANIFEST
+2) Validate REQUIRED_KEYS exist (missing engines -> GAP allowed during build)
+3) Build WORK_SET_KEYS (KEYS only)
+4) Run steps sequentially (STEP-RUN)
+5) Output MFX_OUTPUT_PACK + NEXT "го"
 
-## 2) PIPELINE ORDER (LAW) — MUSIC FACTORY
-This order is mandatory unless a controller explicitly overrides it.
+## [M] STEP-RUN (canonical)
+- STEP: S<n>
+  GOAL: <one line>
+  INPUTS: [<tokens>]
+  TARGETS: [<KEYS_ONLY>]
+  ACTIONS:
+    - <imperative action>
+  OUTPUTS: [<tokens/artifacts>]
+  CHECKS: [<gates>]
+  FAIL: <FAIL_CODE_IF_ANY>
+  NEXT: "го"
 
-A) GROUP FOUNDATION — `01__GROUP_FOUNDATION_ENG.md`  
-Output: Group Identity + Audience + Sound promise + Constraints
+## [M] STEPS
 
-B) ARTIST FACTORY — `02__ARTIST_FACTORY_ENG.md`  
-Output: Group cast (vocalists + instrumental personas) + roles + voice diversity intent
+- STEP: S0
+  GOAL: Entry sanity and task framing
+  INPUTS: [TASK_TEXT, MODE_HINT?]
+  TARGETS: [INDEX_MANIFEST]
+  ACTIONS:
+    - Ensure TASK_TEXT exists, else FAIL
+    - Decide EXEC_MODE using MODE_HINT or DEFAULT_MODE
+  OUTPUTS: [TASK_TOKEN, EXEC_MODE]
+  CHECKS: [TASK_PRESENT]
+  FAIL: UE.FAIL.INPUT_ABSENT
+  NEXT: "го"
 
-C) ALBUM BLUEPRINT — `03__ALBUM_BLUEPRINT_ENG.md`  
-Output: Album concept + tracklist skeleton + arc + variation strategy
+- STEP: S1
+  GOAL: Select MFX work set (minimal opens)
+  INPUTS: [TASK_TOKEN]
+  TARGETS: [INDEX_MANIFEST, PIPELINE_CONTRACT]
+  ACTIONS:
+    - Resolve INDEX_MANIFEST via KEY: INDEX_MANIFEST
+    - Confirm REQUIRED_KEYS exist in ENTRIES
+    - Build WORK_SET_KEYS (KEYS only):
+      - group foundation -> [MFX.GROUP_FOUNDATION]
+      - artist variants -> [MFX.ARTIST_FACTORY]
+      - album plan -> [MFX.ALBUM_BLUEPRINT]
+      - track batch -> [MFX.TRACK_FACTORY]
+      - duration strategy -> [MFX.DURATION_STRATEGY]
+      - release packaging -> [MFX.RELEASE_PACK]
+      - collision check -> [MFX.CATALOG_COLLISION]
+      - novelty injection -> [MFX.NOVELTY_INJECTION]
+      - take logging -> [MFX.TAKE_LOG]
+      - full MFX run -> [MFX.GROUP_FOUNDATION, MFX.ARTIST_FACTORY, MFX.ALBUM_BLUEPRINT, MFX.TRACK_FACTORY, MFX.DURATION_STRATEGY, MFX.RELEASE_PACK, MFX.CATALOG_COLLISION, MFX.NOVELTY_INJECTION, MFX.TAKE_LOG]
+  OUTPUTS: [WORK_SET_KEYS]
+  CHECKS: [REQUIRED_KEYS_OK]
+  FAIL: UE.FAIL.MISSING_KEY
+  NEXT: "го"
 
-D) TRACK FACTORY (CORE) — `04__TRACK_FACTORY_ENG.md`  
-Output: Track brief + Hook plan + Poet excerpt plan + Prompt pack + Test takes + PASS/FAIL gate + docs (if PASS)
+- STEP: S2
+  GOAL: Execute MFX engines (KEY-only orchestration)
+  INPUTS: [WORK_SET_KEYS, TASK_TOKEN]
+  TARGETS: [MFX.GROUP_FOUNDATION, MFX.ARTIST_FACTORY, MFX.ALBUM_BLUEPRINT, MFX.TRACK_FACTORY, MFX.DURATION_STRATEGY, MFX.RELEASE_PACK, MFX.CATALOG_COLLISION, MFX.NOVELTY_INJECTION, MFX.TAKE_LOG]
+  ACTIONS:
+    - Resolve and open only keys present in WORK_SET_KEYS
+    - Canonical order when multiple:
+      1) MFX.GROUP_FOUNDATION
+      2) MFX.ARTIST_FACTORY
+      3) MFX.ALBUM_BLUEPRINT
+      4) MFX.TRACK_FACTORY
+      5) MFX.DURATION_STRATEGY
+      6) MFX.RELEASE_PACK
+      7) MFX.CATALOG_COLLISION
+      8) MFX.NOVELTY_INJECTION
+      9) MFX.TAKE_LOG
+    - Produce MFX_OUTPUT_PACK (summary + outputs + checks + next-open keys)
+  OUTPUTS: [MFX_OUTPUT_PACK]
+  CHECKS: [QUALITY_GATE]
+  FAIL: UE.FAIL.GATE_FAIL
+  NEXT: "го"
 
-E) DURATION STRATEGY — `05__DURATION_STRATEGY_ENG.md`  
-Output: Short/Full durations per genre/audience + intro/hook timing constraints
-
-F) RELEASE PACK — `06__RELEASE_PACK_ENG.md`  
-Output: Release variants + metadata + assets checklist + export notes
-
-G) CATALOG COLLISION — `07__CATALOG_COLLISION_ENG.md`  
-Output: Collision checks (internal + cross-catalog) + novelty adjustments
-
-H) NOVELTY INJECTION — `08__NOVELTY_INJECTION_ENG.md`  
-Output: controlled novelty moves (change only allowed anchors) without breaking fingerprint
-
-I) TAKE LOG (MEMORY) — `09__TAKE_LOG_ENG.md`  
-Output: what changed, what worked, what to keep/ban next iteration
-
----
-
-## 3) REQUIRED DEPENDENCY FAMILIES (XREF)
-Music Factory consumes outputs from:
-
-### Trend/Genre system (identity + hooks + prompt compatibility)
-- 12_TREND_GENRE_ENGINES/* (genre taxonomy, fusion recipe, style fingerprint, viral blueprint, UGC map, earworm stack, prompt compiler)
-
-### Poet PD corpus system (only public domain + “juice” extraction)
-- 13_POET_PD_CORPUS_ENGINES/* (PD filter, fit scoring, juice extractor, mosaic composer, excerpt collision guard)
-
-### Controllers / Validators / QA (enforcement)
-- CTL: duration policy, prompt contract, negative spec, catalog memory, quality gates, phrasebooks
-- VAL: hook timing, ugc ready, repeat guard, collision blocker, naming collision, prompt fidelity, rights/credits
-- QA: scroll-stop, loop 15s, recognition 10s, mix translation, regression guard
-
----
-
-## 4) OUTPUT ARTIFACTS (MINIMUM SET)
-Minimum useful artifacts for a working pipeline:
-- Group Card (identity + anchors + forbiddens)
-- Album Blueprint (tracklist + arc)
-- Track Card (brief + hooks + prompt pack + decision)
-- Take Log (top takes only)
-- Release Pack (variants + metadata)
-
-Everything else is optional and added only if it increases speed/quality.
-
----
-
-## 5) OPERATIONAL LAW — TEST → DOC GATE
-A track is produced in two phases:
-1) TEST PHASE (fast): generate takes, pick winner, decide PASS/FAIL
-2) DOC PHASE (only if PASS): create full documentation pack
-
-No wasted documentation for failed ideas.
-
----
-
-## 6) FAMILY FILES (CANON)
-
-01 — Group Foundation Engine  
-RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/11_MUSIC_FACTORY_ENGINES/01__GROUP_FOUNDATION_ENG.md
-
-02 — Artist Factory Engine  
-RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/11_MUSIC_FACTORY_ENGINES/02__ARTIST_FACTORY_ENG.md
-
-03 — Album Blueprint Engine  
-RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/11_MUSIC_FACTORY_ENGINES/03__ALBUM_BLUEPRINT_ENG.md
-
-04 — Track Factory Engine  
-RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/11_MUSIC_FACTORY_ENGINES/04__TRACK_FACTORY_ENG.md
-
-05 — Duration Strategy Engine  
-RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/11_MUSIC_FACTORY_ENGINES/05__DURATION_STRATEGY_ENG.md
-
-06 — Release Pack Engine  
-RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/11_MUSIC_FACTORY_ENGINES/06__RELEASE_PACK_ENG.md
-
-07 — Catalog Collision Engine  
-RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/11_MUSIC_FACTORY_ENGINES/07__CATALOG_COLLISION_ENG.md
-
-08 — Novelty Injection Engine  
-RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/11_MUSIC_FACTORY_ENGINES/08__NOVELTY_INJECTION_ENG.md
-
-09 — Take Log Engine  
-RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/11_MUSIC_FACTORY_ENGINES/09__TAKE_LOG_ENG.md
-
----
-
-## FINAL RULE (LOCK)
-OWNER: SYSTEM
-LOCK: FIXED
-
---- END.
+- STEP: S3
+  GOAL: Emit NEXT_OPEN_KEYS
+  INPUTS: [MFX_OUTPUT_PACK]
+  TARGETS: [INDEX_MANIFEST]
+  ACTIONS:
+    - Output NEXT_OPEN_KEYS list (KEYS only) for follow-up steps
+  OUTPUTS: [NEXT_OPEN_KEYS]
+  CHECKS: [OUTPUT_PRESENT]
+  FAIL: UE.FAIL.OUTPUT_MISSING
+  NEXT: "го"

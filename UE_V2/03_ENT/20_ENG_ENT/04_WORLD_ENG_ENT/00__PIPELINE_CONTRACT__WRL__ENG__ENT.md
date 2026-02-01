@@ -1,174 +1,137 @@
-# DOMAIN WORLD ENGINES (ENG) — FAMILY REALM — CANON FILE: 03_SYSTEM_ENTITIES/10_ENG__ENGINES/04_DOMAIN_WORLD_ENGINES/00__README__DOMAIN_WORLD_ENGINES.md
-SCOPE: Universe Engine
-LAYER: 03_SYSTEM_ENTITIES
-ENTITY_GROUP: ENGINES (ENG)
-DOC_TYPE: README
-FAMILY: 04_DOMAIN_WORLD_ENGINES
-CLASS: DOMAIN (L2)
-LEVEL: L2
-STATUS: ACTIVE
-LOCK: FIXED
+FILE: UE_V2/03_ENT/20_ENG_ENT/04_WORLD_ENG_ENT/00__PIPELINE_CONTRACT__WRL__ENG__ENT.md
+SCOPE: UE_V2 / 03_ENT / 20_ENG_ENT / 04_WORLD_ENG_ENT
+DOC_TYPE: PIPELINE_CONTRACT
+DOMAIN: WRL_ENG
+UID: UE.V2.ENT.ENG.WRL.PIPELINE_CONTRACT.001
 VERSION: 1.0.0
-UID: UE.ENG.DOM.WORLD.REALM.001
-OWNER: SYSTEM
-ROLE: Canonical realm file for DOMAIN WORLD engines.
-
-CHANGE_NOTE:
-- DATE: 2026-01-08
-- TYPE: MAJOR
-- SUMMARY: "World family realm created: ownership map, boundaries, output contract, navigation rules, canon order."
-- REASON: "Family was empty; required for deterministic stamping and anti-duplication."
-- IMPACT: "World engines become uniform, composable, and compatible with CORE + GOVERNANCE."
-- CHANGE_ID: UE.CHG.2026-01-08.DOM.WORLD.REALM.001
+STATUS: ACTIVE
+MODE: REPO (USAGE-ONLY, NO-EDIT)
+CREATED: 2026-01-31
+UPDATED: 2026-01-31
+OWNER: SYS
+NAV_RULE: Contract has no RAW
 
 ---
 
-## 0) PURPOSE (LAW)
-This README defines the **realm** of `04_DOMAIN_WORLD_ENGINES`:
-- what this family **owns**
-- what this family **must not** own
-- the **engine order** and how to navigate it
-- the **output contract style** expected from every engine in the family
+## [M] PURPOSE
+PIPELINE_CONTRACT — навигатор действий для реалма WORLD_ENG_ENT (WRL).
+Не хранит RAW-адреса. Работает через KEY и резолвит адреса в INDEX_MANIFEST.
 
-Existence reminder:
-- If an engine is not registered in `02__INDEX_ALL_ENGINES.md` → it does not exist for the system.
+## [M] HARD_RULES
+- No RAW inside CONTRACT.
+- Все обращения: TARGET_KEY -> resolve via INDEX_MANIFEST -> open.
+- STEP-RUN: один шаг = одна пачка действий.
+- Каждый шаг выдаёт NEXT_PROMPT: "го" или FAIL_CODE.
+- Минимальная загрузка: INDEX_MANIFEST + 1–3 engine targets.
 
----
+## [M] REQUIRED_KEYS (must exist in INDEX_MANIFEST)
+- INDEX_MANIFEST
+- PIPELINE_CONTRACT
+# engines may be GAP while building (allowed):
+- WRL.WORLD_STRUCTURE
+- WRL.WORLD_LAW
+- WRL.TIMELINE_EPOCH
+- WRL.CIVILIZATION
+- WRL.CONFLICT_POWER
+- WRL.GEOPOLITICS
+- WRL.ECONOMY_RESOURCE
+- WRL.TECHNOLOGY_MAGIC
+- WRL.MYTHOLOGY_BELIEF
+- WRL.ENVIRONMENT_ECOLOGY
 
-## 1) WHAT THIS FAMILY IS (OWNER DEFINITION)
-**Domain World Engines** own the construction and maintenance of:
-- world structure, world laws, constraints
-- epochs/timelines as *world-state*, not story beats
-- civilizations, factions-at-scale, geopolitics
-- resources / economy as world mechanics (**no currency primitives if canon forbids currency**)
-- technology/magic systems (rules, constraints, capabilities)
-- mythology/belief systems (world framework)
-- environment/ecology (living rules, survival constraints)
+## [M] CONTRACT_HEADER
+- REALM_ID: UE_V2/03_ENT/20_ENG_ENT/04_WORLD_ENG_ENT
+- DOMAIN: WRL_ENG
+- ARTIFACT_TYPES: [INDEX, PIPE, ENTITY, TOKEN_PACK, OUTPUT_PACK]
+- DEFAULT_MODE: FAST
 
-Primary output: **WORLD MODELS + WORLD RULESETS** that other layers consume.
+## [M] EXEC_MODEL
+1) Resolve INDEX_MANIFEST via KEY: INDEX_MANIFEST
+2) Validate REQUIRED_KEYS exist (engines may be GAP during build)
+3) Build WORK_SET_KEYS (KEYS only)
+4) Run steps sequentially (STEP-RUN)
+5) Output WRL_OUTPUT_PACK + NEXT "го"
 
----
+## [M] STEP-RUN (canonical)
+- STEP: S<n>
+  GOAL: <one line>
+  INPUTS: [<tokens>]
+  TARGETS: [<KEYS_ONLY>]
+  ACTIONS:
+    - <imperative action>
+  OUTPUTS: [<tokens/artifacts>]
+  CHECKS: [<gates>]
+  FAIL: <FAIL_CODE_IF_ANY>
+  NEXT: "го"
 
-## 2) HARD BOUNDARIES (ANTI-DUPLICATION)
-This family MUST NOT own:
+## [M] STEPS
 
-### 2.1 CORE ownership (system identity)
-- system identity/state/lifecycle → `01_CORE_ENGINES/*`
+- STEP: S0
+  GOAL: Entry sanity and task framing
+  INPUTS: [TASK_TEXT, MODE_HINT?]
+  TARGETS: [INDEX_MANIFEST]
+  ACTIONS:
+    - Ensure TASK_TEXT exists, else FAIL
+    - Decide EXEC_MODE using MODE_HINT or DEFAULT_MODE
+  OUTPUTS: [TASK_TOKEN, EXEC_MODE]
+  CHECKS: [TASK_PRESENT]
+  FAIL: UE.FAIL.INPUT_ABSENT
+  NEXT: "го"
 
-### 2.2 GOVERNANCE ownership (authority + pipeline)
-- canon authority, approvals, audits, dependency registry, change pipeline → `00_GOVERNANCE_ENGINES/*`
+- STEP: S1
+  GOAL: Select WRL work set (minimal opens)
+  INPUTS: [TASK_TOKEN]
+  TARGETS: [INDEX_MANIFEST, PIPELINE_CONTRACT]
+  ACTIONS:
+    - Resolve INDEX_MANIFEST via KEY: INDEX_MANIFEST
+    - Confirm REQUIRED_KEYS exist in ENTRIES
+    - Build WORK_SET_KEYS (KEYS only):
+      - structure -> [WRL.WORLD_STRUCTURE]
+      - world law -> [WRL.WORLD_LAW]
+      - timeline -> [WRL.TIMELINE_EPOCH]
+      - civilization -> [WRL.CIVILIZATION]
+      - power/conflict -> [WRL.CONFLICT_POWER]
+      - geopolitics -> [WRL.GEOPOLITICS]
+      - economy/resources -> [WRL.ECONOMY_RESOURCE]
+      - tech/magic -> [WRL.TECHNOLOGY_MAGIC]
+      - mythology/belief -> [WRL.MYTHOLOGY_BELIEF]
+      - environment/ecology -> [WRL.ENVIRONMENT_ECOLOGY]
+      - full WRL run -> [WRL.WORLD_STRUCTURE, WRL.WORLD_LAW, WRL.TIMELINE_EPOCH, WRL.CIVILIZATION, WRL.CONFLICT_POWER, WRL.GEOPOLITICS, WRL.ECONOMY_RESOURCE, WRL.TECHNOLOGY_MAGIC, WRL.MYTHOLOGY_BELIEF, WRL.ENVIRONMENT_ECOLOGY]
+  OUTPUTS: [WORK_SET_KEYS]
+  CHECKS: [REQUIRED_KEYS_OK]
+  FAIL: UE.FAIL.MISSING_KEY
+  NEXT: "го"
 
-### 2.3 NARRATIVE ownership (story as primary)
-- plot structure, arcs, foreshadowing, twists, narrative continuity as story-law → `02_DOMAIN_NARRATIVE_ENGINES/*`
+- STEP: S2
+  GOAL: Execute WRL engines (KEY-only orchestration)
+  INPUTS: [WORK_SET_KEYS, TASK_TOKEN]
+  TARGETS: [WRL.WORLD_STRUCTURE, WRL.WORLD_LAW, WRL.TIMELINE_EPOCH, WRL.CIVILIZATION, WRL.CONFLICT_POWER, WRL.GEOPOLITICS, WRL.ECONOMY_RESOURCE, WRL.TECHNOLOGY_MAGIC, WRL.MYTHOLOGY_BELIEF, WRL.ENVIRONMENT_ECOLOGY]
+  ACTIONS:
+    - Resolve and open only keys present in WORK_SET_KEYS
+    - Canonical order when multiple:
+      1) WRL.WORLD_STRUCTURE
+      2) WRL.WORLD_LAW
+      3) WRL.TIMELINE_EPOCH
+      4) WRL.CIVILIZATION
+      5) WRL.CONFLICT_POWER
+      6) WRL.GEOPOLITICS
+      7) WRL.ECONOMY_RESOURCE
+      8) WRL.TECHNOLOGY_MAGIC
+      9) WRL.MYTHOLOGY_BELIEF
+      10) WRL.ENVIRONMENT_ECOLOGY
+    - Produce WRL_OUTPUT_PACK (summary + outputs + checks + next-open keys)
+  OUTPUTS: [WRL_OUTPUT_PACK]
+  CHECKS: [QUALITY_GATE]
+  FAIL: UE.FAIL.GATE_FAIL
+  NEXT: "го"
 
-### 2.4 CHARACTER ownership (psychology/behavior)
-- motivation, morality, dialogue, speech naturalization, trauma/growth → `03_DOMAIN_CHARACTER_ENGINES/*`
-
-### 2.5 EXPRESSION ownership (event primitives)
-- event/cause-effect/conflict/turning point/climax/resolution primitives → `05_EXPRESSION_ENGINES/*`
-
-### 2.6 PRODUCTION ownership (media execution)
-- camera/editing/lighting/generation/sound placement as production layer → `08_KNOWLEDGE_PRODUCTION_ENGINES/*` and `09_SOUND_MUSIC_ENGINES/*`
-
-Collision rule:
-- If overlap exists, the file MUST declare the owner family/engine and route work there.
-
----
-
-## 3) WHAT “WORLD” MEANS HERE (OPERATIONAL)
-World-domain = **constraints + affordances**:
-- constraints: what cannot happen / limits
-- affordances: what can happen / capabilities
-- stable invariants: what must remain consistent
-- state model: what changes over time as world state (not plot)
-
----
-
-## 4) FAMILY OUTPUT CONTRACT (MANDATORY)
-Every engine in this family MUST:
-- include MINI-CONTRACT with **concrete artifact names**
-- define **output schema** (fields + validation)
-- declare **boundaries** explicitly
-- include **S0 blockers** (stop conditions)
-
-Recommended artifact categories:
-- WORLD_STRUCTURE_MODEL
-- WORLD_LAWSET
-- TIMELINE_EPOCH_MODEL
-- CIVILIZATION_MODEL
-- GEOPOLITICS_MODEL
-- ECONOMY_RESOURCE_MODEL (resource logic; no currency primitives if forbidden)
-- TECHNOLOGY_MAGIC_MODEL
-- MYTHOLOGY_BELIEF_MODEL
-- ENVIRONMENT_ECOLOGY_MODEL
-
----
-
-## 5) NAVIGATION RULES (HOW TO USE)
-1) Start from structural invariants:
-- World Structure → World Law
-2) Only then systems:
-- Timeline/Epoch → Civilization → Conflict/Power → Geopolitics
-3) Then deep layers:
-- Economy/Resource → Technology/Magic → Mythology/Belief → Environment/Ecology
-4) If you create a new engine:
-- register in `02__INDEX_ALL_ENGINES.md` first
-- then create file using the family engine template
-- then add dependencies to dependency registry if needed
-
----
-
-## 6) ENGINE ORDER (CANON LIST)
-01 — World Structure Engine — `01__WORLD_STRUCTURE_ENG.md`
-02 — World Law Engine — `02__WORLD_LAW_ENG.md`
-03 — Timeline & Epoch Engine — `03__TIMELINE_EPOCH_ENG.md`
-04 — Civilization Engine — `04__CIVILIZATION_ENG.md`
-05 — Conflict & Power Engine — `05__CONFLICT_POWER_ENG.md`
-06 — Geopolitics Engine — `06__GEOPOLITICS_ENG.md`
-07 — Economy & Resource Engine — `07__ECONOMY_RESOURCE_ENG.md`
-08 — Technology & Magic Engine — `08__TECHNOLOGY_MAGIC_ENG.md`
-09 — Mythology & Belief Engine — `09__MYTHOLOGY_BELIEF_ENG.md`
-10 — Environment & Ecology Engine — `10__ENVIRONMENT_ECOLOGY_ENG.md`
-
----
-
-## 7) REQUIRED TEMPLATES (RAW LINKS)
-ENGINE TEMPLATE:
-https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/04_DOMAIN_WORLD_ENGINES/00__TEMPLATE__ENGINE__DOMAIN_WORLD_ENGINES.md
-
-README TEMPLATE:
-https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/04_DOMAIN_WORLD_ENGINES/00__TEMPLATE__README__DOMAIN_WORLD_ENGINES.md
-
----
-
-## 8) DEPENDENCY PATTERNS (RECOMMENDED)
-Typical dependencies:
-- CORE prerequisites:
-  - Core Identity / Core State (if referencing entity types, system invariants)
-- GOVERNANCE prerequisites:
-  - Change Control / Consistency / Dependency Registry (for canon changes)
-
-Forbidden dependency pattern:
-- World engines MUST NOT depend on narrative engines “to define world rules”.
-  Narrative may consume world rules, not the opposite (unless explicitly tiered and justified).
-
----
-
-## 9) S0 BLOCKERS (FAMILY LEVEL)
-- S0-1: Any engine redefines ownership already owned by another family.
-- S0-2: Any engine produces outputs without schema + validation.
-- S0-3: Any engine introduces currency/finance primitives if canon forbids currency.
-- S0-4: Engine numbers in file names mismatch index ordering.
-- S0-5: Missing mini-contract.
-
----
-
-## 10) QUICK CHECKLIST (BEFORE ACTIVE)
-- [ ] Header schema correct
-- [ ] Boundaries explicit
-- [ ] Mini-contract concrete
-- [ ] Output schemas defined
-- [ ] S0 blockers present
-- [ ] References are raw-only where required by index
-
---- END.
+- STEP: S3
+  GOAL: Emit NEXT_OPEN_KEYS
+  INPUTS: [WRL_OUTPUT_PACK]
+  TARGETS: [INDEX_MANIFEST]
+  ACTIONS:
+    - Output NEXT_OPEN_KEYS list (KEYS only) for follow-up steps
+  OUTPUTS: [NEXT_OPEN_KEYS]
+  CHECKS: [OUTPUT_PRESENT]
+  FAIL: UE.FAIL.OUTPUT_MISSING
+  NEXT: "го"
