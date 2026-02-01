@@ -88,17 +88,14 @@ RESOLUTION_RULE: KEY -> RAW берётся только из ENTRIES ниже
   UPDATED: 2026-01-31
 
 ### [O] CONTENT (NRR engines)
-# RULE: RAW for engines must be copied from each file “Raw” button (no guessing).
-# Until RAW is fixed -> keep RAW empty and MARKERS include GAP.
-
 - KEY: NRR.NARRATIVE_LOGIC_NAV
   UID:
   KIND: ENTITY
   ROLE: Narrative logic navigator engine
   DESC: Causal logic, constraints, story logic; emits NARRATIVE_LOGIC_TOKEN
-  RAW:
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/20_ENG_ENT/02_NARRATIVE_ENG_ENT/01__NRR__NARRATIVE_LOGIC_NAV__ENG__ENT.md
   PATH: UE_V2/03_ENT/20_ENG_ENT/02_NARRATIVE_ENG_ENT/01__NRR__NARRATIVE_LOGIC_NAV__ENG__ENT.md
-  MARKERS: [ENG, NRR, LOGIC, NAV, GAP]
+  MARKERS: [ENG, NRR, LOGIC, NAV]
   STATUS: DRAFT
   OWNER: SYS
   UPDATED: 2026-01-31
@@ -108,9 +105,9 @@ RESOLUTION_RULE: KEY -> RAW берётся только из ENTRIES ниже
   KIND: ENTITY
   ROLE: Story structure navigator engine
   DESC: Macro structure, beats, acts; emits STORY_STRUCTURE_MAP
-  RAW:
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/20_ENG_ENT/02_NARRATIVE_ENG_ENT/02__NRR__STORY_STRUCTURE_NAV__ENG__ENT.md
   PATH: UE_V2/03_ENT/20_ENG_ENT/02_NARRATIVE_ENG_ENT/02__NRR__STORY_STRUCTURE_NAV__ENG__ENT.md
-  MARKERS: [ENG, NRR, STRUCT, NAV, GAP]
+  MARKERS: [ENG, NRR, STRUCT, NAV]
   STATUS: DRAFT
   OWNER: SYS
   UPDATED: 2026-01-31
@@ -120,9 +117,9 @@ RESOLUTION_RULE: KEY -> RAW берётся только из ENTRIES ниже
   KIND: ENTITY
   ROLE: Dramatic arc navigator engine
   DESC: Dramatic arc model and pressure curve; emits DRAMATIC_ARC_CURVE
-  RAW:
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/20_ENG_ENT/02_NARRATIVE_ENG_ENT/03__NRR__DRAMATIC_ARC_NAV__ENG__ENT.md
   PATH: UE_V2/03_ENT/20_ENG_ENT/02_NARRATIVE_ENG_ENT/03__NRR__DRAMATIC_ARC_NAV__ENG__ENT.md
-  MARKERS: [ENG, NRR, ARC, NAV, GAP]
+  MARKERS: [ENG, NRR, ARC, NAV]
   STATUS: DRAFT
   OWNER: SYS
   UPDATED: 2026-01-31
@@ -132,9 +129,9 @@ RESOLUTION_RULE: KEY -> RAW берётся только из ENTRIES ниже
   KIND: ENTITY
   ROLE: Scene construction navigator engine
   DESC: Scene building blocks and composition; emits SCENE_BLUEPRINT
-  RAW:
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/20_ENG_ENT/02_NARRATIVE_ENG_ENT/04__NRR__SCENE_CONSTRUCTION_NAV__ENG__ENT.md
   PATH: UE_V2/03_ENT/20_ENG_ENT/02_NARRATIVE_ENG_ENT/04__NRR__SCENE_CONSTRUCTION_NAV__ENG__ENT.md
-  MARKERS: [ENG, NRR, SCENE, NAV, GAP]
+  MARKERS: [ENG, NRR, SCENE, NAV]
   STATUS: DRAFT
   OWNER: SYS
   UPDATED: 2026-01-31
@@ -144,9 +141,9 @@ RESOLUTION_RULE: KEY -> RAW берётся только из ENTRIES ниже
   KIND: ENTITY
   ROLE: Pacing and rhythm navigator engine
   DESC: Pacing, rhythm, tempo control; emits PACING_RHYTHM_MAP
-  RAW:
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/20_ENG_ENT/02_NARRATIVE_ENG_ENT/05__NRR__PACING_RHYTHM_NAV__ENG__ENT.md
   PATH: UE_V2/03_ENT/20_ENG_ENT/02_NARRATIVE_ENG_ENT/05__NRR__PACING_RHYTHM_NAV__ENG__ENT.md
-  MARKERS: [ENG, NRR, PACING, NAV, GAP]
+  MARKERS: [ENG, NRR, PACING, NAV]
   STATUS: DRAFT
   OWNER: SYS
   UPDATED: 2026-01-31
@@ -156,9 +153,9 @@ RESOLUTION_RULE: KEY -> RAW берётся только из ENTRIES ниже
   KIND: ENTITY
   ROLE: Tension and stakes navigator engine
   DESC: Stakes escalation and tension control; emits TENSION_STAKES_CURVE
-  RAW:
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/20_ENG_ENT/02_NARRATIVE_ENG_ENT/06__NRR__TENSION_STAKES_NAV__ENG__ENT.md
   PATH: UE_V2/03_ENT/20_ENG_ENT/02_NARRATIVE_ENG_ENT/06__NRR__TENSION_STAKES_NAV__ENG__ENT.md
-  MARKERS: [ENG, NRR, TENSION, NAV, GAP]
+  MARKERS: [ENG, NRR, TENSION, NAV]
   STATUS: DRAFT
   OWNER: SYS
   UPDATED: 2026-01-31
@@ -168,9 +165,9 @@ RESOLUTION_RULE: KEY -> RAW берётся только из ENTRIES ниже
   KIND: ENTITY
   ROLE: Foreshadowing navigator engine
   DESC: Setup/payoff planning; emits FORESHADOW_MAP
-  RAW:
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/20_ENG_ENT/02_NARRATIVE_ENG_ENT/07__NRR__FORESHADOWING_NAV__ENG__ENT.md
   PATH: UE_V2/03_ENT/20_ENG_ENT/02_NARRATIVE_ENG_ENT/07__NRR__FORESHADOWING_NAV__ENG__ENT.md
-  MARKERS: [ENG, NRR, SETUP, NAV, GAP]
+  MARKERS: [ENG, NRR, SETUP, NAV]
   STATUS: DRAFT
   OWNER: SYS
   UPDATED: 2026-01-31
@@ -180,9 +177,9 @@ RESOLUTION_RULE: KEY -> RAW берётся только из ENTRIES ниже
   KIND: ENTITY
   ROLE: Twist/reveal navigator engine
   DESC: Twist design and reveal timing; emits TWIST_REVEAL_PLAN
-  RAW:
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/20_ENG_ENT/02_NARRATIVE_ENG_ENT/08__NRR__TWIST_REVEAL_NAV__ENG__ENT.md
   PATH: UE_V2/03_ENT/20_ENG_ENT/02_NARRATIVE_ENG_ENT/08__NRR__TWIST_REVEAL_NAV__ENG__ENT.md
-  MARKERS: [ENG, NRR, TWIST, NAV, GAP]
+  MARKERS: [ENG, NRR, TWIST, NAV]
   STATUS: DRAFT
   OWNER: SYS
   UPDATED: 2026-01-31
@@ -192,9 +189,9 @@ RESOLUTION_RULE: KEY -> RAW берётся только из ENTRIES ниже
   KIND: ENTITY
   ROLE: Narrative continuity navigator engine
   DESC: Continuity rules and consistency checks; emits CONTINUITY_CHECKLIST
-  RAW:
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/20_ENG_ENT/02_NARRATIVE_ENG_ENT/09__NRR__NARRATIVE_CONTINUITY_NAV__ENG__ENT.md
   PATH: UE_V2/03_ENT/20_ENG_ENT/02_NARRATIVE_ENG_ENT/09__NRR__NARRATIVE_CONTINUITY_NAV__ENG__ENT.md
-  MARKERS: [ENG, NRR, CONTINUITY, NAV, GAP]
+  MARKERS: [ENG, NRR, CONTINUITY, NAV]
   STATUS: DRAFT
   OWNER: SYS
   UPDATED: 2026-01-31
@@ -204,9 +201,9 @@ RESOLUTION_RULE: KEY -> RAW берётся только из ENTRIES ниже
   KIND: ENTITY
   ROLE: Theme and meaning navigator engine
   DESC: Theme axis and meaning coherence; emits THEME_MEANING_TOKEN
-  RAW:
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/20_ENG_ENT/02_NARRATIVE_ENG_ENT/10__NRR__THEME_MEANING_NAV__ENG__ENT.md
   PATH: UE_V2/03_ENT/20_ENG_ENT/02_NARRATIVE_ENG_ENT/10__NRR__THEME_MEANING_NAV__ENG__ENT.md
-  MARKERS: [ENG, NRR, THEME, NAV, GAP]
+  MARKERS: [ENG, NRR, THEME, NAV]
   STATUS: DRAFT
   OWNER: SYS
   UPDATED: 2026-01-31

@@ -88,17 +88,14 @@ RESOLUTION_RULE: KEY -> RAW берётся только из ENTRIES ниже
   UPDATED: 2026-01-31
 
 ### [O] CONTENT (GVN engines)
-# RULE: RAW for engines must be copied from each file “Raw” button (no guessing).
-# Until RAW is fixed -> keep RAW empty and MARKERS include GAP.
-
 - KEY: GVN.AUDIT_LOG
   UID:
   KIND: ENTITY
   ROLE: Audit-log engine
   DESC: Audit events, trace summaries, compliance snapshots; emits AUDIT_LOG_ENTRY
-  RAW:
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/20_ENG_ENT/00_GOVERNANCE_ENG_ENT/01__GVN__AUDIT_LOG__ENG__ENT.md
   PATH: UE_V2/03_ENT/20_ENG_ENT/00_GOVERNANCE_ENG_ENT/01__GVN__AUDIT_LOG__ENG__ENT.md
-  MARKERS: [ENG, GVN, AUDIT, LOG, GAP]
+  MARKERS: [ENG, GVN, AUDIT, LOG]
   STATUS: DRAFT
   OWNER: SYS
   UPDATED: 2026-01-31
@@ -108,9 +105,9 @@ RESOLUTION_RULE: KEY -> RAW берётся только из ENTRIES ниже
   KIND: ENTITY
   ROLE: Canon authority engine
   DESC: Canon authority checks; emits CANON_VERDICT (approve/reject/gap)
-  RAW:
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/20_ENG_ENT/00_GOVERNANCE_ENG_ENT/02__GVN__CANON_AUTHORITY__ENG__ENT.md
   PATH: UE_V2/03_ENT/20_ENG_ENT/00_GOVERNANCE_ENG_ENT/02__GVN__CANON_AUTHORITY__ENG__ENT.md
-  MARKERS: [ENG, GVN, CANON, GAP]
+  MARKERS: [ENG, GVN, CANON]
   STATUS: DRAFT
   OWNER: SYS
   UPDATED: 2026-01-31
@@ -120,9 +117,9 @@ RESOLUTION_RULE: KEY -> RAW берётся только из ENTRIES ниже
   KIND: ENTITY
   ROLE: Rule hierarchy engine
   DESC: Priority/override rules; resolves conflicts; emits RULE_HIERARCHY_MAP
-  RAW:
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/20_ENG_ENT/00_GOVERNANCE_ENG_ENT/03__GVN__RULE_HIERARCHY__ENG__ENT.md
   PATH: UE_V2/03_ENT/20_ENG_ENT/00_GOVERNANCE_ENG_ENT/03__GVN__RULE_HIERARCHY__ENG__ENT.md
-  MARKERS: [ENG, GVN, RULES, GAP]
+  MARKERS: [ENG, GVN, RULES]
   STATUS: DRAFT
   OWNER: SYS
   UPDATED: 2026-01-31
@@ -132,9 +129,9 @@ RESOLUTION_RULE: KEY -> RAW берётся только из ENTRIES ниже
   KIND: ENTITY
   ROLE: Change control engine
   DESC: Change proposal, scope and impact; emits CHANGE_CONTROL_RECORD
-  RAW:
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/20_ENG_ENT/00_GOVERNANCE_ENG_ENT/04__GVN__CHANGE_CONTROL__ENG__ENT.md
   PATH: UE_V2/03_ENT/20_ENG_ENT/00_GOVERNANCE_ENG_ENT/04__GVN__CHANGE_CONTROL__ENG__ENT.md
-  MARKERS: [ENG, GVN, CHANGE, GAP]
+  MARKERS: [ENG, GVN, CHANGE]
   STATUS: DRAFT
   OWNER: SYS
   UPDATED: 2026-01-31
@@ -144,9 +141,9 @@ RESOLUTION_RULE: KEY -> RAW берётся только из ENTRIES ниже
   KIND: ENTITY
   ROLE: Consistency engine
   DESC: Consistency checks across docs/entities; emits CONSISTENCY_REPORT
-  RAW:
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/20_ENG_ENT/00_GOVERNANCE_ENG_ENT/05__GVN__CONSISTENCY__ENG__ENT.md
   PATH: UE_V2/03_ENT/20_ENG_ENT/00_GOVERNANCE_ENG_ENT/05__GVN__CONSISTENCY__ENG__ENT.md
-  MARKERS: [ENG, GVN, CONSISTENCY, GAP]
+  MARKERS: [ENG, GVN, CONSISTENCY]
   STATUS: DRAFT
   OWNER: SYS
   UPDATED: 2026-01-31
@@ -156,9 +153,9 @@ RESOLUTION_RULE: KEY -> RAW берётся только из ENTRIES ниже
   KIND: ENTITY
   ROLE: Dependency registry engine
   DESC: Dependencies graph and SoT pointers; emits DEP_GRAPH_TOKEN
-  RAW:
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/20_ENG_ENT/00_GOVERNANCE_ENG_ENT/06__GVN__DEPENDENCY_REGISTRY__ENG__ENT.md
   PATH: UE_V2/03_ENT/20_ENG_ENT/00_GOVERNANCE_ENG_ENT/06__GVN__DEPENDENCY_REGISTRY__ENG__ENT.md
-  MARKERS: [ENG, GVN, DEP, GAP]
+  MARKERS: [ENG, GVN, DEP]
   STATUS: DRAFT
   OWNER: SYS
   UPDATED: 2026-01-31
@@ -168,9 +165,9 @@ RESOLUTION_RULE: KEY -> RAW берётся только из ENTRIES ниже
   KIND: ENTITY
   ROLE: Decision approval engine
   DESC: Approval gates and decision record; emits DECISION_RECORD
-  RAW:
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/20_ENG_ENT/00_GOVERNANCE_ENG_ENT/07__GVN__DECISION_APPROVAL__ENG__ENT.md
   PATH: UE_V2/03_ENT/20_ENG_ENT/00_GOVERNANCE_ENG_ENT/07__GVN__DECISION_APPROVAL__ENG__ENT.md
-  MARKERS: [ENG, GVN, DECISION, GAP]
+  MARKERS: [ENG, GVN, DECISION]
   STATUS: DRAFT
   OWNER: SYS
   UPDATED: 2026-01-31
@@ -180,9 +177,9 @@ RESOLUTION_RULE: KEY -> RAW берётся только из ENTRIES ниже
   KIND: ENTITY
   ROLE: Scope impact engine
   DESC: Scope/impact analysis; emits SCOPE_IMPACT_REPORT
-  RAW:
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/20_ENG_ENT/00_GOVERNANCE_ENG_ENT/08__GVN__SCOPE_IMPACT__ENG__ENT.md
   PATH: UE_V2/03_ENT/20_ENG_ENT/00_GOVERNANCE_ENG_ENT/08__GVN__SCOPE_IMPACT__ENG__ENT.md
-  MARKERS: [ENG, GVN, SCOPE, GAP]
+  MARKERS: [ENG, GVN, SCOPE]
   STATUS: DRAFT
   OWNER: SYS
   UPDATED: 2026-01-31
@@ -192,9 +189,9 @@ RESOLUTION_RULE: KEY -> RAW берётся только из ENTRIES ниже
   KIND: ENTITY
   ROLE: Risk & safety engine
   DESC: Risk analysis and safety gates; emits RISK_SAFETY_PLAN
-  RAW:
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/20_ENG_ENT/00_GOVERNANCE_ENG_ENT/09__GVN__RISK_SAFETY__ENG__ENT.md
   PATH: UE_V2/03_ENT/20_ENG_ENT/00_GOVERNANCE_ENG_ENT/09__GVN__RISK_SAFETY__ENG__ENT.md
-  MARKERS: [ENG, GVN, RISK, GAP]
+  MARKERS: [ENG, GVN, RISK]
   STATUS: DRAFT
   OWNER: SYS
   UPDATED: 2026-01-31
@@ -204,9 +201,9 @@ RESOLUTION_RULE: KEY -> RAW берётся только из ENTRIES ниже
   KIND: ENTITY
   ROLE: Versioning memory engine
   DESC: Version/memory discipline and state; emits VERSION_MEMORY_TOKEN
-  RAW:
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/20_ENG_ENT/00_GOVERNANCE_ENG_ENT/10__GVN__VERSIONING_MEMORY__ENG__ENT.md
   PATH: UE_V2/03_ENT/20_ENG_ENT/00_GOVERNANCE_ENG_ENT/10__GVN__VERSIONING_MEMORY__ENG__ENT.md
-  MARKERS: [ENG, GVN, VER, GAP]
+  MARKERS: [ENG, GVN, VER]
   STATUS: DRAFT
   OWNER: SYS
   UPDATED: 2026-01-31

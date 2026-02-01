@@ -88,17 +88,14 @@ RESOLUTION_RULE: KEY -> RAW берётся только из ENTRIES ниже
   UPDATED: 2026-01-31
 
 ### [O] CONTENT (MFX engines)
-# RULE: RAW for engines must be copied from each file “Raw” button (no guessing).
-# Until RAW is fixed -> keep RAW empty and MARKERS include GAP.
-
 - KEY: MFX.GROUP_FOUNDATION
   UID:
   KIND: ENTITY
   ROLE: Group foundation engine
   DESC: Defines group identity foundation; emits GROUP_FOUNDATION_TOKEN
-  RAW:
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/20_ENG_ENT/11_MUSICFACTORY_ENG_ENT/01__ENT__GROUP_FOUNDATION__ENG__ENT.md
   PATH: UE_V2/03_ENT/20_ENG_ENT/11_MUSICFACTORY_ENG_ENT/01__ENT__GROUP_FOUNDATION__ENG__ENT.md
-  MARKERS: [ENG, MFX, GROUP, GAP]
+  MARKERS: [ENG, MFX, GROUP]
   STATUS: DRAFT
   OWNER: SYS
   UPDATED: 2026-01-31
@@ -108,9 +105,9 @@ RESOLUTION_RULE: KEY -> RAW берётся только из ENTRIES ниже
   KIND: ENTITY
   ROLE: Artist factory engine
   DESC: Produces artist profiles and variants; emits ARTIST_FACTORY_PACK
-  RAW:
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/20_ENG_ENT/11_MUSICFACTORY_ENG_ENT/02__ENT__ARTIST_FACTORY__ENG__ENT.md
   PATH: UE_V2/03_ENT/20_ENG_ENT/11_MUSICFACTORY_ENG_ENT/02__ENT__ARTIST_FACTORY__ENG__ENT.md
-  MARKERS: [ENG, MFX, ARTIST, GAP]
+  MARKERS: [ENG, MFX, ARTIST]
   STATUS: DRAFT
   OWNER: SYS
   UPDATED: 2026-01-31
@@ -120,9 +117,9 @@ RESOLUTION_RULE: KEY -> RAW берётся только из ENTRIES ниже
   KIND: ENTITY
   ROLE: Album blueprint engine
   DESC: Defines album concept/structure; emits ALBUM_BLUEPRINT_TOKEN
-  RAW:
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/20_ENG_ENT/11_MUSICFACTORY_ENG_ENT/03__ENT__ALBUM_BLUEPRINT__ENG__ENT.md
   PATH: UE_V2/03_ENT/20_ENG_ENT/11_MUSICFACTORY_ENG_ENT/03__ENT__ALBUM_BLUEPRINT__ENG__ENT.md
-  MARKERS: [ENG, MFX, ALBUM, GAP]
+  MARKERS: [ENG, MFX, ALBUM]
   STATUS: DRAFT
   OWNER: SYS
   UPDATED: 2026-01-31
@@ -132,9 +129,9 @@ RESOLUTION_RULE: KEY -> RAW берётся только из ENTRIES ниже
   KIND: ENTITY
   ROLE: Track factory engine
   DESC: Produces track batches; emits TRACK_FACTORY_PACK
-  RAW:
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/20_ENG_ENT/11_MUSICFACTORY_ENG_ENT/04__ENT__TRACK_FACTORY__ENG__ENT.md
   PATH: UE_V2/03_ENT/20_ENG_ENT/11_MUSICFACTORY_ENG_ENT/04__ENT__TRACK_FACTORY__ENG__ENT.md
-  MARKERS: [ENG, MFX, TRACK, GAP]
+  MARKERS: [ENG, MFX, TRACK]
   STATUS: DRAFT
   OWNER: SYS
   UPDATED: 2026-01-31
@@ -144,9 +141,9 @@ RESOLUTION_RULE: KEY -> RAW берётся только из ENTRIES ниже
   KIND: ENTITY
   ROLE: Duration strategy engine
   DESC: Sets duration targets/variants; emits DURATION_STRATEGY_TOKEN
-  RAW:
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/20_ENG_ENT/11_MUSICFACTORY_ENG_ENT/05__ENT__DURATION_STRATEGY__ENG__ENT.md
   PATH: UE_V2/03_ENT/20_ENG_ENT/11_MUSICFACTORY_ENG_ENT/05__ENT__DURATION_STRATEGY__ENG__ENT.md
-  MARKERS: [ENG, MFX, DURATION, GAP]
+  MARKERS: [ENG, MFX, DURATION]
   STATUS: DRAFT
   OWNER: SYS
   UPDATED: 2026-01-31
@@ -156,9 +153,9 @@ RESOLUTION_RULE: KEY -> RAW берётся только из ENTRIES ниже
   KIND: ENTITY
   ROLE: Release pack engine
   DESC: Packages release assets/metadata; emits RELEASE_PACK_OUTPUT
-  RAW:
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/20_ENG_ENT/11_MUSICFACTORY_ENG_ENT/06__ENT__RELEASE_PACK__ENG__ENT.md
   PATH: UE_V2/03_ENT/20_ENG_ENT/11_MUSICFACTORY_ENG_ENT/06__ENT__RELEASE_PACK__ENG__ENT.md
-  MARKERS: [ENG, MFX, RELEASE, OUTPUT, GAP]
+  MARKERS: [ENG, MFX, RELEASE, OUTPUT]
   STATUS: DRAFT
   OWNER: SYS
   UPDATED: 2026-01-31
@@ -168,9 +165,9 @@ RESOLUTION_RULE: KEY -> RAW берётся только из ENTRIES ниже
   KIND: ENTITY
   ROLE: Catalog collision engine
   DESC: Detects duplicates/collisions in catalog; emits CATALOG_COLLISION_REPORT
-  RAW:
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/20_ENG_ENT/11_MUSICFACTORY_ENG_ENT/07__ENT__CATALOG_COLLISION__ENG__ENT.md
   PATH: UE_V2/03_ENT/20_ENG_ENT/11_MUSICFACTORY_ENG_ENT/07__ENT__CATALOG_COLLISION__ENG__ENT.md
-  MARKERS: [ENG, MFX, COLLISION, GAP]
+  MARKERS: [ENG, MFX, COLLISION]
   STATUS: DRAFT
   OWNER: SYS
   UPDATED: 2026-01-31
@@ -180,9 +177,9 @@ RESOLUTION_RULE: KEY -> RAW берётся только из ENTRIES ниже
   KIND: ENTITY
   ROLE: Novelty injection engine
   DESC: Injects novelty safely; emits NOVELTY_INJECTION_PLAN
-  RAW:
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/20_ENG_ENT/11_MUSICFACTORY_ENG_ENT/08__ENT__NOVELTY_INJECTION__ENG__ENT.md
   PATH: UE_V2/03_ENT/20_ENG_ENT/11_MUSICFACTORY_ENG_ENT/08__ENT__NOVELTY_INJECTION__ENG__ENT.md
-  MARKERS: [ENG, MFX, NOVELTY, GAP]
+  MARKERS: [ENG, MFX, NOVELTY]
   STATUS: DRAFT
   OWNER: SYS
   UPDATED: 2026-01-31
@@ -192,9 +189,9 @@ RESOLUTION_RULE: KEY -> RAW берётся только из ENTRIES ниже
   KIND: ENTITY
   ROLE: Take log engine
   DESC: Logs takes/iterations; emits TAKE_LOG_ENTRY_PACK
-  RAW:
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/20_ENG_ENT/11_MUSICFACTORY_ENG_ENT/09__ENT__TAKE_LOG__ENG__ENT.md
   PATH: UE_V2/03_ENT/20_ENG_ENT/11_MUSICFACTORY_ENG_ENT/09__ENT__TAKE_LOG__ENG__ENT.md
-  MARKERS: [ENG, MFX, LOG, GAP]
+  MARKERS: [ENG, MFX, LOG]
   STATUS: DRAFT
   OWNER: SYS
   UPDATED: 2026-01-31

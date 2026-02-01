@@ -88,17 +88,14 @@ RESOLUTION_RULE: KEY -> RAW берётся только из ENTRIES ниже
   UPDATED: 2026-01-31
 
 ### [O] CONTENT (MEV engines)
-# RULE: RAW for engines must be copied from each file “Raw” button (no guessing).
-# Until RAW is fixed -> keep RAW empty and MARKERS include GAP.
-
 - KEY: MEV.LEARNING
   UID:
   KIND: ENTITY
   ROLE: Learning engine
   DESC: Consolidates learnings from runs; emits LEARNING_SUMMARY_TOKEN
-  RAW:
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/20_ENG_ENT/10_METAEVOLUTION_ENG_ENT/01__MEV__LEARNING__ENG__ENT.md
   PATH: UE_V2/03_ENT/20_ENG_ENT/10_METAEVOLUTION_ENG_ENT/01__MEV__LEARNING__ENG__ENT.md
-  MARKERS: [ENG, MEV, LEARN, GAP]
+  MARKERS: [ENG, MEV, LEARN]
   STATUS: DRAFT
   OWNER: SYS
   UPDATED: 2026-01-31
@@ -108,9 +105,9 @@ RESOLUTION_RULE: KEY -> RAW берётся только из ENTRIES ниже
   KIND: ENTITY
   ROLE: Pattern extraction engine
   DESC: Extracts reusable patterns; emits PATTERN_LIBRARY_TOKEN
-  RAW:
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/20_ENG_ENT/10_METAEVOLUTION_ENG_ENT/02__MEV__PATTERN_EXTRACTION__ENG__ENT.md
   PATH: UE_V2/03_ENT/20_ENG_ENT/10_METAEVOLUTION_ENG_ENT/02__MEV__PATTERN_EXTRACTION__ENG__ENT.md
-  MARKERS: [ENG, MEV, PATTERN, GAP]
+  MARKERS: [ENG, MEV, PATTERN]
   STATUS: DRAFT
   OWNER: SYS
   UPDATED: 2026-01-31
@@ -120,9 +117,9 @@ RESOLUTION_RULE: KEY -> RAW берётся только из ENTRIES ниже
   KIND: ENTITY
   ROLE: Optimization engine
   DESC: Optimizes pipelines/standards; emits OPTIMIZATION_PATCH_PACK
-  RAW:
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/20_ENG_ENT/10_METAEVOLUTION_ENG_ENT/03__MEV__OPTIMIZATION__ENG__ENT.md
   PATH: UE_V2/03_ENT/20_ENG_ENT/10_METAEVOLUTION_ENG_ENT/03__MEV__OPTIMIZATION__ENG__ENT.md
-  MARKERS: [ENG, MEV, OPT, PATCH, GAP]
+  MARKERS: [ENG, MEV, OPT, PATCH]
   STATUS: DRAFT
   OWNER: SYS
   UPDATED: 2026-01-31
@@ -132,9 +129,9 @@ RESOLUTION_RULE: KEY -> RAW берётся только из ENTRIES ниже
   KIND: ENTITY
   ROLE: Creative mutation engine
   DESC: Produces controlled creative mutations; emits MUTATION_VARIANT_PACK
-  RAW:
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/20_ENG_ENT/10_METAEVOLUTION_ENG_ENT/04__MEV__CREATIVE_MUTATION__ENG__ENT.md
   PATH: UE_V2/03_ENT/20_ENG_ENT/10_METAEVOLUTION_ENG_ENT/04__MEV__CREATIVE_MUTATION__ENG__ENT.md
-  MARKERS: [ENG, MEV, MUTATION, GAP]
+  MARKERS: [ENG, MEV, MUTATION]
   STATUS: DRAFT
   OWNER: SYS
   UPDATED: 2026-01-31
@@ -144,9 +141,9 @@ RESOLUTION_RULE: KEY -> RAW берётся только из ENTRIES ниже
   KIND: ENTITY
   ROLE: Future projection engine
   DESC: Projects roadmap/scaling paths; emits FUTURE_PROJECTION_PLAN
-  RAW:
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/20_ENG_ENT/10_METAEVOLUTION_ENG_ENT/05__MEV__FUTURE_PROJECTION__ENG__ENT.md
   PATH: UE_V2/03_ENT/20_ENG_ENT/10_METAEVOLUTION_ENG_ENT/05__MEV__FUTURE_PROJECTION__ENG__ENT.md
-  MARKERS: [ENG, MEV, ROADMAP, GAP]
+  MARKERS: [ENG, MEV, ROADMAP]
   STATUS: DRAFT
   OWNER: SYS
   UPDATED: 2026-01-31

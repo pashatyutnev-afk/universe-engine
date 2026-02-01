@@ -88,17 +88,14 @@ RESOLUTION_RULE: KEY -> RAW берётся только из ENTRIES ниже
   UPDATED: 2026-01-31
 
 ### [O] CONTENT (AUD engines)
-# RULE: RAW for engines must be copied from each file “Raw” button (no guessing).
-# Until RAW is fixed -> keep RAW empty and MARKERS include GAP.
-
 - KEY: AUD.MUSIC_COMPOSITION
   UID:
   KIND: ENTITY
   ROLE: Music composition engine
   DESC: Produces composition plan, motif map, harmonic intent; emits COMPOSITION_TOKEN
-  RAW:
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/20_ENG_ENT/09_AUDIO_ENG_ENT/01__AUD__MUSIC_COMPOSITION__ENG__ENT.md
   PATH: UE_V2/03_ENT/20_ENG_ENT/09_AUDIO_ENG_ENT/01__AUD__MUSIC_COMPOSITION__ENG__ENT.md
-  MARKERS: [ENG, AUD, COMP, GAP]
+  MARKERS: [ENG, AUD, COMP]
   STATUS: DRAFT
   OWNER: SYS
   UPDATED: 2026-01-31
@@ -108,9 +105,9 @@ RESOLUTION_RULE: KEY -> RAW берётся только из ENTRIES ниже
   KIND: ENTITY
   ROLE: Song structure engine
   DESC: Builds section map and timing grid; emits SONG_STRUCTURE_TOKEN
-  RAW:
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/20_ENG_ENT/09_AUDIO_ENG_ENT/02__AUD__SONG_STRUCTURE__ENG__ENT.md
   PATH: UE_V2/03_ENT/20_ENG_ENT/09_AUDIO_ENG_ENT/02__AUD__SONG_STRUCTURE__ENG__ENT.md
-  MARKERS: [ENG, AUD, STRUCT, GAP]
+  MARKERS: [ENG, AUD, STRUCT]
   STATUS: DRAFT
   OWNER: SYS
   UPDATED: 2026-01-31
@@ -120,9 +117,9 @@ RESOLUTION_RULE: KEY -> RAW берётся только из ENTRIES ниже
   KIND: ENTITY
   ROLE: Harmony and chord engine
   DESC: Defines chord progressions/voicings; emits HARMONY_CHORD_TOKEN
-  RAW:
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/20_ENG_ENT/09_AUDIO_ENG_ENT/03__AUD__HARMONY_CHORD__ENG__ENT.md
   PATH: UE_V2/03_ENT/20_ENG_ENT/09_AUDIO_ENG_ENT/03__AUD__HARMONY_CHORD__ENG__ENT.md
-  MARKERS: [ENG, AUD, HARMONY, GAP]
+  MARKERS: [ENG, AUD, HARMONY]
   STATUS: DRAFT
   OWNER: SYS
   UPDATED: 2026-01-31
@@ -132,9 +129,9 @@ RESOLUTION_RULE: KEY -> RAW берётся только из ENTRIES ниже
   KIND: ENTITY
   ROLE: Melody and hook engine
   DESC: Generates lead melody + hook candidates; emits MELODY_HOOK_PACK
-  RAW:
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/20_ENG_ENT/09_AUDIO_ENG_ENT/04__AUD__MELODY_HOOK__ENG__ENT.md
   PATH: UE_V2/03_ENT/20_ENG_ENT/09_AUDIO_ENG_ENT/04__AUD__MELODY_HOOK__ENG__ENT.md
-  MARKERS: [ENG, AUD, HOOK, GAP]
+  MARKERS: [ENG, AUD, HOOK]
   STATUS: DRAFT
   OWNER: SYS
   UPDATED: 2026-01-31
@@ -144,9 +141,9 @@ RESOLUTION_RULE: KEY -> RAW берётся только из ENTRIES ниже
   KIND: ENTITY
   ROLE: Rhythm and groove engine
   DESC: Defines groove grid and rhythmic motifs; emits RHYTHM_GROOVE_TOKEN
-  RAW:
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/20_ENG_ENT/09_AUDIO_ENG_ENT/05__AUD__RHYTHM_GROOVE__ENG__ENT.md
   PATH: UE_V2/03_ENT/20_ENG_ENT/09_AUDIO_ENG_ENT/05__AUD__RHYTHM_GROOVE__ENG__ENT.md
-  MARKERS: [ENG, AUD, GROOVE, GAP]
+  MARKERS: [ENG, AUD, GROOVE]
   STATUS: DRAFT
   OWNER: SYS
   UPDATED: 2026-01-31
@@ -156,9 +153,9 @@ RESOLUTION_RULE: KEY -> RAW берётся только из ENTRIES ниже
   KIND: ENTITY
   ROLE: Rhyme and meter engine
   DESC: Sets meter/flow constraints for lyrics; emits RHYME_METER_TOKEN
-  RAW:
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/20_ENG_ENT/09_AUDIO_ENG_ENT/06__AUD__RHYME_METER__ENG__ENT.md
   PATH: UE_V2/03_ENT/20_ENG_ENT/09_AUDIO_ENG_ENT/06__AUD__RHYME_METER__ENG__ENT.md
-  MARKERS: [ENG, AUD, METER, GAP]
+  MARKERS: [ENG, AUD, METER]
   STATUS: DRAFT
   OWNER: SYS
   UPDATED: 2026-01-31
@@ -168,9 +165,9 @@ RESOLUTION_RULE: KEY -> RAW берётся только из ENTRIES ниже
   KIND: ENTITY
   ROLE: Lyrics engine
   DESC: Produces lyric drafts aligned to structure/meter; emits LYRICS_PACK
-  RAW:
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/20_ENG_ENT/09_AUDIO_ENG_ENT/07__AUD__LYRICS__ENG__ENT.md
   PATH: UE_V2/03_ENT/20_ENG_ENT/09_AUDIO_ENG_ENT/07__AUD__LYRICS__ENG__ENT.md
-  MARKERS: [ENG, AUD, LYRICS, GAP]
+  MARKERS: [ENG, AUD, LYRICS]
   STATUS: DRAFT
   OWNER: SYS
   UPDATED: 2026-01-31
@@ -180,9 +177,9 @@ RESOLUTION_RULE: KEY -> RAW берётся только из ENTRIES ниже
   KIND: ENTITY
   ROLE: Arrangement and instrumentation engine
   DESC: Builds instrumentation map + arrangement plan; emits ARRANGEMENT_TOKEN
-  RAW:
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/20_ENG_ENT/09_AUDIO_ENG_ENT/08__AUD__ARRANGEMENT_INSTRUMENTATION__ENG__ENT.md
   PATH: UE_V2/03_ENT/20_ENG_ENT/09_AUDIO_ENG_ENT/08__AUD__ARRANGEMENT_INSTRUMENTATION__ENG__ENT.md
-  MARKERS: [ENG, AUD, ARR, GAP]
+  MARKERS: [ENG, AUD, ARR]
   STATUS: DRAFT
   OWNER: SYS
   UPDATED: 2026-01-31
@@ -192,9 +189,9 @@ RESOLUTION_RULE: KEY -> RAW берётся только из ENTRIES ниже
   KIND: ENTITY
   ROLE: Vocal performance engine
   DESC: Defines vocal delivery/phrasing/texture; emits VOCAL_PERFORMANCE_TOKEN
-  RAW:
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/20_ENG_ENT/09_AUDIO_ENG_ENT/09__AUD__VOCAL_PERFORMANCE__ENG__ENT.md
   PATH: UE_V2/03_ENT/20_ENG_ENT/09_AUDIO_ENG_ENT/09__AUD__VOCAL_PERFORMANCE__ENG__ENT.md
-  MARKERS: [ENG, AUD, VOCAL, GAP]
+  MARKERS: [ENG, AUD, VOCAL]
   STATUS: DRAFT
   OWNER: SYS
   UPDATED: 2026-01-31
@@ -204,9 +201,9 @@ RESOLUTION_RULE: KEY -> RAW берётся только из ENTRIES ниже
   KIND: ENTITY
   ROLE: Sound design engine
   DESC: Sound palette/FX/transitions; emits SOUND_DESIGN_PACK
-  RAW:
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/20_ENG_ENT/09_AUDIO_ENG_ENT/10__AUD__SOUND_DESIGN__ENG__ENT.md
   PATH: UE_V2/03_ENT/20_ENG_ENT/09_AUDIO_ENG_ENT/10__AUD__SOUND_DESIGN__ENG__ENT.md
-  MARKERS: [ENG, AUD, SFX, GAP]
+  MARKERS: [ENG, AUD, SFX]
   STATUS: DRAFT
   OWNER: SYS
   UPDATED: 2026-01-31
@@ -216,9 +213,9 @@ RESOLUTION_RULE: KEY -> RAW берётся только из ENTRIES ниже
   KIND: ENTITY
   ROLE: Music style consistency engine
   DESC: Enforces style fingerprint consistency; emits STYLE_CONSISTENCY_REPORT
-  RAW:
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/20_ENG_ENT/09_AUDIO_ENG_ENT/11__AUD__MUSIC_STYLE_CONSISTENCY__ENG__ENT.md
   PATH: UE_V2/03_ENT/20_ENG_ENT/09_AUDIO_ENG_ENT/11__AUD__MUSIC_STYLE_CONSISTENCY__ENG__ENT.md
-  MARKERS: [ENG, AUD, STYLE, QA, GAP]
+  MARKERS: [ENG, AUD, STYLE, QA]
   STATUS: DRAFT
   OWNER: SYS
   UPDATED: 2026-01-31
@@ -228,9 +225,9 @@ RESOLUTION_RULE: KEY -> RAW берётся только из ENTRIES ниже
   KIND: ENTITY
   ROLE: Music-to-scene mapping engine
   DESC: Maps music cues to scene beats; emits MUSIC_TO_SCENE_MAP
-  RAW:
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/20_ENG_ENT/09_AUDIO_ENG_ENT/12__AUD__MUSIC_TO_SCENE__ENG__ENT.md
   PATH: UE_V2/03_ENT/20_ENG_ENT/09_AUDIO_ENG_ENT/12__AUD__MUSIC_TO_SCENE__ENG__ENT.md
-  MARKERS: [ENG, AUD, VIS_LINK, GAP]
+  MARKERS: [ENG, AUD, VIS_LINK]
   STATUS: DRAFT
   OWNER: SYS
   UPDATED: 2026-01-31
@@ -240,9 +237,9 @@ RESOLUTION_RULE: KEY -> RAW берётся только из ENTRIES ниже
   KIND: ENTITY
   ROLE: Mix and master engine
   DESC: Defines mix/master targets and checks; emits MIX_MASTER_TARGETS_PACK
-  RAW:
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/20_ENG_ENT/09_AUDIO_ENG_ENT/13__AUD__MIX_MASTER__ENG__ENT.md
   PATH: UE_V2/03_ENT/20_ENG_ENT/09_AUDIO_ENG_ENT/13__AUD__MIX_MASTER__ENG__ENT.md
-  MARKERS: [ENG, AUD, MIX, MASTER, GAP]
+  MARKERS: [ENG, AUD, MIX, MASTER]
   STATUS: DRAFT
   OWNER: SYS
   UPDATED: 2026-01-31

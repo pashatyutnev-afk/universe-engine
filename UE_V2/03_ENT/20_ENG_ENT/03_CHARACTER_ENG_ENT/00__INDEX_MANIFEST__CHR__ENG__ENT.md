@@ -88,17 +88,14 @@ RESOLUTION_RULE: KEY -> RAW берётся только из ENTRIES ниже
   UPDATED: 2026-01-31
 
 ### [O] CONTENT (CHR engines)
-# RULE: RAW for engines must be copied from each file “Raw” button (no guessing).
-# Until RAW is fixed -> keep RAW empty and MARKERS include GAP.
-
 - KEY: CHR.CHARACTER_CORE
   UID:
   KIND: ENTITY
   ROLE: Character core engine
   DESC: Core identity, traits, contradictions; emits CHARACTER_CORE_TOKEN
-  RAW:
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/20_ENG_ENT/03_CHARACTER_ENG_ENT/01__CHR__CHARACTER_CORE__ENG__ENT.md
   PATH: UE_V2/03_ENT/20_ENG_ENT/03_CHARACTER_ENG_ENT/01__CHR__CHARACTER_CORE__ENG__ENT.md
-  MARKERS: [ENG, CHR, CORE, GAP]
+  MARKERS: [ENG, CHR, CORE]
   STATUS: DRAFT
   OWNER: SYS
   UPDATED: 2026-01-31
@@ -108,9 +105,9 @@ RESOLUTION_RULE: KEY -> RAW берётся только из ENTRIES ниже
   KIND: ENTITY
   ROLE: Motivation and desire engine
   DESC: Motivations, needs, goals, obstacles; emits MOTIVATION_MAP
-  RAW:
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/20_ENG_ENT/03_CHARACTER_ENG_ENT/02__CHR__MOTIVATION_DESIRE__ENG__ENT.md
   PATH: UE_V2/03_ENT/20_ENG_ENT/03_CHARACTER_ENG_ENT/02__CHR__MOTIVATION_DESIRE__ENG__ENT.md
-  MARKERS: [ENG, CHR, MOTIVE, GAP]
+  MARKERS: [ENG, CHR, MOTIVE]
   STATUS: DRAFT
   OWNER: SYS
   UPDATED: 2026-01-31
@@ -120,9 +117,9 @@ RESOLUTION_RULE: KEY -> RAW берётся только из ENTRIES ниже
   KIND: ENTITY
   ROLE: Moral and value engine
   DESC: Values, ethics, taboos, breaking points; emits VALUE_AXIS
-  RAW:
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/20_ENG_ENT/03_CHARACTER_ENG_ENT/03__CHR__MORAL_VALUE__ENG__ENT.md
   PATH: UE_V2/03_ENT/20_ENG_ENT/03_CHARACTER_ENG_ENT/03__CHR__MORAL_VALUE__ENG__ENT.md
-  MARKERS: [ENG, CHR, VALUE, GAP]
+  MARKERS: [ENG, CHR, VALUE]
   STATUS: DRAFT
   OWNER: SYS
   UPDATED: 2026-01-31
@@ -132,9 +129,9 @@ RESOLUTION_RULE: KEY -> RAW берётся только из ENTRIES ниже
   KIND: ENTITY
   ROLE: Character psychology engine
   DESC: Psychology profile, inner conflicts; emits PSY_PROFILE
-  RAW:
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/20_ENG_ENT/03_CHARACTER_ENG_ENT/04__CHR__CHARACTER_PSYCHOLOGY__ENG__ENT.md
   PATH: UE_V2/03_ENT/20_ENG_ENT/03_CHARACTER_ENG_ENT/04__CHR__CHARACTER_PSYCHOLOGY__ENG__ENT.md
-  MARKERS: [ENG, CHR, PSY, GAP]
+  MARKERS: [ENG, CHR, PSY]
   STATUS: DRAFT
   OWNER: SYS
   UPDATED: 2026-01-31
@@ -144,9 +141,9 @@ RESOLUTION_RULE: KEY -> RAW берётся только из ENTRIES ниже
   KIND: ENTITY
   ROLE: Character behavior engine
   DESC: Behavior patterns, impulses, tells; emits BEHAVIOR_PATTERN_SET
-  RAW:
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/20_ENG_ENT/03_CHARACTER_ENG_ENT/05__CHR__CHARACTER_BEHAVIOR__ENG__ENT.md
   PATH: UE_V2/03_ENT/20_ENG_ENT/03_CHARACTER_ENG_ENT/05__CHR__CHARACTER_BEHAVIOR__ENG__ENT.md
-  MARKERS: [ENG, CHR, BEHAVIOR, GAP]
+  MARKERS: [ENG, CHR, BEHAVIOR]
   STATUS: DRAFT
   OWNER: SYS
   UPDATED: 2026-01-31
@@ -156,9 +153,9 @@ RESOLUTION_RULE: KEY -> RAW берётся только из ENTRIES ниже
   KIND: ENTITY
   ROLE: Relationship engine
   DESC: Relationship dynamics and arcs; emits RELATIONSHIP_MATRIX
-  RAW:
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/20_ENG_ENT/03_CHARACTER_ENG_ENT/06__CHR__RELATIONSHIP__ENG__ENT.md
   PATH: UE_V2/03_ENT/20_ENG_ENT/03_CHARACTER_ENG_ENT/06__CHR__RELATIONSHIP__ENG__ENT.md
-  MARKERS: [ENG, CHR, REL, GAP]
+  MARKERS: [ENG, CHR, REL]
   STATUS: DRAFT
   OWNER: SYS
   UPDATED: 2026-01-31
@@ -168,9 +165,9 @@ RESOLUTION_RULE: KEY -> RAW берётся только из ENTRIES ниже
   KIND: ENTITY
   ROLE: Dialogue engine
   DESC: Dialogue logic, subtext, beats; emits DIALOGUE_BEAT_SHEET
-  RAW:
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/20_ENG_ENT/03_CHARACTER_ENG_ENT/07__CHR__DIALOGUE__ENG__ENT.md
   PATH: UE_V2/03_ENT/20_ENG_ENT/03_CHARACTER_ENG_ENT/07__CHR__DIALOGUE__ENG__ENT.md
-  MARKERS: [ENG, CHR, DIALOGUE, GAP]
+  MARKERS: [ENG, CHR, DIALOGUE]
   STATUS: DRAFT
   OWNER: SYS
   UPDATED: 2026-01-31
@@ -180,9 +177,9 @@ RESOLUTION_RULE: KEY -> RAW берётся только из ENTRIES ниже
   KIND: ENTITY
   ROLE: Speech naturalization engine
   DESC: Natural speech patterns and stylization; emits SPEECH_STYLE_TOKEN
-  RAW:
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/20_ENG_ENT/03_CHARACTER_ENG_ENT/08__CHR__SPEECH_NATURALIZATION__ENG__ENT.md
   PATH: UE_V2/03_ENT/20_ENG_ENT/03_CHARACTER_ENG_ENT/08__CHR__SPEECH_NATURALIZATION__ENG__ENT.md
-  MARKERS: [ENG, CHR, SPEECH, GAP]
+  MARKERS: [ENG, CHR, SPEECH]
   STATUS: DRAFT
   OWNER: SYS
   UPDATED: 2026-01-31
@@ -192,9 +189,9 @@ RESOLUTION_RULE: KEY -> RAW берётся только из ENTRIES ниже
   KIND: ENTITY
   ROLE: Growth and trauma engine
   DESC: Trauma shaping, healing/growth; emits GROWTH_TRAUMA_ARC
-  RAW:
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/20_ENG_ENT/03_CHARACTER_ENG_ENT/09__CHR__GROWTH_TRAUMA__ENG__ENT.md
   PATH: UE_V2/03_ENT/20_ENG_ENT/03_CHARACTER_ENG_ENT/09__CHR__GROWTH_TRAUMA__ENG__ENT.md
-  MARKERS: [ENG, CHR, TRAUMA, GAP]
+  MARKERS: [ENG, CHR, TRAUMA]
   STATUS: DRAFT
   OWNER: SYS
   UPDATED: 2026-01-31
@@ -204,9 +201,9 @@ RESOLUTION_RULE: KEY -> RAW берётся только из ENTRIES ниже
   KIND: ENTITY
   ROLE: Character evolution engine
   DESC: Evolution over time and state transitions; emits CHARACTER_EVOLUTION_MODEL
-  RAW:
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/20_ENG_ENT/03_CHARACTER_ENG_ENT/10__CHR__CHARACTER_EVOLUTION__ENG__ENT.md
   PATH: UE_V2/03_ENT/20_ENG_ENT/03_CHARACTER_ENG_ENT/10__CHR__CHARACTER_EVOLUTION__ENG__ENT.md
-  MARKERS: [ENG, CHR, EVOLUTION, GAP]
+  MARKERS: [ENG, CHR, EVOLUTION]
   STATUS: DRAFT
   OWNER: SYS
   UPDATED: 2026-01-31

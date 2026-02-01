@@ -88,17 +88,14 @@ RESOLUTION_RULE: KEY -> RAW берётся только из ENTRIES ниже
   UPDATED: 2026-01-31
 
 ### [O] CONTENT (WRL engines)
-# RULE: RAW for engines must be copied from each file “Raw” button (no guessing).
-# Until RAW is fixed -> keep RAW empty and MARKERS include GAP.
-
 - KEY: WRL.WORLD_STRUCTURE
   UID:
   KIND: ENTITY
   ROLE: World structure engine
   DESC: World structure layers, realms, boundaries; emits WORLD_STRUCTURE_TOKEN
-  RAW:
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/20_ENG_ENT/04_WORLD_ENG_ENT/01__WRL__WORLD_STRUCTURE__ENG__ENT.md
   PATH: UE_V2/03_ENT/20_ENG_ENT/04_WORLD_ENG_ENT/01__WRL__WORLD_STRUCTURE__ENG__ENT.md
-  MARKERS: [ENG, WRL, STRUCT, GAP]
+  MARKERS: [ENG, WRL, STRUCT]
   STATUS: DRAFT
   OWNER: SYS
   UPDATED: 2026-01-31
@@ -108,9 +105,9 @@ RESOLUTION_RULE: KEY -> RAW берётся только из ENTRIES ниже
   KIND: ENTITY
   ROLE: World law engine
   DESC: World laws/invariants and constraints; emits WORLD_LAW_SET
-  RAW:
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/20_ENG_ENT/04_WORLD_ENG_ENT/02__WRL__WORLD_LAW__ENG__ENT.md
   PATH: UE_V2/03_ENT/20_ENG_ENT/04_WORLD_ENG_ENT/02__WRL__WORLD_LAW__ENG__ENT.md
-  MARKERS: [ENG, WRL, LAW, GAP]
+  MARKERS: [ENG, WRL, LAW]
   STATUS: DRAFT
   OWNER: SYS
   UPDATED: 2026-01-31
@@ -120,9 +117,9 @@ RESOLUTION_RULE: KEY -> RAW берётся только из ENTRIES ниже
   KIND: ENTITY
   ROLE: Timeline and epochs engine
   DESC: Epoch model, timeline segmentation; emits TIMELINE_EPOCH_MAP
-  RAW:
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/20_ENG_ENT/04_WORLD_ENG_ENT/03__WRL__TIMELINE_EPOCH__ENG__ENT.md
   PATH: UE_V2/03_ENT/20_ENG_ENT/04_WORLD_ENG_ENT/03__WRL__TIMELINE_EPOCH__ENG__ENT.md
-  MARKERS: [ENG, WRL, TIME, GAP]
+  MARKERS: [ENG, WRL, TIME]
   STATUS: DRAFT
   OWNER: SYS
   UPDATED: 2026-01-31
@@ -132,9 +129,9 @@ RESOLUTION_RULE: KEY -> RAW берётся только из ENTRIES ниже
   KIND: ENTITY
   ROLE: Civilization engine
   DESC: Civilization model, traits, lifecycle; emits CIVILIZATION_PROFILE
-  RAW:
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/20_ENG_ENT/04_WORLD_ENG_ENT/04__WRL__CIVILIZATION__ENG__ENT.md
   PATH: UE_V2/03_ENT/20_ENG_ENT/04_WORLD_ENG_ENT/04__WRL__CIVILIZATION__ENG__ENT.md
-  MARKERS: [ENG, WRL, CIV, GAP]
+  MARKERS: [ENG, WRL, CIV]
   STATUS: DRAFT
   OWNER: SYS
   UPDATED: 2026-01-31
@@ -144,9 +141,9 @@ RESOLUTION_RULE: KEY -> RAW берётся только из ENTRIES ниже
   KIND: ENTITY
   ROLE: Conflict and power engine
   DESC: Power structures, conflicts, leverage; emits CONFLICT_POWER_MAP
-  RAW:
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/20_ENG_ENT/04_WORLD_ENG_ENT/05__WRL__CONFLICT_POWER__ENG__ENT.md
   PATH: UE_V2/03_ENT/20_ENG_ENT/04_WORLD_ENG_ENT/05__WRL__CONFLICT_POWER__ENG__ENT.md
-  MARKERS: [ENG, WRL, POWER, GAP]
+  MARKERS: [ENG, WRL, POWER]
   STATUS: DRAFT
   OWNER: SYS
   UPDATED: 2026-01-31
@@ -156,9 +153,9 @@ RESOLUTION_RULE: KEY -> RAW берётся только из ENTRIES ниже
   KIND: ENTITY
   ROLE: Geopolitics engine
   DESC: Polity relations, borders, strategy; emits GEOPOLITICS_MATRIX
-  RAW:
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/20_ENG_ENT/04_WORLD_ENG_ENT/06__WRL__GEOPOLITICS__ENG__ENT.md
   PATH: UE_V2/03_ENT/20_ENG_ENT/04_WORLD_ENG_ENT/06__WRL__GEOPOLITICS__ENG__ENT.md
-  MARKERS: [ENG, WRL, GEO, GAP]
+  MARKERS: [ENG, WRL, GEO]
   STATUS: DRAFT
   OWNER: SYS
   UPDATED: 2026-01-31
@@ -168,9 +165,9 @@ RESOLUTION_RULE: KEY -> RAW берётся только из ENTRIES ниже
   KIND: ENTITY
   ROLE: Economy and resources engine
   DESC: Resource flows and economic logic; emits ECONOMY_RESOURCE_MODEL
-  RAW:
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/20_ENG_ENT/04_WORLD_ENG_ENT/07__WRL__ECONOMY_RESOURCE__ENG__ENT.md
   PATH: UE_V2/03_ENT/20_ENG_ENT/04_WORLD_ENG_ENT/07__WRL__ECONOMY_RESOURCE__ENG__ENT.md
-  MARKERS: [ENG, WRL, ECON, GAP]
+  MARKERS: [ENG, WRL, ECON]
   STATUS: DRAFT
   OWNER: SYS
   UPDATED: 2026-01-31
@@ -180,9 +177,9 @@ RESOLUTION_RULE: KEY -> RAW берётся только из ENTRIES ниже
   KIND: ENTITY
   ROLE: Technology/magic engine
   DESC: Tech/magic system rules and capabilities; emits TECH_MAGIC_RULESET
-  RAW:
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/20_ENG_ENT/04_WORLD_ENG_ENT/08__WRL__TECHNOLOGY_MAGIC__ENG__ENT.md
   PATH: UE_V2/03_ENT/20_ENG_ENT/04_WORLD_ENG_ENT/08__WRL__TECHNOLOGY_MAGIC__ENG__ENT.md
-  MARKERS: [ENG, WRL, TECH, GAP]
+  MARKERS: [ENG, WRL, TECH]
   STATUS: DRAFT
   OWNER: SYS
   UPDATED: 2026-01-31
@@ -192,9 +189,9 @@ RESOLUTION_RULE: KEY -> RAW берётся только из ENTRIES ниже
   KIND: ENTITY
   ROLE: Mythology/belief engine
   DESC: Belief systems, myths, cults; emits MYTH_BELIEF_MAP
-  RAW:
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/20_ENG_ENT/04_WORLD_ENG_ENT/09__WRL__MYTHOLOGY_BELIEF__ENG__ENT.md
   PATH: UE_V2/03_ENT/20_ENG_ENT/04_WORLD_ENG_ENT/09__WRL__MYTHOLOGY_BELIEF__ENG__ENT.md
-  MARKERS: [ENG, WRL, MYTH, GAP]
+  MARKERS: [ENG, WRL, MYTH]
   STATUS: DRAFT
   OWNER: SYS
   UPDATED: 2026-01-31
@@ -204,9 +201,9 @@ RESOLUTION_RULE: KEY -> RAW берётся только из ENTRIES ниже
   KIND: ENTITY
   ROLE: Environment and ecology engine
   DESC: Ecology, climates, survival pressures; emits ENV_ECOLOGY_PROFILE
-  RAW:
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/20_ENG_ENT/04_WORLD_ENG_ENT/10__WRL__ENVIRONMENT_ECOLOGY__ENG__ENT.md
   PATH: UE_V2/03_ENT/20_ENG_ENT/04_WORLD_ENG_ENT/10__WRL__ENVIRONMENT_ECOLOGY__ENG__ENT.md
-  MARKERS: [ENG, WRL, ECO, GAP]
+  MARKERS: [ENG, WRL, ECO]
   STATUS: DRAFT
   OWNER: SYS
   UPDATED: 2026-01-31

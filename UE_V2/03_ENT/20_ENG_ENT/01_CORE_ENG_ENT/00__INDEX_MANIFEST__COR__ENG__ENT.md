@@ -88,17 +88,14 @@ RESOLUTION_RULE: KEY -> RAW берётся только из ENTRIES ниже
   UPDATED: 2026-01-31
 
 ### [O] CONTENT (COR engines)
-# RULE: RAW for engines must be copied from each file “Raw” button (no guessing).
-# Until RAW is fixed -> keep RAW empty and MARKERS include GAP.
-
 - KEY: COR.CORE_IDENTITY
   UID:
   KIND: ENTITY
   ROLE: Core identity engine
   DESC: Core identity invariants; emits CORE_IDENTITY_TOKEN
-  RAW:
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/20_ENG_ENT/01_CORE_ENG_ENT/01__COR__CORE_IDENTITY__ENG__ENT.md
   PATH: UE_V2/03_ENT/20_ENG_ENT/01_CORE_ENG_ENT/01__COR__CORE_IDENTITY__ENG__ENT.md
-  MARKERS: [ENG, COR, ID, GAP]
+  MARKERS: [ENG, COR, ID]
   STATUS: DRAFT
   OWNER: SYS
   UPDATED: 2026-01-31
@@ -108,9 +105,9 @@ RESOLUTION_RULE: KEY -> RAW берётся только из ENTRIES ниже
   KIND: ENTITY
   ROLE: Core state engine
   DESC: State model and transitions; emits CORE_STATE_TOKEN
-  RAW:
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/20_ENG_ENT/01_CORE_ENG_ENT/02__COR__CORE_STATE__ENG__ENT.md
   PATH: UE_V2/03_ENT/20_ENG_ENT/01_CORE_ENG_ENT/02__COR__CORE_STATE__ENG__ENT.md
-  MARKERS: [ENG, COR, STATE, GAP]
+  MARKERS: [ENG, COR, STATE]
   STATUS: DRAFT
   OWNER: SYS
   UPDATED: 2026-01-31
@@ -120,9 +117,9 @@ RESOLUTION_RULE: KEY -> RAW берётся только из ENTRIES ниже
   KIND: ENTITY
   ROLE: Core lifecycle engine
   DESC: Lifecycle phases and checkpoints; emits CORE_LIFECYCLE_MAP
-  RAW:
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/20_ENG_ENT/01_CORE_ENG_ENT/03__COR__CORE_LIFECYCLE__ENG__ENT.md
   PATH: UE_V2/03_ENT/20_ENG_ENT/01_CORE_ENG_ENT/03__COR__CORE_LIFECYCLE__ENG__ENT.md
-  MARKERS: [ENG, COR, LIFE, GAP]
+  MARKERS: [ENG, COR, LIFE]
   STATUS: DRAFT
   OWNER: SYS
   UPDATED: 2026-01-31
