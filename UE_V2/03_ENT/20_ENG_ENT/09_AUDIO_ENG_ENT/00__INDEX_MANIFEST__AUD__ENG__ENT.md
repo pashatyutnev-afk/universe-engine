@@ -271,4 +271,4 @@ STOP_IF:
 - RAW missing for any MIN_SET_KEYS
 GAP_IF:
 - requested KEY not present in ENTRIES
-- any engine RAW not fixed yet (expected during build)
+- any engine RAW is empty
