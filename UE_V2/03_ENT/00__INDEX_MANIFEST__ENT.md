@@ -275,7 +275,7 @@ INDEX_MANIFEST — “таблица адресов” и кратких смы�
   KIND: FOLDER
   ROLE: Family folder placeholder for 20_ENG_ENT
   DESC: Family exists; INDEX_MANIFEST not registered yet
-  RAW:
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/20_ENG_ENT/00__INDEX_MANIFEST__ENG__ENT.md
   PATH: UE_V2/03_ENT/20_ENG_ENT
   MARKERS: [ENT, ENG, FAMILY, GAP]
   STATUS: DRAFT
@@ -287,7 +287,7 @@ INDEX_MANIFEST — “таблица адресов” и кратких смы�
   KIND: FOLDER
   ROLE: Family folder placeholder for 30_ORC_ENT
   DESC: Family exists; INDEX_MANIFEST not registered yet
-  RAW:
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/30_ORC_ENT/00__INDEX_MANIFEST__ORC__ENT.md
   PATH: UE_V2/03_ENT/30_ORC_ENT
   MARKERS: [ENT, ORC, FAMILY, GAP]
   STATUS: DRAFT
@@ -299,7 +299,7 @@ INDEX_MANIFEST — “таблица адресов” и кратких смы�
   KIND: FOLDER
   ROLE: Family folder placeholder for 40_CTL_ENT
   DESC: Family exists; INDEX_MANIFEST not registered yet
-  RAW:
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/40_CTL_ENT/00__INDEX_MANIFEST__CTL__ENT.md
   PATH: UE_V2/03_ENT/40_CTL_ENT
   MARKERS: [ENT, CTL, FAMILY, GAP]
   STATUS: DRAFT
@@ -311,7 +311,7 @@ INDEX_MANIFEST — “таблица адресов” и кратких смы�
   KIND: FOLDER
   ROLE: Family folder placeholder for 50_VAL_ENT
   DESC: Family exists; INDEX_MANIFEST not registered yet
-  RAW:
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/50_VAL_ENT/00__INDEX_MANIFEST__VAL_ENT.md
   PATH: UE_V2/03_ENT/50_VAL_ENT
   MARKERS: [ENT, VAL, FAMILY, GAP]
   STATUS: DRAFT
@@ -323,7 +323,7 @@ INDEX_MANIFEST — “таблица адресов” и кратких смы�
   KIND: FOLDER
   ROLE: Family folder placeholder for 60_QA_ENT
   DESC: Family exists; INDEX_MANIFEST not registered yet
-  RAW:
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/60_QA_ENT/00__INDEX_MANIFEST__QA.md
   PATH: UE_V2/03_ENT/60_QA_ENT
   MARKERS: [ENT, QA, FAMILY, GAP]
   STATUS: DRAFT
@@ -335,7 +335,7 @@ INDEX_MANIFEST — “таблица адресов” и кратких смы�
   KIND: FOLDER
   ROLE: Family folder placeholder for 90_XREF_ENT
   DESC: Family exists; INDEX_MANIFEST not registered yet
-  RAW:
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/90_XREF_ENT/00__INDEX_MANIFEST__XREF.md
   PATH: UE_V2/03_ENT/90_XREF_ENT
   MARKERS: [ENT, XREF, FAMILY, GAP]
   STATUS: DRAFT
