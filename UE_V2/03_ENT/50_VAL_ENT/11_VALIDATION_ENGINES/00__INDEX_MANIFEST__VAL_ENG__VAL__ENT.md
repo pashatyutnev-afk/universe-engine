@@ -1,0 +1,157 @@
+FILE: UE_V2/03_ENT/50_VAL_ENT/11_VALIDATION_ENGINES/00__INDEX_MANIFEST__VAL_ENG__VAL__ENT.md
+SCOPE: UE_V2 / 03_ENT / 50_VAL_ENT / 11_VALIDATION_ENGINES
+DOC_TYPE: INDEX_MANIFEST
+DOMAIN: VAL_ENG_VAL_ENT
+UID: UE.V2.ENT.IDX.VAL_ENG_VAL_ENT.001
+VERSION: 1.0.0
+STATUS: ACTIVE
+MODE: REPO (USAGE-ONLY, NO-EDIT)
+CREATED: 2026-02-02
+UPDATED: 2026-02-02
+OWNER: VAL_ENT
+NAV_RULE: RAW lives here only
+
+---
+
+## [M] PURPOSE
+INDEX_MANIFEST — адресная таблица реалма валидирующих engines (VAL_ENG).
+Хранит RAW и короткие смыслы файлов. Без длинных объяснений.
+
+## [M] HARD_RULES
+- RAW ссылки допускаются только тут (и в ROOT LINK BASE / START по закону системы).
+- Каждый элемент имеет KEY. PIPELINE_CONTRACT ссылается только на KEY.
+- SELF запись обязательна.
+- Не обходить через PATH при наличии RAW (PATH хранится как справка).
+
+## [M] INDEX_CONTEXT
+- REALM_ID: UE_V2/03_ENT/50_VAL_ENT/11_VALIDATION_ENGINES
+- FOLDER_NAME: 11_VALIDATION_ENGINES
+- INDEX_SCOPE_TAGS: [ENT, VAL, ENG, VALIDATION]
+
+## [M] ENTRY_SCHEMA (v1)
+- KEY: <UNIQUE_KEY>
+  UID: <OPTIONAL_UID>
+  KIND: FILE|FOLDER|ENTITY|PIPE|KB|REG|XREF|LOG|STD|LAW|TPL
+  ROLE: <ONE_LINE_ROLE>
+  DESC: <ONE_LINE_DESC>
+  RAW: <RAW_URL_OR_EMPTY>
+  PATH: <REPO_PATH_OR_EMPTY>
+  MARKERS: [MUST_LOAD, ROUTER, NAV, ...]
+  STATUS: ACTIVE|DRAFT|DEPRECATED
+  OWNER: SYS|RUNTIME|USER|<TEAM>
+  UPDATED: 0000-00-00
+
+---
+
+## [M] ENTRIES
+
+### [M] SELF
+- KEY: SELF
+  UID: UE.V2.ENT.IDX.VAL_ENG_VAL_ENT.001
+  KIND: FILE
+  ROLE: Self pointer for deterministic nav
+  DESC: This index-manifest file for VAL_ENG validation realm
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/50_VAL_ENT/11_VALIDATION_ENGINES/00__INDEX_MANIFEST__VAL_ENG__VAL__ENT.md
+  PATH: UE_V2/03_ENT/50_VAL_ENT/11_VALIDATION_ENGINES/00__INDEX_MANIFEST__VAL_ENG__VAL__ENT.md
+  MARKERS: [INDEX, SELF]
+  STATUS: ACTIVE
+  OWNER: VAL_ENT
+  UPDATED: 2026-02-02
+
+### [M] REQUIRED
+- KEY: INDEX_MANIFEST
+  UID: UE.V2.ENT.IDX.VAL_ENG_VAL_ENT.001
+  KIND: FILE
+  ROLE: Address table for realm
+  DESC: RAW addresses + short meaning for VAL_ENG engines
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/50_VAL_ENT/11_VALIDATION_ENGINES/00__INDEX_MANIFEST__VAL_ENG__VAL__ENT.md
+  PATH: UE_V2/03_ENT/50_VAL_ENT/11_VALIDATION_ENGINES/00__INDEX_MANIFEST__VAL_ENG__VAL__ENT.md
+  MARKERS: [INDEX, MUST_LOAD]
+  STATUS: ACTIVE
+  OWNER: VAL_ENT
+  UPDATED: 2026-02-02
+
+- KEY: PIPELINE_CONTRACT
+  UID: UE.V2.ENT.PIPE.VAL_ENG_VAL_ENT.001
+  KIND: PIPE
+  ROLE: Router for VAL_ENG usage
+  DESC: Uses KEYS, resolves RAW via INDEX_MANIFEST
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/50_VAL_ENT/11_VALIDATION_ENGINES/00__PIPELINE_CONTRACT__VAL_ENG__VAL__ENT.md
+  PATH: UE_V2/03_ENT/50_VAL_ENT/11_VALIDATION_ENGINES/00__PIPELINE_CONTRACT__VAL_ENG__VAL__ENT.md
+  MARKERS: [PIPE, MUST_LOAD, ROUTER]
+  STATUS: ACTIVE
+  OWNER: VAL_ENT
+  UPDATED: 2026-02-02
+
+### [O] ENGINES
+- KEY: VAL_ENG.ERROR_DETECTION
+  UID: UE.V2.ENT.VAL_ENG.ERROR_DETECTION.001
+  KIND: ENTITY
+  ROLE: Detects structural and format errors in artifacts
+  DESC: Error patterns, missing fields, malformed tokens
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/50_VAL_ENT/11_VALIDATION_ENGINES/01__VAL_ENG__ERROR_DETECTION__ENG__VAL__ENT.md
+  PATH: UE_V2/03_ENT/50_VAL_ENT/11_VALIDATION_ENGINES/01__VAL_ENG__ERROR_DETECTION__ENG__VAL__ENT.md
+  MARKERS: [VAL, ENG, MUST_LOAD]
+  STATUS: ACTIVE
+  OWNER: VAL_ENT
+  UPDATED: 2026-02-02
+
+- KEY: VAL_ENG.FACT_CONSISTENCY
+  UID: UE.V2.ENT.VAL_ENG.FACT_CONSISTENCY.001
+  KIND: ENTITY
+  ROLE: Checks internal factual consistency
+  DESC: Contradictions, impossible claims, timeline mismatches
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/50_VAL_ENT/11_VALIDATION_ENGINES/02__VAL_ENG__FACT_CONSISTENCY__ENG__VAL__ENT.md
+  PATH: UE_V2/03_ENT/50_VAL_ENT/11_VALIDATION_ENGINES/02__VAL_ENG__FACT_CONSISTENCY__ENG__VAL__ENT.md
+  MARKERS: [VAL, ENG]
+  STATUS: ACTIVE
+  OWNER: VAL_ENT
+  UPDATED: 2026-02-02
+
+- KEY: VAL_ENG.LANGUAGE_LINGUISTICS
+  UID: UE.V2.ENT.VAL_ENG.LANGUAGE_LINGUISTICS.001
+  KIND: ENTITY
+  ROLE: Language and linguistic checks
+  DESC: Grammar, clarity, ambiguity, register mismatches
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/50_VAL_ENT/11_VALIDATION_ENGINES/03__VAL_ENG__LANGUAGE_LINGUISTICS__ENG__VAL__ENT.md
+  PATH: UE_V2/03_ENT/50_VAL_ENT/11_VALIDATION_ENGINES/03__VAL_ENG__LANGUAGE_LINGUISTICS__ENG__VAL__ENT.md
+  MARKERS: [VAL, ENG]
+  STATUS: ACTIVE
+  OWNER: VAL_ENT
+  UPDATED: 2026-02-02
+
+- KEY: VAL_ENG.CULTURAL_ACCURACY
+  UID: UE.V2.ENT.VAL_ENG.CULTURAL_ACCURACY.001
+  KIND: ENTITY
+  ROLE: Cultural accuracy checks (non-sensitive, factual)
+  DESC: Mislabeling, locale mismatch, inappropriate references
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/50_VAL_ENT/11_VALIDATION_ENGINES/04__VAL_ENG__CULTURAL_ACCURACY__ENG__VAL__ENT.md
+  PATH: UE_V2/03_ENT/50_VAL_ENT/11_VALIDATION_ENGINES/04__VAL_ENG__CULTURAL_ACCURACY__ENG__VAL__ENT.md
+  MARKERS: [VAL, ENG]
+  STATUS: ACTIVE
+  OWNER: VAL_ENT
+  UPDATED: 2026-02-02
+
+- KEY: VAL_ENG.HISTORICAL_ACCURACY
+  UID: UE.V2.ENT.VAL_ENG.HISTORICAL_ACCURACY.001
+  KIND: ENTITY
+  ROLE: Historical accuracy checks
+  DESC: Timeline plausibility and basic historical facts checks
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/50_VAL_ENT/11_VALIDATION_ENGINES/05__VAL_ENG__HISTORICAL_ACCURACY__ENG__VAL__ENT.md
+  PATH: UE_V2/03_ENT/50_VAL_ENT/11_VALIDATION_ENGINES/05__VAL_ENG__HISTORICAL_ACCURACY__ENG__VAL__ENT.md
+  MARKERS: [VAL, ENG]
+  STATUS: ACTIVE
+  OWNER: VAL_ENT
+  UPDATED: 2026-02-02
+
+- KEY: VAL_ENG.SCIENTIFIC_PLAUSIBILITY
+  UID: UE.V2.ENT.VAL_ENG.SCIENTIFIC_PLAUSIBILITY.001
+  KIND: ENTITY
+  ROLE: Scientific plausibility checks
+  DESC: Basic physics/chemistry plausibility and constraints
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/50_VAL_ENT/11_VALIDATION_ENGINES/06__VAL_ENG__SCIENTIFIC_PLAUSIBILITY__ENG__VAL__ENT.md
+  PATH: UE_V2/03_ENT/50_VAL_ENT/11_VALIDATION_ENGINES/06__VAL_ENG__SCIENTIFIC_PLAUSIBILITY__ENG__VAL__ENT.md
+  MARKERS: [VAL, ENG]
+  STATUS: ACTIVE
+  OWNER: VAL_ENT
+  UPDATED: 2026-02-02

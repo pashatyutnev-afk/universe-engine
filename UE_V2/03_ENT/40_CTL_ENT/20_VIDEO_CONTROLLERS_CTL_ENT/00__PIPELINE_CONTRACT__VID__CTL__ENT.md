@@ -1,0 +1,55 @@
+FILE: UE_V2/03_ENT/40_CTL_ENT/20_VIDEO_CONTROLLERS_CTL_ENT/00__PIPELINE_CONTRACT__VID__CTL__ENT.md
+SCOPE: UE_V2 / 03_ENT / 40_CTL_ENT / 20_VIDEO_CONTROLLERS_CTL_ENT
+DOC_TYPE: PIPELINE_CONTRACT
+DOMAIN: VID_CTL_ENT
+UID: UE.V2.ENT.PIPE.VID_CTL_ENT.001
+VERSION: 1.0.0
+STATUS: ACTIVE
+MODE: REPO (USAGE-ONLY, NO-EDIT)
+CREATED: 2026-02-02
+UPDATED: 2026-02-02
+OWNER: CTL_ENT
+NAV_RULE: Contract has no RAW
+
+---
+
+## [M] PURPOSE
+PIPELINE_CONTRACT — роутер видео-контроллеров CTL.
+Пока в реалме есть только библиотека negative specs, контракт возвращает ключи для её применения.
+RAW не хранит, работает через KEY и INDEX_MANIFEST.
+
+## [M] HARD_RULES
+- RAW запрещён внутри CONTRACT.
+- Все ссылки: только KEYS.
+- MODE REPO: никаких правок репозитория.
+- Выход: CTL_CHAIN_PLAN (KEYS) + APPLY_NOTES.
+
+## [M] REQUIRED_KEYS
+- INDEX_MANIFEST
+- PIPELINE_CONTRACT
+- CTL.VID.NEGATIVE_SPEC_LIBRARY
+
+## [M] DEFAULT_CHAIN_PLAN (keys)
+- ALWAYS:
+  - CTL.VID.NEGATIVE_SPEC_LIBRARY
+
+## [M] APPLY_NOTES
+- Применять negative specs на уровне PROMPT_PACK и EXPORT_HANDOFF_TOKEN.
+- Не добавлять объекты или стиль вне brief. Negative specs только ограничивают.
+
+## [M] STEP-RUN
+- STEP: S0
+  GOAL: Return default chain keys
+  INPUTS: [VID_BRIEF?, PROMPT_PACK?]
+  TARGETS: [INDEX_MANIFEST]
+  ACTIONS:
+    - Output CTL_CHAIN_PLAN = [CTL.VID.NEGATIVE_SPEC_LIBRARY]
+  OUTPUTS: [CTL_CHAIN_PLAN, APPLY_NOTES]
+  CHECKS: [REQUIRED_KEYS_PRESENT]
+  FAIL: UE.FAIL.MISSING_KEY
+  NEXT: "го"
+
+## [M] FAIL_CODES
+- UE.FAIL.MISSING_KEY
+- UE.FAIL.GATE_FAIL
+- UE.FAIL.RULE_VIOLATION

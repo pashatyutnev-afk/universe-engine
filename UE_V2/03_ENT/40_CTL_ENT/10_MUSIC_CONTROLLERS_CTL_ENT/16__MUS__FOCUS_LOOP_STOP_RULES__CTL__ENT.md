@@ -1,46 +1,64 @@
-# 16__FOCUS_LOOP_STOP_RULES_CTL
-
-SCOPE: Universe Engine (UE_V2)
-DOC_TYPE: CTL
-UID: UE.V2.CTL.MUSIC.FOCUS_LOOP_STOP.001
+FILE: UE_V2/03_ENT/40_CTL_ENT/10_MUSIC_CONTROLLERS_CTL_ENT/16__MUS__FOCUS_LOOP_STOP_RULES__CTL__ENT.md
+SCOPE: UE_V2 / 03_ENT / 40_CTL_ENT / 10_MUSIC_CONTROLLERS_CTL_ENT
+DOC_TYPE: CTL_ENTITY
+DOMAIN: MUS_CTL_ENT
+UID: UE.V2.ENT.CTL.MUS.FOCUS_LOOP_STOP_RULES.001
 VERSION: 1.0.0
 STATUS: ACTIVE
 MODE: REPO (USAGE-ONLY, NO-EDIT)
-NAV_RULE: Use RAW links only
-PURPOSE: Контроллер остановки итераций (FOCUS-LOOP): когда продолжать, когда фиксировать, когда менять стратегию.
-
+CREATED: 2026-02-02
+UPDATED: 2026-02-02
+OWNER: CTL_ENT
+NAV_RULE: No RAW in entity docs
 ---
 
-## [M] INTENT
-Не допустить бесконечной шлифовки: итерации продолжаются только пока есть прогресс или пока пользователь хочет.
+## [M] ENTITY_HEADER
+- ENTITY_NAME: MUS_FOCUS_LOOP_STOP_RULES_CTL
+- ENTITY_CLASS: CTL
+- UID: UE.V2.ENT.CTL.MUS.FOCUS_LOOP_STOP_RULES.001
 
----
+## [M] PURPOSE
+Останавливает focus loops, если нет прогресса или начался дрейф ограничений.
 
-## [M] STOP CONDITIONS (ANY)
-S1) USER_STOP: пользователь сказал “стоп”.
-S2) PASS: QA/VAL дали PASS по фокусу (hook/mix/lyrics/etc).
-S3) MAX_PASSES: достигнут лимит проходов по STEP_BUDGET_CTL и нет прогресса.
-S4) REGRESSION: улучшение фокуса ломает другой обязательный критерий (regression guard).
-S5) NO_DIFF: 2 прохода подряд дают “те же варианты” → сменить оси/команду.
+## [M] SCOPE
+- TARGET_DOMAIN: MUS
+- APPLIES_TO: [HOOK_LOOP_NOTES, MIX_LOOP_NOTES, LYRICS_LOOP_NOTES]
+- NON_GOALS: [определение бюджета шагов]
 
----
+## [M] INPUTS / OUTPUTS
+- Inputs: [CONSTRAINTS_LOCK?, LOOP_HISTORY?]
+- Outputs: [CTL_DECISION, CTL_FINDINGS, REQUIRED_FIXES]
 
-## [M] PROGRESS HEURISTIC (SIMPLE)
-Считаем прогресс, если выполняется хотя бы одно:
-- QA score улучшился (например recognition быстрее, translation чище)
-- исчезла major проблема из REPORT_TOKEN
-- выросла различимость/уникальность (differentiation)
-Если прогресса нет 2 прохода подряд → STOP (S3/S5).
+## [M] RULESET
+- R1: Если 2 итерации подряд без улучшения -> WARN.
+- R2: Если изменение нарушает CONSTRAINTS_LOCK -> FAIL.
+- R3: Если неясно что улучшать -> ASK на уточнение критерия.
 
----
+## [M] DECISION_MATRIX
+- IF drift detected -> FAIL
+- IF no progress -> WARN
+- IF criterion missing -> ASK
+- ELSE -> PASS
 
-## [M] OUTPUTS
-- REPORT_TOKEN (CTL): CONTINUE / STOP + причина + рекомендация следующего шага
+## [M] VIOLATIONS
+- V.LOOP.DRIFT
+- V.LOOP.NO_PROGRESS
+- V.LOOP.NO_CRITERION
 
----
+## [M] FAIL_CODES
+- UE.FAIL.RULE_VIOLATION
+- UE.FAIL.GATE_FAIL
+
+## [M] KB SCOPE
+- KB Inputs: [loop notes, constraints lock]
+- KB Outputs: [stop decision]
+- KB Boundaries: [не менять ограничения без входа]
+- KB RAW refs: []
 
 ## [M] GATES
-PASS если:
-- решение STOP/CONTINUE обосновано
-REWORK если:
-- итерации идут без прогресса и без решения
+- PASS if: loops улучшают и не дрейфуют
+- FAIL if: дрейф ограничений
+
+## [M] SPC PEER ROLES (NON-ENG)
+- Works with: [ORC_ENT]
+- Handoff rules: FAIL -> stop; ASK -> clarify; PASS -> continue

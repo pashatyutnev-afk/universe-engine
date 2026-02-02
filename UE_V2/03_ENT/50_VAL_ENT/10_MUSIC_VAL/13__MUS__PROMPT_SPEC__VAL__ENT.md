@@ -1,43 +1,65 @@
-# 13__PROMPT_SPEC_VAL
-
-SCOPE: Universe Engine (UE_V2)
-DOC_TYPE: VAL
-UID: UE.V2.VAL.MUSIC.PROMPT_SPEC.001
+FILE: UE_V2/03_ENT/50_VAL_ENT/10_MUSIC_VAL/13__MUS__PROMPT_SPEC__VAL__ENT.md
+SCOPE: UE_V2 / 03_ENT / 50_VAL_ENT / 10_MUSIC_VAL
+DOC_TYPE: VAL_ENTITY
+DOMAIN: MUS_VAL_ENT
+UID: UE.V2.ENT.VAL.MUS.PROMPT_SPEC.001
 VERSION: 1.0.0
 STATUS: ACTIVE
 MODE: REPO (USAGE-ONLY, NO-EDIT)
-NAV_RULE: Use RAW links only
-PURPOSE: Валидация PROMPT_SPEC для музыки: контракт, негатив-спеки, соответствие плану и ограничениям.
+CREATED: 2026-02-02
+UPDATED: 2026-02-02
+OWNER: VAL_ENT
+NAV_RULE: No RAW in entity docs
 
 ---
 
-## [M] INPUTS
-- PROMPT_SPEC_TOKEN
-- KB_TOKEN (rules + do_not)
-- CTL policies:
-  - 01__PROMPT_CONTRACT_CTL
-  - 12__NEGATIVE_SPEC_LIBRARY_CTL (если применимо)
-- PLAN_TOKEN (mode, constraints)
+## [M] ENTITY_HEADER
+- ENTITY_NAME: MUS_PROMPT_SPEC_VAL
+- ENTITY_CLASS: VAL
+- UID: UE.V2.ENT.VAL.MUS.PROMPT_SPEC.001
 
----
+## [M] PURPOSE
+Проверяет полноту PROMPT_PACK: есть обязательные поля и детерминированность структуры.
 
-## [M] CHECKS (MIN)
-P1) PROMPT_SPEC содержит: цель/жанр/темп/настроение/структуру или указание структуры.
-P2) Есть NEGATIVE / DO_NOT часть (минимум 3 пункта) и она не противоречит KB_TOKEN.
-P3) PROMPT_SPEC согласован с DURATION_POLICY_CTL (если задана длительность/формат).
-P4) PROMPT_SPEC не содержит мусора/длинных полотен (уважает NOISE_BUDGET).
-P5) PROMPT_SPEC не использует восклицательные знаки (по вашему правилу для SUNO-контента).
-P6) Если используется “серия/артист ДНК” — PROMPT_SPEC не нарушает IDENTITY правила (если есть).
+## [M] SCOPE
+- TARGET_DOMAIN: MUS
+- APPLIES_TO: [PROMPT_PACK, MAIN_PROMPT, NEGATIVE_PROMPT, PARAMS?]
+- NON_GOALS: [фактическая оценка аудио]
 
----
+## [M] INPUTS / OUTPUTS
+- Inputs: [PROMPT_PACK?]
+- Outputs: [VAL_DECISION, REQUIRED_FIXES, VIOLATIONS]
 
-## [M] OUTPUTS
-- REPORT_TOKEN (VAL): PASS/REWORK + конкретные правки
+## [M] CHECKS
+- C1: MAIN_PROMPT присутствует (Evidence: prompt pack)
+- C2: NEGATIVE_PROMPT присутствует (Evidence: prompt pack)
+- C3: Есть минимум структурных полей (genre/tempo/energy/vocal/structure hint) (Evidence: main prompt)
 
----
+## [M] DECISION_MATRIX
+- IF prompt pack отсутствует -> ASK
+- IF missing MAIN/NEGATIVE -> FAIL
+- IF missing structural fields -> WARN
+- ELSE -> PASS
+
+## [M] VIOLATIONS
+- V.PSPEC.NO_PACK
+- V.PSPEC.MISSING_MAIN_NEG
+- V.PSPEC.MISSING_FIELDS
+
+## [M] FAIL_CODES
+- UE.FAIL.INPUT_ABSENT
+- UE.FAIL.GATE_FAIL
+
+## [M] KB SCOPE
+- KB Inputs: [prompt pack]
+- KB Outputs: [spec findings]
+- KB Boundaries: [не сочинять поля, если их нет]
+- KB RAW refs: []
 
 ## [M] GATES
-PASS если:
-- все проверки P1–P5 выполнены
-REWORK если:
-- отсутствуют негатив-спеки/есть противоречия/есть "!"
+- PASS if: pack валиден
+- FAIL if: отсутствуют базовые секции
+
+## [M] SPC PEER ROLES (NON-ENG)
+- Works with: [ORC_ENT, CTL_ENT]
+- Handoff rules: FAIL -> rebuild prompt pack; WARN -> add missing fields

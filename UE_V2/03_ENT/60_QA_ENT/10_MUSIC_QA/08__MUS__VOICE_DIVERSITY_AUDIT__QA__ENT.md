@@ -1,131 +1,56 @@
-# VOICE DIVERSITY AUDIT — QA
-FILE: 03_SYSTEM_ENTITIES/60_QA__QUALITY/10_MUSIC_QA/08__VOICE_DIVERSITY_AUDIT_QA.md
-
-SCOPE: Universe Engine
-LAYER: 03_SYSTEM_ENTITIES
-ENTITY_GROUP: QUALITY (QA)
-QA_REALM: 10_MUSIC_QA
-DOC_TYPE: QA_CHECK
-QA_TYPE: VOICE_DIVERSITY_AUDIT
-LEVEL: L3
-STATUS: ACTIVE
-LOCK: FIXED
+FILE: UE_V2/03_ENT/60_QA_ENT/10_MUSIC_QA/08__MUS__VOICE_DIVERSITY_AUDIT__QA__ENT.md
+SCOPE: UE_V2 / 03_ENT / 60_QA_ENT / 10_MUSIC_QA
+DOC_TYPE: QA_ENTITY
+DOMAIN: MUS_QA_ENT
+UID: UE.V2.ENT.QA.MUS.VOICE_DIVERSITY_AUDIT.001
 VERSION: 1.0.0
-UID: UE.QA.MUS.VOICE_DIVERSITY_AUDIT.001
-OWNER: SYSTEM
-ROLE: A perception-level vocal diversity audit:
-answers “do these tracks sound like the same singer?” even if validators pass.
-Used periodically across a group/album to keep the catalog from collapsing into one voice.
-
-CHANGE_NOTE:
-- DATE: 2026-01-12
-- TYPE: MAJOR
-- SUMMARY: "Created Voice Diversity Audit QA: listening protocol across multiple tracks and corrective actions."
-- REASON: "Known failure mode: many outputs feel like one vocalist; QA catches perceptual sameness."
-- IMPACT: "More believable rosters and stronger differentiation."
-- CHANGE_ID: UE.CHG.2026-01-12.QA.VOICE_DIVERSITY.001
+STATUS: ACTIVE
+MODE: REPO (USAGE-ONLY, NO-EDIT)
+CREATED: 2026-02-02
+UPDATED: 2026-02-02
+OWNER: QA_ENT
+NAV_RULE: No RAW in entity docs
 
 ---
 
-## 0) PURPOSE (LAW)
-Answer:
-**“Does the catalog feel vocally diverse to humans?”**
+## [M] ENTITY_HEADER
+- ENTITY_NAME: MUS_VOICE_DIVERSITY_AUDIT_QA
+- ENTITY_CLASS: QA
+- UID: UE.V2.ENT.QA.MUS.VOICE_DIVERSITY_AUDIT.001
 
-This QA complements Voice Diversity VAL (token-based).
+## [M] PURPOSE
+Аудит разнообразия голосов в батче/портфеле. Работает только по notes/токенам, без “распознавания людей”.
 
----
+## [M] SCOPE
+- TARGET_DOMAIN: MUS
+- APPLIES_TO: [PORTFOLIO_LIST?, QA_VOICE_NOTES?]
+- NON_GOALS: [идентификация реальных людей]
 
-## 1) INPUTS
-Required:
-- SCOPE_MODE: {GROUP | ALBUM | GLOBAL}
-- TRACK_SET: 3–10 tracks (audio) from the same scope
-Optional:
-- cast/role intent notes (if defined)
+## [M] INPUTS / OUTPUTS
+- Inputs: [PORTFOLIO_LIST?, QA_VOICE_NOTES?]
+- Outputs: [QA_DECISION, QA_FINDINGS, REQUIRED_FIXES]
 
----
+## [M] CHECKS
+- C1: Есть список треков/вариантов.
+- C2: Есть заметки о голосовых профилях (условные метки).
+- C3: Нет монотонии голосов, если diversity требуется.
 
-## 2) PROCEDURE (HOW TO RUN)
-1) For each track, sample:
-   - 0:10–0:25 (first clear vocal section)
-   - main hook/chorus (10–15s)
-2) Compare tracks pairwise quickly:
-   - do voices feel identical?
-   - do deliveries feel identical?
-3) Output RESULT and identify “clusters” (same-voice groupings).
+## [M] DECISION_MATRIX
+- IF нет входа -> ASK
+- IF diversity проседает -> WARN
+- ELSE -> PASS
 
----
+## [M] REQUIRED_FIXES
+- Сменить voice preset/тембр.
+- Разнести партии (м/ж/хор/без вокала).
+- Развести по жанрам/регистрам.
 
-## 3) AUDIT RUBRIC (HEURISTIC)
-### V1 — Timbre similarity
-- same brightness/texture? same “person” feeling?
+## [M] KB SCOPE
+- KB Inputs: [portfolio notes]
+- KB Outputs: [diversity audit findings]
+- KB Boundaries: [не делать биометрию]
+- KB RAW refs: []
 
-### V2 — Delivery style similarity
-- same phrasing, same emphasis, same articulation?
-
-### V3 — Register/role difference
-- male/female/androgynous, lead vs contrast, duet splits?
-
-### V4 — Hook-vocal identity
-- chorus voice is distinct across tracks?
-
----
-
-## 4) RESULT (PASS/WARN/FAIL)
-PASS when:
-- clear vocal variety exists across the set
-- no large “same-voice cluster” dominates
-
-WARN when:
-- 2–3 tracks sound too similar but fixable with role split
-
-FAIL when:
-- most tracks feel like the same singer
-- catalog “voice collapse” is obvious
-
----
-
-## 5) FIX SUGGESTION KNOBS (1–2 MAX)
-- CAST_SPLIT:
-  - assign different vocalist roles per track/slot
-- DUET_PATTERN:
-  - call/response or alternating lines
-- VOCAL_CONTRAST:
-  - switch delivery style and register
-- INSTRUMENTAL_RELEASE:
-  - for some slots, release instrumental variants to reduce vocal sameness
-- RECYCLE_BLOCK:
-  - block the current vocal token for next N tracks (policy to be encoded elsewhere)
-
----
-
-## 6) OUTPUT TEMPLATE (MANDATORY)
-VOICE_DIVERSITY_AUDIT_QA_RESULT:
-- SCOPE_MODE:
-- TRACK_SET: [uids...]
-- RESULT: {PASS | WARN | FAIL}
-- CLUSTERS:
-  - cluster_id: [track_uids...]
-  - note: "sounds like same vocalist"
-- NOTES:
-  - 3–12 bullets
-- FIX_SUGGESTION:
-  - 1–2 knobs max
-
----
-
-## 7) REFERENCES (RAW)
-Validator context:
-- Voice Diversity VAL  
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/50_VAL__VALIDATORS/10_MUSIC_VALIDATORS/10__VOICE_DIVERSITY_VAL.md
-
-Catalog memory context:
-- Catalog Memory CTL  
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/40_CTL__CONTROLLERS/10_MUSIC_CONTROLLERS/07__CATALOG_MEMORY_CTL.md
-
----
-
-## FINAL RULE (LOCK)
-OWNER: SYSTEM
-LOCK: FIXED
-
---- END.
+## [M] GATES
+- PASS if: diversity приемлем
+- FAIL if: diversity критично провален под заданную цель

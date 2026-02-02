@@ -1,158 +1,203 @@
-# QA QUALITY INDEX — GLOBAL REGISTRY (CANON ROADMAP)
-CANON FILE: 03_SYSTEM_ENTITIES/60_QA__QUALITY/02__INDEX_ALL_QA.md
-
-SCOPE: Universe Engine
-LAYER: 03_SYSTEM_ENTITIES
-ENTITY_GROUP: QUALITY (QA)
-DOC_TYPE: INDEX
-INDEX_TYPE: GLOBAL_QA_REGISTRY
-LEVEL: L1
-STATUS: ACTIVE
-LOCK: FIXED
+FILE: UE_V2/03_ENT/60_QA_ENT/00__INDEX_MANIFEST__QA__ENT.md
+SCOPE: UE_V2 / 03_ENT / 60_QA_ENT
+DOC_TYPE: INDEX_MANIFEST
+DOMAIN: QA_ENT
+UID: UE.V2.ENT.IDX.QA_ENT.001
 VERSION: 1.0.0
-UID: UE.QA.IDX.ALL.001
-OWNER: SYSTEM
-ROLE: Canonical navigation law + existence registry for all QA families and QA checks (RAW-ONLY NAV)
-
-CHANGE_NOTE:
-- DATE: 2026-01-11
-- TYPE: MAJOR
-- SUMMARY: "Rebuilt QA global index to match actual folder structure; RAW-only navigation; registered Music QA checks 01..09 and templates set."
-- REASON: "QA layer must be deterministic for music system: viral UX gates, recognition tests, regression guards."
-- IMPACT: "QA becomes canon-visible and audit-compatible; unregistered QA checks are NON-CANON."
-- CHANGE_ID: UE.CHG.2026-01-11.QA.IDX.ALL.001
+STATUS: ACTIVE
+MODE: REPO (USAGE-ONLY, NO-EDIT)
+CREATED: 2026-02-02
+UPDATED: 2026-02-02
+OWNER: QA_ENT
+NAV_RULE: RAW lives here only
 
 ---
 
-## ROOT FILES (QA LAYER) — RAW ONLY
-00 — QA Layer Realm (README)  
-RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/60_QA__QUALITY/00__README__QA_REALM.md
+## [M] PURPOSE
+INDEX_MANIFEST — адресная таблица реалма 60_QA_ENT.
+Хранит RAW и короткие смыслы для QA-реалмов и root QA файлов. Без длинных объяснений.
 
-01 — QA Layer Rules (Ruleset)  
-RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/60_QA__QUALITY/01__RULES__QA.md
+## [M] HARD_RULES
+- RAW ссылки допускаются только тут (и в ROOT LINK BASE / START по закону системы).
+- Каждый элемент имеет KEY. PIPELINE_CONTRACT ссылается только на KEY.
+- SELF запись обязательна.
+- Коротко: 1–2 строки смысла. Без лирики.
+- Не обходить через PATH при наличии RAW (PATH хранится как справка).
 
-02 — QA INDEX_ALL_QA (THIS FILE)  
-RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/60_QA__QUALITY/02__INDEX_ALL_QA.md
+## [M] INDEX_CONTEXT
+- REALM_ID: UE_V2/03_ENT/60_QA_ENT
+- FOLDER_NAME: 60_QA_ENT
+- INDEX_SCOPE_TAGS: [ENT, QA]
 
-03 — QA Create Flow  
-RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/60_QA__QUALITY/03__CREATE_FLOW__QA.md
-
----
-
-## 0) PURPOSE (LAW)
-Этот INDEX — единая точка истины для NAV/EXISTENCE слоя `60_QA__QUALITY`.
-
-Он фиксирует:
-- состав папок (семейств) внутри `03_SYSTEM_ENTITIES/60_QA__QUALITY/`
-- строгий порядок QA-checks внутри каждого семейства
-- RAW-only навигацию
-
----
-
-## 1) EXISTENCE RULE (ABSOLUTE)
-- Если файла/README/Template нет в CANON MAP ниже — он **не существует** для слоя QA.
-- Если файл есть в репо, но не зарегистрирован здесь — **NON-CANON / ignored**.
-- NAV работает **только по RAW** ссылкам.
-
----
-
-## 2) BASE PATH
-PATH: `03_SYSTEM_ENTITIES/60_QA__QUALITY/`
+## [M] ENTRY_SCHEMA (v1)
+- KEY: <UNIQUE_KEY>
+  UID: <OPTIONAL_UID>
+  KIND: FILE|FOLDER|ENTITY|PIPE|KB|REG|XREF|LOG|STD|LAW|TPL
+  ROLE: <ONE_LINE_ROLE>
+  DESC: <ONE_LINE_DESC>
+  RAW: <RAW_URL_OR_EMPTY>
+  PATH: <REPO_PATH_OR_EMPTY>
+  MARKERS: [MUST_LOAD, ROUTER, NAV, ...]
+  STATUS: ACTIVE|DRAFT|DEPRECATED
+  OWNER: SYS|RUNTIME|USER|<TEAM>
+  UPDATED: 0000-00-00
 
 ---
 
-## 3) HOW TO USE (ROADMAP)
-1) Выбираешь FAMILY (папку) по задаче.
-2) Открываешь `00__README__...` этой FAMILY — рамки, роль и границы.
-3) Внутри FAMILY идёшь по QA-checks строго по номеру.
-4) Новый QA-check:
-   - сначала регистрируется здесь (FAMILY + номер),
-   - затем создаётся файл,
-   - затем обновляется README семьи (если нужно).
+## [M] ENTRIES
+
+### [M] SELF
+- KEY: SELF
+  UID: UE.V2.ENT.IDX.QA_ENT.001
+  KIND: FILE
+  ROLE: Self pointer for deterministic nav
+  DESC: This index-manifest file for 60_QA_ENT
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/60_QA_ENT/00__INDEX_MANIFEST__QA__ENT.md
+  PATH: UE_V2/03_ENT/60_QA_ENT/00__INDEX_MANIFEST__QA__ENT.md
+  MARKERS: [INDEX, SELF]
+  STATUS: ACTIVE
+  OWNER: QA_ENT
+  UPDATED: 2026-02-02
+
+### [M] REQUIRED (root files)
+- KEY: INDEX_MANIFEST
+  UID: UE.V2.ENT.IDX.QA_ENT.001
+  KIND: FILE
+  ROLE: Address table for QA realm
+  DESC: RAW addresses + short meaning for 60_QA_ENT
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/60_QA_ENT/00__INDEX_MANIFEST__QA__ENT.md
+  PATH: UE_V2/03_ENT/60_QA_ENT/00__INDEX_MANIFEST__QA__ENT.md
+  MARKERS: [INDEX, MUST_LOAD]
+  STATUS: ACTIVE
+  OWNER: QA_ENT
+  UPDATED: 2026-02-02
+
+- KEY: PIPELINE_CONTRACT
+  UID: UE.V2.ENT.PIPE.QA_ENT.001
+  KIND: PIPE
+  ROLE: Router for QA realm actions
+  DESC: Routes to QA sub-realms via KEYS only
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/60_QA_ENT/00__PIPELINE_CONTRACT__QA__ENT.md
+  PATH: UE_V2/03_ENT/60_QA_ENT/00__PIPELINE_CONTRACT__QA__ENT.md
+  MARKERS: [PIPE, MUST_LOAD, ROUTER]
+  STATUS: ACTIVE
+  OWNER: QA_ENT
+  UPDATED: 2026-02-02
+
+- KEY: QA.NATURALNESS_GATE
+  UID: UE.V2.ENT.QA.NATURALNESS_GATE.001
+  KIND: ENTITY
+  ROLE: Root naturalness gate
+  DESC: Minimal naturalness QA gate (root entry)
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/60_QA_ENT/01__NATURALNESS_GATE__QA__ENT.md
+  PATH: UE_V2/03_ENT/60_QA_ENT/01__NATURALNESS_GATE__QA__ENT.md
+  MARKERS: [QA, GATE, MUST_LOAD]
+  STATUS: ACTIVE
+  OWNER: QA_ENT
+  UPDATED: 2026-02-02
+
+- KEY: QA.CREATE_FLOW
+  UID: UE.V2.ENT.QA.CREATE_FLOW.001
+  KIND: ENTITY
+  ROLE: Root QA create-flow
+  DESC: Canon QA flow builder (root entry)
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/60_QA_ENT/02__CREATE_FLOW__QA__ENT.md
+  PATH: UE_V2/03_ENT/60_QA_ENT/02__CREATE_FLOW__QA__ENT.md
+  MARKERS: [QA, ROUTER, MUST_LOAD]
+  STATUS: ACTIVE
+  OWNER: QA_ENT
+  UPDATED: 2026-02-02
+
+- KEY: DOD
+  UID: UE.V2.ENT.QA.DOD.001
+  KIND: STD
+  ROLE: Definition of done for QA realm
+  DESC: Completion checklist + invariants for 60_QA_ENT
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/60_QA_ENT/99__DEFINITION_OF_DONE__QA__ENT.md
+  PATH: UE_V2/03_ENT/60_QA_ENT/99__DEFINITION_OF_DONE__QA__ENT.md
+  MARKERS: [STD, GATE, MUST_LOAD]
+  STATUS: ACTIVE
+  OWNER: QA_ENT
+  UPDATED: 2026-02-02
 
 ---
 
-## 4) FAMILY BLOCK STANDARD (MANDATORY)
-Каждое семейство обязано иметь единый блок:
-1) `## <FAMILY_NAME>`
-2) `REALM FILE:` (RAW)
-3) `Family Path:`
-4) `TEMPLATES:` (если применимо)
-5) список QA-checks по номерам (RAW)
+## [M] REALMS (folders + their indexes/contracts)
 
----
+### [M] 00_GOVERNANCE_QA_ENT
+- KEY: REALM.GVN_QA
+  UID: UE.V2.ENT.REALM.GVN_QA.001
+  KIND: FOLDER
+  ROLE: Governance QA realm
+  DESC: QA governance: naturalness gate, create flow, issue lifecycle (realm)
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/60_QA_ENT/00_GOVERNANCE_QA_ENT/00__INDEX_MANIFEST__GVN__QA__ENT.md
+  PATH: UE_V2/03_ENT/60_QA_ENT/00_GOVERNANCE_QA_ENT
+  MARKERS: [NAV, QA, GVN, MUST_LOAD]
+  STATUS: ACTIVE
+  OWNER: QA_ENT
+  UPDATED: 2026-02-02
 
-# CANON MAP — 60_QA__QUALITY (RAW-ONLY NAV)
+### [M] 10_MUSIC_QA
+- KEY: REALM.MUS_QA
+  UID: UE.V2.ENT.REALM.MUS_QA.001
+  KIND: FOLDER
+  ROLE: Music QA realm
+  DESC: Panels and gates for music QA (hook/scroll/loop/mix/regression)
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/60_QA_ENT/10_MUSIC_QA/00__INDEX_MANIFEST__MUS__QA__ENT.md
+  PATH: UE_V2/03_ENT/60_QA_ENT/10_MUSIC_QA
+  MARKERS: [NAV, QA, MUS, MUST_LOAD]
+  STATUS: ACTIVE
+  OWNER: QA_ENT
+  UPDATED: 2026-02-02
 
----
+### [M] 20_VIDEO_QA_ENT
+- KEY: REALM.VID_QA
+  UID: UE.V2.ENT.REALM.VID_QA.001
+  KIND: FOLDER
+  ROLE: Video QA realm
+  DESC: Video QA basics: README + regression guard
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/60_QA_ENT/20_VIDEO_QA_ENT/00__INDEX_MANIFEST__VID__QA__ENT.md
+  PATH: UE_V2/03_ENT/60_QA_ENT/20_VIDEO_QA_ENT
+  MARKERS: [NAV, QA, VID, MUST_LOAD]
+  STATUS: ACTIVE
+  OWNER: QA_ENT
+  UPDATED: 2026-02-02
 
-## 00__TEMPLATES
-REALM FILE:
-- (Templates folder; realm is implied by templates themselves)
+### [M] 30_WEB_QA_ENT
+- KEY: REALM.WEB_QA
+  UID: UE.V2.ENT.REALM.WEB_QA.001
+  KIND: FOLDER
+  ROLE: Web QA realm
+  DESC: Web QA: a11y audit and related checks
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/60_QA_ENT/30_WEB_QA_ENT/00__INDEX_MANIFEST__WEB__QA__ENT.md
+  PATH: UE_V2/03_ENT/60_QA_ENT/30_WEB_QA_ENT
+  MARKERS: [NAV, QA, WEB, MUST_LOAD]
+  STATUS: ACTIVE
+  OWNER: QA_ENT
+  UPDATED: 2026-02-02
 
-Family Path: `00__TEMPLATES/`
+### [M] 40_DOCS_QA_ENT
+- KEY: REALM.DOC_QA
+  UID: UE.V2.ENT.REALM.DOC_QA.001
+  KIND: FOLDER
+  ROLE: Docs QA realm
+  DESC: Docs QA: lint audit and minimum structure checks
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/60_QA_ENT/40_DOCS_QA_ENT/00__INDEX_MANIFEST__DOC__QA__ENT.md
+  PATH: UE_V2/03_ENT/60_QA_ENT/40_DOCS_QA_ENT
+  MARKERS: [NAV, QA, DOC, MUST_LOAD]
+  STATUS: ACTIVE
+  OWNER: QA_ENT
+  UPDATED: 2026-02-02
 
-00 — TEMPLATE: QA CHECK  
-RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/60_QA__QUALITY/00__TEMPLATES/00__TEMPLATE__QA_CHECK.md
-
-01 — TEMPLATE: QA ENTITY  
-RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/60_QA__QUALITY/00__TEMPLATES/00__TEMPLATE__QA_ENTITY.md
-
-02 — TEMPLATE: QA ISSUE  
-RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/60_QA__QUALITY/00__TEMPLATES/00__TEMPLATE__QA_ISSUE.md
-
----
-
-## 10_MUSIC_QA
-REALM FILE:
-- 00 — README: MUSIC QA  
-RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/60_QA__QUALITY/10_MUSIC_QA/00__README__MUSIC_QA.md
-
-Family Path: `10_MUSIC_QA/`
-
-01 — SCROLL STOP 5S  
-RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/60_QA__QUALITY/10_MUSIC_QA/01__SCROLL_STOP_5S_QA.md
-
-02 — LOOP 15S  
-RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/60_QA__QUALITY/10_MUSIC_QA/02__LOOP_15S_QA.md
-
-03 — RECOGNITION 10S  
-RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/60_QA__QUALITY/10_MUSIC_QA/03__RECOGNITION_10S_QA.md
-
-04 — CREATOR PANEL  
-RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/60_QA__QUALITY/10_MUSIC_QA/04__CREATOR_PANEL_QA.md
-
-05 — MIX TRANSLATION  
-RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/60_QA__QUALITY/10_MUSIC_QA/05__MIX_TRANSLATION_QA.md
-
-06 — HOOK PANEL  
-RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/60_QA__QUALITY/10_MUSIC_QA/06__HOOK_PANEL_QA.md
-
-07 — CATALOG DIFFERENTIATION  
-RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/60_QA__QUALITY/10_MUSIC_QA/07__CATALOG_DIFFERENTIATION_QA.md
-
-08 — VOICE DIVERSITY AUDIT  
-RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/60_QA__QUALITY/10_MUSIC_QA/08__VOICE_DIVERSITY_AUDIT_QA.md
-
-09 — REGRESSION GUARD  
-RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/60_QA__QUALITY/10_MUSIC_QA/09__REGRESSION_GUARD_QA.md
-
----
-
-## 99) ALIAS RULE (STRICT)
-Любые дубли entrypoint/индекса вида:
-- `03_SYSTEM_ENTITIES/60_QA__QUALITY/00__INDEX_ALL_QA.md`
-- любые другие `*INDEX*_QA*`, кроме CANON FILE выше
-должны быть либо удалены, либо превращены в чистый POINTER на:
-`03_SYSTEM_ENTITIES/60_QA__QUALITY/02__INDEX_ALL_QA.md`
-
----
-
-## FINAL RULE (LOCK)
-Этот INDEX — единственная точка истины о составе и порядке QA-checks.  
-Любая правка структуры/порядка должна фиксироваться как изменение канона слоя QA.
-
-OWNER: SYSTEM  
-LOCK: FIXED
-
---- END.
+### [M] 90_SHARED_LIB_QA_ENT
+- KEY: REALM.LIB_QA
+  UID: UE.V2.ENT.REALM.LIB_QA.001
+  KIND: FOLDER
+  ROLE: Shared QA library realm
+  DESC: Shared rules: severity scale, fail code map, evidence requirements
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/60_QA_ENT/90_SHARED_LIB_QA_ENT/00__INDEX_MANIFEST__LIB__QA__ENT.md
+  PATH: UE_V2/03_ENT/60_QA_ENT/90_SHARED_LIB_QA_ENT
+  MARKERS: [NAV, QA, LIB, MUST_LOAD]
+  STATUS: ACTIVE
+  OWNER: QA_ENT
+  UPDATED: 2026-02-02

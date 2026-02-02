@@ -1,0 +1,73 @@
+FILE: UE_V2/03_ENT/60_QA_ENT/40_DOCS_QA_ENT/00__PIPELINE_CONTRACT__DOC__QA__ENT.md
+SCOPE: UE_V2 / 03_ENT / 60_QA_ENT / 40_DOCS_QA_ENT
+DOC_TYPE: PIPELINE_CONTRACT
+DOMAIN: DOC_QA_ENT
+UID: UE.V2.ENT.PIPE.DOC_QA_ENT.001
+VERSION: 1.0.0
+STATUS: ACTIVE
+MODE: REPO (USAGE-ONLY, NO-EDIT)
+CREATED: 2026-02-02
+UPDATED: 2026-02-02
+OWNER: QA_ENT
+NAV_RULE: Contract has no RAW
+
+---
+
+## [M] PURPOSE
+PIPELINE_CONTRACT — роутер DOC QA.
+Пока реалм содержит один обязательный аудит: doc lint audit. Контракт возвращает KEYS only.
+RAW не хранит: всё через KEY и INDEX_MANIFEST.
+
+## [M] HARD_RULES
+- RAW запрещён внутри CONTRACT.
+- Все ссылки: только KEYS.
+- MODE REPO: никаких правок репозитория.
+- Выход: QA_CHAIN_PLAN (KEYS) + PRIORITY_ORDER + CONFLICT_RULES.
+
+## [M] REQUIRED_KEYS
+- INDEX_MANIFEST
+- PIPELINE_CONTRACT
+- QA.DOC.LINT_AUDIT
+
+## [M] PRIORITY_ORDER (highest first)
+1) QA.DOC.LINT_AUDIT
+
+## [M] CONFLICT_RULES
+- FAIL dominates everything (stop, return REQUIRED_FIXES + ISSUES).
+- ASK dominates PASS/WARN.
+- WARN returns REQUIRED_FIXES but may continue.
+- PASS only when no higher-severity result exists.
+
+## [M] DEFAULT_CHAIN_PLAN (keys)
+- ALWAYS:
+  - QA.DOC.LINT_AUDIT
+
+## [M] STEP-RUN
+- STEP: S0
+  GOAL: Build DOC QA chain keys
+  INPUTS: [DOC_TEXT?, DOC_TYPE_HINT?]
+  TARGETS: [INDEX_MANIFEST]
+  ACTIONS:
+    - Output QA_CHAIN_PLAN = [QA.DOC.LINT_AUDIT]
+  OUTPUTS: [QA_CHAIN_PLAN]
+  CHECKS: [REQUIRED_KEYS_PRESENT]
+  FAIL: UE.FAIL.MISSING_KEY
+  NEXT: "го"
+
+- STEP: S1
+  GOAL: Aggregate QA decisions
+  INPUTS: [QA_CHAIN_PLAN, QA_FINDINGS?]
+  TARGETS: []
+  ACTIONS:
+    - Apply checks in PRIORITY_ORDER
+    - Aggregate using CONFLICT_RULES
+  OUTPUTS: [QA_AGG_DECISION, REQUIRED_FIXES, ISSUES?]
+  CHECKS: [DECISION_PRODUCED]
+  FAIL: UE.FAIL.GATE_FAIL
+  NEXT: "го"
+
+## [M] FAIL_CODES
+- UE.FAIL.MISSING_KEY
+- UE.FAIL.GATE_FAIL
+- UE.FAIL.RULE_VIOLATION
+- UE.FAIL.INPUT_ABSENT

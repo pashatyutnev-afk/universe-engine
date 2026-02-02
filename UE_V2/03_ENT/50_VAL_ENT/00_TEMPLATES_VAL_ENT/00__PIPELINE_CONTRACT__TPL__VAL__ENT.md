@@ -1,0 +1,70 @@
+FILE: UE_V2/03_ENT/50_VAL_ENT/00_TEMPLATES_VAL_ENT/00__PIPELINE_CONTRACT__TPL__VAL__ENT.md
+SCOPE: UE_V2 / 03_ENT / 50_VAL_ENT / 00_TEMPLATES_VAL_ENT
+DOC_TYPE: PIPELINE_CONTRACT
+DOMAIN: TPL_VAL_ENT
+UID: UE.V2.ENT.PIPE.TPL_VAL_ENT.001
+VERSION: 1.0.0
+STATUS: ACTIVE
+MODE: REPO (USAGE-ONLY, NO-EDIT)
+CREATED: 2026-02-02
+UPDATED: 2026-02-02
+OWNER: VAL_ENT
+NAV_RULE: Contract has no RAW
+
+---
+
+## [M] PURPOSE
+PIPELINE_CONTRACT — навигатор шаблонов VAL.
+Принимает запрос “какой шаблон нужен” и возвращает TEMPLATE_KEY (KEYS only).
+RAW не хранит: резолвится через INDEX_MANIFEST.
+
+## [M] HARD_RULES
+- RAW запрещён внутри CONTRACT.
+- Все ссылки: только KEYS.
+- Открытие: KEY -> INDEX_MANIFEST -> RAW -> open.
+- MODE REPO: никаких правок репозитория.
+
+## [M] REQUIRED_KEYS
+- INDEX_MANIFEST
+- PIPELINE_CONTRACT
+- TPL.VAL_ENTITY
+- TPL.VAL_VIOLATION
+- TPL.INDEX_MANIFEST_VAL
+- TPL.PIPELINE_CONTRACT_VAL
+
+## [M] ROUTES (keys only)
+- IF need "validator entity doc" -> TPL.VAL_ENTITY
+- IF need "violation record format" -> TPL.VAL_VIOLATION
+- IF need "INDEX_MANIFEST for VAL realm" -> TPL.INDEX_MANIFEST_VAL
+- IF need "PIPELINE_CONTRACT for VAL realm" -> TPL.PIPELINE_CONTRACT_VAL
+
+## [M] STEP-RUN
+- STEP: S0
+  GOAL: Determine template intent
+  INPUTS: [TASK_TEXT]
+  TARGETS: [INDEX_MANIFEST]
+  ACTIONS:
+    - Classify TASK_TEXT into TEMPLATE_INTENT and select TEMPLATE_KEY
+  OUTPUTS: [TEMPLATE_KEY]
+  CHECKS: [TEMPLATE_KEY_RESOLVABLE]
+  FAIL: UE.FAIL.ROUTE_UNRESOLVED
+  NEXT: "го"
+
+- STEP: S1
+  GOAL: Return template key and minimal usage notes
+  INPUTS: [TEMPLATE_KEY]
+  TARGETS: []
+  ACTIONS:
+    - Return TEMPLATE_KEY and short usage hints (no RAW)
+  OUTPUTS: [TEMPLATE_KEY, USAGE_HINTS?]
+  CHECKS: []
+  FAIL: UE.FAIL.GATE_FAIL
+  NEXT: "го"
+
+## [M] FAIL_CODES
+- UE.FAIL.ROUTE_UNRESOLVED
+- UE.FAIL.GATE_FAIL
+- UE.FAIL.RULE_VIOLATION
+
+## [M] CHANGELOG
+- 2026-02-02: v1.0.0 init

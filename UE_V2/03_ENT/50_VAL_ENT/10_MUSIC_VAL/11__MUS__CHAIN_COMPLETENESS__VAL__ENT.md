@@ -1,52 +1,67 @@
-# 11__CHAIN_COMPLETENESS_VAL
-
-SCOPE: Universe Engine (UE_V2)
-DOC_TYPE: VAL
-UID: UE.V2.VAL.MUSIC.CHAIN_COMPLETENESS.001
+FILE: UE_V2/03_ENT/50_VAL_ENT/10_MUSIC_VAL/11__MUS__CHAIN_COMPLETENESS__VAL__ENT.md
+SCOPE: UE_V2 / 03_ENT / 50_VAL_ENT / 10_MUSIC_VAL
+DOC_TYPE: VAL_ENTITY
+DOMAIN: MUS_VAL_ENT
+UID: UE.V2.ENT.VAL.MUS.CHAIN_COMPLETENESS.001
 VERSION: 1.0.0
 STATUS: ACTIVE
 MODE: REPO (USAGE-ONLY, NO-EDIT)
-NAV_RULE: Use RAW links only
-PURPOSE: Проверка полноты процесса MUSIC (токены/решения/архив/QA), чтобы нельзя было “проскочить” мимо стадий.
+CREATED: 2026-02-02
+UPDATED: 2026-02-02
+OWNER: VAL_ENT
+NAV_RULE: No RAW in entity docs
 
 ---
 
-## [M] INPUTS
-- TOKEN_ARCHIVE refs
-- DECISION_LOG refs
-- PLAN_TOKEN (coverage level)
-- TRACE_TOKEN (кто участвовал и какие contribution tokens)
+## [M] ENTITY_HEADER
+- ENTITY_NAME: MUS_CHAIN_COMPLETENESS_VAL
+- ENTITY_CLASS: VAL
+- UID: UE.V2.ENT.VAL.MUS.CHAIN_COMPLETENESS.001
 
----
+## [M] PURPOSE
+Проверяет, что цепочка артефактов не дырявая: есть brief, prompt pack, выбранный вариант, QA/VAL статусы (для релиза).
 
-## [M] CHECKS (MUSIC.TRACK MIN)
-C1) Есть ROUTE_TOKEN (DOMAIN=MUSIC) и PLAN_TOKEN.
-C2) Если был OPTIONS_TOKEN → есть DECISION_TOKEN и запись в DECISION_LOG.
-C3) Есть минимум один CONTRIBUTION_TOKEN на production-шага.
-C4) Есть REVIEW стадия: REPORT_TOKEN(CTL) + REPORT_TOKEN(QA) (release_ready+).
-C5) Если заявлен PACK/SIGNOFF → есть PACK_TOKEN и BASELINE_TOKEN.
-C6) Есть запись в TOKEN_ARCHIVE на каждый завершённый STEP.
+## [M] SCOPE
+- TARGET_DOMAIN: MUS
+- APPLIES_TO: [MUS_BRIEF, PROMPT_PACK, VARIANT_NOTES?, QA_REPORT?, RELEASE_PACK_TOKEN?]
+- NON_GOALS: [оценка содержания]
 
----
+## [M] INPUTS / OUTPUTS
+- Inputs: [MUS_BRIEF?, PROMPT_PACK?, SELECTED_VARIANT_TOKEN?, QA_REPORT?]
+- Outputs: [VAL_DECISION, REQUIRED_FIXES, VIOLATIONS]
 
-## [M] OUTPUTS
-- REPORT_TOKEN (VAL): PASS/REWORK + список недостающих элементов
+## [M] CHECKS
+- C1: MUS_BRIEF присутствует (Evidence: token)
+- C2: PROMPT_PACK присутствует (Evidence: token)
+- C3: Для релиза выбран вариант (Evidence: selected variant token)
+- C4: Есть QA статус (Evidence: qa report)
 
----
+## [M] DECISION_MATRIX
+- IF отсутствует brief или prompt -> FAIL
+- IF релиз заявлен и нет selected variant -> ASK
+- IF релиз заявлен и нет QA -> ASK
+- ELSE -> PASS
 
-## [M] FAIL CODES
-- VAL.MUSIC.CHAIN.MISSING_ROUTE
-- VAL.MUSIC.CHAIN.MISSING_PLAN
-- VAL.MUSIC.CHAIN.MISSING_DECISION
-- VAL.MUSIC.CHAIN.MISSING_CONTRIB
-- VAL.MUSIC.CHAIN.MISSING_REVIEW
-- VAL.MUSIC.CHAIN.MISSING_PACK
-- VAL.MUSIC.CHAIN.MISSING_ARCHIVE
+## [M] VIOLATIONS
+- V.CHAIN.MISSING_BRIEF
+- V.CHAIN.MISSING_PROMPT
+- V.CHAIN.MISSING_SELECTED_VARIANT
+- V.CHAIN.MISSING_QA
 
----
+## [M] FAIL_CODES
+- UE.FAIL.GATE_FAIL
+- UE.FAIL.INPUT_ABSENT
+
+## [M] KB SCOPE
+- KB Inputs: [artifact tokens]
+- KB Outputs: [missing list]
+- KB Boundaries: [не придумывать отсутствующие токены]
+- KB RAW refs: []
 
 ## [M] GATES
-PASS если:
-- все обязательные элементы присутствуют
-REWORK если:
-- чего-то не хватает (вернуться и добавить токены/решение/архив)
+- PASS if: цепочка достаточна под режим
+- FAIL if: базовые токены отсутствуют
+
+## [M] SPC PEER ROLES (NON-ENG)
+- Works with: [ORC_ENT, CTL_ENT, QA_ENT]
+- Handoff rules: FAIL/ASK -> request missing tokens

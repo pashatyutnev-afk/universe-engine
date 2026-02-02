@@ -1,68 +1,62 @@
-# 15__VARIANT_POLICY_CTL
-
-SCOPE: Universe Engine (UE_V2)
-DOC_TYPE: CTL
-UID: UE.V2.CTL.MUSIC.VARIANT_POLICY.001
+FILE: UE_V2/03_ENT/40_CTL_ENT/10_MUSIC_CONTROLLERS_CTL_ENT/15__MUS__VARIANT_POLICY__CTL__ENT.md
+SCOPE: UE_V2 / 03_ENT / 40_CTL_ENT / 10_MUSIC_CONTROLLERS_CTL_ENT
+DOC_TYPE: CTL_ENTITY
+DOMAIN: MUS_CTL_ENT
+UID: UE.V2.ENT.CTL.MUS.VARIANT_POLICY.001
 VERSION: 1.0.0
 STATUS: ACTIVE
 MODE: REPO (USAGE-ONLY, NO-EDIT)
-NAV_RULE: Use RAW links only
-PURPOSE: Политика генерации вариантов (A/B/C/…) для трека/хука/текста: чем отличаются, как не делать “косметику”.
-
+CREATED: 2026-02-02
+UPDATED: 2026-02-02
+OWNER: CTL_ENT
+NAV_RULE: No RAW in entity docs
 ---
 
-## [M] INTENT
-Сделать варианты реально полезными: каждый вариант должен отличаться по 1–2 осям, а не “почти то же самое”.
+## [M] ENTITY_HEADER
+- ENTITY_NAME: MUS_VARIANT_POLICY_CTL
+- ENTITY_CLASS: CTL
+- UID: UE.V2.ENT.CTL.MUS.VARIANT_POLICY.001
 
----
+## [M] PURPOSE
+Правила вариативности: как называть, чем отличать, как хранить заметки и не плодить дубликаты.
 
-## [M] OUTPUTS
-- OPTIONS_TOKEN (A–E)
-- SCORE_TOKEN (optional): если включен скоринг
+## [M] SCOPE
+- TARGET_DOMAIN: MUS
+- APPLIES_TO: [VARIANT_NOTES, RELEASE_PACK_TOKEN?]
+- NON_GOALS: [merge стратегия]
 
----
+## [M] INPUTS / OUTPUTS
+- Inputs: [VARIANT_SET?, VARIANT_NOTES?]
+- Outputs: [CTL_DECISION, CTL_FINDINGS, REQUIRED_FIXES]
 
-## [M] VARIATION_AXES (MUSIC)
-Можно варьировать (1–2 оси на вариант):
-- AX1: Rhythm (pattern / syncopation / swing)
-- AX2: Melody (motive shape / intervals / contour)
-- AX3: Harmony (tension / resolution / chord color)
-- AX4: Energy (density / drop impact / dynamics)
-- AX5: Sound (lead timbre / bass character / drum kit)
-- AX6: Arrangement (hook placement / length / transitions)
-- AX7: UGC/Hook framing (call/response, “earworm” tactic)
-- AX8: Lyrics (if any): imagery / rhyme / cadence
+## [M] RULESET
+- R1: У каждого варианта должна быть метка отличия (hook, energy, arrangement).
+- R2: Нельзя делать варианты полностью одинаковыми, различие должно быть измеримым.
+- R3: Названия вариантов должны быть детерминированными.
 
----
+## [M] DECISION_MATRIX
+- IF variants отсутствуют -> PASS
+- IF notes отсутствуют -> WARN
+- IF variants дубли -> WARN
+- ELSE -> PASS
 
-## [M] VARIANT RULES
-1) Вариант обязан явно указать: какие AX изменены.
-2) Запрещены “псевдо-варианты”: если отличия не слышны/не ощущаются → REWORK.
-3) Максимум 5 вариантов за шаг (см. STEP_BUDGET_CTL).
-4) Варианты должны быть взаимно различимы и пригодны к сравнению.
-5) Должен быть дефолт (если пользователь не выбирает) — ORC берёт лучший по QA/score.
+## [M] VIOLATIONS
+- V.VAR.NO_NOTES
+- V.VAR.DUPLICATES
 
----
+## [M] FAIL_CODES
+- UE.FAIL.GATE_FAIL
 
-## [M] RECOMMENDED SETS (DEFAULT)
-HOOK:
-- A: rhythm-first
-- B: melody-first
-- C: contrast-first (pause + impact)
-- D: timbre-first
-- E: ugc-first (repeatable snippet)
-
-TRACK:
-- A: aggressive / dense
-- B: cleaner / punchy
-- C: wider / atmospheric
-- D: minimal / groove
-- E: hybrid / twist
-
----
+## [M] KB SCOPE
+- KB Inputs: [variant notes]
+- KB Outputs: [variant fixes]
+- KB Boundaries: [не выдумывать отличия]
+- KB RAW refs: []
 
 ## [M] GATES
-PASS если:
-- варианты различимы и описаны осями
-REWORK если:
-- варианты косметические или >5
+- PASS if: вариативность описана и контролируема
+- FAIL if: релиз требует выбор, но вариантов нельзя различить
+
+## [M] SPC PEER ROLES (NON-ENG)
+- Works with: [ORC_ENT]
+- Handoff rules: WARN -> add notes; PASS -> continue

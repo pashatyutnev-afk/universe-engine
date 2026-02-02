@@ -1,0 +1,110 @@
+FILE: UE_V2/03_ENT/40_CTL_ENT/00_TEMPLATES_CTL_ENT/03__TPL__INDEX_MANIFEST__CTL__ENT.md
+SCOPE: UE_V2 / 03_ENT / 40_CTL_ENT / 00_TEMPLATES_CTL_ENT
+DOC_TYPE: TPL
+DOMAIN: TPL_CTL_ENT
+UID: UE.V2.ENT.TPL.INDEX_MANIFEST_CTL.001
+VERSION: 1.0.0
+STATUS: ACTIVE
+MODE: REPO (USAGE-ONLY, NO-EDIT)
+CREATED: 2026-02-02
+UPDATED: 2026-02-02
+OWNER: CTL_ENT
+NAV_RULE: Template doc contains no RAW
+
+---
+
+## [M] TEMPLATE_NAME
+INDEX_MANIFEST_CTL_TEMPLATE
+
+## [M] PURPOSE
+Шаблон INDEX_MANIFEST для CTL реалмов (например MUS/VID/WEB/DOC).
+RAW ссылки допускаются только в самом INDEX_MANIFEST файле.
+
+---
+
+# [T] FILE HEADER (copy and fill)
+FILE: <PATH_TO_TARGET_INDEX_MANIFEST>
+SCOPE: <SCOPE>
+DOC_TYPE: INDEX_MANIFEST
+DOMAIN: <MUS_CTL_ENT|VID_CTL_ENT|WEB_CTL_ENT|DOC_CTL_ENT|...>
+UID: <UID>
+VERSION: 1.0.0
+STATUS: ACTIVE
+MODE: REPO (USAGE-ONLY, NO-EDIT)
+CREATED: 0000-00-00
+UPDATED: 0000-00-00
+OWNER: CTL_ENT
+NAV_RULE: RAW lives here only
+
+---
+
+## [M] PURPOSE
+INDEX_MANIFEST — адресная таблица реалма.
+Хранит RAW и короткие смыслы. Без длинных объяснений.
+
+## [M] HARD_RULES
+- RAW ссылки допускаются только тут (и в ROOT LINK BASE / START по закону системы).
+- Каждый элемент имеет KEY. PIPELINE_CONTRACT ссылается только на KEY.
+- SELF запись обязательна.
+- Не обходить через PATH при наличии RAW.
+
+## [M] ENTRY_SCHEMA (v1)
+- KEY: <UNIQUE_KEY>
+  UID: <OPTIONAL_UID>
+  KIND: FILE|FOLDER|ENTITY|PIPE|KB|REG|XREF|LOG|STD|LAW|TPL
+  ROLE: <ONE_LINE_ROLE>
+  DESC: <ONE_LINE_DESC>
+  RAW: <RAW_URL_OR_EMPTY>
+  PATH: <REPO_PATH_OR_EMPTY>
+  MARKERS: [MUST_LOAD, ROUTER, NAV, ...]
+  STATUS: ACTIVE|DRAFT|DEPRECATED
+  OWNER: SYS|RUNTIME|USER|<TEAM>
+  UPDATED: 0000-00-00
+
+## [M] REQUIRED DEFAULT KEYS
+- SELF
+- INDEX_MANIFEST
+- PIPELINE_CONTRACT
+- README
+- DOD (optional but recommended)
+
+## [M] ENTRIES (example skeleton)
+
+### [M] SELF
+- KEY: SELF
+  UID: <same as index uid>
+  KIND: FILE
+  ROLE: Self pointer for deterministic nav
+  DESC: This index-manifest file for <realm>
+  RAW: <RAW_URL>
+  PATH: <PATH>
+  MARKERS: [INDEX, SELF]
+  STATUS: ACTIVE
+  OWNER: CTL_ENT
+  UPDATED: 0000-00-00
+
+### [M] REQUIRED
+- KEY: PIPELINE_CONTRACT
+  UID: <pipe uid>
+  KIND: PIPE
+  ROLE: Navigator for realm actions
+  DESC: Uses KEYS, resolves RAW via INDEX_MANIFEST
+  RAW: <RAW_URL>
+  PATH: <PATH>
+  MARKERS: [PIPE, MUST_LOAD, ROUTER]
+  STATUS: ACTIVE
+  OWNER: CTL_ENT
+  UPDATED: 0000-00-00
+
+### [O] CONTENT
+- KEY: CTL.<NAME_1>
+  UID: <uid>
+  KIND: ENTITY
+  ROLE: Controller
+  DESC: <one line>
+  RAW: <RAW_URL>
+  PATH: <PATH>
+  MARKERS: [CTL]
+  STATUS: ACTIVE
+  OWNER: CTL_ENT
+  UPDATED: 0000-00-00

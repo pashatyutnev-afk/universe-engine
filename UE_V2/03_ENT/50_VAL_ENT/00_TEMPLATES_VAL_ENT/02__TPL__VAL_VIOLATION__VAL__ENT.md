@@ -1,32 +1,43 @@
-# VAL VIOLATION — TEMPLATE
-
-FILE: 03_SYSTEM_ENTITIES/50_VAL__VALIDATORS/00__TEMPLATES/00__TEMPLATE__VAL_VIOLATION.md
-SCOPE: Universe Engine (Games volume) / Validators (VAL) / Violation record template
-SERIAL: C425-B513
-LAYER: 03_SYSTEM_ENTITIES
-DOC_TYPE: TEMPLATE
-ENTITY_GROUP: VALIDATORS (VAL)
-LEVEL: L1
+FILE: UE_V2/03_ENT/50_VAL_ENT/00_TEMPLATES_VAL_ENT/02__TPL__VAL_VIOLATION__VAL__ENT.md
+SCOPE: UE_V2 / 03_ENT / 50_VAL_ENT / 00_TEMPLATES_VAL_ENT
+DOC_TYPE: TPL
+DOMAIN: TPL_VAL_ENT
+UID: UE.V2.ENT.TPL.VAL_VIOLATION.001
+VERSION: 1.0.0
 STATUS: ACTIVE
-LOCK: FIXED
-VERSION: 1.1.0
-UID: UE.GAMES.TPL.VAL.VIOLATION.001
-OWNER: SYSTEM
-ROLE: Canonical violation record format for VAL reports (S0–S3).
-
-CHANGE_NOTE:
-- DATE: 2026-01-20
-- TYPE: MINOR
-- SUMMARY: "DOC CONTROL alignment + normalized fields."
-- REASON: "Make violations machine-readable and consistent across validators."
-- IMPACT: "VAL reports become comparable and auditable."
-- CHANGE_ID: UE.CHG.2026-01-20.VAL.TPL.VIOLATION.001
+MODE: REPO (USAGE-ONLY, NO-EDIT)
+CREATED: 2026-02-02
+UPDATED: 2026-02-02
+OWNER: VAL_ENT
+NAV_RULE: Template doc contains no RAW
 
 ---
 
-## VIOLATION (RECORD SCHEMA)
-CODE: <short stable code>
-SEVERITY: S0|S1|S2|S3
-MESSAGE: "<what is violated>"
-FIX_ACTION: "<required change>"
-AUTO_FIX_SUGGESTION: "<optional suggestion, not a domain decision>"
+## [M] TEMPLATE_NAME
+VAL_VIOLATION_TEMPLATE
+
+## [M] PURPOSE
+Шаблон записи нарушения (violation): что обнаружено, доказательство, влияние, требуемый фикс, severity и fail code.
+
+---
+
+# [T] VIOLATION RECORD (copy and fill)
+- VIOLATION_ID: <V.DOMAIN.TYPE.CODE>
+- TITLE: <short title>
+- SEVERITY: BLOCK|HIGH|MED|LOW
+- EVIDENCE: <what was observed (facts only)>
+- IMPACT: <one line>
+- REQUIRED_FIX: <one line actionable fix>
+- FAIL_CODE: <code>
+- NOTES: <optional, short>
+
+## [M] SEVERITY GUIDELINE
+- BLOCK: нельзя продолжать до фикса
+- HIGH: продолжать только с явным решением/эскалацией
+- MED: можно продолжать, но вернуть REQUIRED_FIXES
+- LOW: замечание, не блокирует
+
+## [M] FAIL CODE GUIDELINE
+- UE.FAIL.RULE_VIOLATION — правило нарушено
+- UE.FAIL.GATE_FAIL — гейт не пройден
+- UE.FAIL.INPUT_ABSENT — не хватает входных данных

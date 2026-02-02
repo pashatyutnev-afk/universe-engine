@@ -1,0 +1,87 @@
+FILE: UE_V2/03_ENT/50_VAL_ENT/00_TEMPLATES_VAL_ENT/04__TPL__PIPELINE_CONTRACT__VAL__ENT.md
+SCOPE: UE_V2 / 03_ENT / 50_VAL_ENT / 00_TEMPLATES_VAL_ENT
+DOC_TYPE: TPL
+DOMAIN: TPL_VAL_ENT
+UID: UE.V2.ENT.TPL.PIPELINE_CONTRACT_VAL.001
+VERSION: 1.0.0
+STATUS: ACTIVE
+MODE: REPO (USAGE-ONLY, NO-EDIT)
+CREATED: 2026-02-02
+UPDATED: 2026-02-02
+OWNER: VAL_ENT
+NAV_RULE: Template doc contains no RAW
+
+---
+
+## [M] TEMPLATE_NAME
+PIPELINE_CONTRACT_VAL_TEMPLATE
+
+## [M] PURPOSE
+Шаблон PIPELINE_CONTRACT для VAL реалма: как выбрать валидаторы, порядок, приоритеты и правила конфликтов.
+RAW внутри контракта запрещён.
+
+---
+
+# [T] FILE HEADER (copy and fill)
+FILE: <PATH_TO_TARGET_PIPELINE_CONTRACT>
+SCOPE: <SCOPE>
+DOC_TYPE: PIPELINE_CONTRACT
+DOMAIN: <MUS_VAL_ENT|VID_VAL_ENT|WEB_VAL_ENT|DOC_VAL_ENT|VAL_ENG_VAL_ENT|LIB_VAL_ENT|...>
+UID: <UID>
+VERSION: 1.0.0
+STATUS: ACTIVE
+MODE: REPO (USAGE-ONLY, NO-EDIT)
+CREATED: 0000-00-00
+UPDATED: 0000-00-00
+OWNER: VAL_ENT
+NAV_RULE: Contract has no RAW
+
+---
+
+## [M] PURPOSE
+<1–2 строки: для чего этот валидаторный роутер>
+
+## [M] HARD_RULES
+- RAW запрещён внутри CONTRACT.
+- Все ссылки: только KEYS.
+- MODE REPO: никаких правок репозитория.
+- Выход: VAL_CHAIN_PLAN (KEYS) + PRIORITY_ORDER + CONFLICT_RULES.
+
+## [M] REQUIRED_KEYS
+- INDEX_MANIFEST
+- PIPELINE_CONTRACT
+- <list of validator keys>
+
+## [M] PRIORITY_ORDER (highest first)
+1) <BLOCK validators>
+2) <HIGH validators>
+3) <QUALITY validators>
+
+## [M] CONFLICT_RULES
+- FAIL dominates everything (stop, return REQUIRED_FIXES).
+- ASK dominates PASS/WARN.
+- WARN returns REQUIRED_FIXES and may continue.
+
+## [M] DEFAULT_CHAIN_PLAN (keys)
+- ALWAYS:
+  - <VAL.<DOMAIN>.<NAME_1>>
+  - <VAL.<DOMAIN>.<NAME_2>>
+- CONDITIONAL:
+  - If <condition> -> <VAL key>
+
+## [M] STEP-RUN
+- STEP: S0
+  GOAL: Select validators
+  INPUTS: [<artifact tokens>]
+  TARGETS: [INDEX_MANIFEST]
+  ACTIONS:
+    - Build chain keys from artifact hints
+  OUTPUTS: [VAL_CHAIN_PLAN]
+  CHECKS: [REQUIRED_KEYS_PRESENT]
+  FAIL: UE.FAIL.MISSING_KEY
+  NEXT: "го"
+
+## [M] FAIL_CODES
+- UE.FAIL.MISSING_KEY
+- UE.FAIL.GATE_FAIL
+- UE.FAIL.RULE_VIOLATION

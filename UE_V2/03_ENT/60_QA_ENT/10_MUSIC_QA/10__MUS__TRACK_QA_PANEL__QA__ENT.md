@@ -1,65 +1,52 @@
-# 10__TRACK_QA_PANEL_QA
-
-SCOPE: Universe Engine (UE_V2)
-DOC_TYPE: QA
-UID: UE.V2.QA.MUSIC.TRACK_PANEL.001
+FILE: UE_V2/03_ENT/60_QA_ENT/10_MUSIC_QA/10__MUS__TRACK_QA_PANEL__QA__ENT.md
+SCOPE: UE_V2 / 03_ENT / 60_QA_ENT / 10_MUSIC_QA
+DOC_TYPE: QA_ENTITY
+DOMAIN: MUS_QA_ENT
+UID: UE.V2.ENT.QA.MUS.TRACK_QA_PANEL.001
 VERSION: 1.0.0
 STATUS: ACTIVE
 MODE: REPO (USAGE-ONLY, NO-EDIT)
-NAV_RULE: Use RAW links only
-PURPOSE: Единая QA-панель трека: агрегирует существующие MUSIC_QA проверки 01–09 в один отчёт.
+CREATED: 2026-02-02
+UPDATED: 2026-02-02
+OWNER: QA_ENT
+NAV_RULE: No RAW in entity docs
 
 ---
 
-## [M] INTENT
-Сделать “одну кнопку QA”: вместо хаоса отдельных проверок, панель выдаёт единый QA_REPORT и решение PASS/REWORK.
+## [M] ENTITY_HEADER
+- ENTITY_NAME: MUS_TRACK_QA_PANEL_QA
+- ENTITY_CLASS: QA
+- UID: UE.V2.ENT.QA.MUS.TRACK_QA_PANEL.001
 
----
+## [M] PURPOSE
+Финальная QA панель трека: собирает решения ключевых проверок в один вердикт.
 
-## [M] INPUTS
-- DRAFT/SELECTION ref (что проверяем)
-- PLAN_TOKEN (mode/coverage)
-- KB_TOKEN (ограничения/запреты)
+## [M] SCOPE
+- TARGET_DOMAIN: MUS
+- APPLIES_TO: [QA_FINDINGS_PACK?, VAL_REPORT?, RELEASE_INTENT?]
+- NON_GOALS: [заменять VAL; выдавать юридические выводы]
 
----
+## [M] INPUTS / OUTPUTS
+- Inputs: [QA_SUBREPORTS?, RELEASE_INTENT?]
+- Outputs: [QA_DECISION, QA_SUMMARY, REQUIRED_FIXES, ISSUES?]
 
-## [M] USES (EXISTING QA CHECKS)
-Обязательные проверки (по умолчанию):
-- 01__SCROLL_STOP_5S_QA
-- 02__LOOP_15S_QA
-- 03__RECOGNITION_10S_QA
-- 05__MIX_TRANSLATION_QA
-- 07__CATALOG_DIFFERENTIATION_QA
-- 09__REGRESSION_GUARD_QA
+## [M] AGGREGATION RULES
+- If any upstream FAIL -> FAIL
+- Else if any ASK -> ASK
+- Else if any WARN -> WARN
+- Else PASS
 
-Условные/доменные:
-- 04__CREATOR_PANEL_QA (если на UGC/Creator workflow)
-- 06__HOOK_PANEL_QA (если фокус на хуке)
-- 08__VOICE_DIVERSITY_AUDIT_QA (если важно разнообразие/персоны/серии)
+## [M] OUTPUT FORMAT (minimal)
+- QA_DECISION: PASS|WARN|ASK|FAIL
+- QA_SUMMARY: 3–7 bullets
+- REQUIRED_FIXES: 1–7 bullets (if WARN/ASK/FAIL)
 
----
-
-## [M] OUTPUTS
-- IO.MUSIC.TRACK_QA_REPORT
-- REPORT_TOKEN (QA): PASS/REWORK + список проблем + приоритеты фикса
-
----
-
-## [M] RUBRIC (SIMPLE)
-PASS если:
-- loop ok
-- recognition ok
-- mix translation ok (без major дефектов)
-- differentiation ok (нет ощущения “это уже было”)
-- regression guard ok
-
-REWORK если:
-- есть 1+ major defect или 2+ medium defects
-
----
+## [M] KB SCOPE
+- KB Inputs: [subreports]
+- KB Outputs: [final panel decision]
+- KB Boundaries: [не добавлять новые требования]
+- KB RAW refs: []
 
 ## [M] GATES
-PASS если:
-- сформирован единый QA_REPORT и принято решение PASS/REWORK
-REWORK если:
-- нет связки с исходными QA checks или нет выводов
+- PASS if: all upstream checks are PASS and release intent satisfied
+- FAIL if: any critical check failed

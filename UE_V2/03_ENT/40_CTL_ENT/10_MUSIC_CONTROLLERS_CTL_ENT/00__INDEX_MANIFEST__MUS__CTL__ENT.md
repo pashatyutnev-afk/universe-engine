@@ -1,0 +1,290 @@
+FILE: UE_V2/03_ENT/40_CTL_ENT/10_MUSIC_CONTROLLERS_CTL_ENT/00__INDEX_MANIFEST__MUS__CTL__ENT.md
+SCOPE: UE_V2 / 03_ENT / 40_CTL_ENT / 10_MUSIC_CONTROLLERS_CTL_ENT
+DOC_TYPE: INDEX_MANIFEST
+DOMAIN: MUS_CTL_ENT
+UID: UE.V2.ENT.IDX.MUS_CTL_ENT.001
+VERSION: 1.0.0
+STATUS: ACTIVE
+MODE: REPO (USAGE-ONLY, NO-EDIT)
+CREATED: 2026-02-02
+UPDATED: 2026-02-02
+OWNER: CTL_ENT
+NAV_RULE: RAW lives here only
+
+---
+
+## [M] PURPOSE
+INDEX_MANIFEST — адресная таблица реалма музыкальных контроллеров CTL.
+Хранит RAW и короткие смыслы файлов. Без длинных объяснений.
+
+## [M] HARD_RULES
+- RAW ссылки допускаются только тут (и в ROOT LINK BASE / START по закону системы).
+- Каждый элемент имеет KEY. PIPELINE_CONTRACT ссылается только на KEY.
+- Коротко: 1–2 строки смысла. Без лирики.
+- SELF запись обязательна.
+- Не обходить через PATH при наличии RAW (PATH хранится как справка).
+
+## [M] INDEX_CONTEXT
+- REALM_ID: UE_V2/03_ENT/40_CTL_ENT/10_MUSIC_CONTROLLERS_CTL_ENT
+- FOLDER_NAME: 10_MUSIC_CONTROLLERS_CTL_ENT
+- INDEX_SCOPE_TAGS: [ENT, CTL, MUS]
+
+## [M] ENTRY_SCHEMA (v1)
+- KEY: <UNIQUE_KEY>
+  UID: <OPTIONAL_UID>
+  KIND: FILE|FOLDER|ENTITY|PIPE|KB|REG|XREF|LOG|STD|LAW|TPL
+  ROLE: <ONE_LINE_ROLE>
+  DESC: <ONE_LINE_DESC>
+  RAW: <RAW_URL_OR_EMPTY>
+  PATH: <REPO_PATH_OR_EMPTY>
+  MARKERS: [MUST_LOAD, ROUTER, NAV, ...]
+  STATUS: ACTIVE|DRAFT|DEPRECATED
+  OWNER: SYS|RUNTIME|USER|<TEAM>
+  UPDATED: 0000-00-00
+
+---
+
+## [M] ENTRIES
+
+### [M] SELF
+- KEY: SELF
+  UID: UE.V2.ENT.IDX.MUS_CTL_ENT.001
+  KIND: FILE
+  ROLE: Self pointer for deterministic nav
+  DESC: This index-manifest file for MUS CTL realm
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/40_CTL_ENT/10_MUSIC_CONTROLLERS_CTL_ENT/00__INDEX_MANIFEST__MUS__CTL__ENT.md
+  PATH: UE_V2/03_ENT/40_CTL_ENT/10_MUSIC_CONTROLLERS_CTL_ENT/00__INDEX_MANIFEST__MUS__CTL__ENT.md
+  MARKERS: [INDEX, SELF]
+  STATUS: ACTIVE
+  OWNER: CTL_ENT
+  UPDATED: 2026-02-02
+
+### [M] REQUIRED
+- KEY: INDEX_MANIFEST
+  UID: UE.V2.ENT.IDX.MUS_CTL_ENT.001
+  KIND: FILE
+  ROLE: Address table for realm
+  DESC: RAW addresses + short meaning for MUS CTL controllers
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/40_CTL_ENT/10_MUSIC_CONTROLLERS_CTL_ENT/00__INDEX_MANIFEST__MUS__CTL__ENT.md
+  PATH: UE_V2/03_ENT/40_CTL_ENT/10_MUSIC_CONTROLLERS_CTL_ENT/00__INDEX_MANIFEST__MUS__CTL__ENT.md
+  MARKERS: [INDEX, MUST_LOAD]
+  STATUS: ACTIVE
+  OWNER: CTL_ENT
+  UPDATED: 2026-02-02
+
+- KEY: PIPELINE_CONTRACT
+  UID: UE.V2.ENT.PIPE.MUS_CTL_ENT.001
+  KIND: PIPE
+  ROLE: Router for applying controllers
+  DESC: Uses KEYS, resolves RAW via INDEX_MANIFEST
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/40_CTL_ENT/10_MUSIC_CONTROLLERS_CTL_ENT/00__PIPELINE_CONTRACT__MUS__CTL__ENT.md
+  PATH: UE_V2/03_ENT/40_CTL_ENT/10_MUSIC_CONTROLLERS_CTL_ENT/00__PIPELINE_CONTRACT__MUS__CTL__ENT.md
+  MARKERS: [PIPE, MUST_LOAD, ROUTER]
+  STATUS: ACTIVE
+  OWNER: CTL_ENT
+  UPDATED: 2026-02-02
+
+### [O] CONTROLLERS
+- KEY: CTL.MUS.PROMPT_CONTRACT
+  UID: UE.V2.ENT.CTL.MUS.PROMPT_CONTRACT.001
+  KIND: ENTITY
+  ROLE: Prompt structure controller
+  DESC: Enforces prompt pack structure and banned patterns
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/40_CTL_ENT/10_MUSIC_CONTROLLERS_CTL_ENT/01__MUS__PROMPT_CONTRACT__CTL__ENT.md
+  PATH: UE_V2/03_ENT/40_CTL_ENT/10_MUSIC_CONTROLLERS_CTL_ENT/01__MUS__PROMPT_CONTRACT__CTL__ENT.md
+  MARKERS: [CTL, MUS, MUST_LOAD]
+  STATUS: ACTIVE
+  OWNER: CTL_ENT
+  UPDATED: 2026-02-02
+
+- KEY: CTL.MUS.UGC_VIRAL_RULESET
+  UID: UE.V2.ENT.CTL.MUS.UGC_VIRAL_RULESET.001
+  KIND: ENTITY
+  ROLE: Viral readiness controller
+  DESC: Guides shortform and viral-ready structure
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/40_CTL_ENT/10_MUSIC_CONTROLLERS_CTL_ENT/02__MUS__UGC_VIRAL_RULESET__CTL__ENT.md
+  PATH: UE_V2/03_ENT/40_CTL_ENT/10_MUSIC_CONTROLLERS_CTL_ENT/02__MUS__UGC_VIRAL_RULESET__CTL__ENT.md
+  MARKERS: [CTL, MUS]
+  STATUS: ACTIVE
+  OWNER: CTL_ENT
+  UPDATED: 2026-02-02
+
+- KEY: CTL.MUS.DURATION_POLICY
+  UID: UE.V2.ENT.CTL.MUS.DURATION_POLICY.001
+  KIND: ENTITY
+  ROLE: Duration controller
+  DESC: Allowed duration bands per target format
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/40_CTL_ENT/10_MUSIC_CONTROLLERS_CTL_ENT/03__MUS__DURATION_POLICY__CTL__ENT.md
+  PATH: UE_V2/03_ENT/40_CTL_ENT/10_MUSIC_CONTROLLERS_CTL_ENT/03__MUS__DURATION_POLICY__CTL__ENT.md
+  MARKERS: [CTL, MUS]
+  STATUS: ACTIVE
+  OWNER: CTL_ENT
+  UPDATED: 2026-02-02
+
+- KEY: CTL.MUS.RELEASE_VARIANTS
+  UID: UE.V2.ENT.CTL.MUS.RELEASE_VARIANTS.001
+  KIND: ENTITY
+  ROLE: Release variants controller
+  DESC: Defines variant set needed for selection
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/40_CTL_ENT/10_MUSIC_CONTROLLERS_CTL_ENT/04__MUS__RELEASE_VARIANTS__CTL__ENT.md
+  PATH: UE_V2/03_ENT/40_CTL_ENT/10_MUSIC_CONTROLLERS_CTL_ENT/04__MUS__RELEASE_VARIANTS__CTL__ENT.md
+  MARKERS: [CTL, MUS]
+  STATUS: ACTIVE
+  OWNER: CTL_ENT
+  UPDATED: 2026-02-02
+
+- KEY: CTL.MUS.POET_PD_POLICY
+  UID: UE.V2.ENT.CTL.MUS.POET_PD_POLICY.001
+  KIND: ENTITY
+  ROLE: PD-only blocker policy
+  DESC: Blocks risky copying and non-PD constraints
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/40_CTL_ENT/10_MUSIC_CONTROLLERS_CTL_ENT/05__MUS__POET_PD_POLICY__CTL__ENT.md
+  PATH: UE_V2/03_ENT/40_CTL_ENT/10_MUSIC_CONTROLLERS_CTL_ENT/05__MUS__POET_PD_POLICY__CTL__ENT.md
+  MARKERS: [CTL, MUS, BLOCK, MUST_LOAD]
+  STATUS: ACTIVE
+  OWNER: CTL_ENT
+  UPDATED: 2026-02-02
+
+- KEY: CTL.MUS.FINGERPRINT_COLLISION_THRESHOLDS
+  UID: UE.V2.ENT.CTL.MUS.FINGERPRINT_COLLISION_THRESHOLDS.001
+  KIND: ENTITY
+  ROLE: Collision blocker thresholds
+  DESC: Threshold rules to avoid similarity collisions
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/40_CTL_ENT/10_MUSIC_CONTROLLERS_CTL_ENT/06__MUS__FINGERPRINT_COLLISION_THRESHOLDS__CTL__ENT.md
+  PATH: UE_V2/03_ENT/40_CTL_ENT/10_MUSIC_CONTROLLERS_CTL_ENT/06__MUS__FINGERPRINT_COLLISION_THRESHOLDS__CTL__ENT.md
+  MARKERS: [CTL, MUS, BLOCK, MUST_LOAD]
+  STATUS: ACTIVE
+  OWNER: CTL_ENT
+  UPDATED: 2026-02-02
+
+- KEY: CTL.MUS.CATALOG_MEMORY
+  UID: UE.V2.ENT.CTL.MUS.CATALOG_MEMORY.001
+  KIND: ENTITY
+  ROLE: Catalog memory controller
+  DESC: Prevents internal repetition across releases
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/40_CTL_ENT/10_MUSIC_CONTROLLERS_CTL_ENT/07__MUS__CATALOG_MEMORY__CTL__ENT.md
+  PATH: UE_V2/03_ENT/40_CTL_ENT/10_MUSIC_CONTROLLERS_CTL_ENT/07__MUS__CATALOG_MEMORY__CTL__ENT.md
+  MARKERS: [CTL, MUS]
+  STATUS: ACTIVE
+  OWNER: CTL_ENT
+  UPDATED: 2026-02-02
+
+- KEY: CTL.MUS.AUDIENCE_SEGMENTS
+  UID: UE.V2.ENT.CTL.MUS.AUDIENCE_SEGMENTS.001
+  KIND: ENTITY
+  ROLE: Audience segmentation controller
+  DESC: Aligns hooks and structure to audience intent
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/40_CTL_ENT/10_MUSIC_CONTROLLERS_CTL_ENT/08__MUS__AUDIENCE_SEGMENTS__CTL__ENT.md
+  PATH: UE_V2/03_ENT/40_CTL_ENT/10_MUSIC_CONTROLLERS_CTL_ENT/08__MUS__AUDIENCE_SEGMENTS__CTL__ENT.md
+  MARKERS: [CTL, MUS]
+  STATUS: ACTIVE
+  OWNER: CTL_ENT
+  UPDATED: 2026-02-02
+
+- KEY: CTL.MUS.QUALITY_GATES
+  UID: UE.V2.ENT.CTL.MUS.QUALITY_GATES.001
+  KIND: ENTITY
+  ROLE: Quality gate controller
+  DESC: Minimal quality rules before release
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/40_CTL_ENT/10_MUSIC_CONTROLLERS_CTL_ENT/09__MUS__QUALITY_GATES__CTL__ENT.md
+  PATH: UE_V2/03_ENT/40_CTL_ENT/10_MUSIC_CONTROLLERS_CTL_ENT/09__MUS__QUALITY_GATES__CTL__ENT.md
+  MARKERS: [CTL, MUS, MUST_LOAD]
+  STATUS: ACTIVE
+  OWNER: CTL_ENT
+  UPDATED: 2026-02-02
+
+- KEY: CTL.MUS.SUNO_PHRASEBOOK
+  UID: UE.V2.ENT.CTL.MUS.SUNO_PHRASEBOOK.001
+  KIND: ENTITY
+  ROLE: SUNO phrase library
+  DESC: Safe phrase patterns for SUNO prompts and lyrics
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/40_CTL_ENT/10_MUSIC_CONTROLLERS_CTL_ENT/10__MUS__SUNO_PHRASEBOOK__CTL__ENT.md
+  PATH: UE_V2/03_ENT/40_CTL_ENT/10_MUSIC_CONTROLLERS_CTL_ENT/10__MUS__SUNO_PHRASEBOOK__CTL__ENT.md
+  MARKERS: [CTL, MUS, LIB]
+  STATUS: ACTIVE
+  OWNER: CTL_ENT
+  UPDATED: 2026-02-02
+
+- KEY: CTL.MUS.UDIO_PHRASEBOOK
+  UID: UE.V2.ENT.CTL.MUS.UDIO_PHRASEBOOK.001
+  KIND: ENTITY
+  ROLE: UDIO phrase library
+  DESC: Safe phrase patterns for UDIO prompts
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/40_CTL_ENT/10_MUSIC_CONTROLLERS_CTL_ENT/11__MUS__UDIO_PHRASEBOOK__CTL__ENT.md
+  PATH: UE_V2/03_ENT/40_CTL_ENT/10_MUSIC_CONTROLLERS_CTL_ENT/11__MUS__udio_PHRASEBOOK__CTL__ENT.md
+  MARKERS: [CTL, MUS, LIB]
+  STATUS: ACTIVE
+  OWNER: CTL_ENT
+  UPDATED: 2026-02-02
+
+- KEY: CTL.MUS.NEGATIVE_SPEC_LIBRARY
+  UID: UE.V2.ENT.CTL.MUS.NEGATIVE_SPEC_LIBRARY.001
+  KIND: ENTITY
+  ROLE: Negative spec library
+  DESC: Reusable negative constraints for prompts and lyrics
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/40_CTL_ENT/10_MUSIC_CONTROLLERS_CTL_ENT/12__MUS__NEGATIVE_SPEC_LIBRARY__CTL__ENT.md
+  PATH: UE_V2/03_ENT/40_CTL_ENT/10_MUSIC_CONTROLLERS_CTL_ENT/12__MUS__NEGATIVE_SPEC_LIBRARY__CTL__ENT.md
+  MARKERS: [CTL, MUS, LIB]
+  STATUS: ACTIVE
+  OWNER: CTL_ENT
+  UPDATED: 2026-02-02
+
+- KEY: CTL.MUS.CREDITS_METADATA_POLICY
+  UID: UE.V2.ENT.CTL.MUS.CREDITS_METADATA_POLICY.001
+  KIND: ENTITY
+  ROLE: Credits and metadata policy
+  DESC: Enforces naming and metadata consistency
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/40_CTL_ENT/10_MUSIC_CONTROLLERS_CTL_ENT/13__MUS__CREDITS_METADATA_POLICY__CTL__ENT.md
+  PATH: UE_V2/03_ENT/40_CTL_ENT/10_MUSIC_CONTROLLERS_CTL_ENT/13__MUS__CREDITS_METADATA_POLICY__CTL__ENT.md
+  MARKERS: [CTL, MUS]
+  STATUS: ACTIVE
+  OWNER: CTL_ENT
+  UPDATED: 2026-02-02
+
+- KEY: CTL.MUS.STEP_BUDGET
+  UID: UE.V2.ENT.CTL.MUS.STEP_BUDGET.001
+  KIND: ENTITY
+  ROLE: Step budget controller
+  DESC: Prevents endless iteration loops
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/40_CTL_ENT/10_MUSIC_CONTROLLERS_CTL_ENT/14__MUS__STEP_BUDGET__CTL__ENT.md
+  PATH: UE_V2/03_ENT/40_CTL_ENT/10_MUSIC_CONTROLLERS_CTL_ENT/14__MUS__STEP_BUDGET__CTL__ENT.md
+  MARKERS: [CTL, MUS]
+  STATUS: ACTIVE
+  OWNER: CTL_ENT
+  UPDATED: 2026-02-02
+
+- KEY: CTL.MUS.VARIANT_POLICY
+  UID: UE.V2.ENT.CTL.MUS.VARIANT_POLICY.001
+  KIND: ENTITY
+  ROLE: Variant policy controller
+  DESC: Rules for variant naming, comparison, selection
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/40_CTL_ENT/10_MUSIC_CONTROLLERS_CTL_ENT/15__MUS__VARIANT_POLICY__CTL__ENT.md
+  PATH: UE_V2/03_ENT/40_CTL_ENT/10_MUSIC_CONTROLLERS_CTL_ENT/15__MUS__VARIANT_POLICY__CTL__ENT.md
+  MARKERS: [CTL, MUS]
+  STATUS: ACTIVE
+  OWNER: CTL_ENT
+  UPDATED: 2026-02-02
+
+- KEY: CTL.MUS.FOCUS_LOOP_STOP_RULES
+  UID: UE.V2.ENT.CTL.MUS.FOCUS_LOOP_STOP_RULES.001
+  KIND: ENTITY
+  ROLE: Focus loop stop rules
+  DESC: Stops focus loops when progress stalls
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/40_CTL_ENT/10_MUSIC_CONTROLLERS_CTL_ENT/16__MUS__FOCUS_LOOP_STOP_RULES__CTL__ENT.md
+  PATH: UE_V2/03_ENT/40_CTL_ENT/10_MUSIC_CONTROLLERS_CTL_ENT/16__MUS__FOCUS_LOOP_STOP_RULES__CTL__ENT.md
+  MARKERS: [CTL, MUS]
+  STATUS: ACTIVE
+  OWNER: CTL_ENT
+  UPDATED: 2026-02-02
+
+- KEY: CTL.MUS.SYNTHESIS_MERGE_POLICY
+  UID: UE.V2.ENT.CTL.MUS.SYNTHESIS_MERGE_POLICY.001
+  KIND: ENTITY
+  ROLE: Merge policy controller
+  DESC: Merge rules across variants into release candidate
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/40_CTL_ENT/10_MUSIC_CONTROLLERS_CTL_ENT/17__MUS__SYNTHESIS_MERGE_POLICY__CTL__ENT.md
+  PATH: UE_V2/03_ENT/40_CTL_ENT/10_MUSIC_CONTROLLERS_CTL_ENT/17__MUS__SYNTHESIS_MERGE_POLICY__CTL__ENT.md
+  MARKERS: [CTL, MUS]
+  STATUS: ACTIVE
+  OWNER: CTL_ENT
+  UPDATED: 2026-02-02

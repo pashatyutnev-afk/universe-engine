@@ -1,55 +1,70 @@
-# QUALITY (QA) — CREATE FLOW
-
-FILE: 03_SYSTEM_ENTITIES/60_QA__QUALITY/03__CREATE_FLOW__QA.md
-SCOPE: Universe Engine (Games volume) / Quality (QA) / Create workflow
-SERIAL: C425-B513
-LAYER: 03_SYSTEM_ENTITIES
-DOC_TYPE: WORKFLOW
-ENTITY_GROUP: QUALITY (QA)
-LEVEL: L1
+FILE: UE_V2/03_ENT/60_QA_ENT/02__CREATE_FLOW__QA__ENT.md
+SCOPE: UE_V2 / 03_ENT / 60_QA_ENT
+DOC_TYPE: QA_ENTITY
+DOMAIN: QA_ENT
+UID: UE.V2.ENT.QA.CREATE_FLOW.001
+VERSION: 1.0.0
 STATUS: ACTIVE
-LOCK: FIXED
-VERSION: 1.1.0
-UID: UE.GAMES.DOC.QA.CREATE_FLOW.001
-OWNER: SYSTEM
-ROLE: Defines canonical order to create a QA entity or QA check: UID → file → registry entry → ORC gate integration.
-
-CHANGE_NOTE:
-- DATE: 2026-01-20
-- TYPE: MINOR
-- SUMMARY: "DOC CONTROL alignment + clarified registry-first law + RAW-only interfaces."
-- REASON: "Prevent non-registered QA checks from being treated as canon."
-- IMPACT: "QA creation becomes deterministic and auditable."
-- CHANGE_ID: UE.CHG.2026-01-20.QA.CREATE.001
+MODE: REPO (USAGE-ONLY, NO-EDIT)
+CREATED: 2026-02-02
+UPDATED: 2026-02-02
+OWNER: QA_ENT
+NAV_RULE: No RAW in entity docs
 
 ---
 
-## 0) CORE LAW
-QA-check или QA entity считается существующим в каноне только после:
-1) создан файл по template
-2) добавлена запись в QA Global Registry (SoT)
+## [M] ENTITY_HEADER
+- ENTITY_NAME: CREATE_FLOW_QA_ROOT
+- ENTITY_CLASS: QA
+- UID: UE.V2.ENT.QA.CREATE_FLOW.001
 
-## 1) STEPS (CANON ORDER)
-1) Выбери FAMILY (пример: NAT / STY / TXT / AUD / VIS / GEN) если слой использует семейства
-2) Назначь UID по UID rules (LAW)
-3) Создай файл QA entity (или QA check) по соответствующему template
-4) Зарегистрируй в `02__INDEX_ALL_QA.md`
-5) Подключи в нужный ORC step как `GATE: QA`
-6) (Опционально) добавь примеры эталонов/порогов в доменные QA документы, если стандарт это требует
+## [M] PURPOSE
+Root “create flow” для QA: как собирать входы, как запускать проверки, как выдавать отчёт и fixes.
+Никаких repo edits.
 
-## 2) STOP CONDITIONS
-- UID не назначен → STOP
-- QA объект не зарегистрирован → STOP (NON-CANON)
-- отсутствуют обязательные секции template → STOP
+## [M] SCOPE
+- TARGET_DOMAIN: MULTI
+- APPLIES_TO: [ANY_QA_RUN]
+- NON_GOALS: [исправлять артефакт вместо исполнителя]
 
-## 3) INTERFACES (RAW ONLY)
-- QA Global Registry (SoT):
-  - RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/60_QA__QUALITY/02__INDEX_ALL_QA.md
-- QA Entity Template:
-  - RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/60_QA__QUALITY/00__TEMPLATES/00__TEMPLATE__QA_ENTITY.md
-- QA Check Template:
-  - RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/60_QA__QUALITY/00__TEMPLATES/00__TEMPLATE__QA_CHECK.md
-- UID Rules:
-  - RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/01_SYSTEM_LAW/02__UID_RULES.md
-- DOC CONTROL Standard:
-  - RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/02_STANDARDS/01_SPECIFICATIONS/03__DOC_CONTROL_STANDARD.md
+## [M] INPUTS / OUTPUTS
+- Inputs: [TASK_TEXT?, ARTIFACT_TEXT?, ARTIFACT_TOKENS?]
+- Outputs:
+  - QA_RUN_PLAN: [steps]
+  - QA_REPORT: {QA_DECISION, QA_FINDINGS, REQUIRED_FIXES}
+  - ISSUES?: [issue records] (optional)
+
+## [M] FLOW (canonical)
+- S0: INTAKE
+  - Collect minimal inputs (text or token refs).
+  - If missing -> ASK + list what is needed.
+- S1: ROUTE
+  - Use QA root PIPELINE_CONTRACT to choose realm.
+- S2: APPLY CHECKS
+  - Run realm pipeline plan (keys) and collect subreports.
+- S3: AGGREGATE
+  - Decision order: FAIL > ASK > WARN > PASS.
+- S4: OUTPUT
+  - Return QA_REPORT + REQUIRED_FIXES (if not PASS).
+
+## [M] REPORT FORMAT (minimal)
+- QA_DECISION: PASS|WARN|ASK|FAIL
+- QA_FINDINGS: 1–7 bullets
+- REQUIRED_FIXES: 1–7 bullets (if WARN/ASK/FAIL)
+- ISSUES: optional
+
+## [M] DECISION_MATRIX
+- IF no inputs -> ASK
+- IF any critical blocker -> FAIL
+- IF issues exist but fixable -> WARN
+- ELSE -> PASS
+
+## [M] KB SCOPE
+- KB Inputs: [artifact inputs]
+- KB Outputs: [qa report tokens]
+- KB Boundaries: [no guessing; no repo edits]
+- KB RAW refs: []
+
+## [M] GATES
+- PASS if: report produced with deterministic fields
+- FAIL if: cannot produce report due to missing inputs

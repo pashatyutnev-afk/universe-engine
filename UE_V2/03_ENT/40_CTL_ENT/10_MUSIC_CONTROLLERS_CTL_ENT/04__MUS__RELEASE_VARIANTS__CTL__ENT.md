@@ -1,148 +1,63 @@
-# RELEASE VARIANTS — CTL
-FILE: 03_SYSTEM_ENTITIES/40_CTL__CONTROLLERS/10_MUSIC_CONTROLLERS/04__RELEASE_VARIANTS_CTL.md
-
-SCOPE: Universe Engine
-LAYER: 03_SYSTEM_ENTITIES
-ENTITY_GROUP: CONTROLLERS (CTL)
-CTL_REALM: 10_MUSIC_CONTROLLERS
-DOC_TYPE: CONTROLLER
-CTL_TYPE: RELEASE_VARIANTS
-LEVEL: L3
-STATUS: ACTIVE
-LOCK: FIXED
+FILE: UE_V2/03_ENT/40_CTL_ENT/10_MUSIC_CONTROLLERS_CTL_ENT/04__MUS__RELEASE_VARIANTS__CTL__ENT.md
+SCOPE: UE_V2 / 03_ENT / 40_CTL_ENT / 10_MUSIC_CONTROLLERS_CTL_ENT
+DOC_TYPE: CTL_ENTITY
+DOMAIN: MUS_CTL_ENT
+UID: UE.V2.ENT.CTL.MUS.RELEASE_VARIANTS.001
 VERSION: 1.0.0
-UID: UE.CTL.MUS.RELEASE_VARIANTS.001
-OWNER: SYSTEM
-ROLE: Defines which release variants are allowed/required per track type and objective (UGC-first vs album-first),
-including minimum required pack contents, naming of variants, and prohibitions against variant bloat.
-Used by Release Pack ORC/ENG and QA/VAL readiness.
-
-CHANGE_NOTE:
-- DATE: 2026-01-12
-- TYPE: MAJOR
-- SUMMARY: "Created Release Variants CTL: required/optional variants, pack contents, and anti-bloat rules."
-- REASON: "Without variant policy, packaging becomes inconsistent and wastes production time."
-- IMPACT: "Consistent releases + faster publishing + better UGC coverage."
-- CHANGE_ID: UE.CHG.2026-01-12.CTL.RELEASE.VARIANTS.001
+STATUS: ACTIVE
+MODE: REPO (USAGE-ONLY, NO-EDIT)
+CREATED: 2026-02-02
+UPDATED: 2026-02-02
+OWNER: CTL_ENT
+NAV_RULE: No RAW in entity docs
 
 ---
 
-## 0) PURPOSE (LAW)
-This controller defines:
-- which variants a release pack must include
-- when variants are required
-- how variants are named
-- limits to prevent variant bloat
+## [M] ENTITY_HEADER
+- ENTITY_NAME: MUS_RELEASE_VARIANTS_CTL
+- ENTITY_CLASS: CTL
+- UID: UE.V2.ENT.CTL.MUS.RELEASE_VARIANTS.001
 
----
+## [M] PURPOSE
+Определяет, какие варианты нужны для выбора финала (минимальный набор) и как их сравнивать.
 
-## 1) VARIANT TYPES (STANDARD)
-- MAIN: default canonical version
-- SHORT_CUT: UGC-first condensed version (or “short edit”)
-- ALT_INTRO: repair variant to fix late hook / weak recognition
-- INSTRUMENTAL: optional, if vocals are not essential or for creator use
-- EXTENDED: optional, if full-form benefits the track (album-first)
+## [M] SCOPE
+- TARGET_DOMAIN: MUS
+- APPLIES_TO: [TRACK_PLAN, VARIANT_NOTES, RELEASE_PACK_TOKEN?]
+- NON_GOALS: [метаданные, права]
 
----
+## [M] INPUTS / OUTPUTS
+- Inputs: [MUS_BRIEF, TRACK_PLAN?]
+- Outputs: [CTL_DECISION, CTL_FINDINGS, REQUIRED_FIXES]
 
-## 2) REQUIRED VARIANTS (MINIMUM PACK)
-A Release Pack must include at least:
+## [M] RULESET
+- R1: Если цель release-ready, должен быть минимум 2 варианта на выбор (если не запрещено brief).
+- R2: Варианты должны отличаться по одному измерению (hook, energy, arrangement), а не случайно.
+- R3: Каждый вариант должен иметь короткую заметку отличий.
 
-### Rule V1 — MAIN is mandatory
-- Always include MAIN.
+## [M] DECISION_MATRIX
+- IF brief=single take only -> PASS
+- IF нет TRACK_PLAN -> ASK
+- IF вариантов нет/один -> WARN
+- ELSE -> PASS
 
-### Rule V2 — SHORT_CUT is mandatory when objective is UGC-first
-- If track objective is UGC-first or platform requires short-form:
-  - include SHORT_CUT.
+## [M] VIOLATIONS
+- V.VAR.MISSING
+- V.VAR.NO_DIFF_NOTES
 
-### Rule V3 — ALT_INTRO is optional (repair only)
-- Include only if MAIN or SHORT_CUT failed:
-  - Hook Timing
-  - Recognition QA
-  - Scroll Stop QA
+## [M] FAIL_CODES
+- UE.FAIL.INPUT_ABSENT
 
----
+## [M] KB SCOPE
+- KB Inputs: [brief/plan/variant notes]
+- KB Outputs: [variant requirements]
+- KB Boundaries: [не требовать варианты, если brief запретил]
+- KB RAW refs: []
 
-## 3) OPTIONAL VARIANTS (CONTROLLED)
-Optional variants must have a reason.
+## [M] GATES
+- PASS if: policy соблюдена или не применима
+- FAIL if: требуется релиз, а вариантов нет и нельзя продолжать
 
-### INSTRUMENTAL
-Allowed if:
-- track is intended for creators or overlays
-- vocals are not the core identity anchor
-
-### EXTENDED
-Allowed if:
-- album-first objective
-- extended arrangement adds value (not just longer)
-
-Hard rule:
-- Optional variants must not exceed 2 additional variants unless approved by showrunner.
-
----
-
-## 4) PACK CONTENTS (MANDATORY PER VARIANT)
-For each included variant, Release Pack must include:
-- audio/take pointer (winner id)
-- prompt pack snapshot (what produced it)
-- duration mode label (SHORT/FULL/ALT_INTRO)
-- UGC notes (if SHORT_CUT)
-- QA/VAL snapshot reference (pass record)
-
----
-
-## 5) NAMING RULES (VARIANT LABELS)
-Variant labels must be consistent:
-- MAIN
-- SHORT_CUT
-- ALT_INTRO
-- INSTRUMENTAL
-- EXTENDED
-
-Do not invent new labels unless a new CTL version explicitly adds them.
-
----
-
-## 6) ANTI-BLOAT PROHIBITIONS (HARD)
-A Release Pack must NOT:
-- include many micro-variants with minimal difference
-- include variants without a documented reason
-- include >3 total variants by default (MAIN + SHORT_CUT + 1 optional)
-
----
-
-## 7) PASS/FAIL EXPECTATIONS (FOR READINESS)
-PASS when:
-- required variants present (MAIN always; SHORT_CUT when UGC-first)
-- each variant has complete contents
-- variant count within policy
-
-WARN when:
-- one optional variant missing required contents (fixable)
-- variant count at upper limit but justified
-
-FAIL when:
-- MAIN missing
-- UGC-first but SHORT_CUT missing
-- variant bloat (too many unreasoned variants)
-
----
-
-## 8) REFERENCES (RAW)
-Used by:
-- Release Pack ORC  
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/20_ORC__ORCHESTRATORS/10_MUSIC_ORCHESTRATORS/04__RELEASE_PACK_ORC.md
-- Release Pack ENG  
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/10_ENG__ENGINES/11_MUSIC_FACTORY_ENGINES/06__RELEASE_PACK_ENG.md
-
-Validator alignment:
-- Release Pack Ready VAL  
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/50_VAL__VALIDATORS/10_MUSIC_VALIDATORS/06__RELEASE_PACK_READY_VAL.md
-
----
-
-## FINAL RULE (LOCK)
-OWNER: SYSTEM
-LOCK: FIXED
-
---- END.
+## [M] SPC PEER ROLES (NON-ENG)
+- Works with: [ORC_ENT, QA_ENT]
+- Handoff rules: WARN -> variant loop; PASS -> continue

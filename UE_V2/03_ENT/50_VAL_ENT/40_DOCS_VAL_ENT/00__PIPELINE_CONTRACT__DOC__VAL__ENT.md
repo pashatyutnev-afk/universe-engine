@@ -1,0 +1,72 @@
+FILE: UE_V2/03_ENT/50_VAL_ENT/40_DOCS_VAL_ENT/00__PIPELINE_CONTRACT__DOC__VAL__ENT.md
+SCOPE: UE_V2 / 03_ENT / 50_VAL_ENT / 40_DOCS_VAL_ENT
+DOC_TYPE: PIPELINE_CONTRACT
+DOMAIN: DOC_VAL_ENT
+UID: UE.V2.ENT.PIPE.DOC_VAL_ENT.001
+VERSION: 1.0.0
+STATUS: ACTIVE
+MODE: REPO (USAGE-ONLY, NO-EDIT)
+CREATED: 2026-02-02
+UPDATED: 2026-02-02
+OWNER: VAL_ENT
+NAV_RULE: Contract has no RAW
+
+---
+
+## [M] PURPOSE
+PIPELINE_CONTRACT — роутер DOC-валидаторов (VAL).
+Пока реалм содержит один обязательный валидатор doc lint minimum. Контракт возвращает KEYS only.
+RAW не хранит: всё через KEY и INDEX_MANIFEST.
+
+## [M] HARD_RULES
+- RAW запрещён внутри CONTRACT.
+- Все ссылки: только KEYS.
+- MODE REPO: никаких правок репозитория.
+- Выход: VAL_CHAIN_PLAN (KEYS) + PRIORITY_ORDER + CONFLICT_RULES.
+
+## [M] REQUIRED_KEYS
+- INDEX_MANIFEST
+- PIPELINE_CONTRACT
+- VAL.DOC.LINT_MIN
+
+## [M] PRIORITY_ORDER (highest first)
+1) VAL.DOC.LINT_MIN
+
+## [M] CONFLICT_RULES
+- FAIL dominates everything (stop, return REQUIRED_FIXES + VIOLATIONS).
+- ASK dominates PASS/WARN (request minimal missing evidence).
+- WARN returns REQUIRED_FIXES but may continue.
+
+## [M] DEFAULT_CHAIN_PLAN (keys)
+- ALWAYS:
+  - VAL.DOC.LINT_MIN
+
+## [M] STEP-RUN
+- STEP: S0
+  GOAL: Build validator chain keys
+  INPUTS: [DOC_TEXT?, DOC_TYPE_HINT?]
+  TARGETS: [INDEX_MANIFEST]
+  ACTIONS:
+    - Output VAL_CHAIN_PLAN = [VAL.DOC.LINT_MIN]
+  OUTPUTS: [VAL_CHAIN_PLAN]
+  CHECKS: [REQUIRED_KEYS_PRESENT]
+  FAIL: UE.FAIL.MISSING_KEY
+  NEXT: "го"
+
+- STEP: S1
+  GOAL: Aggregate validator decision
+  INPUTS: [VAL_CHAIN_PLAN, CONTEXT_TOKENS]
+  TARGETS: []
+  ACTIONS:
+    - Apply validators in PRIORITY_ORDER
+    - Aggregate using CONFLICT_RULES
+  OUTPUTS: [VAL_AGG_DECISION, REQUIRED_FIXES, VIOLATIONS]
+  CHECKS: [DECISION_PRODUCED]
+  FAIL: UE.FAIL.GATE_FAIL
+  NEXT: "го"
+
+## [M] FAIL_CODES
+- UE.FAIL.MISSING_KEY
+- UE.FAIL.GATE_FAIL
+- UE.FAIL.RULE_VIOLATION
+- UE.FAIL.INPUT_ABSENT
