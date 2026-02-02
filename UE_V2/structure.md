@@ -1,5 +1,3 @@
-Структура папок тома Games
-Серийный номер тома: C425-B513
 D:.
 |   00__INDEX_MANIFEST__UE_V2.md
 |   00__PIPELINE_CONTRACT__UE_V2.md
