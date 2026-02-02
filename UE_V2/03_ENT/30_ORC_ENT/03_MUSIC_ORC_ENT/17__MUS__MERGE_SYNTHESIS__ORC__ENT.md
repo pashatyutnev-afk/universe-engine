@@ -1,68 +1,38 @@
-# 12__MERGE_SYNTHESIS_ORC
-
-SCOPE: Universe Engine (UE_V2)
-DOC_TYPE: ORC
-UID: UE.V2.ORC.MUSIC.MERGE_SYNTHESIS.001
+FILE: UE_V2/03_ENT/30_ORC_ENT/03_MUSIC_ORC_ENT/17__MUS__MERGE_SYNTHESIS__ORC__ENT.md
+SCOPE: UE_V2 / 03_ENT / 30_ORC_ENT / 03_MUSIC_ORC_ENT
+DOC_TYPE: ENTITY_PASSPORT
+DOMAIN: MUS_ORC_ENT
+UID: UE.V2.ENT.ORC.MUS.MERGE_SYNTHESIS.001
 VERSION: 1.0.0
 STATUS: ACTIVE
 MODE: REPO (USAGE-ONLY, NO-EDIT)
-NAV_RULE: Use RAW links only
-PURPOSE: Оркестратор синтеза: анализирует все варианты и репорты, выбирает лучшее, собирает композит, запускает проверку.
+CREATED: 2026-02-02
+UPDATED: 2026-02-02
+OWNER: ORC_ENT
+NAV_RULE: No RAW in entity docs
 
 ---
+
+## [M] ENTITY_HEADER
+- ENTITY_NAME: MUS_MERGE_SYNTHESIS
+- ENTITY_CLASS: ORC
+- UID: UE.V2.ENT.ORC.MUS.MERGE_SYNTHESIS.001
 
 ## [M] PURPOSE
-Не делать всё заново.
-Собрать лучший композит из вариантов A/B/C… с учётом QA/VAL/CTL, и довести до PASS через точечные правки.
+Сводит варианты в один финал: выбирает лучшие элементы (хук, интро, плотность, эмоция) и формирует MERGE_TOKEN.
+Работает только по заметкам/критериям, не “на вкус без входа”.
 
----
-
-## [M] INPUTS
-- OPTIONS_TOKEN или SELECTION_TOKEN
-- REPORT_TOKEN(QA/VAL/CTL)
-- TOKEN_ARCHIVE refs (успешные и неуспешные попытки)
-- MODE (FAST|RELEASE_READY|MASTERPIECE)
-
----
-
-## [M] OUTPUTS
-- SCORE_TOKEN (если MODE != FAST)
-- SYNTHESIS_TOKEN
-- COMPOSITE_DRAFT_REF (как новая версия артефакта)
-- NEXT_PROMPT ("го" или "ещё проход" если нужен focus)
-
----
-
-## [M] FLOW (CANON)
-F0 Collect:
-- собрать кандидатов (top N) и их отчёты
-- выделить fail flags и strengths
-
-F1 Score:
-- сформировать SCORE_TOKEN по рубрике (STD/23)
-
-F2 Pick components:
-- выбрать 4–8 переносов по COMPONENT_TAGS (STD/24)
-- сформировать COMPONENT_PICKLIST
-
-F3 Build composite:
-- собрать COMPOSITE_SPEC и SYNTHESIS_TOKEN
-
-F4 Validate composite:
-- CTL: SYNTHESIS_MERGE_POLICY_CTL
-- VAL: SYNTHESIS_COHERENCE_VAL
-- QA: TRACK_QA_PANEL_QA (или доменная панель)
-
-F5 Decide next:
-- если PASS -> handoff на PACK/SIGNOFF
-- если REWORK -> включить FOCUS-LOOP на проблемной зоне (hook/mix/lyrics) и повторить синтез
-
----
+## [M] INPUTS / OUTPUTS
+- Inputs: [VARIANT_NOTES, ACCEPT_CRITERIA, STYLE_ROUTE_TOKEN]
+- Outputs: [MERGE_TOKEN, FAIL_CODE?]
 
 ## [M] GATES
-PASS если:
-- есть SYNTHESIS_TOKEN и он прошёл VAL/QA
-REWORK если:
-- синтез дал конфликты и нужен focus loop
-STOP если:
-- отсутствуют входные варианты/репорты
+- PASS: критерии выбора ясны, конфликтов нет
+- FAIL: нет критериев, нет данных о вариантах
+
+## [M] SPC PEER ROLES (NON-ENG)
+- Works with: [QA]
+- Handoff: MERGE_TOKEN -> RELEASE_ASSEMBLER / RELEASE_PACK
+
+## [M] CHANGELOG
+- 2026-02-02: v1.0.0 init

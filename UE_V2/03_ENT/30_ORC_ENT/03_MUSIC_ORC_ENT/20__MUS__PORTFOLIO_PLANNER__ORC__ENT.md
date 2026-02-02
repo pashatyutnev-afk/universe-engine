@@ -1,187 +1,38 @@
-# ORC — PORTFOLIO PLANNER (CANON)
-
-FILE: 03_SYSTEM_ENTITIES/20_ORC__ORCHESTRATORS/10_MUSIC_ORCHESTRATORS/05__PORTFOLIO_PLANNER_ORC.md
-SCOPE: Universe Engine (Games volume)
-SERIAL: C425-B513
-LAYER: 03_SYSTEM_ENTITIES
-REALM: 20_ORC__ORCHESTRATORS
-FAMILY: 10_MUSIC_ORCHESTRATORS
-LEVEL: L2
-DOC_TYPE: ORC (ORCHESTRATOR)
-ENTITY_TYPE: ORCHESTRATOR
-STATUS: ACTIVE
-LOCK: FIXED
+FILE: UE_V2/03_ENT/30_ORC_ENT/03_MUSIC_ORC_ENT/20__MUS__PORTFOLIO_PLANNER__ORC__ENT.md
+SCOPE: UE_V2 / 03_ENT / 30_ORC_ENT / 03_MUSIC_ORC_ENT
+DOC_TYPE: ENTITY_PASSPORT
+DOMAIN: MUS_ORC_ENT
+UID: UE.V2.ENT.ORC.MUS.PORTFOLIO_PLANNER.001
 VERSION: 1.0.0
-UID: UE.ORC.MUSIC.PORTFOLIO_PLANNER.001
-OWNER: SYSTEM
-ROLE: Planning-only pipeline: build a deterministic release portfolio plan (calendar/sequence/rules) without producing audio. Outputs are SPEC/PACKAGE only.
-
-CHANGE_NOTE:
-- DATE: 2026-01-20
-- TYPE: PATCH
-- SUMMARY: "Rebuilt PORTFOLIO_PLANNER as strict planning-only contract: inputs/outputs, XREF dependencies, gate placement, and signoff chain."
-- REASON: "Prevent mixing planning with generation; make portfolio planning auditable and reproducible."
-- IMPACT: "Portfolio plans become consistent inputs for release scheduling and pipeline selection."
-- CHANGE_ID: UE.CHG.2026-01-20.ORC.PORTFOLIO.001
+STATUS: ACTIVE
+MODE: REPO (USAGE-ONLY, NO-EDIT)
+CREATED: 2026-02-02
+UPDATED: 2026-02-02
+OWNER: ORC_ENT
+NAV_RULE: No RAW in entity docs
 
 ---
 
-## 0) PURPOSE (LAW)
-Этот ORC строит план портфеля выпусков:
-- что и в каком порядке выпускать,
-- какие серии/темы/жанры покрываем,
-- какие ограничения и правила соблюдаем,
-- какой “следующий шаг” (какой pipeline запускать дальше).
+## [M] ENTITY_HEADER
+- ENTITY_NAME: MUS_PORTFOLIO_PLANNER
+- ENTITY_CLASS: ORC
+- UID: UE.V2.ENT.ORC.MUS.PORTFOLIO_PLANNER.001
 
-Здесь не создаются аудио-выходы. Только плановые документы.
+## [M] PURPOSE
+Планирует портфель релизов: серии, темп выпуска, распределение жанров/настроений, правила “чтобы не было каши”.
+Не назначает даты как факт, если не задано.
 
----
+## [M] INPUTS / OUTPUTS
+- Inputs: [ARTIST_ID_TOKEN, PAST_RELEASES_HINT?]
+- Outputs: [PORTFOLIO_PLAN_TOKEN, FAIL_CODE?]
 
-## 1) ABSOLUTE LAWS
-### 1.1 RAW-only navigation
-Только RAW.
+## [M] GATES
+- PASS: план структурный и реалистичный
+- FAIL: нет входов (что за проект, какие цели)
 
-### 1.2 Ownership is mandatory
-Владельцы берутся только из `ORC → SPC` карты.
+## [M] SPC PEER ROLES (NON-ENG)
+- Works with: [CTL]
+- Handoff: plan -> GROUP_TO_ALBUM / ALBUM_TO_TRACK
 
-### 1.3 Allowlist engines only
-ENG допускаются только по `ENG → ORC` allowlist для этого ORC.
-
-### 1.4 Mandatory gate order
-READINESS_CHECK_CTL → relevant VAL → relevant QA → DOC_CONTROLLER_SPC → MACHINE_ARCHITECT_SPC signoff
-
-### 1.5 Planning-only scope
-Запрещено выпускать:
-- MUSIC_TRACK_* артефакты
-- MUSIC_RELEASE_* артефакты
-Этот ORC выпускает только SPEC/PACKAGE.
-
----
-
-## 2) REQUIRED XREF (RAW)
-PIPELINES (intent → pipeline)
-RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/90_XREF__CROSSREF/04__MAP__PIPELINES.md
-
-ENG → ORC allowlist
-RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/90_XREF__CROSSREF/01__MAP__ENG_to_ORC.md
-
-ORC → SPC ownership
-RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/90_XREF__CROSSREF/02__MAP__ORC_to_SPC.md
-
-VALIDATION MATRIX
-RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/90_XREF__CROSSREF/03__MAP__VALIDATION_MATRIX.md
-
----
-
-## 3) REQUIRED CONTROL (RAW)
-READINESS CHECK (mandatory)
-RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/40_CTL__CONTROLLERS/01__READINESS_CHECK_CTL.md
-
----
-
-## 4) INPUTS (MINIMUM)
-### 4.1 Required
-- Portfolio horizon (например: 4 недели / 3 месяца / 20 релизов)
-- Portfolio goals (охват жанров/настроений/аудиторий) — кратко
-- Constraints:
-  - frequency (как часто выпускать)
-  - variety (минимальная дифференциация между релизами)
-  - platform focus (YouTube/streaming/etc) — как intent, без внешних ссылок
-
-### 4.2 Optional
-- Existing catalog snapshot (список уже готовых релизов/треков)
-- Brand constraints (если портфель под брендом)
-
-### 4.3 Stop rule
-Если нет horizon или goals → STOP: input absent
-
----
-
-## 5) OUTPUTS (ARTIFACT SET)
-- PORTFOLIO_PLAN (SPEC doc) — основной документ плана
-- OPTIONAL: PORTFOLIO_PACK (PACKAGE doc) — если нужно упаковать план с приложениями
-
-Validation gates берём из `VALIDATION_MATRIX` для типов SPEC/PACKAGE.
-
----
-
-## 6) PLANNING RULES (DETERMINISTIC)
-План обязан содержать минимум:
-- Release slots (S01..SNN) или календарные точки (W01..WNN)
-- Для каждого слота:
-  - intent (что выпускаем: single track / album pack / poet pack / etc)
-  - recommended pipeline (PIPELINE_ID из `PIPELINES` map)
-  - ownership note (primary ORC owner is resolved via ORC→SPC during execution)
-  - differentiation tag (почему это отличается от соседнего)
-- Risk notes (если есть риск однообразия / коллизий / перегруза)
-
----
-
-## 7) PIPELINE STEPS (DETERMINISTIC)
-
-### STEP 0 — PRECHECK (CTL)
-Owner: PRIMARY_SPC (from ORC→SPC map)  
-Gate: READINESS_CHECK_CTL  
-Input: horizon + goals + constraints  
-Output: PASS/FAIL  
-Fail → STOP
-
----
-
-### STEP 1 — SLOT GRID BUILD (SPC)
-Owner: PRIMARY_SPC  
-Output:
-- SLOT_GRID (N слотов) с частотой и распределением
-
----
-
-### STEP 2 — INTENT ASSIGNMENT (SPC)
-Owner: PRIMARY_SPC  
-Action:
-- назначить intent каждому слоту
-- отметить разнообразие (variety)
-
-Output:
-- SLOT_INTENTS
-
----
-
-### STEP 3 — PIPELINE RESOLUTION (XREF)
-Owner: ORC (this doc)  
-Action:
-- для каждого intent подобрать PIPELINE_ID по `PIPELINES` map
-Output:
-- SLOT_PIPELINE_MAP (slot → pipeline_id → primary_orc_raw)
-
-Fail:
-- если intent не маппится → STOP: marker not confirmed (need new pipeline record)
-
----
-
-### STEP 4 — VALIDATION + QA (by matrix)
-Owner: relevant VAL + relevant QA  
-Action:
-- применить матрицу к типу SPEC (и PACKAGE если делаем pack)
-Output:
-- VIOLATIONS / QA_VERDICT
-
-FAIL → возврат на STEP 1–3
-
----
-
-### STEP 5 — DOC CONTROL + SIGNOFF
-Owner: DOC_CONTROLLER_SPC → MACHINE_ARCHITECT_SPC  
-Output:
-- FINAL PORTFOLIO_PLAN (и optional pack)
-
----
-
-## 8) EXTENSION POLICY (STRICT)
-Если нужно добавить новый тип слота/intent:
-1) обновить `PIPELINES` map (PATCH)
-2) при необходимости обновить `VALIDATION_MATRIX` (PATCH)
-3) затем обновить этот ORC (PATCH)
-
----
-
-END.
+## [M] CHANGELOG
+- 2026-02-02: v1.0.0 init

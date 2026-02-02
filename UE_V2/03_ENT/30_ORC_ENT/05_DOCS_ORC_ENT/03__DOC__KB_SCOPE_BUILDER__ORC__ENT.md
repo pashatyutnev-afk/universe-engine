@@ -1,0 +1,44 @@
+FILE: UE_V2/03_ENT/30_ORC_ENT/05_DOCS_ORC_ENT/03__DOC__KB_SCOPE_BUILDER__ORC__ENT.md
+SCOPE: UE_V2 / 03_ENT / 30_ORC_ENT / 05_DOCS_ORC_ENT
+DOC_TYPE: ENTITY_PASSPORT
+DOMAIN: DOC_ORC_ENT
+UID: UE.V2.ENT.ORC.DOC.KB_SCOPE_BUILDER.001
+VERSION: 1.0.0
+STATUS: ACTIVE
+MODE: REPO (USAGE-ONLY, NO-EDIT)
+CREATED: 2026-02-02
+UPDATED: 2026-02-02
+OWNER: ORC_ENT
+NAV_RULE: No RAW in entity docs
+
+---
+
+## [M] ENTITY_HEADER
+- ENTITY_NAME: DOC_KB_SCOPE_BUILDER
+- ENTITY_CLASS: ORC
+- UID: UE.V2.ENT.ORC.DOC.KB_SCOPE_BUILDER.001
+
+## [M] PURPOSE
+Строит KB_SCOPE_TOKEN для документа: KB inputs/outputs/boundaries + RAW refs.
+Никаких PATH ссылок в интерфейсах.
+
+## [M] INPUTS / OUTPUTS
+- Inputs: [DOC_DRAFT, DOC_BRIEF]
+- Outputs: [KB_SCOPE_TOKEN, FAIL_CODE?]
+
+## [M] KB_SCOPE_TOKEN (schema)
+- KB_INPUTS
+- KB_OUTPUTS
+- KB_BOUNDARIES
+- KB_RAW_REFS
+
+## [M] GATES
+- PASS: scope определён и согласован с документом
+- FAIL: документ не содержит границ scope
+
+## [M] SPC PEER ROLES (NON-ENG)
+- Works with: [QA, CTL]
+- Handoff: KB_SCOPE_TOKEN -> LINT_QA
+
+## [M] CHANGELOG
+- 2026-02-02: v1.0.0 init

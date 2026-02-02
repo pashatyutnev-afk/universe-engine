@@ -1,0 +1,50 @@
+FILE: UE_V2/03_ENT/30_ORC_ENT/03_MUSIC_ORC_ENT/05__MUS__LYRIC_BRIEF_FACTORY__ORC__ENT.md
+SCOPE: UE_V2 / 03_ENT / 30_ORC_ENT / 03_MUSIC_ORC_ENT
+DOC_TYPE: ENTITY_PASSPORT
+DOMAIN: MUS_ORC_ENT
+UID: UE.V2.ENT.ORC.MUS.LYRIC_BRIEF_FACTORY.001
+VERSION: 1.0.0
+STATUS: ACTIVE
+MODE: REPO (USAGE-ONLY, NO-EDIT)
+CREATED: 2026-02-02
+UPDATED: 2026-02-02
+OWNER: ORC_ENT
+NAV_RULE: No RAW in entity docs
+
+---
+
+## [M] ENTITY_HEADER
+- ENTITY_NAME: MUS_LYRIC_BRIEF_FACTORY
+- ENTITY_CLASS: ORC
+- UID: UE.V2.ENT.ORC.MUS.LYRIC_BRIEF_FACTORY.001
+
+## [M] PURPOSE
+Создаёт LYRIC_BRIEF: тема, POV, лексика, образы, структура, запреты, рифмовка/ритм, припев-хук.
+Должен учитывать правило “без восклицаний”.
+
+## [M] INPUTS / OUTPUTS
+- Inputs: [TRACK_PLAN, ALBUM_TOKEN, STYLE_ROUTE_TOKEN, MUS_CONSTRAINTS_LOCK]
+- Outputs: [LYRIC_BRIEF, FAIL_CODE?]
+
+## [M] TOKEN_SCHEMA (LYRIC_BRIEF)
+- LANGUAGE
+- POV
+- THEME
+- IMAGERY
+- STRUCTURE (sections + lines count)
+- RHYME_POLICY
+- METER_HINT
+- BANNED_WORDS
+- MUST_HAVE (hook phrase idea)
+- PUNCTUATION_POLICY (no exclamation)
+
+## [M] GATES
+- PASS: brief полный и непротиворечивый
+- FAIL: конфликт запретов или неполный вход
+
+## [M] SPC PEER ROLES (NON-ENG)
+- Works with: [QA]
+- Handoff: LYRIC_BRIEF -> LYRIC_DRAFTER / LYRICS_FOCUS_LOOP
+
+## [M] CHANGELOG
+- 2026-02-02: v1.0.0 init

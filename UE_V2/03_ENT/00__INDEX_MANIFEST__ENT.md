@@ -91,8 +91,8 @@ INDEX_MANIFEST — “таблица адресов” и кратких смы�
   KIND: FILE
   ROLE: Entity model definition
   DESC: Canon entity model, sections and invariants
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/01__ENT_MODEL.md
-  PATH: UE_V2/03_ENT/01__ENT_MODEL.md
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/01__ENT_MODEL__ENT.md
+  PATH: UE_V2/03_ENT/01__ENT_MODEL__ENT.md
   MARKERS: [ENT, MODEL, MUST_LOAD]
   STATUS: ACTIVE
   OWNER: SYS
@@ -103,8 +103,8 @@ INDEX_MANIFEST — “таблица адресов” и кратких смы�
   KIND: FILE
   ROLE: ENT contract
   DESC: Rules for entity lifecycle and layer operations
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/02__ENT_CONTRACT.md
-  PATH: UE_V2/03_ENT/02__ENT_CONTRACT.md
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/02__ENT_CONTRACT__ENT.md
+  PATH: UE_V2/03_ENT/02__ENT_CONTRACT__ENT.md
   MARKERS: [ENT, CONTRACT]
   STATUS: ACTIVE
   OWNER: SYS
@@ -115,8 +115,8 @@ INDEX_MANIFEST — “таблица адресов” и кратких смы�
   KIND: FILE
   ROLE: SPC contract
   DESC: SPC layer integration contract for entities
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/03__SPC_CONTRACT.md
-  PATH: UE_V2/03_ENT/03__SPC_CONTRACT.md
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/03__SPC_CONTRACT__ENT.md
+  PATH: UE_V2/03_ENT/03__SPC_CONTRACT__ENT.md
   MARKERS: [ENT, SPC, CONTRACT]
   STATUS: ACTIVE
   OWNER: SYS
@@ -127,8 +127,8 @@ INDEX_MANIFEST — “таблица адресов” и кратких смы�
   KIND: FILE
   ROLE: ORC contract
   DESC: ORC integration contract for entities
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/04__ORC_CONTRACT.md
-  PATH: UE_V2/03_ENT/04__ORC_CONTRACT.md
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/04__ORC_CONTRACT__ENT.md
+  PATH: UE_V2/03_ENT/04__ORC_CONTRACT__ENT.md
   MARKERS: [ENT, ORC, CONTRACT]
   STATUS: ACTIVE
   OWNER: SYS
@@ -139,8 +139,8 @@ INDEX_MANIFEST — “таблица адресов” и кратких смы�
   KIND: FILE
   ROLE: CTL contract
   DESC: CTL integration contract for entities
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/05__CTL_CONTRACT.md
-  PATH: UE_V2/03_ENT/05__CTL_CONTRACT.md
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/05__CTL_CONTRACT__ENT.md
+  PATH: UE_V2/03_ENT/05__CTL_CONTRACT__ENT.md
   MARKERS: [ENT, CTL, CONTRACT]
   STATUS: ACTIVE
   OWNER: SYS
@@ -151,8 +151,8 @@ INDEX_MANIFEST — “таблица адресов” и кратких смы�
   KIND: FILE
   ROLE: VAL contract
   DESC: VAL integration contract for entities
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/06__VAL_CONTRACT.md
-  PATH: UE_V2/03_ENT/06__VAL_CONTRACT.md
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/06__VAL_CONTRACT__ENT.md
+  PATH: UE_V2/03_ENT/06__VAL_CONTRACT__ENT.md
   MARKERS: [ENT, VAL, CONTRACT]
   STATUS: ACTIVE
   OWNER: SYS
@@ -163,8 +163,8 @@ INDEX_MANIFEST — “таблица адресов” и кратких смы�
   KIND: FILE
   ROLE: QA contract
   DESC: QA integration contract for entities
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/07__QA_CONTRACT.md
-  PATH: UE_V2/03_ENT/07__QA_CONTRACT.md
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/07__QA_CONTRACT__ENT.md
+  PATH: UE_V2/03_ENT/07__QA_CONTRACT__ENT.md
   MARKERS: [ENT, QA, CONTRACT]
   STATUS: ACTIVE
   OWNER: SYS
@@ -175,8 +175,8 @@ INDEX_MANIFEST — “таблица адресов” и кратких смы�
   KIND: FILE
   ROLE: XREF contract
   DESC: XREF integration contract for entities
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/08__XREF_CONTRACT.md
-  PATH: UE_V2/03_ENT/08__XREF_CONTRACT.md
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/08__XREF_CONTRACT__ENT.md
+  PATH: UE_V2/03_ENT/08__XREF_CONTRACT__ENT.md
   MARKERS: [ENT, XREF, CONTRACT]
   STATUS: ACTIVE
   OWNER: SYS
@@ -187,8 +187,8 @@ INDEX_MANIFEST — “таблица адресов” и кратких смы�
   KIND: FILE
   ROLE: Domain plugin interface
   DESC: Domain plugin interface for ENT usage in domains
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/09__DOMAIN_PLUGIN.md
-  PATH: UE_V2/03_ENT/09__DOMAIN_PLUGIN.md
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/09__DOMAIN_PLUGIN__ENT.md
+  PATH: UE_V2/03_ENT/09__DOMAIN_PLUGIN__ENT.md
   MARKERS: [ENT, DOM]
   STATUS: ACTIVE
   OWNER: SYS
@@ -199,8 +199,8 @@ INDEX_MANIFEST — “таблица адресов” и кратких смы�
   KIND: FILE
   ROLE: Registry contract
   DESC: Registry discipline and operations contract for ENT
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/10__REGISTRY_CONTRACT.md
-  PATH: UE_V2/03_ENT/10__REGISTRY_CONTRACT.md
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/10__REGISTRY_CONTRACT__ENT.md
+  PATH: UE_V2/03_ENT/10__REGISTRY_CONTRACT__ENT.md
   MARKERS: [ENT, REG]
   STATUS: ACTIVE
   OWNER: SYS
@@ -211,8 +211,8 @@ INDEX_MANIFEST — “таблица адресов” и кратких смы�
   KIND: FILE
   ROLE: Template set definition
   DESC: Canon template set for entity families
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/11__TEMPLATE_SET.md
-  PATH: UE_V2/03_ENT/11__TEMPLATE_SET.md
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/11__TEMPLATE_SET__ENT.md
+  PATH: UE_V2/03_ENT/11__TEMPLATE_SET__ENT.md
   MARKERS: [ENT, TPL]
   STATUS: ACTIVE
   OWNER: SYS
@@ -223,8 +223,8 @@ INDEX_MANIFEST — “таблица адресов” и кратких смы�
   KIND: FILE
   ROLE: Minimal entity pass gate
   DESC: Minimal pass criteria for entities (ready/not ready)
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/12__ENTITY_MIN_PASS.md
-  PATH: UE_V2/03_ENT/12__ENTITY_MIN_PASS.md
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/12__ENTITY_MIN_PASS__ENT.md
+  PATH: UE_V2/03_ENT/12__ENTITY_MIN_PASS__ENT.md
   MARKERS: [ENT, GATE]
   STATUS: ACTIVE
   OWNER: SYS

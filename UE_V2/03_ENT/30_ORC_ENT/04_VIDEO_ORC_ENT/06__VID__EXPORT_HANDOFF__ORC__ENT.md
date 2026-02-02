@@ -1,0 +1,48 @@
+FILE: UE_V2/03_ENT/30_ORC_ENT/04_VIDEO_ORC_ENT/06__VID__EXPORT_HANDOFF__ORC__ENT.md
+SCOPE: UE_V2 / 03_ENT / 30_ORC_ENT / 04_VIDEO_ORC_ENT
+DOC_TYPE: ENTITY_PASSPORT
+DOMAIN: VID_ORC_ENT
+UID: UE.V2.ENT.ORC.VID.EXPORT_HANDOFF.001
+VERSION: 1.0.0
+STATUS: ACTIVE
+MODE: REPO (USAGE-ONLY, NO-EDIT)
+CREATED: 2026-02-02
+UPDATED: 2026-02-02
+OWNER: ORC_ENT
+NAV_RULE: No RAW in entity docs
+
+---
+
+## [M] ENTITY_HEADER
+- ENTITY_NAME: VID_EXPORT_HANDOFF
+- ENTITY_CLASS: ORC
+- UID: UE.V2.ENT.ORC.VID.EXPORT_HANDOFF.001
+
+## [M] PURPOSE
+Формирует EXPORT_HANDOFF_TOKEN: параметры экспорта, naming, чеклист передачи результата.
+В режиме no-edit — только инструкция и структура, без фактического экспорта.
+
+## [M] INPUTS / OUTPUTS
+- Inputs: [QA_REPORT, VID_BRIEF, PROMPT_PACK]
+- Outputs: [EXPORT_HANDOFF_TOKEN, OUTPUT_PACK, FAIL_CODE?]
+
+## [M] EXPORT_HANDOFF_TOKEN (fields)
+- OUTPUT_FORMAT
+- RESOLUTION
+- FPS
+- DURATION
+- NAMING_RULES
+- FOLDER_LAYOUT (logical)
+- CHECKLIST
+- NEXT_ACTION
+
+## [M] GATES
+- PASS: QA_PASS и handoff заполнен
+- FAIL: QA_FAIL или нет обязательных полей
+
+## [M] SPC PEER ROLES (NON-ENG)
+- Works with: [CTL, QA]
+- Handoff: OUTPUT_PACK -> user / caller realm
+
+## [M] CHANGELOG
+- 2026-02-02: v1.0.0 init

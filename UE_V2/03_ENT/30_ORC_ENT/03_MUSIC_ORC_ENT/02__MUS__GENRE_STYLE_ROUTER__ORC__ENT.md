@@ -1,0 +1,49 @@
+FILE: UE_V2/03_ENT/30_ORC_ENT/03_MUSIC_ORC_ENT/02__MUS__GENRE_STYLE_ROUTER__ORC__ENT.md
+SCOPE: UE_V2 / 03_ENT / 30_ORC_ENT / 03_MUSIC_ORC_ENT
+DOC_TYPE: ENTITY_PASSPORT
+DOMAIN: MUS_ORC_ENT
+UID: UE.V2.ENT.ORC.MUS.GENRE_STYLE_ROUTER.001
+VERSION: 1.0.0
+STATUS: ACTIVE
+MODE: REPO (USAGE-ONLY, NO-EDIT)
+CREATED: 2026-02-02
+UPDATED: 2026-02-02
+OWNER: ORC_ENT
+NAV_RULE: No RAW in entity docs
+
+---
+
+## [M] ENTITY_HEADER
+- ENTITY_NAME: MUS_GENRE_STYLE_ROUTER
+- ENTITY_CLASS: ORC
+- UID: UE.V2.ENT.ORC.MUS.GENRE_STYLE_ROUTER.001
+
+## [M] PURPOSE
+Строит STYLE_ROUTE_TOKEN: жанр, темп-коридор, энергия, гармонический характер, инструментарий, вокальный режим, структура.
+Нужен для консистентности всех следующих шагов.
+
+## [M] INPUTS / OUTPUTS
+- Inputs: [MUS_BRIEF, SOURCE_POLICY_TOKEN?]
+- Outputs: [STYLE_ROUTE_TOKEN, FAIL_CODE?]
+
+## [M] TOKEN_SCHEMA (STYLE_ROUTE_TOKEN)
+- GENRE
+- SUBSTYLE
+- BPM_RANGE
+- ENERGY (low/med/high)
+- INSTRUMENT_RULES
+- VOCAL_RULES
+- STRUCTURE_HINT (intro/verse/chorus/bridge/outro)
+- MIX_TARGETS (principles)
+- FORBIDDEN (list)
+
+## [M] GATES
+- PASS: токен непротиворечивый
+- FAIL: требования конфликтуют без уточнения
+
+## [M] SPC PEER ROLES (NON-ENG)
+- Works with: [QA]
+- Handoff: STYLE_ROUTE_TOKEN -> GROUP_TO_ALBUM / LYRIC_BRIEF_FACTORY / PROMPT_PACKAGER
+
+## [M] CHANGELOG
+- 2026-02-02: v1.0.0 init

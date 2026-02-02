@@ -1,50 +1,38 @@
-# 09__MIX_FOCUS_LOOP_ORC
-
-SCOPE: Universe Engine (UE_V2)
-DOC_TYPE: ORC
-UID: UE.V2.ORC.MUSIC.MIX_FOCUS_LOOP.001
+FILE: UE_V2/03_ENT/30_ORC_ENT/03_MUSIC_ORC_ENT/11__MUS__MIX_FOCUS_LOOP__ORC__ENT.md
+SCOPE: UE_V2 / 03_ENT / 30_ORC_ENT / 03_MUSIC_ORC_ENT
+DOC_TYPE: ENTITY_PASSPORT
+DOMAIN: MUS_ORC_ENT
+UID: UE.V2.ENT.ORC.MUS.MIX_FOCUS_LOOP.001
 VERSION: 1.0.0
 STATUS: ACTIVE
 MODE: REPO (USAGE-ONLY, NO-EDIT)
-NAV_RULE: Use RAW links only
-PURPOSE: FOCUS-LOOP оркестратор для микса и трансляции (translation).
+CREATED: 2026-02-02
+UPDATED: 2026-02-02
+OWNER: ORC_ENT
+NAV_RULE: No RAW in entity docs
 
 ---
+
+## [M] ENTITY_HEADER
+- ENTITY_NAME: MUS_MIX_FOCUS_LOOP
+- ENTITY_CLASS: ORC
+- UID: UE.V2.ENT.ORC.MUS.MIX_FOCUS_LOOP.001
 
 ## [M] PURPOSE
-Доводить микс сериями правок: баланс, удар, бас, маскинг, пространство.
-Каждый pass решает 1–2 проблемы, не всё сразу.
+Цикл улучшения микса как принципов: баланс, читаемость вокала, динамика, плотность, удар, ширина.
+Не задаёт точные значения, только направляющие и риски.
 
----
-
-## [M] INPUTS
-- FOCUS_TOKEN ("улучшить микс/translation")
-- CURRENT_MIX_REF (TOKEN_ID)
-- CONSTRAINTS (что не ломать)
-
----
-
-## [M] OUTPUTS
-- OPTIONS_TOKEN (2–4 направления правок)
-- DECISION_TOKEN
-- MINI_REPORT_TOKEN (QA translation)
-- DELTA_TOKEN
-- NEXT_PROMPT
-
----
-
-## [M] RULES
-1) Каждый pass выбирает 1–2 узких фокуса (например бас vs кик, или вокал vs лид).
-2) Обязателен mini QA по translation (телефон/наушники/колонка — как минимум логически).
-3) Запрещено лечить всё "громкостью" вместо баланса.
-4) Останов при PASS по translation и отсутствии major дефектов.
-
----
+## [M] INPUTS / OUTPUTS
+- Inputs: [STYLE_ROUTE_TOKEN, GEN_OUTPUT_NOTES?]
+- Outputs: [MIX_LOOP_NOTES, MIX_TARGETS_UPDATE?, FAIL_CODE?]
 
 ## [M] GATES
-PASS если:
-- QA translation PASS
-REWORK если:
-- правки не улучшают или ломают другие части
-STOP если:
-- фокус не определён
+- PASS: есть конкретные рекомендации и критерии “лучше/хуже”
+- FAIL: отсутствуют данные о текущем результате
+
+## [M] SPC PEER ROLES (NON-ENG)
+- Works with: [QA]
+- Handoff: notes -> TRACK_BUILD_STEP / MERGE_SYNTHESIS
+
+## [M] CHANGELOG
+- 2026-02-02: v1.0.0 init

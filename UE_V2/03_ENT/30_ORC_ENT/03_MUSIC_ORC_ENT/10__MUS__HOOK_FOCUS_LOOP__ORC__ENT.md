@@ -1,57 +1,38 @@
-# 08__HOOK_FOCUS_LOOP_ORC
-
-SCOPE: Universe Engine (UE_V2)
-DOC_TYPE: ORC
-UID: UE.V2.ORC.MUSIC.HOOK_FOCUS_LOOP.001
+FILE: UE_V2/03_ENT/30_ORC_ENT/03_MUSIC_ORC_ENT/10__MUS__HOOK_FOCUS_LOOP__ORC__ENT.md
+SCOPE: UE_V2 / 03_ENT / 30_ORC_ENT / 03_MUSIC_ORC_ENT
+DOC_TYPE: ENTITY_PASSPORT
+DOMAIN: MUS_ORC_ENT
+UID: UE.V2.ENT.ORC.MUS.HOOK_FOCUS_LOOP.001
 VERSION: 1.0.0
 STATUS: ACTIVE
 MODE: REPO (USAGE-ONLY, NO-EDIT)
-NAV_RULE: Use RAW links only
-PURPOSE: FOCUS-LOOP оркестратор для прокачки хука несколькими проходами.
+CREATED: 2026-02-02
+UPDATED: 2026-02-02
+OWNER: ORC_ENT
+NAV_RULE: No RAW in entity docs
 
 ---
+
+## [M] ENTITY_HEADER
+- ENTITY_NAME: MUS_HOOK_FOCUS_LOOP
+- ENTITY_CLASS: ORC
+- UID: UE.V2.ENT.ORC.MUS.HOOK_FOCUS_LOOP.001
 
 ## [M] PURPOSE
-Довести хук до PASS: узнаваемость, скролл-стоп, луп без шва.
-Проходит партиями сущностей, каждый pass даёт варианты A–E и выбор.
+Цикл улучшения хука: запоминаемость, повторяемость, “крючок” в первых секундах, но без перегруза.
+Работает строго в пределах STYLE_ROUTE_TOKEN и LYRIC_BRIEF.
 
----
-
-## [M] INPUTS
-- FOCUS_TOKEN (формулировка: "улучшить хук")
-- CURRENT_BEST_REF (TOKEN_ID текущего лучшего варианта)
-- CONSTRAINTS (темп/тональность/стиль/запреты)
-
----
-
-## [M] OUTPUTS
-- OPTIONS_TOKEN (A–E)
-- DECISION_TOKEN
-- MINI_REPORT_TOKEN (QA/VAL)
-- ARCHIVE запись (в TOKEN_ARCHIVE)
-- NEXT_PROMPT ("ещё проход" или "го дальше")
-
----
-
-## [M] RULES
-1) Один pass = один угол атаки (ритм/мотив/контраст/инструмент/пауза).
-2) Каждый pass обязан дать различимые варианты (не косметика).
-3) Вопросы максимум 3, всегда с дефолтом.
-4) Останов: QA PASS или команда "стоп".
-
----
-
-## [M] PASS_CRITERIA (DEFAULT)
-- Узнаваемость хука ≤ 5 секунд
-- Луп без ощутимого стыка
-- Хук не тонет и не режет ухо
-
----
+## [M] INPUTS / OUTPUTS
+- Inputs: [LYRIC_BRIEF, LYRICS_FINAL, GEN_OUTPUT_NOTES?]
+- Outputs: [HOOK_LOOP_NOTES, RECOMMENDED_CHANGES, FAIL_CODE?]
 
 ## [M] GATES
-PASS если:
-- есть winner + MINI_REPORT PASS
-REWORK если:
-- варианты не различимы
-STOP если:
-- фокус не определён
+- PASS: предложены конкретные улучшения без нарушения ограничений
+- FAIL: нет входов для оценки
+
+## [M] SPC PEER ROLES (NON-ENG)
+- Works with: [QA]
+- Handoff: notes -> TRACK_BUILD_STEP / LYRIC_EDITOR
+
+## [M] CHANGELOG
+- 2026-02-02: v1.0.0 init
