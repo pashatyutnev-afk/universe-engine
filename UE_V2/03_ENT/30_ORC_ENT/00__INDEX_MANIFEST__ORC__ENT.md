@@ -1,171 +1,194 @@
-# ORC ORCHESTRATORS INDEX — GLOBAL REGISTRY (CANON ROADMAP)
-
-FILE: 03_SYSTEM_ENTITIES/20_ORC__ORCHESTRATORS/02__INDEX_ALL_ORCHESTRATORS.md
-SCOPE: Universe Engine (Games volume)
-SERIAL: C425-B513
-LAYER: 03_SYSTEM_ENTITIES
-DOC_TYPE: INDEX
-INDEX_TYPE: GLOBAL_ORCHESTRATOR_REGISTRY
-ENTITY_GROUP: ORCHESTRATORS (ORC)
-LEVEL: L1
+FILE: UE_V2/03_ENT/30_ORC_ENT/00__INDEX_MANIFEST__ORC__ENT.md
+SCOPE: UE_V2 / 03_ENT / 30_ORC_ENT
+DOC_TYPE: INDEX_MANIFEST
+DOMAIN: ORC_ENT
+UID: UE.V2.ENT.IDX.ORC_ENT.001
+VERSION: 1.0.0
 STATUS: ACTIVE
-LOCK: FIXED
-VERSION: 1.0.1
-UID: UE.ORC.IDX.ALL.001
-OWNER: SYSTEM
-ROLE: Canonical navigation law + existence registry + roadmap for all ORC orchestrator families and instances (RAW-only navigation).
-
-CHANGE_NOTE:
-- DATE: 2026-01-20
-- TYPE: PATCH
-- SUMMARY: "DOC CONTROL header normalized; CANON MAP preserved; no content loss."
-- REASON: "Make registry auditable and consistent with other realm indexes."
-- IMPACT: "Registry remains SoT with stable content and improved readability."
-- CHANGE_ID: UE.CHG.2026-01-20.ORC.IDX.ALL.002
+MODE: REPO (USAGE-ONLY, NO-EDIT)
+CREATED: 2026-02-02
+UPDATED: 2026-02-02
+OWNER: ORC_ENT
+NAV_RULE: RAW lives here only
 
 ---
 
-## ROOT FILES (ORC LAYER) — RAW ONLY
-00 — ORC Layer Realm (README)
-RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/20_ORC__ORCHESTRATORS/00__README__ORC_REALM.md
+## [M] PURPOSE
+INDEX_MANIFEST — адресная таблица реалма 30_ORC_ENT.
+Хранит KEYS, короткий смысл, RAW и PATH (как справка). Без длинных историй.
 
-01 — ORC Layer Rules (Ruleset)
-RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/20_ORC__ORCHESTRATORS/01__RULES__ORC.md
+## [M] HARD_RULES
+- RAW ссылки допускаются только тут (и в ROOT LINK BASE / START по закону системы).
+- Каждый элемент имеет KEY. PIPELINE_CONTRACT ссылается только на KEY.
+- Коротко: 1–2 строки смысла. Без лирики.
+- SELF запись обязательна.
+- Не обходить через PATH при наличии RAW (PATH хранится как справка).
 
-02 — ORC INDEX_ALL_ORCHESTRATORS (THIS FILE)
-RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/20_ORC__ORCHESTRATORS/02__INDEX_ALL_ORCHESTRATORS.md
+## [M] INDEX_CONTEXT
+- REALM_ID: UE_V2/03_ENT/30_ORC_ENT
+- FOLDER_NAME: 30_ORC_ENT
+- INDEX_SCOPE_TAGS: [ENT, ORC]
 
-03 — ORC Create Flow
-RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/20_ORC__ORCHESTRATORS/03__ORC_CREATE_FLOW.md
-
----
-
-## 0) PURPOSE (LAW)
-Этот INDEX — единая точка истины для NAV/EXISTENCE слоя ORC.
-
-Он фиксирует:
-- список семейств (family folders) в `03_SYSTEM_ENTITIES/20_ORC__ORCHESTRATORS/`
-- строгий порядок оркестраторов внутри семейств
-- RAW-only навигацию
-
-## 1) EXISTENCE RULE (ABSOLUTE)
-- Если файла/README/Template нет в CANON MAP ниже — он не существует для ORC слоя.
-- Если файл есть в репо, но не зарегистрирован здесь — NON-CANON / ignored.
-- NAV работает только по RAW ссылкам.
-
----
-
-## 2) BASE PATH
-PATH: `03_SYSTEM_ENTITIES/20_ORC__ORCHESTRATORS/`
+## [M] ENTRY_SCHEMA (v1)
+- KEY: <UNIQUE_KEY>
+  UID: <OPTIONAL_UID>
+  KIND: FILE|FOLDER|ENTITY|PIPE|KB|REG|XREF|LOG|STD|LAW|TPL
+  ROLE: <ONE_LINE_ROLE>
+  DESC: <ONE_LINE_DESC>
+  RAW: <RAW_URL_OR_EMPTY>
+  PATH: <REPO_PATH_OR_EMPTY>
+  MARKERS: [MUST_LOAD, ROUTER, NAV, ...]
+  STATUS: ACTIVE|DRAFT|DEPRECATED
+  OWNER: SYS|RUNTIME|USER|<TEAM>
+  UPDATED: 0000-00-00
 
 ---
 
-## 3) HOW TO USE (ROADMAP)
-1) Выбираешь FAMILY (папку) по задаче.
-2) Открываешь `00__README__...` этой FAMILY — рамки/роль/границы.
-3) Внутри FAMILY идёшь по оркестраторам строго по номеру.
-4) Новый ORC:
-- сначала регистрируется здесь (FAMILY + номер),
-- затем создаётся файл,
-- затем фиксируются зависимости (если есть).
+## [M] ENTRIES
 
----
+### [M] SELF
+- KEY: SELF
+  UID: UE.V2.ENT.IDX.ORC_ENT.001
+  KIND: FILE
+  ROLE: Self pointer for deterministic nav
+  DESC: This index-manifest file for 30_ORC_ENT
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/30_ORC_ENT/00__INDEX_MANIFEST__ORC__ENT.md
+  PATH: UE_V2/03_ENT/30_ORC_ENT/00__INDEX_MANIFEST__ORC__ENT.md
+  MARKERS: [INDEX, SELF]
+  STATUS: ACTIVE
+  OWNER: ORC_ENT
+  UPDATED: 2026-02-02
 
-## 4) FAMILY BLOCK STANDARD (MANDATORY)
-Каждое семейство обязано иметь единый блок:
-1) `## `
-2) `REALM FILE (RAW):`
-3) `Family Path:`
-4) `TEMPLATES (RAW):` (если применимо)
-5) список оркестраторов по номерам (RAW)
+### [M] REQUIRED (минимум для реалма)
+- KEY: INDEX_MANIFEST
+  UID: UE.V2.ENT.IDX.ORC_ENT.001
+  KIND: FILE
+  ROLE: Address table for realm
+  DESC: Raw addresses + short meaning for 30_ORC_ENT
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/30_ORC_ENT/00__INDEX_MANIFEST__ORC__ENT.md
+  PATH: UE_V2/03_ENT/30_ORC_ENT/00__INDEX_MANIFEST__ORC__ENT.md
+  MARKERS: [INDEX, MUST_LOAD]
+  STATUS: ACTIVE
+  OWNER: ORC_ENT
+  UPDATED: 2026-02-02
 
----
+- KEY: PIPELINE_CONTRACT
+  UID: UE.V2.ENT.PIPE.ORC_ENT.001
+  KIND: PIPE
+  ROLE: Root navigator for ORC_ENT realm
+  DESC: Routes to sub-realms by KEY and enforces core orchestration steps
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/30_ORC_ENT/00__PIPELINE_CONTRACT__ORC__ENT.md
+  PATH: UE_V2/03_ENT/30_ORC_ENT/00__PIPELINE_CONTRACT__ORC__ENT.md
+  MARKERS: [PIPE, MUST_LOAD, ROUTER]
+  STATUS: ACTIVE
+  OWNER: ORC_ENT
+  UPDATED: 2026-02-02
 
-## 5) QUICK NAV (FAMILY JUMP)
-- [00 — Templates](#orc-family-00-templates)
-- [01 — Core Orchestrators](#orc-family-01-core)
-- [10 — Music Orchestrators](#orc-family-10-music)
+### [O] SUB-REALMS (folders)
+- KEY: REALM.GOVERNANCE_ORC_ENT
+  UID:
+  KIND: FOLDER
+  ROLE: Governance orchestrators
+  DESC: Compliance, approvals, audit, risk, and change-control for ORC entities
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/30_ORC_ENT/00_GOVERNANCE_ORC_ENT/00__INDEX_MANIFEST__GVN__ORC__ENT.md
+  PATH: UE_V2/03_ENT/30_ORC_ENT/00_GOVERNANCE_ORC_ENT
+  MARKERS: [NAV, REALM]
+  STATUS: ACTIVE
+  OWNER: ORC_ENT
+  UPDATED: 2026-02-02
 
----
+- KEY: REALM.CORE_ORC_ENT
+  UID:
+  KIND: FOLDER
+  ROLE: Core orchestrator runtime
+  DESC: Intake, routing, sentinels, step-run, logging, failure handling, output packaging
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/30_ORC_ENT/01_CORE_ORC_ENT/00__INDEX_MANIFEST__COR__ORC__ENT.md
+  PATH: UE_V2/03_ENT/30_ORC_ENT/01_CORE_ORC_ENT
+  MARKERS: [NAV, REALM]
+  STATUS: ACTIVE
+  OWNER: ORC_ENT
+  UPDATED: 2026-02-02
 
-# CANON MAP — ORC FAMILIES (RAW-ONLY NAV)
+- KEY: REALM.CREATIVE_ORC_ENT
+  UID:
+  KIND: FOLDER
+  ROLE: Creative orchestration
+  DESC: Identity/style/trend synthesis and concept-to-artifact bridging
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/30_ORC_ENT/02_CREATIVE_ORC_ENT/00__INDEX_MANIFEST__CRV__ORC__ENT.md
+  PATH: UE_V2/03_ENT/30_ORC_ENT/02_CREATIVE_ORC_ENT
+  MARKERS: [NAV, REALM]
+  STATUS: ACTIVE
+  OWNER: ORC_ENT
+  UPDATED: 2026-02-02
 
-<a id="orc-family-00-templates"></a>
-## 00__TEMPLATES
-**REALM FILE (RAW):** (Templates family; realm implied by templates)  
-**Family Path:** `00__TEMPLATES/`  
-**TEMPLATES (RAW):**
-- ORC ENTITY TEMPLATE: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/20_ORC__ORCHESTRATORS/00__TEMPLATES/00__TEMPLATE__ORC_ENTITY.md
-- ORC PIPELINE STEP TEMPLATE: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/20_ORC__ORCHESTRATORS/00__TEMPLATES/00__TEMPLATE__ORC_PIPELINE_STEP.md
-- ORC README TEMPLATE: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/20_ORC__ORCHESTRATORS/00__TEMPLATES/00__TEMPLATE__README__ORC.md
+- KEY: REALM.MUSIC_ORC_ENT
+  UID:
+  KIND: FOLDER
+  ROLE: Music orchestration
+  DESC: Music brief→lyrics→prompt→loops→QA→release packaging and portfolio planning
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/30_ORC_ENT/03_MUSIC_ORC_ENT/00__INDEX_MANIFEST__MUS__ORC__ENT.md
+  PATH: UE_V2/03_ENT/30_ORC_ENT/03_MUSIC_ORC_ENT
+  MARKERS: [NAV, REALM]
+  STATUS: ACTIVE
+  OWNER: ORC_ENT
+  UPDATED: 2026-02-02
 
----
+- KEY: REALM.VIDEO_ORC_ENT
+  UID:
+  KIND: FOLDER
+  ROLE: Video orchestration
+  DESC: Video brief→shot plan→prompt→style packaging→QA→export handoff
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/30_ORC_ENT/04_VIDEO_ORC_ENT/00__INDEX_MANIFEST__VID__ORC__ENT.md
+  PATH: UE_V2/03_ENT/30_ORC_ENT/04_VIDEO_ORC_ENT
+  MARKERS: [NAV, REALM]
+  STATUS: ACTIVE
+  OWNER: ORC_ENT
+  UPDATED: 2026-02-02
 
-<a id="orc-family-01-core"></a>
-## 01_CORE_ORCHESTRATORS
-**REALM FILE (RAW):**
-https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/20_ORC__ORCHESTRATORS/01_CORE_ORCHESTRATORS/00__README__ORCHESTRATORS.md
+- KEY: REALM.DOCS_ORC_ENT
+  UID:
+  KIND: FOLDER
+  ROLE: Documentation orchestration
+  DESC: Doc briefs, building, KB scope, lint/QA, release packaging
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/30_ORC_ENT/05_DOCS_ORC_ENT/00__INDEX_MANIFEST__DOC__ORC__ENT.md
+  PATH: UE_V2/03_ENT/30_ORC_ENT/05_DOCS_ORC_ENT
+  MARKERS: [NAV, REALM]
+  STATUS: ACTIVE
+  OWNER: ORC_ENT
+  UPDATED: 2026-02-02
 
-**Family Path:** `01_CORE_ORCHESTRATORS/`
+- KEY: REALM.WEB_ORC_ENT
+  UID:
+  KIND: FOLDER
+  ROLE: Web orchestration
+  DESC: Web briefs, block factory, a11y QA, SEO packaging, deploy handoff
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/30_ORC_ENT/06_WEB_ORC_ENT/00__INDEX_MANIFEST__WEB__ORC__ENT.md
+  PATH: UE_V2/03_ENT/30_ORC_ENT/06_WEB_ORC_ENT
+  MARKERS: [NAV, REALM]
+  STATUS: ACTIVE
+  OWNER: ORC_ENT
+  UPDATED: 2026-02-02
 
-01 — Narrative Orchestrator  
-RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/20_ORC__ORCHESTRATORS/01_CORE_ORCHESTRATORS/01__NARRATIVE_ORCHESTRATOR_ORC.md
+- KEY: REALM.RESEARCH_ORC_ENT
+  UID:
+  KIND: FOLDER
+  ROLE: Research orchestration
+  DESC: Query planning, source triage, summary synth, citation policy bridge
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/30_ORC_ENT/07_RESEARCH_ORC_ENT/00__INDEX_MANIFEST__RCH__ORC__ENT.md
+  PATH: UE_V2/03_ENT/30_ORC_ENT/07_RESEARCH_ORC_ENT
+  MARKERS: [NAV, REALM]
+  STATUS: ACTIVE
+  OWNER: ORC_ENT
+  UPDATED: 2026-02-02
 
-02 — Character Orchestrator  
-RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/20_ORC__ORCHESTRATORS/01_CORE_ORCHESTRATORS/02__CHARACTER_ORCHESTRATOR_ORC.md
-
-03 — World Orchestrator  
-RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/20_ORC__ORCHESTRATORS/01_CORE_ORCHESTRATORS/03__WORLD_ORCHESTRATOR_ORC.md
-
-04 — Production Orchestrator  
-RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/20_ORC__ORCHESTRATORS/01_CORE_ORCHESTRATORS/04__PRODUCTION_ORCHESTRATOR_ORC.md
-
-05 — Pipeline Orchestrator  
-RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/20_ORC__ORCHESTRATORS/01_CORE_ORCHESTRATORS/05__PIPELINE_ORCHESTRATOR_ORC.md
-
----
-
-<a id="orc-family-10-music"></a>
-## 10_MUSIC_ORCHESTRATORS
-**REALM FILE (RAW):**
-https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/20_ORC__ORCHESTRATORS/10_MUSIC_ORCHESTRATORS/00__README__MUSIC_ORCHESTRATORS.md
-
-**Family Path:** `10_MUSIC_ORCHESTRATORS/`
-
-01 — Group to Album Orchestrator  
-RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/20_ORC__ORCHESTRATORS/10_MUSIC_ORCHESTRATORS/01__GROUP_TO_ALBUM_ORC.md
-
-02 — Album to Track Orchestrator  
-RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/20_ORC__ORCHESTRATORS/10_MUSIC_ORCHESTRATORS/02__ALBUM_TO_TRACK_ORC.md
-
-03 — Track Test + Doc Gate Orchestrator  
-RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/20_ORC__ORCHESTRATORS/10_MUSIC_ORCHESTRATORS/03__TRACK_TEST_DOC_GATE_ORC.md
-
-04 — Release Pack Orchestrator  
-RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/20_ORC__ORCHESTRATORS/10_MUSIC_ORCHESTRATORS/04__RELEASE_PACK_ORC.md
-
-05 — Portfolio Planner Orchestrator  
-RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/20_ORC__ORCHESTRATORS/10_MUSIC_ORCHESTRATORS/05__PORTFOLIO_PLANNER_ORC.md
-
-06 — Poet Pack Orchestrator  
-RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/03_SYSTEM_ENTITIES/20_ORC__ORCHESTRATORS/10_MUSIC_ORCHESTRATORS/06__POET_PACK_ORC.md
-
----
-
-## 99) ALIAS RULE (STRICT)
-Любые дубли entrypoint/индекса вида:
-- `03_SYSTEM_ENTITIES/20_ORC__ORCHESTRATORS/00__INDEX_ALL_ORCHESTRATORS.md`
-- любые другие `*INDEX*_ORCHESTRATORS*`, кроме CANON FILE выше
-должны быть либо удалены, либо превращены в чистый POINTER на:
-`03_SYSTEM_ENTITIES/20_ORC__ORCHESTRATORS/02__INDEX_ALL_ORCHESTRATORS.md`
-
----
-
-## FINAL RULE (LOCK)
-Этот INDEX — единственная точка истины о составе и порядке ORC-оркестраторов.
-Любая правка структуры/порядка должна фиксироваться как изменение канона слоя ORC.
-
-OWNER: SYSTEM
-LOCK: FIXED
-
---- END.
+- KEY: REALM.META_ORC_ENT
+  UID:
+  KIND: FOLDER
+  ROLE: Meta orchestration
+  DESC: Self-checks, template applying, UID normalization, deprecation policy
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/30_ORC_ENT/08_META_ORC_ENT/00__INDEX_MANIFEST__MET__ORC__ENT.md
+  PATH: UE_V2/03_ENT/30_ORC_ENT/08_META_ORC_ENT
+  MARKERS: [NAV, REALM]
+  STATUS: ACTIVE
+  OWNER: ORC_ENT
+  UPDATED: 2026-02-02
