@@ -7,7 +7,7 @@ VERSION: 1.0.0
 STATUS: ACTIVE
 MODE: REPO (USAGE-ONLY, NO-EDIT)
 CREATED: 2026-02-02
-UPDATED: 2026-02-02
+UPDATED: 2026-02-03
 OWNER: ORC_ENT
 NAV_RULE: RAW lives here only
 
@@ -57,7 +57,7 @@ INDEX_MANIFEST — адресная таблица реалма 00_GOVERNANCE_OR
   MARKERS: [INDEX, SELF]
   STATUS: ACTIVE
   OWNER: ORC_ENT
-  UPDATED: 2026-02-02
+  UPDATED: 2026-02-03
 
 ### [M] REQUIRED (минимум для реалма)
 - KEY: INDEX_MANIFEST
@@ -70,7 +70,7 @@ INDEX_MANIFEST — адресная таблица реалма 00_GOVERNANCE_OR
   MARKERS: [INDEX, MUST_LOAD]
   STATUS: ACTIVE
   OWNER: ORC_ENT
-  UPDATED: 2026-02-02
+  UPDATED: 2026-02-03
 
 - KEY: PIPELINE_CONTRACT
   UID: UE.V2.ENT.PIPE.GVN_ORC_ENT.001
@@ -82,11 +82,11 @@ INDEX_MANIFEST — адресная таблица реалма 00_GOVERNANCE_OR
   MARKERS: [PIPE, MUST_LOAD, ROUTER]
   STATUS: ACTIVE
   OWNER: ORC_ENT
-  UPDATED: 2026-02-02
+  UPDATED: 2026-02-03
 
 ### [O] GOVERNANCE ORC ENT (modules)
 - KEY: GVN.ENTRY_GUARD
-  UID:
+  UID: UE.V2.ENT.ORC.GVN.ENTRY_GUARD.001
   KIND: FILE
   ROLE: Entry gatekeeper for governance actions
   DESC: Validates inputs, mode, required keys before any governance run
@@ -95,10 +95,10 @@ INDEX_MANIFEST — адресная таблица реалма 00_GOVERNANCE_OR
   MARKERS: [GVN, GUARD, NAV]
   STATUS: ACTIVE
   OWNER: ORC_ENT
-  UPDATED: 2026-02-02
+  UPDATED: 2026-02-03
 
 - KEY: GVN.RULE_ENFORCER
-  UID:
+  UID: UE.V2.ENT.ORC.GVN.RULE_ENFORCER.001
   KIND: FILE
   ROLE: Enforces governance hard rules
   DESC: Blocks non-compliant operations; emits fail-codes and required fixes
@@ -107,10 +107,10 @@ INDEX_MANIFEST — адресная таблица реалма 00_GOVERNANCE_OR
   MARKERS: [GVN, ENFORCER]
   STATUS: ACTIVE
   OWNER: ORC_ENT
-  UPDATED: 2026-02-02
+  UPDATED: 2026-02-03
 
 - KEY: GVN.DEPENDENCY_RESOLVER
-  UID:
+  UID: UE.V2.ENT.ORC.GVN.DEPENDENCY_RESOLVER.001
   KIND: FILE
   ROLE: Resolves dependencies for governance actions
   DESC: Computes required entities/docs/keys and minimal load order
@@ -119,10 +119,10 @@ INDEX_MANIFEST — адресная таблица реалма 00_GOVERNANCE_OR
   MARKERS: [GVN, RESOLVER]
   STATUS: ACTIVE
   OWNER: ORC_ENT
-  UPDATED: 2026-02-02
+  UPDATED: 2026-02-03
 
 - KEY: GVN.CHANGE_CONTROL
-  UID:
+  UID: UE.V2.ENT.ORC.GVN.CHANGE_CONTROL.001
   KIND: FILE
   ROLE: Change control router for governance
   DESC: Decides what can change, how to log, and what gates apply
@@ -131,10 +131,10 @@ INDEX_MANIFEST — адресная таблица реалма 00_GOVERNANCE_OR
   MARKERS: [GVN, CHANGE]
   STATUS: ACTIVE
   OWNER: ORC_ENT
-  UPDATED: 2026-02-02
+  UPDATED: 2026-02-03
 
 - KEY: GVN.RISK_SAFETY
-  UID:
+  UID: UE.V2.ENT.ORC.GVN.RISK_SAFETY.001
   KIND: FILE
   ROLE: Risk and safety evaluator
   DESC: Detects risky actions; requires safeguards or blocks execution
@@ -143,10 +143,10 @@ INDEX_MANIFEST — адресная таблица реалма 00_GOVERNANCE_OR
   MARKERS: [GVN, RISK]
   STATUS: ACTIVE
   OWNER: ORC_ENT
-  UPDATED: 2026-02-02
+  UPDATED: 2026-02-03
 
 - KEY: GVN.DECISION_APPROVAL
-  UID:
+  UID: UE.V2.ENT.ORC.GVN.DECISION_APPROVAL.001
   KIND: FILE
   ROLE: Decision approval and escalation
   DESC: Determines when approval is required and how to record decision entry
@@ -155,10 +155,10 @@ INDEX_MANIFEST — адресная таблица реалма 00_GOVERNANCE_OR
   MARKERS: [GVN, DECISION]
   STATUS: ACTIVE
   OWNER: ORC_ENT
-  UPDATED: 2026-02-02
+  UPDATED: 2026-02-03
 
 - KEY: GVN.AUDIT_LOG_BRIDGE
-  UID:
+  UID: UE.V2.ENT.ORC.GVN.AUDIT_LOG_BRIDGE.001
   KIND: FILE
   ROLE: Audit log bridge
   DESC: Writes/links run logs and audit records for governance actions
@@ -167,10 +167,10 @@ INDEX_MANIFEST — адресная таблица реалма 00_GOVERNANCE_OR
   MARKERS: [GVN, LOG]
   STATUS: ACTIVE
   OWNER: ORC_ENT
-  UPDATED: 2026-02-02
+  UPDATED: 2026-02-03
 
 - KEY: GVN.COMPLIANCE_REPORTER
-  UID:
+  UID: UE.V2.ENT.ORC.GVN.COMPLIANCE_REPORTER.001
   KIND: FILE
   ROLE: Compliance status reporter
   DESC: Produces compliance summary for run and highlights violations
@@ -179,4 +179,4 @@ INDEX_MANIFEST — адресная таблица реалма 00_GOVERNANCE_OR
   MARKERS: [GVN, REPORT]
   STATUS: ACTIVE
   OWNER: ORC_ENT
-  UPDATED: 2026-02-02
+  UPDATED: 2026-02-03

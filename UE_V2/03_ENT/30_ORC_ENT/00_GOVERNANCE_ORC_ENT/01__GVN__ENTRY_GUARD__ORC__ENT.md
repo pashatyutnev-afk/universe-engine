@@ -1,183 +1,146 @@
-# 01__GVN__ENTRY_GUARD__ORC__ENT
-
-SCOPE: UE_V2 / ORC_ENT / GOVERNANCE
-DOC_TYPE: ORC_ENTITY (GOVERNANCE)
-UID: UE.V2.ORC.GVN.ENTRY_GUARD.001
+FILE: UE_V2/03_ENT/30_ORC_ENT/00_GOVERNANCE_ORC_ENT/01__GVN__ENTRY_GUARD__ORC__ENT.md
+SCOPE: UE_V2 / 03_ENT / 30_ORC_ENT / 00_GOVERNANCE_ORC_ENT
+DOC_TYPE: ORC_MODULE
+DOMAIN: GVN_ORC_ENT
+MODULE: GVN.ENTRY_GUARD
+UID: UE.V2.ENT.ORC.GVN.ENTRY_GUARD.001
 VERSION: 1.0.0
 STATUS: ACTIVE
 MODE: REPO (USAGE-ONLY, NO-EDIT)
-NAV_RULE: Use RAW links only
-ROLE: входной страж рантайма. Валидирует вход, включает трассу, запрещает обходы, переводит задачу в ROUTE_TOKEN.
+CREATED: 2026-02-02
+UPDATED: 2026-02-03
+OWNER: ORC_ENT
+NAV_RULE: Use KEYS only (RAW resolved via INDEX_MANIFEST)
 
 ---
 
-## [M] INTENT
-Сделать так, чтобы любая задача:
-- не стартовала без TASK_TEXT
-- не проходила мимо BOOT → ROUTER → NAV → PIPE → LOG
-- не грузила лишнее (ANTI_NOISE_LOAD_POLICY)
-- работала пошагово через STEP-RUN ("го")
-- не допускала неявных/не детерминированных решений
+## [M] ROLE
+Entry gatekeeper for governance actions.
+Этот модуль — первая точка входа в governance пайплайн:
+- проверяет наличие TASK_TEXT
+- нормализует MODE_HINT
+- формирует GOVN_TASK_TOKEN
+- задаёт “границы ответственности” (что governance делает/не делает в MODE REPO)
 
 ---
 
-## [M] MIN_INPUTS
-REQUIRED:
-- TASK_TEXT
-
-OPTIONAL:
-- MODE_HINT: FAST | RELEASE_READY | MASTERPIECE
-- constraints: platform, duration, style, references, guardrails
-
----
-
-## [M] OUTPUTS
-ENTRY_GUARD_OUTPUT:
-- ENTRY_STATUS: PASS | STOP | GAP
-- ENTRY_NOTES: кратко, что принято/что отсутствует
-- REQUIRED_ACTION: что именно нужно открыть/подтвердить дальше
-- START_OUTPUT (если PASS):
-  - ROUTE_TOKEN (обязателен)
-  - FIRST_STEP_PROMPT: "го"
+## [M] INPUT
+- TASK_TEXT (required): string
+- MODE_HINT (optional): FAST|RELEASE_READY|MASTERPIECE|<empty>
+- CONSTRAINTS (optional): object
+  - platform (optional): string
+  - duration (optional): string|number
+  - style (optional): string
+  - references (optional): string|array
+- CONTEXT_TOKEN (optional): object|string (route token / prior decisions)
 
 ---
 
-## [M] GUARDED CONDITIONS (что обязано быть выполнено)
-G0) Task presence:
-- TASK_TEXT exists and not empty
+## [M] OUTPUT
+On PASS:
+- GOVN_TASK_TOKEN: object
+  - token_id: string
+  - domain: "GVN_ORC_ENT"
+  - mode: "FAST"|"RELEASE_READY"|"MASTERPIECE"
+  - task_text: string
+  - constraints: object (normalized)
+  - context_token_present: boolean
+  - created_utc: string (YYYY-MM-DD)
+  - exec_policy:
+      repo_mode: "USAGE-ONLY"
+      writes_allowed: false
+      raw_navigation: "KEY_ONLY"
+      noise_policy: "ANTI_NOISE"
+  - run_intent:
+      action_class: "governance_run"
+      target_realm: "00_GOVERNANCE_ORC_ENT"
+      dry_run: true
 
-G1) Mandatory boot chain must be respected:
-- BOOT_SEQ applied
-- STOP_GAP applied
-- TRACE enabled
-- FAIL_CODES enabled
-
-G2) MUST_LOAD ядро:
-- RUNTIME_MANIFEST доступен
-- MUST_LOAD_SET подхвачен (минимум)
-
-G3) Routing:
-- TASK_ROUTER доступен
-- ROUTE_TOKEN сформирован (DOMAIN, ARTIFACT_TYPE, MODE, PIPE_SELECTED, DEFAULT_ORC, REQUIRED_IDX, REQUIRED_CHECKS, EXEC_MODE)
-
-G4) Nav proof:
-- NAV_ROOT доступен
-- IDX из REQUIRED_IDX доступен
-- подтвержден доступ к REG/XREF/KB/PIPE/LOG через IDX (хотя бы “есть ссылки”)
-
-G5) Pipe proof:
-- PIPE_DEFAULT доступен
-- STEP_RUN_PROTOCOL, FOCUS_LOOP_PROTOCOL включаемы
-- COMMANDS доступны
-
-G6) Log proof:
-- LOG_RULES доступны
-- RUN_LOG, TOKEN_ARCHIVE, DECISION_LOG доступны
+On FAIL:
+- FAIL_CODE
+- REQUIRED_FIXES
 
 ---
 
-## [M] PROCEDURE (ENTRY FLOW)
-E0) Normalize input
-- trim TASK_TEXT
-- set MODE = MODE_HINT else default RELEASE_READY
-- constraints = {} if absent
-
-E1) Entrypoint check
-IF TASK_TEXT отсутствует → STOP
-- FAIL_CODE: STOP.INPUT_ABSENT.TASK_TEXT
-- ENTRY_NOTES: "нет TASK_TEXT, старт невозможен"
-
-E2) Enforce canonical start sequence
-- обязать открыть BOOT_SEQ, STOP_GAP, TRACE, FAIL_CODES
-IF любой из MUST_LOAD для старта недоступен → STOP
-- FAIL_CODE: STOP.MUST_LOAD.MISSING
-
-E3) Require runtime manifest
-- обязать открыть RUNTIME_MANIFEST и взять MUST_LOAD_SET (минимум)
-IF manifest/must_load_set недоступен → STOP
-- FAIL_CODE: STOP.MUST_LOAD.MISSING
-
-E4) Require routing
-- обязать открыть TASK_ROUTER
-- сформировать ROUTE_TOKEN (детерминированно)
-IF ROUTE_TOKEN не сформирован → GAP
-- FAIL_CODE: GAP.ROUTER.MISSING_OR_UNCONFIRMED
-
-E5) Require NAV proof
-- открыть NAV_ROOT
-- открыть REQUIRED_IDX из ROUTE_TOKEN
-- подтвердить наличие путей/ссылок на REG/XREF/KB/PIPE/LOG
-IF отсутствует REQUIRED_IDX или панели в нем → GAP
-- FAIL_CODE: GAP.NAV.IDX_OR_PANEL_MISSING
-
-E6) Require PIPE + STEP-RUN protocols
-- открыть PIPE_DEFAULT
-- включить STEP_RUN_PROTOCOL + FOCUS_LOOP_PROTOCOL + COMMANDS
-IF PIPE_DEFAULT отсутствует → STOP
-- FAIL_CODE: STOP.PIPE_DEFAULT.MISSING
-
-E7) Require LOG init
-- открыть LOG_RULES
-- подтвердить RUN_LOG, TOKEN_ARCHIVE, DECISION_LOG
-IF логи недоступны → GAP (не стопим, но запрещаем “длинные прогоны”)
-- FAIL_CODE: GAP.LOG.PANELS_MISSING
-- REQUIRED_ACTION: "разрешить только короткий шаг до восстановления логов"
-
-E8) PASS
-- ENTRY_STATUS = PASS
-- START_OUTPUT:
-  - ROUTE_TOKEN = сформированный
-  - FIRST_STEP_PROMPT = "го"
-- ENTRY_NOTES: "вход валиден, цепочка старта соблюдена, можно step-run"
+## [M] HARD RULES (enforced here)
+1) TASK_TEXT required. No task -> fail.
+2) MODE_HINT must be one of allowed values (or empty -> default).
+3) MODE REPO (USAGE-ONLY, NO-EDIT):
+   - любые попытки “сделай файл/измени файл/запиши в лог” трактуются как dry-run планирование, а не действие записи.
+4) Constraints must be lightweight:
+   - если constraints огромные/содержат деревья — обрезать до ключевых полей (platform/duration/style/references).
+5) No guessing:
+   - модуль не “додумывает” отсутствующие факты; только нормализация.
 
 ---
 
-## [M] ANTI-NOISE POLICY (ENFORCED)
-ALWAYS LOAD (минимум):
-- START
-- RUNTIME_MANIFEST
-- TASK_ROUTER
-- NAV_ROOT
+## [M] NORMALIZATION
 
-THEN:
-- 1 доменный IDX (из ROUTE_TOKEN.REQUIRED_IDX)
-- 1–3 target файла (строго по PIPE шагу)
+### MODE_HINT normalization
+- if MODE_HINT is empty/null -> "RELEASE_READY"
+- if MODE_HINT in ["FAST","RELEASE_READY","MASTERPIECE"] -> keep
+- else -> FAIL_CODE UE.FAIL.MODE_INVALID
 
-NEVER:
-- обход IDX
-- массовая загрузка деревьев
-- “угадывание” сущностей без подтверждения в IDX/REG
+### CONSTRAINTS normalization
+Keep only:
+- platform
+- duration
+- style
+- references
+If missing -> set to empty object {}.
+If references is string -> wrap as [string].
+If duration is missing -> keep empty (do not assume).
 
----
-
-## [M] TRACE EVENTS (минимальный словарь)
-TRACE_KEYS:
-- ENTRY.START
-- ENTRY.INPUT_OK
-- ENTRY.BOOT_OK
-- ENTRY.MANIFEST_OK
-- ENTRY.ROUTE_TOKEN_READY
-- ENTRY.NAV_OK
-- ENTRY.PIPE_OK
-- ENTRY.LOG_OK
-- ENTRY.PASS
-- ENTRY.STOP(code)
-- ENTRY.GAP(code)
+### TASK_TEXT normalization
+- trim whitespace
+- collapse excessive spaces
+- minimum length: >= 3 chars else treat as absent
 
 ---
 
-## [M] FAIL / GAP RULES
-STOP только если:
-- нет TASK_TEXT
-- MUST_LOAD missing (boot/manifest/pipe_default)
-
-GAP если:
-- отсутствует доменный PIPE/IDX/панель (REG/XREF/KB/LOG)
-- ROUTE_TOKEN не сформирован или не подтвержден
+## [M] FAIL CODES emitted by this module
+- UE.FAIL.INPUT_ABSENT
+- UE.FAIL.MODE_INVALID
 
 ---
 
-## [M] DEFAULT DECISION
-По умолчанию:
-- если не можем подтвердить обязательные ссылки через IDX → GAP, не “придумываем”
-- если лог-панели отсутствуют → GAP и ограничиваемся коротким шагом
+## [M] REQUIRED_FIXES (templates)
+
+### UE.FAIL.INPUT_ABSENT
+REQUIRED_FIXES:
+- invalid_fields: ["TASK_TEXT"]
+- next_step: "Provide TASK_TEXT describing what governance run should do."
+
+### UE.FAIL.MODE_INVALID
+REQUIRED_FIXES:
+- invalid_fields: ["MODE_HINT"]
+- next_step: "Set MODE_HINT to FAST or RELEASE_READY or MASTERPIECE (or omit it)."
+
+---
+
+## [M] DETERMINISTIC TOKEN_ID
+token_id format:
+GVN-TASK-<YYYYMMDD>-<HASH8>
+
+HASH8 generation rule (deterministic, not cryptographic):
+- source = MODE + "|" + normalized TASK_TEXT (first 120 chars) + "|" + normalized constraints summary (first 120 chars)
+- hash = first 8 chars of stable hex digest
+Note: actual hashing implementation is runtime responsibility; module only defines the rule.
+
+---
+
+## [M] EXAMPLE (PASS)
+INPUT:
+- TASK_TEXT: "Complete governance ORC_ENT realm docs"
+- MODE_HINT: "FAST"
+- CONSTRAINTS: {"platform":"md","references":"INDEX_MANIFEST"}
+
+OUTPUT:
+- GOVN_TASK_TOKEN.mode = "FAST"
+- GOVN_TASK_TOKEN.exec_policy.writes_allowed = false
+- GOVN_TASK_TOKEN.run_intent.dry_run = true
+
+---
+
+## [M] CHANGELOG
+- 2026-02-03: v1.0.0 finalized entry guard (MODE REPO, anti-noise, deterministic token)

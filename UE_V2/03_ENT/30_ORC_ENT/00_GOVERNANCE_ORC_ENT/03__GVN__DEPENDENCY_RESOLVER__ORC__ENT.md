@@ -1,189 +1,228 @@
-# 03__GVN__DEPENDENCY_RESOLVER__ORC__ENT
-
-SCOPE: Universe Engine (UE_V2)
-DOC_TYPE: ORC_ENTITY (GOVERNANCE)
-UID: UE.V2.ORC.GVN.DEPENDENCY_RESOLVER.001
+FILE: UE_V2/03_ENT/30_ORC_ENT/00_GOVERNANCE_ORC_ENT/03__GVN__DEPENDENCY_RESOLVER__ORC__ENT.md
+SCOPE: UE_V2 / 03_ENT / 30_ORC_ENT / 00_GOVERNANCE_ORC_ENT
+DOC_TYPE: ORC_MODULE
+DOMAIN: GVN_ORC_ENT
+MODULE: GVN.DEPENDENCY_RESOLVER
+UID: UE.V2.ENT.ORC.GVN.DEPENDENCY_RESOLVER.001
 VERSION: 1.0.0
 STATUS: ACTIVE
 MODE: REPO (USAGE-ONLY, NO-EDIT)
+CREATED: 2026-02-02
+UPDATED: 2026-02-03
+OWNER: ORC_ENT
+NAV_RULE: Use KEYS only (RAW resolved via INDEX_MANIFEST)
 
 ---
 
-## [M] NAME
-GVN Dependency Resolver Orchestrator
+## [M] ROLE
+Resolves dependencies for governance actions.
+Вычисляет:
+- какие документы/сущности/панели обязательны
+- минимальный порядок загрузки (anti-noise)
+- набор REQUIRED_KEYS для NAV подтверждения
+- список REQUIRED_CHECKS для ROUTE_TOKEN
 
-## [M] PURPOSE
-Детерминированно собрать и проверить минимально-нужный набор зависимостей для выполнения задачи.
-Оркестратор обеспечивает:
-- нулевой обход IDX (никаких “прямых” ходов мимо NAV)
-- анти-шум (не грузить деревья, только минимальный MUST_LOAD + один доменный IDX + 1–3 target файла)
-- предсказуемый порядок загрузки (stable sort и фиксированные tie-break)
-- понятный статус: PASS / GAP / STOP с конкретным списком недостающих RAW/маркерных блоков
-
----
-
-## [M] POSITION IN RUNTIME
-Вызывается после ROUTER и перед PIPE_EXEC.
-
-**Ориентир:**
-- ROUTER сформировал ROUTE_TOKEN (DOMAIN, REQUIRED_IDX, REQUIRED_CHECKS, PIPE_SELECTED, EXEC_MODE)
-- NAV_ROOT открыт/доступен
-- дальше — резолв зависимостей и подтверждение доступа к REG/XREF/KB/PIPE/LOG через IDX
+Модуль не пишет файлы. В MODE REPO отдаёт только план загрузки и список KEYS.
 
 ---
 
-## [M] TRIGGERS
-Запускать оркестратор, когда:
-- сформирован ROUTE_TOKEN
-- требуется открыть REQUIRED_IDX и подтвердить доступ к системным панелям (REG/XREF/KB/PIPE/LOG)
-- планируется STEP-RUN исполнение (пошагово через “го”)
+## [M] INPUT
+- GOVN_TASK_TOKEN (required): object
+  - token_id
+  - domain (must be GVN_ORC_ENT)
+  - mode
+  - task_text
+  - constraints
+  - exec_policy
+  - run_intent
+- ROUTE_TOKEN (optional): object
+  - DOMAIN
+  - ARTIFACT_TYPE
+  - MODE
+  - PIPE_SELECTED
+  - REQUIRED_IDX
+  - REQUIRED_CHECKS
+  - EXEC_MODE
+- REQUESTED_ACTIONS (optional): array[string]
+- AVAILABLE_INDEX_KEYS (optional): array[string]
+  - list of KEYS already known/confirmed from INDEX_MANIFEST
 
 ---
 
-## [M] INPUTS
-Обязательные:
-- ROUTE_TOKEN
-- NAV_ROOT_STATUS (доступен / недоступен)
-- MUST_LOAD_SET (минимальный набор из RUNTIME_MANIFEST)
-
-Опциональные:
-- MODE_HINT (FAST | RELEASE_READY | MASTERPIECE)
-- constraints (platform, duration, style, references)
-
----
-
-## [M] OUTPUTS
-Обязательные:
-- DEP_RESOLVE_REPORT:
-  - LOAD_ORDER (строгий порядок)
-  - REQUIRED_PANELS_STATUS (REG/XREF/KB/PIPE/LOG)
-  - MISSING (если есть)
-  - ACTION (PASS/GAP/STOP) + причина
-- REQUIRED_LOAD_SET (финальный минимальный набор файлов для открытия “сейчас”)
-
-Опциональные:
-- DECISION_NOTE (короткая запись для DECISION_LOG)
-- TOKEN_PATCH (если нужно нормализовать ROUTE_TOKEN полями по правилам детерминизма)
+## [M] OUTPUT
+- REQUIRED_KEYS: array[string]
+- REQUIRED_CHECKS: array[string]
+- MIN_LOAD_ORDER: array[object]
+  - step_id
+  - key
+  - kind
+  - why
+- TARGET_KEYS: array[string]
+- NOTES: short string
 
 ---
 
-## [M] CORE RULES (DETERMINISM + ANTI-NOISE)
-1) **NO TREE SCAN**: никаких массовых обходов папок. Только через NAV_ROOT и доменный IDX.
-2) **STABLE ORDER**: сортировка по фиксированному ключу:
-   - первично: класс ресурса (MUST_LOAD → NAV → IDX → PANELS → TARGET)
-   - вторично: строковый путь/имя (лексикографически)
-3) **MINIMAL LOAD**:
-   - ALWAYS: START + MANIFEST + ROUTER + NAV_ROOT
-   - THEN: REQUIRED_IDX (ровно один доменный IDX)
-   - THEN: 1–3 target файла (если уже известны из TASK_TEXT/PIPE)
-4) **NO BYPASS**: если ресурс не обнаружен через IDX → это GAP/STOP, а не “пойду найду сам”.
-5) **CLEAR FAILURE**: всегда отдавать конкретный список, что именно отсутствует.
+## [M] CORE POLICY (ANTI-NOISE)
+Resolver всегда строит минимальный набор.
+
+### Always-set (fixed)
+These are mandatory every run:
+- BOOT.START
+- BOOT.RUNTIME_MANIFEST
+- BOOT.TASK_ROUTER
+- NAV.NAV_ROOT
+- PIPE.PIPE_DEFAULT
+- LOG.LOG_RULES
+
+### Then (domain)
+- DOMAIN.IDX_MANIFEST (current realm)
+- DOMAIN.PIPELINE_CONTRACT (current realm)
+
+### Then (targets)
+- 1–3 target files max for current step-run iteration
 
 ---
 
-## [M] RESOLVE STEPS (ALGORITHM)
-### D0) Preconditions
-- Если нет ROUTE_TOKEN → STOP (input absent)
-- Если NAV_ROOT недоступен → STOP
-- Если MUST_LOAD_SET недоступен → STOP
+## [M] DEPENDENCY GRAPH (GVN_ORC_ENT)
 
-### D1) Build Required Set
-Собрать список:
-- MUST_LOAD_SET (минимум)
-- REQUIRED_IDX из ROUTE_TOKEN
-- REQUIRED_CHECKS из ROUTE_TOKEN (панели/проверки)
-- PIPE_DEFAULT + PIPE_SELECTED (если указан)
+### Realm anchors (must exist as KEYS in INDEX_MANIFEST)
+- INDEX_MANIFEST
+- PIPELINE_CONTRACT
+- GVN.ENTRY_GUARD
+- GVN.RULE_ENFORCER
+- GVN.DEPENDENCY_RESOLVER
+- GVN.CHANGE_CONTROL
+- GVN.RISK_SAFETY
+- GVN.DECISION_APPROVAL
+- GVN.AUDIT_LOG_BRIDGE
+- GVN.COMPLIANCE_REPORTER
 
-### D2) Confirm Access via NAV / IDX
-- Открыть REQUIRED_IDX
-- Через REQUIRED_IDX подтвердить доступ к:
-  - REG
-  - XREF
-  - KB
-  - PIPE
-  - LOG
-Если любая панель не подтверждается через IDX → GAP (панель missing)
-
-### D3) Compute Minimal Load Order
-Сформировать LOAD_ORDER:
-1) MUST_LOAD_SET (как есть)
-2) NAV_ROOT
-3) REQUIRED_IDX
-4) минимальные панельные файлы, строго необходимые для следующего шага:
-   - PIPE_DEFAULT (для handoff)
-   - LOG_RULES (для лог-инициализации, если следующий шаг — LOG_INIT)
-5) 1–3 target файла (если ROUTE_TOKEN/PIPE уже вычислили конкретику)
-
-### D4) Missing Detection
-MISSING считается:
-- RAW отсутствует
-- маркерный блок/обязательная секция не подтверждена (если правило задано REQUIRED_CHECKS)
-
-Результат:
-- если missing ∈ MUST_LOAD → STOP
-- если missing ∈ доменном IDX/PIPE/панелях → GAP
-- иначе PASS
-
-### D5) Emit Report
-Сформировать DEP_RESOLVE_REPORT, пригодный для логов и для показа пользователю.
-В PASS — вернуть REQUIRED_LOAD_SET и FIRST_STEP_PROMPT: “го”.
+### Cross-realm anchors (validated via NAV_ROOT + REQUIRED_IDX)
+Resolver expects these categories to be accessible via NAV:
+- REG access
+- XREF access
+- KB access
+- PIPE access
+- LOG access
 
 ---
 
-## [M] REQUIRED_CHECKS (DEFAULT)
-Минимальный набор проверок по умолчанию:
-- NAV_ROOT доступен
-- REQUIRED_IDX доступен
-- PIPE_DEFAULT доступен
-- LOG_RULES доступен
-- подтверждён доступ к REG/XREF/KB/PIPE/LOG через IDX
-
-Примечание: доменные пайпы/индексы добавляются ROUTER-ом в REQUIRED_CHECKS.
-
----
-
-## [M] FAIL / GAP BEHAVIOR
-### STOP conditions
-- input absent: нет ROUTE_TOKEN или MUST_LOAD_SET
-- MUST_LOAD missing (RAW missing)
-- NAV_ROOT missing
-
-### GAP conditions
-- REQUIRED_IDX отсутствует
-- любая из панелей REG/XREF/KB/PIPE/LOG не подтверждается через IDX
-- доменный PIPE отсутствует/не подтверждён
+## [M] REQUIRED_CHECKS (resolver emits)
+- CHECK.KEY_ONLY_NAV
+- CHECK.REPO_MODE_DRY_RUN
+- CHECK.ANTI_NOISE_MAXLOAD
+- CHECK.ROUTE_TOKEN_FIELDS
+- CHECK.NAV_ACCESS_REG
+- CHECK.NAV_ACCESS_XREF
+- CHECK.NAV_ACCESS_KB
+- CHECK.NAV_ACCESS_PIPE
+- CHECK.NAV_ACCESS_LOG
 
 ---
 
-## [M] ERROR CODES (LOCAL)
-- STOP.GVN.DEP.001 = ROUTE_TOKEN missing
-- STOP.GVN.DEP.002 = NAV_ROOT missing
-- STOP.GVN.DEP.003 = MUST_LOAD missing
-- GAP.GVN.DEP.010 = REQUIRED_IDX missing
-- GAP.GVN.DEP.020 = PANEL access not confirmed (REG/XREF/KB/PIPE/LOG)
-- GAP.GVN.DEP.030 = PIPE selected missing
-- PASS.GVN.DEP.900 = dependencies resolved
+## [M] TARGET SELECTION RULES (deterministic)
+Given GOVN_TASK_TOKEN.task_text and REQUESTED_ACTIONS:
+
+1) If task mentions "rules / enforcement / violation / compliance"
+   -> TARGET_KEYS add: GVN.RULE_ENFORCER, GVN.COMPLIANCE_REPORTER
+
+2) If task mentions "dependencies / required docs / minimal load / resolve"
+   -> TARGET_KEYS add: GVN.DEPENDENCY_RESOLVER
+
+3) If task mentions "change / update / version / edit / replace"
+   -> TARGET_KEYS add: GVN.CHANGE_CONTROL, GVN.AUDIT_LOG_BRIDGE
+
+4) If task mentions "risk / safety / block / dangerous"
+   -> TARGET_KEYS add: GVN.RISK_SAFETY
+
+5) If task mentions "approval / escalation / decision"
+   -> TARGET_KEYS add: GVN.DECISION_APPROVAL, GVN.AUDIT_LOG_BRIDGE
+
+If none matched:
+- default TARGET_KEYS: [GVN.ENTRY_GUARD, GVN.RULE_ENFORCER]
+
+Tie-breaker order (stable):
+ENTRY_GUARD > RULE_ENFORCER > DEPENDENCY_RESOLVER > CHANGE_CONTROL > RISK_SAFETY > DECISION_APPROVAL > AUDIT_LOG_BRIDGE > COMPLIANCE_REPORTER
 
 ---
 
-## [M] LOG HOOKS (WHAT TO WRITE)
-Если LOG доступен:
-- RUN_LOG: записать короткую строку “DEP_RESOLVE: PASS/GAP/STOP” + список missing
-- DECISION_LOG: зафиксировать LOAD_ORDER и причину выбора (anti-noise)
-- TOKEN_ARCHIVE: сохранить ROUTE_TOKEN (если есть нормализация — сохранить patch)
+## [M] MIN_LOAD_ORDER (template)
+Resolver returns steps in this exact order:
+
+S1) BOOT.START
+- key: BOOT.START
+- kind: BOOT
+- why: entrypoint + anti-bypass policy
+
+S2) BOOT.RUNTIME_MANIFEST
+- key: BOOT.RUNTIME_MANIFEST
+- kind: BOOT
+- why: MUST_LOAD_SET
+
+S3) BOOT.TASK_ROUTER
+- key: BOOT.TASK_ROUTER
+- kind: BOOT
+- why: deterministic routing
+
+S4) NAV.NAV_ROOT
+- key: NAV.NAV_ROOT
+- kind: NAV
+- why: confirm access to required realms
+
+S5) DOMAIN.IDX_MANIFEST
+- key: INDEX_MANIFEST
+- kind: INDEX
+- why: resolve RAW via KEYS for this realm
+
+S6) DOMAIN.PIPELINE_CONTRACT
+- key: PIPELINE_CONTRACT
+- kind: PIPE
+- why: realm-level execution contract
+
+S7) TARGETS (1–3)
+- key: <from TARGET_KEYS, limited to 3>
+- kind: FILE
+- why: step-run focus
+
+S8) PIPE.PIPE_DEFAULT
+- key: PIPE.PIPE_DEFAULT
+- kind: PIPE
+- why: step-run handoff, routing, protocols
+
+S9) LOG.LOG_RULES
+- key: LOG.LOG_RULES
+- kind: LOG
+- why: ensure logging rules are known (even if no writes)
 
 ---
 
-## [M] SECURITY / COMPLIANCE NOTES
-- Не пытаться “угадывать” файлы вне IDX.
-- Не подменять ROUTER.
-- Не расширять REQUIRED_LOAD_SET без причины.
-- При любом GAP отдавать список missing, не “решать молча”.
+## [M] HARD LIMITS
+- MAX_TARGET_FILES_PER_STEP: 3
+- MAX_TOTAL_LOAD_KEYS_PER_STEP: 9 (anchors + idx + contract + targets)
+If exceeded:
+- Resolver must trim TARGET_KEYS to fit limits (deterministically by tie-breaker order)
 
 ---
 
-## [M] START OUTPUT CONTRACT
-Если PASS:
-- ROUTE_TOKEN (как есть или с TOKEN_PATCH)
-- DEP_RESOLVE_REPORT
-- FIRST_STEP_PROMPT: "го"
+## [M] NOTES ON "GAP"
+Этот модуль не вводит отдельный статус "GAP" как результат.
+Если чего-то нет, он возвращает:
+- missing_required_keys: [..]
+и предлагает next_required_key (что нужно добавить/подтвердить),
+без отдельной сущности статуса.
+
+---
+
+## [M] EXAMPLE (typical output)
+Input:
+- task_text: "Finish governance orc ent modules and ensure compliance"
+Output:
+- REQUIRED_KEYS: [INDEX_MANIFEST, PIPELINE_CONTRACT, GVN.ENTRY_GUARD, GVN.RULE_ENFORCER, GVN.DEPENDENCY_RESOLVER]
+- REQUIRED_CHECKS: [CHECK.KEY_ONLY_NAV, CHECK.REPO_MODE_DRY_RUN, CHECK.ANTI_NOISE_MAXLOAD, CHECK.ROUTE_TOKEN_FIELDS, CHECK.NAV_ACCESS_REG, ...]
+- TARGET_KEYS: [GVN.RULE_ENFORCER, GVN.DEPENDENCY_RESOLVER, GVN.COMPLIANCE_REPORTER]
+- MIN_LOAD_ORDER: (S1..S9 as above)
+
+---
+
+## [M] CHANGELOG
+- 2026-02-03: v1.0.0 dependency resolver finalized (anti-noise + deterministic target selection + no GAP status)
