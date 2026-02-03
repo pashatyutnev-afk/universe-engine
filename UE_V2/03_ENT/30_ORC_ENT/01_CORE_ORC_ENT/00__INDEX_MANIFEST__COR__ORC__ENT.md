@@ -7,7 +7,7 @@ VERSION: 1.0.0
 STATUS: ACTIVE
 MODE: REPO (USAGE-ONLY, NO-EDIT)
 CREATED: 2026-02-02
-UPDATED: 2026-02-02
+UPDATED: 2026-02-03
 OWNER: ORC_ENT
 NAV_RULE: RAW lives here only
 
@@ -57,7 +57,7 @@ INDEX_MANIFEST — адресная таблица реалма 01_CORE_ORC_ENT.
   MARKERS: [INDEX, SELF]
   STATUS: ACTIVE
   OWNER: ORC_ENT
-  UPDATED: 2026-02-02
+  UPDATED: 2026-02-03
 
 ### [M] REQUIRED (минимум для реалма)
 - KEY: INDEX_MANIFEST
@@ -70,7 +70,7 @@ INDEX_MANIFEST — адресная таблица реалма 01_CORE_ORC_ENT.
   MARKERS: [INDEX, MUST_LOAD]
   STATUS: ACTIVE
   OWNER: ORC_ENT
-  UPDATED: 2026-02-02
+  UPDATED: 2026-02-03
 
 - KEY: PIPELINE_CONTRACT
   UID: UE.V2.ENT.PIPE.COR_ORC_ENT.001
@@ -82,11 +82,11 @@ INDEX_MANIFEST — адресная таблица реалма 01_CORE_ORC_ENT.
   MARKERS: [PIPE, MUST_LOAD, ROUTER]
   STATUS: ACTIVE
   OWNER: ORC_ENT
-  UPDATED: 2026-02-02
+  UPDATED: 2026-02-03
 
 ### [O] CORE ORC ENT (modules)
 - KEY: COR.TASK_INTAKE
-  UID:
+  UID: UE.V2.ENT.ORC.COR.TASK_INTAKE.001
   KIND: FILE
   ROLE: Task intake and normalization
   DESC: Parses user request, extracts constraints, sets initial run intent
@@ -95,10 +95,10 @@ INDEX_MANIFEST — адресная таблица реалма 01_CORE_ORC_ENT.
   MARKERS: [CORE, INTAKE, NAV]
   STATUS: ACTIVE
   OWNER: ORC_ENT
-  UPDATED: 2026-02-02
+  UPDATED: 2026-02-03
 
 - KEY: COR.DOMAIN_DETECTOR
-  UID:
+  UID: UE.V2.ENT.ORC.COR.DOMAIN_DETECTOR.001
   KIND: FILE
   ROLE: Domain detection and routing hint
   DESC: Detects target domain/realm and proposes minimal route
@@ -107,10 +107,10 @@ INDEX_MANIFEST — адресная таблица реалма 01_CORE_ORC_ENT.
   MARKERS: [CORE, DETECT, ROUTE]
   STATUS: ACTIVE
   OWNER: ORC_ENT
-  UPDATED: 2026-02-02
+  UPDATED: 2026-02-03
 
 - KEY: COR.ROUTE_TOKEN_BUILDER
-  UID:
+  UID: UE.V2.ENT.ORC.COR.ROUTE_TOKEN_BUILDER.001
   KIND: FILE
   ROLE: Route token builder
   DESC: Builds ROUTE_TOKEN (workset keys, minimal load plan, next action)
@@ -119,10 +119,10 @@ INDEX_MANIFEST — адресная таблица реалма 01_CORE_ORC_ENT.
   MARKERS: [CORE, TOKEN, ROUTER]
   STATUS: ACTIVE
   OWNER: ORC_ENT
-  UPDATED: 2026-02-02
+  UPDATED: 2026-02-03
 
 - KEY: COR.NAV_SENTINEL
-  UID:
+  UID: UE.V2.ENT.ORC.COR.NAV_SENTINEL.001
   KIND: FILE
   ROLE: Navigation sentinel
   DESC: Enforces RAW-only nav and blocks PATH обходы when RAW exists
@@ -131,10 +131,10 @@ INDEX_MANIFEST — адресная таблица реалма 01_CORE_ORC_ENT.
   MARKERS: [CORE, NAV, GUARD]
   STATUS: ACTIVE
   OWNER: ORC_ENT
-  UPDATED: 2026-02-02
+  UPDATED: 2026-02-03
 
 - KEY: COR.REG_SENTINEL
-  UID:
+  UID: UE.V2.ENT.ORC.COR.REG_SENTINEL.001
   KIND: FILE
   ROLE: Registry sentinel
   DESC: Validates required registers/logging hooks for the run
@@ -143,10 +143,10 @@ INDEX_MANIFEST — адресная таблица реалма 01_CORE_ORC_ENT.
   MARKERS: [CORE, REG, GUARD]
   STATUS: ACTIVE
   OWNER: ORC_ENT
-  UPDATED: 2026-02-02
+  UPDATED: 2026-02-03
 
 - KEY: COR.XREF_SENTINEL
-  UID:
+  UID: UE.V2.ENT.ORC.COR.XREF_SENTINEL.001
   KIND: FILE
   ROLE: Cross-reference sentinel
   DESC: Ensures xref boundaries and correct cross-realm references
@@ -155,10 +155,10 @@ INDEX_MANIFEST — адресная таблица реалма 01_CORE_ORC_ENT.
   MARKERS: [CORE, XREF, GUARD]
   STATUS: ACTIVE
   OWNER: ORC_ENT
-  UPDATED: 2026-02-02
+  UPDATED: 2026-02-03
 
 - KEY: COR.KB_SENTINEL
-  UID:
+  UID: UE.V2.ENT.ORC.COR.KB_SENTINEL.001
   KIND: FILE
   ROLE: Knowledge base sentinel
   DESC: Enforces KB scope boundaries and required KB tokens
@@ -167,10 +167,10 @@ INDEX_MANIFEST — адресная таблица реалма 01_CORE_ORC_ENT.
   MARKERS: [CORE, KB, GUARD]
   STATUS: ACTIVE
   OWNER: ORC_ENT
-  UPDATED: 2026-02-02
+  UPDATED: 2026-02-03
 
 - KEY: COR.PIPE_SELECTOR
-  UID:
+  UID: UE.V2.ENT.ORC.COR.PIPE_SELECTOR.001
   KIND: FILE
   ROLE: Pipeline selector
   DESC: Selects best-fit pipeline based on route token and constraints
@@ -179,10 +179,10 @@ INDEX_MANIFEST — адресная таблица реалма 01_CORE_ORC_ENT.
   MARKERS: [CORE, PIPE, SELECT]
   STATUS: ACTIVE
   OWNER: ORC_ENT
-  UPDATED: 2026-02-02
+  UPDATED: 2026-02-03
 
 - KEY: COR.PIPE_DISPATCHER
-  UID:
+  UID: UE.V2.ENT.ORC.COR.PIPE_DISPATCHER.001
   KIND: FILE
   ROLE: Pipeline dispatcher
   DESC: Dispatches execution into chosen pipe and maintains run context
@@ -191,10 +191,10 @@ INDEX_MANIFEST — адресная таблица реалма 01_CORE_ORC_ENT.
   MARKERS: [CORE, PIPE, DISPATCH]
   STATUS: ACTIVE
   OWNER: ORC_ENT
-  UPDATED: 2026-02-02
+  UPDATED: 2026-02-03
 
 - KEY: COR.STEP_RUN_CONTROLLER
-  UID:
+  UID: UE.V2.ENT.ORC.COR.STEP_RUN_CONTROLLER.001
   KIND: FILE
   ROLE: Step-run controller
   DESC: Controls S0–S3 step cadence, gates, and minimal-open policy
@@ -203,10 +203,10 @@ INDEX_MANIFEST — адресная таблица реалма 01_CORE_ORC_ENT.
   MARKERS: [CORE, STEP, CONTROL]
   STATUS: ACTIVE
   OWNER: ORC_ENT
-  UPDATED: 2026-02-02
+  UPDATED: 2026-02-03
 
 - KEY: COR.FOCUS_LOOP_CONTROLLER
-  UID:
+  UID: UE.V2.ENT.ORC.COR.FOCUS_LOOP_CONTROLLER.001
   KIND: FILE
   ROLE: Focus loop controller
   DESC: Maintains focus, prevents drift, enforces route token scope
@@ -215,10 +215,10 @@ INDEX_MANIFEST — адресная таблица реалма 01_CORE_ORC_ENT.
   MARKERS: [CORE, FOCUS, CONTROL]
   STATUS: ACTIVE
   OWNER: ORC_ENT
-  UPDATED: 2026-02-02
+  UPDATED: 2026-02-03
 
 - KEY: COR.GATEKEEPER
-  UID:
+  UID: UE.V2.ENT.ORC.COR.GATEKEEPER.001
   KIND: FILE
   ROLE: Gatekeeper for run completion
   DESC: Applies final gates and decides PASS/FAIL with required next prompt
@@ -227,10 +227,10 @@ INDEX_MANIFEST — адресная таблица реалма 01_CORE_ORC_ENT.
   MARKERS: [CORE, GATE, FINAL]
   STATUS: ACTIVE
   OWNER: ORC_ENT
-  UPDATED: 2026-02-02
+  UPDATED: 2026-02-03
 
 - KEY: COR.LOGGER
-  UID:
+  UID: UE.V2.ENT.ORC.COR.LOGGER.001
   KIND: FILE
   ROLE: Run logger
   DESC: Emits run logs, decision entries, and audit hooks
@@ -239,10 +239,10 @@ INDEX_MANIFEST — адресная таблица реалма 01_CORE_ORC_ENT.
   MARKERS: [CORE, LOG]
   STATUS: ACTIVE
   OWNER: ORC_ENT
-  UPDATED: 2026-02-02
+  UPDATED: 2026-02-03
 
 - KEY: COR.FAIL_HANDLER
-  UID:
+  UID: UE.V2.ENT.ORC.COR.FAIL_HANDLER.001
   KIND: FILE
   ROLE: Failure handler
   DESC: Normalizes fail-codes, explains required inputs, sets safe next step
@@ -251,10 +251,10 @@ INDEX_MANIFEST — адресная таблица реалма 01_CORE_ORC_ENT.
   MARKERS: [CORE, FAIL, SAFETY]
   STATUS: ACTIVE
   OWNER: ORC_ENT
-  UPDATED: 2026-02-02
+  UPDATED: 2026-02-03
 
 - KEY: COR.RELEASE_PACKAGER
-  UID:
+  UID: UE.V2.ENT.ORC.COR.RELEASE_PACKAGER.001
   KIND: FILE
   ROLE: Release/output packager
   DESC: Packages deliverables into OUTPUT_PACK with deterministic formatting
@@ -263,11 +263,11 @@ INDEX_MANIFEST — адресная таблица реалма 01_CORE_ORC_ENT.
   MARKERS: [CORE, OUTPUT, PACK]
   STATUS: ACTIVE
   OWNER: ORC_ENT
-  UPDATED: 2026-02-02
+  UPDATED: 2026-02-03
 
 ### [O] LEGACY (back-compat)
 - KEY: LEGACY.NARRATIVE_ORC_ENG
-  UID:
+  UID: UE.V2.ENT.ORC.LEGACY.NARRATIVE_ORC_ENG.001
   KIND: FILE
   ROLE: Legacy narrative orchestrator (ENG flavor)
   DESC: Back-compat module for legacy narrative pipelines
@@ -276,10 +276,10 @@ INDEX_MANIFEST — адресная таблица реалма 01_CORE_ORC_ENT.
   MARKERS: [LEGACY]
   STATUS: ACTIVE
   OWNER: ORC_ENT
-  UPDATED: 2026-02-02
+  UPDATED: 2026-02-03
 
 - KEY: LEGACY.CHARACTER_ORC_ENG
-  UID:
+  UID: UE.V2.ENT.ORC.LEGACY.CHARACTER_ORC_ENG.001
   KIND: FILE
   ROLE: Legacy character orchestrator (ENG flavor)
   DESC: Back-compat module for legacy character pipelines
@@ -288,10 +288,10 @@ INDEX_MANIFEST — адресная таблица реалма 01_CORE_ORC_ENT.
   MARKERS: [LEGACY]
   STATUS: ACTIVE
   OWNER: ORC_ENT
-  UPDATED: 2026-02-02
+  UPDATED: 2026-02-03
 
 - KEY: LEGACY.WORLD_ORC_ENG
-  UID:
+  UID: UE.V2.ENT.ORC.LEGACY.WORLD_ORC_ENG.001
   KIND: FILE
   ROLE: Legacy world orchestrator (ENG flavor)
   DESC: Back-compat module for legacy world pipelines
@@ -300,10 +300,10 @@ INDEX_MANIFEST — адресная таблица реалма 01_CORE_ORC_ENT.
   MARKERS: [LEGACY]
   STATUS: ACTIVE
   OWNER: ORC_ENT
-  UPDATED: 2026-02-02
+  UPDATED: 2026-02-03
 
 - KEY: LEGACY.PRODUCTION_ORC_ENG
-  UID:
+  UID: UE.V2.ENT.ORC.LEGACY.PRODUCTION_ORC_ENG.001
   KIND: FILE
   ROLE: Legacy production orchestrator (ENG flavor)
   DESC: Back-compat module for legacy production pipelines
@@ -312,10 +312,10 @@ INDEX_MANIFEST — адресная таблица реалма 01_CORE_ORC_ENT.
   MARKERS: [LEGACY]
   STATUS: ACTIVE
   OWNER: ORC_ENT
-  UPDATED: 2026-02-02
+  UPDATED: 2026-02-03
 
 - KEY: LEGACY.PIPELINE_ORC_ENG
-  UID:
+  UID: UE.V2.ENT.ORC.LEGACY.PIPELINE_ORC_ENG.001
   KIND: FILE
   ROLE: Legacy pipeline orchestrator (ENG flavor)
   DESC: Back-compat module for legacy pipeline routing
@@ -324,4 +324,4 @@ INDEX_MANIFEST — адресная таблица реалма 01_CORE_ORC_ENT.
   MARKERS: [LEGACY]
   STATUS: ACTIVE
   OWNER: ORC_ENT
-  UPDATED: 2026-02-02
+  UPDATED: 2026-02-03
