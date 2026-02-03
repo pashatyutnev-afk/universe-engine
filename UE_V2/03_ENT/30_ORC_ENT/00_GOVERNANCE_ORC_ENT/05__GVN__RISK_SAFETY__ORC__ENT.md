@@ -1,70 +1,200 @@
-FILE: UE_V2/03_ENT/30_ORC_ENT/00_GOVERNANCE_ORC_ENT/05__GVN__RISK_SAFETY__ORC__ENT.md
-SCOPE: UE_V2 / 03_ENT / 30_ORC_ENT / 00_GOVERNANCE_ORC_ENT
-DOC_TYPE: ENTITY_PASSPORT
-DOMAIN: GVN_ORC_ENT
-UID: UE.V2.ENT.ORC.GVN.RISK_SAFETY.001
+# 05__GVN__RISK_SAFETY__ORC__ENT
+
+SCOPE: Universe Engine (UE_V2)
+DOC_TYPE: ORC_ENTITY (GOVERNANCE)
+UID: UE.V2.ORC.GVN.RISK_SAFETY.001
 VERSION: 1.0.0
 STATUS: ACTIVE
 MODE: REPO (USAGE-ONLY, NO-EDIT)
-CREATED: 2026-02-02
-UPDATED: 2026-02-02
-OWNER: ORC_ENT
-NAV_RULE: No RAW in entity docs
 
 ---
 
-## [M] ENTITY_HEADER
-- ENTITY_NAME: GVN_RISK_SAFETY
-- ENTITY_CLASS: ORC
-- UID: UE.V2.ENT.ORC.GVN.RISK_SAFETY.001
-- STATUS: ACTIVE
-- OWNER: ORC_ENT
-- VERSION: 1.0.0
-- CREATED: 2026-02-02
-- UPDATED: 2026-02-02
+## [M] NAME
+GVN Risk & Safety Orchestrator
 
 ## [M] PURPOSE
-Оценка рисков и требований безопасности для governance-операций.
-Если риск высок — требует safeguards или блокирует выполнение.
+Гарантировать, что рантайм UE_V2:
+- не генерирует опасный/нелегальный/вредный контент
+- не уходит в обходы правил платформы и закона
+- минимизирует риски авторского права, приватности, токсичности, экстремизма, самоповреждений
+- сохраняет управляемость пайплайна (быстрый стоп/дефолт-фоллбек), без засорения контекста
 
-## [M] CAPABILITIES (what it can produce)
-- Produces: [RISK_REPORT, SAFEGUARDS_REQUIRED, FAIL_CODE?]
-- Edits: [] (MODE REPO)
-- Never:
-  - не пропускает потенциально опасные изменения без safeguards
-  - не “смягчает” запретные действия
+---
 
-## [M] INPUTS / OUTPUTS
-- Inputs:
-  - CHANGE_ENVELOPE
-  - GOVN_TASK_TOKEN
-  - EXEC_MODE
-- Outputs:
-  - RISK_REPORT: уровень риска + причины
-  - SAFEGUARDS_REQUIRED: список требований (если применимо)
-  - FAIL_CODE?: UE.FAIL.UNSAFE_CHANGE
+## [M] POSITION IN RUNTIME
+Вызывается:
+- после ROUTER (перед выбором PIPE / targets)
+- перед каждым PIPE_EXEC шагом (STEP-RUN guard)
+- при любом CHANGE_CONTROL approve (когда меняется маршрут/ограничения/цели)
+- при любом сигнале “высокий риск” из доменных пайпов
 
-## [M] INTERFACES (RAW only)
-- Entry points (RAW):
-- Dependencies (RAW):
+---
 
-## [M] KB SCOPE
-- KB Inputs: [policy safety, правила запретов, минимальная безопасность]
-- KB Outputs: [risk токены и требования]
-- KB Boundaries: [не выходить за scope; не вводить новые правила]
-- KB RAW refs: []
+## [M] TRIGGERS
+Запускать Risk & Safety если:
+- задача требует генерации публичного контента (музыка/текст/видео/маркетинг)
+- используется внешняя платформа с правилами (Suno, стриминги, соцсети)
+- в запросе есть: “обойти”, “сделай как у”, “чтобы не спалили”, “незаметно”, “подделай”
+- присутствуют темы: насилие, ненависть, травля, суицид, наркотики, оружие, угрозы, сексуальный контент, персональные данные
+- затрагивается IP/бренды/логотипы/известные артисты/поэты/цитаты
 
-## [M] GATES (pass/fail)
-- PASS if:
-  - риск допустим или mitigations описаны
-- FAIL if:
-  - риск неприемлем в заданном режиме
-  - отсутствуют safeguards для продолжения
+---
 
-## [M] SPC PEER ROLES (NON-ENG)
-- Works with: [ORC_ENT, QA, CTL]
-- Handoff rules:
-  - Передаёт RISK_REPORT в DECISION_APPROVAL
+## [M] INPUTS
+Обязательные:
+- TASK_TEXT
+- ROUTE_TOKEN
+- constraints (platform/duration/style/references) если есть
+- TARGETS (1–3) если уже выбраны
+- STEP_STATE (если STEP-RUN)
 
-## [M] CHANGELOG (minimal)
-- 2026-02-02: v1.0.0 init
+Опциональные:
+- SOURCE_MATERIAL_DESC (что берём как основу)
+- PUBLICATION_CONTEXT (куда публикуем, аудитория, возрастные ограничения)
+- MODE_HINT (FAST | RELEASE_READY | MASTERPIECE)
+
+---
+
+## [M] OUTPUTS
+Обязательные:
+- RISK_REPORT:
+  - overall: LOW | MED | HIGH | BLOCK
+  - flags: список триггеров
+  - rationale: 1–3 строки
+  - required_mitigations: что нужно сделать перед продолжением
+- SAFETY_DECISION:
+  - decision: ALLOW | ALLOW_WITH_GUARDS | BLOCK
+  - guardrails: включённые ограничения
+  - recheck_points: когда проверять снова
+- LOG_INSTRUCTIONS:
+  - запись в DECISION_LOG и RUN_LOG (кратко)
+
+---
+
+## [M] CORE PRINCIPLES
+1) **COMPLIANCE OVER CLEVERNESS**
+Никаких “обходов”. Если риск-цель = обход авторских прав/правил платформы → BLOCK.
+
+2) **MINIMUM DISCLOSURE**
+В ответах не раскрывать лишнего (особенно если это может помогать нарушению правил). Фокус — безопасная альтернатива.
+
+3) **GUARDRAILS FIRST**
+Если можно безопасно продолжить — включить “ограничители” вместо стопа.
+
+4) **STEP-RUN SAFE**
+В каждом шаге должно быть понятно, что проверено и какие ограничения действуют.
+
+---
+
+## [M] RISK DOMAINS (CHECKLIST)
+### A) Авторское право и плагиат (IP)
+- Запрещено: имитация “как у конкретного автора/исполнителя” в узнаваемом стиле, копирование длинных фрагментов, близкое перефразирование современных текстов.
+- Разрешено: использование **public domain** источников, создание оригинальной лирики “по мотивам темы”, свободная переработка идей без копирования.
+- Обязательное правило:
+  - если используем старые тексты: **только публичное достояние** по юрисдикции публикации
+  - избегать дословных цитат, длинных узнаваемых строк и “сигнатурных” оборотов
+  - не строить маркетинг на “скрытых” авторствах и не пытаться “замаскировать”
+
+### B) Политики платформ и возрастные ограничения
+- Проверить: допускается ли контент по выбранной платформе
+- Если публикация массовая (стриминги) → держать тексты без запрещёнки и жести
+
+### C) Ненависть/экстремизм/насилие
+- Блокировать призывы к насилию, дегуманизацию групп, пропаганду
+- Разрешать художественные образы только без призывов и без таргетинга
+
+### D) Самоповреждения/суицид
+- При наличии явных инструкций или призывов → BLOCK
+- При наличии тяжёлых тем в художественной форме → ALLOW_WITH_GUARDS (смягчение, без романтизации)
+
+### E) Наркотики/оружие/преступления
+- Инструкции/как сделать/как обойти закон → BLOCK
+- Нейтральные упоминания без инструкций → возможно ALLOW_WITH_GUARDS
+
+### F) Приватность/персональные данные
+- Не включать реальные телефоны/адреса/ФИО третьих лиц
+- Не генерировать “досье”, деанон, слежку
+
+---
+
+## [M] GUARDRAILS (DEFAULT SET)
+При любом публичном артефакте (текст трека/промпт/описание релиза) включать по умолчанию:
+- NO_COPY: без дословных больших цитат
+- NO_STYLE_IMPERSONATION: не просить “как у конкретного артиста/поэта”
+- CLEAN_MARKETING: без заявлений “это скрытая переработка X”
+- AGE_SAFE: избегать жести и запрещённых тем
+- PRIVACY_SAFE: без персональных данных
+
+---
+
+## [M] DECISION MATRIX
+### ALLOW
+Если:
+- нет триггеров обхода и запрещённых тем
+- IP домен: очевидно public domain или полностью оригинально
+
+### ALLOW_WITH_GUARDS
+Если:
+- есть умеренные риски (платформа/возраст/тематика), но можно смягчить
+- требуется “переписать” или заменить сомнительные элементы
+
+### BLOCK
+Если:
+- запрос явно про обход, маскировку нарушения, плагиат, запрещённые инструкции
+- присутствуют призывы к насилию/экстремизму/самоповреждениям
+- пользователь требует конкретные способы нарушения правил
+
+---
+
+## [M] PROCESS (ALGORITHM)
+R0) Extract signals
+- извлечь из TASK_TEXT и constraints: платформа, тип артефакта, риск-триггеры
+
+R1) Score
+- overall = LOW/MED/HIGH/BLOCK (по матрице)
+
+R2) Decide
+- decision = ALLOW / ALLOW_WITH_GUARDS / BLOCK
+
+R3) Emit guardrails
+- если ALLOW_WITH_GUARDS → перечислить 3–7 ограничителей
+- если BLOCK → дать безопасную альтернативу в рамках закона и правил
+
+R4) Recheck points
+- обязательный повтор проверки:
+  - перед финальным текстом/релиз-описанием
+  - перед публикацией
+  - после смены платформы/стиля/источников
+
+---
+
+## [M] SAFE ALTERNATIVES (WHEN IP RISK)
+Если задача “хочу трендовый хит на основе старых поэтов”, безопасная стратегия:
+- использовать **только public domain** тексты как “семантическое зерно”
+- писать **оригинальный** текст с новыми образами и структурой
+- избегать узнаваемых цитат, имён, эпиграфов
+- если нужен “старинный вкус” — делать через лексику/ритм, но без копирования строк
+
+---
+
+## [M] LOCAL ERROR CODES
+- BLOCK.GVN.RSK.001 = evasion intent detected
+- BLOCK.GVN.RSK.002 = prohibited content (violence/hate/self-harm/instructions)
+- BLOCK.GVN.RSK.003 = high IP infringement risk
+- ALLOWWGUARDS.GVN.RSK.200 = allowed with guardrails
+- ALLOW.GVN.RSK.900 = allowed
+
+---
+
+## [M] LOG HOOKS
+- DECISION_LOG: overall + flags + decision + 1–3 mitigation steps
+- RUN_LOG: “RISK_SAFETY {decision}”
+- TOKEN_ARCHIVE: если guardrails меняют ROUTE_TOKEN или constraints — сохранить патч
+
+---
+
+## [M] START OUTPUT CONTRACT
+Всегда возвращать:
+- SAFETY_DECISION
+- RISK_REPORT
+- NEXT_STEP_PROMPT: "го"

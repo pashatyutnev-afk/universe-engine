@@ -1,71 +1,189 @@
-FILE: UE_V2/03_ENT/30_ORC_ENT/00_GOVERNANCE_ORC_ENT/03__GVN__DEPENDENCY_RESOLVER__ORC__ENT.md
-SCOPE: UE_V2 / 03_ENT / 30_ORC_ENT / 00_GOVERNANCE_ORC_ENT
-DOC_TYPE: ENTITY_PASSPORT
-DOMAIN: GVN_ORC_ENT
-UID: UE.V2.ENT.ORC.GVN.DEPENDENCY_RESOLVER.001
+# 03__GVN__DEPENDENCY_RESOLVER__ORC__ENT
+
+SCOPE: Universe Engine (UE_V2)
+DOC_TYPE: ORC_ENTITY (GOVERNANCE)
+UID: UE.V2.ORC.GVN.DEPENDENCY_RESOLVER.001
 VERSION: 1.0.0
 STATUS: ACTIVE
 MODE: REPO (USAGE-ONLY, NO-EDIT)
-CREATED: 2026-02-02
-UPDATED: 2026-02-02
-OWNER: ORC_ENT
-NAV_RULE: No RAW in entity docs
 
 ---
 
-## [M] ENTITY_HEADER
-- ENTITY_NAME: GVN_DEPENDENCY_RESOLVER
-- ENTITY_CLASS: ORC
-- UID: UE.V2.ENT.ORC.GVN.DEPENDENCY_RESOLVER.001
-- STATUS: ACTIVE
-- OWNER: ORC_ENT
-- VERSION: 1.0.0
-- CREATED: 2026-02-02
-- UPDATED: 2026-02-02
+## [M] NAME
+GVN Dependency Resolver Orchestrator
 
 ## [M] PURPOSE
-Считает зависимости для governance-прогона.
-Формирует минимальный WORK_SET_KEYS и порядок шагов/открытий без лишнего.
+Детерминированно собрать и проверить минимально-нужный набор зависимостей для выполнения задачи.
+Оркестратор обеспечивает:
+- нулевой обход IDX (никаких “прямых” ходов мимо NAV)
+- анти-шум (не грузить деревья, только минимальный MUST_LOAD + один доменный IDX + 1–3 target файла)
+- предсказуемый порядок загрузки (stable sort и фиксированные tie-break)
+- понятный статус: PASS / GAP / STOP с конкретным списком недостающих RAW/маркерных блоков
 
-## [M] CAPABILITIES (what it can produce)
-- Produces: [WORK_SET_KEYS, LOAD_ORDER, FAIL_CODE?]
-- Edits: [] (MODE REPO)
-- Never:
-  - не добавляет новые сущности/ключи “из головы”
-  - не открывает лишние файлы без причины
+---
 
-## [M] INPUTS / OUTPUTS
-- Inputs:
-  - GOVN_TASK_TOKEN
-  - RULE_CHECK_REPORT (PASS)
-  - AVAILABLE_KEYS (из INDEX_MANIFEST, через раннер)
-- Outputs:
-  - WORK_SET_KEYS: минимальный набор ключей на прогон
-  - LOAD_ORDER: порядок резолва/открытий (keys-only)
-  - FAIL_CODE?: UE.FAIL.MISSING_KEY
+## [M] POSITION IN RUNTIME
+Вызывается после ROUTER и перед PIPE_EXEC.
 
-## [M] INTERFACES (RAW only)
-- Entry points (RAW):
-- Dependencies (RAW):
+**Ориентир:**
+- ROUTER сформировал ROUTE_TOKEN (DOMAIN, REQUIRED_IDX, REQUIRED_CHECKS, PIPE_SELECTED, EXEC_MODE)
+- NAV_ROOT открыт/доступен
+- дальше — резолв зависимостей и подтверждение доступа к REG/XREF/KB/PIPE/LOG через IDX
 
-## [M] KB SCOPE
-- KB Inputs: [KEY-схемы реалма, REQUIRED_KEYS, доменные зависимости]
-- KB Outputs: [work-set токены]
-- KB Boundaries: [не принимать монтажных решений; не выходить за scope]
-- KB RAW refs: []
+---
 
-## [M] GATES (pass/fail)
-- PASS if:
-  - все нужные ключи существуют
-  - набор минимален и достаточен под intent
-- FAIL if:
-  - нужного ключа нет (UE.FAIL.MISSING_KEY)
-  - scope не определён и требует уточнения входа
+## [M] TRIGGERS
+Запускать оркестратор, когда:
+- сформирован ROUTE_TOKEN
+- требуется открыть REQUIRED_IDX и подтвердить доступ к системным панелям (REG/XREF/KB/PIPE/LOG)
+- планируется STEP-RUN исполнение (пошагово через “го”)
 
-## [M] SPC PEER ROLES (NON-ENG)
-- Works with: [ORC_ENT, CTL, QA]
-- Handoff rules:
-  - Передаёт WORK_SET_KEYS в CHANGE_CONTROL / RISK_SAFETY / DECISION_APPROVAL по маршруту
+---
 
-## [M] CHANGELOG (minimal)
-- 2026-02-02: v1.0.0 init
+## [M] INPUTS
+Обязательные:
+- ROUTE_TOKEN
+- NAV_ROOT_STATUS (доступен / недоступен)
+- MUST_LOAD_SET (минимальный набор из RUNTIME_MANIFEST)
+
+Опциональные:
+- MODE_HINT (FAST | RELEASE_READY | MASTERPIECE)
+- constraints (platform, duration, style, references)
+
+---
+
+## [M] OUTPUTS
+Обязательные:
+- DEP_RESOLVE_REPORT:
+  - LOAD_ORDER (строгий порядок)
+  - REQUIRED_PANELS_STATUS (REG/XREF/KB/PIPE/LOG)
+  - MISSING (если есть)
+  - ACTION (PASS/GAP/STOP) + причина
+- REQUIRED_LOAD_SET (финальный минимальный набор файлов для открытия “сейчас”)
+
+Опциональные:
+- DECISION_NOTE (короткая запись для DECISION_LOG)
+- TOKEN_PATCH (если нужно нормализовать ROUTE_TOKEN полями по правилам детерминизма)
+
+---
+
+## [M] CORE RULES (DETERMINISM + ANTI-NOISE)
+1) **NO TREE SCAN**: никаких массовых обходов папок. Только через NAV_ROOT и доменный IDX.
+2) **STABLE ORDER**: сортировка по фиксированному ключу:
+   - первично: класс ресурса (MUST_LOAD → NAV → IDX → PANELS → TARGET)
+   - вторично: строковый путь/имя (лексикографически)
+3) **MINIMAL LOAD**:
+   - ALWAYS: START + MANIFEST + ROUTER + NAV_ROOT
+   - THEN: REQUIRED_IDX (ровно один доменный IDX)
+   - THEN: 1–3 target файла (если уже известны из TASK_TEXT/PIPE)
+4) **NO BYPASS**: если ресурс не обнаружен через IDX → это GAP/STOP, а не “пойду найду сам”.
+5) **CLEAR FAILURE**: всегда отдавать конкретный список, что именно отсутствует.
+
+---
+
+## [M] RESOLVE STEPS (ALGORITHM)
+### D0) Preconditions
+- Если нет ROUTE_TOKEN → STOP (input absent)
+- Если NAV_ROOT недоступен → STOP
+- Если MUST_LOAD_SET недоступен → STOP
+
+### D1) Build Required Set
+Собрать список:
+- MUST_LOAD_SET (минимум)
+- REQUIRED_IDX из ROUTE_TOKEN
+- REQUIRED_CHECKS из ROUTE_TOKEN (панели/проверки)
+- PIPE_DEFAULT + PIPE_SELECTED (если указан)
+
+### D2) Confirm Access via NAV / IDX
+- Открыть REQUIRED_IDX
+- Через REQUIRED_IDX подтвердить доступ к:
+  - REG
+  - XREF
+  - KB
+  - PIPE
+  - LOG
+Если любая панель не подтверждается через IDX → GAP (панель missing)
+
+### D3) Compute Minimal Load Order
+Сформировать LOAD_ORDER:
+1) MUST_LOAD_SET (как есть)
+2) NAV_ROOT
+3) REQUIRED_IDX
+4) минимальные панельные файлы, строго необходимые для следующего шага:
+   - PIPE_DEFAULT (для handoff)
+   - LOG_RULES (для лог-инициализации, если следующий шаг — LOG_INIT)
+5) 1–3 target файла (если ROUTE_TOKEN/PIPE уже вычислили конкретику)
+
+### D4) Missing Detection
+MISSING считается:
+- RAW отсутствует
+- маркерный блок/обязательная секция не подтверждена (если правило задано REQUIRED_CHECKS)
+
+Результат:
+- если missing ∈ MUST_LOAD → STOP
+- если missing ∈ доменном IDX/PIPE/панелях → GAP
+- иначе PASS
+
+### D5) Emit Report
+Сформировать DEP_RESOLVE_REPORT, пригодный для логов и для показа пользователю.
+В PASS — вернуть REQUIRED_LOAD_SET и FIRST_STEP_PROMPT: “го”.
+
+---
+
+## [M] REQUIRED_CHECKS (DEFAULT)
+Минимальный набор проверок по умолчанию:
+- NAV_ROOT доступен
+- REQUIRED_IDX доступен
+- PIPE_DEFAULT доступен
+- LOG_RULES доступен
+- подтверждён доступ к REG/XREF/KB/PIPE/LOG через IDX
+
+Примечание: доменные пайпы/индексы добавляются ROUTER-ом в REQUIRED_CHECKS.
+
+---
+
+## [M] FAIL / GAP BEHAVIOR
+### STOP conditions
+- input absent: нет ROUTE_TOKEN или MUST_LOAD_SET
+- MUST_LOAD missing (RAW missing)
+- NAV_ROOT missing
+
+### GAP conditions
+- REQUIRED_IDX отсутствует
+- любая из панелей REG/XREF/KB/PIPE/LOG не подтверждается через IDX
+- доменный PIPE отсутствует/не подтверждён
+
+---
+
+## [M] ERROR CODES (LOCAL)
+- STOP.GVN.DEP.001 = ROUTE_TOKEN missing
+- STOP.GVN.DEP.002 = NAV_ROOT missing
+- STOP.GVN.DEP.003 = MUST_LOAD missing
+- GAP.GVN.DEP.010 = REQUIRED_IDX missing
+- GAP.GVN.DEP.020 = PANEL access not confirmed (REG/XREF/KB/PIPE/LOG)
+- GAP.GVN.DEP.030 = PIPE selected missing
+- PASS.GVN.DEP.900 = dependencies resolved
+
+---
+
+## [M] LOG HOOKS (WHAT TO WRITE)
+Если LOG доступен:
+- RUN_LOG: записать короткую строку “DEP_RESOLVE: PASS/GAP/STOP” + список missing
+- DECISION_LOG: зафиксировать LOAD_ORDER и причину выбора (anti-noise)
+- TOKEN_ARCHIVE: сохранить ROUTE_TOKEN (если есть нормализация — сохранить patch)
+
+---
+
+## [M] SECURITY / COMPLIANCE NOTES
+- Не пытаться “угадывать” файлы вне IDX.
+- Не подменять ROUTER.
+- Не расширять REQUIRED_LOAD_SET без причины.
+- При любом GAP отдавать список missing, не “решать молча”.
+
+---
+
+## [M] START OUTPUT CONTRACT
+Если PASS:
+- ROUTE_TOKEN (как есть или с TOKEN_PATCH)
+- DEP_RESOLVE_REPORT
+- FIRST_STEP_PROMPT: "го"
