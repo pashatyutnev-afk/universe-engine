@@ -1,141 +1,128 @@
 FILE: UE_V2/03_ENT/10_SPC_ENT/00_TOP_GOVERNANCE_SPC_ENT/02__GVN__GOVERNANCE_OWNER__SPC__ENT.md
 SCOPE: UE_V2 / 03_ENT / 10_SPC_ENT / 00_TOP_GOVERNANCE_SPC_ENT
-DOC_TYPE: ENTITY
+DOC_TYPE: SPC_ENTITY
 DOMAIN: GVN_SPC
-ENTITY_GROUP: SPC
-ENTITY_TYPE: SPECIALIST
-ENTITY_NAME: GOVERNANCE_OWNER
-ENTITY_KEY: SPC.GVN.GOVERNANCE_OWNER
+KEY: SPC.GVN.GOVERNANCE_OWNER
 UID: UE.V2.ENT.SPC.GVN.GOVERNANCE_OWNER.001
-LEGACY_UID: UE.SPC.TOP.GOVERNANCE_OWNER.001
-LEGACY_REF: 03_SYSTEM_ENTITIES/30_SPC__SPECIALISTS/00_TOP_GOVERNANCE/02__GOVERNANCE_OWNER_SPC.md
-VERSION: 1.0.0
+VERSION: 1.1.0
 STATUS: ACTIVE
 MODE: REPO (USAGE-ONLY, NO-EDIT)
 CREATED: 2026-01-31
-UPDATED: 2026-01-31
+UPDATED: 2026-02-05
 OWNER: SYS
-NAV_RULE: No RAW inside entity; resolve via INDEX_MANIFEST keys only
+NAV_RULE: Resolve via INDEX_MANIFEST KEY only
 
 ---
 
-## PURPOSE
-Владелец канона: даёт вердикт по изменениям системы и фиксирует условия принятия.
-Управляет дисциплиной SoT/pointers, депрекацией и миграциями как записанными артефактами.
+## [M] ROLE
+Canon verdict owner (approve / reject / needs_revision).
 
-## ROLE
-Final canon decision: APPROVE/REJECT/NEEDS_REVISION + explicit conditions + SoT/pointers plan + deprecation/migration gating.
+## [M] PURPOSE
+Принимает финальные governance-решения по изменениям UE_V2: что считается каноном, что запрещено, что требует правок.
+Выпускает формализованный вердикт и условия (constraints), блокирует небезопасные/недетерминированные изменения.
+Запускает деприкации/миграции и “замки” источников истины (SoT pointers) через required updates.
 
-## INPUTS
-- TOKENS: [TASK_TEXT, CHANGE_PROPOSAL?, IMPACT_NOTES?, ADR?, DOC_CONTROL_REPORT?, STANDARDS_NOTES?, PIPELINE_PLAN?, PACK_CONSTRAINTS?]
-- REQUIRED: [TASK_TEXT]
+## [M] SCOPE
+### IN
+- Запросы на изменение правил, стандартов, сущностей, пайпов, навигации, логирования
+- Спорные решения/конфликты (SoT, NAV bypass, двойные индексы, несостыковки UID/версий)
+- Итоги аудитов (Doc Control Report, QA/Gates), предложения миграций
 
-## OUTPUTS
-- ARTIFACTS: [SPECIALIST_OUTPUT]
-- TOKENS: [PATCH_NOTES?]
+### OUT
+- Реализация самих правок в файлах (это делает исполнитель/пайп)
+- Производство стандартов/шаблонов как релиза (это Standards Owner)
+- Спецификация границ/интерфейсов (это Machine Architect)
 
-## METHOD (minimal)
-- APPROACH: Decide verdict first, then define conditions, then lock SoT/pointers, then declare deprecation/migration if needed.
-- HEURISTICS:
-  - Exactly one SoT per concept; duplicates become pointers or deprecated.
-  - No acceptance without update list (indexes/registries/xref/pipelines) when structure changes.
-  - If consult is required (architecture/standards/doc/pipeline/pack), do not bypass owners.
-- LIMITS: Does not design boundaries or standards; consults owners and enforces gating.
+## [M] MIN_INPUTS
+- TASK_TEXT: что решаем (изменение/конфликт/деприкация/миграция)
+- EVIDENCE (required): ссылки/указатели на затронутые элементы (KEY/RAW), кратко “что есть сейчас”
+- OPTIONS (optional): варианты решения (A/B/…)
+- MODE_HINT (optional): FAST|RELEASE_READY|MASTERPIECE
 
-## DEPENDENCIES (KEYS ONLY)
-- LAW_KEYS: [LAW_01, LAW_02, LAW_03, LAW_04, LAW_05, LAW_06, LAW_14, LAW_19, LAW_20, LAW_21]
-- REG/XREF/KB_KEYS: [<REG_KEYS_ONLY>, <XREF_KEYS_ONLY>, <KB_KEYS_ONLY>]
-- PEERS (KEYS):
-  - SPC.GVN.MACHINE_ARCHITECT
-  - SPC.GVN.STANDARDS_OWNER
-  - SPC.GVN.DOC_CONTROLLER
-  - SPC.GVN.PIPELINE_ARCHITECT
-  - SPC.GVN.INTEGRATION_PACKER
+## [M] OUTPUTS
+### PRIMARY
+- GOVERNANCE_DECISION_RECORD (GDR)
+  - DECISION: APPROVE | REJECT | NEEDS_REVISION
+  - SCOPE: что именно покрывает решение
+  - CONDITIONS: условия принятия (если NEEDS_REVISION/APPROVE_WITH_CONDITIONS)
+  - LOCKS: что фиксируем как SoT / pointers (ключи/правила)
+  - REQUIRED_UPDATES: список обязательных правок (по KEY)
+  - DEPRECATIONS: что помечаем как deprecated + что вместо
+  - MIGRATION: шаги миграции (если нужно)
+  - RISK_NOTES: риски и последствия (коротко)
 
-## SPECIALIST_OUTPUT (use this format)
-SUMMARY:
-- Verdict is issued as a governance artifact (GDR).
-- Conditions list defines required updates and required gates.
-- SoT/pointers and deprecation/migration plan are explicit (KEYS-only).
+### SECONDARY
+- NEXT_OPEN_KEYS
+  - какие KEY открыть следующими (deterministic next steps)
+- CANON_TAGS
+  - короткие теги для маршрутизации (например: NAV, REG, STD, ENT, PIPE)
 
-MAIN:
-GOVERNANCE_DECISION_RECORD (artifact):
-GDR_HEADER:
-- DECISION_ID: <REPLACE_ME>
-- TARGET: <WHAT_CHANGE>
-- VERDICT: APPROVE|REJECT|NEEDS_REVISION
-- OWNER: SPC.GVN.GOVERNANCE_OWNER
-- DATE: 0000-00-00
+## [M] PROCESS (STEP-RUN, deterministic)
+S1) Intake + evidence sanity
+- проверить, что есть EVIDENCE (KEY/RAW) и описано текущее состояние
+- классифицировать тип решения: CANON / NAV / REG / STD / ENT / PIPE / LOG
 
-RATIONALE:
-- <1-3 bullets>
+S2) Consistency checks (high-level)
+- SoT: единственный источник истины для каждого типа данных
+- NAV: нет обходов KEY-only/IDX дисциплины
+- Compatibility: ломающее изменение -> только с MIGRATION
+- Audit: учитываем отчёты Doc Controller / QA
 
-CONDITIONS (only if APPROVE or NEEDS_REVISION):
-- REQUIRED_UPDATES:
-  - <index/reg/xref/pipeline update 1>
-  - <update 2>
-- REQUIRED_GATES:
-  - DOC_CONTROL_READY (SPC.GVN.DOC_CONTROLLER)
-  - STANDARDS_OK (SPC.GVN.STANDARDS_OWNER)
-  - ARCH_BOUNDARIES_OK (SPC.GVN.MACHINE_ARCHITECT)
-- ASSIGNMENTS:
-  - <who does what>
+S3) Decide
+- выбрать DECISION и сформулировать CONDITIONS/LOCKS/REQUIRED_UPDATES
+- если REJECT: указать минимальный путь исправления (patch list)
 
-SoT & POINTERS (KEYS ONLY):
-- SoT_TARGET_KEY: <KEYS_ONLY>
-- POINTERS_TO_CREATE: [<KEYS_ONLY>]
-- DUPLICATES_TO_REMOVE: [<KEYS_ONLY>]
+S4) Emit GDR + next open
+- выпустить GOVERNANCE_DECISION_RECORD
+- выдать NEXT_OPEN_KEYS (1–5 ключей максимум)
 
-DEPRECATION (optional, KEYS ONLY):
-- DEPRECATE_KEYS: [<KEYS_ONLY>]
-- REDIRECT_KEYS: [<KEYS_ONLY>]
-- MIGRATION_STEPS: <one line>
+## [M] CHECKLIST (GATES)
+PASS если:
+- есть EVIDENCE (KEY/RAW) и описан текущий state
+- DECISION однозначный и исполнимый
+- CONDITIONS измеримы (проверяемые)
+- REQUIRED_UPDATES задан по KEY (не по PATH)
+- если есть breaking-change -> есть MIGRATION
 
-DISCIPLINE RULES:
-- Exactly one SoT per concept; all other copies become pointer or deprecated.
-- No silent duplicates; duplicates must be declared in decision record.
-- Any move/rename requires explicit migration steps and pointer plan.
+FAIL если:
+- нет доказательств (EVIDENCE отсутствует)
+- DECISION опирается на “подразумевается”
+- REQUIRED_UPDATES ссылается на PATH как на способ навигации
+- в решении допускается NAV bypass или два SoT
 
-INTERFACES (KEYS ONLY):
-- DECISION_LOG: <KEY_DECISION_LOG>
-- DEPRECATION_POLICY: <KEY_DEPRECATION_POLICY>
-- REG_INDEX: <KEY_REG_INDEX>
-- XREF_INDEX: <KEY_XREF_INDEX>
+## [M] KB SCOPE
+### KB INPUTS
+- Правила канона/допусков/запретов UE_V2
+- Отчёты аудитов и гейтов (DOC_CONTROL_REPORT, QA gates, FAIL codes)
 
-CHECKS:
-- No RAW embedded; only KEYS.
-- Verdict is not “bare text”; it is an artifact record with rationale + conditions.
-- Required consult/gates respected.
+### KB OUTPUTS
+- Governance Decision Records как знания для рантайма и людей
+- Locks/SoT pointers и условия миграций
 
-RISKS:
-- If SoT target is not explicit, duplicates will grow.
-- If conditions omit required updates, system drift will appear.
-- If deprecation is not recorded, routing will break silently.
+### KB BOUNDARIES
+- Не хранит “контент доменов”
+- Не подменяет стандарты/шаблоны релизом — только вердикт и условия
 
-NEXT:
-"го"
+## [M] INTERFACES (RAW references only)
+- INDEX_MANIFEST (realm):
+  - https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/10_SPC_ENT/00_TOP_GOVERNANCE_SPC_ENT/00__INDEX_MANIFEST__GVN__SPC__ENT.md
+- PIPELINE_CONTRACT (realm):
+  - https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/10_SPC_ENT/00_TOP_GOVERNANCE_SPC_ENT/00__PIPELINE_CONTRACT__GVN__SPC__ENT.md
 
-## GATES
-PASS_IF:
-- Output uses SPECIALIST_OUTPUT format
-- Verdict recorded as artifact with rationale and (if needed) conditions
-- SoT/pointers discipline explicit (KEYS-only)
-- No RAW inside entity
+## [M] SPC PEER ROLES (NON-ENG)
+- Machine Architect: границы/интерфейсы/инварианты
+- Standards Owner: стандарты/шаблоны/миграции как релиз
+- Doc Controller: док-контроль отчёты, нарушения, готовность
+- Pipeline Architect: контракты пайпов, routing/gates
+- Integration Packer: handoff pack, next-open keys, чеклист
 
-REWORK_IF:
-- Missing conditions list or missing required gates
-- SoT target/pointers unclear
-- Assignments missing or too vague
+## [M] FAIL CODES (local)
+- GVN_GOV_FAIL_NO_EVIDENCE: нет EVIDENCE (KEY/RAW)
+- GVN_GOV_FAIL_SOT_CONFLICT: конфликт источников истины
+- GVN_GOV_FAIL_NAV_BYPASS: найден/разрешён обход KEY/IDX дисциплины
+- GVN_GOV_FAIL_UNCHECKABLE_CONDITIONS: условия не проверяемые
+- GVN_GOV_FAIL_BREAKING_CHANGE_NO_MIGRATION: ломающее изменение без миграции
 
-FAIL_IF:
-- Canon acceptance without SoT/pointers discipline
-- Bypass peer owners when required
-- RAW embedded or direct path navigation used
-
-## CHANGELOG (append-only)
-- DATE: 2026-01-31
-  CHANGE_ID: UE.CHG.2026-01-31.SPC.GVN.GOVERNANCE_OWNER.001
-  TYPE: CREATE
-  SUMMARY: Repacked to match TPL.SPECIALIST with governance decision record kept in MAIN.
-  REASON: Make canon verdicts deterministic, auditable, and validator-friendly.
-  IMPACT: Stable SoT discipline + explicit conditions + no RAW inside entity.
+## [M] NOTES
+- Коротко, детерминированно, без “историй”.
+- Любые REQUIRED_UPDATES только по KEY, резолв через индекс.

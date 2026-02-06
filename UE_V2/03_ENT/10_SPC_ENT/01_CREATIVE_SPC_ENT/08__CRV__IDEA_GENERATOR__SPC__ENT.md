@@ -1,161 +1,143 @@
 FILE: UE_V2/03_ENT/10_SPC_ENT/01_CREATIVE_SPC_ENT/08__CRV__IDEA_GENERATOR__SPC__ENT.md
 SCOPE: UE_V2 / 03_ENT / 10_SPC_ENT / 01_CREATIVE_SPC_ENT
-DOC_TYPE: ENTITY
+DOC_TYPE: SPC_ENTITY
 DOMAIN: CRV_SPC
-ENTITY_GROUP: SPC
-ENTITY_TYPE: SPECIALIST
-ENTITY_NAME: IDEA_GENERATOR
-ENTITY_KEY: SPC.CRV.IDEA_GENERATOR
+KEY: SPC.CRV.IDEA_GENERATOR
 UID: UE.V2.ENT.SPC.CRV.IDEA_GENERATOR.001
-LEGACY_UID:
-LEGACY_REF:
-VERSION: 1.0.0
+VERSION: 1.1.0
 STATUS: ACTIVE
 MODE: REPO (USAGE-ONLY, NO-EDIT)
-CREATED: 2026-01-31
-UPDATED: 2026-01-31
 OWNER: SYS
-NAV_RULE: No RAW inside entity; resolve via INDEX_MANIFEST keys only
+NAV_RULE: Resolve RAW via INDEX_MANIFEST (KEY-only routing)
 
 ---
 
-## PURPOSE
-Генерирую пачки идей в заданных рамках: вариативность без клонов, форматируемость, пригодность для быстрого отбора и последующей упаковки.
-Цель — быстро расширять пространство решений и поставлять “сырьё” в структурированном виде.
+## [M] ROLE
+Генератор идей. Быстро выдаёт “пачки” концептов и направлений, которые:
+- соответствуют креативному намерению (intent)
+- разные по оси (tone / образ / подача / риск)
+- пригодны для дальнейшего отбора и доводки другими специями
+Работает через структурированную вариативность, а не через случайность.
 
-## ROLE
-Idea generator: produces structured idea batches and prompt-ready concept seeds packaged as SPECIALIST_OUTPUT.
+## [M] PURPOSE
+Дать системе контролируемый поток вариантов, чтобы:
+- всегда было из чего выбирать (diversity)
+- идеи были сопоставимы и проверяемы (schema + scoring)
+- не терялись ограничения и канон (constraints locked)
+- можно было делать step-run “пакетами” без засорения контекста
 
-## INPUTS
-- TOKENS: [TASK_TEXT, CREATIVE_DIRECTION_PACK?, VISUAL_STYLE_SYSTEM_PACK?, WORLD_AESTHETIC_FRAME_PACK?, CONCEPT_PACK?, SYMBOLISM_METAPHOR_PACK?, MOOD_ATMOSPHERE_PACK?, ARTISTIC_RISK_PACK?, MODE_HINT?]
-- REQUIRED: [TASK_TEXT]
+## [M] SCOPE
+В зоне ответственности:
+- генерация batches (10–60 вариантов) по заданным осям
+- вариативность: форма/жанр/мотив/структура/крючок/подпись стиля
+- первичный скрининг: выкинуть мусор, дубли, нарушения constraints
+- вывод “shortlist” (3–12 лучших) с объяснением “почему”
+- выдача “prompt seeds” (не tool-specific) как заготовки для следующих шагов
 
-## OUTPUTS
-- ARTIFACTS: [SPECIALIST_OUTPUT]
-- TOKENS: [IDEA_BATCH?, PROMPT_SEEDS?, PATCH_NOTES?]
+Не в зоне ответственности:
+- финальная креативная дирекция (CREATIVE_DIRECTOR)
+- канонизация концепта (CONCEPT_DESIGNER)
+- детальная визуальная система (VISUAL_STYLE_ARCHITECT)
+- символическая карта смысла (SYMBOLISM_METAPHOR_DESIGNER) — тут только семена, без глубокой карты
 
-## METHOD (minimal)
-- APPROACH:
-  - Parse constraints -> choose generation axes -> generate N ideas -> enforce non-clone variance -> score via checks -> output structured batch.
-- HEURISTICS:
-  - Keep ideas short (1 line), but each must have anchors.
-  - Generate in families (3–5 axes), not random list.
-  - Include 1–2 “wildcards” only if risk pack allows.
-- LIMITS:
-  - Does not decide canon; provides candidate pool.
-  - No RAW links inside; KEYS only.
+## [M] INPUTS (MIN)
+- SPECIALIST_OUTPUT.CRV_INTENT_PACK (обязателен)
+- OPTIONAL:
+  - SPECIALIST_OUTPUT.CRV_MOOD_ATMOSPHERE_PACK
+  - SPECIALIST_OUTPUT.CRV_WORLD_AESTHETIC_FRAME
+  - SPECIALIST_OUTPUT.CRV_SYMBOLISM_METAPHOR_PACK (если есть — как ограничение/ориентир)
+  - constraints (platform, duration, audience, taboo/banned)
+  - references (allowed-only)
 
-## DEPENDENCIES (KEYS ONLY)
-- LAW_KEYS: [LAW_05, LAW_06, LAW_10, LAW_12, LAW_14, LAW_20, LAW_21]
-- REG/XREF/KB_KEYS: [<REG_KEYS_ONLY>, <XREF_KEYS_ONLY>, <KB_KEYS_ONLY>]
-- PEERS (KEYS):
-  - SPC.CRV.CREATIVE_DIRECTOR
-  - SPC.CRV.VISUAL_STYLE_ARCHITECT
-  - SPC.CRV.WORLD_AESTHETIC_DESIGNER
-  - SPC.CRV.CONCEPT_DESIGNER
-  - SPC.CRV.SYMBOLISM_METAPHOR_DESIGNER
-  - SPC.CRV.MOOD_ATMOSPHERE_CURATOR
-  - SPC.CRV.ARTISTIC_RISK_DESIGNER
+## [M] OUTPUTS (CANON)
+- SPECIALIST_OUTPUT.CRV_IDEA_BATCH
 
-## SPECIALIST_OUTPUT (use this format)
-SUMMARY:
-- Idea batch generated within constraints (structured, non-clone).
-- Ideas grouped by axes; each idea has anchors and quick checks.
-- Prompt seeds produced for downstream execution.
+## [M] SPECIALIST_OUTPUT.CRV_IDEA_BATCH (SCHEMA)
 
-MAIN:
-IDEA_BATCH_PACK (artifact):
-HEADER:
-- IDEA_BATCH_ID: <REPLACE_ME>
-- TARGET: <WHAT_THIS_IS_FOR>
-- OWNER: SPC.CRV.IDEA_GENERATOR
-- DATE: 0000-00-00
-- MODE: FAST|RELEASE_READY|MASTERPIECE
+### [M] HEADER
+- domain: CRV_SPC
+- key: SPC.CRV.IDEA_GENERATOR
+- created_at: <YYYY-MM-DD>
+- intent_anchor: <one-line from CRV_INTENT_PACK>
+- constraints_locked: [<bullets>]
+- batch_params:
+  - batch_size: 10|20|30|40|50|60
+  - diversity_axes: [TONE, POV, HOOK_TYPE, STRUCTURE, RISK_LEVEL, STYLE_TAGS, WORLD_FEEL]
+  - risk_budget: LOW|MID|HIGH
+- dependencies: [optional keys used]
 
-GENERATION AXES (3–5):
-- AXIS_01: <axis>
-- AXIS_02: <axis>
-- AXIS_03: <axis>
+### [M] IDEA_POOL (10–60)
+- ideas:
+  - id: I01
+    title: <short working title>
+    one_liner: <1 line idea>
+    angle: <what makes it distinct>
+    tone: <2–6 tags>
+    hook: <hook type + 1–2 lines of hook preview (no lyrics required)>
+    structure_hint: <verse/chorus/bridge or scene-beat outline>
+    imagery_motifs: [3–9]
+    constraints_check:
+      - pass: [<what constraints are satisfied>]
+      - risk_flags: [<potential issues>]
+    novelty_score: 1..5
+    clarity_score: 1..5
+    fit_score: 1..5
+    risk_level: LOW|MID|HIGH
+    next_best_specialist: <KEY> (например SPC.CRV.CONCEPT_DESIGNER)
+(повторить)
 
-IDEAS (N=12–30, grouped by axis):
-- GROUP: AXIS_01
-  IDEAS:
-    - ID: I01
-      IDEA: <one line>
-      ANCHORS: [<a1>, <a2>]
-      CHECKS: [STYLE_OK, WORLD_FIT_OK, READABILITY_OK]
+### [M] SHORTLIST (3–12)
+- shortlist:
+  - id: S1
+    from_idea: I07
+    why_selected: [1–5 bullets]
+    what_to_lock: [1–6 bullets] (что нельзя потерять при доводке)
+    what_to_explore: [1–6 bullets] (куда копать дальше)
+    recommended_pipeline: [<KEY>, <KEY>, ...] (key-only)
+(повторить)
 
-    - ID: I02
-      IDEA: <one line>
-      ANCHORS: [<a1>, <a2>]
-      CHECKS: [STYLE_OK, WORLD_FIT_OK, READABILITY_OK]
+### [M] SEED_PACK (tool-agnostic)
+Семена для следующего шага (не промпт под конкретный сервис).
+- seeds:
+  - id: P1
+    from_shortlist: S1
+    core_prompt_seed: <2–6 lines, без спец. синтаксиса инструментов>
+    negative_seed: <что исключить, 3–10 пунктов>
+    style_tokens: [3–12]
+    must_keep: [1–8]
+(повторить)
 
-- GROUP: AXIS_02
-  IDEAS:
-    - ID: I03
-      IDEA: <one line>
-      ANCHORS: [<a1>, <a2>]
-      CHECKS: [STYLE_OK, WORLD_FIT_OK, READABILITY_OK]
+### [M] DEDUPE_AND_TRASH (OPTIONAL)
+Чтобы не возвращаться к мусору.
+- rejected:
+  - id: R01
+    reason: DUPLICATE|OFF_INTENT|TOO_GENERIC|CONSTRAINT_VIOLATION|LOW_CLARITY
+    notes: <1 line>
+(повторить)
 
-WILDCARDS (optional, max 2):
-- W1: <one line> (only if allowed by ARTISTIC_RISK_PACK)
+## [M] GENERATION_RULES
+- Не повторять одну и ту же идею под разными словами (dedupe обязателен).
+- Держать “constraints_locked” как закон — идеи, нарушающие запреты, уходят в rejected.
+- Вариативность обязана быть видимой: минимум 4 разных “семейства” идей.
+- Идеи должны быть пригодны для продолжения: есть angle + hook + structure_hint.
+- Никаких RAW ссылок в output. Только KEY.
+- Не расширять контекст длинными текстами: 1–2 строки на идею + поля схемы.
 
-PROMPT SEEDS (optional, minimal):
-- SEED_01: <one line prompt seed>
-- SEED_02: <one line prompt seed>
+## [M] QUALITY_GATES
+PASS если:
+- IDEA_POOL содержит 10+ идей и минимум 4 разных семейства
+- у каждой идеи заполнены: angle, hook, imagery_motifs, scores, constraints_check
+- есть SHORTLIST (3+) с what_to_lock и what_to_explore
+- есть SEED_PACK (3+) с negative_seed и must_keep
+- есть constraints_locked (если constraints были на входе)
 
-SELECTION HINTS:
-- TOP_PICK_CRITERIA:
-  - <criterion 1>
-  - <criterion 2>
+FAIL если:
+- идеи однотипные или без hook/angle
+- нарушены constraints и это не отфильтровано
+- нет shortlist или нет seed_pack
 
-COHERENCE CHECKS (acceptance):
-- COUNT_OK (12–30): <check>
-- NON_CLONE_VARIANCE_OK: <check>
-- EACH_HAS_ANCHORS: <check>
-- STYLE_TOKEN_COMPATIBLE: <check>
-- READABILITY_BOUNDARY_OK: <check>
+GAP если:
+- нет CRV_INTENT_PACK (без якоря нельзя генерить релевантно)
 
-HANDOFF (KEYS ONLY):
-- NEXT_SPECIALISTS: [SPC.CRV.CONCEPT_DESIGNER, SPC.CRV.MOOD_ATMOSPHERE_CURATOR]
-- INPUT_FOR_THEM: [IDEA_BATCH_PACK]
-- OUTPUT_EXPECTED: [SPECIALIST_OUTPUT]
-
-CHECKS:
-- Output uses SPECIALIST_OUTPUT schema (SUMMARY/MAIN/CHECKS/RISKS/NEXT).
-- No RAW embedded; all refs are KEYS-only.
-- Idea count within bounds; each idea has anchors.
-- Non-clone variance check exists.
-
-RISKS:
-- Too many ideas -> unreadable batch.
-- No grouping -> cannot select quickly.
-- Anchors vague -> ideas become clones.
-
-NEXT:
-"го"
-
-## GATES
-PASS_IF:
-- SPECIALIST_OUTPUT present and structured
-- Batch size within bounds and grouped by axes
-- Each idea has anchors and basic checks
-- No RAW inside entity; dependencies are KEYS-only
-
-REWORK_IF:
-- Too many/too few ideas
-- No anchors or no grouping
-- Wildcards exceed limit or violate risk pack
-
-FAIL_IF:
-- RAW embedded
-- Output is “bare text” without SPECIALIST_OUTPUT structure
-- Batch violates non-clone variance or readability boundary
-
-## CHANGELOG (append-only)
-- DATE: 2026-01-31
-  CHANGE_ID: UE.CHG.2026-01-31.SPC.CRV.IDEA_GENERATOR.001
-  TYPE: CREATE
-  SUMMARY: Repacked to match TPL.SPECIALIST; introduced IDEA_BATCH_PACK artifact; KEYS-only.
-  REASON: Make idea generation structured, scalable, and selection-friendly.
-  IMPACT: Downstream creative work gets a coherent candidate pool with checks.
+STOP если:
+- попытка вставлять RAW/обходить KEY-only routing

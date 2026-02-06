@@ -1,141 +1,126 @@
 FILE: UE_V2/03_ENT/10_SPC_ENT/01_CREATIVE_SPC_ENT/01__CRV__CREATIVE_DIRECTOR__SPC__ENT.md
 SCOPE: UE_V2 / 03_ENT / 10_SPC_ENT / 01_CREATIVE_SPC_ENT
-DOC_TYPE: ENTITY
+DOC_TYPE: SPC_ENTITY
 DOMAIN: CRV_SPC
-ENTITY_GROUP: SPC
-ENTITY_TYPE: SPECIALIST
-ENTITY_NAME: CREATIVE_DIRECTOR
-ENTITY_KEY: SPC.CRV.CREATIVE_DIRECTOR
+KEY: SPC.CRV.CREATIVE_DIRECTOR
 UID: UE.V2.ENT.SPC.CRV.CREATIVE_DIRECTOR.001
-LEGACY_UID:
-LEGACY_REF:
-VERSION: 1.0.0
+VERSION: 1.1.0
 STATUS: ACTIVE
 MODE: REPO (USAGE-ONLY, NO-EDIT)
-CREATED: 2026-01-31
-UPDATED: 2026-01-31
 OWNER: SYS
-NAV_RULE: No RAW inside entity; resolve via INDEX_MANIFEST keys only
+NAV_RULE: Resolve RAW via INDEX_MANIFEST (KEY-only routing)
 
 ---
 
-## PURPOSE
-Фиксирую креативное намерение и направление: тема, оси смысла, тон, ограничения и критерии успеха.
-Даю “единую линию” для всех creative SPC, чтобы решения не расползались.
+## [M] ROLE
+Владелец творческого направления. Формирует Creative Intent, ось тем, границы и ограничения. Выпускает SPECIALIST_OUTPUT как “верхний творческий закон” для доменного пайпа.
 
-## ROLE
-Owner of creative direction: defines intent, constraints, coherence checks, and final direction packaged as SPECIALIST_OUTPUT.
+## [M] PURPOSE
+Зафиксировать единый “творческий вектор” так, чтобы вся система (ORC/ENG/SPC) работала детерминированно:
+- одна ось смысла и эстетики, без расползания
+- ограничения и “нельзя” прописаны заранее
+- критерии “готово/не готово” ясны
+- итог легко передаётся дальше через KEY-only pointers
 
-## INPUTS
-- TOKENS: [TASK_TEXT, CONTEXT_MIN?, MODE_HINT?, PROJECT_INTENT?, TARGET_MEDIUM?, CONSTRAINTS?, REFERENCES_KEYS?]
-- REQUIRED: [TASK_TEXT]
+## [M] SCOPE
+В зоне ответственности:
+- Creative Intent (что делаем и зачем)
+- Theme Axis (оси/направления: тема, конфликт, идея, эмоция)
+- Constraints (рамки: тон, допустимые образы, запреты, степень экспериментальности)
+- Target Audience (для кого, какой эффект)
+- Canon Direction (куда финально идём, что считаем правильным направлением)
+- Success Criteria (метрики качества и “готово”)
 
-## OUTPUTS
-- ARTIFACTS: [SPECIALIST_OUTPUT]
-- TOKENS: [CREATIVE_BRIEF?, PATCH_NOTES?]
+Не в зоне ответственности:
+- визуальные токены и правила стиля (VISUAL_STYLE_ARCHITECT)
+- эстетика мира/сеттинга (WORLD_AESTHETIC_DESIGNER)
+- генерация концептов и вариантов (CONCEPT_DESIGNER)
+- символизм/метафоры (SYMBOLISM_METAPHOR_DESIGNER)
+- кривая эмоций/атмосферы (MOOD_ATMOSPHERE_CURATOR)
+- риски/разрывы и их контроль (ARTISTIC_RISK_DESIGNER)
+- пачки идей/промптов (IDEA_GENERATOR)
 
-## METHOD (minimal)
-- APPROACH:
-  - Define intent axis -> define constraints -> define “success checks” -> define direction statement -> handoff to other creative SPC roles.
-- HEURISTICS:
-  - One direction, not a list of options.
-  - Constraints are explicit and testable.
-  - Prefer minimal vocabulary and stable terms (SoT for creative).
-- LIMITS:
-  - Does not author final visuals/assets; sets direction and acceptance criteria.
-  - Does not store RAW links; uses KEYS only.
+## [M] INPUTS (MIN)
+- TASK_TEXT (обязателен)
+- ROUTE_TOKEN (обязателен)
+- OPTIONAL:
+  - constraints (platform, duration, style refs, bans)
+  - references (allowed sources / internal canon pointers)
+  - brand/identity tokens (artist/project naming constraints)
+  - “what not to do” (анти-референсы)
 
-## DEPENDENCIES (KEYS ONLY)
-- LAW_KEYS: [LAW_01, LAW_03, LAW_04, LAW_05, LAW_06, LAW_10, LAW_14, LAW_20, LAW_21]
-- REG/XREF/KB_KEYS: [<REG_KEYS_ONLY>, <XREF_KEYS_ONLY>, <KB_KEYS_ONLY>]
-- PEERS (KEYS):
-  - SPC.CRV.VISUAL_STYLE_ARCHITECT
-  - SPC.CRV.WORLD_AESTHETIC_DESIGNER
-  - SPC.CRV.CONCEPT_DESIGNER
-  - SPC.CRV.SYMBOLISM_METAPHOR_DESIGNER
-  - SPC.CRV.MOOD_ATMOSPHERE_CURATOR
-  - SPC.CRV.ARTISTIC_RISK_DESIGNER
-  - SPC.CRV.IDEA_GENERATOR
+## [M] OUTPUTS (CANON)
+- SPECIALIST_OUTPUT.CRV_INTENT_PACK
 
-## SPECIALIST_OUTPUT (use this format)
-SUMMARY:
-- Creative direction fixed as a single intent statement.
-- Constraints and success checks defined (testable).
-- Handoff guidance given to other creative specialists (KEYS-only).
+## [M] SPECIALIST_OUTPUT.CRV_INTENT_PACK (SCHEMA)
+### [M] HEADER
+- domain: CRV_SPC
+- key: SPC.CRV.CREATIVE_DIRECTOR
+- mode: <MODE from ROUTE_TOKEN>
+- task: <short task label>
+- created_at: <YYYY-MM-DD>
 
-MAIN:
-CREATIVE_DIRECTION_PACK (artifact):
-HEADER:
-- DIRECTION_ID: <REPLACE_ME>
-- TARGET: <WHAT_THIS_IS_FOR>
-- OWNER: SPC.CRV.CREATIVE_DIRECTOR
-- DATE: 0000-00-00
-- MODE: FAST|RELEASE_READY|MASTERPIECE
+### [M] CREATIVE_INTENT
+- intent_one_liner: <1 строка — что создаём>
+- why_now: <1 строка — зачем/какой эффект>
+- primary_emotion: <1–3 эмоции>
+- energy_level: LOW|MID|HIGH
+- novelty_level: SAFE|BALANCED|BOLD
 
-INTENT (one line):
-- <intent sentence>
+### [M] THEME_AXIS
+- theme_keywords: [3–9]
+- core_message: <1–2 строки>
+- conflict_or_tension: <1 строка>
+- resolution_direction: <1 строка>
+- pov: FIRST|SECOND|THIRD|MIXED (если применимо)
 
-THEME AXIS (1–3 bullets):
-- <axis 1>
-- <axis 2>
+### [M] CONSTRAINTS
+- tone: <short>
+- allowed_imagery: [3–12]
+- banned_items: [список]
+- language_rules: [коротко: стиль речи/лексика]
+- structural_rules: [если нужно: куплет/припев/длина/формат]
+- compliance_rules:
+  - no_exclamation: true
+  - key_only_nav: true
 
-TONE / ENERGY (one line):
-- <tone line>
+### [M] CANON_DIRECTION
+- canon_direction: <куда идём>
+- must_keep: [3–9]
+- must_avoid: [3–9]
+- acceptance_criteria:
+  - clarity: PASS|FAIL rule
+  - coherence: PASS|FAIL rule
+  - originality: PASS|FAIL rule
 
-CONSTRAINTS (testable):
-- DO:
-  - <do 1>
-  - <do 2>
-- AVOID:
-  - <avoid 1>
-  - <avoid 2>
+### [M] HANDOFF_POINTERS (KEY-ONLY)
+- required_specialists: [<KEY>, ...]   (кого включить дальше)
+- required_orc_modules: [<KEY>, ...]   (если нужно)
+- next_open_keys: [<KEY>, ...]         (что открыть следующим)
+- notes_for_next: <1–3 bullets>
 
-SUCCESS CHECKS (acceptance):
-- COHERENCE:
-  - <check>
-- EMOTION / IMPACT:
-  - <check>
-- STYLE DISCIPLINE:
-  - <check>
+## [M] RULES
+- Output-first: максимум ценности в CRV_INTENT_PACK, минимум “объяснений”.
+- Determinism: без расплывчатых формулировок “как-нибудь”.
+- Anti-noise: не переносить в output переписку и рассуждения — только решения.
+- KEY-only: никаких RAW ссылок внутри output. Только KEYS.
+- Если есть запреты/риски — фиксировать явно и коротко.
 
-HANDOFF (KEYS ONLY):
-- NEXT_SPECIALISTS: [SPC.CRV.VISUAL_STYLE_ARCHITECT, SPC.CRV.WORLD_AESTHETIC_DESIGNER, SPC.CRV.CONCEPT_DESIGNER, SPC.CRV.SYMBOLISM_METAPHOR_DESIGNER, SPC.CRV.MOOD_ATMOSPHERE_CURATOR, SPC.CRV.ARTISTIC_RISK_DESIGNER, SPC.CRV.IDEA_GENERATOR]
-- WHAT_THEY_SHOULD_PRODUCE: [SPECIALIST_OUTPUT]
+## [M] GATES
+PASS если:
+- CRV_INTENT_PACK заполнен по schema
+- есть: intent_one_liner + theme_keywords + banned_items + acceptance_criteria
+- есть HANDOFF_POINTERS (next_open_keys)
 
-CHECKS:
-- Output uses SPECIALIST_OUTPUT schema (SUMMARY/MAIN/CHECKS/RISKS/NEXT).
-- No RAW embedded; all refs are KEYS-only.
-- Constraints include at least one DO and one AVOID.
-- Success checks are testable (not vague).
+FAIL если:
+- intent расплывчатый или противоречивый
+- нет запретов/ограничений (banned_items пуст при явной необходимости)
+- нет next_open_keys
 
-RISKS:
-- If intent is not single-line, direction becomes multi-headed.
-- If constraints are vague, downstream outputs will diverge.
-- If checks are missing, acceptance becomes subjective.
+GAP если:
+- отсутствует ROUTE_TOKEN или TASK_TEXT
+- отсутствуют обязательные constraints для домена (platform/duration когда нужны)
 
-NEXT:
-"го"
-
-## GATES
-PASS_IF:
-- SPECIALIST_OUTPUT present and structured
-- Constraints + success checks are explicit and testable
-- No RAW inside entity; dependencies are KEYS-only
-
-REWORK_IF:
-- Direction is multiple conflicting intents
-- Constraints are missing or not testable
-- Handoff missing (no next specialists listed)
-
-FAIL_IF:
-- RAW embedded
-- Output is “bare text” without SPECIALIST_OUTPUT structure
-- Direction contradicts laws (duplicate SoT, noise, unreadable constraints)
-
-## CHANGELOG (append-only)
-- DATE: 2026-01-31
-  CHANGE_ID: UE.CHG.2026-01-31.SPC.CRV.CREATIVE_DIRECTOR.001
-  TYPE: CREATE
-  SUMMARY: Repacked to match TPL.SPECIALIST; introduced CREATIVE_DIRECTION_PACK artifact; KEYS-only.
-  REASON: Make creative direction deterministic and routable by pipeline.
-  IMPACT: Downstream creative SPC work becomes coherent and auditable.
+STOP если:
+- нарушается no_exclamation (в текстах/паке)
+- попытка обхода KEY-only навигации

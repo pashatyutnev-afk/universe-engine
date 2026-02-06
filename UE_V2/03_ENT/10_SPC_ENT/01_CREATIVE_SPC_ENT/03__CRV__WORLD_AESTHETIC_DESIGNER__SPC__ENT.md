@@ -1,148 +1,132 @@
 FILE: UE_V2/03_ENT/10_SPC_ENT/01_CREATIVE_SPC_ENT/03__CRV__WORLD_AESTHETIC_DESIGNER__SPC__ENT.md
 SCOPE: UE_V2 / 03_ENT / 10_SPC_ENT / 01_CREATIVE_SPC_ENT
-DOC_TYPE: ENTITY
+DOC_TYPE: SPC_ENTITY
 DOMAIN: CRV_SPC
-ENTITY_GROUP: SPC
-ENTITY_TYPE: SPECIALIST
-ENTITY_NAME: WORLD_AESTHETIC_DESIGNER
-ENTITY_KEY: SPC.CRV.WORLD_AESTHETIC_DESIGNER
+KEY: SPC.CRV.WORLD_AESTHETIC_DESIGNER
 UID: UE.V2.ENT.SPC.CRV.WORLD_AESTHETIC_DESIGNER.001
-LEGACY_UID:
-LEGACY_REF:
-VERSION: 1.0.0
+VERSION: 1.1.0
 STATUS: ACTIVE
 MODE: REPO (USAGE-ONLY, NO-EDIT)
-CREATED: 2026-01-31
-UPDATED: 2026-01-31
 OWNER: SYS
-NAV_RULE: No RAW inside entity; resolve via INDEX_MANIFEST keys only
+NAV_RULE: Resolve RAW via INDEX_MANIFEST (KEY-only routing)
 
 ---
 
-## PURPOSE
-Проектирую эстетику мира как систему ощущений: эпоха, материалы, фактуры, мотивы, “запах” среды, уровень износа и визуальная правдоподобность.
-Цель — чтобы мир ощущался единым и узнаваемым, даже при разных сценах и объектах.
+## [M] ROLE
+Дизайнер эстетики мира. Формирует “как ощущается мир” (эпоха, материалность, мотивы, культурные отпечатки) и выдаёт переносимую эстетическую рамку для всех артефактов.
 
-## ROLE
-World aesthetic designer: defines aesthetic frame (motifs/materials/wear/era-feel) and coherence checks packaged as SPECIALIST_OUTPUT.
+## [M] PURPOSE
+Зафиксировать эстетическую идентичность сеттинга/мира так, чтобы:
+- визуал, тексты, обложки, видео и промпты не расползались
+- можно было делать варианты, но внутри одной эстетической оси
+- была понятна “материальность”: что из чего сделано, какая среда, какая культура/технологичность
+- появлялись явные запреты и риски визуального/смыслового шума
 
-## INPUTS
-- TOKENS: [TASK_TEXT, CREATIVE_DIRECTION_PACK?, VISUAL_STYLE_SYSTEM_PACK?, MODE_HINT?, WORLD_CONTEXT?, ERA_HINT?, REFERENCES_KEYS?]
-- REQUIRED: [TASK_TEXT]
+## [M] SCOPE
+В зоне ответственности:
+- Aesthetic Frame (эпоха/тон/материальность/культура)
+- Motif Map (повторяемые мотивы/детали/символы как признаки мира)
+- Material & Tech Feel (уровень технологичности, индустриальность, ручная работа, износ)
+- Environmental Feel (климат/свет/пыль/влага/атмосфера как ощущение среды)
+- Cultural Imprint (архитектура/орнаменты/формы/поведение объектов — как принципы)
+- Coherence tests (PASS/FAIL): “это точно из этого мира” vs “сломалось”
 
-## OUTPUTS
-- ARTIFACTS: [SPECIALIST_OUTPUT]
-- TOKENS: [WORLD_AESTHETIC_FRAME?, PATCH_NOTES?]
+Не в зоне ответственности:
+- финальная креативная ось/намерение (CREATIVE_DIRECTOR)
+- стиль-токены и композиционные ограничения (VISUAL_STYLE_ARCHITECT)
+- генерация концептов (CONCEPT_DESIGNER)
+- символизм/метафора как слой смысла (SYMBOLISM_METAPHOR_DESIGNER)
+- кривая эмоций (MOOD_ATMOSPHERE_CURATOR)
+- стратегия художественного разрыва (ARTISTIC_RISK_DESIGNER) — здесь только эстетические риски мира
 
-## METHOD (minimal)
-- APPROACH:
-  - Anchor era-feel -> define motifs/material palette (as principles, not colors) -> define wear/cleanliness discipline -> define iconic anchors -> define checks.
-- HEURISTICS:
-  - Prefer a small set of strong motifs over many weak ones.
-  - “Wear texture” is controlled: enough to feel real, not to destroy readability.
-  - Keep aesthetic compatible with visual style tokens.
-- LIMITS:
-  - Does not invent canon lore; it frames aesthetics for a given world context.
-  - No RAW links inside; KEYS only.
+## [M] INPUTS (MIN)
+- SPECIALIST_OUTPUT.CRV_INTENT_PACK (обязателен)
+- OPTIONAL:
+  - references (разрешённые источники/референсы)
+  - platform constraints (обложка/клип/постер/комикс/текст)
+  - continuity constraints (если это серия/сезон/альбомная линия)
 
-## DEPENDENCIES (KEYS ONLY)
-- LAW_KEYS: [LAW_01, LAW_05, LAW_06, LAW_07, LAW_09, LAW_10, LAW_14, LAW_15, LAW_20]
-- REG/XREF/KB_KEYS: [<REG_KEYS_ONLY>, <XREF_KEYS_ONLY>, <KB_KEYS_ONLY>]
-- PEERS (KEYS):
-  - SPC.CRV.CREATIVE_DIRECTOR
-  - SPC.CRV.VISUAL_STYLE_ARCHITECT
-  - SPC.CRV.CONCEPT_DESIGNER
-  - SPC.CRV.SYMBOLISM_METAPHOR_DESIGNER
-  - SPC.CRV.MOOD_ATMOSPHERE_CURATOR
+## [M] OUTPUTS (CANON)
+- SPECIALIST_OUTPUT.CRV_WORLD_AESTHETIC_FRAME
 
-## SPECIALIST_OUTPUT (use this format)
-SUMMARY:
-- World aesthetic frame defined (era-feel, motifs, materials, wear discipline).
-- Iconic anchors specified to keep recognition stable.
-- Coherence checks established for concepts/scenes.
+## [M] SPECIALIST_OUTPUT.CRV_WORLD_AESTHETIC_FRAME (SCHEMA)
+### [M] HEADER
+- domain: CRV_SPC
+- key: SPC.CRV.WORLD_AESTHETIC_DESIGNER
+- created_at: <YYYY-MM-DD>
+- based_on: [SPC.CRV.CREATIVE_DIRECTOR]
 
-MAIN:
-WORLD_AESTHETIC_FRAME_PACK (artifact):
-HEADER:
-- FRAME_ID: <REPLACE_ME>
-- TARGET_WORLD/SETTINGS: <WHAT_THIS_IS_FOR>
-- OWNER: SPC.CRV.WORLD_AESTHETIC_DESIGNER
-- DATE: 0000-00-00
-- MODE: FAST|RELEASE_READY|MASTERPIECE
+### [M] WORLD_IDENTITY
+- world_one_liner: <1 строка — “что это за мир по ощущению”>
+- era_feel: <коротко: эпоха/век/стадия развития как ощущение>
+- tech_level: LOW|MID|HIGH|MIXED
+- civilization_texture: <2–4 bullets: “какая цивилизация на коже мира”>
 
-ERA-FEEL (one line):
-- <era sentence>
+### [M] MATERIALITY
+- primary_material_families: [5–12]   (например: камень, металл, стекло, ткань, дерево, композит)
+- wear_age_principles: [3–8]          (как выглядит износ/возраст)
+- craftsmanship_principles: [3–8]     (ручное/индустриальное/био-органическое — как принцип)
+- forbidden_materiality: [2–8]        (что “не из этого мира”)
 
-CORE MOTIFS (3–7 max):
-- <motif 1>
-- <motif 2>
+### [M] ENVIRONMENT_FEEL
+- climate_feel: <1 строка>
+- air_particles_principles: [2–6]     (пыль/дымка/влага — как ощущение)
+- light_in_world_principles: [2–6]    (не монтаж, а “какой свет типично бывает”)
+- sound_imagery_hints: [2–6]          (опционально: “как звучит среда” — 1–2 слова)
 
-MATERIAL / TEXTURE PRINCIPLES (not palette):
-- <principle 1>
-- <principle 2>
+### [M] CULTURAL_IMPRINT
+- architecture_principles: [3–9]      (формы/модули/ритм)
+- ornament_language: [2–8]            (узоры/знаки как язык)
+- object_design_principles: [3–9]     (как выглядят предметы быта/техника)
+- taboo_elements: [2–8]               (что запрещено культурно/эстетически)
 
-WEAR TEXTURE (controlled):
-- WTI_LEVEL: LOW|MED|HIGH
-- DO:
-  - <do 1>
-- AVOID:
-  - <avoid 1>
+### [M] MOTIF_MAP (SIGNATURES)
+- signature_motifs: [5–15]            (повторяемые “фирменные” мотивы мира)
+- micro_signs: [5–15]                 (малые признаки, которые делают “узнаваемо”)
+- motif_usage_limits: [2–8]           (не переборщить)
 
-ICONIC ANCHORS (recognition):
-- ANCHOR_01: <one line>
-- ANCHOR_02: <one line>
+### [M] VARIATION_LANES
+- allowed_variations: [2–8]           (как можно варьировать не ломая мир)
+- forbidden_variations: [2–8]         (что сразу ломает)
 
-SCENE CONSISTENCY RULES:
-- <rule 1>
-- <rule 2>
+### [M] COHERENCE_CHECKS (PASS/FAIL)
+- check_list:
+  - name: <short>
+    pass_rule: <PASS condition>
+    fail_rule: <FAIL condition>
+  (минимум 6, максимум 12)
 
-COHERENCE CHECKS (acceptance):
-- MOTIF_COVERAGE_OK: <check>
-- ERA_FEEL_OK: <check>
-- WEAR_NOT_OVERNOISY: <check>
-- READABILITY_BOUNDARY_OK: <check>
-- STYLE_TOKEN_COMPATIBLE: <check>
+### [M] RISKS_AND_MITIGATIONS
+- risks:
+  - risk: <short>
+    trigger: <что вызывает>
+    mitigation: <как удержать>
 
-HANDOFF (KEYS ONLY):
-- NEXT_SPECIALISTS: [SPC.CRV.CONCEPT_DESIGNER, SPC.CRV.SYMBOLISM_METAPHOR_DESIGNER, SPC.CRV.MOOD_ATMOSPHERE_CURATOR]
-- INPUT_FOR_THEM: [WORLD_AESTHETIC_FRAME_PACK]
-- OUTPUT_EXPECTED: [SPECIALIST_OUTPUT]
+### [M] HANDOFF_POINTERS (KEY-ONLY)
+- required_specialists: [<KEY>, ...]
+- next_open_keys: [<KEY>, ...]
+- notes_for_next: <1–3 bullets>
 
-CHECKS:
-- Output uses SPECIALIST_OUTPUT schema (SUMMARY/MAIN/CHECKS/RISKS/NEXT).
-- No RAW embedded; all refs are KEYS-only.
-- Motifs <= 7 and iconic anchors >= 2.
-- Wear has DO and AVOID and does not break readability.
+## [M] RULES
+- Никаких “монтажных/режиссёрских решений” (кадры, движения, сцены) — только принципы мира.
+- Всё формулируется как переносимые правила: “как принято/как ощущается”, а не конкретные сценарии.
+- Anti-noise: коротко, структурно, без лирики.
+- KEY-only: никаких RAW в output.
 
-RISKS:
-- Too many motifs -> noisy, unrecognizable world.
-- Wear too high -> kills readability and style coherence.
-- Era-feel vague -> downstream concepts drift.
+## [M] GATES
+PASS если:
+- заполнены блоки: WORLD_IDENTITY + MATERIALITY + CULTURAL_IMPRINT + MOTIF_MAP
+- есть 6+ COHERENCE_CHECKS с pass_rule/fail_rule
+- есть VARIATION_LANES + RISKS_AND_MITIGATIONS
+- есть HANDOFF_POINTERS (next_open_keys)
 
-NEXT:
-"го"
+FAIL если:
+- “это сценарий/сцена” вместо эстетической рамки
+- нет мотивов/нет проверок когерентности
+- эстетика расплывчатая без запретов/границ
 
-## GATES
-PASS_IF:
-- SPECIALIST_OUTPUT present and structured
-- Motifs/material/wear rules are explicit and minimal
-- Coherence checks are testable
-- No RAW inside entity; dependencies are KEYS-only
+GAP если:
+- нет CRV_INTENT_PACK
 
-REWORK_IF:
-- Motifs too many or too vague
-- Wear rules missing or contradictory
-- No iconic anchors or no checks
-
-FAIL_IF:
-- RAW embedded
-- Output is “bare text” without SPECIALIST_OUTPUT structure
-- Aesthetic contradicts creative direction/style system
-
-## CHANGELOG (append-only)
-- DATE: 2026-01-31
-  CHANGE_ID: UE.CHG.2026-01-31.SPC.CRV.WORLD_AESTHETIC_DESIGNER.001
-  TYPE: CREATE
-  SUMMARY: Repacked to match TPL.SPECIALIST; introduced WORLD_AESTHETIC_FRAME_PACK artifact; KEYS-only.
-  REASON: Make world aesthetics coherent, recognizable, and enforceable by checks.
-  IMPACT: Concepts/scenes stay inside a stable aesthetic frame.
+STOP если:
+- попытка добавить RAW ссылки внутрь output

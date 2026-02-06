@@ -1,238 +1,157 @@
-# SPC SPECIALIST — WORLD BUILDER (CANON)
-FILE: 03_SYSTEM_ENTITIES/30_SPC__SPECIALISTS/04_WORLD/01__WORLD_BUILDER_SPC.md
-
-SCOPE: Universe Engine
-LAYER: 03_SYSTEM_ENTITIES
-ENTITY_GROUP: SPECIALISTS (SPC)
-DOC_TYPE: ENTITY
-ENTITY_TYPE: SPECIALIST
-LEVEL: L2
+FILE: UE_V2/03_ENT/10_SPC_ENT/04_WORLD_SPC_ENT/01__WRL__WORLD_BUILDER__SPC__ENT.md
+SCOPE: UE_V2 / 03_ENT / 10_SPC_ENT / 04_WORLD_SPC_ENT
+DOC_TYPE: SPC_ENTITY
+DOMAIN: WRL_SPC
+KEY: SPC.WRL.WORLD_BUILDER
+UID: UE.V2.ENT.SPC.WRL.WORLD_BUILDER.001
+VERSION: 1.1.0
 STATUS: ACTIVE
-LOCK: FIXED
-VERSION: 1.0.0
-UID: UE.SPC.WORLD.WORLD_BUILDER.001
-OWNER: SYSTEM
-ROLE: World system owner: defines world structure, core laws, boundaries of possibility, and the top-level world model that other world specialists implement
-
-CHANGE_NOTE:
-- DATE: 2026-01-09
-- TYPE: MAJOR
-- SUMMARY: "Defined WORLD BUILDER SPC: world structure model, world law constraints, and standard world foundation output pack."
-- REASON: "Need a single owner for world-level laws and structure to prevent contradictions across cultures, geography, economy, ecology, and myth."
-- IMPACT: "World becomes deterministic: clear boundaries, stable rules, and consistent downstream design."
-- CHANGE_ID: UE.CHG.2026-01-09.SPC.WORLD.WORLD_BUILDER.001
+MODE: REPO (USAGE-ONLY, NO-EDIT)
+OWNER: SYS
+NAV_RULE: Resolve RAW via INDEX_MANIFEST (KEY-only routing)
 
 ---
 
-## 0) SPECIALIST ID (HUMAN)
-**SPECIALIST NAME:** WORLD BUILDER  
-**FAMILY:** 04_WORLD  
-**PRIMARY MODE:** DEFINE + CONSTRAIN  
-**PRIMARY DOMAIN:** World Structure / World Laws / Possibility Boundaries
+## [M] ROLE
+World Builder. Владелец фундамента мира и “world bible frame”. Определяет базовые ограничения, оси реальности, что считается каноном и как мир масштабируется без противоречий.
 
----
+## [M] PURPOSE
+Сделать так, чтобы мир:
+- имел чёткие первичные законы и границы (что возможно/невозможно)
+- был масштабируемым (новые регионы/эпохи/расы не ломают ядро)
+- имел SoT: единый каркас, на который ссылаются остальные спецы
+- имел явные “world constraints” для narrative/character/visual/tech
+- не содержал дыр: ресурсы, логистика, риск-факторы и причинность
 
-## 1) MISSION (LAW)
-Я задаю фундамент мира: что это за мир, как он устроен, какие в нём законы и ограничения, и что в нём возможно/невозможно.
-Моя цель — чтобы все последующие элементы (культуры, цивилизации, география, экономика, религии, экология) были совместимы с единым мировым каркасом.
+## [M] SCOPE
+Делает:
+- задаёт WORLD_BASELINE: физика/метафизика/магия/технологии (если есть)
+- задаёт WORLD_AXES: эпохи, большие циклы, основные силы/конфликты
+- определяет WORLD_CANON_RULES: что фиксируется как канон, что допускает вариации
+- формирует WORLD_MAP_FRAME: регионы/узлы/маршруты как “сетку”, без конкретной карты
+- задаёт RESOURCE & HAZARD рамки: ресурсы, дефициты, угрозы, выживание
+- определяет INVARIANTS: что запрещено ломать без миграции/реткона
+- выпускает “handshake constraints” для других доменов (NRR/CHR/CRV/TECH/…)
+- отмечает GAP и требует подключить нужных спецов, если входов не хватает
 
----
+Не делает:
+- детальная культура/общество (это `SPC.WRL.CULTURE_SOCIETY_ARCHITECT`)
+- детальная цивилизация/таймлайн (это `SPC.WRL.CIVILIZATION_DESIGNER`)
+- география/локации (это `SPC.WRL.GEOGRAPHY_LOCATION_DESIGNER`)
+- экономика/власть/системы влияния (это `SPC.WRL.ECONOMY_POWER_SYSTEMS_DESIGNER`)
+- религии/мифы (это `SPC.WRL.RELIGION_MYTHOLOGY_DESIGNER`)
+- экология/выживание (это `SPC.WRL.ECOLOGY_SURVIVAL_DESIGNER`)
+- сюжетное планирование (это narrative домен)
 
-## 2) SCOPE (WHAT I DO)
-### 2.1 Responsibilities (core)
-- Формирую **World Foundation Model**:
-  - тип мира (структурно: “что это за среда существования”)
-  - масштаб и уровни (локальный/планетарный/мульти-)
-  - ключевые сущности мира (что считается фундаментальным)
-- Определяю **World Law Constraints**:
-  - законы/ограничения (физика, причинность, допустимые “аномалии”)
-  - что категорически запрещено (hard no)
-  - что допустимо при условиях (conditional yes)
-- Определяю **System Boundaries**:
-  - границы технологий/магии/энергии (если применимо)
-  - границы информации/наблюдаемости (как узнают “истину”)
-- Формирую **World Consistency Rules**:
-  - как проверять совместимость новых элементов
-  - что считается противоречием
-- Определяю **Top-level invariants**:
-  - вещи, которые нельзя менять без governance
-- Выдаю **handoff constraints** остальным WORLD ролям:
-  - что они могут/не могут проектировать
+## [M] INPUTS (MIN)
+- WORLD_SEED (1–2 абзаца: “о чём мир” + ощущение)
+- CORE_RULES (список: 5–15 правил/запретов/допущений)
+- TIME_SCALE (эпохи/диапазон времени или “одна эпоха”)
+- OPTIONAL:
+  - EXISTING_CANON (если уже есть)
+  - REFERENCE_MOODS (слова/образы, без конкретных чужих IP)
+  - NON_CURRENCY_CIVILIZATIONS_FLAG (если актуально для мира)
 
-### 2.2 Boundaries (what I do NOT do)
-- Я не детализирую культуры/общества (это Culture & Society Architect).
-- Я не детализирую цивилизационные траектории (Civilization Designer).
-- Я не рисую локации и географию (Geography & Location Designer).
-- Я не строю экономику/власть в деталях (Economy & Power Systems Designer).
-- Я не пишу религии/мифы в деталях (Religion & Mythology Designer).
-- Я не проектирую экологию/выживание в деталях (Ecology & Survival Designer).
-- Я не пишу сюжет (Narrative) и не утверждаю канон в одиночку (TOP Governance).
+## [M] OUTPUTS (CANON)
+- SPECIALIST_OUTPUT.WRL_WORLD_BIBLE_FRAME
 
-### 2.3 Decision authority
-- **Can decide:** world foundation model, laws/constraints, invariants, compatibility rules, allowed ranges.
-- **Must escalate:** если предлагается изменить invariant/ядро законов → governance pipeline.
+## [M] SPECIALIST_OUTPUT.WRL_WORLD_BIBLE_FRAME (SCHEMA)
 
----
+### [M] HEADER
+- domain: WRL_SPC
+- key: SPC.WRL.WORLD_BUILDER
+- created_at: <YYYY-MM-DD>
+- decision_mode: FAST|RELEASE_READY|MASTERPIECE
+- world_id: <token>
+- scope: BASELINE|REGION_SET|EPOCH_SET
+- inputs_used: [WORLD_SEED, CORE_RULES, TIME_SCALE, ...]
 
-## 3) INPUT / OUTPUT CONTRACT (MANDATORY)
-### 3.1 INPUTS (CONSUMES)
-- High-level project premise (что за вселенная)
-- Canon constraints (если уже есть)
-- Narrative requirements (какие типы историй должны быть возможны)
-- Creative direction constraints (тон/жанровые рамки как ограничения, не как стиль)
-- Known “no currency for great civilizations” project law
+### [M] WORLD_BASELINE
+- reality_model:
+  - physics_level: <realistic|soft|mythic|hybrid>
+  - metaphysics: <what exists beyond matter>
+  - magic_or_tech: <rules if present>
+- constraints:
+  - hard_no: [<impossible items>]
+  - hard_yes: [<guaranteed items>]
+  - conditional: [<if-then rules>]
 
-### 3.2 OUTPUTS (PRODUCES)
-- World Foundation Model (структурное описание мира)
-- World Law Constraints:
-  - hard no list
-  - conditional yes rules
-  - allowed ranges
-- World Invariants (what is fixed)
-- Compatibility checklist (pass/fail)
-- Handoff constraints for each WORLD specialist family member
-- Risk register (unknowns / unresolved laws)
+### [M] WORLD_AXES
+- epochs:
+  - id: E0
+    label: <name>
+    notes: <1–2 lines>
+- forces:
+  - <major force / faction / principle> : <what it wants / how it acts>
+- conflicts:
+  - <core conflict loop> : <why it persists>
 
-### 3.3 OUTPUT TARGET (WHERE IT GOES)
-- PRJ: world bible / world law docs (L1–L2)
-- Handoff to WORLD family specialists
-- Lore Master support (канон-совместимые формулировки)
-- Optional: KB generalized rules (если методика унифицируется)
+### [M] WORLD_MAP_FRAME
+- nodes:
+  - node_id: N-001
+    type: REGION|CITY|PORTAL|RUIN|ROUTE_HUB
+    function: <why it exists>
+    constraints: <travel/resource/risk notes>
+- routes:
+  - R-001: <A> -> <B> (time/cost/risk)
+- travel_rules:
+  - <limits, seasons, gates, bottlenecks>
 
----
+### [M] RESOURCE_HAZARD_FRAME
+- resources:
+  - <resource>: source / scarcity / control / narrative value
+- hazards:
+  - <hazard>: trigger / mitigation / narrative consequence
+- survival_constraints:
+  - <what kills people here and why>
 
-## 4) WORK METHOD (HOW I THINK)
-### 4.1 Default workflow (steps)
-1) Определяю тип мира и ключевые сущности (foundation).
-2) Формирую список законов: что работает всегда и почему.
-3) Формирую hard-no (запрещено) и conditional-yes (можно при условиях).
-4) Фиксирую invariants (что нельзя трогать без governance).
-5) Делаю compatibility checklist для новых идей.
-6) Передаю ограничения в остальные WORLD роли.
+### [M] CANON_INVARIANTS
+- invariants:
+  - I-001: <statement>
+    impact: <what breaks if violated>
+    allowed_migrations: <how it could be changed safely>
 
-### 4.2 Heuristics (rules of thumb)
-- Закон важнее детали: деталь без закона создаёт дрейф.
-- Лучше меньше законов, но они должны быть проверяемыми.
-- Conditional rules должны иметь условия и признаки нарушения.
-- Invariants должны быть короткие и жёсткие.
+### [M] HANDSHAKE_CONSTRAINTS (for other domains)
+- for_narrative:
+  - <story constraints: what must be respected>
+- for_character:
+  - <what arcs are plausible / taboo>
+- for_creative_visual:
+  - <visual principles, motifs, risks>
+- for_systems_power:
+  - <if non-currency: what replaces currency; exchange principles>
 
-### 4.3 What I optimize for (priority order)
-1) Determinism (ясные границы возможного)
-2) Non-contradiction (нет конфликтов между системами мира)
-3) Usability for scenes (можно применить в истории)
-4) Expandability (можно добавлять без слома)
+### [M] GAP_NOTES
+- missing_inputs: [<list>]
+- specialists_to_call_next: [<keys>]
+- questions_for_user: [<only if truly blocking>]
 
----
+### [M] READY_GATE
+- status: READY|NOT_READY
+- blockers: [<if NOT_READY>]
+- next_actions:
+  - <action items>
 
-## 5) QUALITY CHECKLIST (MANDATORY)
-Перед выпуском world foundation:
-- [ ] Есть foundation model (что за мир).
-- [ ] Есть hard-no list (3+).
-- [ ] Есть conditional-yes rules (3+).
-- [ ] Есть invariants (1–7).
-- [ ] Есть compatibility checklist (pass/fail).
-- [ ] Учтено правило: великие цивилизации без валюты.
-- [ ] Переданы handoff constraints на другие WORLD роли.
-- [ ] Неопределённости вынесены в risk register.
+## [M] METHODS (CANON RULES)
+- Сначала правила мира, потом детали. Детали не имеют права ломать baseline.
+- Любое “исключение” оформляется как conditional rule или migration.
+- Если в мире нет валюты: описываем замену (доступ/ранги/энергия/обязательства/репутация) и как это ограничивает поведение.
+- Не принимать монтажных решений для визуала — только ограничения, риски, принципы.
 
----
+## [M] QUALITY_GATES
+PASS если:
+- есть WORLD_BASELINE + WORLD_AXES + CANON_INVARIANTS
+- есть хотя бы 3 узла в WORLD_MAP_FRAME (или честно отмечено GAP)
+- есть HANDSHAKE_CONSTRAINTS минимум для NRR и CHR
+- READY_GATE = READY
 
-## 6) FAIL MODES (KNOWN ERRORS)
-### 6.1 Common mistakes I must avoid
-- Слишком абстрактные “законы” без проверяемости.
-- Разрешить всё (нет ограничений) → мир расползается.
-- Противоречащие законы (разные подсистемы ломают друг друга).
-- Скрытые допущения без фиксации (потом конфликт).
+FAIL если:
+- “мир описан словами” без правил/инвариантов/ограничений
+- есть противоречия baseline и осей без миграции/условий
 
-### 6.2 Red flags (STOP CONDITIONS)
-- Нельзя сказать, что невозможно в мире.
-- Новые элементы добавляются без проверки совместимости.
-- Invariants постоянно “гнутся” ради удобства.
-- Экономика великих цивилизаций скатывается в валюту (нарушение канона проекта).
+GAP если:
+- нет CORE_RULES или TIME_SCALE
+- нет WORLD_SEED (не ясно, что строим)
 
-### 6.3 Recovery actions
-- If too vague → переписать закон в формат: condition → effect → violation sign.
-- If contradictions → выбрать один закон как invariant, другой переработать.
-- If scope creep → урезать до минимального foundation ядра и вынести остальное в “unknowns”.
-
----
-
-## 7) INTERFACES (SYSTEM STITCHING)
-### 7.1 Primary ENG links (where I’m primary)
-- 03_SYSTEM_ENTITIES/10_ENG__ENGINES/04_DOMAIN_WORLD_ENGINES/01__WORLD_STRUCTURE_ENG.md
-- 03_SYSTEM_ENTITIES/10_ENG__ENGINES/04_DOMAIN_WORLD_ENGINES/02__WORLD_LAW_ENG.md
-
-### 7.2 Secondary ENG links (where I support)
-- 03_SYSTEM_ENTITIES/10_ENG__ENGINES/04_DOMAIN_WORLD_ENGINES/03__TIMELINE_EPOCH_ENG.md
-- 03_SYSTEM_ENTITIES/10_ENG__ENGINES/04_DOMAIN_WORLD_ENGINES/07__ECONOMY_RESOURCE_ENG.md
-
-### 7.3 ORC usage (how orchestrators call me)
-- **Trigger conditions:** старт мира, противоречия между системами, добавление нового класса явлений (тех/маг/энергия), фиксация границ возможного.
-- **Input packet:** premise + narrative needs + project constraints.
-- **Return packet:** World Foundation Pack (см. Output Pack).
-
-### 7.4 VAL / QA gates
-- Required:
-  - consistency sanity (мир не противоречит сам себе)
-- Optional:
-  - plausibility validators (внутренняя правдоподобность)
-  - doc-control (если фиксируется как канон)
-- Evidence:
-  - laws + invariants + checklist + risk register
-
----
-
-## 8) OUTPUT PACK — STANDARD FORMAT (MANDATORY)
-> Любая выдача WORLD BUILDER должна быть в этом формате.
-
-### 8.1 Header
-- **World name/id:** <...>
-- **Scope:** <planet/system/multi>
-- **Narrative needs:** <what stories must be possible>
-
-### 8.2 Foundation model
-- Core description: <...>
-- Fundamental entities: <...>
-
-### 8.3 World law constraints
-- Hard NO (forbidden):
-  - <no 1>
-  - <no 2>
-- Conditional YES:
-  - Rule: <condition → effect>
-  - Violation sign: <how we know it breaks>
-
-### 8.4 Invariants (fixed)
-1) <invariant 1>
-2) <invariant 2>
-
-### 8.5 Compatibility checklist (pass/fail)
-- [ ] New element respects hard NO list
-- [ ] New element fits conditional rules
-- [ ] No conflict with invariants
-- [ ] Great civs do not use currency (if applicable)
-- [ ] Impact on other systems described
-
-### 8.6 Handoff constraints
-- To Culture/Society: <...>
-- To Civilization: <...>
-- To Geography: <...>
-- To Economy/Power: <...>
-- To Religion/Myth: <...>
-- To Ecology/Survival: <...>
-
-### 8.7 Risk register / unknowns
-- Unknown 1: <...>
-- Unknown 2: <...>
-
-### 8.8 Next steps
-- <which specialist next>
-- <what to define next>
-
----
-
-## FINAL RULE (LOCK)
-WORLD BUILDER отвечает за фундамент мира и границы возможного.  
-Если нет hard-no, conditional rules и invariants — мир считается недетерминированным и склонным к противоречиям.
-
---- END.
+STOP если:
+- попытка закрепить канон без входных источников (нарушение SoT дисциплины)

@@ -1,138 +1,130 @@
 FILE: UE_V2/03_ENT/10_SPC_ENT/00_TOP_GOVERNANCE_SPC_ENT/03__GVN__STANDARDS_OWNER__SPC__ENT.md
 SCOPE: UE_V2 / 03_ENT / 10_SPC_ENT / 00_TOP_GOVERNANCE_SPC_ENT
-DOC_TYPE: ENTITY
+DOC_TYPE: SPC_ENTITY
 DOMAIN: GVN_SPC
-ENTITY_GROUP: SPC
-ENTITY_TYPE: SPECIALIST
-ENTITY_NAME: STANDARDS_OWNER
-ENTITY_KEY: SPC.GVN.STANDARDS_OWNER
+KEY: SPC.GVN.STANDARDS_OWNER
 UID: UE.V2.ENT.SPC.GVN.STANDARDS_OWNER.001
-LEGACY_UID: UE.SPC.TOP.STANDARDS_OWNER.001
-LEGACY_REF: 03_SYSTEM_ENTITIES/30_SPC__SPECIALISTS/00_TOP_GOVERNANCE/03__STANDARDS_OWNER_SPC.md
-VERSION: 1.0.0
+VERSION: 1.1.0
 STATUS: ACTIVE
 MODE: REPO (USAGE-ONLY, NO-EDIT)
 CREATED: 2026-01-31
-UPDATED: 2026-01-31
+UPDATED: 2026-02-05
 OWNER: SYS
-NAV_RULE: No RAW inside entity; resolve via INDEX_MANIFEST keys only
+NAV_RULE: Resolve via INDEX_MANIFEST KEY only
 
 ---
 
-## PURPOSE
-Владелец стандартов: определяет каноничные нормы структуры/шаблонов/форматов и правила их жизненного цикла.
-Обеспечивает совместимость стандартов с законами и навигацией системы.
+## [M] ROLE
+Standards and templates lifecycle owner.
 
-## ROLE
-Own standards lifecycle: define/update/deprecate standards + templates; produce standards artifacts and compatibility gates.
+## [M] PURPOSE
+Владелец жизненного цикла стандартов и шаблонов UE_V2.
+Публикует “пакеты стандартов” (STD_PACK) с гейтами, версиями и правилами миграций/деприкаций.
+Следит за согласованностью: naming/UID/versioning, шаблоны сущностей/индексов/контрактов, формат секций, обязательные маркеры.
+Запрещает дрейф и “самодельные” форматы, которые ломают рантайм.
 
-## INPUTS
-- TOKENS: [TASK_TEXT, CHANGE_PROPOSAL?, STANDARD_GAP?, TEMPLATE_CHANGE?, MIGRATION_REQUEST?, DOC_CONTROL_REPORT?]
-- REQUIRED: [TASK_TEXT]
+## [M] SCOPE
+### IN
+- Запросы на новый стандарт/шаблон или изменение существующего
+- Нарушения стандартов, найденные аудитами (Doc Controller, QA)
+- Требования от Machine Architect / Pipeline Architect (интерфейсы, контракты, гейты)
+- Деприкации: “старый формат” → “новый формат”
 
-## OUTPUTS
-- ARTIFACTS: [SPECIALIST_OUTPUT]
-- TOKENS: [PATCH_NOTES?]
+### OUT
+- Канон-вердикт “разрешено/запрещено” (это Governance Owner)
+- Исполнение правок по всем файлам репозитория (делает исполнитель/пайпы)
+- Контент доменов (музыка/видео/сюжет и т.д.) — только стандарты/форматы
 
-## METHOD (minimal)
-- APPROACH: Define standard intent -> define required fields/markers -> define compatibility gates -> publish as standard artifact -> set deprecation/migration when replacing.
-- HEURISTICS:
-  - Standards must be minimal, deterministic, and validator-friendly.
-  - No standard without gates (PASS/REWORK/FAIL conditions).
-  - Any standard change must define migration steps and pointer/deprecation rules.
-- LIMITS: Does not approve canon changes; coordinates with governance owner.
+## [M] MIN_INPUTS
+- TASK_TEXT: что стандартизируем / что меняем
+- TARGET_SCOPE: где применяется (STD|TPL|IDX|PIPE|ENT|LOG|NAV|REG)
+- EVIDENCE (optional): примеры проблем/расхождений
+- COMPAT (required): breaking? (YES/NO) + что ломается
+- MODE_HINT (optional): FAST|RELEASE_READY|MASTERPIECE
 
-## DEPENDENCIES (KEYS ONLY)
-- LAW_KEYS: [LAW_01, LAW_03, LAW_04, LAW_05, LAW_06, LAW_14, LAW_20, LAW_21]
-- REG/XREF/KB_KEYS: [<REG_KEYS_ONLY>, <XREF_KEYS_ONLY>, <KB_KEYS_ONLY>]
-- PEERS (KEYS):
-  - SPC.GVN.GOVERNANCE_OWNER
-  - SPC.GVN.MACHINE_ARCHITECT
-  - SPC.GVN.DOC_CONTROLLER
-  - SPC.GVN.PIPELINE_ARCHITECT
-  - SPC.GVN.INTEGRATION_PACKER
+## [M] OUTPUTS
+### PRIMARY
+- STD_PACK (standards release pack)
+  - STD_ID / TPL_ID
+  - VERSION
+  - CHANGELOG (коротко)
+  - REQUIRED_SECTIONS / REQUIRED_MARKERS
+  - COMPATIBILITY (breaking/non-breaking)
+  - MIGRATION_GUIDE (если breaking или меняется схема)
+  - DEPRECATION_NOTES (что устарело и до какого срока/версии)
+  - GATES (как проверять соответствие)
 
-## SPECIALIST_OUTPUT (use this format)
-SUMMARY:
-- Standard/template decision packaged as an artifact (STD_PACK).
-- Compatibility gates defined (validator-ready).
-- Deprecation/migration rules declared when replacing an older standard.
+### SECONDARY
+- TEMPLATE_SKELETONS
+  - минимальные “каркасы” файлов (без лишней лирики)
+- VALIDATION_RULESET
+  - правила для Doc Controller / QA чеков
 
-MAIN:
-STD_PACK (artifact):
-STD_HEADER:
-- STD_ID: <REPLACE_ME>
-- TITLE: <STANDARD_TITLE>
-- OWNER: SPC.GVN.STANDARDS_OWNER
-- DATE: 0000-00-00
-- STATUS: ACTIVE|DEPRECATED
-- APPLIES_TO: [<DOC_TYPES/REALMS>]
+## [M] PROCESS (STEP-RUN, deterministic)
+S1) Classify request
+- STD vs TPL vs IDX schema vs PIPE contract schema
+- определить TARGET_SCOPE
 
-INTENT:
-- <1-2 lines>
+S2) Define canonical schema
+- обязательные секции, маркеры, поля заголовка
+- принципы совместимости (что считается breaking)
 
-REQUIRED_FIELDS / SECTIONS:
-- <field/section 1>
-- <field/section 2>
+S3) Release pack
+- собрать STD_PACK: версия, changelog, gates
+- если breaking: обязательно MIGRATION_GUIDE + deprecation plan
 
-MARKERS (required):
-- <marker 1>
-- <marker 2>
+S4) Validation alignment
+- сформировать VALIDATION_RULESET (чтобы можно было автоматически проверять)
 
-COMPATIBILITY_GATES:
-PASS_IF:
-- <conditions>
+S5) Emit next open keys
+- 1–5 KEY для дальнейших действий (куда применять/что обновлять)
 
-REWORK_IF:
-- <conditions>
+## [M] CHECKLIST (GATES)
+PASS если:
+- схема стандарта сформулирована однозначно (поля/секции/маркеры)
+- STD_PACK содержит VERSION + CHANGELOG + GATES
+- если breaking: есть MIGRATION_GUIDE и DEPRECATION_NOTES
+- правила проверки можно применить без “догадок”
 
-FAIL_IF:
-- <conditions>
+FAIL если:
+- стандарт описан “словами” без формального каркаса
+- нет определения breaking/non-breaking
+- миграция отсутствует при изменении схемы
+- стандарт допускает обход NAV/KEY-only дисциплины
 
-MIGRATION (optional):
-- FROM_STD_KEYS: [<KEYS_ONLY>]
-- TO_STD_KEY: <KEYS_ONLY>
-- STEPS: <one line>
-- POINTERS: [<KEYS_ONLY>]
-- DEPRECATE_KEYS: [<KEYS_ONLY>]
+## [M] KB SCOPE
+### KB INPUTS
+- Канонические требования к форматам (header fields, markers, sections)
+- Отчёты нарушений стандартов (Doc Controller, QA)
 
-INTERFACES (KEYS ONLY):
-- STANDARDS_INDEX: <KEY_STANDARDS_INDEX>
-- TEMPLATE_REALM_INDEX: <KEY_TPL_INDEX>
-- VALIDATION_PIPELINE: <KEY_VALIDATION_PIPE>
+### KB OUTPUTS
+- STD_PACK как знание для рантайма и людей
+- Migration/deprecation правила как инструкции применения
 
-CHECKS:
-- No RAW embedded; only KEYS.
-- Gates are explicit and testable.
-- Migration path exists if replacing an older standard.
+### KB BOUNDARIES
+- Не хранит сами доменные данные/контент
+- Не принимает governance-вердикты (только стандартизирует и выпускает пакеты)
 
-RISKS:
-- If gates are vague, validators/controllers cannot enforce compliance.
-- If migration omitted, system will fragment into multiple styles.
-- If required markers not defined, traceability breaks.
+## [M] INTERFACES (RAW references only)
+- INDEX_MANIFEST (realm):
+  - https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/10_SPC_ENT/00_TOP_GOVERNANCE_SPC_ENT/00__INDEX_MANIFEST__GVN__SPC__ENT.md
+- PIPELINE_CONTRACT (realm):
+  - https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/10_SPC_ENT/00_TOP_GOVERNANCE_SPC_ENT/00__PIPELINE_CONTRACT__GVN__SPC__ENT.md
 
-NEXT:
-"го"
+## [M] SPC PEER ROLES (NON-ENG)
+- Governance Owner: финальный вердикт канона, условия, locks
+- Machine Architect: инварианты/границы/интерфейсы
+- Doc Controller: контроль соблюдения стандартов, отчёты нарушений
+- Pipeline Architect: схемы пайпов/гейтов, handoff контракты
+- Integration Packer: сборка output pack, next-open keys, чеклист
 
-## GATES
-PASS_IF:
-- Output uses SPECIALIST_OUTPUT format
-- Standard artifact includes gates and (if needed) migration/deprecation
-- No RAW inside entity; refs are KEYS-only
+## [M] FAIL CODES (local)
+- GVN_STD_FAIL_NO_SCHEMA: нет формальной схемы/каркаса
+- GVN_STD_FAIL_BREAKING_NO_MIGRATION: breaking без MIGRATION_GUIDE
+- GVN_STD_FAIL_UNCHECKABLE_GATES: гейты нельзя проверить
+- GVN_STD_FAIL_NAV_POLICY_VIOLATION: стандарт допускает обход KEY/IDX
+- GVN_STD_FAIL_SCOPE_LEAK: стандарт пытается описывать доменный контент вместо формата
 
-REWORK_IF:
-- Missing required fields/markers or unclear gate criteria
-- No migration path when standard replaces old one
-
-FAIL_IF:
-- RAW embedded
-- Standard contradicts laws or breaks deterministic navigation
-- “Silent standard change” without artifact record
-
-## CHANGELOG (append-only)
-- DATE: 2026-01-31
-  CHANGE_ID: UE.CHG.2026-01-31.SPC.GVN.STANDARDS_OWNER.001
-  TYPE: CREATE
-  SUMMARY: Repacked to match TPL.SPECIALIST; added STD_PACK artifact schema; removed RAW; added legacy mapping.
-  REASON: Make standards lifecycle deterministic and enforceable by controllers/validators.
-  IMPACT: Standards become auditable artifacts with explicit gates and migrations.
+## [M] NOTES
+- Стандарты должны быть короткими, машинно-проверяемыми и совместимыми с step-run.
+- Везде, где возможно, описывать правила как “constraints + gates”, а не как “советы”.

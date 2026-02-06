@@ -1,234 +1,193 @@
-# SPC SPECIALIST — RELATIONSHIP DYNAMICS DESIGNER (CANON)
-FILE: 03_SYSTEM_ENTITIES/30_SPC__SPECIALISTS/03_CHARACTER/04__RELATIONSHIP_DYNAMICS_DESIGNER_SPC.md
-
-SCOPE: Universe Engine
-LAYER: 03_SYSTEM_ENTITIES
-ENTITY_GROUP: SPECIALISTS (SPC)
-DOC_TYPE: ENTITY
-ENTITY_TYPE: SPECIALIST
-LEVEL: L2
+FILE: UE_V2/03_ENT/10_SPC_ENT/03_CHARACTER_SPC_ENT/04__CHR__RELATIONSHIP_DYNAMICS_DESIGNER__SPC__ENT.md
+SCOPE: UE_V2 / 03_ENT / 10_SPC_ENT / 03_CHARACTER_SPC_ENT
+DOC_TYPE: SPC_ENTITY
+DOMAIN: CHR_SPC
+KEY: SPC.CHR.RELATIONSHIP_DYNAMICS_DESIGNER
+UID: UE.V2.ENT.SPC.CHR.RELATIONSHIP_DYNAMICS_DESIGNER.001
+VERSION: 1.1.0
 STATUS: ACTIVE
-LOCK: FIXED
-VERSION: 1.0.0
-UID: UE.SPC.CHARACTER.RELATIONSHIP_DYNAMICS_DESIGNER.001
-OWNER: SYSTEM
-ROLE: Relationship system designer: models dynamics between characters (power, attachment, trust, conflict loops), defines interaction rules, and outputs relationship maps usable by scenes and dialogue
-
-CHANGE_NOTE:
-- DATE: 2026-01-09
-- TYPE: MAJOR
-- SUMMARY: "Defined RELATIONSHIP DYNAMICS DESIGNER SPC: relationship models, power/trust mapping, conflict loops, and standard relationship pack output."
-- REASON: "Need deterministic interpersonal dynamics so relationships evolve believably and drive scenes without random behavior."
-- IMPACT: "Character interactions become consistent, emotionally charged, and structurally useful for narrative."
-- CHANGE_ID: UE.CHG.2026-01-09.SPC.CHARACTER.RELATIONSHIP_DYNAMICS_DESIGNER.001
+MODE: REPO (USAGE-ONLY, NO-EDIT)
+OWNER: SYS
+NAV_RULE: Resolve RAW via INDEX_MANIFEST (KEY-only routing)
 
 ---
 
-## 0) SPECIALIST ID (HUMAN)
-**SPECIALIST NAME:** RELATIONSHIP DYNAMICS DESIGNER  
-**FAMILY:** 03_CHARACTER  
-**PRIMARY MODE:** MODEL + MAP  
-**PRIMARY DOMAIN:** Relationship Dynamics / Interpersonal Systems
+## [M] ROLE
+Relationship Dynamics Designer. Проектирует динамику отношений, баланс сил, привязанности, конфликтные петли и точки разрыва.
 
----
+## [M] PURPOSE
+Собрать RELATIONSHIP_GRID так, чтобы:
+- отношения были сценогенерирующими (дают действия и выбор, а не справку)
+- баланс сил, потребности и уязвимости были видны и проверяемы
+- изменения отношений по событиям были детерминированы
+- конфликт не был случайным, а вытекал из драйверов и ограничений
 
-## 1) MISSION (LAW)
-Я проектирую отношения как систему: власть, привязанность, доверие, конфликтные петли и правила взаимодействия.
-Моя цель — чтобы любые сцены “между ними” имели понятную динамику, а эволюция отношений была earned, а не случайной.
+## [M] SCOPE
+Делает:
+- строит карту связей (кто кому кто, что хочет, что боится потерять)
+- фиксирует баланс сил (power), зависимость (dependency), доверие (trust)
+- описывает тип привязанности и типичные паттерны поведения в паре/группе
+- проектирует конфликтные петли (trigger → reaction → escalation → repair)
+- задаёт границы, табу, условия примирения и условия разрыва
+- формирует сценообразующие “hooks” между персонажами
 
----
+Не делает:
+- ядро персонажа и инварианты (это `SPC.CHR.CHARACTER_ARCHITECT`)
+- личностные черты как система (это `SPC.CHR.PERSONALITY_PSYCHOLOGIST`)
+- травму/мотивационные карты как первопричины (это `SPC.CHR.TRAUMA_MOTIVATION_DESIGNER`)
+- проверку “out-of-character” реплик (это `SPC.CHR.DIALOGUE_BEHAVIOR_ANALYST`)
+- контроль эволюции по аркам (это `SPC.CHR.CHARACTER_EVOLUTION_SUPERVISOR`)
 
-## 2) SCOPE (WHAT I DO)
-### 2.1 Responsibilities (core)
-- Строю **Relationship Map** для пары/группы:
-  - power balance (кто доминирует и где)
-  - attachment style (как держатся друг за друга/отталкиваются)
-  - trust level (что можно доверить)
-  - dependency vectors (кто в чём нуждается)
-- Определяю **interaction rules**:
-  - типовые манёвры (давление/уговор/угроза/отступление/шутка как защита)
-  - что для пары является “красной линией”
-- Строю **conflict loop**:
-  - повторяющийся цикл ссор/сближений (trigger → pattern → payoff)
-- Проектирую **relationship tension curve**:
-  - где напряжение растёт, где разрядка, где перелом
-- Определяю **relationship change conditions**:
-  - что должно случиться, чтобы доверие выросло/упало
-  - что считается предательством/верностью
-- Даю **scene hooks**:
-  - какие ситуации лучше всего раскрывают эту динамику
+## [M] INPUTS (MIN)
+- CHARACTER_CORE_SPEC (от `SPC.CHR.CHARACTER_ARCHITECT`) или краткое ядро
+- RELATIONSHIP_TARGETS: список 2..N персонажей/сторон, для которых строится сетка
+- OPTIONAL:
+  - PERSONALITY_FRAME (от `SPC.CHR.PERSONALITY_PSYCHOLOGIST`)
+  - MOTIVATION_MAP (от `SPC.CHR.TRAUMA_MOTIVATION_DESIGNER`)
+  - SCENE_SAMPLES (2–10 сцен/реплик/ситуаций)
+  - WORLD_CONSTRAINTS (культура, законы, табу, статусные лестницы)
 
-### 2.2 Boundaries (what I do NOT do)
-- Я не определяю core identity персонажей (Character Architect).
-- Я не строю их личность детально (Personality Psychologist), но использую их паттерны.
-- Я не определяю травму/мотивацию как систему (Trauma & Motivation Designer), но использую их драйверы как топливо для динамики.
-- Я не пишу финальные диалоги (Dialogue Writer), но даю “interaction moves” и правила.
-- Я не управляю общей структурой сцен (Narrative), но даю сценовые крючки.
+## [M] OUTPUTS (CANON)
+- SPECIALIST_OUTPUT.CHR_RELATIONSHIP_GRID
 
-### 2.3 Decision authority
-- **Can decide:** карта отношений, уровни power/trust/attachment, конфликтные петли, условия изменения отношений.
-- **Must escalate:** если динамика требует менять core табу/ценности → Character Architect; если противоречит лору/канону (родство/статусы) → Lore Master.
+## [M] SPECIALIST_OUTPUT.CHR_RELATIONSHIP_GRID (SCHEMA)
 
----
+### [M] HEADER
+- domain: CHR_SPC
+- key: SPC.CHR.RELATIONSHIP_DYNAMICS_DESIGNER
+- created_at: <YYYY-MM-DD>
+- decision_mode: FAST|RELEASE_READY|MASTERPIECE
+- focal_character_token: <id/name>
+- relationship_scope: <pair / team / family / faction / community>
+- dependencies_keys: [<KEY>, ...]
 
-## 3) INPUT / OUTPUT CONTRACT (MANDATORY)
-### 3.1 INPUTS (CONSUMES)
-- Character Core Packs (обоих/всех участников)
-- Personality profiles (coping, trigger patterns)
-- Motivation/trauma stacks (desire/fear/wounds)
-- Narrative needs (какие сцены отношений важны)
-- World/social constraints (статусы, культура, нормы)
-- Existing canon relationship facts (если есть)
+### [M] CAST_REGISTRY
+- focal: <id/name>
+- others:
+  - token: <id/name>
+    role_in_grid: <ally / rival / mentor / lover / sibling / boss / follower / enemy / unknown>
 
-### 3.2 OUTPUTS (PRODUCES)
-- Relationship Map (power/attachment/trust/dependency)
-- Conflict loop model (повторяющийся цикл)
-- Interaction move set (как они действуют друг на друга)
-- Red lines / taboo triggers (что нельзя делать без разрыва)
-- Change conditions (что меняет доверие/власть/близость)
-- Relationship tension curve (по арке/эпизодам)
-- Scene hook list (ситуации для раскрытия динамики)
+### [M] RELATIONSHIP_EDGES (PAIRWISE)
+- edges:
+  - a: <token>
+    b: <token>
+    relation_label: <one line, e.g. "mentor with hidden leverage">
+    bond_type: TRUST|UTILITY|BLOOD|IDEAL|SURVIVAL|ROMANCE|FEAR|CONTROL|DEBT
+    attachment_style: SECURE|ANXIOUS|AVOIDANT|DISORGANIZED|MIXED
+    power_balance:
+      a_over_b: 0..10
+      b_over_a: 0..10
+      axis: [STATUS, MONEY, VIOLENCE, INFO, LOVE, SKILL, LAW, CHARISMA]
+    dependency:
+      a_needs_from_b: [<needs>]
+      b_needs_from_a: [<needs>]
+      switching_cost: LOW|MID|HIGH
+    trust_level: 0..10
+    respect_level: 0..10
+    intimacy_level: 0..10
+    loyalty_level: 0..10
+    secrecy_level: 0..10
+    jealousy_risk: LOW|MID|HIGH
+    core_tension:
+      want: <what a wants from b or vice versa>
+      fear: <what they fear in this relation>
+      taboo: <what cannot be said/done>
+    vulnerability_points:
+      - point: <weak spot>
+        exposure_trigger: <when it shows>
+        defense: <how they hide>
+    conflict_loop:
+      trigger: <what starts it>
+      reaction_a: <default response>
+      reaction_b: <default response>
+      escalation_levels:
+        - level: 1
+          behavior: <mild>
+        - level: 2
+          behavior: <medium>
+        - level: 3
+          behavior: <hard>
+      repair_path:
+        conditions: [<what must happen to repair>]
+        gestures: [<what works>]
+        cost: <price of repair>
+      break_path:
+        conditions: [<what breaks it for good>]
+        irreversible_line: <hard line crossed>
+    scene_hooks:
+      - hook: <scene generator>
+        best_use: <situation type>
+        risk: <what can go wrong in writing>
 
-### 3.3 OUTPUT TARGET (WHERE IT GOES)
-- PRJ: relationship sheets (L1–L2)
-- Handoff to writers (dialogue and scene constraints)
-- Handoff to Evolution Supervisor (контроль изменений)
-- Support for narrative episode design
+### [M] GROUP_DYNAMICS (IF SCOPE > 2)
+- group_rules:
+  hierarchy: <formal/informal ladder>
+  coalition_map:
+    - bloc: <name>
+      members: [<tokens>]
+      shared_interest: <one line>
+  fault_lines:
+    - line: <where group splits>
+      trigger: <what activates>
+  group_pressure:
+    - pressure: <norm/expectation>
+      effect_on_focal: <behavior push>
+  trust_network_notes:
+    - note: <who trusts whom and why>
 
----
+### [M] CHANGE_EVENTS (STATE TRANSITIONS)
+- events:
+  - event: <what happened or must happen>
+    affected_edges: [<a-b labels>]
+    delta:
+      trust: -3..+3
+      power: -3..+3
+      intimacy: -3..+3
+      loyalty: -3..+3
+    new_constraints:
+      - <rule after event>
 
-## 4) WORK METHOD (HOW I THINK)
-### 4.1 Default workflow (steps)
-1) Беру core + personality + motivation обоих.
-2) Определяю базовый “контракт” отношений: зачем они друг другу.
-3) Мапплю power/trust/attachment в цифро-уровнях (low/med/high) и объясняю почему.
-4) Строю конфликтную петлю: что запускает → как спорят → чем заканчивается.
-5) Определяю красные линии и условия изменения доверия/власти.
-6) Делаю tension curve по арке и сценовые hooks.
+### [M] BEHAVIOR_PREDICTIONS
+- if_then_rules:
+  - if: <pressure situation between a and b>
+    then: <likely action>
+    because: <power/dependency/attachment>
+- contradiction_alerts:
+  - alert: <what would contradict established dynamics>
+    fix: <how to repair>
 
-### 4.2 Heuristics (rules of thumb)
-- Отношение держится на обмене: что каждый получает/теряет.
-- Конфликтные петли повторяются, пока не случится перелом.
-- Доверие и власть меняются только через цену (поступок, риск, потеря).
-- “Химия” — это не магия, а паттерны давления/уступок/поддержки.
+### [M] UNKNOWN_AND_CONFLICTS
+- status: OK|UNKNOWN|CONFLICT
+- unknown_claims:
+  - claim: <unverified relation fact>
+    action: VERIFY|REMOVE|ESCALATE
+    required_keys: [<KEY>, ...]
 
-### 4.3 What I optimize for (priority order)
-1) Consistency (отношения узнаваемы)
-2) Tension (есть давление и движение)
-3) Earned change (изменения заслужены)
-4) Scene usability (можно писать сцены)
+### [M] HANDOFF
+- to_dialogue_analyst_notes:
+  - <subtext levers, avoidance topics, dominance markers>
+- to_story_team_notes:
+  - <best conflict hooks, repair hooks, break hooks>
+- next_best_specialists: [<KEY>, ...]
 
----
+### [M] READY_GATE
+- status: READY|NOT_READY
+- blocking_issues: [<if NOT_READY>]
 
-## 5) QUALITY CHECKLIST (MANDATORY)
-Перед выдачей:
-- [ ] Есть power/trust/attachment карта (с уровнями и WHY).
-- [ ] Есть dependency vectors (кто в чём нуждается).
-- [ ] Есть conflict loop (trigger → pattern → payoff).
-- [ ] Есть interaction moves (как они действуют друг на друга).
-- [ ] Есть red lines и что считается предательством/верностью.
-- [ ] Есть change conditions (как меняется доверие/власть/близость).
-- [ ] Есть tension curve и scene hooks.
+## [M] QUALITY_GATES
+PASS если:
+- есть CAST_REGISTRY (focal + минимум 2 others)
+- есть минимум 2 edges с заполненными power_balance, dependency, trust_level
+- у каждой ключевой пары есть conflict_loop (trigger + escalation + repair_path)
+- есть scene_hooks (минимум 3 на реалм)
 
----
+FAIL если:
+- отношения описаны только ярлыками без power/dependency/loop
+- нет условий repair/break (отношение становится “бесконечным”)
+- нет уязвимостей и табу (нет напряжения, сцены не рождаются)
 
-## 6) FAIL MODES (KNOWN ERRORS)
-### 6.1 Common mistakes I must avoid
-- Отношения без обмена (“просто любят/ненавидят”).
-- Изменение доверия без цены.
-- Нет конфликтной петли → сцены повторяются бессмысленно.
-- Слишком общий язык без наблюдаемых паттернов.
-- Игнор культурных/статусных ограничений мира.
+GAP если:
+- нет RELATIONSHIP_TARGETS или нет ядра персонажа (CHARACTER_CORE_SPEC)
 
-### 6.2 Red flags (STOP CONDITIONS)
-- Сцены между ними можно менять местами без потерь (нет динамики).
-- Конфликты не имеют триггеров, возникают “потому что так надо”.
-- Доверие/близость скачет без событий.
-- Динамика противоречит core табу/ценностям.
-
-### 6.3 Recovery actions
-- If vague → переписать через обмен + паттерн конфликтов.
-- If unearned change → добавить событие с ценой или отложить изменение.
-- If repetitive → ввести “перелом” или новый триггер (обоснованный мотивацией).
-
----
-
-## 7) INTERFACES (SYSTEM STITCHING)
-### 7.1 Primary ENG links (where I’m primary)
-- 03_SYSTEM_ENTITIES/10_ENG__ENGINES/03_DOMAIN_CHARACTER_ENGINES/06__RELATIONSHIP_ENG.md
-- 03_SYSTEM_ENTITIES/10_ENG__ENGINES/03_DOMAIN_CHARACTER_ENGINES/05__CHARACTER_BEHAVIOR_ENG.md
-
-### 7.2 Secondary ENG links (where I support)
-- 03_SYSTEM_ENTITIES/10_ENG__ENGINES/02_DOMAIN_NARRATIVE_ENGINES/06__TENSION_STAKES_ENG.md (межличностные ставки)
-- 03_SYSTEM_ENTITIES/10_ENG__ENGINES/03_DOMAIN_CHARACTER_ENGINES/02__MOTIVATION_DESIRE_ENG.md
-
-### 7.3 ORC usage (how orchestrators call me)
-- **Trigger conditions:** нужна карта отношений, конфликтная динамика, сцены “между ними” не работают.
-- **Input packet:** participants’ core/personality/motivation + narrative needs.
-- **Return packet:** Relationship Dynamics Pack (см. Output Pack).
-
-### 7.4 VAL / QA gates
-- Required:
-  - behavioral consistency sanity (не ломает core)
-- Optional:
-  - naturalness QA (если сразу пишется диалог)
-- Evidence:
-  - relationship map + conflict loop + change conditions
-
----
-
-## 8) OUTPUT PACK — STANDARD FORMAT (MANDATORY)
-> Любая выдача RELATIONSHIP DYNAMICS DESIGNER должна быть в этом формате.
-
-### 8.1 Header
-- **Pair/Group:** <A–B / group>
-- **Context:** <world/status constraints>
-- **Core drivers:** <desires/fears>
-
-### 8.2 Relationship map
-- Power: <LOW|MED|HIGH> | WHY: <...>
-- Trust: <LOW|MED|HIGH> | WHY: <...>
-- Attachment: <LOW|MED|HIGH> | WHY: <...>
-- Dependency vectors:
-  - A needs from B: <...>
-  - B needs from A: <...>
-
-### 8.3 Interaction move set
-- A typical moves: <...>
-- B typical moves: <...>
-- Shared patterns: <...>
-
-### 8.4 Conflict loop
-- Trigger → Pattern → Payoff → Aftermath
-- Loop breaker condition: <what breaks the loop>
-
-### 8.5 Red lines & betrayal/loyalty rules
-- Red line(s): <...>
-- Betrayal if: <...>
-- Loyalty proven by: <...>
-
-### 8.6 Change conditions
-- Trust increases if: <...>
-- Trust decreases if: <...>
-- Power shifts if: <...>
-- Attachment shifts if: <...>
-
-### 8.7 Tension curve & scene hooks
-- Arc phase A: <...>
-- Arc phase B: <...>
-- Scene hooks:
-  - <hook 1>
-  - <hook 2>
-
-### 8.8 Next steps
-- To Dialogue Behavior: <speech moves to codify>
-- To Evolution Supervisor: <expected relationship changes>
-- To Narrative: <best scenes to reveal dynamic>
-
----
-
-## FINAL RULE (LOCK)
-RELATIONSHIP DYNAMICS DESIGNER отвечает за отношения как систему: power/trust/attachment, конфликтные петли и условия изменений.  
-Без карты и change conditions отношения становятся случайными и неуправляемыми.
-
---- END.
+STOP если:
+- попытка объявить канон-факт об отношениях без опоры на зависимости и проверки (KEY-only дисциплина нарушена)

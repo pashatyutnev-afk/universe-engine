@@ -3,11 +3,11 @@ SCOPE: UE_V2 / 04_NAV
 DOC_TYPE: INDEX_MANIFEST
 DOMAIN: NAV
 UID: UE.V2.NAV.INDEX_MANIFEST.001
-VERSION: 1.0.0
+VERSION: 1.1.0
 STATUS: ACTIVE
 MODE: REPO (USAGE-ONLY, NO-EDIT)
 CREATED: 2026-01-31
-UPDATED: 2026-01-31
+UPDATED: 2026-02-05
 OWNER: SYS
 NAV_RULE: RAW lives here only
 
@@ -24,6 +24,7 @@ INDEX_MANIFEST — “таблица адресов” и кратких смы�
 - PIPELINE_CONTRACT ссылается только на KEY.
 - SELF запись обязательна.
 - Не обходить через PATH при наличии RAW (PATH хранится как справка).
+- Если имя файла/RAW меняется — обновлять ТОЛЬКО тут (и в разрешённых корневых таблицах).
 
 ## [M] INDEX_CONTEXT
 - REALM_ID: UE_V2/04_NAV
@@ -43,6 +44,8 @@ INDEX_MANIFEST — “таблица адресов” и кратких смы�
   OWNER: SYS|RUNTIME|USER|<TEAM>
   UPDATED: 0000-00-00
 
+---
+
 ## [M] ENTRIES
 
 ### [M] SELF
@@ -56,7 +59,7 @@ INDEX_MANIFEST — “таблица адресов” и кратких смы�
   MARKERS: [INDEX, SELF]
   STATUS: ACTIVE
   OWNER: SYS
-  UPDATED: 2026-01-31
+  UPDATED: 2026-02-05
 
 ### [M] REQUIRED (минимум для реалма)
 - KEY: INDEX_MANIFEST
@@ -69,19 +72,19 @@ INDEX_MANIFEST — “таблица адресов” и кратких смы�
   MARKERS: [INDEX, MUST_LOAD]
   STATUS: ACTIVE
   OWNER: SYS
-  UPDATED: 2026-01-31
+  UPDATED: 2026-02-05
 
 - KEY: PIPELINE_CONTRACT
   UID: UE.V2.NAV.PIPELINE_CONTRACT.001
   KIND: PIPE
   ROLE: NAV realm step-run navigator
   DESC: KEY-only contract; resolves targets via this INDEX_MANIFEST
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/04_NAV/00__NAV__PIPELINE_CONTRACT.md
-  PATH: UE_V2/04_NAV/00__NAV__PIPELINE_CONTRACT.md
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/04_NAV/00__PIPELINE_CONTRACT_NAV.md
+  PATH: UE_V2/04_NAV/00__PIPELINE_CONTRACT_NAV.md
   MARKERS: [PIPE, MUST_LOAD, ROUTER]
   STATUS: ACTIVE
   OWNER: SYS
-  UPDATED: 2026-01-31
+  UPDATED: 2026-02-05
 
 ### [O] CONTENT (IDX panels)
 # RULE: Each IDX_* file is a navigation panel used by ROUTE_TOKEN / runtime.
@@ -223,10 +226,23 @@ INDEX_MANIFEST — “таблица адресов” и кратких смы�
   UID:
   KIND: FILE
   ROLE: Music navigation panel
-  DESC: Music-specific entrypoints (if used by domains/pipelines)
+  DESC: Music-specific entrypoints (used by domains/pipelines)
   RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/04_NAV/12__IDX_MUSIC.md
   PATH: UE_V2/04_NAV/12__IDX_MUSIC.md
   MARKERS: [IDX, NAV, MUSIC]
   STATUS: ACTIVE
   OWNER: SYS
   UPDATED: 2026-01-31
+
+### [O] GLOBAL DICTIONARY (shortnames)
+- KEY: NAV.GLOBAL_SHORTNAME_DICTIONARY
+  UID: UE.V2.NAV.SHORTNAME_DICTIONARY.001
+  KIND: FILE
+  ROLE: Global shortname dictionary
+  DESC: Canon mapping for shortened tokens → full names/meanings; used to avoid guessing at runtime
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/04_NAV/99__UE_V2__GLOBAL_SHORTNAME_DICTIONARY.md
+  PATH: UE_V2/04_NAV/99__UE_V2__GLOBAL_SHORTNAME_DICTIONARY.md
+  MARKERS: [NAV, DICT, SHORTNAMES, MUST_LOAD]
+  STATUS: ACTIVE
+  OWNER: SYS
+  UPDATED: 2026-02-05

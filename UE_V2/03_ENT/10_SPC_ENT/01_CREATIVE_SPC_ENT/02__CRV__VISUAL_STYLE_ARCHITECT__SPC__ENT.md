@@ -1,145 +1,141 @@
 FILE: UE_V2/03_ENT/10_SPC_ENT/01_CREATIVE_SPC_ENT/02__CRV__VISUAL_STYLE_ARCHITECT__SPC__ENT.md
 SCOPE: UE_V2 / 03_ENT / 10_SPC_ENT / 01_CREATIVE_SPC_ENT
-DOC_TYPE: ENTITY
+DOC_TYPE: SPC_ENTITY
 DOMAIN: CRV_SPC
-ENTITY_GROUP: SPC
-ENTITY_TYPE: SPECIALIST
-ENTITY_NAME: VISUAL_STYLE_ARCHITECT
-ENTITY_KEY: SPC.CRV.VISUAL_STYLE_ARCHITECT
+KEY: SPC.CRV.VISUAL_STYLE_ARCHITECT
 UID: UE.V2.ENT.SPC.CRV.VISUAL_STYLE_ARCHITECT.001
-LEGACY_UID:
-LEGACY_REF:
-VERSION: 1.0.0
+VERSION: 1.1.0
 STATUS: ACTIVE
 MODE: REPO (USAGE-ONLY, NO-EDIT)
-CREATED: 2026-01-31
-UPDATED: 2026-01-31
 OWNER: SYS
-NAV_RULE: No RAW inside entity; resolve via INDEX_MANIFEST keys only
+NAV_RULE: Resolve RAW via INDEX_MANIFEST (KEY-only routing)
 
 ---
 
-## PURPOSE
-Проектирую визуальный стиль как систему: принципы, ограничения, контраст, композицию, форму, темп визуала и стабильные “стайл-токены”.
-Цель — единая ДНК визуала без клонов и без распада на случайные решения.
+## [M] ROLE
+Архитектор визуальной стилевой системы. Превращает Creative Intent в набор принципов и ограничений визуала, проверок когерентности и “не делаем так”.
 
-## ROLE
-Visual style system architect: defines style principles, constraints, tokens, and coherence checks packaged as SPECIALIST_OUTPUT.
+## [M] PURPOSE
+Сделать визуальную часть детерминированной и переносимой между инструментами (генерация, дизайн, видео, обложки):
+- не принимать “монтажных решений”, только ограничения и риски (VISUAL policy)
+- формулировать цвет как принципы (контраст/читаемость/иерархия), без конкретных палитр
+- определить визуальные законы: композиция, форма, материал, свет, текстуры, типографика/надписи (если допустимы)
+- дать тесты когерентности: PASS/FAIL
 
-## INPUTS
-- TOKENS: [TASK_TEXT, CREATIVE_DIRECTION_PACK?, MODE_HINT?, TARGET_MEDIUM?, REFERENCES_KEYS?, CONSTRAINTS?]
-- REQUIRED: [TASK_TEXT]
+## [M] SCOPE
+В зоне ответственности:
+- Visual Principles (общие принципы стиля)
+- Style Tokens (словари/классы форм/материалов/света/фактуры/деталей)
+- Composition & Framing constraints (рамки кадра/иерархия/центр тяжести — без режиссуры)
+- Color & Contrast principles (НЕ палитры)
+- Typography/Markings rules (если разрешено): где можно/нельзя, какая роль текста
+- Risk & Limits: что ломает стиль, что вызывает “визуальный шум”
+- Coherence checks: как понять что “попали в стиль”
 
-## OUTPUTS
-- ARTIFACTS: [SPECIALIST_OUTPUT]
-- TOKENS: [STYLE_TOKEN_SET?, PATCH_NOTES?]
+Не в зоне ответственности:
+- смысл/тема/эмоциональная ось (CREATIVE_DIRECTOR)
+- эстетика мира/сеттинга (WORLD_AESTHETIC_DESIGNER)
+- символизм/метафора (SYMBOLISM_METAPHOR_DESIGNER)
+- кривая эмоций (MOOD_ATMOSPHERE_CURATOR)
+- генерация концептов/вариантов (CONCEPT_DESIGNER)
+- рисковый дизайн как стратегия разрыва (ARTISTIC_RISK_DESIGNER) — здесь только визуальные риски/ограничения
 
-## METHOD (minimal)
-- APPROACH:
-  - Extract intent -> define style principles -> define constraints -> define token set -> define coherence checks -> handoff to concept/world/mood roles.
-- HEURISTICS:
-  - Principles > palettes (no hardcoded colors unless demanded by task).
-  - Tokens must be reusable and testable (“present/absent”).
-  - Keep minimal set: 6–12 tokens, not 50.
-- LIMITS:
-  - Does not produce final assets; produces style system and checks.
-  - No RAW links inside; KEYS only.
+## [M] INPUTS (MIN)
+- SPECIALIST_OUTPUT.CRV_INTENT_PACK (обязателен)
+- OPTIONAL:
+  - platform constraints (cover/video/poster/app/ui)
+  - tool constraints (генератор, формат, лимиты)
+  - brand constraints (логотип/надписи/знаки — если применимо)
+  - references (разрешённые, если есть)
 
-## DEPENDENCIES (KEYS ONLY)
-- LAW_KEYS: [LAW_01, LAW_04, LAW_05, LAW_06, LAW_09, LAW_10, LAW_14, LAW_15, LAW_20, LAW_21]
-- REG/XREF/KB_KEYS: [<REG_KEYS_ONLY>, <XREF_KEYS_ONLY>, <KB_KEYS_ONLY>]
-- PEERS (KEYS):
-  - SPC.CRV.CREATIVE_DIRECTOR
-  - SPC.CRV.WORLD_AESTHETIC_DESIGNER
-  - SPC.CRV.CONCEPT_DESIGNER
-  - SPC.CRV.MOOD_ATMOSPHERE_CURATOR
+## [M] OUTPUTS (CANON)
+- SPECIALIST_OUTPUT.CRV_VISUAL_STYLE_PACK
 
-## SPECIALIST_OUTPUT (use this format)
-SUMMARY:
-- Visual style principles defined (coherence + contrast + readability boundary).
-- Style token set produced (reusable, testable).
-- Coherence checks established for downstream work.
+## [M] SPECIALIST_OUTPUT.CRV_VISUAL_STYLE_PACK (SCHEMA)
+### [M] HEADER
+- domain: CRV_SPC
+- key: SPC.CRV.VISUAL_STYLE_ARCHITECT
+- created_at: <YYYY-MM-DD>
+- based_on: [SPC.CRV.CREATIVE_DIRECTOR]
 
-MAIN:
-VISUAL_STYLE_SYSTEM_PACK (artifact):
-HEADER:
-- STYLE_SYSTEM_ID: <REPLACE_ME>
-- TARGET: <WHAT_THIS_IS_FOR>
-- OWNER: SPC.CRV.VISUAL_STYLE_ARCHITECT
-- DATE: 0000-00-00
-- MODE: FAST|RELEASE_READY|MASTERPIECE
+### [M] STYLE_PRINCIPLES
+- style_one_liner: <1 строка — как выглядит стиль в целом>
+- keywords: [5–15]              (материалы/свет/форма/фактура/ритм)
+- tone_principles: [3–7]        (например: “строго”, “тёпло”, “воздушно”)
+- complexity_level: MINIMAL|MID|RICH
+- noise_budget: LOW|MID|HIGH
 
-STYLE PRINCIPLES (6–10 max):
-- <principle 1>
-- <principle 2>
+### [M] COMPOSITION_CONSTRAINTS (NO-DIRECTING)
+- hierarchy_rule: <коротко: что доминирует>
+- framing_limits: [2–6]         (например: “без сверх-широкого искажённого угла”)
+- geometry_rules: [3–9]         (форма/симметрия/асимметрия/ритм)
+- focal_rules: [2–6]            (где допускается фокус, без “режиссуры”)
+- forbidden_composition: [2–8]  (что ломает стиль)
 
-CONSTRAINTS (testable):
-- DO:
-  - <do 1>
-  - <do 2>
-- AVOID:
-  - <avoid 1>
-  - <avoid 2>
+### [M] LIGHTING_PRINCIPLES
+- light_character: <коротко>
+- contrast_principles: [2–6]
+- shadow_rules: [2–6]
+- forbidden_lighting: [2–8]
 
-STYLE TOKENS (6–12 max, stable names):
-- TOKEN: <TOKEN_NAME>
-  MEANS: <one line>
-  SIGNALS: [<observable cues>]
-  FORBIDS: [<anti-cues>]
+### [M] COLOR_PRINCIPLES (NO PALETTES)
+- contrast_targets: [2–6]       (например: “читаемый контраст фигура/фон”)
+- color_harmony_principles: [2–6]
+- saturation_rules: [2–6]
+- forbidden_color_behaviors: [2–8]
 
-COMPOSITION & RHYTHM (optional):
-- <one line rules>
+### [M] MATERIAL_TEXTURE_RULES
+- preferred_materials: [3–12]
+- preferred_textures: [3–12]
+- surface_rules: [2–8]          (глянец/мат/зерно — как принцип)
+- forbidden_materials: [2–10]
 
-READABILITY / CONTRAST BOUNDARY:
-- RI_BOUNDARY: <one line definition>
-- INVERSE_CONTRAST_RULE: <one line rule if used>
+### [M] DETAILING_RULES
+- detail_density: LOW|MID|HIGH
+- micro_details_allowed: [2–8]
+- clutter_forbidden: [2–8]
 
-COHERENCE CHECKS (acceptance):
-- TOKEN_COVERAGE: <check>
-- CONTRADICTION_FREE: <check>
-- READABILITY_OK: <check>
-- NON_CLONE_VARIANCE_OK: <check>
+### [M] TYPE_MARKS_RULES (IF APPLICABLE)
+- text_allowed: true|false
+- if_text_allowed:
+  - placement_limits: [1–6]
+  - readability_principles: [2–6]
+  - forbidden_text_styles: [2–8]
+- symbol_marks_allowed: true|false
+- forbidden_marks: [2–8]
 
-HANDOFF (KEYS ONLY):
-- NEXT_SPECIALISTS: [SPC.CRV.WORLD_AESTHETIC_DESIGNER, SPC.CRV.CONCEPT_DESIGNER, SPC.CRV.MOOD_ATMOSPHERE_CURATOR]
-- INPUT_FOR_THEM: [VISUAL_STYLE_SYSTEM_PACK, STYLE_TOKEN_SET]
-- OUTPUT_EXPECTED: [SPECIALIST_OUTPUT]
+### [M] COHERENCE_CHECKS (PASS/FAIL)
+- check_list:
+  - name: <short>
+    pass_rule: <PASS condition>
+    fail_rule: <FAIL condition>
+  (минимум 6, максимум 12)
 
-CHECKS:
-- Output uses SPECIALIST_OUTPUT schema (SUMMARY/MAIN/CHECKS/RISKS/NEXT).
-- No RAW embedded; all refs are KEYS-only.
-- Tokens <= 12 and each token is testable (signals/forbids).
-- Has at least one DO and one AVOID constraint.
+### [M] HANDOFF_POINTERS (KEY-ONLY)
+- required_specialists: [<KEY>, ...]
+- next_open_keys: [<KEY>, ...]
+- notes_for_next: <1–3 bullets>
 
-RISKS:
-- Too many tokens -> unusable and inconsistent.
-- Vague principles -> subjective outputs and drift.
-- Hardcoded palette too early -> locks style prematurely.
+## [M] RULES
+- VISUAL: не принимать монтажных решений, только ограничения/риски/принципы.
+- COLOR: только principles (контраст/гармония/насыщенность), без конкретных палитр и без “#”.
+- Determinism: каждый блок должен давать исполнимые рамки.
+- Anti-noise: никаких длинных эссе, только правило/ограничение/тест.
+- KEY-only: никаких RAW в output.
 
-NEXT:
-"го"
+## [M] GATES
+PASS если:
+- есть минимум: STYLE_PRINCIPLES + COMPOSITION + LIGHTING + COLOR_PRINCIPLES
+- есть 6+ COHERENCE_CHECKS с pass_rule/fail_rule
+- есть HANDOFF_POINTERS (next_open_keys)
 
-## GATES
-PASS_IF:
-- SPECIALIST_OUTPUT present and structured
-- Token set is minimal and testable
-- Principles and constraints are explicit
-- No RAW inside entity; dependencies are KEYS-only
+FAIL если:
+- есть “режиссура/монтаж” (конкретные планы/движения/сцены)
+- задана конкретная палитра/цвета вместо принципов
+- нет проверок когерентности
 
-REWORK_IF:
-- Tokens are vague or too many
-- No coherence checks, or checks not testable
-- Constraints missing or contradictory
+GAP если:
+- нет CRV_INTENT_PACK
 
-FAIL_IF:
-- RAW embedded
-- Output is “bare text” without SPECIALIST_OUTPUT structure
-- Style system contradicts creative direction or breaks readability boundary
-
-## CHANGELOG (append-only)
-- DATE: 2026-01-31
-  CHANGE_ID: UE.CHG.2026-01-31.SPC.CRV.VISUAL_STYLE_ARCHITECT.001
-  TYPE: CREATE
-  SUMMARY: Repacked to match TPL.SPECIALIST; introduced VISUAL_STYLE_SYSTEM_PACK artifact; KEYS-only.
-  REASON: Make style coherent, reusable, and enforceable by checks.
-  IMPACT: Downstream concept/world/mood work stays within one visual DNA.
+STOP если:
+- попытка добавить RAW ссылки внутрь output

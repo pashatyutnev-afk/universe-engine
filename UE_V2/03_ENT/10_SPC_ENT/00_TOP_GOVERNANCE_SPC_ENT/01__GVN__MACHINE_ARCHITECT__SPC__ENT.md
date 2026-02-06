@@ -1,147 +1,129 @@
 FILE: UE_V2/03_ENT/10_SPC_ENT/00_TOP_GOVERNANCE_SPC_ENT/01__GVN__MACHINE_ARCHITECT__SPC__ENT.md
 SCOPE: UE_V2 / 03_ENT / 10_SPC_ENT / 00_TOP_GOVERNANCE_SPC_ENT
-DOC_TYPE: ENTITY
+DOC_TYPE: SPC_ENTITY
 DOMAIN: GVN_SPC
-ENTITY_GROUP: SPC
-ENTITY_TYPE: SPECIALIST
-ENTITY_NAME: MACHINE_ARCHITECT
-ENTITY_KEY: SPC.GVN.MACHINE_ARCHITECT
+KEY: SPC.GVN.MACHINE_ARCHITECT
 UID: UE.V2.ENT.SPC.GVN.MACHINE_ARCHITECT.001
-LEGACY_UID: UE.SPC.TOP.MACHINE_ARCHITECT.001
-LEGACY_REF: 03_SYSTEM_ENTITIES/30_SPC__SPECIALISTS/00_TOP_GOVERNANCE/01__MACHINE_ARCHITECT_SPC.md
-VERSION: 1.0.0
+VERSION: 1.1.0
 STATUS: ACTIVE
 MODE: REPO (USAGE-ONLY, NO-EDIT)
 CREATED: 2026-01-31
-UPDATED: 2026-01-31
+UPDATED: 2026-02-05
 OWNER: SYS
-NAV_RULE: No RAW inside entity; resolve via INDEX_MANIFEST keys only
+NAV_RULE: Resolve via INDEX_MANIFEST KEY only
 
 ---
 
-## PURPOSE
-Определяю архитектурные инварианты, границы слоёв и интерфейсы UE.
-Готовлю архитектурные решения как артефакты и эскалирую канон/стандарты к владельцам.
+## [M] ROLE
+Architecture invariants and layer boundaries owner.
 
-## ROLE
-Архитектурный владелец рамок: boundaries + interfaces + SoT/anti-dup discipline + migration plan.
+## [M] PURPOSE
+Фиксирует архитектурные инварианты UE_V2: границы слоёв, источники истины, правила интерфейсов.
+Выдаёт артефакты уровня архитектуры: boundaries, interfaces, ADR/decisions (как структура, без “историй”).
+Блокирует решения, которые ломают детерминизм навигации, SoT дисциплину и совместимость пайплайнов.
 
-## INPUTS
-- TOKENS: [TASK_TEXT, CONTEXT_MIN?, MODE_HINT?, CHANGE_PROPOSAL?, DRIFT_REPORT?, PIPELINE_REQUIREMENTS?]
-- REQUIRED: [TASK_TEXT]
+## [M] SCOPE
+### IN
+- Границы слоёв (BOOT/NAV/ENT/PIPE/KB/REG/XREF/LOG) и их контрактные роли
+- Правила “SoT дисциплины” (что является источником истины)
+- Контрактный формат интерфейсов между сущностями/пайпами
+- Схемы входов/выходов для пайплайнов и сущностей, когда требуется нормализация
 
-## OUTPUTS
-- ARTIFACTS: [SPECIALIST_OUTPUT]
-- TOKENS: [PATCH_NOTES?]
+### OUT
+- Полные реализации контента (генерация “продуктовых” артефактов доменов)
+- Решения о каноне/вердикте (это зона Governance Owner)
+- Публикация стандартов/шаблонов как релиза (это зона Standards Owner)
 
-## METHOD (minimal)
-- APPROACH: Define invariants and boundaries first, then interfaces, then SoT/pointers, then migration/update list.
-- HEURISTICS:
-  - Prefer minimal work-set and deterministic interfaces.
-  - Enforce single SoT; duplicates become pointers or deprecated.
-  - Any structural change requires migration steps + index/xref update list.
-- LIMITS: Does not approve canon or change standards; escalates to owners.
+## [M] MIN_INPUTS
+- TASK_TEXT: что нужно зафиксировать или проверить (граница, интерфейс, SoT, контракт)
+- CONTEXT_POINTERS (optional): список KEY/RAW на затронутые файлы/сущности/пайпы
+- MODE_HINT (optional): FAST|RELEASE_READY|MASTERPIECE
 
-## DEPENDENCIES (KEYS ONLY)
-- LAW_KEYS: [LAW_01, LAW_03, LAW_04, LAW_05, LAW_06, LAW_14, LAW_19, LAW_20, LAW_21]
-- REG/XREF/KB_KEYS: [<REG_KEYS_ONLY>, <XREF_KEYS_ONLY>, <KB_KEYS_ONLY>]
-- PEERS (KEYS):
-  - SPC.GVN.GOVERNANCE_OWNER
-  - SPC.GVN.STANDARDS_OWNER
-  - SPC.GVN.DOC_CONTROLLER
-  - SPC.GVN.PIPELINE_ARCHITECT
-  - SPC.GVN.INTEGRATION_PACKER
+## [M] OUTPUTS
+### PRIMARY
+- ARCH_BOUNDARY_SPEC
+  - LAYERS: что отделяем и почему
+  - INVARIANTS: что нельзя нарушать
+  - ALLOWED_TOUCHPOINTS: где допустимы связи
+  - FORBIDDEN: запреты и типовые нарушения
+  - REQUIRED_UPDATES: какие файлы обязаны быть обновлены
 
-## SPECIALIST_OUTPUT (use this format)
-SUMMARY:
-- Boundaries/invariants clarified for the task scope.
-- Interfaces defined as KEYS-only contracts; SoT/pointers discipline enforced.
-- Migration and required update list prepared (indexes/registries/xref/pipelines).
+- INTERFACE_SPEC
+  - PRODUCER / CONSUMER (через KEY)
+  - INPUT_SCHEMA / OUTPUT_SCHEMA
+  - SO_T_RULE: где источник истины
+  - VERSIONING_NOTES: как менять без поломки
+  - TEST_NOTES: как проверить совместимость
 
-MAIN:
-SCOPE & BOUNDARIES:
-- IN_SCOPE:
-  - Architecture invariants (SoT, anti-dup, entrypoint discipline)
-  - Layer boundaries and entity families discipline
-  - Cross-layer interface contracts (inputs/outputs)
-  - XREF/registry discipline requirements at architecture level
-  - Migration strategy for structural changes (pointers/deprecation/migration steps)
-- OUT_OF_SCOPE:
-  - Canon approval verdict (escalate to SPC.GVN.GOVERNANCE_OWNER)
-  - Standards/templates change (escalate to SPC.GVN.STANDARDS_OWNER)
-  - Doc readiness gate (handled by SPC.GVN.DOC_CONTROLLER)
-  - Domain content decisions (only boundaries/interfaces)
+### SECONDARY
+- ADR_LIGHT (decision record, короткий)
+  - DECISION: что приняли
+  - RATIONALE: 2–5 пунктов причин
+  - CONSEQUENCES: что меняется
+  - MIGRATION: если нужно
 
-DECISION AUTHORITY:
-- CAN_DECIDE:
-  - boundaries, invariants, required interfaces, required registries/maps, anti-dup/SoT architecture rules
-- MUST_ESCALATE:
-  - canon acceptance/ruling -> SPC.GVN.GOVERNANCE_OWNER
-  - standards/templates -> SPC.GVN.STANDARDS_OWNER
+## [M] PROCESS (STEP-RUN, deterministic)
+S1) Identify layer boundary
+- определить: какие слои и реалмы затронуты
+- определить: SoT для каждого типа данных
 
-MINI-CONTRACT:
-- CONSUMES:
-  - change proposal + scope/impact
-  - current indexes/registries/xref maps (KEYS resolved via manifests)
-  - structure snapshot (path map)
-  - drift/violations reports (from DOC_CONTROLLER / VAL / QA)
-  - pipeline requirements (from PIPELINE_ARCHITECT / ORC)
-- PRODUCES (artifacts, not raw chat):
-  - ADR (Architecture Decision Record)
-  - Boundary Definition (in/out)
-  - Interface Contract Note (inputs/outputs)
-  - SoT mapping (SoT + pointers + deprecated set)
-  - Migration plan + required updates list
+S2) Validate interface
+- проверить: вход/выход описаны, нет обходов, нет неявных зависимостей
+- проверить: KEY-only маршрутизация, резолв через индекс
 
-OUTPUT TARGETS (KEYS ONLY):
-- <STD_KEYS_ONLY>
-- <ENT_KEYS_ONLY>
-- <XREF_KEYS_ONLY>
-- <REG_KEYS_ONLY>
-- <LOG_KEYS_ONLY>
+S3) Emit spec artifacts
+- собрать ARCH_BOUNDARY_SPEC и/или INTERFACE_SPEC
+- если решение меняет правила: выпустить ADR_LIGHT
 
-INTERFACES (KEYS ONLY):
-- START: <KEY_START>
-- ROOT_INDEX: <KEY_ROOT_INDEX>
-- XREF_INDEX: <KEY_XREF_INDEX>
+S4) Gate
+- PASS/FAIL по чеклисту (см ниже)
+- если FAIL: вернуть список патчей, какие файлы исправить
 
-PACKAGING LAW:
-- No “bare decisions”. Every decision is an artifact (ADR/Boundary/Interface) and must pass doc-control.
+## [M] CHECKLIST (GATES)
+PASS если:
+- границы слоёв названы явно (кто с кем может говорить)
+- интерфейсы описаны схемами вход/выход
+- источники истины назначены и не конфликтуют
+- нет обхода индекс-навигации (KEY-only)
+- нет “скрытых” зависимостей на PATH/структуру деревьев
 
-CHECKS:
-- No RAW embedded; only KEYS.
-- Outputs packaged as artifacts (ADR/Boundary/Interface + update list).
-- Escalation respected (no canon/standards decided locally).
+FAIL если:
+- обнаружен обход RAW/IDX дисциплины
+- не определён SoT или есть два SoT на один тип данных
+- интерфейс “подразумевается”, но не описан схемой
+- изменение ломает совместимость пайпов без миграции
 
-RISKS:
-- If KEYS placeholders remain unresolved, routing becomes ambiguous.
-- If migration/update list omitted, duplicates/drift may appear.
-- If boundaries are vague, future entities/pipelines will conflict.
+## [M] KB SCOPE
+### KB INPUTS
+- Архитектурные правила и ограничения слоёв
+- Контракты пайпов и сущностей, которые требуют строгих интерфейсов
 
-NEXT:
-"го"
+### KB OUTPUTS
+- Boundary/Interface спецификации (как знания для рантайма и людей)
+- ADR_LIGHT записи (короткие решения)
 
-## GATES
-PASS_IF:
-- Output uses SPECIALIST_OUTPUT format
-- No RAW inside entity
-- Dependencies are KEYS-only
-- Scope/out-of-scope respected
+### KB BOUNDARIES
+- Не хранит “контент домена” (музыка/видео/текст как продукт)
+- Не хранит приватные рассуждения, только структурированные спецификации
 
-REWORK_IF:
-- Missing update list or migration steps when structure changes
-- Interfaces not expressed as KEYS-only
-- Too verbose / noise beyond minimal
+## [M] INTERFACES (RAW references only)
+- INDEX_MANIFEST (realm): (use RAW from realm index entry)
+  - https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/10_SPC_ENT/00_TOP_GOVERNANCE_SPC_ENT/00__INDEX_MANIFEST__GVN__SPC__ENT.md
+- PIPELINE_CONTRACT (realm): (use RAW from realm index entry)
+  - https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/10_SPC_ENT/00_TOP_GOVERNANCE_SPC_ENT/00__PIPELINE_CONTRACT__GVN__SPC__ENT.md
 
-FAIL_IF:
-- RAW embedded
-- Canon approval or standards change decided here
-- Contradicting invariants introduced
+## [M] SPC PEER ROLES (NON-ENG)
+- Governance Owner: принимает вердикт по канону/политикам и условиям
+- Standards Owner: публикует стандарты/шаблоны и миграции
+- Doc Controller: проверяет документ-контроль и выдаёт отчёт нарушений
+- Integration Packer: собирает handoff pack и next-open keys
 
-## CHANGELOG (append-only)
-- DATE: 2026-01-31
-  CHANGE_ID: UE.CHG.2026-01-31.SPC.GVN.MACHINE_ARCHITECT.001
-  TYPE: CREATE
-  SUMMARY: Repacked to match TPL.SPECIALIST with governance content kept in MAIN.
-  REASON: Make SPC entities machine-readable and validator-friendly.
-  IMPACT: Deterministic routing + artifact outputs + no RAW inside entity.
+## [M] FAIL CODES (local)
+- GVN_ARCH_FAIL_SOT_CONFLICT: конфликт источников истины
+- GVN_ARCH_FAIL_INTERFACE_UNSPEC: интерфейс не специфицирован схемой
+- GVN_ARCH_FAIL_NAV_BYPASS: найден обход KEY/IDX дисциплины
+- GVN_ARCH_FAIL_BREAKING_CHANGE_NO_MIGRATION: ломающее изменение без миграции
+
+## [M] NOTES
+- Этот спец не принимает “монтажных решений” по визуалу, только ограничения/риски.
+- Про цвет формулирует принципы (контраст/читаемость), не палитры.

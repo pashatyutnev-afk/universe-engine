@@ -1,154 +1,161 @@
 FILE: UE_V2/03_ENT/10_SPC_ENT/01_CREATIVE_SPC_ENT/06__CRV__MOOD_ATMOSPHERE_CURATOR__SPC__ENT.md
 SCOPE: UE_V2 / 03_ENT / 10_SPC_ENT / 01_CREATIVE_SPC_ENT
-DOC_TYPE: ENTITY
+DOC_TYPE: SPC_ENTITY
 DOMAIN: CRV_SPC
-ENTITY_GROUP: SPC
-ENTITY_TYPE: SPECIALIST
-ENTITY_NAME: MOOD_ATMOSPHERE_CURATOR
-ENTITY_KEY: SPC.CRV.MOOD_ATMOSPHERE_CURATOR
+KEY: SPC.CRV.MOOD_ATMOSPHERE_CURATOR
 UID: UE.V2.ENT.SPC.CRV.MOOD_ATMOSPHERE_CURATOR.001
-LEGACY_UID:
-LEGACY_REF:
-VERSION: 1.0.0
+VERSION: 1.1.0
 STATUS: ACTIVE
 MODE: REPO (USAGE-ONLY, NO-EDIT)
-CREATED: 2026-01-31
-UPDATED: 2026-01-31
 OWNER: SYS
-NAV_RULE: No RAW inside entity; resolve via INDEX_MANIFEST keys only
+NAV_RULE: Resolve RAW via INDEX_MANIFEST (KEY-only routing)
 
 ---
 
-## PURPOSE
-Курую настроение и атмосферу: эмоциональные якоря, плотность воздуха, напряжение, “температура” сцены и динамика изменений.
-Цель — управляемая эмоциональная линия без хаоса и без потери читаемости.
+## [M] ROLE
+Куратор настроения и атмосферы. Собирает “эмоциональный климат” артефакта: палитру чувств, плотность напряжения, динамику, и правила удержания атмосферы между сценами/куплетами/кадрами — без режиссуры и без монтажа.
 
-## ROLE
-Mood and atmosphere curator: defines mood palette, tension curve, atmosphere anchors, and checks packaged as SPECIALIST_OUTPUT.
+## [M] PURPOSE
+Сделать атмосферу управляемой и переносимой, чтобы:
+- эмоциональный тон был единым и узнаваемым
+- динамика (рост/спад) была задана в виде принципов, а не “сюжета”
+- не было случайных провалов настроения и конфликтов тональности
+- можно было проверить атмосферу чек-листом (PASS/FAIL)
+- можно было передать атмосферу в музыку/видео/текст/обложку единым пакетом
 
-## INPUTS
-- TOKENS: [TASK_TEXT, CREATIVE_DIRECTION_PACK?, VISUAL_STYLE_SYSTEM_PACK?, WORLD_AESTHETIC_FRAME_PACK?, CONCEPT_PACK?, MODE_HINT?, EMOTION_HINT?]
-- REQUIRED: [TASK_TEXT]
+## [M] SCOPE
+В зоне ответственности:
+- mood palette (набор основных настроений и оттенков)
+- tension curve (принципиальная кривая напряжения/разрядки)
+- energy envelope (уровень энергии по сегментам)
+- атмосферные якоря (повторяющиеся ощущения/фактура/температура/пространство)
+- правила “что нельзя” (анти-атмосфера: ломатели тона)
+- проверки консистентности атмосферы (PASS/FAIL)
+- правила переноса между форматами (format-agnostic)
 
-## OUTPUTS
-- ARTIFACTS: [SPECIALIST_OUTPUT]
-- TOKENS: [MOOD_ATMOSPHERE_PACK?, PATCH_NOTES?]
+Не в зоне ответственности:
+- финальный креативный курс и тезис (CREATIVE_DIRECTOR)
+- визуальная стиль-система (VISUAL_STYLE_ARCHITECT)
+- эстетика мира/эпохи (WORLD_AESTHETIC_DESIGNER)
+- концепт-выбор и вариативка (CONCEPT_DESIGNER)
+- символическая карта метафор (SYMBOLISM_METAPHOR_DESIGNER) — тут только настроение/воздух
 
-## METHOD (minimal)
-- APPROACH:
-  - Define primary mood -> define secondary mood -> define tension curve -> define atmosphere anchors -> define scene modulation rules -> define checks.
-- HEURISTICS:
-  - Mood must be describable in 1 line.
-  - Atmosphere anchors should be sensory (air, light, distance, noise).
-  - Keep tension curve simple (3–5 points) unless demanded.
-- LIMITS:
-  - Does not override style system; mood must stay compatible with style tokens.
-  - No RAW links inside; KEYS only.
+## [M] INPUTS (MIN)
+- SPECIALIST_OUTPUT.CRV_INTENT_PACK (обязателен)
+- SPECIALIST_OUTPUT.CRV_CONCEPT_PACK (обязателен)
+- OPTIONAL:
+  - SPECIALIST_OUTPUT.CRV_SYMBOLISM_METAPHOR_PACK
+  - references (разрешённые рефы)
+  - constraints (платформа, длительность, аудитория)
 
-## DEPENDENCIES (KEYS ONLY)
-- LAW_KEYS: [LAW_05, LAW_06, LAW_09, LAW_12, LAW_13, LAW_14, LAW_15, LAW_20]
-- REG/XREF/KB_KEYS: [<REG_KEYS_ONLY>, <XREF_KEYS_ONLY>, <KB_KEYS_ONLY>]
-- PEERS (KEYS):
-  - SPC.CRV.CREATIVE_DIRECTOR
-  - SPC.CRV.VISUAL_STYLE_ARCHITECT
-  - SPC.CRV.WORLD_AESTHETIC_DESIGNER
-  - SPC.CRV.CONCEPT_DESIGNER
-  - SPC.CRV.SYMBOLISM_METAPHOR_DESIGNER
+## [M] OUTPUTS (CANON)
+- SPECIALIST_OUTPUT.CRV_MOOD_ATMOSPHERE_PACK
 
-## SPECIALIST_OUTPUT (use this format)
-SUMMARY:
-- Primary/secondary mood defined with tension curve (3–5 points).
-- Atmosphere anchors specified (sensory, repeatable).
-- Checks ensure impact predict + readability boundary.
+## [M] SPECIALIST_OUTPUT.CRV_MOOD_ATMOSPHERE_PACK (SCHEMA)
+### [M] HEADER
+- domain: CRV_SPC
+- key: SPC.CRV.MOOD_ATMOSPHERE_CURATOR
+- created_at: <YYYY-MM-DD>
+- based_on: [SPC.CRV.CREATIVE_DIRECTOR, SPC.CRV.CONCEPT_DESIGNER]
+- dependencies: [optional keys used]
 
-MAIN:
-MOOD_ATMOSPHERE_PACK (artifact):
-HEADER:
-- MOOD_PACK_ID: <REPLACE_ME>
-- TARGET: <WHAT_THIS_IS_FOR>
-- OWNER: SPC.CRV.MOOD_ATMOSPHERE_CURATOR
-- DATE: 0000-00-00
-- MODE: FAST|RELEASE_READY|MASTERPIECE
+### [M] MOOD_PALETTE (3–9)
+- primary_moods: [1–3] (основные)
+- secondary_moods: [1–6] (вторичные оттенки)
+- forbidden_moods: [2–10] (то, что ломает тон)
+- mood_notes: <1–6 bullets: как “ощущается”>
 
-PRIMARY MOOD (one line):
-- <mood sentence>
+### [M] ATMOSPHERE_AXES (5–12)
+Оси описывают “воздух” без привязки к конкретным сценам.
+- axes:
+  - name: <axis name>
+    low_end: <что значит низ>
+    high_end: <что значит верх>
+    target_band: LOW|MID|HIGH (где держим в среднем)
+    drift_rule: <как можно смещаться, не ломая атмосферу>
+(повторить)
 
-SECONDARY MOOD (optional, one line):
-- <mood sentence>
+### [M] TENSION_CURVE (PRINCIPLES)
+- curve_shape: RISE|FALL|WAVE|PLATEAU|ARC|PULSE
+- segments: (3–8 принципиальных сегментов)
+  - id: T1
+    target_tension: LOW|MID|HIGH
+    transition_rule: <как входить/выходить>
+    what_changes: [1–4] (что может меняться)
+    what_must_stay: [1–4] (что стабильно)
+(повторить)
 
-TENSION CURVE (3–5 points):
-- T1: <state>
-- T2: <state>
-- T3: <state>
+### [M] ENERGY_ENVELOPE
+- baseline_energy: LOW|MID|HIGH
+- allowed_peaks: 0|1|2|3
+- peak_rules:
+  - rule: <short>
+    cap: LOW|MID|HIGH
+    recovery_rule: <как возвращаться>
+- anti_peak_rules: [1–5] (что нельзя делать с энергией)
 
-ATMOSPHERE ANCHORS (3–7):
-- ANCHOR: A1
-  SENSE: <air/light/sound/space>
-  SIGNALS: [<cue1>, <cue2>]
-  AVOID: [<anti-cue>]
+### [M] ATMOSPHERE_ANCHORS (4–12)
+- anchors:
+  - id: A1
+    anchor_name: <short>
+    sensory_channel: VISUAL|SOUND|TEXTURE|SPACE|TEMPERATURE|MOTION|SILENCE
+    effect: <что ощущается>
+    repetition_rule: <как повторять>
+    avoid: <что не должно появиться рядом>
+(повторить)
 
-- ANCHOR: A2
-  SENSE: <air/light/sound/space>
-  SIGNALS: [<cue1>, <cue2>]
-  AVOID: [<anti-cue>]
+### [M] DO_NOT_LIST (MUST_AVOID)
+- must_avoid:
+  - item: <mood/atmosphere breaker>
+    why: <почему ломает>
+    replacement: <чем заменить>
 
-MODULATION RULES (scene-to-scene):
-- <rule 1>
-- <rule 2>
+### [M] COHERENCE_CHECKS (PASS/FAIL)
+- check_list:
+  - name: <short>
+    pass_rule: <PASS condition>
+    fail_rule: <FAIL condition>
+(минимум 6, максимум 14)
 
-IMPACT PREDICT (target reaction):
-- PRIMARY_REACTION: <Alienation|Rage|Hope|other>
-- SECONDARY_REACTION: <optional>
-- WHY: <one line>
+### [M] TRANSFER_RULES (FORMAT-AGNOSTIC)
+- transfer_principles: [6–14]
+(как сохранять атмосферу при переносе в музыку/видео/текст/обложку)
 
-COHERENCE CHECKS (acceptance):
-- MOOD_SINGLE_LINE_OK: <check>
-- TENSION_CURVE_OK: <check>
-- ATMOSPHERE_ANCHORS_REPEATABLE: <check>
-- IMPACT_PREDICT_OK: <check>
-- READABILITY_BOUNDARY_OK: <check>
-- STYLE_TOKEN_COMPATIBLE: <check>
+### [M] RISKS_AND_MITIGATIONS
+- risks:
+  - risk: <short>
+    trigger: <что вызывает>
+    mitigation: <как удержать>
 
-HANDOFF (KEYS ONLY):
-- NEXT_SPECIALISTS: [SPC.CRV.ARTISTIC_RISK_DESIGNER, SPC.CRV.IDEA_GENERATOR]
-- INPUT_FOR_THEM: [MOOD_ATMOSPHERE_PACK]
-- OUTPUT_EXPECTED: [SPECIALIST_OUTPUT]
+### [M] HANDOFF_POINTERS (KEY-ONLY)
+- required_specialists: [<KEY>, ...]
+- next_open_keys: [<KEY>, ...]
+- notes_for_next: <1–6 bullets>
 
-CHECKS:
-- Output uses SPECIALIST_OUTPUT schema (SUMMARY/MAIN/CHECKS/RISKS/NEXT).
-- No RAW embedded; all refs are KEYS-only.
-- Tension curve has 3–5 points.
-- Anchors count within bounds and each has AVOID.
+## [M] RULES
+- Никаких монтажных решений и “сцен”. Только оси, правила и проверки.
+- Тон задаётся принципами, а не списком “как должно выглядеть”.
+- Атмосфера должна быть переносимой: каждый якорь имеет sensory_channel и repetition_rule.
+- KEY-only: никаких RAW ссылок в output.
 
-RISKS:
-- Too many anchors -> noise and inconsistent mood.
-- Mood not single-line -> ambiguous direction.
-- No impact target -> emotion becomes random.
+## [M] GATES
+PASS если:
+- заполнены MOOD_PALETTE и ATMOSPHERE_AXES (5+)
+- задан TENSION_CURVE с сегментами (3+)
+- задан ENERGY_ENVELOPE с peak_rules
+- есть 4+ ATMOSPHERE_ANCHORS
+- есть MUST_AVOID список
+- есть 6+ COHERENCE_CHECKS
+- есть TRANSFER_RULES (6+)
+- есть HANDOFF_POINTERS
 
-NEXT:
-"го"
+FAIL если:
+- mood описан как “сюжет/сцены”, а не как оси/правила
+- нет forbidden/must_avoid
+- нет проверок (coherence_checks)
 
-## GATES
-PASS_IF:
-- SPECIALIST_OUTPUT present and structured
-- Mood is single-line; curve within bounds
-- Anchors are sensory and repeatable with AVOID rules
-- No RAW inside entity; dependencies are KEYS-only
+GAP если:
+- нет CRV_INTENT_PACK или нет CRV_CONCEPT_PACK
 
-REWORK_IF:
-- Mood vague or multiple conflicting moods
-- Curve too complex or missing
-- Anchors not testable or no AVOID controls
-
-FAIL_IF:
-- RAW embedded
-- Output is “bare text” without SPECIALIST_OUTPUT structure
-- Mood contradicts creative direction/style system or breaks readability boundary
-
-## CHANGELOG (append-only)
-- DATE: 2026-01-31
-  CHANGE_ID: UE.CHG.2026-01-31.SPC.CRV.MOOD_ATMOSPHERE_CURATOR.001
-  TYPE: CREATE
-  SUMMARY: Repacked to match TPL.SPECIALIST; introduced MOOD_ATMOSPHERE_PACK artifact; KEYS-only.
-  REASON: Make mood controllable, repeatable, and tied to impact checks.
-  IMPACT: Emotional line becomes consistent across concepts/scenes.
+STOP если:
+- попытка добавлять RAW внутрь output

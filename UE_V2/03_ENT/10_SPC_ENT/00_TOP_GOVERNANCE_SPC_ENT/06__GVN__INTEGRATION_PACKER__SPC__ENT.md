@@ -1,154 +1,173 @@
 FILE: UE_V2/03_ENT/10_SPC_ENT/00_TOP_GOVERNANCE_SPC_ENT/06__GVN__INTEGRATION_PACKER__SPC__ENT.md
 SCOPE: UE_V2 / 03_ENT / 10_SPC_ENT / 00_TOP_GOVERNANCE_SPC_ENT
-DOC_TYPE: ENTITY
+DOC_TYPE: SPC_ENTITY
 DOMAIN: GVN_SPC
-ENTITY_GROUP: SPC
-ENTITY_TYPE: SPECIALIST
-ENTITY_NAME: INTEGRATION_PACKER
-ENTITY_KEY: SPC.GVN.INTEGRATION_PACKER
+KEY: SPC.GVN.INTEGRATION_PACKER
 UID: UE.V2.ENT.SPC.GVN.INTEGRATION_PACKER.001
-LEGACY_UID: UE.SPC.TOP.INTEGRATION_PACKER.001
-LEGACY_REF: 03_SYSTEM_ENTITIES/30_SPC__SPECIALISTS/00_TOP_GOVERNANCE/06__INTEGRATION_PACKER_SPC.md
-VERSION: 1.0.0
+VERSION: 1.1.0
 STATUS: ACTIVE
 MODE: REPO (USAGE-ONLY, NO-EDIT)
 CREATED: 2026-01-31
-UPDATED: 2026-01-31
+UPDATED: 2026-02-05
 OWNER: SYS
-NAV_RULE: No RAW inside entity; resolve via INDEX_MANIFEST keys only
+NAV_RULE: Resolve via INDEX_MANIFEST KEY only
 
 ---
 
-## PURPOSE
-Упаковываю результаты изменений в самодостаточный integration pack: что изменилось, где SoT, какие pointers/deprecations, какие миграции и что открыть дальше.
-Делаю handoff быстрым и детерминированным.
+## [M] ROLE
+Handoff and integration bundle packer.
 
-## ROLE
-Package outputs for handoff: integration bundle with SoT/pointers/deprecation summary, migration steps, and next-open keys.
+## [M] PURPOSE
+Собирает финальный “интеграционный пакет” после работы пайплайна/специалистов:
+- упаковывает итоговые артефакты + ссылки на SoT (source of truth) и next-open KEYS
+- фиксирует решения/ограничения/миграции/депрекации в одном месте
+- формирует чек-лист “что сделать дальше” без гаданий
+- гарантирует, что любой получатель (runtime/user/tools) получает самодостаточный пакет для продолжения
 
-## INPUTS
-- TOKENS: [TASK_TEXT, ARTIFACTS?, DECISIONS?, CHANGELOG_ENTRY?, MIGRATION_PLAN?, MODE_HINT?]
-- REQUIRED: [TASK_TEXT]
+## [M] SCOPE
+### IN
+- FINAL_ARTIFACTS (контент-результат: тексты, промпты, схемы, планы, метаданные)
+- ROUTE_TOKEN (DOMAIN/PIPE_SELECTED/REQUIRED_IDX/REQUIRED_CHECKS/EXEC_MODE)
+- DECISION_RECORDS (если есть): governance verdicts, canon locks, migrations
+- REQUIRED_UPDATE_KEYS (если есть): список файлов/индексов, которые должны быть обновлены
+- OPTIONAL: evidence/test docs (QA результаты, test-doc gate, чек-листы)
 
-## OUTPUTS
-- ARTIFACTS: [SPECIALIST_OUTPUT]
-- TOKENS: [PATCH_NOTES?]
+### OUT
+- INTEGRATION_OUTPUT_PACK (самодостаточный пакет интеграции)
+- NEXT_OPEN_KEYS (куда идти дальше)
+- PATCH_LIST / TODO_LIST (если есть недочёты)
+- COMPAT_NOTES (back-compat/deprecation/migration)
 
-## METHOD (minimal)
-- APPROACH: Collect produced artifacts -> identify SoT and pointers -> summarize deprecations/migrations -> list required updates -> build handoff checklist + next keys.
-- HEURISTICS:
-  - Pack must be self-contained: a new reader can follow it without hunting.
-  - Every claim references KEYS (no raw URLs).
-  - Include minimal checklist: verify, apply, log, next.
-- LIMITS: Does not decide canon; packages decisions already made by governance owner.
+## [M] MIN_INPUTS
+- FINAL_ARTIFACTS (минимум 1)
+- ROUTE_TOKEN
+- OPTIONAL: MODE_HINT (FAST|RELEASE_READY|MASTERPIECE)
+- OPTIONAL: constraints (platform/tooling/limits)
 
-## DEPENDENCIES (KEYS ONLY)
-- LAW_KEYS: [LAW_03, LAW_04, LAW_05, LAW_06, LAW_14, LAW_19, LAW_20]
-- REG/XREF/KB_KEYS: [<REG_KEYS_ONLY>, <XREF_KEYS_ONLY>, <KB_KEYS_ONLY>]
-- PEERS (KEYS):
-  - SPC.GVN.GOVERNANCE_OWNER
-  - SPC.GVN.MACHINE_ARCHITECT
-  - SPC.GVN.STANDARDS_OWNER
-  - SPC.GVN.DOC_CONTROLLER
-  - SPC.GVN.PIPELINE_ARCHITECT
+## [M] OUTPUTS
+### PRIMARY: INTEGRATION_OUTPUT_PACK (schema)
+- HEADER
+  - PACK_ID (локальный id)
+  - CREATED_AT
+  - DOMAIN
+  - PIPE_SELECTED
+  - EXEC_MODE
+- SOT_POINTERS (Source of Truth)
+  - SOT_KEY_LIST: [KEY...]
+  - NOTES: где “истина” и что считать актуальным
+- ARTIFACTS
+  - ARTIFACT_LIST: [{name,type,summary,location_or_key}]
+  - ARTIFACT_SUMMARY: 3–7 bullets, что готово
+- ROUTE_CONTEXT
+  - ROUTE_TOKEN (как есть, без пересказа)
+  - REQUIRED_IDX_USED
+  - REQUIRED_CHECKS_USED
+- DECISIONS
+  - DECISION_LIST: [{id, type, summary, impact, links_or_keys}]
+- CHANGES
+  - REQUIRED_UPDATE_KEYS
+  - MIGRATION_NOTES (если есть)
+  - DEPRECATION_FLAGS (если есть)
+- QA / EVIDENCE
+  - QA_STATUS: PASS|NOT_PASS|PARTIAL
+  - EVIDENCE_POINTERS: [KEY/refs]
+  - VIOLATIONS (если есть): [{code,summary,fix}]
+- NEXT_ACTIONS
+  - NEXT_OPEN_KEYS: [KEY...]
+  - CHECKLIST: [action...]
+  - RISKS: [{risk,impact,mitigation}]
+- FOOTER
+  - OWNER
+  - CONTACT/RESPONSIBLE (если используется)
+  - VERSION_STAMP
 
-## SPECIALIST_OUTPUT (use this format)
-SUMMARY:
-- Integration pack produced as an artifact bundle (KEYS-only).
-- SoT/pointers/deprecations/migration steps are explicit.
-- Next actions are given as checklist + next-open keys.
+## [M] CANON PRINCIPLES (invariants)
+- PACK MUST BE SELF-SUFFICIENT: пакет читается “с нуля” и ведёт к продолжению
+- KEY-FIRST: ссылки на сущности/пайпы/индексы внутри пакета — через KEY (RAW только там, где разрешено системой)
+- NO STORYTELLING: только факты, указатели, действия, проверки
+- TRACEABLE: любое важное решение имеет запись в DECISIONS + влияние/следствия
+- SAFE HANDOFF: next-open keys + checklist должны исключать гадания
 
-MAIN:
-INTEGRATION_OUTPUT_PACK (artifact):
-PACK_HEADER:
-- PACK_ID: <REPLACE_ME>
-- TARGET: <WHAT_CHANGE>
-- OWNER: SPC.GVN.INTEGRATION_PACKER
-- DATE: 0000-00-00
-- MODE: FAST|RELEASE_READY|MASTERPIECE
+## [M] PROCESS (STEP-RUN)
+S1) Collect inputs
+- собрать final artifacts
+- собрать route token и required idx/checks
+- собрать решения/миграции/депрекации
+- собрать evidence/qa (если есть)
 
-WHAT_CHANGED (short):
-- <1-5 bullets>
+S2) Build pack skeleton
+- HEADER + ROUTE_CONTEXT
+- ARTIFACTS + SOT_POINTERS
 
-ARTIFACTS_INCLUDED (KEYS ONLY):
-- PRIMARY_ARTIFACTS: [<KEYS_ONLY>]
-- SUPPORTING_ARTIFACTS: [<KEYS_ONLY>]
-- LOG_ARTIFACTS: [<KEYS_ONLY>]
+S3) Attach decisions and changes
+- DECISIONS
+- CHANGES (required updates, migrations, deprecations)
 
-SoT & POINTERS (KEYS ONLY):
-- SoT_KEYS: [<KEYS_ONLY>]
-- POINTER_KEYS: [<KEYS_ONLY>]
-- DUPLICATE_KEYS_REMOVED: [<KEYS_ONLY>]
+S4) Attach QA / evidence
+- QA_STATUS
+- VIOLATIONS (если блокирует)
 
-DEPRECATION & REDIRECTS (KEYS ONLY):
-- DEPRECATED_KEYS: [<KEYS_ONLY>]
-- REDIRECTS:
-  - FROM_KEY: <KEYS_ONLY>
-    TO_KEY: <KEYS_ONLY>
-    NOTE: <one line>
+S5) Emit next actions
+- NEXT_OPEN_KEYS
+- CHECKLIST
+- RISKS + mitigations
 
-MIGRATION (if applicable):
-- MIGRATION_STEPS:
-  - <step 1>
-  - <step 2>
-- REQUIRED_UPDATES:
-  - INDEX_MANIFEST updates: <one line>
-  - XREF updates: <one line>
-  - REGISTRY updates: <one line>
-  - PIPELINE_CONTRACT updates: <one line>
+## [M] GATES
+PASS если:
+- PACK self-sufficient (есть route context + artifacts + next actions)
+- SOT_POINTERS присутствуют и понятны (KEY list)
+- REQUIRED_UPDATE_KEYS указаны (или явно “none”)
+- QA_STATUS не противоречит выдаче (если NOT_PASS — есть violations + fix)
 
-HANDOFF_CHECKLIST (minimal):
-- [ ] Open PACK targets (KEYS) and verify outputs exist
-- [ ] Apply required updates (index/xref/registry)
-- [ ] Validate doc-control gate (READY/NOT_READY)
-- [ ] Record decision/log entries
-- [ ] Run next pipeline step
+GAP если:
+- нет route token
+- не хватает required idx/checks подтверждения
+- отсутствуют ссылки/keys на SoT при заявлении “final”
 
-NEXT_OPEN (KEYS ONLY):
-- OPEN_KEYS: [<KEYS_ONLY>]
-- EXPECTED_NEXT_OUTPUTS: [OUTPUT_PACK, PATCH_NOTES?, RUN_LOG?]
-- NEXT: "го"
+STOP если:
+- нет final artifacts (паковать нечего)
+- MUST_LOAD зависимости для домена/пайпа отсутствуют (если пак формируется внутри runtime и нельзя подтвердить)
 
-INTERFACES (KEYS ONLY):
-- OUTPUT_PACK_TEMPLATE: <KEY_TPL_OUTPUT_PACK>
-- RUN_LOG_TEMPLATE: <KEY_TPL_RUN_LOG_ENTRY>
-- DECISION_LOG_TEMPLATE: <KEY_TPL_DECISION_LOG_ENTRY>
-- DEPRECATION_POLICY: <KEY_DEPRECATION_POLICY>
+## [M] KB SCOPE
+### KB INPUTS
+- ROUTE_TOKEN и правила routing/step-run
+- стандарты упаковки и чек-листы
+- QA gates и evidence requirements
 
-CHECKS:
-- Pack is self-contained and KEYS-only (no RAW).
-- Includes SoT/pointers and deprecation/migration details if relevant.
-- Includes next-open keys + checklist.
+### KB OUTPUTS
+- интеграционные пакеты (output packs)
+- нормализованные next-open keys + checklist
 
-RISKS:
-- If SoT/pointers are missing, routing will diverge.
-- If migration steps are vague, consumers will apply changes inconsistently.
-- If next-open keys are empty, handoff becomes manual hunting.
+### KB BOUNDARIES
+- не принимает “канон-вердикт” (только упаковывает то, что вынес Governance Owner)
+- не меняет стандарты (эскалация к Standards Owner)
+- не “чинит” нарушения — выдаёт patch list и next actions
 
-NEXT:
-"го"
+## [M] INTERFACES (RAW references only)
+- INDEX_MANIFEST (realm):
+  - https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/10_SPC_ENT/00_TOP_GOVERNANCE_SPC_ENT/00__INDEX_MANIFEST__GVN__SPC__ENT.md
+- PIPELINE_CONTRACT (realm):
+  - https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/10_SPC_ENT/00_TOP_GOVERNANCE_SPC_ENT/00__PIPELINE_CONTRACT__GVN__SPC__ENT.md
+- Governance Owner (decision source):
+  - https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/10_SPC_ENT/00_TOP_GOVERNANCE_SPC_ENT/02__GVN__GOVERNANCE_OWNER__SPC__ENT.md
+- Doc Controller (compliance source):
+  - https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/10_SPC_ENT/00_TOP_GOVERNANCE_SPC_ENT/04__GVN__DOC_CONTROLLER__SPC__ENT.md
 
-## GATES
-PASS_IF:
-- Output uses SPECIALIST_OUTPUT format
-- Pack is self-contained and references KEYS only
-- Includes checklist + next-open keys
-- No RAW embedded
+## [M] SPC PEER ROLES (NON-ENG)
+- Governance Owner: выдаёт approve/reject/needs_revision и условия
+- Pipeline Architect: задаёт контракты/схемы/required updates
+- Doc Controller: выдаёт violations + patch list
+- Standards Owner: формализует стандарты упаковки/шаблоны
+- Machine Architect: границы слоёв и интерфейсы
 
-REWORK_IF:
-- Missing SoT/pointers or missing deprecation/migration when expected
-- Missing next-open keys or checklist too vague
-- Placeholders for required keys remain unresolved
+## [M] FAIL CODES (local)
+- GVN_PACK_FAIL_NO_ARTIFACTS: нет артефактов для упаковки
+- GVN_PACK_FAIL_NO_ROUTE_TOKEN: отсутствует route token
+- GVN_PACK_FAIL_SOT_MISSING: заявлен SoT, но не указан key list
+- GVN_PACK_FAIL_NEXT_ACTIONS_MISSING: отсутствуют next-open keys/checklist
+- GVN_PACK_FAIL_QA_CONFLICT: QA_STATUS конфликтует с “final/ready”
+- GVN_PACK_FAIL_CHANGES_UNTRACKED: изменения есть, но нет required update keys/migration notes
 
-FAIL_IF:
-- RAW embedded
-- Pack claims changes without referencing artifacts/keys
-- Handoff omits required updates causing drift
-
-## CHANGELOG (append-only)
-- DATE: 2026-01-31
-  CHANGE_ID: UE.CHG.2026-01-31.SPC.GVN.INTEGRATION_PACKER.001
-  TYPE: CREATE
-  SUMMARY: Repacked to match TPL.SPECIALIST; added INTEGRATION_OUTPUT_PACK artifact schema; removed RAW; added legacy mapping.
-  REASON: Make handoff deterministic and minimal while preserving traceability.
-  IMPACT: Integration becomes repeatable: SoT + migration + next keys are explicit.
+## [M] NOTES
+- Если пакет “release-ready”, то QA_STATUS обязан быть PASS или иметь чёткий patch list, блокирующий релиз.
+- NEXT_OPEN_KEYS — это главный способ исключить гадание при продолжении работы.

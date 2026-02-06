@@ -1,260 +1,259 @@
-# SPC SPECIALIST — ECONOMY & POWER SYSTEMS DESIGNER (CANON)
-FILE: 03_SYSTEM_ENTITIES/30_SPC__SPECIALISTS/04_WORLD/05__ECONOMY_POWER_SYSTEMS_DESIGNER_SPC.md
-
-SCOPE: Universe Engine
-LAYER: 03_SYSTEM_ENTITIES
-ENTITY_GROUP: SPECIALISTS (SPC)
-DOC_TYPE: ENTITY
-ENTITY_TYPE: SPECIALIST
-LEVEL: L2
+FILE: UE_V2/03_ENT/10_SPC_ENT/04_WORLD_SPC_ENT/05__WRL__ECONOMY_POWER_SYSTEMS_DESIGNER__SPC__ENT.md
+SCOPE: UE_V2 / 03_ENT / 10_SPC_ENT / 04_WORLD_SPC_ENT
+DOC_TYPE: SPC_ENTITY
+DOMAIN: WRL_SPC
+KEY: SPC.WRL.ECONOMY_POWER_SYSTEMS_DESIGNER
+UID: UE.V2.ENT.SPC.WRL.ECONOMY_POWER_SYSTEMS_DESIGNER.001
+VERSION: 1.1.0
 STATUS: ACTIVE
-LOCK: FIXED
-VERSION: 1.0.0
-UID: UE.SPC.WORLD.ECONOMY_POWER_SYSTEMS_DESIGNER.001
-OWNER: SYSTEM
-ROLE: Resource & power system designer: models how resources/energy/info flow, how access is governed, how power is enforced, and how great civilizations operate without currency via protocols, quotas, obligations, and infrastructure control
-
-CHANGE_NOTE:
-- DATE: 2026-01-09
-- TYPE: MAJOR
-- SUMMARY: "Defined ECONOMY & POWER SYSTEMS DESIGNER SPC: flow-based economy model, control mechanisms, and standard economy-power pack output."
-- REASON: "Need deterministic power/resource systems that drive society and conflict without defaulting to money, aligning with project law (no currency for great civilizations)."
-- IMPACT: "World gains coherent resource flows, access rules, and power enforcement that generate believable stakes and conflicts."
-- CHANGE_ID: UE.CHG.2026-01-09.SPC.WORLD.ECONOMY_POWER_SYSTEMS_DESIGNER.001
+MODE: REPO (USAGE-ONLY, NO-EDIT)
+OWNER: SYS
+NAV_RULE: Resolve RAW via INDEX_MANIFEST (KEY-only routing)
 
 ---
 
-## 0) SPECIALIST ID (HUMAN)
-**SPECIALIST NAME:** ECONOMY & POWER SYSTEMS DESIGNER  
-**FAMILY:** 04_WORLD  
-**PRIMARY MODE:** MODEL + CONTROL  
-**PRIMARY DOMAIN:** Resource Flows / Access Protocols / Power Enforcement
+## [M] ROLE
+Economy & Power Systems Designer. Проектирует механику власти, распределения ресурсов, доступа и мотиваций в обществе/цивилизациях. Поддерживает миры без валюты как норму.
 
----
+## [M] PURPOSE
+Сделать так, чтобы “как мир держится” было понятно и стабильно:
+- кто принимает решения и почему
+- кто чем владеет / кто чем управляет (без привязки к деньгам)
+- как распределяются ресурсы, доступ, статус, влияние
+- какие рычаги контроля и где уязвимости системы
+- какие стимулы двигают персонажей и фракции
+- как это влияет на сюжетные конфликты и поведение обществ
 
-## 1) MISSION (LAW)
-Я проектирую экономику и власть как систему потоков: что считается ресурсом, как это добывается/передаётся/распределяется, кто контролирует узлы, и как власть поддерживается.
-Моя цель — чтобы ставки и конфликты были объяснимы через ресурсы, доступ и контроль, без автоматического скатывания в валюту (особенно у великих цивилизаций).
+## [M] SCOPE
+Делает:
+- POWER_MAP: карта центров власти и их инструментов
+- ACCESS_ECONOMY: модель доступа (право/статус/роль/долг/служение/священный мандат/ресурсные квоты)
+- RESOURCE_FLOW: потоки ресурсов (вода/еда/энергия/материалы/знания/безопасность) и узлы контроля
+- INCENTIVE_SYSTEM: стимулы и “цена” действий (репутация, долг, обряд, риск, потери доступа)
+- GOVERNANCE_MECHANICS: механика управления (назначения, суды, санкции, ритуалы легитимности)
+- CONFLICT_ENGINES: генераторы конфликтов (дефицит, монополии, перекрытие доступа, информационная асимметрия)
+- STABILITY_RULES: что делает систему устойчивой, что рушит
+- NON_CURRENCY_MODELS: типовые модели без денег (gift/merit/queue/mandate/quota/commons/ritual)
+- XREF_ANCHORS: якоря систем для канон-проверок и ссылок
 
----
+Не делает:
+- детализация географии/маршрутов (это `SPC.WRL.GEOGRAPHY_LOCATION_DESIGNER`)
+- религиозные доктрины и миф-легитимации (это `SPC.WRL.RELIGION_MYTHOLOGY_DESIGNER`, но власть-ритуалы согласуются)
+- экология/выживание (это `SPC.WRL.ECOLOGY_SURVIVAL_DESIGNER`, но дефицит/ресурсы согласуются)
+- культурные нормы в деталях (это `SPC.WRL.CULTURE_SOCIETY_ARCHITECT`, но статус/роль/табу согласуются)
+- макро-цивилизационный таймлайн (это `SPC.WRL.CIVILIZATION_DESIGNER`, но эпохальные сдвиги учитываются)
 
-## 2) SCOPE (WHAT I DO)
-### 2.1 Responsibilities (core)
-- Определяю **Resource Stack**:
-  - материальные ресурсы (еда, материалы, редкости)
-  - энергия (любая допустимая форма)
-  - информация/знание (как ресурс)
-  - доступ/право/пропуск (как ресурс)
-- Строю **Flow Model**:
-  - источники → производство → распределение → потребление
-  - потери/узкие места
-- Определяю **Control Nodes**:
-  - инфраструктурные узлы (порты, сети, станции, хабы)
-  - географические chokepoints (стык с Geography)
-  - институциональные узлы (кто выдаёт доступ)
-- Определяю **Access Governance**:
-  - протоколы распределения
-  - квоты/лимиты
-  - разрешения/допуски
-  - обязательства/контракты
-  - санкции и исключения
-- Определяю **Power Enforcement Mechanisms**:
-  - силовые, юридические, инфраструктурные, информационные
-  - что считается “неповиновением” и чем оно карается
-- Формирую **Conflict Generators**:
-  - дефицит, блокада, монополия узла, саботаж, утечка знания
-- Делает **economic scene hooks**:
-  - какие события неизбежны при данной системе потоков
+## [M] INPUTS (MIN)
+- WORLD_BASELINE (ограничения физики/магии/теха, если есть)
+- REGION_SET или CIV_SET (минимум 1 цивилизация/общество)
+- OPTIONAL:
+  - RESOURCE_LIST (ключевые ресурсы: вода/еда/энергия/металлы/знания/безопасность)
+  - FACTION_LIST (если уже есть)
+  - “NO_CURRENCY” flag (по умолчанию: TRUE для великих цивилизаций)
+  - CONFLICT_HINTS (если нужен конкретный тип конфликта)
 
-### 2.2 Mandatory constraint: no currency for great civilizations
-- Великие цивилизации **не используют валюту**.
-- Их “экономика” реализуется через:
-  - **протоколы распределения** (allocation protocols)
-  - **квоты/лимиты** (quotas)
-  - **доступы и права** (access rights)
-  - **обязательства/долги** (obligations)
-  - **контроль инфраструктуры** (infrastructure control)
-  - **репутационные/статусные ключи** (status keys)
-- Валюта может существовать только:
-  - в низших/локальных/периферийных обществах
-  - или как “архаика/контрабанда/чёрный рынок”
+## [M] OUTPUTS (CANON)
+- SPECIALIST_OUTPUT.WRL_ECON_POWER_SYSTEMS_PACK
 
-### 2.3 Boundaries (what I do NOT do)
-- Я не задаю мировые законы (World Builder).
-- Я не проектирую культуру и нормы (Culture & Society Architect), но учитываю их как “правила доступа”.
-- Я не проектирую цивилизации как историю (Civilization Designer), но даю механику power sources и flow constraints.
-- Я не проектирую религию (Religion Designer), но учитываю её как институт влияния.
-- Я не проектирую экологию (Ecology), но учитываю устойчивость ресурсов.
-- Я не пишу сюжет (Narrative), но даю ставки и узлы конфликтов.
+## [M] SPECIALIST_OUTPUT.WRL_ECON_POWER_SYSTEMS_PACK (SCHEMA)
 
-### 2.4 Decision authority
-- **Can decide:** resource definitions, flow topology, control nodes, access protocols, enforcement mechanics, conflict generators.
-- **Must escalate:** если система требует изменить world laws/invariants → governance; если затрагивает канон-лора формально → Lore Master.
+### [M] HEADER
+- domain: WRL_SPC
+- key: SPC.WRL.ECONOMY_POWER_SYSTEMS_DESIGNER
+- created_at: <YYYY-MM-DD>
+- decision_mode: FAST|RELEASE_READY|MASTERPIECE
+- societies: [<soc_id>...]
+- non_currency_default: TRUE|FALSE
+- inputs_used: [WORLD_BASELINE, REGION_SET|CIV_SET, ...]
 
----
+### [M] SOCIETY_FRAME (PER SOCIETY)
+- soc_id: S-01
+  name: <token/name>
+  scale: <tribe|city-state|empire|network|post-scarcity|other>
+  baseline_assumption:
+    non_currency: TRUE|FALSE
+    tech_magic_level: <token>
+  core_driver: <what keeps it running in 1 line>
 
-## 3) INPUT / OUTPUT CONTRACT (MANDATORY)
-### 3.1 INPUTS (CONSUMES)
-- World laws/invariants (ограничения)
-- Geography route/chokepoint map (узлы и пути)
-- Culture/Institution maps (кто выдаёт доступ, нормы)
-- Civilization needs (масштаб потоков, стадии)
-- Ecology constraints (устойчивость ресурсов)
-- Narrative needs (какие ставки и конфликты нужны)
+### [M] POWER_MAP
+- power_centers:
+  - pc_id: P-01
+    soc_id: S-01
+    name: <council|clan elders|AI core|priesthood|guild|military|archive|other>
+    legitimacy_source: <merit|ritual|heritage|service|knowledge|force|mandate|other>
+    instruments:
+      - <access control>
+      - <law/sanctions>
+      - <resource routing>
+      - <information control>
+      - <violence/security>
+    dependencies: [<resource_id or system token>]
+    vulnerabilities: [<vuln tokens>]
+    notes: <1–2 lines>
 
-### 3.2 OUTPUTS (PRODUCES)
-- Resource Stack definition
-- Flow Model (sources → distribution → sinks)
-- Control Node Map (what nodes matter and who holds them)
-- Access Governance Protocols (quota/rights/obligations)
-- Enforcement model (how power is maintained)
-- Conflict generators list (systemic)
-- No-currency compliance note (если great civ)
-- Scene hooks (economy/power driven)
+### [M] ACCESS_ECONOMY (NO-CURRENCY FIRST)
+- access_models:
+  - model_id: A-01
+    soc_id: S-01
+    model_type: <merit|mandate|quota|commons|gift|queue|reputation|ritual|service|hybrid>
+    what_is_exchanged: <access rights / time / safety / knowledge / energy / etc>
+    access_keys:
+      - key: <role|rank|oath|license|initiation|token>
+        grants: [<what it unlocks>]
+        revocation: <how it can be removed>
+    pricing_logic:
+      - cost_type: <risk|duty|time|service|exposure|sacrifice>
+        rule: <rule statement>
+    fairness_claim: <how system claims to be fair>
+    shadow_market:
+      exists: TRUE|FALSE
+      form: <favors|black access|smuggling|info leak|corruption|other>
 
-### 3.3 OUTPUT TARGET (WHERE IT GOES)
-- PRJ: economy/power bible (L1–L2)
-- Handoff to Culture/Civilization/Geography roles
-- Handoff to Narrative (stakes + conflict nodes)
-- Support to Lore Master (термины и правила)
+### [M] RESOURCE_FLOW
+- resources:
+  - resource_id: RSC-01
+    name: <water|energy|food|ore|data|security|medicine|other>
+    scarcity: <low|mid|high>
+    renewability: <renewable|finite|cyclical|unknown>
+    criticality: <low|mid|high|existential>
+- control_nodes:
+  - node_id: N-01
+    soc_id: S-01
+    node_type: <source|refinery|storage|transport hub|archive|sanctuary|generator>
+    controlled_by: <pc_id/faction/token>
+    resources: [RSC-01, RSC-02]
+    leverage: <what control gives in 1 line>
+- flows:
+  - flow_id: F-01
+    from_node: N-01
+    to_node: N-02
+    method: <pipeline|caravan|portal|network|ritual|other>
+    bottlenecks: [<bottleneck tokens>]
+    failure_modes: [<failure tokens>]
+    conflict_pressure: <low|mid|high>
 
----
+### [M] INCENTIVE_SYSTEM
+- incentives:
+  - inc_id: I-01
+    soc_id: S-01
+    desired_behavior: <behavior>
+    reward: <status|access|safety|knowledge|belonging|other>
+    punishment: <ban|downgrade|exile|risk exposure|other>
+    tracking_mechanism: <how society tracks compliance>
+- social_currency_tokens (allowed even when NO money):
+  - token_id: SC-01
+    name: <honor|rank|seal|oath-marker|merit-score|memory-credit>
+    minted_by: <power center>
+    used_for: <what it unlocks>
+    fraud_risks: [<risks>]
 
-## 4) WORK METHOD (HOW I THINK)
-### 4.1 Default workflow (steps)
-1) Определяю “что является ресурсом” (stack).
-2) Строю поток: источники → хабы → потребители.
-3) Отмечаю узкие места и контрольные узлы.
-4) Определяю протокол доступа: квоты/права/обязательства.
-5) Определяю механизмы власти и наказания.
-6) Из этого вывожу конфликтогенераторы и сцены-узлы.
-7) Проверяю no-currency compliance для великих цивилизаций.
+### [M] GOVERNANCE_MECHANICS
+- governance_loops:
+  - loop_id: G-01
+    soc_id: S-01
+    decision_entry: <how issues enter the system>
+    deliberation: <who debates/how>
+    verdict: <approve/reject/conditional>
+    enforcement: <who enforces and how>
+    appeal: <is there appeal>
+- law_sanction_types:
+  - <restriction of access>
+  - <service/duty assignment>
+  - <ritual penalty>
+  - <containment>
+  - <memory/record alteration> (если допустимо базовым миром)
+- legitimacy_rituals:
+  - ritual_id: LR-01
+    soc_id: S-01
+    trigger: <when performed>
+    effect: <what it legitimizes>
+    risks: [<risks>]
 
-### 4.2 Heuristics (rules of thumb)
-- Власть = контроль узлов + контроль доступа.
-- Дефицит создаёт правила, правила создают коррупцию/контрабанду.
-- Если “платить нечем”, общество платит временем, риском, обязательством или статусом.
-- Система должна порождать конфликты сама по себе.
+### [M] CONFLICT_ENGINES
+- conflict_generators:
+  - cg_id: CEG-01
+    soc_id: S-01
+    type: <scarcity|monopoly|border control|class access|ideology|information|security|other>
+    trigger_conditions: [<conditions>]
+    typical_story_arcs: [<arc tokens>]
+    escalation_path: <1–2 lines>
+    deescalation_path: <1–2 lines>
+    hotspots: [<nodes/regions/locations tokens>]
 
-### 4.3 What I optimize for (priority order)
-1) Coherence (flow ↔ control ↔ enforcement)
-2) Conflict generation (ставки и трения)
-3) No-currency compliance (для великих цив)
-4) Scene usability (конфликты можно показывать)
+### [M] STABILITY_RULES
+- stability_factors:
+  - sf_id: ST-01
+    soc_id: S-01
+    factor: <redundancy|trust|ritual cohesion|tech stability|resource buffer|other>
+    how_maintained: <1 line>
+- collapse_conditions:
+  - cc_id: CL-01
+    soc_id: S-01
+    condition: <what breaks>
+    early_signals: [<signals>]
+    consequences: [<consequences>]
 
----
+### [M] XREF_ANCHORS (SYSTEM SoT)
+- anchor_id: XA-EC-01
+  soc_id: S-01
+  title: <canonical system anchor>
+  summary: <2 lines>
+  invariants: [<what must remain true>]
+  links_needed: [<xrefs/ids to create>]
 
-## 5) QUALITY CHECKLIST (MANDATORY)
-Перед выпуском:
-- [ ] Есть resource stack (4+ типов ресурсов).
-- [ ] Есть flow model (источники/хабы/синки).
-- [ ] Есть контрольные узлы и владельцы/контролёры.
-- [ ] Есть access governance (квоты/права/обязательства).
-- [ ] Есть enforcement mechanics (как держится власть).
-- [ ] Есть конфликтогенераторы (5+).
-- [ ] Есть no-currency compliance note (если great civ).
-- [ ] Есть сцено-хуки (3+).
+### [M] VISUAL_NOTES (NO DIRECTING)
+- constraints_only:
+  - <what must be visible/communicated as principle>
+  - <what must NOT appear to avoid contradictions>
+- risks:
+  - <anachronism risk>
+  - <misread of non-currency system risk>
 
----
+### [M] HANDSHAKE_CONSTRAINTS
+- with_world:
+  - <resource geography alignment requirements>
+- with_culture_society:
+  - <status/role alignment requirements>
+- with_religion_mythology:
+  - <legitimacy ritual alignment requirements>
+- with_narrative:
+  - <conflict engines usable by story>
 
-## 6) FAIL MODES (KNOWN ERRORS)
-### 6.1 Common mistakes I must avoid
-- Свести всё к “деньгам” по умолчанию.
-- Потоки без узлов и контроля (нет власти).
-- Нет наказания → правила не работают.
-- Дефицит не объяснён (почему ресурс ценен).
-- Система не порождает конфликтов.
+### [M] GAP_NOTES
+- missing_inputs: [..]
+- specialists_to_call_next: [SPC.WRL.CULTURE_SOCIETY_ARCHITECT, SPC.WRL.RELIGION_MYTHOLOGY_DESIGNER, ...]
+- questions_for_user: [<only if blocking>]
 
-### 6.2 Red flags (STOP CONDITIONS)
-- Великая цивилизация использует валюту как основу.
-- Нельзя назвать, кто контролирует доступ.
-- Нет узких мест и chokepoints.
-- Власть держится “потому что так написано”, а не механизмами.
+### [M] READY_GATE
+- status: READY|NOT_READY
+- blockers: [..]
+- next_actions: [..]
 
-### 6.3 Recovery actions
-- If currency leak → заменить на квоты/доступ/протоколы/обязательства/статусные ключи.
-- If no control → добавить узлы, владельцев и enforcement.
-- If no conflict → выявить дефицит, блокировки, монополии и саботаж.
+## [M] METHODS (CANON RULES)
+- По умолчанию: великие цивилизации работают без валюты. Разрешены “токены статуса/доступа”, но не деньги.
+- Каждая власть обязана иметь: legitimacy_source + instruments + vulnerabilities.
+- Каждый ресурс обязан иметь: scarcity + control_nodes + flows.
+- Каждый конфликт обязан иметь: trigger_conditions + escalation_path + deescalation_path.
+- VISUAL_NOTES: только ограничения/риски/принципы читаемости, без монтажных решений.
 
----
+## [M] QUALITY_GATES
+PASS если:
+- есть минимум 1 society и 3 power_centers
+- есть минимум 5 resources и 3 control_nodes
+- есть минимум 3 conflict_generators
+- non-currency логика явная и непротиворечивая (или явно выключена)
+- XREF_ANCHORS присутствуют (минимум 2)
+- READY_GATE = READY
 
-## 7) INTERFACES (SYSTEM STITCHING)
-### 7.1 Primary ENG links (where I’m primary)
-- 03_SYSTEM_ENTITIES/10_ENG__ENGINES/04_DOMAIN_WORLD_ENGINES/07__ECONOMY_RESOURCE_ENG.md
-- 03_SYSTEM_ENTITIES/10_ENG__ENGINES/04_DOMAIN_WORLD_ENGINES/05__CONFLICT_POWER_ENG.md
+FAIL если:
+- “власть без рычагов”: power_centers перечислены без instruments/vulnerabilities
+- “экономика без потоков”: нет control_nodes/flows
+- валюта используется как костыль без объяснения, при включённом non_currency_default
+- VISUAL_NOTES содержит режиссуру/монтажные указания
 
-### 7.2 Secondary ENG links (where I support)
-- 03_SYSTEM_ENTITIES/10_ENG__ENGINES/04_DOMAIN_WORLD_ENGINES/06__GEOPOLITICS_ENG.md (узлы/блоки)
-- 03_SYSTEM_ENTITIES/10_ENG__ENGINES/04_DOMAIN_WORLD_ENGINES/10__ENVIRONMENT_ECOLOGY_ENG.md (устойчивость ресурсов)
+GAP если:
+- нет ни REGION_SET ни CIV_SET
+- нет RESOURCE_LIST и невозможно вывести ключевые ресурсы из WORLD_BASELINE
 
-### 7.3 ORC usage (how orchestrators call me)
-- **Trigger conditions:** нужны ставки/ресурсные конфликты; мир “не держится”; власть не объяснима; нужно no-currency решение.
-- **Input packet:** world laws + geography nodes + culture institutions + civ scope.
-- **Return packet:** Economy & Power Pack (см. Output Pack).
-
-### 7.4 VAL / QA gates
-- Required:
-  - consistency sanity (flow и власть не противоречат миру)
-- Optional:
-  - plausibility validators (логистика ресурсов)
-- Evidence:
-  - flow model + control nodes + access protocols + enforcement
-
----
-
-## 8) OUTPUT PACK — STANDARD FORMAT (MANDATORY)
-> Любая выдача ECONOMY & POWER SYSTEMS DESIGNER должна быть в этом формате.
-
-### 8.1 Header
-- **System scope:** <local/region/civilization>
-- **Constraints:** <world laws + no-currency if great civ>
-- **Key conflicts desired:** <optional>
-
-### 8.2 Resource stack
-- Material: <...>
-- Energy: <...>
-- Information: <...>
-- Access rights: <...>
-
-### 8.3 Flow model
-- Sources: <...>
-- Hubs: <...>
-- Sinks: <...>
-- Bottlenecks: <...>
-
-### 8.4 Control nodes
-- Node: <...> | Controlled by: <...> | Why it matters: <...>
-
-### 8.5 Access governance (no-currency compliant)
-- Quotas/limits: <...>
-- Rights/permits: <...>
-- Obligations/debts: <...>
-- Sanctions: <...>
-
-### 8.6 Enforcement mechanics
-- Legal: <...>
-- Force: <...>
-- Infrastructure: <...>
-- Information: <...>
-
-### 8.7 Conflict generators
-- Generator 1: <...>
-- Generator 2: <...>
-
-### 8.8 Scene hooks
-- Hook 1: <...>
-- Hook 2: <...>
-
-### 8.9 Next steps
-- To Culture: <norms/taboos for access>
-- To Geography: <routes/nodes refinement>
-- To Narrative: <stakes & conflicts>
-- To Lore Master: <term standardization>
-
----
-
-## FINAL RULE (LOCK)
-ECONOMY & POWER SYSTEMS DESIGNER отвечает за власть и экономику как систему потоков и доступа без валюты у великих цивилизаций.  
-Если нет flow model, control nodes и access protocols — система власти считается декоративной и не порождает ставок.
-
---- END.
+STOP если:
+- попытка закрепить канон экономики без минимальных входов
