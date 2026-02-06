@@ -1,273 +1,280 @@
 FILE: UE_V2/00__INDEX_MANIFEST__UE_V2.md
-SCOPE: UE_V2
-DOC_TYPE: INDEX_MANIFEST
+SCOPE: Universe Engine (UE_V2)
+DOC_TYPE: INDEX_MANIFEST (ROOT)
 DOMAIN: UE_V2
 UID: UE.V2.ROOT.INDEX_MANIFEST.001
-VERSION: 1.0.0
+VERSION: 1.1.0
 STATUS: ACTIVE
 MODE: REPO (USAGE-ONLY, NO-EDIT)
-CREATED: 2026-01-31
-UPDATED: 2026-01-31
 OWNER: SYS
-NAV_RULE: RAW lives here only
+NAV_RULE: RAW lives here (internal). Public entrypoint = START only.
 
 ---
 
 ## [M] PURPOSE
-INDEX_MANIFEST — мастер “таблица адресов” для корня UE_V2.
-Хранит RAW и машинные паспорта входов в слои UE_V2 (layer entrypoints). Без длинных объяснений.
+INDEX_MANIFEST — корневой “адресный стол” UE_V2.
+Единственный разрешённый способ резолва KEY → RAW для рантайма.
+Содержит только то, что нужно для:
+- детерминированной навигации
+- проверки доступа к слоям (REG/XREF/KB/PIPE/NAV/LOG)
+- запуска STEP-RUN пайплайна через PIPELINE_CONTRACT/PIPE_DEFAULT
 
-## [M] HARD_RULES
-- RAW ссылки допускаются только тут (и в ROOT LINK BASE / START по закону системы).
-- Любая навигация по UE_V2: KEY -> resolve RAW here -> open.
-- PIPELINE_CONTRACT ссылается только на KEY.
-- SELF запись обязательна.
-- Не обходить через PATH при наличии RAW (PATH хранится как справка).
+---
 
-## [M] INDEX_CONTEXT
-- REALM_ID: UE_V2
-- FOLDER_NAME: UE_V2
-- INDEX_SCOPE_TAGS: [ROOT, NAV, SYS]
+## [M] PUBLIC_ENTRY_LAW (NO BYPASS)
+LAW:
+- Единственная публичная ссылка для запуска UE_V2: START (BOOT/ENTRYPOINT).
+- Любые прочие RAW ссылки считаются INTERNAL и не используются как “вход” задачи.
+- Рантайм принимает задачу только через START_SEQUENCE; INDEX_MANIFEST используется только после START.
 
-## [M] ENTRY_SCHEMA (v1)
-- KEY: <UNIQUE_KEY>
-  UID: <OPTIONAL_UID>
-  KIND: FILE|FOLDER|ENTITY|PIPE|KB|REG|XREF|LOG|STD|LAW|TPL
-  ROLE: <ONE_LINE_ROLE>
-  DESC: <ONE_LINE_DESC>
-  RAW: <RAW_URL_OR_EMPTY>
-  PATH: <REPO_PATH_OR_EMPTY>
-  MARKERS: [MUST_LOAD, ROUTER, NAV, ...]
-  STATUS: ACTIVE|DRAFT|DEPRECATED
-  OWNER: SYS|RUNTIME|USER|<TEAM>
-  UPDATED: 0000-00-00
+EFFECT:
+- Никаких “срезов” контекста через прямой RAW любого файла.
+- Любой доступ к слоям: START → ROUTER → REQUIRED_IDX → (KEY→RAW via this file).
 
-## [M] ENTRIES
+---
+
+## [M] HARD_RULES (STRICT)
+1) Любая навигация UE_V2: KEY → resolve RAW here → open.
+2) Запрещён обход через PATH, если RAW известен.
+3) PIPELINE_CONTRACT и ROUTER оперируют только KEY (не RAW, не PATH).
+4) Любой слой обязан иметь свой LAYER INDEX MANIFEST (KEY), и он обязан быть зарегистрирован тут.
+5) Любая “дыра” = GAP, а не “пойдём напрямую”.
+6) Разрешённые места хранения RAW:
+   - START (как публичный вход)
+   - ROOT LINK BASE (как хранилище ключей)
+   - этот INDEX_MANIFEST (как корневой реестр)
+   В остальных файлах: только KEY.
+
+---
+
+## [M] ANTI_NOISE_POLICY (ROOT)
+- Этот файл не объясняет систему. Он только “адреса + маркеры”.
+- Не грузить деревья папок. Только REQUIRED_SET + доменный IDX по ROUTE_TOKEN.
+- Любые дополнительные файлы — только через REQUIRED_IDX и только точечно.
+
+---
+
+## [M] ENTRY_SCHEMA (v1.1)
+Each entry is ONE line block.
+
+FIELDS:
+- KEY:                 (string, unique, stable)
+- UID:                 (string, optional until assigned)
+- KIND:                FILE|FOLDER|LAYER_IDX|PIPE|REG|XREF|KB|LOG|STD|LAW|TPL|ENTITY|PANEL
+- ROLE:                (short role)
+- DESC:                (1 line)
+- RAW:                 (raw url or empty if GAP)
+- PATH:                (path for humans only)
+- MARKERS:             [..] (MUST_LOAD, ROUTER, NAV, PIPE, REG, XREF, KB, LOG, DOMAIN_*, GAP, DEPRECATED)
+- ACCESS:              PUBLIC|INTERNAL (default INTERNAL)
+- STATUS:              ACTIVE|DRAFT|DEPRECATED
+- OWNER:               SYS|RUNTIME|USER
+- UPDATED:             YYYY-MM-DD
+
+---
+
+## [M] REQUIRED_SET (ROOT MUST_LOAD)
+NOTE:
+- MUST_LOAD_SET минимальный. Всё остальное грузится после ROUTE_TOKEN.
 
 ### [M] SELF
-- KEY: SELF
+- KEY: UEV2.ROOT.INDEX_MANIFEST
   UID: UE.V2.ROOT.INDEX_MANIFEST.001
   KIND: FILE
-  ROLE: Self pointer for deterministic nav
-  DESC: This root index-manifest file for UE_V2
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/00__INDEX_MANIFEST__UE_V2.md
-  PATH: UE_V2/00__INDEX_MANIFEST__UE_V2.md
-  MARKERS: [INDEX, SELF]
-  STATUS: ACTIVE
-  OWNER: SYS
-  UPDATED: 2026-01-31
-
-### [M] REQUIRED (root routers)
-- KEY: INDEX_MANIFEST
-  UID: UE.V2.ROOT.INDEX_MANIFEST.001
-  KIND: FILE
-  ROLE: Address table for UE_V2 root
-  DESC: Root address table for UE_V2 layer entrypoints
+  ROLE: Root address table for UE_V2
+  DESC: Root INDEX_MANIFEST registry (KEY→RAW)
   RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/00__INDEX_MANIFEST__UE_V2.md
   PATH: UE_V2/00__INDEX_MANIFEST__UE_V2.md
   MARKERS: [INDEX, MUST_LOAD]
+  ACCESS: INTERNAL
   STATUS: ACTIVE
   OWNER: SYS
-  UPDATED: 2026-01-31
+  UPDATED: 2026-02-06
 
-- KEY: PIPELINE_CONTRACT
+### [M] START (PUBLIC ENTRYPOINT)
+- KEY: UEV2.BOOT.START
+  UID: UE.V2.BOOT.START.001
+  KIND: FILE
+  ROLE: Public runtime entrypoint
+  DESC: Единственный публичный вход. Принимает TASK_TEXT. Запускает START_SEQUENCE.
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/00__START.md
+  PATH: UE_V2/00__START.md
+  MARKERS: [BOOT, START, MUST_LOAD, ROUTER]
+  ACCESS: PUBLIC
+  STATUS: ACTIVE
+  OWNER: SYS
+  UPDATED: 2026-02-06
+
+### [M] PIPELINE_CONTRACT (ROOT ROUTING)
+- KEY: UEV2.ROOT.PIPELINE_CONTRACT
   UID: UE.V2.ROOT.PIPELINE_CONTRACT.001
   KIND: PIPE
   ROLE: Root step-run navigator
-  DESC: Routes to layers via layer INDEX_MANIFEST (KEY-only)
+  DESC: Договор пайплайна. ROUTER/PIPE_DEFAULT работают через KEY.
   RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/00__PIPELINE_CONTRACT__UE_V2.md
   PATH: UE_V2/00__PIPELINE_CONTRACT__UE_V2.md
   MARKERS: [PIPE, MUST_LOAD, ROUTER]
+  ACCESS: INTERNAL
   STATUS: ACTIVE
   OWNER: SYS
-  UPDATED: 2026-01-31
+  UPDATED: 2026-02-06
 
-### [O] CONTENT (layer entrypoints)
-# RULE:
-# - If layer INDEX_MANIFEST RAW is known -> register as KIND: FILE with RAW.
-# - If not known yet -> register layer folder as KIND: FOLDER with RAW empty and MARKERS include GAP.
-# - No pipeline duplicates here.
+### [M] NAV_ROOT (ACCESS CHECKS)
+- KEY: UEV2.NAV.NAV_ROOT
+  UID: UE.V2.NAV.NAV_ROOT.001
+  KIND: FILE
+  ROLE: Navigation root rules
+  DESC: Правила NAV + подтверждение доступа к REG/XREF/KB/PIPE/LOG через IDX.
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/04_NAV/00__NAV_ROOT.md
+  PATH: UE_V2/04_NAV/00__NAV_ROOT.md
+  MARKERS: [NAV, MUST_LOAD]
+  ACCESS: INTERNAL
+  STATUS: ACTIVE
+  OWNER: SYS
+  UPDATED: 2026-02-06
 
-## READY LAYERS (index known)
+---
 
+## [M] LAYERS (INDEX_MANIFEST REGISTRY)
+RULE:
+- Каждый слой регистрируется как LAYER_IDX (не FOLDER-плейсхолдер).
+- Если RAW неизвестен/файла нет → RAW пустой + MARKERS include GAP.
+
+### BOOT
 - KEY: UEV2.BOOT.INDEX_MANIFEST
   UID: UE.V2.BOOT.INDEX_MANIFEST.001
-  KIND: FILE
+  KIND: LAYER_IDX
   ROLE: Layer index for 00_BOOT
-  DESC: Entry index-manifest for BOOT layer
+  DESC: BOOT layer registry
   RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/00_BOOT/00__INDEX_MANIFEST__BOOT.md
   PATH: UE_V2/00_BOOT/00__INDEX_MANIFEST__BOOT.md
   MARKERS: [INDEX, LAYER, BOOT]
+  ACCESS: INTERNAL
   STATUS: ACTIVE
   OWNER: SYS
-  UPDATED: 2026-01-31
+  UPDATED: 2026-02-06
 
+### SYS
 - KEY: UEV2.SYS.INDEX_MANIFEST
   UID: UE.V2.SYS.INDEX_MANIFEST.001
-  KIND: FILE
+  KIND: LAYER_IDX
   ROLE: Layer index for 01_SYS
-  DESC: Entry index-manifest for SYS layer
+  DESC: SYS layer registry
   RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/01_SYS/00__INDEX_MANIFEST__SYS.md
   PATH: UE_V2/01_SYS/00__INDEX_MANIFEST__SYS.md
   MARKERS: [INDEX, LAYER, SYS]
+  ACCESS: INTERNAL
   STATUS: ACTIVE
   OWNER: SYS
-  UPDATED: 2026-01-31
+  UPDATED: 2026-02-06
 
+### STD
 - KEY: UEV2.STD.INDEX_MANIFEST
   UID: UE.V2.STD.INDEX_MANIFEST.001
-  KIND: FILE
+  KIND: LAYER_IDX
   ROLE: Layer index for 02_STD
-  DESC: Entry index-manifest for STD layer
+  DESC: STD layer registry
   RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/02_STD/00__INDEX_MANIFEST__STD.md
   PATH: UE_V2/02_STD/00__INDEX_MANIFEST__STD.md
   MARKERS: [INDEX, LAYER, STD]
+  ACCESS: INTERNAL
   STATUS: ACTIVE
   OWNER: SYS
-  UPDATED: 2026-01-31
+  UPDATED: 2026-02-06
 
+### ENT
 - KEY: UEV2.ENT.INDEX_MANIFEST
   UID: UE.V2.ENT.INDEX_MANIFEST.001
-  KIND: FILE
+  KIND: LAYER_IDX
   ROLE: Layer index for 03_ENT
-  DESC: Entry index-manifest for ENT layer
+  DESC: ENT layer registry
   RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/00__INDEX_MANIFEST__ENT.md
   PATH: UE_V2/03_ENT/00__INDEX_MANIFEST__ENT.md
   MARKERS: [INDEX, LAYER, ENT]
+  ACCESS: INTERNAL
   STATUS: ACTIVE
   OWNER: SYS
-  UPDATED: 2026-01-31
+  UPDATED: 2026-02-06
 
-## REGISTERED LAYERS (folder placeholders, index not registered yet)
-
-- KEY: UEV2.NAV.LAYER
-  UID:
-  KIND: FOLDER
-  ROLE: Layer folder placeholder for 04_NAV
-  DESC: Layer exists; INDEX_MANIFEST RAW not registered yet
+### NAV
+- KEY: UEV2.NAV.INDEX_MANIFEST
+  UID: UE.V2.NAV.INDEX_MANIFEST.001
+  KIND: LAYER_IDX
+  ROLE: Layer index for 04_NAV
+  DESC: NAV layer registry
   RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/04_NAV/00__INDEX_MANIFEST__NAV.md
-  PATH: UE_V2/04_NAV
-  MARKERS: [LAYER, NAV, GAP]
-  STATUS: DRAFT
+  PATH: UE_V2/04_NAV/00__INDEX_MANIFEST__NAV.md
+  MARKERS: [INDEX, LAYER, NAV]
+  ACCESS: INTERNAL
+  STATUS: ACTIVE
   OWNER: SYS
-  UPDATED: 2026-01-31
+  UPDATED: 2026-02-06
 
-- KEY: UEV2.KB.LAYER
-  UID:
-  KIND: FOLDER
-  ROLE: Layer folder placeholder for 05_KB
-  DESC: Layer exists; INDEX_MANIFEST RAW not registered yet
+### KB
+- KEY: UEV2.KB.INDEX_MANIFEST
+  UID: UE.V2.KB.INDEX_MANIFEST.001
+  KIND: LAYER_IDX
+  ROLE: Layer index for 05_KB
+  DESC: KB layer registry
   RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/05_KB/00__INDEX_MANIFEST__KB.md
-  PATH: UE_V2/05_KB
-  MARKERS: [LAYER, KB, GAP]
-  STATUS: DRAFT
+  PATH: UE_V2/05_KB/00__INDEX_MANIFEST__KB.md
+  MARKERS: [INDEX, LAYER, KB]
+  ACCESS: INTERNAL
+  STATUS: ACTIVE
   OWNER: SYS
-  UPDATED: 2026-01-31
+  UPDATED: 2026-02-06
 
-- KEY: UEV2.PIPE.LAYER
-  UID:
-  KIND: FOLDER
-  ROLE: Layer folder placeholder for 06_PIPE
-  DESC: Layer exists; INDEX_MANIFEST RAW not registered yet
+### PIPE
+- KEY: UEV2.PIPE.INDEX_MANIFEST
+  UID: UE.V2.PIPE.INDEX_MANIFEST.001
+  KIND: LAYER_IDX
+  ROLE: Layer index for 06_PIPE
+  DESC: PIPE layer registry
   RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/06_PIPE/00__INDEX_MANIFEST__PIPE.md
-  PATH: UE_V2/06_PIPE
-  MARKERS: [LAYER, PIPE, GAP]
-  STATUS: DRAFT
+  PATH: UE_V2/06_PIPE/00__INDEX_MANIFEST__PIPE.md
+  MARKERS: [INDEX, LAYER, PIPE]
+  ACCESS: INTERNAL
+  STATUS: ACTIVE
   OWNER: SYS
-  UPDATED: 2026-01-31
+  UPDATED: 2026-02-06
 
-- KEY: UEV2.DOM_AUD.LAYER
-  UID:
-  KIND: FOLDER
-  ROLE: Layer folder placeholder for 07_DOM_AUD
-  DESC: Layer exists; INDEX_MANIFEST RAW not registered yet
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/07_DOM_AUD/00__INDEX_MANIFEST__DOM__AUD.md
-  PATH: UE_V2/07_DOM_AUD
-  MARKERS: [LAYER, DOM, AUD, GAP]
-  STATUS: DRAFT
+### LOG
+- KEY: UEV2.LOG.INDEX_MANIFEST
+  UID: UE.V2.LOG.INDEX_MANIFEST.001
+  KIND: LAYER_IDX
+  ROLE: Layer index for LOG layer
+  DESC: LOG layer registry
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/12_LOG/00__INDEX_MANIFEST__LOG.md
+  PATH: UE_V2/12_LOG/00__INDEX_MANIFEST__LOG.md
+  MARKERS: [INDEX, LAYER, LOG]
+  ACCESS: INTERNAL
+  STATUS: ACTIVE
   OWNER: SYS
-  UPDATED: 2026-01-31
+  UPDATED: 2026-02-06
 
-- KEY: UEV2.DOM_VIS.LAYER
-  UID:
-  KIND: FOLDER
-  ROLE: Layer folder placeholder for 08_DOM_VIS
-  DESC: Layer exists; INDEX_MANIFEST RAW not registered yet
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/08_DOM_VIS/00__INDEX_MANIFEST__DOM__VIS.md
-  PATH: UE_V2/08_DOM_VIS
-  MARKERS: [LAYER, DOM, VIS, GAP]
-  STATUS: DRAFT
-  OWNER: SYS
-  UPDATED: 2026-01-31
+---
 
-- KEY: UEV2.DOM_LOR.LAYER
-  UID:
-  KIND: FOLDER
-  ROLE: Layer folder placeholder for 09_DOM_LOR
-  DESC: Layer exists; INDEX_MANIFEST RAW not registered yet
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/09_DOM_LOR/00__INDEX_MANIFEST__DOM__LOR.md
-  PATH: UE_V2/09_DOM_LOR
-  MARKERS: [LAYER, DOM, LOR, GAP]
-  STATUS: DRAFT
-  OWNER: SYS
-  UPDATED: 2026-01-31
+## [M] ROUTER_DEPENDENCIES (KEY-ONLY)
+The ROUTER / STEP-RUN must be able to resolve these KEYS:
+- UEV2.BOOT.START
+- UEV2.ROOT.PIPELINE_CONTRACT
+- UEV2.NAV.NAV_ROOT
+- UEV2.PIPE.INDEX_MANIFEST
+- UEV2.KB.INDEX_MANIFEST
+- UEV2.LOG.INDEX_MANIFEST
 
-- KEY: UEV2.REL.LAYER
-  UID:
-  KIND: FOLDER
-  ROLE: Layer folder placeholder for 10_REL
-  DESC: Layer exists; INDEX_MANIFEST RAW not registered yet
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/10_REL/00__INDEX_MANIFEST__REL.md
-  PATH: UE_V2/10_REL
-  MARKERS: [LAYER, REL, GAP]
-  STATUS: DRAFT
-  OWNER: SYS
-  UPDATED: 2026-01-31
+If any missing → GAP.
 
-- KEY: UEV2.TKN.LAYER
-  UID:
-  KIND: FOLDER
-  ROLE: Layer folder placeholder for 11_TKN
-  DESC: Layer exists; INDEX_MANIFEST RAW not registered yet
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/11_TKN/00__INDEX_MANIFEST__TKN.md
-  PATH: UE_V2/11_TKN
-  MARKERS: [LAYER, TKN, GAP]
-  STATUS: DRAFT
-  OWNER: SYS
-  UPDATED: 2026-01-31
+---
 
-- KEY: UEV2.LEX.LAYER
-  UID:
-  KIND: FOLDER
-  ROLE: Layer folder placeholder for 12_LEX
-  DESC: Layer exists; INDEX_MANIFEST RAW not registered yet
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/12_LEX/00__INDEX_MANIFEST__LEX.md
-  PATH: UE_V2/12_LEX
-  MARKERS: [LAYER, LEX, GAP]
-  STATUS: DRAFT
-  OWNER: SYS
-  UPDATED: 2026-01-31
+## [M] VALIDATION (ROOT)
+PASS if:
+- START exists and marked ACCESS: PUBLIC
+- REQUIRED_SET keys exist
+- All LAYERS are registered as KIND: LAYER_IDX (not folder placeholders)
+- Any missing RAW is explicitly GAP-marked (no silent empty)
 
-- KEY: UEV2.STR_PNT.LAYER
-  UID:
-  KIND: FOLDER
-  ROLE: Layer folder placeholder for 13_STR_PNT
-  DESC: Layer exists; INDEX_MANIFEST RAW not registered yet
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/13_STR_PNT/00__INDEX_MANIFEST__STR__PNT.md
-  PATH: UE_V2/13_STR_PNT
-  MARKERS: [LAYER, STR_PNT, GAP]
-  STATUS: DRAFT
-  OWNER: SYS
-  UPDATED: 2026-01-31
+FAIL if:
+- Any file outside START/ROOT LINK BASE/this file contains RAW used for nav
+- ROUTER or PIPELINE_CONTRACT relies on RAW directly instead of KEY
 
-- KEY: UEV2.LOG.LAYER
-  UID:
-  KIND: FOLDER
-  ROLE: Layer folder placeholder for 14_LOG
-  DESC: Layer exists; INDEX_MANIFEST RAW not registered yet
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/14_LOG/00__INDEX_MANIFEST__LOG.md
-  PATH: UE_V2/14_LOG
-  MARKERS: [LAYER, LOG, GAP]
-  STATUS: DRAFT
-  OWNER: SYS
-  UPDATED: 2026-01-31
