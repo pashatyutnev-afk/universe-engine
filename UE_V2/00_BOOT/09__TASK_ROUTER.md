@@ -2,218 +2,222 @@
 
 SCOPE: UE_V2
 DOC_TYPE: BOOT / ROUTER
-UID: UE.V2.BOOT.ROUTER.001
-VERSION: 1.1.0
+UID: UE.V2.BOOT.ROUTER.009
+VERSION: 2.0.0
 STATUS: ACTIVE
 MODE: REPO (USAGE-ONLY, NO-EDIT)
 NAV_RULE: Use RAW links only
 
 PURPOSE:
-Детерминированно формирует ROUTE_TOKEN.
-Гарантирует, что работа всегда начинается с PRIMARY_SPC (главный SPC),
-а затем передаётся в нужный домен / пайплайн.
+Детерминированно маршрутизирует TASK_TEXT в ROUTE_TOKEN:
+- DOMAIN
+- ARTIFACT_TYPE
+- MODE (FAST|RELEASE_READY|MASTERPIECE)
+- PIPE_SELECTED
+- DEFAULT_ORC
+- REQUIRED_IDX (минимальный набор IDX/manifest для доступа к REG/XREF/KB/PIPE/LOG)
+- REQUIRED_CHECKS
+- EXEC_MODE (STEP_RUN default)
 
 ---
 
 ## [M] INPUTS
-REQUIRED:
-- TASK_TEXT
-
-OPTIONAL:
-- MODE_HINT: FAST | RELEASE_READY | MASTERPIECE
-- constraints:
-  - platform
-  - duration
-  - style
-  - references
+- TASK_TEXT (required)
+- OPTIONAL: MODE_HINT (FAST|RELEASE_READY|MASTERPIECE)
+- OPTIONAL: constraints (platform, duration, style, references)
 
 ---
 
 ## [M] OUTPUT
-ROUTE_TOKEN:
+ROUTE_TOKEN (required fields):
 - DOMAIN
 - ARTIFACT_TYPE
 - MODE
 - PIPE_SELECTED
-- EXEC_MODE
-- PRIMARY_SPC
 - DEFAULT_ORC
 - REQUIRED_IDX
 - REQUIRED_CHECKS
-- NOTES (short)
+- EXEC_MODE
 
 ---
 
-## [M] HARD RULES (NON-NEGOTIABLE)
-R1) PRIMARY_SPC always present:
-- Любая задача обязана начинаться с главного SPC (governance entrypoint).
-- Запрещено начинать сразу с ORC/PIPE.
-
-R2) Determinism:
-- Один и тот же TASK_TEXT + MODE_HINT => один и тот же ROUTE_TOKEN.
-- Если есть сомнение между 2 доменами — выбираем более общий PIPE_DEFAULT + DOMAIN_PLUGIN (если есть),
-  иначе ставим GAP.
-
-R3) Anti-noise:
-- ROUTER не грузит деревья.
-- ROUTER возвращает только ROUTE_TOKEN и короткую инструкцию "го".
+## [M] ROUTER LAW (NO-GUESS / NO-NOISE)
+- Routing must be deterministic: same TASK_TEXT -> same ROUTE_TOKEN.
+- Do not load trees. Only:
+  - START + RUNTIME_MANIFEST + ROUTER + NAV_ROOT
+  - then one domain IDX/manifest
+  - then 1–3 target files.
+- No обходы IDX: доступ к REG/XREF/KB/PIPE/LOG подтверждается через REQUIRED_IDX.
+- Default EXEC_MODE = STEP_RUN.
 
 ---
 
-## [M] PRIMARY_SPC (GLOBAL ENTRY)
-PRIMARY_SPC_PATH:
-- UE_V2/03_ENT/10_SPC_ENT/00_TOP_GOVERNANCE_SPC_ENT/01_GVN_MACHINE_ARCHITECT_SPC_ENT
-
-PRIMARY_SPC_ROLE:
-- принимает TASK_TEXT
-- проверяет MIN_INPUTS
-- нормализует запрос (без потери смысла)
-- инициирует доменный SPC/ORC по ROUTE_TOKEN
-- контролирует что NAV/IDX/LOG не пропущены
+## [M] NORMALIZATION
+N0) Trim TASK_TEXT.
+N1) Lowercase copy for detection (original preserved).
+N2) Extract keywords set: split by spaces + punctuation.
+N3) If MODE_HINT not provided -> MODE = RELEASE_READY (default).
+N4) If constraints include platform keywords -> bind to token (does not change routing unless explicitly stated in rules below).
 
 ---
 
-## [M] CLASSIFICATION (DOMAIN / ARTIFACT_TYPE)
+## [M] DOMAIN DETECTION (priority order)
+Return first match in this order:
 
-### ARTIFACT_TYPE
-T1) MUSIC_TRACK:
-если в TASK_TEXT есть (одно из):
-- трек, track, песня, куплет, припев, бит, музыка, вокал
+D1) MUSIC:
+If TASK_TEXT contains any of:
+- "трек", "track", "песня", "lyrics", "куплет", "припев", "бит", "сведение", "мастеринг", "suno", "вокал"
 
-T2) DOC:
-если в TASK_TEXT есть:
-- документация, README, шаблон, контракт, индекс, manifest, policy, standard
+D2) VIS:
+If contains:
+- "видео", "ролик", "veo", "prompt", "кадр", "шот", "shot", "camera", "8 секунд", "стиль", "cinematic", "рендер"
 
-T3) VISUAL:
-если в TASK_TEXT есть:
-- видео, кадр, промпт, shot, сцена, клип, обложка
+D3) LOR:
+If contains:
+- "лор", "lore", "канон", "сюжет", "персонаж", "арка", "сцена", "эпоха"
 
-Иначе:
-- ARTIFACT_TYPE = DOC (по умолчанию, самый безопасный)
+D4) REL:
+If contains:
+- "релиз", "release", "дроп", "пост", "публикация", "дистрибуция", "обложка", "метаданные"
 
-### DOMAIN
-D1) DOM_AUD:
-если ARTIFACT_TYPE = MUSIC_TRACK
-или если в TASK_TEXT есть: микс, мастеринг, лирика, bpm, жанр
+D5) DOC:
+If contains:
+- "README", "док", "шаблон", "template", "протокол", "правило", "индекс", "manifest"
 
-D2) DOM_VIS:
-если ARTIFACT_TYPE = VISUAL
+Else:
+DOMAIN = DOC
 
-D3) DOM_LOR:
-если в TASK_TEXT есть: лор, канон, персонаж, раса, планета, хроника
+---
 
-D4) SYS/STD/ENT/NAV/KB/PIPE/LOG:
-если в TASK_TEXT есть явные маркеры папок/слоёв (boot, nav, kb, pipe, log, ent, reg, xref)
+## [M] ARTIFACT_TYPE DETECTION (by DOMAIN)
+A1) If DOMAIN=MUSIC:
+- If contains "текст", "lyrics", "куплет", "припев" -> ARTIFACT_TYPE = LYRICS
+- Else -> ARTIFACT_TYPE = TRACK
 
-Иначе:
-- DOMAIN = SYS (общесистемная обработка через PIPE_DEFAULT)
+A2) If DOMAIN=VIS:
+- ARTIFACT_TYPE = VIS_PROMPT
+
+A3) If DOMAIN=LOR:
+- ARTIFACT_TYPE = LORE_DOC
+
+A4) If DOMAIN=REL:
+- ARTIFACT_TYPE = RELEASE_PACK
+
+A5) If DOMAIN=DOC:
+- ARTIFACT_TYPE = DOC_PATCH
 
 ---
 
 ## [M] PIPE SELECTION
-P1) If ARTIFACT_TYPE = MUSIC_TRACK:
-- PIPE_SELECTED = UE_V2/06_PIPE/20__PIPE_MUSIC_TRACK.md
+P0) EXEC_MODE = STEP_RUN
 
-P2) If ARTIFACT_TYPE = DOC and TASK_TEXT про boot/nav/idx/router/log:
-- PIPE_SELECTED = UE_V2/06_PIPE/01__PIPE_DEFAULT.md
+P1) If DOMAIN=MUSIC:
+- If ARTIFACT_TYPE=TRACK -> PIPE_SELECTED = UE_V2/06_PIPE/20__PIPE_MUSIC_TRACK.md
+- If ARTIFACT_TYPE=LYRICS -> PIPE_SELECTED = UE_V2/06_PIPE/21__PIPE_MUSIC_LYRICS.md
+- Else -> PIPE_SELECTED = UE_V2/06_PIPE/01__PIPE_DEFAULT.md
 
-P3) If ARTIFACT_TYPE = VISUAL:
-- PIPE_SELECTED = UE_V2/06_PIPE/01__PIPE_DEFAULT.md
-  (дальше доменный handoff через DOMAIN_PLUGIN при наличии)
+P2) If DOMAIN=VIS:
+- PIPE_SELECTED = UE_V2/06_PIPE/04__PIPE_VIS.md
 
-P4) Fallback:
+P3) If DOMAIN=LOR:
+- PIPE_SELECTED = UE_V2/06_PIPE/05__PIPE_LOR.md
+
+P4) If DOMAIN=REL:
+- PIPE_SELECTED = UE_V2/06_PIPE/14__PIPE_REL.md
+
+P5) If DOMAIN=DOC:
 - PIPE_SELECTED = UE_V2/06_PIPE/01__PIPE_DEFAULT.md
 
 ---
 
-## [M] REQUIRED_IDX (NAV GUARANTEE)
-ROUTER должен назначить минимум один IDX, чтобы NAV мог подтвердить доступ к REG/XREF/KB/PIPE/LOG.
+## [M] DEFAULT ORC (deterministic)
+O1) DOMAIN=MUSIC  -> DEFAULT_ORC = ORC_MUSIC
+O2) DOMAIN=VIS    -> DEFAULT_ORC = ORC_VIS
+O3) DOMAIN=LOR    -> DEFAULT_ORC = ORC_LOR
+O4) DOMAIN=REL    -> DEFAULT_ORC = ORC_REL
+O5) DOMAIN=DOC    -> DEFAULT_ORC = ORC_DEFAULT
 
-IDX_RULE:
-- если PIPE_SELECTED в 06_PIPE -> REQUIRED_IDX включает:
-  - UE_V2/06_PIPE/00__INDEX_MANIFEST__PIPE.md
-  - UE_V2/04_NAV/03__IDX_PIPE.md
+NOTE:
+DEFAULT_ORC is a role-token. Реальная сущность/файл ORC берётся через MUST_LOAD_SET из RUNTIME_MANIFEST + NAV lookup.
+Роутер НЕ хардкодит путь к сущности, чтобы не ломаться при реорганизации дерева.
 
-- если DOMAIN = DOM_AUD -> REQUIRED_IDX добавляет:
+---
+
+## [M] REQUIRED_IDX (minimum access coverage)
+Всегда включать:
+- UE_V2/04_NAV/00__NAV_ROOT.md
+- UE_V2/06_PIPE/00__PIPELINE_CONTRACT__PIPE.md
+- UE_V2/06_PIPE/00__INDEX_MANIFEST__PIPE.md
+- UE_V2/14_LOG/00__INDEX_MANIFEST__LOG.md
+
+Доменные добавки:
+- If DOMAIN=MUSIC:
   - UE_V2/07_DOM_AUD/00__INDEX_MANIFEST__DOM__AUD.md
-
-- если DOMAIN = DOM_VIS -> REQUIRED_IDX добавляет:
+  - UE_V2/07_DOM_AUD/00__PIPELINE_CONTRACT__DOM__AUD.md
+- If DOMAIN=VIS:
   - UE_V2/08_DOM_VIS/00__INDEX_MANIFEST__DOM__VIS.md
-
-- если DOMAIN = DOM_LOR -> REQUIRED_IDX добавляет:
+  - UE_V2/08_DOM_VIS/00__PIPELINE_CONTRACT__DOM__VIS.md
+- If DOMAIN=LOR:
   - UE_V2/09_DOM_LOR/00__INDEX_MANIFEST__DOM__LOR.md
+  - UE_V2/09_DOM_LOR/00__PIPELINE_CONTRACT__DOM__LOR.md
+- If DOMAIN=REL:
+  - UE_V2/10_REL/00__INDEX_MANIFEST__REL.md
+  - UE_V2/10_REL/00__PIPELINE_CONTRACT__REL.md
+- If DOMAIN=DOC:
+  - UE_V2/00__INDEX_MANIFEST__UE_V2.md
 
-Примечание:
-Если нужного доменного INDEX_MANIFEST нет — ставим GAP.
-
----
-
-## [M] REQUIRED_CHECKS (MIN SET)
-DEFAULT REQUIRED_CHECKS:
-- ENTRYPOINT_CHECK (TASK_TEXT present)
-- MUST_LOAD_AVAILABLE (BOOT manifest reachable)
-- NAV_ROOT_AVAILABLE
-- PIPE_DEFAULT_AVAILABLE
-- LOG_AVAILABLE
-
-If ARTIFACT_TYPE = MUSIC_TRACK add:
-- SUNO_NO_EXCLAMATION (если применимо в твоих правилах контента)
+KB/XREF coverage (required for all domains if KB is referenced in TASK_TEXT):
+If TASK_TEXT contains "kb", "пример", "example", "gate", "gates", "xref":
+- add: UE_V2/05_KB/00__INDEX_MANIFEST__KB.md (if exists via NAV_ROOT; else GAP handled by START rules)
 
 ---
 
-## [M] MODE + EXEC_MODE
-MODE (from MODE_HINT):
-- FAST -> MODE=FAST
-- RELEASE_READY -> MODE=RELEASE_READY
-- MASTERPIECE -> MODE=MASTERPIECE
-- else -> MODE=RELEASE_READY (default)
+## [M] REQUIRED_CHECKS
+Всегда:
+- CHECK_NAV_ROOT_ACCESS
+- CHECK_PIPE_DEFAULT_ACCESS
+- CHECK_LOG_ACCESS
 
-EXEC_MODE:
-- STEP_RUN (always default)
-(дальше управляется командами из COMMANDS.md)
-
----
-
-## [M] DEFAULT_ORC
-DEFAULT_ORC_RULE:
-- если DOMAIN = DOM_AUD -> DEFAULT_ORC = "ORC_AUD"
-- если DOMAIN = DOM_VIS -> DEFAULT_ORC = "ORC_VIS"
-- если DOMAIN = DOM_LOR -> DEFAULT_ORC = "ORC_LOR"
-- иначе -> DEFAULT_ORC = "ORC_DEFAULT"
-
-Если соответствующая ORC сущность не найдена через IDX — GAP.
+Доменные:
+- MUSIC: CHECK_DOM_AUD_ACCESS
+- VIS:   CHECK_DOM_VIS_ACCESS
+- LOR:   CHECK_DOM_LOR_ACCESS
+- REL:   CHECK_REL_ACCESS
+- DOC:   CHECK_UE_V2_MANIFEST_ACCESS
 
 ---
 
-## [M] ROUTE_TOKEN TEMPLATE (FINAL)
+## [M] MODE RESOLUTION
+If MODE_HINT provided and valid -> MODE = MODE_HINT
+Else:
+- If TASK_TEXT contains "быстро", "fast", "черновик" -> MODE=FAST
+- If contains "шедевр", "masterpiece", "идеал", "максимум" -> MODE=MASTERPIECE
+- Else MODE=RELEASE_READY
+
+---
+
+## [M] ROUTE_TOKEN TEMPLATE (final)
 ROUTE_TOKEN = {
-  DOMAIN,
-  ARTIFACT_TYPE,
-  MODE,
-  PIPE_SELECTED,
-  EXEC_MODE: "STEP_RUN",
-  PRIMARY_SPC: PRIMARY_SPC_PATH,
-  DEFAULT_ORC,
-  REQUIRED_IDX: [list],
-  REQUIRED_CHECKS: [list],
-  NOTES
+  DOMAIN: <DOMAIN>,
+  ARTIFACT_TYPE: <ARTIFACT_TYPE>,
+  MODE: <MODE>,
+  PIPE_SELECTED: <PIPE_SELECTED>,
+  DEFAULT_ORC: <DEFAULT_ORC>,
+  REQUIRED_IDX: [ ... ],
+  REQUIRED_CHECKS: [ ... ],
+  EXEC_MODE: "STEP_RUN"
 }
 
 ---
 
-## [M] FAIL / GAP
-STOP:
-- TASK_TEXT отсутствует
+## [M] FAIL / GAP CONDITIONS (router-side)
+STOP only if:
+- TASK_TEXT absent
 
-GAP:
-- отсутствует доменный INDEX_MANIFEST для выбранного DOMAIN
-- отсутствует PIPE_SELECTED
-- невозможно подтвердить PRIMARY_SPC_PATH (путь/сущность не существует)
+GAP if:
+- PIPE_SELECTED missing/unreachable by RAW
+- NAV_ROOT missing/unreachable by RAW
+- required domain manifest missing/unreachable by RAW
+(Resolution handled by START: report GAP with missing RAW path)
 
 ---
-
-## [M] ROUTER RETURN (START OUTPUT)
-Возвращай только:
-- ROUTE_TOKEN
-- FIRST_STEP_PROMPT: "го"
-- (без справок и длинных объяснений)
