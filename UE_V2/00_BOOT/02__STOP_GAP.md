@@ -1,191 +1,196 @@
 # 02__STOP_GAP
 
 SCOPE: UE_V2  
-DOC_TYPE: BOOT_GUARD (STOP/GAP POLICY)  
-UID: UE.V2.BOOT.GUARD.STOPGAP.001  
+DOC_TYPE: POLICY (STOP / GAP)  
+UID: UE.V2.BOOT.STOPGAP.001  
 VERSION: 1.1.0  
 STATUS: ACTIVE  
 MODE: REPO (USAGE-ONLY, NO-EDIT)  
 NAV_RULE: Use RAW links only  
 
 PURPOSE:  
-Единая политика, которая объясняет, когда рантайм обязан остановиться (STOP),  
-а когда должен продолжить в режиме “пробел” (GAP) и запросить недостающие сущности/индексы/пайпы.  
-Главная цель: не “молчать”, не “обходить”, не “пропускать” REG/XREF/KB/PIPE/NAV/LOG.
+Жёстко определить, когда рантайм обязан остановиться (STOP) и когда он обязан выдать “дыру” (GAP).
+Политика защищает от обходов, гаданий и засорения контекста.
 
 ---
 
 ## [M] DEFINITIONS
-STOP = немедленная остановка, без “го”, потому что продолжение даст неверный рантайм.  
-GAP  = продолжение возможно, но требуется один или несколько обязательных элементов;  
-       рантайм фиксирует что отсутствует и формирует запрос/маркер на добавление.
+
+### STOP
+HARD STOP: продолжать нельзя.
+Причины:
+- нет входа (TASK_TEXT)
+- нет RAW для MUST_LOAD
+- обязательный маркер не подтверждён
+- отсутствует обязательный системный файл шага (MANIFEST/ROUTER/NAV/PIPE_DEFAULT/LOG_RULES)
+
+### GAP
+FIXABLE GAP: продолжать можно только после добавления/починки отсутствующего элемента.
+Причины:
+- нет доменного PIPE/IDX/контракта
+- нет обязательной сущности/панели/проверки по ROUTE_TOKEN
+- нет KB/примеров/гейтов, требуемых маршрутом
 
 ---
 
-## [M] HARD LAW (NON-NEGOTIABLE)
-L1) RAW-ONLY ACCESS  
-- если файл должен быть открыт, но RAW ссылка недоступна → это missing.
+## [M] ABSOLUTE RULES (NO BYPASSES)
+1) НЕЛЬЗЯ:
+- обходить IDX (никаких “прямых” открытий доменных файлов мимо REQUIRED_IDX)
+- массово грузить деревья/папки “для ориентации”
+- строить маршрут без ROUTE_TOKEN
+- выполнять пайплайн без PIPE_DEFAULT
+- “угадывать” сущности или их RAW
 
-L2) MUST_LOAD IS STOP  
-- любые missing в MUST_LOAD_SET = STOP.
-
-L3) MARKER NOT CONFIRMED (MUST_LOAD) = STOP  
-- если MUST_LOAD файл открылся, но в нём нет маркера/секции, которую требует BOOT → STOP.
-
-L4) DOMAIN INFRA MISSING = GAP  
-- доменные IDX/PIPE/сущности/панели — это GAP, если они не входят в MUST_LOAD.
-
-L5) NO SILENT BYPASS  
-- нельзя “перепрыгнуть” отсутствующий IDX/PIPE/сущность и продолжить как будто всё ок.
+2) МОЖНО:
+- открывать только MUST_LOAD + REQUIRED_IDX + 1–3 целевых файла
+- отвечать шагами через STEP-RUN (“го”)
+- выдавать только один STOP или один GAP код на шаг
 
 ---
 
-## [M] INPUT ABSENCE RULE
-Если нет TASK_TEXT → STOP (ENTRYPOINT invalid).
+## [M] STOP CONDITIONS (CANON)
+
+### S0 ENTRYPOINT CHECK
+STOP если:
+- отсутствует TASK_TEXT  
+CODE: STOP.ENTRY.NO_TASK_TEXT
+
+### RAW AVAILABILITY (любая стадия)
+STOP если:
+- любой MUST_LOAD файл не открывается по RAW / 404 / нет ссылки  
+CODE: STOP.RAW.RAW_MISSING
+
+### MARKER CONFIRMATION (любая стадия)
+STOP если:
+- в MUST_LOAD документе не найден обязательный [M] блок (маркер)  
+CODE: STOP.BOOT.MARKER_MISSING
+
+### S2 MUST_LOAD ядро
+STOP если:
+- RUNTIME_MANIFEST не доступен или MUST_LOAD_SET не подтверждён  
+CODE: STOP.MANIFEST.MUST_LOAD_MISSING
+
+### S3 ROUTING
+STOP если:
+- ROUTE_TOKEN не сформирован полностью (нет DOMAIN/ARTIFACT_TYPE/MODE/PIPE_SELECTED/REQUIRED_IDX/REQUIRED_CHECKS/EXEC_MODE)  
+CODE: STOP.ROUTER.ROUTE_TOKEN_MISSING
+
+### S4 NAV
+STOP если:
+- NAV_ROOT не доступен  
+CODE: STOP.NAV.NAV_ROOT_MISSING
+STOP если:
+- REQUIRED_IDX не доступен или не найден  
+CODE: STOP.IDX.REQUIRED_IDX_MISSING
+
+### S5 PIPE EXEC
+STOP если:
+- PIPE_DEFAULT не доступен  
+CODE: STOP.PIPE.PIPE_DEFAULT_MISSING
+
+### S6 LOG INIT
+STOP если:
+- LOG_RULES не доступен или отсутствует обязательный набор логов  
+CODE: STOP.LOG.LOG_SET_MISSING
 
 ---
 
-## [M] MUST_LOAD (BOOT MINSET)
-MUST_LOAD_SET для запуска UE_V2 (минимальный, канонический):
-- UE_V2/00_BOOT/01__BOOT_SEQ.md
-- UE_V2/00_BOOT/02__STOP_GAP.md
-- UE_V2/00_BOOT/06__TRACE.md
-- UE_V2/00_BOOT/07__FAIL_CODES.md
-- UE_V2/00_BOOT/08__RUNTIME_MANIFEST.md
-- UE_V2/00_BOOT/09__TASK_ROUTER.md
-- UE_V2/04_NAV/00__NAV_ROOT.md
-- UE_V2/06_PIPE/01__PIPE_DEFAULT.md
-- UE_V2/00_BOOT/10__STEP_RUN_PROTOCOL.md
-- UE_V2/00_BOOT/12__FOCUS_LOOP_PROTOCOL.md
-- UE_V2/00_BOOT/13__COMMANDS.md
+## [M] GAP CONDITIONS (CANON)
 
-NOTE:
-- Логи и доменные панели по умолчанию GAP (если отдельно не объявлены MUST_LOAD в манифесте).
+GAP объявляется ТОЛЬКО после того, как:
+- MUST_LOAD пройден
+- ROUTE_TOKEN сформирован
+- NAV_ROOT + REQUIRED_IDX доступны
 
----
+### DOMAIN PIPE / CONTRACT
+GAP если:
+- выбран доменный PIPE (PIPE_SELECTED), но файла нет  
+CODE: GAP.PIPE.DOMAIN_PIPE_MISSING
 
-## [M] STOP MATRIX (WHEN TO HALT)
-STOP, если выполняется хотя бы одно:
+GAP если:
+- в домене отсутствует PIPELINE_CONTRACT или INDEX_MANIFEST, требуемые маршрутом  
+CODE: GAP.PIPE.CONTRACT_MISSING
 
-S0) INPUT ABSENT
-- TASK_TEXT отсутствует / пустой
+### REQUIRED CHECKS / PANELS
+GAP если:
+- REQUIRED_CHECKS перечислены, но соответствующие файлы/правила не доступны  
+CODE: GAP.IDX.REQUIRED_CHECKS_MISSING
 
-S1) MUST_LOAD RAW MISSING
-- любой файл из MUST_LOAD_SET не открывается по RAW
+### ENTITIES (SPC/ORC/CTL/VAL/QA/XREF)
+GAP если:
+- ROUTE_TOKEN требует сущность/роль/дефолтный хэнд-офф, но:
+  - файл отсутствует, или
+  - маркеры роли отсутствуют, или
+  - нет связки через IDX/REG  
+CODE: GAP.ENT.ENT_REQUIRED_MISSING
 
-S2) MUST_LOAD MARKER NOT CONFIRMED
-- файл открылся, но требуемый маркер/секция отсутствует
-  пример: ROUTER не содержит выдачу ROUTE_TOKEN
+### KB
+GAP если:
+- маршрут требует KB элемент (пример/гейт/рубрику), но его нет или он не связан через XREF/IDX  
+CODE: GAP.KB.KB_REQUIRED_MISSING
 
-S3) NAV RULE BROKEN
-- попытка перейти не по RAW (обход правила)
-
-S4) ROUTER LAW BROKEN
-- выбор домена/пайпа/оркестратора сделан “руками”, без ROUTE_TOKEN
-
-S5) STEP-RUN LAW BROKEN
-- переход шагов без команды “го” (в режиме STEP_RUN)
+### LOG (архив/решения)
+GAP если:
+- RUN_LOG есть, но TOKEN_ARCHIVE/DECISION_LOG отсутствуют  
+CODE: GAP.LOG.ARCHIVE_MISSING
 
 ---
 
-## [M] GAP MATRIX (WHEN TO CONTINUE WITH A GAP)
-GAP, если отсутствует, но не является MUST_LOAD:
+## [M] SINGLE-CODE RULE (ONE STEP → ONE CODE)
+На каждом шаге (S0–S6) допускается:
+- либо PASS (продолжаем)
+- либо ровно один STOP code
+- либо ровно один GAP code
 
-G1) DOMAIN PIPE MISSING
-- ROUTE_TOKEN.PIPE_SELECTED указывает на доменный пайп, но RAW недоступен
-
-G2) REQUIRED IDX MISSING
-- ROUTE_TOKEN.REQUIRED_IDX отсутствует или не открывается по RAW
-
-G3) GOVERNANCE SPC ENTITY NOT RESOLVED
-- система должна начать со SPC-FIRST (governance SPC), но сущность не найдена через ENT IDX/manifest
-
-G4) REG/XREF/KB/PIPE/LOG REACHABILITY NOT CONFIRMED
-- NAV_ROOT открыт, но через REQUIRED_IDX нельзя подтвердить доступ к нужным панелям
-
-G5) OPTIONAL TARGET FILES MISSING
-- 1–3 “target” файла, которые ROUTER попросил для задачи, отсутствуют
-
-G6) CHECKS PANEL MISSING
-- ROUTE_TOKEN.REQUIRED_CHECKS указаны, но соответствующие файлы не доступны
+Если обнаружено несколько проблем:
+- выбирать самую раннюю по sequence (S0→S6)
+- внутри шага выбирать самый “жёсткий” (STOP приоритетнее GAP)
 
 ---
 
-## [M] GAP OUTPUT FORMAT (WHAT TO PRINT)
+## [M] REPORT TEMPLATE (MANDATORY)
+Если STOP:
+- CODE: <STOP.*>
+- NOTE: <что missing, 1 строка>
+- NEXT: <что требуется от пользователя, 1 строка>
+
 Если GAP:
-- печатаем коротко:
-  - GAP_CODE
-  - MISSING_ITEMS (PATH + RAW if known)
-  - HOW_TO_FIX (1 строка)
-  - FIRST_STEP_PROMPT: го
+- CODE: <GAP.*>
+- NOTE: <что missing, 1 строка>
+- REQUIRED: <какой файл/сущность/контракт добавить, 1 строка>
 
-Запрещено:
-- длинные объяснения
-- загрузка дерева “вдруг поможет”
+PASS:
+- OK: <шаг выполнен>
+- NEXT: "го"
 
 ---
 
-## [M] TRACE INTEGRATION
-Если TRACE=ON:
-- при STOP или GAP печатаем:
-  - FAIL_CODE или GAP_CODE
-  - STAGE (S0..S9)
-  - LAST_OPENED_RAW (если был)
+## [M] ANTI-NOISE LOAD POLICY (REPEAT)
+ALWAYS:
+- START
+- RUNTIME_MANIFEST
+- TASK_ROUTER
+- NAV_ROOT
 
-Если TRACE=OFF:
-- печатаем только:
-  - STOP/GAP + код + 1 строка причины
+THEN:
+- один REQUIRED_IDX
+- 1–3 целевых файла по задаче
 
----
-
-## [M] CODES (MIN SET)
-STOP codes:
-- STOP.INPUT.ABSENT
-- STOP.MUSTLOAD.MISSING
-- STOP.MARKER.MISSING
-- STOP.NAV.RULE
-- STOP.ROUTER.LAW
-- STOP.STEPRUN.LAW
-
-GAP codes:
-- GAP.PIPE.MISSING
-- GAP.IDX.MISSING
-- GAP.SPC.NOT_RESOLVED
-- GAP.REACHABILITY.NOT_CONFIRMED
-- GAP.TARGET.MISSING
-- GAP.CHECKS.MISSING
+NEVER:
+- обход IDX
+- загрузка папок
+- “на всякий случай” загрузка десятков документов
 
 ---
 
 ## [M] INTERFACES (RAW ONLY)
-BOOT SEQ:
-https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/00_BOOT/01__BOOT_SEQ.md
-
-TRACE:
-https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/00_BOOT/06__TRACE.md
-
 FAIL CODES:
 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/00_BOOT/07__FAIL_CODES.md
 
-RUNTIME MANIFEST:
-https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/00_BOOT/08__RUNTIME_MANIFEST.md
-
-TASK ROUTER:
-https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/00_BOOT/09__TASK_ROUTER.md
-
-NAV ROOT:
-https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/04_NAV/00__NAV_ROOT.md
-
-PIPE DEFAULT:
-https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/06_PIPE/01__PIPE_DEFAULT.md
-
-STEP RUN PROTOCOL:
+STEP RUN:
 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/00_BOOT/10__STEP_RUN_PROTOCOL.md
 
 FOCUS LOOP:
 https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/00_BOOT/12__FOCUS_LOOP_PROTOCOL.md
-
-COMMANDS:
-https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/00_BOOT/13__COMMANDS.md
 
 END.
