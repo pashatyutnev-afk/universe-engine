@@ -98,7 +98,7 @@ NOTE:
   ROLE: Public runtime entrypoint
   DESC: Единственный публичный вход. Принимает TASK_TEXT. Запускает START_SEQUENCE.
   RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/00_BOOT/00__START.md
-  PATH: UE_V2/00__START.md
+  PATH: UE_V2/00_BOOT/00__START.md
   MARKERS: [BOOT, START, MUST_LOAD, ROUTER]
   ACCESS: PUBLIC
   STATUS: ACTIVE
