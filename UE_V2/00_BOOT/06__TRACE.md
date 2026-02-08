@@ -1,163 +1,133 @@
 # 06__TRACE
 
 SCOPE: UE_V2  
-DOC_TYPE: BOOT_TRACE (RUNTIME TRACE)  
+DOC_TYPE: BOOT_TRACE (RUNTIME TRACE POLICY)  
 UID: UE.V2.BOOT.TRACE.001  
 VERSION: 1.1.0  
 STATUS: ACTIVE  
 MODE: REPO (USAGE-ONLY, NO-EDIT)  
-NAV_RULE: RAW only  
-PURPOSE: Включает минимальную трассу исполнения рантайма без засорения контекста. Фиксирует: что открывали, почему, какие маркеры подтвердили, какие решения приняли, какой следующий шаг.
+NAV_RULE: Use RAW links only  
+
+PURPOSE:  
+Включаем “тонкую трассу” рантайма, чтобы всегда было видно:
+- на каком шаге BOOT мы находимся
+- какие RAW открывали
+- какой маркер подтвердили
+- почему STOP или GAP
+Без мусора и без длинных логов.
 
 ---
 
-## [M] TRACE PRINCIPLES
-- TRACE IS LIGHT: трасса короткая, только “критические точки”.
-- OUTPUT-FIRST: контент/результат важнее справки.
-- DETERMINISTIC: одинаковый вход → одинаковые решения/путь.
-- NO TREE LOAD: нельзя массово грузить папки/индексы; только MUST_LOAD + IDX из ROUTE_TOKEN + 1–3 target файла.
-- RAW ONLY: каждый “открытый” ресурс должен иметь RAW ссылку.
+## [M] TRACE SWITCH
+TRACE_MODE:
+- OFF  = трасса выключена (только результат)
+- ON   = печатаем TRACE_BLOCK на каждом шаге BOOT + при STOP/GAP
+- AUTO = включается автоматически, если случился STOP или GAP
+
+DEFAULT: AUTO
 
 ---
 
-## [M] TRACE LEVELS
-- TRACE_OFF: трасса выключена (запрещено для BOOT по START).
-- TRACE_MIN: минимум (по умолчанию).
-- TRACE_FULL: расширенная (только при MODE_HINT=MASTERPIECE или при QA/VAL расследовании).
-
-По START_SEQUENCE активировать: TRACE_MIN.
-
----
-
-## [M] TRACE EVENTS (CANON)
-Трасса ведётся событиями. Каждое событие — 1 блок.
-
-### E0: ENTRYPOINT
-Фиксируем:
-- TASK_PRESENT: yes/no
-- TASK_HASH: короткий отпечаток (например первые 12 символов безопасного хеша)  
-- MODE_HINT: FAST | RELEASE_READY | MASTERPIECE | none
-- CONSTRAINTS_PRESENT: yes/no
-
----
-
-### E1: BOOT_LOAD
-Фиксируем:
-- MUST_LOAD_OPENED: список PATH (не больше 12 строк)
-- MUST_LOAD_MARKERS: marker ok / missing (по каждому MUST_LOAD)
-- STOP/GAP: triggered? (код/нет)
-
----
-
-### E2: ROUTING
-Фиксируем:
-- ROUTER_OPENED: PATH
-- ROUTE_TOKEN: значения (см. формат ниже)
-- DECISION: почему выбран DOMAIN/PIPE_SELECTED (1 строка)
-
----
-
-### E3: NAV_CONFIRM
-Фиксируем:
-- NAV_ROOT_OPENED: PATH
-- REQUIRED_IDX_OPENED: PATH
-- ACCESS_CONFIRMED: REG/XREF/KB/PIPE/LOG (ok/missing)
-
----
-
-### E4: PIPE_HANDOFF
-Фиксируем:
-- PIPE_DEFAULT_OPENED: PATH
-- PIPE_SELECTED_OPENED: PATH (если доменный)
-- STEP_RUN_PROTOCOL_ON: yes/no
-- FOCUS_LOOP_PROTOCOL_ON: yes/no
-- COMMANDS_ON: yes/no
-
----
-
-### E5: LOG_INIT
-Фиксируем:
-- LOG_RULES_OPENED: PATH
-- RUN_LOG_AVAILABLE: yes/no
-- TOKEN_ARCHIVE_AVAILABLE: yes/no
-- DECISION_LOG_AVAILABLE: yes/no
-
----
-
-### E6: STEP_RESULT (per step)
-Фиксируем на каждый STEP-RUN:
-- STEP_ID: Sx
-- OPENED_TARGETS: 1–3 PATH
-- OUTPUT_SUMMARY: 1–3 строки (что выдали)
-- NEXT_PROMPT: обычно “го”
-- STATUS: PASS | GAP | STOP
-
----
-
-## [M] ROUTE_TOKEN FORMAT (TRACE)
-В трассе ROUTE_TOKEN пишется одним блоком:
-
-ROUTE_TOKEN:
-- DOMAIN:
-- ARTIFACT_TYPE:
-- MODE:
-- PIPE_SELECTED:
-- DEFAULT_ORC:
-- REQUIRED_IDX:
-- REQUIRED_CHECKS:
-- EXEC_MODE:
-
-Правило: если поле пустое — это риск STOP_05 (или GAP по ROUTER).
-
----
-
-## [M] ANTI-NOISE RULES (TRACE)
-Запрещено в TRACE:
-- длинные объяснения, “почему так в философии”
-- повторять содержимое открытых файлов
-- писать “все файлы были проверены” без перечисления
-- включать внешние ссылки кроме RAW
-
-Разрешено:
-- короткие списки PATH
-- коды STOP/GAP/FAIL
-- 1 строка rationales для routing decisions
-
----
-
-## [M] TRACE OUTPUT TEMPLATE (MIN)
-Использовать этот шаблон, когда трасса включена:
+## [M] TRACE BLOCK (CANON FORMAT)
+Если TRACE_MODE = ON или AUTO (и случился STOP/GAP), печатать блок:
 
 TRACE:
-- LEVEL: TRACE_MIN
-- E0_ENTRYPOINT: ...
-- E1_BOOT_LOAD: ...
-- E2_ROUTING: ...
-- E3_NAV_CONFIRM: ...
-- E4_PIPE_HANDOFF: ...
-- E5_LOG_INIT: ...
-- E6_STEP_RESULT: ...
+- STAGE: <S0|S1|S2|S3|S4|S5|S6>
+- ACTION: <OPEN|MARKER_CHECK|TOKEN_BUILD|IDX_CHECK|PIPE_ROUTE|LOG_INIT>
+- RAW_OPENED: <raw_url_or_none>
+- MARKER: <marker_name_or_none>
+- MARKER_STATUS: <FOUND|MISSING|SKIP>
+- RESULT: <OK|STOP|GAP>
+- CODE: <FAIL_CODE|GAP_CODE|none>
+- NOTE: <max 1 line>
+
+HARD LIMIT:
+- максимум 7 строк (как выше)
+- NOTE строго 1 строка, без объяснялок
 
 ---
 
-## [M] FAIL / GAP IN TRACE
-Если STOP:
-- обязательно добавить:
-  - FAIL_CODE
-  - MISSING (PATH/marker)
-  - NEXT (1 действие)
+## [M] STAGES MAP
+S0 ENTRYPOINT CHECK
+- ACTION: MARKER_CHECK
+- MARKER: TASK_TEXT_PRESENT
 
-Если GAP:
-- обязательно добавить:
-  - GAP_CODE
-  - AFFECTED
-  - ALLOWED / BLOCKED
-  - NEXT
+S1 BOOT SEQ
+- ACTION: OPEN / MARKER_CHECK
+- открываем BOOT_SEQ + STOP_GAP + FAIL_CODES
+
+S2 MUST_LOAD ядро
+- ACTION: OPEN / MARKER_CHECK
+- открываем RUNTIME_MANIFEST и подтверждаем MUST_LOAD_SET
+
+S3 ROUTING
+- ACTION: OPEN / TOKEN_BUILD
+- открываем TASK_ROUTER и собираем ROUTE_TOKEN
+
+S4 NAV
+- ACTION: OPEN / IDX_CHECK
+- открываем NAV_ROOT + REQUIRED_IDX (из ROUTE_TOKEN)
+- подтверждаем доступ к REG/XREF/KB/PIPE/LOG через IDX
+
+S5 PIPE EXEC (STEP-RUN)
+- ACTION: OPEN / PIPE_ROUTE
+- открываем PIPE_DEFAULT и делаем handoff в доменный пайп (если выбран)
+
+S6 LOG INIT
+- ACTION: OPEN / MARKER_CHECK
+- открываем LOG_RULES и подтверждаем доступ к RUN_LOG/TOKEN_ARCHIVE/DECISION_LOG
 
 ---
 
-## [M] DEFAULTS
-- DEFAULT_TRACE_LEVEL: TRACE_MIN
-- MAX_MUST_LOAD_LIST_LINES: 12
-- MAX_OPENED_TARGETS_PER_STEP: 3
-- MAX_OUTPUT_SUMMARY_LINES: 3
+## [M] TRACE + STOP/GAP RULE
+Если результат шага STOP:
+- RESULT: STOP
+- CODE: соответствующий STOP.* из FAIL_CODES
+- NOTE: 1 строка (что отсутствует)
+
+Если результат шага GAP:
+- RESULT: GAP
+- CODE: соответствующий GAP.* из STOP_GAP
+- NOTE: 1 строка (что надо добавить/починить)
+
+Запрещено:
+- “предположения”
+- “обходы”
+- “длинные диагнозы”
+TRACE = только факты.
+
+---
+
+## [M] LAST_OPENED_RAW RULE
+Сохранять LAST_OPENED_RAW на каждом OPEN.
+При STOP/GAP обязательно выводить RAW_OPENED = LAST_OPENED_RAW (если не none).
+
+---
+
+## [M] NOISE CONTROL
+TRACE не должен:
+- печатать содержимое файлов
+- печатать списки деревьев
+- печатать больше 1 IDX, кроме REQUIRED_IDX
+
+---
+
+## [M] OUTPUT INTEGRATION
+BOOT (START) обязан печатать:
+- ROUTE_TOKEN (после S3)
+- FIRST_STEP_PROMPT: "го"
+TRACE при этом печатается только если TRACE_MODE=ON или AUTO и был STOP/GAP.
+
+---
+
+## [M] INTERFACES (RAW ONLY)
+STOP/GAP POLICY:
+https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/00_BOOT/02__STOP_GAP.md
+
+FAIL CODES:
+https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/00_BOOT/07__FAIL_CODES.md
+
+BOOT SEQ:
+https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/00_BOOT/01__BOOT_SEQ.md
+
+END.

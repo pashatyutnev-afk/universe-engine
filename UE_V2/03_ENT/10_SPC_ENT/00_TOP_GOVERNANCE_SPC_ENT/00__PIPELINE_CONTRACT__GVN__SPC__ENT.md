@@ -1,106 +1,222 @@
-FILE: UE_V2/03_ENT/10_SPC_ENT/00_TOP_GOVERNANCE_SPC_ENT/00__PIPELINE_CONTRACT__GVN__SPC__ENT.md
-SCOPE: UE_V2 / 03_ENT / 10_SPC_ENT / 00_TOP_GOVERNANCE_SPC_ENT
-DOC_TYPE: PIPELINE_CONTRACT
-DOMAIN: GVN_SPC
-UID: UE.V2.ENT.SPC.GVN.PIPELINE_CONTRACT.001
-VERSION: 1.0.0
-STATUS: ACTIVE
-MODE: REPO (USAGE-ONLY, NO-EDIT)
-CREATED: 2026-01-31
-UPDATED: 2026-01-31
-OWNER: SYS
-NAV_RULE: Contract has no RAW
+# 00__PIPELINE_CONTRACT__GVN__SPC_ENT
+
+SCOPE: UE_V2  
+DOC_TYPE: PIPELINE_CONTRACT (SPC_ENT / TOP_GOVERNANCE)  
+UID: UE.V2.SPC.GVN.PIPE.001  
+VERSION: 1.0.0  
+STATUS: ACTIVE  
+MODE: REPO (USAGE-ONLY, NO-EDIT)  
+NAV_RULE: Use RAW links only  
+
+PURPOSE:  
+Этот контракт фиксирует “первого спеца” (TOP_GOVERNANCE SPC) как обязательную входную точку до любых ORC/ENG.  
+Нужен, чтобы система не стартовала “в воздухе”, не пропускала REG/XREF/KB/PIPE/NAV/LOG и работала пошагово через "го".
 
 ---
 
-## [M] PURPOSE
-PIPELINE_CONTRACT — навигатор действий для реалма TOP_GOVERNANCE_SPC_ENT.
-Не хранит RAW-адреса. Работает через KEY и резолвит адреса в INDEX_MANIFEST.
+## [M] ENTRY ROLE (SPC-FIRST)
+ENTRY_SPC_ROLE:
+- PRIMARY: GVN_MACHINE_ARCHITECT_SPC_ENT
+- FALLBACK_1: GVN_GOVERNANCE_OWNER_SPC_ENT
+- FALLBACK_2: GVN_DOC_CONTROLLER_SPC_ENT
 
-## [M] HARD_RULES
-- Запрещено хранить RAW внутри CONTRACT (без исключений).
-- Все обращения: TARGET_KEY -> resolve via INDEX_MANIFEST -> open.
-- Выполнение по STEP-RUN: один шаг = одна пачка действий.
-- Каждый шаг должен выдавать NEXT_PROMPT: "го" или FAIL_CODE.
-- Выходы SPC-ролей принимаются только в формате SPECIALIST_OUTPUT.
+RULE:
+- Если PRIMARY недоступен/не найден, использовать следующий FALLBACK по порядку.
+- Запрещено запускать ORC до выбора ENTRY_SPC_ROLE.
 
-## [M] REQUIRED_KEYS (must exist in INDEX_MANIFEST)
-- INDEX_MANIFEST
-- PIPELINE_CONTRACT
-- SPC.GVN.MACHINE_ARCHITECT
-- SPC.GVN.GOVERNANCE_OWNER
-- SPC.GVN.STANDARDS_OWNER
-- SPC.GVN.DOC_CONTROLLER
-- SPC.GVN.PIPELINE_ARCHITECT
-- SPC.GVN.INTEGRATION_PACKER
+---
 
-## [M] CONTRACT_HEADER
-- REALM_ID: UE_V2/03_ENT/10_SPC_ENT/00_TOP_GOVERNANCE_SPC_ENT
-- DOMAIN: GVN_SPC
-- ARTIFACT_TYPES: [INDEX, PIPE, ENTITY, SPECIALIST_OUTPUT, LOG]
-- DEFAULT_MODE: FAST
+## [M] MIN_INPUTS
+REQUIRED:
+- TASK_TEXT
 
-## [M] EXEC_MODEL (how it runs)
-1) Resolve INDEX_MANIFEST via KEY: INDEX_MANIFEST
-2) Validate REQUIRED_KEYS exist in INDEX_MANIFEST ENTRIES
-3) Build WORK_SET_KEYS using KEYS only
-4) Run steps sequentially (STEP-RUN)
-5) Return SPECIALIST_OUTPUT (or PATCH_NOTES) + NEXT prompt
+OPTIONAL:
+- MODE_HINT (FAST|RELEASE_READY|MASTERPIECE)
+- constraints (platform, duration, style, references)
 
-## [M] FAIL_CODES
-- UE.FAIL.INPUT_ABSENT
-- UE.FAIL.MISSING_KEY
-- UE.FAIL.GATE_FAIL
-- UE.FAIL.OUTPUT_SCHEMA_MISSING
+---
 
-## [M] STEPS
+## [M] OUTPUTS
+GVN_SPC_OUTPUT:
+- ROUTE_TOKEN (обязателен)
+- ROUTE_DECISION (почему выбран такой маршрут)
+- REQUIRED_IDX (какие IDX надо открыть на шаге NAV)
+- REQUIRED_CHECKS (какие проверки обязательны)
+- HANDOFF (куда передать управление после GVN_SPC)
 
-- STEP: S0
-  GOAL: Entry sanity and task framing
-  INPUTS: [TASK_TEXT, MODE_HINT?]
-  TARGETS: [INDEX_MANIFEST]
-  ACTIONS:
-    - Ensure TASK_TEXT exists, else FAIL
-    - Decide EXEC_MODE using MODE_HINT or DEFAULT_MODE
-  OUTPUTS: [TASK_TOKEN, EXEC_MODE]
-  CHECKS: [TASK_PRESENT]
-  FAIL: UE.FAIL.INPUT_ABSENT
-  NEXT: "го"
+---
 
-- STEP: S1
-  GOAL: Load realm navigation layer and confirm required keys
-  INPUTS: [TASK_TOKEN]
-  TARGETS: [INDEX_MANIFEST, PIPELINE_CONTRACT]
-  ACTIONS:
-    - Resolve INDEX_MANIFEST via KEY: INDEX_MANIFEST
-    - Validate REQUIRED_KEYS exist in INDEX_MANIFEST ENTRIES
-    - Build WORK_SET_KEYS (INDEX_MANIFEST + PIPELINE_CONTRACT + 1-3 SPC keys relevant to TASK_TOKEN)
-  OUTPUTS: [WORK_SET_KEYS]
-  CHECKS: [REQUIRED_KEYS_OK]
-  FAIL: UE.FAIL.MISSING_KEY
-  NEXT: "го"
+## [M] DETERMINISTIC ROUTING RULES
+Цель: один и тот же TASK_TEXT при одинаковых constraints даёт одинаковый ROUTE_TOKEN.
 
-- STEP: S2
-  GOAL: Governance execution (selection + output shaping)
-  INPUTS: [WORK_SET_KEYS, TASK_TOKEN, EXEC_MODE]
-  TARGETS: [SPC.GVN.MACHINE_ARCHITECT, SPC.GVN.GOVERNANCE_OWNER, SPC.GVN.STANDARDS_OWNER, SPC.GVN.DOC_CONTROLLER, SPC.GVN.PIPELINE_ARCHITECT, SPC.GVN.INTEGRATION_PACKER]
-  ACTIONS:
-    - Resolve selected SPC keys via INDEX_MANIFEST
-    - Open only minimal set required by TASK_TOKEN
-    - Produce SPECIALIST_OUTPUT for the selected SPC role(s)
-  OUTPUTS: [SPECIALIST_OUTPUT, PATCH_NOTES?]
-  CHECKS: [SPECIALIST_OUTPUT_SCHEMA_OK, QUALITY_GATE]
-  FAIL: UE.FAIL.OUTPUT_SCHEMA_MISSING
-  NEXT: "го"
+ROUTER_DECISION_ORDER:
+1) DOMAIN
+2) ARTIFACT_TYPE
+3) MODE (если нет MODE_HINT → DEFAULT)
+4) PIPE_SELECTED
+5) DEFAULT_ORC
+6) REQUIRED_IDX
+7) REQUIRED_CHECKS
+8) EXEC_MODE
 
-- STEP: S3
-  GOAL: Trace and return
-  INPUTS: [SPECIALIST_OUTPUT, DECISIONS?]
-  TARGETS: [INDEX_MANIFEST]
-  ACTIONS:
-    - Summarize RESOURCES_USED and MARKER_FOUND (trace)
-    - Return NEXT prompt
-  OUTPUTS: [RUN_SUMMARY]
-  CHECKS: [TRACE_PRESENT]
-  FAIL: UE.FAIL.GATE_FAIL
-  NEXT: "го"
+DEFAULT_MODE:
+- если MODE_HINT отсутствует → RELEASE_READY
+
+---
+
+## [M] DOMAIN DETECTION (MINIMAL)
+DOMAIN rules (deterministic keywords):
+- DOM_AUD: музыка, трек, вокал, бит, микс, мастер, loudness, bpm, стиль
+- DOM_VIS: обложка, баннер, картинка, видео, кадр, shot, стиль, визуал
+- DOM_LOR: лор, канон, персонаж, мир, арка, сцена, таймлайн
+- SYS/STD/ENT: индекс, шаблон, контракт, правило, стандарт, сущности, паспорт
+- KB: база знаний, пример, гейт, рубрика, калибровка, эталон
+
+Если совпало несколько:
+- приоритет: SYS/STD/ENT > KB > DOM_LOR > DOM_VIS > DOM_AUD
+
+---
+
+## [M] ARTIFACT_TYPE DETECTION (MINIMAL)
+- MUSIC_TRACK: трек, музыка, instrumental, beat
+- MUSIC_LYRICS: текст песни, куплет, припев, рифма
+- VIS_ASSET: обложка, арт, баннер
+- DOC_PATCH: исправить документ, переделать readme, обновить контракт
+- INDEX_BUILD: индекс, манифест, manifest
+
+---
+
+## [M] PIPE SELECTION
+PIPE_SELECTED rules:
+- если DOMAIN = DOM_AUD → UE_V2/06_PIPE/20__PIPE_MUSIC_TRACK.md или UE_V2/06_PIPE/21__PIPE_MUSIC_LYRICS.md (по ARTIFACT_TYPE)
+- если DOMAIN = DOM_VIS → UE_V2/06_PIPE/04__PIPE_VIS.md
+- если DOMAIN = DOM_LOR → UE_V2/06_PIPE/05__PIPE_LOR.md
+- если DOMAIN = KB → UE_V2/06_PIPE/02__PIPE_GAP.md (если не хватает KB) иначе UE_V2/06_PIPE/01__PIPE_DEFAULT.md
+- если DOMAIN = SYS/STD/ENT → UE_V2/06_PIPE/01__PIPE_DEFAULT.md
+
+EXEC_MODE:
+- FAST → сокращённые проверки (но NAV/LOG не отключать)
+- RELEASE_READY → полный стандартный прогон
+- MASTERPIECE → плюс расширенный QA и PACK
+
+---
+
+## [M] REQUIRED IDX (NAV MUST CONFIRM)
+REQUIRED_IDX is minimal set, chosen by DOMAIN:
+- ALWAYS:
+  - UE_V2/04_NAV/00__NAV_ROOT.md
+  - UE_V2/06_PIPE/00__INDEX_MANIFEST__PIPE.md
+  - UE_V2/14_LOG/00__INDEX_MANIFEST__LOG.md
+
+- IF DOMAIN = DOM_AUD:
+  - UE_V2/07_DOM_AUD/00__INDEX_MANIFEST__DOM__AUD.md
+
+- IF DOMAIN = DOM_VIS:
+  - UE_V2/08_DOM_VIS/00__INDEX_MANIFEST__DOM__VIS.md
+
+- IF DOMAIN = DOM_LOR:
+  - UE_V2/09_DOM_LOR/00__INDEX_MANIFEST__DOM__LOR.md
+
+- IF DOMAIN = KB:
+  - UE_V2/05_KB/00__INDEX_MANIFEST__KB.md  (если файл отсутствует → GAP)
+
+- IF DOMAIN = SYS/STD/ENT:
+  - UE_V2/03_ENT/00__INDEX_MANIFEST__ENT.md (если файл отсутствует → GAP)
+
+NOTE:
+- Если любого REQUIRED IDX нет по RAW → GAP (не STOP), кроме ALWAYS.
+
+---
+
+## [M] REQUIRED CHECKS
+ALWAYS checks:
+- ENTRYPOINT_CHECK: TASK_TEXT присутствует
+- RAW_ACCESS_CHECK: доступ к MUST_LOAD и NAV_ROOT
+- TRACE_ON: трасса включена
+- FAIL_CODES_ON: коды ошибок включены
+
+DOMAIN checks:
+- DOM_AUD: AUD readiness (если есть соответствующий CTL gate)
+- DOM_VIS: VIS readiness
+- DOM_LOR: CANON lock rules
+- KB: gate binding rules и rubric standard
+
+---
+
+## [M] HANDOFF RULE (SPC → ORC)
+После формирования ROUTE_TOKEN:
+- управление передаётся DEFAULT_ORC по PIPE_SELECTED через PIPE_DEFAULT.
+
+DEFAULT_ORC rules:
+- для DOM_AUD → ORC_A (если существует в домене) иначе ORC (default)
+- для SYS/STD/ENT → ORC (default)
+- для KB → ORC (default)
+
+Если DEFAULT_ORC отсутствует в навигации/индексах → GAP.
+
+---
+
+## [M] STEP-RUN INTEGRATION
+Система обязана работать пошагово через "го".
+
+COMMAND:
+- GVN_SPC завершает свою работу, выдаёт ROUTE_TOKEN и строку:
+FIRST_STEP_PROMPT: го
+
+Дальше пайплайн берёт ROUTE_TOKEN и запускает PIPE_DEFAULT (STEP-RUN).
+
+---
+
+## [M] STOP / GAP
+STOP только если:
+- input absent (нет TASK_TEXT)
+- MUST_LOAD missing по RAW для BOOT/NAV/PIPE_DEFAULT/LOG_RULES
+
+GAP если:
+- отсутствует REQUIRED IDX по DOMAIN
+- отсутствует доменный PIPE по PIPE_SELECTED
+- отсутствует DEFAULT_ORC или обязательные сущности/панели для handoff
+
+---
+
+## [M] INTERFACES (RAW ONLY)
+BOOT / ROUTER / NAV / PIPE / LOG:
+- START (BOOT/ENTRYPOINT):
+  https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/00__START.md
+
+- PIPE DEFAULT:
+  https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/06_PIPE/01__PIPE_DEFAULT.md
+
+- NAV ROOT:
+  https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/04_NAV/00__NAV_ROOT.md
+
+- LOG RULES (если актуальный путь в UE_V2 это 14_LOG, использовать его):
+  https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/14_LOG/00__PIPELINE_CONTRACT__LOG.md
+
+---
+
+## [M] KB SCOPE (KB)
+KB SCOPE (for this contract):
+- Inputs: TASK_TEXT, MODE_HINT, constraints
+- Outputs: ROUTE_TOKEN, REQUIRED_IDX, REQUIRED_CHECKS
+- Boundaries: не исполняет пайплайн, только выбирает маршрут и handoff
+- RAW References:
+  - START, NAV_ROOT, PIPE_DEFAULT (см. INTERFACES)
+
+---
+
+## [M] GATES
+PASS если:
+- ENTRY_SPC_ROLE выбран
+- ROUTE_TOKEN сформирован
+- REQUIRED_IDX определён
+- FIRST_STEP_PROMPT = "го" выдан
+
+STOP если:
+- нет TASK_TEXT
+- MUST_LOAD missing (BOOT/NAV/PIPE_DEFAULT/LOG)
+
+GAP если:
+- REQUIRED IDX / PIPE / ORC не доступны по RAW
+
+END.
