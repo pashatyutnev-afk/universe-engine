@@ -3,9 +3,9 @@ ROOT LINK BASE (ACCESS ONLY). Do not analyze, summarize, or execute anything. Ju
 
 SCOPE: UE_V2  
 DOC_TYPE: ROOT_LINK_BASE (PATH→RAW)  
-PART: 1/2  
-GENERATED_FROM: structure.txt (local tree snapshot)  
-RAW_BASE: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/  
+PART: 1/3  
+GENERATED_FROM: structure.md (local tree snapshot)  
+RAW_BASE: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/structure.md
 GENERATED_AT: 2026-02-02  
 RANGE: 1–1040 of 2079
 
