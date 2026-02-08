@@ -1,256 +1,192 @@
 # 01__BOOT_SEQ
 
-SCOPE: Universe Engine (UE_V2)
-DOC_TYPE: BOOT_SEQUENCE (CANON)
-UID: UE.V2.BOOT.SEQ.001
-VERSION: 1.0.0
-STATUS: ACTIVE
-MODE: REPO (USAGE-ONLY, NO-EDIT)
-NAV_RULE: Use RAW links only (via INDEX_MANIFEST)
-PURPOSE: Каноничная последовательность старта рантайма. Не даёт пропускать REG/XREF/KB/PIPE/NAV/LOG, включает трассу, ошибки и step-run.
+SCOPE: UE_V2  
+DOC_TYPE: BOOT_SEQ  
+UID: UE.V2.BOOT.SEQ.001  
+VERSION: 1.1.0  
+STATUS: ACTIVE  
+MODE: REPO (USAGE-ONLY, NO-EDIT)  
+NAV_RULE: RAW only  
+PURPOSE: Каноническая последовательность запуска рантайма. Гарантирует, что первым включается “главный спец” (SPC_PRIME), затем ROUTER, затем NAV/IDX и только потом PIPE.
 
 ---
 
-## [M] PRIME LAW
-- BOOT выполняется **всегда** перед любым доменным пайплайном.
-- BOOT не “думает” о задаче — он **поднимает ядро**, проверяет входы и включает протоколы.
-- Любая попытка “сразу сделать результат” без BOOT — нарушение.
-- Навигация по путям запрещена. Только RAW из INDEX_MANIFEST.
+## [M] PRINCIPLES
+- FIRST-SPECIALIST: перед любым ORC/PIPE должен включиться SPC_PRIME (главный спец входа).
+- ROUTER-DRIVEN: домен, пайп, обязательные индексы и проверки выбираются только ROUTER-ом.
+- ANTI-NOISE: грузим минимум (START + MANIFEST + ROUTER + NAV_ROOT), затем 1 доменный IDX + 1–3 целевых файла.
+- STEP-RUN: работа только пошагово через команду “го”.
+- NO-BYPASS: запрещён обход IDX, запрещена массовая загрузка деревьев.
 
 ---
 
-## [M] REQUIRED INPUTS
-- TASK_TEXT: строка задачи пользователя.
-- OPTIONAL: MODE_HINT (FAST|RELEASE_READY|MASTERPIECE)
+## [M] INPUTS
+- TASK_TEXT (обязателен): что нужно сделать
+- OPTIONAL: MODE_HINT (FAST | RELEASE_READY | MASTERPIECE)
 - OPTIONAL: constraints (platform, duration, style, references)
 
 ---
 
-## [M] OUTPUTS (BOOT ARTIFACTS)
-BOOT_OUTPUT:
-- BOOT_STATUS: PASS | GAP | STOP
-- FAIL_CODE (если STOP/FAIL)
-- TRACE_ON: true/false
-- ROUTE_TOKEN (после ROUTER стадии)
-- NEXT_PROMPT: "го"
+## [M] OUTPUTS
+- START_TOKEN:
+  - ROUTE_TOKEN (обязателен)
+  - FIRST_STEP_PROMPT: "го"
+- TRACE ON
+- FAIL CODES ON
 
 ---
 
-## [M] ERROR POLICY (STOP/GAP)
-STOP только если:
+## [M] BOOT SEQUENCE (CANON)
+
+### S0) ENTRYPOINT CHECK
+PASS если:
+- TASK_TEXT присутствует и не пустой
+
+STOP если:
 - TASK_TEXT отсутствует
-- любой MUST_LOAD файл не доступен по RAW или marker not confirmed (см. FAIL_CODES)
-GAP если:
-- доменный IDX/PIPE/обязательная сущность требуется по ROUTE_TOKEN, но отсутствует
 
 ---
 
-## [M] ANTI-NOISE LOAD POLICY (ENFORCE)
-ALWAYS LOAD (минимум):
-- START (entrypoint)
-- RUNTIME_MANIFEST
-- TASK_ROUTER
-- NAV_ROOT
-THEN:
-- один REQUIRED_IDX (по ROUTE_TOKEN)
-- 1–3 target файла под задачу
-NEVER:
-- массовая загрузка деревьев
-- обход IDX
-- “догрузить на всякий случай”
+### S1) BOOT CORE ON
+Цель: включить минимальные системные предохранители и трассу.
+
+MUST:
+- STOP_GAP rules applied
+- TRACE enabled
+- FAIL_CODES enabled
+
+Результат:
+- система готова к детерминированному роутингу
+- контекст не засоряется
 
 ---
 
-# [S0] ENTRYPOINT CHECK
-## Цель
-Подтвердить, что это реально запуск задачи и есть TASK_TEXT.
+### S2) MUST_LOAD MINIMUM (RUNTIME MANIFEST)
+Открыть RUNTIME_MANIFEST и взять только MUST_LOAD_SET (минимум), без “всего подряд”.
 
-## Steps
-S0.1 Validate TASK_TEXT
-- if missing -> STOP (FAIL_CODE: FC.INPUT.ABSENT.TASK_TEXT)
-
-S0.2 Normalize MODE_HINT
-- if missing -> MODE_HINT=RELEASE_READY (по умолчанию)
-
-S0.3 Establish CONSTRAINTS object
-- platform, duration, style, references (может быть пустым)
-
-## Output
-- ENTRYPOINT_OK: true
-
----
-
-# [S1] BOOT CORE ENABLE
-## Цель
-Включить защитные протоколы: STOP/GAP, TRACE, FAIL_CODES.
-
-## MUST_LOAD (by RAW from INDEX_MANIFEST)
+MUST_LOAD_SET обязан включать как минимум:
+- START (ENTRYPOINT)
+- BOOT_SEQ (этот файл)
 - STOP_GAP
 - TRACE
 - FAIL_CODES
-
-## Steps
-S1.1 Load STOP_GAP rules
-S1.2 Enable TRACE (TRACE_ON=true)
-S1.3 Load FAIL_CODES mapping (для детерминированных ответов)
-S1.4 Set BOOT_CONTEXT (минимальный):
-- TASK_TEXT
-- MODE_HINT
-- CONSTRAINTS
-- TRACE_ON
-- BOOT_VERSION
-
-## Output
-- BOOT_CORE_ON: true
-
----
-
-# [S2] MUST_LOAD RUNTIME MANIFEST
-## Цель
-Поднять минимальный MUST_LOAD_SET (только минимум), чтобы не засорять контекст.
-
-## MUST_LOAD (by RAW)
-- RUNTIME_MANIFEST
-
-## Steps
-S2.1 Load RUNTIME_MANIFEST
-S2.2 Extract MUST_LOAD_SET
-- только ключевые панели/правила, без доменных деревьев
-S2.3 Validate markers in manifest
-- if marker missing -> STOP (FAIL_CODE: FC.MUSTLOAD.MARKER.MISSING)
-
-## Output
-- MUST_LOAD_OK: true
-- MUST_LOAD_SET: (ids only)
-
----
-
-# [S3] ROUTING (TASK → ROUTE_TOKEN)
-## Цель
-Детерминированно выбрать путь выполнения задачи через ROUTER.
-
-## MUST_LOAD (by RAW)
 - TASK_ROUTER
-
-## Steps
-S3.1 Load TASK_ROUTER
-S3.2 Build ROUTE_TOKEN fields (minimum required):
-- DOMAIN
-- ARTIFACT_TYPE
-- MODE (resolved from MODE_HINT)
-- PIPE_SELECTED (default or domain)
-- DEFAULT_ORC
-- REQUIRED_IDX
-- REQUIRED_CHECKS
-- EXEC_MODE (STEP_RUN)
-
-S3.3 Validate ROUTE_TOKEN completeness
-- if REQUIRED fields missing -> STOP (FAIL_CODE: FC.ROUTER.TOKEN.INCOMPLETE)
-
-## Output
-- ROUTE_TOKEN
-
----
-
-# [S4] NAV (ACCESS CHECK)
-## Цель
-Подтвердить доступ к NAV_ROOT и обязательным панелям через REQUIRED_IDX.
-
-## MUST_LOAD (by RAW)
 - NAV_ROOT
-- REQUIRED_IDX (из ROUTE_TOKEN)
-
-## Steps
-S4.1 Load NAV_ROOT
-S4.2 Load REQUIRED_IDX
-S4.3 Confirm that REG/XREF/KB/PIPE/LOG are reachable:
-- либо прямыми RAW панелями
-- либо через IDX ссылки (RAW only)
-If something is required by REQUIRED_CHECKS but missing -> GAP (не STOP)
-
-## Output
-- NAV_OK: true | GAP
-- NAV_GAP_LIST (если GAP)
-
----
-
-# [S5] PIPE EXEC SETUP (STEP-RUN)
-## Цель
-Подключить PIPE_DEFAULT и протоколы пошагового исполнения.
-
-## MUST_LOAD (by RAW)
 - PIPE_DEFAULT
 - STEP_RUN_PROTOCOL
 - FOCUS_LOOP_PROTOCOL
 - COMMANDS
 
-## Steps
-S5.1 Load PIPE_DEFAULT
-S5.2 If ROUTE_TOKEN.PIPE_SELECTED is domain pipe:
-- handoff via PIPE_DEFAULT routing rules
-- if domain pipe missing -> GAP
-S5.3 Enable protocols:
-- STEP_RUN_PROTOCOL
-- FOCUS_LOOP_PROTOCOL
-- COMMANDS
-S5.4 Force EXEC_MODE=STEP_RUN
-- единая команда продолжения: "го"
-
-## Output
-- PIPE_READY: true | GAP
-- NEXT_PROMPT: "го"
-
----
-
-# [S6] LOG INIT
-## Цель
-Подтвердить доступ к лог-панелям и правилам логирования.
-
-## MUST_LOAD (by RAW)
-- LOG_RULES
-- RUN_LOG
-- TOKEN_ARCHIVE
-- DECISION_LOG
-
-## Steps
-S6.1 Load LOG_RULES
-S6.2 Confirm panels are accessible
-- if any missing -> GAP (если не MUST_LOAD), STOP (если MUST_LOAD задан как required в manifest)
-S6.3 Initialize session log headers (in-memory, not writing):
-- RUN_ID
-- ROUTE_TOKEN hash
-- timestamp
-- EXEC_MODE
-- TRACE_ON
-
-## Output
-- LOG_READY: true | GAP
-
----
-
-## [M] FINAL BOOT GATES
-PASS если:
-- ENTRYPOINT_OK
-- BOOT_CORE_ON
-- MUST_LOAD_OK
-- ROUTE_TOKEN built
-- NAV_OK != STOP
-- PIPE_READY != STOP
-- LOG_READY != STOP
-
 STOP если:
-- TASK_TEXT отсутствует
-- MUST_LOAD missing/marker missing
+- любой MUST_LOAD отсутствует по RAW
+- marker не подтверждён внутри MUST_LOAD
+
+---
+
+### S3) SPC_PRIME HANDSHAKE (FIRST-SPECIALIST)
+Цель: “главный спец” принимает задачу раньше оркестраторов и пайпов.
+
+Правило:
+- SPC_PRIME не исполняет доменную работу.
+- SPC_PRIME делает только:
+  1) проверку MIN_INPUTS,
+  2) нормализацию TASK_TEXT,
+  3) формирование PRE_ROUTE_HINT (если нужно),
+  4) передачу в ROUTER.
+
+SPC_PRIME выбирается детерминированно:
+- либо из RUNTIME_MANIFEST (DEFAULT_SPC_PRIME),
+- либо из NAV/IDX (REG index), без угадывания.
 
 GAP если:
-- требуется доменный IDX/PIPE/панель по ROUTE_TOKEN, но не найдено
+- SPC_PRIME не найден в доступных IDX/manifest
 
 ---
 
-## [M] BOOT COMPLETE OUTPUT TEMPLATE
-BOOT_OUTPUT:
-- BOOT_STATUS: PASS|GAP|STOP
-- FAIL_CODE: (optional)
-- TRACE_ON: true
-- ROUTE_TOKEN: (present if PASS/GAP after routing)
-- NEXT_PROMPT: "го"
+### S4) ROUTING (TASK_ROUTER)
+ROUTER обязан сформировать ROUTE_TOKEN:
+
+ROUTE_TOKEN fields (обязательные):
+- DOMAIN
+- ARTIFACT_TYPE
+- MODE
+- PIPE_SELECTED
+- DEFAULT_ORC
+- DEFAULT_SPC (если домен требует спеца до ORC)
+- REQUIRED_IDX
+- REQUIRED_CHECKS
+- EXEC_MODE
+
+ROUTER запрещено:
+- выбирать пайп без указания REQUIRED_IDX
+- пропускать REQUIRED_CHECKS
+- включать “массовую загрузку” (anti-noise)
+
+---
+
+### S5) NAV + IDX CONFIRMATION
+Цель: подтвердить доступ к REG/XREF/KB/PIPE/LOG строго через индексы.
+
+Шаги:
+1) открыть NAV_ROOT
+2) открыть REQUIRED_IDX из ROUTE_TOKEN
+3) подтвердить, что через IDX доступны:
+   - REG
+   - XREF
+   - KB
+   - PIPE
+   - LOG
+
+STOP если:
+- NAV_ROOT missing по RAW
+- REQUIRED_IDX missing по RAW
+GAP если:
+- IDX открыт, но не даёт доступа к одному из обязательных сегментов (REG/XREF/KB/PIPE/LOG)
+
+---
+
+### S6) PIPE EXEC (STEP-RUN)
+1) открыть PIPE_DEFAULT
+2) если ROUTE_TOKEN.PIPE_SELECTED доменный — выполнить handoff через PIPE_DEFAULT routing
+3) включить протоколы:
+   - STEP_RUN_PROTOCOL
+   - FOCUS_LOOP_PROTOCOL
+   - COMMANDS
+
+Правило STEP-RUN:
+- система отвечает коротко, выдаёт результат шага и снова предлагает “го”
+- без длинных справок и без загрузки лишнего
+
+---
+
+### S7) LOG INIT
+Цель: включить журналирование решений и токенов.
+
+MUST:
+- LOG_RULES доступны
+- RUN_LOG доступен
+- TOKEN_ARCHIVE доступен
+- DECISION_LOG доступен
+
+GAP если:
+- LOG сегмент недоступен через IDX
+
+---
+
+## [M] STOP / GAP RULES (SUMMARY)
+STOP только если:
+- input absent (нет TASK_TEXT)
+- RAW missing для MUST_LOAD
+- marker not confirmed для MUST_LOAD
+
+GAP если:
+- SPC_PRIME не найден
+- отсутствует доменный PIPE/IDX/обязательная сущность/панель по ROUTE_TOKEN
+- IDX не подтверждает доступ к REG/XREF/KB/PIPE/LOG
+
+---
+
+## [M] FIRST STEP PROMPT
+Если S0–S7 PASS:
+- вывести ROUTE_TOKEN
+- вывести: "го"
