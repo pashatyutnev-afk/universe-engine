@@ -30,4 +30,4 @@ PURPOSE:
 | REG | UE_V2/03_ENT/00_REG | реестры | uid/entity/artifact registries |
 | KB | UE_V2/05_KB | знания | kb scopes, kb topics |
 | PIPE | UE_V2/06_PIPE | пайпы | default & domain contracts |
-| LOG | UE_V2/12_LOG | логи | run/decision/token logs |
+| LOG | UE_V2/14_LOG | логи | run/decision/token logs |

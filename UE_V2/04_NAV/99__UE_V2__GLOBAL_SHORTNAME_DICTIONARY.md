@@ -102,7 +102,7 @@ NAV_RULE: Single Source of Truth for shortnames. No guessing.
   FULL: Logging Layer
   DESC: Run logs, token archive, decision logs, audit trails.
   EXAMPLES: [RUN_LOG, DECISION_LOG]
-  USED_IN: [UE_V2/12_LOG]
+  USED_IN: [UE_V2/14_LOG]
   STATUS: ACTIVE
   UPDATED: 2026-02-05
 

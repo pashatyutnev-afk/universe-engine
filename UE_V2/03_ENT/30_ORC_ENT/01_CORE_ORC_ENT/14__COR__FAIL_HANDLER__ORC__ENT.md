@@ -99,9 +99,9 @@ Where LOG_EVENT:
 ## [M] LOG SINK CONTRACT (keys-only)
 COR.LOGGER does not write to files directly.
 It emits LOG_PACKET intended for LOG realm endpoints (resolved elsewhere), typically:
-- UE_V2/12_LOG/01__RUN_LOG.md (sink key: LOG.RUN_LOG)
-- UE_V2/12_LOG/03__TOKEN_ARCHIVE.md (sink key: LOG.TOKEN_ARCHIVE)
-- UE_V2/12_LOG/04__DECISION_LOG.md (sink key: LOG.DECISION_LOG)
+- UE_V2/14_LOG/01__RUN_LOG.md (sink key: LOG.RUN_LOG)
+- UE_V2/14_LOG/03__TOKEN_ARCHIVE.md (sink key: LOG.TOKEN_ARCHIVE)
+- UE_V2/14_LOG/04__DECISION_LOG.md (sink key: LOG.DECISION_LOG)
 
 This module references sinks by keys only:
 - LOG.RUN_LOG

@@ -59,7 +59,7 @@ NAV_RULE: Use RAW links only
 ## [M] READMEs / REALMEs / RELEASEs POLICY
 - README: не используется как системный файл (только для людей, если когда-нибудь понадобится)
 - REALM/LAWS: живут в UE_V2/01_LAW или UE_V2/00_BOOT (системные), но НЕ как “папочные README”
-- RELEASE NOTES: только в UE_V2/12_LOG или отдельном релиз-разделе, не в каждой папке
+- RELEASE NOTES: только в UE_V2/14_LOG или отдельном релиз-разделе, не в каждой папке
 
 ---
 
