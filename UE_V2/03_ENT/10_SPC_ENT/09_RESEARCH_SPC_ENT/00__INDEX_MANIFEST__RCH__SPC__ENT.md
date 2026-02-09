@@ -89,8 +89,8 @@ INDEX_MANIFEST — “таблица адресов” и кратких смы�
   KIND: ENTITY
   ROLE: Research director
   DESC: Owns research strategy and scope; defines what must be proven vs what may be assumed
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/10_SPC_ENT/09_RESEARCH_SPC_ENT/01__RCH__RESEARCH_DIRECTOR__SPC__ENT.md
-  PATH: UE_V2/03_ENT/10_SPC_ENT/09_RESEARCH_SPC_ENT/01__RCH__RESEARCH_DIRECTOR__SPC__ENT.md
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/10_SPC_ENT/09_RESEARCH_SPC_ENT/01__RCH__RESEARCH_DIRECTOR_SPC__ENT.md
+  PATH: UE_V2/03_ENT/10_SPC_ENT/09_RESEARCH_SPC_ENT/01__RCH__RESEARCH_DIRECTOR_SPC__ENT.md
   MARKERS: [SPC, RCH, SPECIALIST, LEAD]
   STATUS: ACTIVE
   OWNER: SYS
@@ -101,8 +101,8 @@ INDEX_MANIFEST — “таблица адресов” и кратких смы�
   KIND: ENTITY
   ROLE: Scientific researcher
   DESC: Provides scientific grounding and constraints; outputs evidence-backed notes and hypotheses boundaries
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/10_SPC_ENT/09_RESEARCH_SPC_ENT/02__RCH__SCIENTIFIC_RESEARCHER__SPC__ENT.md
-  PATH: UE_V2/03_ENT/10_SPC_ENT/09_RESEARCH_SPC_ENT/02__RCH__SCIENTIFIC_RESEARCHER__SPC__ENT.md
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/10_SPC_ENT/09_RESEARCH_SPC_ENT/02__RCH__SCIENTIFIC_RESEARCHER_SPC__ENT.md
+  PATH: UE_V2/03_ENT/10_SPC_ENT/09_RESEARCH_SPC_ENT/02__RCH__SCIENTIFIC_RESEARCHER_SPC__ENT.md
   MARKERS: [SPC, RCH, SPECIALIST, SCI]
   STATUS: ACTIVE
   OWNER: SYS
@@ -113,8 +113,8 @@ INDEX_MANIFEST — “таблица адресов” и кратких смы�
   KIND: ENTITY
   ROLE: Historical researcher
   DESC: Provides historical analogs and timelines; outputs historical references and constraints
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/10_SPC_ENT/09_RESEARCH_SPC_ENT/03__RCH__HISTORICAL_RESEARCHER__SPC__ENT.md
-  PATH: UE_V2/03_ENT/10_SPC_ENT/09_RESEARCH_SPC_ENT/03__RCH__HISTORICAL_RESEARCHER__SPC__ENT.md
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/10_SPC_ENT/09_RESEARCH_SPC_ENT/03__RCH__HISTORICAL_RESEARCHER_SPC__ENT.md
+  PATH: UE_V2/03_ENT/10_SPC_ENT/09_RESEARCH_SPC_ENT/03__RCH__HISTORICAL_RESEARCHER_SPC__ENT.md
   MARKERS: [SPC, RCH, SPECIALIST, HIST]
   STATUS: ACTIVE
   OWNER: SYS
@@ -125,8 +125,8 @@ INDEX_MANIFEST — “таблица адресов” и кратких смы�
   KIND: ENTITY
   ROLE: Cultural anthropologist
   DESC: Ensures cultural plausibility and social logic; outputs cultural notes and pitfalls
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/10_SPC_ENT/09_RESEARCH_SPC_ENT/04__RCH__CULTURAL_ANTHROPOLOGIST__SPC__ENT.md
-  PATH: UE_V2/03_ENT/10_SPC_ENT/09_RESEARCH_SPC_ENT/04__RCH__CULTURAL_ANTHROPOLOGIST__SPC__ENT.md
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/10_SPC_ENT/09_RESEARCH_SPC_ENT/04__RCH__CULTURAL_ANTHROPOLOGIST_SPC__ENT.md
+  PATH: UE_V2/03_ENT/10_SPC_ENT/09_RESEARCH_SPC_ENT/04__RCH__CULTURAL_ANTHROPOLOGIST_SPC__ENT.md
   MARKERS: [SPC, RCH, SPECIALIST, CULT]
   STATUS: ACTIVE
   OWNER: SYS
@@ -137,8 +137,8 @@ INDEX_MANIFEST — “таблица адресов” и кратких смы�
   KIND: ENTITY
   ROLE: Knowledge curator
   DESC: Curates KB scope and references; outputs KB_PACK pointers and boundaries
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/10_SPC_ENT/09_RESEARCH_SPC_ENT/05__RCH__KNOWLEDGE_CURATOR__SPC__ENT.md
-  PATH: UE_V2/03_ENT/10_SPC_ENT/09_RESEARCH_SPC_ENT/05__RCH__KNOWLEDGE_CURATOR__SPC__ENT.md
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/10_SPC_ENT/09_RESEARCH_SPC_ENT/05__RCH__KNOWLEDGE_CURATOR_SPC__ENT.md
+  PATH: UE_V2/03_ENT/10_SPC_ENT/09_RESEARCH_SPC_ENT/05__RCH__KNOWLEDGE_CURATOR_SPC__ENT.md
   MARKERS: [SPC, RCH, SPECIALIST, KB]
   STATUS: ACTIVE
   OWNER: SYS
@@ -149,8 +149,8 @@ INDEX_MANIFEST — “таблица адресов” и кратких смы�
   KIND: ENTITY
   ROLE: Source validation specialist
   DESC: Validates sources and trust levels; outputs source grade and exclusion notes
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/10_SPC_ENT/09_RESEARCH_SPC_ENT/06__RCH__SOURCE_VALIDATION_SPECIALIST__SPC__ENT.md
-  PATH: UE_V2/03_ENT/10_SPC_ENT/09_RESEARCH_SPC_ENT/06__RCH__SOURCE_VALIDATION_SPECIALIST__SPC__ENT.md
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/10_SPC_ENT/09_RESEARCH_SPC_ENT/06__RCH__SOURCE_VALIDATION_SPECIALIST_SPC__ENT.md
+  PATH: UE_V2/03_ENT/10_SPC_ENT/09_RESEARCH_SPC_ENT/06__RCH__SOURCE_VALIDATION_SPECIALIST_SPC__ENT.md
   MARKERS: [SPC, RCH, SPECIALIST, VAL]
   STATUS: ACTIVE
   OWNER: SYS
@@ -161,8 +161,8 @@ INDEX_MANIFEST — “таблица адресов” и кратких смы�
   KIND: ENTITY
   ROLE: Fact-checking specialist
   DESC: Fact-checks claims vs sources; outputs FACT_CHECK report and corrections list
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/10_SPC_ENT/09_RESEARCH_SPC_ENT/07__RCH__FACT_CHECKING_SPECIALIST__SPC__ENT.md
-  PATH: UE_V2/03_ENT/10_SPC_ENT/09_RESEARCH_SPC_ENT/07__RCH__FACT_CHECKING_SPECIALIST__SPC__ENT.md
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/10_SPC_ENT/09_RESEARCH_SPC_ENT/07__RCH__FACT_CHECKING_SPECIALIST_SPC__ENT.md
+  PATH: UE_V2/03_ENT/10_SPC_ENT/09_RESEARCH_SPC_ENT/07__RCH__FACT_CHECKING_SPECIALIST_SPC__ENT.md
   MARKERS: [SPC, RCH, SPECIALIST, FACT]
   STATUS: ACTIVE
   OWNER: SYS
@@ -173,8 +173,8 @@ INDEX_MANIFEST — “таблица адресов” и кратких смы�
   KIND: ENTITY
   ROLE: Speculative plausibility analyst
   DESC: Evaluates speculative elements for plausibility; outputs plausibility map and risk notes
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/10_SPC_ENT/09_RESEARCH_SPC_ENT/08__RCH__SPECULATIVE_PLAUSIBILITY_ANALYST__SPC__ENT.md
-  PATH: UE_V2/03_ENT/10_SPC_ENT/09_RESEARCH_SPC_ENT/08__RCH__SPECULATIVE_PLAUSIBILITY_ANALYST__SPC__ENT.md
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/10_SPC_ENT/09_RESEARCH_SPC_ENT/08__RCH__SPECULATIVE_PLAUSIBILITY_ANALYST_SPC__ENT.md
+  PATH: UE_V2/03_ENT/10_SPC_ENT/09_RESEARCH_SPC_ENT/08__RCH__SPECULATIVE_PLAUSIBILITY_ANALYST_SPC__ENT.md
   MARKERS: [SPC, RCH, SPECIALIST, RISK]
   STATUS: ACTIVE
   OWNER: SYS

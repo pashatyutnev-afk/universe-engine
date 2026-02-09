@@ -119,7 +119,7 @@ INDEX_MANIFEST — мастер “таблица адресов” для сл�
   ROLE: Family index for NARRATIVE_SPC_ENT
   DESC: Address table for narrative SPC set
   RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/10_SPC_ENT/02_NARRATIVE_SPC_ENT/00__INDEX_MANIFEST__NRR__SPC__ENT.md
-  PATH: UE_V2/03_ENT/10_SPC_ENT/02_NARRATIVE_SPC_ENT/00__INDEX_MANIFEST__NAR__SPC__ENT.md
+  PATH: UE_V2/03_ENT/10_SPC_ENT/02_NARRATIVE_SPC_ENT/00__INDEX_MANIFEST__NRR__SPC__ENT.md
   MARKERS: [INDEX, SPC, NAR]
   STATUS: ACTIVE
   OWNER: SYS
@@ -171,7 +171,7 @@ INDEX_MANIFEST — мастер “таблица адресов” для сл�
   ROLE: Family index for SOUND_MUSIC_SPC_ENT
   DESC: Address table for sound/music SPC set
   RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/10_SPC_ENT/06_SOUND_MUSIC_SPC_ENT/00__INDEX_MANIFEST__SND_MUS__SPC__ENT.md
-  PATH: UE_V2/03_ENT/10_SPC_ENT/06_SOUND_MUSIC_SPC_ENT/00__INDEX_MANIFEST__SND__SPC__ENT.md
+  PATH: UE_V2/03_ENT/10_SPC_ENT/06_SOUND_MUSIC_SPC_ENT/00__INDEX_MANIFEST__SND_MUS__SPC__ENT.md
   MARKERS: [INDEX, SPC, SND]
   STATUS: ACTIVE
   OWNER: SYS
@@ -210,7 +210,7 @@ INDEX_MANIFEST — мастер “таблица адресов” для сл�
   ROLE: Family index for RESEARCH_SPC_ENT
   DESC: Address table for research SPC set
   RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/10_SPC_ENT/09_RESEARCH_SPC_ENT/00__INDEX_MANIFEST__RCH__SPC__ENT.md
-  PATH: UE_V2/03_ENT/10_SPC_ENT/09_RESEARCH_SPC_ENT/00__INDEX_MANIFEST__RSC__SPC__ENT.md
+  PATH: UE_V2/03_ENT/10_SPC_ENT/09_RESEARCH_SPC_ENT/00__INDEX_MANIFEST__RCH__SPC__ENT.md
   MARKERS: [INDEX, SPC, RSC]
   STATUS: ACTIVE
   OWNER: SYS
@@ -236,7 +236,7 @@ INDEX_MANIFEST — мастер “таблица адресов” для сл�
   ROLE: Family index for META_SPC_ENT
   DESC: Address table for meta SPC set
   RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/10_SPC_ENT/11_META_SPC_ENT/00__INDEX_MANIFEST__MET__SPC__ENT.md
-  PATH: UE_V2/03_ENT/10_SPC_ENT/11_META_SPC_ENT/00__INDEX_MANIFEST__META__SPC__ENT.md
+  PATH: UE_V2/03_ENT/10_SPC_ENT/11_META_SPC_ENT/00__INDEX_MANIFEST__MET__SPC__ENT.md
   MARKERS: [INDEX, SPC, META]
   STATUS: ACTIVE
   OWNER: SYS

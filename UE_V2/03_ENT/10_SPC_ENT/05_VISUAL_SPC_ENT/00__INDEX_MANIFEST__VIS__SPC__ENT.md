@@ -89,8 +89,8 @@ INDEX_MANIFEST — “таблица адресов” и кратких смы�
   KIND: ENTITY
   ROLE: Visual direction owner
   DESC: Owns visual intent and coherence; approves final visual direction and constraints
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/10_SPC_ENT/05_VISUAL_SPC_ENT/01__VIS__VISUAL_DIRECTOR__SPC__ENT.md
-  PATH: UE_V2/03_ENT/10_SPC_ENT/05_VISUAL_SPC_ENT/01__VIS__VISUAL_DIRECTOR__SPC__ENT.md
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/10_SPC_ENT/05_VISUAL_SPC_ENT/01__VIS__VISUAL_DIRECTOR_SPC__ENT.md
+  PATH: UE_V2/03_ENT/10_SPC_ENT/05_VISUAL_SPC_ENT/01__VIS__VISUAL_DIRECTOR_SPC__ENT.md
   MARKERS: [SPC, VIS, SPECIALIST, DIR]
   STATUS: ACTIVE
   OWNER: SYS
@@ -101,8 +101,8 @@ INDEX_MANIFEST — “таблица адресов” и кратких смы�
   KIND: ENTITY
   ROLE: Production designer
   DESC: Designs production look: sets, props, materials, era cues; outputs production design frame
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/10_SPC_ENT/05_VISUAL_SPC_ENT/02__VIS__PRODUCTION_DESIGNER__SPC__ENT.md
-  PATH: UE_V2/03_ENT/10_SPC_ENT/05_VISUAL_SPC_ENT/02__VIS__PRODUCTION_DESIGNER__SPC__ENT.md
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/10_SPC_ENT/05_VISUAL_SPC_ENT/02__VIS__PRODUCTION_DESIGNER_SPC__ENT.md
+  PATH: UE_V2/03_ENT/10_SPC_ENT/05_VISUAL_SPC_ENT/02__VIS__PRODUCTION_DESIGNER_SPC__ENT.md
   MARKERS: [SPC, VIS, SPECIALIST, PROD]
   STATUS: ACTIVE
   OWNER: SYS
@@ -113,8 +113,8 @@ INDEX_MANIFEST — “таблица адресов” и кратких смы�
   KIND: ENTITY
   ROLE: Scene visualization specialist
   DESC: Converts narrative beats into visual scene plans; outputs visualization briefs and shot-level notes
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/10_SPC_ENT/05_VISUAL_SPC_ENT/03__VIS__SCENE_VISUALIZATION_SPECIALIST__SPC__ENT.md
-  PATH: UE_V2/03_ENT/10_SPC_ENT/05_VISUAL_SPC_ENT/03__VIS__SCENE_VISUALIZATION_SPECIALIST__SPC__ENT.md
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/10_SPC_ENT/05_VISUAL_SPC_ENT/03__VIS__SCENE_VISUALIZATION_SPECIALIST_SPC__ENT.md
+  PATH: UE_V2/03_ENT/10_SPC_ENT/05_VISUAL_SPC_ENT/03__VIS__SCENE_VISUALIZATION_SPECIALIST_SPC__ENT.md
   MARKERS: [SPC, VIS, SPECIALIST, SCENE]
   STATUS: ACTIVE
   OWNER: SYS
@@ -125,8 +125,8 @@ INDEX_MANIFEST — “таблица адресов” и кратких смы�
   KIND: ENTITY
   ROLE: Storyboard artist
   DESC: Produces storyboard frames and camera continuity; outputs storyboard pack for sequences
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/10_SPC_ENT/05_VISUAL_SPC_ENT/04__VIS__STORYBOARD_ARTIST__SPC__ENT.md
-  PATH: UE_V2/03_ENT/10_SPC_ENT/05_VISUAL_SPC_ENT/04__VIS__STORYBOARD_ARTIST__SPC__ENT.md
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/10_SPC_ENT/05_VISUAL_SPC_ENT/04__VIS__STORYBOARD_ARTIST_SPC__ENT.md
+  PATH: UE_V2/03_ENT/10_SPC_ENT/05_VISUAL_SPC_ENT/04__VIS__STORYBOARD_ARTIST_SPC__ENT.md
   MARKERS: [SPC, VIS, SPECIALIST, BOARD]
   STATUS: ACTIVE
   OWNER: SYS
@@ -137,8 +137,8 @@ INDEX_MANIFEST — “таблица адресов” и кратких смы�
   KIND: ENTITY
   ROLE: Cinematographer
   DESC: Owns camera/lens/lighting intent; outputs cinematography constraints and shot grammar
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/10_SPC_ENT/05_VISUAL_SPC_ENT/05__VIS__CINEMATOGRAPHER__SPC__ENT.md
-  PATH: UE_V2/03_ENT/10_SPC_ENT/05_VISUAL_SPC_ENT/05__VIS__CINEMATOGRAPHER__SPC__ENT.md
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/10_SPC_ENT/05_VISUAL_SPC_ENT/05__VIS__CINEMATOGRAPHER_SPC__ENT.md
+  PATH: UE_V2/03_ENT/10_SPC_ENT/05_VISUAL_SPC_ENT/05__VIS__CINEMATOGRAPHER_SPC__ENT.md
   MARKERS: [SPC, VIS, SPECIALIST, CAM]
   STATUS: ACTIVE
   OWNER: SYS
@@ -149,8 +149,8 @@ INDEX_MANIFEST — “таблица адресов” и кратких смы�
   KIND: ENTITY
   ROLE: Camera movement specialist
   DESC: Designs camera movement patterns; outputs movement plan, continuity checks, and constraints
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/10_SPC_ENT/05_VISUAL_SPC_ENT/06__VIS__CAMERA_MOVEMENT_SPECIALIST__SPC__ENT.md
-  PATH: UE_V2/03_ENT/10_SPC_ENT/05_VISUAL_SPC_ENT/06__VIS__CAMERA_MOVEMENT_SPECIALIST__SPC__ENT.md
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/10_SPC_ENT/05_VISUAL_SPC_ENT/06__VIS__CAMERA_MOVEMENT_SPECIALIST_SPC__ENT.md
+  PATH: UE_V2/03_ENT/10_SPC_ENT/05_VISUAL_SPC_ENT/06__VIS__CAMERA_MOVEMENT_SPECIALIST_SPC__ENT.md
   MARKERS: [SPC, VIS, SPECIALIST, MOVE]
   STATUS: ACTIVE
   OWNER: SYS

@@ -89,8 +89,8 @@ INDEX_MANIFEST — “таблица адресов” и кратких смы�
   KIND: ENTITY
   ROLE: Universe curator
   DESC: Curates canon coherence across domains; outputs canon notes and consolidation actions
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/10_SPC_ENT/11_META_SPC_ENT/01__MET__UNIVERSE_CURATOR__SPC__ENT.md
-  PATH: UE_V2/03_ENT/10_SPC_ENT/11_META_SPC_ENT/01__MET__UNIVERSE_CURATOR__SPC__ENT.md
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/10_SPC_ENT/11_META_SPC_ENT/01__MET__UNIVERSE_CURATOR_SPC__ENT.md
+  PATH: UE_V2/03_ENT/10_SPC_ENT/11_META_SPC_ENT/01__MET__UNIVERSE_CURATOR_SPC__ENT.md
   MARKERS: [SPC, MET, SPECIALIST, CANON]
   STATUS: ACTIVE
   OWNER: SYS
@@ -101,8 +101,8 @@ INDEX_MANIFEST — “таблица адресов” и кратких смы�
   KIND: ENTITY
   ROLE: System architect
   DESC: Owns system-level architecture constraints; outputs architecture decisions and boundary rules
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/10_SPC_ENT/11_META_SPC_ENT/02__MET__SYSTEM_ARCHITECT__SPC__ENT.md
-  PATH: UE_V2/03_ENT/10_SPC_ENT/11_META_SPC_ENT/02__MET__SYSTEM_ARCHITECT__SPC__ENT.md
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/10_SPC_ENT/11_META_SPC_ENT/02__MET__SYSTEM_ARCHITECT_SPC__ENT.md
+  PATH: UE_V2/03_ENT/10_SPC_ENT/11_META_SPC_ENT/02__MET__SYSTEM_ARCHITECT_SPC__ENT.md
   MARKERS: [SPC, MET, SPECIALIST, ARCH]
   STATUS: ACTIVE
   OWNER: SYS
@@ -113,8 +113,8 @@ INDEX_MANIFEST — “таблица адресов” и кратких смы�
   KIND: ENTITY
   ROLE: Rule system designer
   DESC: Designs rule systems and formal constraints; outputs rule packs and compatibility notes
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/10_SPC_ENT/11_META_SPC_ENT/03__MET__RULE_SYSTEM_DESIGNER__SPC__ENT.md
-  PATH: UE_V2/03_ENT/10_SPC_ENT/11_META_SPC_ENT/03__MET__RULE_SYSTEM_DESIGNER__SPC__ENT.md
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/10_SPC_ENT/11_META_SPC_ENT/03__MET__RULE_SYSTEM_DESIGNER_SPC__ENT.md
+  PATH: UE_V2/03_ENT/10_SPC_ENT/11_META_SPC_ENT/03__MET__RULE_SYSTEM_DESIGNER_SPC__ENT.md
   MARKERS: [SPC, MET, SPECIALIST, RULE]
   STATUS: ACTIVE
   OWNER: SYS
@@ -125,8 +125,8 @@ INDEX_MANIFEST — “таблица адресов” и кратких смы�
   KIND: ENTITY
   ROLE: Dependency supervisor
   DESC: Tracks dependencies between layers/entities; outputs dependency map and breakage alerts
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/10_SPC_ENT/11_META_SPC_ENT/04__MET__DEPENDENCY_SUPERVISOR__SPC__ENT.md
-  PATH: UE_V2/03_ENT/10_SPC_ENT/11_META_SPC_ENT/04__MET__DEPENDENCY_SUPERVISOR__SPC__ENT.md
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/10_SPC_ENT/11_META_SPC_ENT/04__MET__DEPENDENCY_SUPERVISOR_SPC__ENT.md
+  PATH: UE_V2/03_ENT/10_SPC_ENT/11_META_SPC_ENT/04__MET__DEPENDENCY_SUPERVISOR_SPC__ENT.md
   MARKERS: [SPC, MET, SPECIALIST, DEP]
   STATUS: ACTIVE
   OWNER: SYS
@@ -137,8 +137,8 @@ INDEX_MANIFEST — “таблица адресов” и кратких смы�
   KIND: ENTITY
   ROLE: Knowledge integrator
   DESC: Integrates KB scope/refs into system work; outputs KB integration notes and next-opens
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/10_SPC_ENT/11_META_SPC_ENT/05__MET__KNOWLEDGE_INTEGRATOR__SPC__ENT.md
-  PATH: UE_V2/03_ENT/10_SPC_ENT/11_META_SPC_ENT/05__MET__KNOWLEDGE_INTEGRATOR__SPC__ENT.md
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/10_SPC_ENT/11_META_SPC_ENT/05__MET__KNOWLEDGE_INTEGRATOR_SPC__ENT.md
+  PATH: UE_V2/03_ENT/10_SPC_ENT/11_META_SPC_ENT/05__MET__KNOWLEDGE_INTEGRATOR_SPC__ENT.md
   MARKERS: [SPC, MET, SPECIALIST, KB]
   STATUS: ACTIVE
   OWNER: SYS
@@ -149,8 +149,8 @@ INDEX_MANIFEST — “таблица адресов” и кратких смы�
   KIND: ENTITY
   ROLE: Meta analyst
   DESC: Analyzes system performance and failure modes; outputs meta report and improvement proposals
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/10_SPC_ENT/11_META_SPC_ENT/06__MET__META_ANALYST__SPC__ENT.md
-  PATH: UE_V2/03_ENT/10_SPC_ENT/11_META_SPC_ENT/06__MET__META_ANALYST__SPC__ENT.md
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/10_SPC_ENT/11_META_SPC_ENT/06__MET__META_ANALYST_SPC__ENT.md
+  PATH: UE_V2/03_ENT/10_SPC_ENT/11_META_SPC_ENT/06__MET__META_ANALYST_SPC__ENT.md
   MARKERS: [SPC, MET, SPECIALIST, ANALYTICS]
   STATUS: ACTIVE
   OWNER: SYS
@@ -161,8 +161,8 @@ INDEX_MANIFEST — “таблица адресов” и кратких смы�
   KIND: ENTITY
   ROLE: Long-term strategy planner
   DESC: Builds long-term roadmap and milestone structure; outputs strategy plan and checkpoints
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/10_SPC_ENT/11_META_SPC_ENT/07__MET__LONG_TERM_STRATEGY_PLANNER__SPC__ENT.md
-  PATH: UE_V2/03_ENT/10_SPC_ENT/11_META_SPC_ENT/07__MET__LONG_TERM_STRATEGY_PLANNER__SPC__ENT.md
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/10_SPC_ENT/11_META_SPC_ENT/07__MET__LONG_TERM_STRATEGY_PLANNER_SPC__ENT.md
+  PATH: UE_V2/03_ENT/10_SPC_ENT/11_META_SPC_ENT/07__MET__LONG_TERM_STRATEGY_PLANNER_SPC__ENT.md
   MARKERS: [SPC, MET, SPECIALIST, STRAT]
   STATUS: ACTIVE
   OWNER: SYS
@@ -173,8 +173,8 @@ INDEX_MANIFEST — “таблица адресов” и кратких смы�
   KIND: ENTITY
   ROLE: Evolution scaling planner
   DESC: Plans system evolution and scaling; outputs migration path proposals and scaling constraints
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/10_SPC_ENT/11_META_SPC_ENT/08__MET__EVOLUTION_SCALING_PLANNER__SPC__ENT.md
-  PATH: UE_V2/03_ENT/10_SPC_ENT/11_META_SPC_ENT/08__MET__EVOLUTION_SCALING_PLANNER__SPC__ENT.md
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/10_SPC_ENT/11_META_SPC_ENT/08__MET__EVOLUTION_SCALING_PLANNER_SPC__ENT.md
+  PATH: UE_V2/03_ENT/10_SPC_ENT/11_META_SPC_ENT/08__MET__EVOLUTION_SCALING_PLANNER_SPC__ENT.md
   MARKERS: [SPC, MET, SPECIALIST, SCALE]
   STATUS: ACTIVE
   OWNER: SYS

@@ -101,8 +101,8 @@ INDEX_MANIFEST — “таблица адресов” и кратких смы�
   KIND: ENTITY
   ROLE: Culture and society architect
   DESC: Designs cultures/societies; outputs social rules, norms, conflicts, and texture
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/10_SPC_ENT/04_WORLD_SPC_ENT/02__WRL__CULTURE_SOCIETY_ARCHITECT__SPC__ENT.md
-  PATH: UE_V2/03_ENT/10_SPC_ENT/04_WORLD_SPC_ENT/02__WRL__CULTURE_SOCIETY_ARCHITECT__SPC__ENT.md
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/10_SPC_ENT/04_WORLD_SPC_ENT/02__WRL__CULTURE_SOCIETY_ARCHITECT__SPC.md
+  PATH: UE_V2/03_ENT/10_SPC_ENT/04_WORLD_SPC_ENT/02__WRL__CULTURE_SOCIETY_ARCHITECT__SPC.md
   MARKERS: [SPC, WRL, SPECIALIST, SOC]
   STATUS: ACTIVE
   OWNER: SYS

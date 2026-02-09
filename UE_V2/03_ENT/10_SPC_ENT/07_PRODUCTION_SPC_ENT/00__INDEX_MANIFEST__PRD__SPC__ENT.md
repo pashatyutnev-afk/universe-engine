@@ -89,8 +89,8 @@ INDEX_MANIFEST — “таблица адресов” и кратких смы�
   KIND: ENTITY
   ROLE: Executive producer
   DESC: Owns production strategy and constraints; approves scope, budget/time logic, and priority tradeoffs
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/10_SPC_ENT/07_PRODUCTION_SPC_ENT/01__PRD__EXECUTIVE_PRODUCER__SPC__ENT.md
-  PATH: UE_V2/03_ENT/10_SPC_ENT/07_PRODUCTION_SPC_ENT/01__PRD__EXECUTIVE_PRODUCER__SPC__ENT.md
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/10_SPC_ENT/07_PRODUCTION_SPC_ENT/01__PRD__EXECUTIVE_PRODUCER_SPC__ENT.md
+  PATH: UE_V2/03_ENT/10_SPC_ENT/07_PRODUCTION_SPC_ENT/01__PRD__EXECUTIVE_PRODUCER_SPC__ENT.md
   MARKERS: [SPC, PRD, SPECIALIST, LEAD]
   STATUS: ACTIVE
   OWNER: SYS
@@ -101,8 +101,8 @@ INDEX_MANIFEST — “таблица адресов” и кратких смы�
   KIND: ENTITY
   ROLE: Director
   DESC: Owns execution direction (scene-to-scene); balances narrative/visual/audio constraints in production decisions
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/10_SPC_ENT/07_PRODUCTION_SPC_ENT/02__PRD__DIRECTOR__SPC__ENT.md
-  PATH: UE_V2/03_ENT/10_SPC_ENT/07_PRODUCTION_SPC_ENT/02__PRD__DIRECTOR__SPC__ENT.md
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/10_SPC_ENT/07_PRODUCTION_SPC_ENT/02__PRD__DIRECTOR_SPC__ENT.md
+  PATH: UE_V2/03_ENT/10_SPC_ENT/07_PRODUCTION_SPC_ENT/02__PRD__DIRECTOR_SPC__ENT.md
   MARKERS: [SPC, PRD, SPECIALIST, DIR]
   STATUS: ACTIVE
   OWNER: SYS
@@ -113,8 +113,8 @@ INDEX_MANIFEST — “таблица адресов” и кратких смы�
   KIND: ENTITY
   ROLE: Content producer
   DESC: Produces deliverables plan; coordinates specialists; drives task-to-output execution
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/10_SPC_ENT/07_PRODUCTION_SPC_ENT/03__PRD__CONTENT_PRODUCER__SPC__ENT.md
-  PATH: UE_V2/03_ENT/10_SPC_ENT/07_PRODUCTION_SPC_ENT/03__PRD__CONTENT_PRODUCER__SPC__ENT.md
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/10_SPC_ENT/07_PRODUCTION_SPC_ENT/03__PRD__CONTENT_PRODUCER_SPC__ENT.md
+  PATH: UE_V2/03_ENT/10_SPC_ENT/07_PRODUCTION_SPC_ENT/03__PRD__CONTENT_PRODUCER_SPC__ENT.md
   MARKERS: [SPC, PRD, SPECIALIST, PROD]
   STATUS: ACTIVE
   OWNER: SYS
@@ -125,8 +125,8 @@ INDEX_MANIFEST — “таблица адресов” и кратких смы�
   KIND: ENTITY
   ROLE: Transmedia producer
   DESC: Plans cross-platform story/material expansions; outputs transmedia map and release linkage
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/10_SPC_ENT/07_PRODUCTION_SPC_ENT/04__PRD__TRANSMEDIA_PRODUCER__SPC__ENT.md
-  PATH: UE_V2/03_ENT/10_SPC_ENT/07_PRODUCTION_SPC_ENT/04__PRD__TRANSMEDIA_PRODUCER__SPC__ENT.md
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/10_SPC_ENT/07_PRODUCTION_SPC_ENT/04__PRD__TRANSMEDIA_PRODUCER_SPC__ENT.md
+  PATH: UE_V2/03_ENT/10_SPC_ENT/07_PRODUCTION_SPC_ENT/04__PRD__TRANSMEDIA_PRODUCER_SPC__ENT.md
   MARKERS: [SPC, PRD, SPECIALIST, XPLAT]
   STATUS: ACTIVE
   OWNER: SYS
@@ -137,8 +137,8 @@ INDEX_MANIFEST — “таблица адресов” и кратких смы�
   KIND: ENTITY
   ROLE: Episode/chapter planner
   DESC: Plans episodes/chapters structure and delivery units; outputs episode map + dependencies
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/10_SPC_ENT/07_PRODUCTION_SPC_ENT/05__PRD__EPISODE_CHAPTER_PLANNER__SPC__ENT.md
-  PATH: UE_V2/03_ENT/10_SPC_ENT/07_PRODUCTION_SPC_ENT/05__PRD__EPISODE_CHAPTER_PLANNER__SPC__ENT.md
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/10_SPC_ENT/07_PRODUCTION_SPC_ENT/05__PRD__EPISODE_CHAPTER_PLANNER_SPC__ENT.md
+  PATH: UE_V2/03_ENT/10_SPC_ENT/07_PRODUCTION_SPC_ENT/05__PRD__EPISODE_CHAPTER_PLANNER_SPC__ENT.md
   MARKERS: [SPC, PRD, SPECIALIST, PLAN]
   STATUS: ACTIVE
   OWNER: SYS
@@ -149,8 +149,8 @@ INDEX_MANIFEST — “таблица адресов” и кратких смы�
   KIND: ENTITY
   ROLE: Platform adaptation specialist
   DESC: Adapts outputs to platform constraints; outputs adaptation checklist and variants plan
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/10_SPC_ENT/07_PRODUCTION_SPC_ENT/06__PRD__PLATFORM_ADAPTATION_SPECIALIST__SPC__ENT.md
-  PATH: UE_V2/03_ENT/10_SPC_ENT/07_PRODUCTION_SPC_ENT/06__PRD__PLATFORM_ADAPTATION_SPECIALIST__SPC__ENT.md
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/10_SPC_ENT/07_PRODUCTION_SPC_ENT/06__PRD__PLATFORM_ADAPTATION_SPECIALIST_SPC__ENT.md
+  PATH: UE_V2/03_ENT/10_SPC_ENT/07_PRODUCTION_SPC_ENT/06__PRD__PLATFORM_ADAPTATION_SPECIALIST_SPC__ENT.md
   MARKERS: [SPC, PRD, SPECIALIST, PLATFORM]
   STATUS: ACTIVE
   OWNER: SYS
@@ -161,8 +161,8 @@ INDEX_MANIFEST — “таблица адресов” и кратких смы�
   KIND: ENTITY
   ROLE: Localization manager
   DESC: Manages localization process; outputs localization plan, glossary needs, and QA checkpoints
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/10_SPC_ENT/07_PRODUCTION_SPC_ENT/07__PRD__LOCALIZATION_MANAGER__SPC__ENT.md
-  PATH: UE_V2/03_ENT/10_SPC_ENT/07_PRODUCTION_SPC_ENT/07__PRD__LOCALIZATION_MANAGER__SPC__ENT.md
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/10_SPC_ENT/07_PRODUCTION_SPC_ENT/07__PRD__LOCALIZATION_MANAGER_SPC__ENT.md
+  PATH: UE_V2/03_ENT/10_SPC_ENT/07_PRODUCTION_SPC_ENT/07__PRD__LOCALIZATION_MANAGER_SPC__ENT.md
   MARKERS: [SPC, PRD, SPECIALIST, LOC]
   STATUS: ACTIVE
   OWNER: SYS
@@ -173,8 +173,8 @@ INDEX_MANIFEST — “таблица адресов” и кратких смы�
   KIND: ENTITY
   ROLE: Release manager
   DESC: Owns release readiness; gates packaging, QA signoff, and publish sequencing
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/10_SPC_ENT/07_PRODUCTION_SPC_ENT/08__PRD__RELEASE_MANAGER__SPC__ENT.md
-  PATH: UE_V2/03_ENT/10_SPC_ENT/07_PRODUCTION_SPC_ENT/08__PRD__RELEASE_MANAGER__SPC__ENT.md
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/10_SPC_ENT/07_PRODUCTION_SPC_ENT/08__PRD__RELEASE_MANAGER_SPC__ENT.md
+  PATH: UE_V2/03_ENT/10_SPC_ENT/07_PRODUCTION_SPC_ENT/08__PRD__RELEASE_MANAGER_SPC__ENT.md
   MARKERS: [SPC, PRD, SPECIALIST, REL]
   STATUS: ACTIVE
   OWNER: SYS
@@ -185,8 +185,8 @@ INDEX_MANIFEST — “таблица адресов” и кратких смы�
   KIND: ENTITY
   ROLE: Schedule coordinator
   DESC: Coordinates schedule, dependencies, and deadlines; outputs schedule grid and critical path notes
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/10_SPC_ENT/07_PRODUCTION_SPC_ENT/09__PRD__SCHEDULE_COORDINATOR__SPC__ENT.md
-  PATH: UE_V2/03_ENT/10_SPC_ENT/07_PRODUCTION_SPC_ENT/09__PRD__SCHEDULE_COORDINATOR__SPC__ENT.md
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/10_SPC_ENT/07_PRODUCTION_SPC_ENT/09__PRD__SCHEDULE_COORDINATOR_SPC__ENT.md
+  PATH: UE_V2/03_ENT/10_SPC_ENT/07_PRODUCTION_SPC_ENT/09__PRD__SCHEDULE_COORDINATOR_SPC__ENT.md
   MARKERS: [SPC, PRD, SPECIALIST, TIME]
   STATUS: ACTIVE
   OWNER: SYS

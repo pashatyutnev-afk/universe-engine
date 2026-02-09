@@ -89,8 +89,8 @@ INDEX_MANIFEST — “таблица адресов” и кратких смы�
   KIND: ENTITY
   ROLE: Viewer psychology analyst
   DESC: Models audience perception and attention; outputs viewer response predictions and risks
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/10_SPC_ENT/08_PSYCHOLOGY_SPC_ENT/01__PSY__VIEWER_PSYCHOLOGY_ANALYST__SPC__ENT.md
-  PATH: UE_V2/03_ENT/10_SPC_ENT/08_PSYCHOLOGY_SPC_ENT/01__PSY__VIEWER_PSYCHOLOGY_ANALYST__SPC__ENT.md
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/10_SPC_ENT/08_PSYCHOLOGY_SPC_ENT/01__PSY__VIEWER_PSYCHOLOGY_ANALYST_SPC__ENT.md
+  PATH: UE_V2/03_ENT/10_SPC_ENT/08_PSYCHOLOGY_SPC_ENT/01__PSY__VIEWER_PSYCHOLOGY_ANALYST_SPC__ENT.md
   MARKERS: [SPC, PSY, SPECIALIST, VIEWER]
   STATUS: ACTIVE
   OWNER: SYS
@@ -101,8 +101,8 @@ INDEX_MANIFEST — “таблица адресов” и кратких смы�
   KIND: ENTITY
   ROLE: Empathy and identification specialist
   DESC: Designs empathy hooks and identification pathways; outputs empathy map and constraints
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/10_SPC_ENT/08_PSYCHOLOGY_SPC_ENT/02__PSY__EMPATHY_IDENTIFICATION_SPECIALIST__SPC__ENT.md
-  PATH: UE_V2/03_ENT/10_SPC_ENT/08_PSYCHOLOGY_SPC_ENT/02__PSY__EMPATHY_IDENTIFICATION_SPECIALIST__SPC__ENT.md
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/10_SPC_ENT/08_PSYCHOLOGY_SPC_ENT/02__PSY__EMPATHY_IDENTIFICATION_SPECIALIST_SPC__ENT.md
+  PATH: UE_V2/03_ENT/10_SPC_ENT/08_PSYCHOLOGY_SPC_ENT/02__PSY__EMPATHY_IDENTIFICATION_SPECIALIST_SPC__ENT.md
   MARKERS: [SPC, PSY, SPECIALIST, EMP]
   STATUS: ACTIVE
   OWNER: SYS
@@ -113,8 +113,8 @@ INDEX_MANIFEST — “таблица адресов” и кратких смы�
   KIND: ENTITY
   ROLE: Emotional impact designer
   DESC: Designs emotional impact curve and target reactions; outputs impact plan and checkpoints
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/10_SPC_ENT/08_PSYCHOLOGY_SPC_ENT/03__PSY__EMOTIONAL_IMPACT_DESIGNER__SPC__ENT.md
-  PATH: UE_V2/03_ENT/10_SPC_ENT/08_PSYCHOLOGY_SPC_ENT/03__PSY__EMOTIONAL_IMPACT_DESIGNER__SPC__ENT.md
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/10_SPC_ENT/08_PSYCHOLOGY_SPC_ENT/03__PSY__EMOTIONAL_IMPACT_DESIGNER_SPC__ENT.md
+  PATH: UE_V2/03_ENT/10_SPC_ENT/08_PSYCHOLOGY_SPC_ENT/03__PSY__EMOTIONAL_IMPACT_DESIGNER_SPC__ENT.md
   MARKERS: [SPC, PSY, SPECIALIST, IMPACT]
   STATUS: ACTIVE
   OWNER: SYS
@@ -125,8 +125,8 @@ INDEX_MANIFEST — “таблица адресов” и кратких смы�
   KIND: ENTITY
   ROLE: Nonverbal behavior analyst
   DESC: Analyzes body language and nonverbal signals; outputs nonverbal consistency notes
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/10_SPC_ENT/08_PSYCHOLOGY_SPC_ENT/04__PSY__NONVERBAL_BEHAVIOR_ANALYST__SPC__ENT.md
-  PATH: UE_V2/03_ENT/10_SPC_ENT/08_PSYCHOLOGY_SPC_ENT/04__PSY__NONVERBAL_BEHAVIOR_ANALYST__SPC__ENT.md
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/10_SPC_ENT/08_PSYCHOLOGY_SPC_ENT/04__PSY__NONVERBAL_BEHAVIOR_ANALYST_SPC__ENT.md
+  PATH: UE_V2/03_ENT/10_SPC_ENT/08_PSYCHOLOGY_SPC_ENT/04__PSY__NONVERBAL_BEHAVIOR_ANALYST_SPC__ENT.md
   MARKERS: [SPC, PSY, SPECIALIST, NVRB]
   STATUS: ACTIVE
   OWNER: SYS
@@ -137,8 +137,8 @@ INDEX_MANIFEST — “таблица адресов” и кратких смы�
   KIND: ENTITY
   ROLE: Behavioral consistency specialist
   DESC: Ensures behavioral consistency across arcs/scenes; outputs violation list and correction plan
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/10_SPC_ENT/08_PSYCHOLOGY_SPC_ENT/05__PSY__BEHAVIORAL_CONSISTENCY_SPECIALIST__SPC__ENT.md
-  PATH: UE_V2/03_ENT/10_SPC_ENT/08_PSYCHOLOGY_SPC_ENT/05__PSY__BEHAVIORAL_CONSISTENCY_SPECIALIST__SPC__ENT.md
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/10_SPC_ENT/08_PSYCHOLOGY_SPC_ENT/05__PSY__BEHAVIORAL_CONSISTENCY_SPECIALIST_SPC__ENT.md
+  PATH: UE_V2/03_ENT/10_SPC_ENT/08_PSYCHOLOGY_SPC_ENT/05__PSY__BEHAVIORAL_CONSISTENCY_SPECIALIST_SPC__ENT.md
   MARKERS: [SPC, PSY, SPECIALIST, CONSIST]
   STATUS: ACTIVE
   OWNER: SYS

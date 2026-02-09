@@ -89,8 +89,8 @@ INDEX_MANIFEST — “таблица адресов” и кратких смы�
   KIND: ENTITY
   ROLE: Brand architect
   DESC: Defines brand identity system, voice, promise; outputs identity constraints and coherence checks
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/10_SPC_ENT/10_MARKETING_SPC_ENT/01__MKT__BRAND_ARCHITECT__SPC__ENT.md
-  PATH: UE_V2/03_ENT/10_SPC_ENT/10_MARKETING_SPC_ENT/01__MKT__BRAND_ARCHITECT__SPC__ENT.md
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/10_SPC_ENT/10_MARKETING_SPC_ENT/01__MKT__BRAND_ARCHITECT_SPC__ENT.md
+  PATH: UE_V2/03_ENT/10_SPC_ENT/10_MARKETING_SPC_ENT/01__MKT__BRAND_ARCHITECT_SPC__ENT.md
   MARKERS: [SPC, MKT, SPECIALIST, BRAND]
   STATUS: ACTIVE
   OWNER: SYS
@@ -101,8 +101,8 @@ INDEX_MANIFEST — “таблица адресов” и кратких смы�
   KIND: ENTITY
   ROLE: Audience analyst
   DESC: Models target audiences and segments; outputs audience map and positioning constraints
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/10_SPC_ENT/10_MARKETING_SPC_ENT/02__MKT__AUDIENCE_ANALYST__SPC__ENT.md
-  PATH: UE_V2/03_ENT/10_SPC_ENT/10_MARKETING_SPC_ENT/02__MKT__AUDIENCE_ANALYST__SPC__ENT.md
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/10_SPC_ENT/10_MARKETING_SPC_ENT/02__MKT__AUDIENCE_ANALYST_SPC__ENT.md
+  PATH: UE_V2/03_ENT/10_SPC_ENT/10_MARKETING_SPC_ENT/02__MKT__AUDIENCE_ANALYST_SPC__ENT.md
   MARKERS: [SPC, MKT, SPECIALIST, AUD]
   STATUS: ACTIVE
   OWNER: SYS
@@ -113,8 +113,8 @@ INDEX_MANIFEST — “таблица адресов” и кратких смы�
   KIND: ENTITY
   ROLE: Audience research specialist
   DESC: Runs research loops and insights extraction; outputs research briefs and evidence-backed conclusions
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/10_SPC_ENT/10_MARKETING_SPC_ENT/03__MKT__AUDIENCE_RESEARCH_SPECIALIST__SPC__ENT.md
-  PATH: UE_V2/03_ENT/10_SPC_ENT/10_MARKETING_SPC_ENT/03__MKT__AUDIENCE_RESEARCH_SPECIALIST__SPC__ENT.md
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/10_SPC_ENT/10_MARKETING_SPC_ENT/03__MKT__AUDIENCE_RESEARCH_SPECIALIST_SPC__ENT.md
+  PATH: UE_V2/03_ENT/10_SPC_ENT/10_MARKETING_SPC_ENT/03__MKT__AUDIENCE_RESEARCH_SPECIALIST_SPC__ENT.md
   MARKERS: [SPC, MKT, SPECIALIST, RCH]
   STATUS: ACTIVE
   OWNER: SYS
@@ -125,8 +125,8 @@ INDEX_MANIFEST — “таблица адресов” и кратких смы�
   KIND: ENTITY
   ROLE: Content packaging specialist
   DESC: Packages content into platform-ready units; outputs packaging templates and deliverable specs
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/10_SPC_ENT/10_MARKETING_SPC_ENT/04__MKT__CONTENT_PACKAGING_SPECIALIST__SPC__ENT.md
-  PATH: UE_V2/03_ENT/10_SPC_ENT/10_MARKETING_SPC_ENT/04__MKT__CONTENT_PACKAGING_SPECIALIST__SPC__ENT.md
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/10_SPC_ENT/10_MARKETING_SPC_ENT/04__MKT__CONTENT_PACKAGING_SPECIALIST_SPC__ENT.md
+  PATH: UE_V2/03_ENT/10_SPC_ENT/10_MARKETING_SPC_ENT/04__MKT__CONTENT_PACKAGING_SPECIALIST_SPC__ENT.md
   MARKERS: [SPC, MKT, SPECIALIST, PACK]
   STATUS: ACTIVE
   OWNER: SYS
@@ -137,8 +137,8 @@ INDEX_MANIFEST — “таблица адресов” и кратких смы�
   KIND: ENTITY
   ROLE: Platform distribution specialist
   DESC: Plans platform distribution and scheduling; outputs distribution plan and channel constraints
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/10_SPC_ENT/10_MARKETING_SPC_ENT/05__MKT__PLATFORM_DISTRIBUTION_SPECIALIST__SPC__ENT.md
-  PATH: UE_V2/03_ENT/10_SPC_ENT/10_MARKETING_SPC_ENT/05__MKT__PLATFORM_DISTRIBUTION_SPECIALIST__SPC__ENT.md
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/10_SPC_ENT/10_MARKETING_SPC_ENT/05__MKT__PLATFORM_DISTRIBUTION_SPECIALIST_SPC__ENT.md
+  PATH: UE_V2/03_ENT/10_SPC_ENT/10_MARKETING_SPC_ENT/05__MKT__PLATFORM_DISTRIBUTION_SPECIALIST_SPC__ENT.md
   MARKERS: [SPC, MKT, SPECIALIST, DIST]
   STATUS: ACTIVE
   OWNER: SYS
@@ -149,8 +149,8 @@ INDEX_MANIFEST — “таблица адресов” и кратких смы�
   KIND: ENTITY
   ROLE: SEO and discovery specialist
   DESC: Optimizes discovery (SEO/metadata); outputs SEO pack and indexing constraints
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/10_SPC_ENT/10_MARKETING_SPC_ENT/06__MKT__SEO_DISCOVERY_SPECIALIST__SPC__ENT.md
-  PATH: UE_V2/03_ENT/10_SPC_ENT/10_MARKETING_SPC_ENT/06__MKT__SEO_DISCOVERY_SPECIALIST__SPC__ENT.md
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/10_SPC_ENT/10_MARKETING_SPC_ENT/06__MKT__SEO_DISCOVERY_SPECIALIST_SPC__ENT.md
+  PATH: UE_V2/03_ENT/10_SPC_ENT/10_MARKETING_SPC_ENT/06__MKT__SEO_DISCOVERY_SPECIALIST_SPC__ENT.md
   MARKERS: [SPC, MKT, SPECIALIST, SEO]
   STATUS: ACTIVE
   OWNER: SYS
@@ -161,8 +161,8 @@ INDEX_MANIFEST — “таблица адресов” и кратких смы�
   KIND: ENTITY
   ROLE: Trailer/teaser specialist
   DESC: Designs trailers/teasers structure; outputs teaser script/beat map and variant plan
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/10_SPC_ENT/10_MARKETING_SPC_ENT/07__MKT__TRAILER_TEASER_SPECIALIST__SPC__ENT.md
-  PATH: UE_V2/03_ENT/10_SPC_ENT/10_MARKETING_SPC_ENT/07__MKT__TRAILER_TEASER_SPECIALIST__SPC__ENT.md
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/10_SPC_ENT/10_MARKETING_SPC_ENT/07__MKT__TRAILER_TEASER_SPECIALIST_SPC__ENT.md
+  PATH: UE_V2/03_ENT/10_SPC_ENT/10_MARKETING_SPC_ENT/07__MKT__TRAILER_TEASER_SPECIALIST_SPC__ENT.md
   MARKERS: [SPC, MKT, SPECIALIST, TRAILER]
   STATUS: ACTIVE
   OWNER: SYS
@@ -173,8 +173,8 @@ INDEX_MANIFEST — “таблица адресов” и кратких смы�
   KIND: ENTITY
   ROLE: Community manager
   DESC: Builds community loops and moderation rules; outputs community plan and engagement guidelines
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/10_SPC_ENT/10_MARKETING_SPC_ENT/08__MKT__COMMUNITY_MANAGER__SPC__ENT.md
-  PATH: UE_V2/03_ENT/10_SPC_ENT/10_MARKETING_SPC_ENT/08__MKT__COMMUNITY_MANAGER__SPC__ENT.md
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/10_SPC_ENT/10_MARKETING_SPC_ENT/08__MKT__COMMUNITY_MANAGER_SPC__ENT.md
+  PATH: UE_V2/03_ENT/10_SPC_ENT/10_MARKETING_SPC_ENT/08__MKT__COMMUNITY_MANAGER_SPC__ENT.md
   MARKERS: [SPC, MKT, SPECIALIST, COM]
   STATUS: ACTIVE
   OWNER: SYS
@@ -185,8 +185,8 @@ INDEX_MANIFEST — “таблица адресов” и кратких смы�
   KIND: ENTITY
   ROLE: Engagement strategist
   DESC: Designs engagement loops and retention; outputs engagement strategy and experiments plan
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/10_SPC_ENT/10_MARKETING_SPC_ENT/09__MKT__ENGAGEMENT_STRATEGIST__SPC__ENT.md
-  PATH: UE_V2/03_ENT/10_SPC_ENT/10_MARKETING_SPC_ENT/09__MKT__ENGAGEMENT_STRATEGIST__SPC__ENT.md
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/10_SPC_ENT/10_MARKETING_SPC_ENT/09__MKT__ENGAGEMENT_STRATEGIST_SPC__ENT.md
+  PATH: UE_V2/03_ENT/10_SPC_ENT/10_MARKETING_SPC_ENT/09__MKT__ENGAGEMENT_STRATEGIST_SPC__ENT.md
   MARKERS: [SPC, MKT, SPECIALIST, ENG]
   STATUS: ACTIVE
   OWNER: SYS
@@ -197,8 +197,8 @@ INDEX_MANIFEST — “таблица адресов” и кратких смы�
   KIND: ENTITY
   ROLE: Growth hacker
   DESC: Drives growth experiments and acquisition; outputs growth hypotheses and KPI plan
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/10_SPC_ENT/10_MARKETING_SPC_ENT/10__MKT__GROWTH_HACKER__SPC__ENT.md
-  PATH: UE_V2/03_ENT/10_SPC_ENT/10_MARKETING_SPC_ENT/10__MKT__GROWTH_HACKER__SPC__ENT.md
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/10_SPC_ENT/10_MARKETING_SPC_ENT/10__MKT__GROWTH_HACKER_SPC__ENT.md
+  PATH: UE_V2/03_ENT/10_SPC_ENT/10_MARKETING_SPC_ENT/10__MKT__GROWTH_HACKER_SPC__ENT.md
   MARKERS: [SPC, MKT, SPECIALIST, GROW]
   STATUS: ACTIVE
   OWNER: SYS
@@ -209,8 +209,8 @@ INDEX_MANIFEST — “таблица адресов” и кратких смы�
   KIND: ENTITY
   ROLE: Monetization strategist
   DESC: Designs monetization routes and offers; outputs monetization model and constraints
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/10_SPC_ENT/10_MARKETING_SPC_ENT/11__MKT__MONETIZATION_STRATEGIST__SPC__ENT.md
-  PATH: UE_V2/03_ENT/10_SPC_ENT/10_MARKETING_SPC_ENT/11__MKT__MONETIZATION_STRATEGIST__SPC__ENT.md
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/10_SPC_ENT/10_MARKETING_SPC_ENT/11__MKT__MONETIZATION_STRATEGIST_SPC__ENT.md
+  PATH: UE_V2/03_ENT/10_SPC_ENT/10_MARKETING_SPC_ENT/11__MKT__MONETIZATION_STRATEGIST_SPC__ENT.md
   MARKERS: [SPC, MKT, SPECIALIST, MONEY]
   STATUS: ACTIVE
   OWNER: SYS
