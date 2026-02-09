@@ -79,8 +79,8 @@ INDEX_MANIFEST — “таблица адресов” и кратких смы�
   KIND: PIPE
   ROLE: NAV realm step-run navigator
   DESC: KEY-only contract; resolves targets via this INDEX_MANIFEST
-  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/04_NAV/00__PIPELINE_CONTRACT_NAV.md
-  PATH: UE_V2/04_NAV/00__PIPELINE_CONTRACT_NAV.md
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/04_NAV/00__PIPELINE_CONTRACT__NAV.md
+  PATH: UE_V2/04_NAV/00__PIPELINE_CONTRACT__NAV.md
   MARKERS: [PIPE, MUST_LOAD, ROUTER]
   STATUS: ACTIVE
   OWNER: SYS

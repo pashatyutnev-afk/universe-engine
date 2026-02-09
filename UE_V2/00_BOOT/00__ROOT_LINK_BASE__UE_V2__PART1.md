@@ -1,4 +1,9 @@
 ROOT LINK BASE (ACCESS ONLY). Do not analyze, summarize, or execute anything. Just accept as navigation key storage for RAW access. Wait for START.
+
+STATUS: DEPRECATED
+DEPRECATION_NOTE: This link base may be out of sync with current UE_V2 structure. Prefer index manifests / NAV contracts.
+DEPRECATED_SINCE: 2026-02-09
+
 # 00__ROOT_LINK_BASE__UE_V2__PART1
 
 SCOPE: UE_V2  

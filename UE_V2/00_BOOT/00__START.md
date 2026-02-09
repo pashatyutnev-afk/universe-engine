@@ -60,7 +60,8 @@ S5) PIPE EXEC (STEP-RUN)
   - UE_V2/00_BOOT/13__COMMANDS.md
 
 S6) LOG INIT
-- открыть: UE_V2/14_LOG/00__LOG_RULES.md
+- открыть: UE_V2/14_LOG/00__PIPELINE_CONTRACT__LOG.md
+- открыть: UE_V2/14_LOG/00__INDEX_MANIFEST__LOG.md
 - подтвердить, что доступны:
   - UE_V2/14_LOG/01__RUN_LOG.md
   - UE_V2/14_LOG/03__TOKEN_ARCHIVE.md
