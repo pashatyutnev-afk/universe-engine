@@ -1,42 +1,74 @@
 # 21__PIPE_MUSIC_LYRICS
 
-SCOPE: Universe Engine (UE_V2)
 DOC_TYPE: PIPE
-UID: UE.V2.PIPE.MUSIC.LYRICS.001
-VERSION: 1.0.0
-STATUS: ACTIVE
-MODE: REPO (USAGE-ONLY, NO-EDIT)
-NAV_RULE: Use RAW links only
-PURPOSE: Пайп текста/лирики: концепт -> варианты -> проверка -> вписывание в трек.
+DOMAIN: MUSIC
+PIPE_ID: MUS.LYRICS
+VERSION: 1.4.0
+UPDATED: 2026-02-09
 
 ---
 
-## [M] INTENT
-Делать тексты так, чтобы они:
-- попадали в тему и психологию
-- не были штампом/коллизией
-- были удобны для вокала/ритма
-- проходили PD/rights правила (если применимо)
+## PURPOSE
+Сделать текст (RU) с мощным хуком/припевом, плотными образами и управляемым тоном.
+Возвращает несколько вариантов для последующего скоринга/синтеза.
 
 ---
 
-## [M] STEP-RUN
-STEP_00 BRIEF (тема/эмоция/персона/запреты)
-STEP_01 PLAN (структура текста, схема рифм/ритма, coverage)
-STEP_02 KB (лексикон, табу, голос, стиль)
-STEP_03 OPTIONS (A–E куплет/припев/хук)
-STEP_04 DECISION
-STEP_05 PRODUCTION (сборка финала)
-STEP_06 REVIEW (VAL: коллизии/PD-only; QA: узнаваемость/запоминаемость)
-STEP_07 FIX (FOCUS-LOOP на проблемном месте)
-STEP_08 PACK (lyrics pack: финальный текст + подсказки по исполнению)
+## INPUTS
+- TASK_TEXT
+- STYLE_PROFILE (из 20__PIPE_MUSIC_TRACK)
+- HOOK_POOL (если уже есть) либо запросить HOOK_FORGE
+- CONSTRAINTS (structure, duration, language)
 
 ---
 
-## [M] GATES
-PASS если:
-- текст принят (QA) и нет коллизий/нарушений (VAL)
-REWORK если:
-- штамп/слабый хук/не ложится в ритм
-GAP если:
-- не хватает правил/лексикона/источников
+## OUTPUTS
+- LYRICS_VARIANTS (v1..vN)
+- ALT_LINES (по секциям)
+- STORY_BEATS
+- LYRICS_FINAL_CANDIDATE
+
+---
+
+## ENTITY MAP
+ORC:
+- UE_V2/03_ENT/30_ORC_ENT/03_MUSIC_ORC_ENT/05__MUS__LYRIC_BRIEF_FACTORY__ORC__ENT.md
+- UE_V2/03_ENT/30_ORC_ENT/03_MUSIC_ORC_ENT/06__MUS__LYRIC_DRAFTER__ORC__ENT.md
+- UE_V2/03_ENT/30_ORC_ENT/03_MUSIC_ORC_ENT/07__MUS__LYRIC_EDITOR__ORC__ENT.md
+
+CTL:
+- UE_V2/03_ENT/40_CTL_ENT/10_MUSIC_CONTROLLERS_CTL_ENT/11__MUS__CTL__TONE_AND_ETHOS__CTL__ENT.md
+- UE_V2/03_ENT/40_CTL_ENT/10_MUSIC_CONTROLLERS_CTL_ENT/12__MUS__CTL__FLOW_AND_PRONUNCIATION__CTL__ENT.md
+
+VAL:
+- UE_V2/03_ENT/50_VAL_ENT/10_MUSIC_VAL/11__MUS__VAL__SCORE_RUBRIC__VAL__ENT.md
+
+QA:
+- UE_V2/03_ENT/60_QA_ENT/10_MUSIC_QA/11__MUS__QA__LYRICS_COMPLIANCE__QA__ENT.md
+
+---
+
+## STAGES
+L0 BRIEF
+- ORC: Lyric Brief Factory → BRIEF_TOKEN (сюжет/образы/лексика/запреты)
+
+L1 DRAFT (3–6 вариантов)
+- ORC: Lyric Drafter → LYRICS_VARIANTS
+
+L2 EDIT (смысл + рифма + плотность)
+- ORC: Lyric Editor → версии с сильными образами и “крючками”
+
+L3 CONTROL
+- CTL: Tone/Ethos (уважение/поддержка/границы мата)
+- CTL: Flow/Pronunciation (слоги, ударения под BPM/half-time)
+
+L4 QA + SCORE
+- QA: Lyrics Compliance → PASS/FAIL + правки
+- VAL: Score Rubric → выбрать топ-1 и топ-3 для синтеза
+
+---
+
+## GATES
+- Chorus короткий и запоминающийся
+- Ритм читается под 94 BPM half-time
+- Без запрещённого контента

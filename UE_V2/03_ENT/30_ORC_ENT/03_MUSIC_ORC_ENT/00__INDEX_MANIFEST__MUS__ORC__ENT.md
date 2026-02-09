@@ -337,3 +337,27 @@ INDEX_MANIFEST — адресная таблица реалма 03_MUSIC_ORC_ENT
   STATUS: ACTIVE
   OWNER: ORC_ENT
   UPDATED: 2026-02-02
+
+## [M] ADDED_ENTRIES (PATCH)
+
+- KEY: MUS.ARRANGEMENT_ROUTER
+  KIND: ENTITY
+  ROLE: Build arrangement profile (energy arc, half-time, instrument emphasis).
+  DESC: Outputs ARR_PROFILE variants for prompt packaging.
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/30_ORC_ENT/03_MUSIC_ORC_ENT/13__MUS__ARRANGEMENT_ROUTER__ORC__ENT.md
+  PATH: UE_V2/03_ENT/30_ORC_ENT/03_MUSIC_ORC_ENT/13__MUS__ARRANGEMENT_ROUTER__ORC__ENT.md
+
+- KEY: MUS.LYRICS_ROOM
+  KIND: ENTITY
+  ROLE: Parallel lyrics ideation room (alt lines per section, variants).
+  DESC: Explodes verse/pre/chorus/bridge alternatives for scoring.
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/30_ORC_ENT/03_MUSIC_ORC_ENT/12__MUS__LYRICS_ROOM__ORC__ENT.md
+  PATH: UE_V2/03_ENT/30_ORC_ENT/03_MUSIC_ORC_ENT/12__MUS__LYRICS_ROOM__ORC__ENT.md
+
+- KEY: MUS.PROMPT_PACKAGER_PLUS
+  KIND: ENTITY
+  ROLE: Extended prompt packager (variant batcher, tighter constraints).
+  DESC: Optional: creates 2–4 Suno pack variants with negatives.
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/30_ORC_ENT/03_MUSIC_ORC_ENT/14__MUS__PROMPT_PACKAGER__ORC__ENT.md
+  PATH: UE_V2/03_ENT/30_ORC_ENT/03_MUSIC_ORC_ENT/14__MUS__PROMPT_PACKAGER__ORC__ENT.md
+

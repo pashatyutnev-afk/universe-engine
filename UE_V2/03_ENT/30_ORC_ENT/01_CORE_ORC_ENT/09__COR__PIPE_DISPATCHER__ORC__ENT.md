@@ -4,11 +4,11 @@ DOC_TYPE: ORC_ENTITY_MODULE
 DOMAIN: COR_ORC_ENT
 KEY: COR.PIPE_DISPATCHER
 UID: UE.V2.ENT.ORC.COR.PIPE_DISPATCHER.001
-VERSION: 1.0.0
+VERSION: 1.1.0
 STATUS: ACTIVE
 MODE: REPO (USAGE-ONLY, NO-EDIT)
 CREATED: 2026-02-02
-UPDATED: 2026-02-02
+UPDATED: 2026-02-09
 OWNER: ORC_ENT
 NAV_RULE: RAW-only enforcement (KEY->IDX->RAW)
 
@@ -16,26 +16,32 @@ NAV_RULE: RAW-only enforcement (KEY->IDX->RAW)
 
 ## [M] ROLE
 Pipeline dispatcher module.
-Takes a selected PIPE_KEY (keys-only) and prepares deterministic dispatch context for PIPE execution.
-Does not execute the pipe itself; it builds minimal open-plan + handoff instructions for the step-run controller.
+
+Builds deterministic dispatch context for a selected PIPE.
+Dispatcher does NOT execute the pipe; it produces a **phased** open-plan (keys-only) so the system can:
+- explode a task into sub-tasks,
+- distribute work to domain entities,
+- avoid “one-shot minimalism”.
+
+---
 
 ## [M] PURPOSE
 - Convert `PIPE_SELECTION_REPORT` into `DISPATCH_CONTEXT` (keys-only).
-- Enforce anti-noise load policy: “open only what is required next”.
+- Provide **PHASE_PLAN** (multiple small open-plans) so entities do not idle.
+- Enforce “anti-noise” via per-phase budgets (not a single tiny budget for the whole run).
 - Ensure PIPE is reachable via NAV proofs before any further action.
-- Produce the next action as a stable prompt: "го".
+- Produce the next stable user action: "го".
 
 ---
 
 ## [M] HARD_RULES
-- Keys-only. Never output RAW or PATH.
+- Keys-only in outputs. Never output RAW or PATH in DISPATCH_CONTEXT.
 - No pipe execution here. Only dispatch preparation.
-- No invention: PIPE_KEY and required indices/checks must come from inputs.
-- Deterministic: same inputs => same dispatch context.
-- Anti-noise: `OPEN_PLAN_KEYS` must contain at most:
-  - 1 PIPE key
-  - 1 PIPE entry key (optional)
-  - 1 domain IDX key (optional, only if strictly required by selected pipe)
+- No invention: PIPE_KEY and required checks must come from inputs OR from **CANON PLAYBOOKS** below (predefined, repo-stored).
+- Deterministic: same inputs => same DISPATCH_CONTEXT.
+- Anti-noise is **per phase**:
+  - default `PHASE_NOISE_BUDGET = 12` keys (unless ROUTE_TOKEN overrides).
+  - if a phase needs more than budget → split into sub-phase (A/B).
 - Must preserve ROUTE_TOKEN scope; no route drift.
 
 ---
@@ -48,7 +54,7 @@ Does not execute the pipe itself; it builds minimal open-plan + handoff instruct
   - REQUIRED_IDX: ["KEY"...]
   - REQUIRED_CHECKS: ["CHECK.*"...]
   - EXEC_MODE
-  - NOISE_BUDGET
+  - NOISE_BUDGET (optional, overrides defaults)
   - TRACE_FLAGS
 - PIPE_SELECTION_REPORT (required, from COR.PIPE_SELECTOR)
   - PIPE_KEY
@@ -56,7 +62,6 @@ Does not execute the pipe itself; it builds minimal open-plan + handoff instruct
   - SELECTION_REASONS
   - REQUIRED_CHECKS
   - REQUIRED_IDX
-  - PIPE_OPEN_PLAN_KEYS (must be single item)
 - NAV_ACCESS_PROOF (required)
   - REALM_ACCESS_OK: true|false
   - REACHABLE_KEYS: ["KEY"...]
@@ -68,14 +73,10 @@ Does not execute the pipe itself; it builds minimal open-plan + handoff instruct
 - DISPATCH_CONTEXT (keys-only)
   - PIPE_KEY: "<PIPE.KEY>"
   - PIPE_KIND: "DEFAULT|DOMAIN|SPECIAL"
-  - PIPE_ENTRY_KEY: "<PIPE.ENTRY.KEY_OR_EMPTY>"     # optional, keys-only
-  - OPEN_PLAN_KEYS: ["KEY"...]                      # minimal open plan
+  - PHASE_PLAN: [PHASE ...]   # ordered phases (each phase has small OPEN_PLAN_KEYS)
   - REQUIRED_IDX: ["KEY"...]
   - REQUIRED_CHECKS: ["CHECK.*"...]
-  - FORWARD_REPORTS:
-      REG: "OK|SKIP|UNKNOWN"
-      XREF: "OK|SKIP|UNKNOWN"
-      KB: "OK|SKIP|UNKNOWN"
+  - FORWARD_REPORTS: REG/XREF/KB
   - DISPATCH:
       TARGET_LAYER: "PIPE"
       NEXT_MODULE_KEY: "COR.STEP_RUN_CONTROLLER"
@@ -86,180 +87,142 @@ Does not execute the pipe itself; it builds minimal open-plan + handoff instruct
 - NEXT_MODULE_KEY (on PASS): COR.STEP_RUN_CONTROLLER
 - NEXT_PROMPT: "го"
 
----
-
-## [M] DISPATCH_CONTEXT SCHEMA (v1)
-DISPATCH_CONTEXT:
-  PIPE_KEY: "PIPE.DEFAULT"
-  PIPE_KIND: "DEFAULT"
-  PIPE_ENTRY_KEY: ""
-  OPEN_PLAN_KEYS: ["PIPE.DEFAULT"]
-  REQUIRED_IDX: ["IDX.*", ...]
-  REQUIRED_CHECKS: ["CHECK.*", ...]
-  FORWARD_REPORTS:
-    REG: "OK"
-    XREF: "OK"
-    KB: "UNKNOWN"
-  DISPATCH:
-    TARGET_LAYER: "PIPE"
-    NEXT_MODULE_KEY: "COR.STEP_RUN_CONTROLLER"
-    NEXT_PROMPT: "го"
+PHASE (schema):
+  PHASE_ID: "S0|S1|..."
+  PHASE_NAME: "..."
+  OPEN_PLAN_KEYS: ["KEY"...]          # <= PHASE_NOISE_BUDGET
+  EXPECTED_OUTPUT_KEYS: ["TOKEN"...]  # high-level expected outputs
+  STOP_RULE: "..."                   # when phase is considered complete
+  NEXT_PROMPT: "го"
 
 ---
 
-## [M] DETERMINISTIC LOGIC
+## [M] CANON PLAYBOOKS (DOMAIN PRELOAD)
+These playbooks define which entities MUST participate, by domain.
+They are **keys-only** and are allowed as “non-invention” because they are repo-stored in this module.
 
-### D0) Preconditions
-FAIL if:
-- ROUTE_TOKEN missing
-- PIPE_SELECTION_REPORT missing
-- NAV_ACCESS_PROOF missing
-- NAV_ACCESS_PROOF.REALM_ACCESS_OK != true
+### PLAYBOOK: MUSIC / TRACK (PIPE_ID: MUS.TRACK)
+PHASE_NOISE_BUDGET_DEFAULT: 12
 
-### D1) Validate PIPE_SELECTION_REPORT shape
-FAIL if:
-- PIPE_SELECTION_REPORT.PIPE_KEY empty
-- PIPE_SELECTION_REPORT.PIPE_OPEN_PLAN_KEYS not exactly 1 key
-- PIPE_SELECTION_REPORT.PIPE_OPEN_PLAN_KEYS[0] != PIPE_SELECTION_REPORT.PIPE_KEY
+S0 / INTAKE + CONSTRAINTS
+OPEN_PLAN_KEYS:
+- CTL.MUS.DURATION_POLICY
+- CTL.MUS.PROMPT_CONTRACT
+- CTL.MUS.QUALITY_GATES
+EXPECTED_OUTPUT_KEYS:
+- CONSTRAINT_FRAME
+- QUALITY_GATE_FRAME
+STOP_RULE:
+- constraints locked (duration/structure/language/bpm)
 
-FAIL_CODE: FAIL.PIPE_REPORT_INVALID
+S1 / STYLE ROUTING (genre fusion + energy arc)
+OPEN_PLAN_KEYS:
+- MUS.GENRE_STYLE_ROUTER
+- MUS.ARRANGEMENT_ROUTER
+- CTL.MUS.NEGATIVE_SPEC_LIBRARY
+EXPECTED_OUTPUT_KEYS:
+- STYLE_PROFILE
+- ARR_PROFILE
+- NEGATIVE_DRAFT
+STOP_RULE:
+- STYLE_PROFILE and ARR_PROFILE exist
 
-### D2) Reachability gate (index-proven)
-Selected PIPE_KEY must be reachable:
-- PIPE_KEY in NAV_ACCESS_PROOF.REACHABLE_KEYS
+S2 / HOOK EXPLOSION (pool + quick panel)
+OPEN_PLAN_KEYS:
+- MUS.HOOK_FORGE
+- QA.MUS.HOOK_PANEL
+- VAL.MUS.HOOK_TIMING
+EXPECTED_OUTPUT_KEYS:
+- HOOK_POOL (ranked)
+- HOOK_TOP3
+STOP_RULE:
+- HOOK_TOP3 chosen (at least 3)
 
-If not reachable:
-- GAP_CODE: GAP.PIPE_KEY_NOT_REACHABLE
-- REQUIRED_FIX: "Open required IDX so PIPE_KEY becomes reachable via NAV, then re-run selection/dispatch."
+S3 / LYRICS FACTORY (variants + controls)
+OPEN_PLAN_KEYS:
+- MUS.LYRIC_BRIEF_FACTORY
+- MUS.LYRICS_ROOM
+- MUS.LYRIC_DRAFTER
+- MUS.LYRIC_EDITOR
+- CTL.MUS.POET_PD_POLICY
+- CTL.MUS.SUNO_PHRASEBOOK
+- CTL.MUS.CTL.TONE_AND_ETHOS
+- CTL.MUS.CTL.FLOW_AND_PRONUNCIATION
+- MUS.QA_CHECKS
+EXPECTED_OUTPUT_KEYS:
+- LYRICS_VARIANTS (3–6)
+- LYRICS_TOP1
+STOP_RULE:
+- LYRICS_TOP1 passes QA (no hard fails)
 
-### D3) Determine PIPE_ENTRY_KEY (optional, keys-only)
-Rule:
-- If ROUTE_TOKEN contains an explicit pipe entry key (optional future field):
-    ROUTE_TOKEN.PIPE_ENTRY_KEY -> use it (must be reachable)
-- Else:
-    PIPE_ENTRY_KEY = "" (empty)
-Rationale:
-- Dispatcher does not guess pipe internals.
+S4 / PROMPT PACK (2–4 variants)
+OPEN_PLAN_KEYS:
+- MUS.PROMPT_PACKAGER
+- MUS.PROMPT_PACKAGER_PLUS
+- VAL.MUS.PROMPT_FIDELITY
+- CTL.MUS.VARIANT_POLICY
+EXPECTED_OUTPUT_KEYS:
+- SUNO_PACK_VARIANTS (2–4)
+STOP_RULE:
+- at least 2 valid packs exist
 
-If PIPE_ENTRY_KEY provided but not reachable:
-- GAP_CODE: GAP.PIPE_ENTRY_NOT_REACHABLE
-- REQUIRED_FIX: "Ensure PIPE_ENTRY_KEY is declared in reachable keys via required IDX."
+S5 / QA + RELEASE PACK
+OPEN_PLAN_KEYS:
+- QA.MUS.MIX_TRANSLATION
+- QA.MUS.TRACK_QA_PANEL
+- VAL.MUS.RELEASE_PACK_READY
+- MUS.METADATA_FACTORY
+- MUS.IDENTITY_BUILD
+- VAL.MUS.NAMING_COLLISION
+EXPECTED_OUTPUT_KEYS:
+- FINAL_SUNO_PACK
+- RELEASE_PACK
+STOP_RULE:
+- FINAL_SUNO_PACK ready + release checks pass
 
-### D4) Build minimal OPEN_PLAN_KEYS (anti-noise)
-Base open plan:
-- OPEN_PLAN_KEYS = [PIPE_KEY]
-
-If PIPE_ENTRY_KEY not empty:
-- OPEN_PLAN_KEYS append PIPE_ENTRY_KEY
-
-No additional keys unless strictly required by REQUIRED_CHECKS:
-- If a check explicitly demands a domain IDX (pattern: CHECK.NAV.DOMAIN_IDX_REQUIRED) AND
-  ROUTE_TOKEN has DOMAIN_IDX_KEY (optional future field), then:
-    append DOMAIN_IDX_KEY (must be reachable)
-Otherwise:
-- do not add anything.
-
-Clamp:
-- OPEN_PLAN_KEYS length must be <= 3
-
-If clamp violated:
-- FAIL_CODE: FAIL.NOISE_BUDGET_VIOLATION
-- REQUIRED_FIX: "Reduce open-plan keys to <=3; move deeper opens to PIPE layer."
-
-### D5) Forward reports (status-only)
-FORWARD_REPORTS:
-- If REG_ACCESS_REPORT exists and OK -> REG="OK" else "UNKNOWN"
-- If XREF_ACCESS_REPORT exists and OK -> XREF="OK" else "UNKNOWN"
-- If KB_ACCESS_REPORT exists and OK -> KB="OK" else "UNKNOWN"
-Do not expand contents. Status-only.
-
-### D6) Dispatch decision
-On PASS:
-- TARGET_LAYER: "PIPE"
-- NEXT_MODULE_KEY: COR.STEP_RUN_CONTROLLER
-- NEXT_PROMPT: "го"
-
----
-
-## [M] FAIL CONDITIONS
-FAIL.PIPE_INPUT_MISSING:
-- Any required input missing
-
-FAIL.PIPE_REPORT_INVALID:
-- PIPE_SELECTION_REPORT invalid shape or contradictory
-
-FAIL.NOISE_BUDGET_VIOLATION:
-- OPEN_PLAN_KEYS exceeds limits
-
-FAIL.NAV_ACCESS_DENIED:
-- NAV_ACCESS_PROOF.REALM_ACCESS_OK != true
-
----
-
-## [M] GAP CONDITIONS
-GAP.PIPE_KEY_NOT_REACHABLE:
-- Selected PIPE_KEY not reachable via NAV proofs
-
-GAP.PIPE_ENTRY_NOT_REACHABLE:
-- Provided PIPE_ENTRY_KEY not reachable
-
-REQUIRED_FIX (GAP):
-- Open required IDX so keys become reachable, then rerun
+S6 / FOCUS LOOPS (optional, only on FAIL)
+OPEN_PLAN_KEYS:
+- MUS.HOOK_FOCUS_LOOP
+- MUS.MIX_FOCUS_LOOP
+- MUS.LYRICS_FOCUS_LOOP
+- CTL.MUS.FOCUS_LOOP_STOP_RULES
+EXPECTED_OUTPUT_KEYS:
+- IMPROVED_PACK
+STOP_RULE:
+- stop rules trigger OR all gates pass
 
 ---
 
-## [M] OUTPUT TEMPLATE
-
-On PASS:
-STATUS: PASS
-DISPATCH_CONTEXT:
-  PIPE_KEY: "<PIPE.KEY>"
-  PIPE_KIND: "DEFAULT|DOMAIN|SPECIAL"
-  PIPE_ENTRY_KEY: "<KEY_OR_EMPTY>"
-  OPEN_PLAN_KEYS: ["<PIPE.KEY>", "<OPTIONAL_ENTRY_KEY>", "<OPTIONAL_DOMAIN_IDX_KEY>"]
-  REQUIRED_IDX: ["KEY", ...]
-  REQUIRED_CHECKS: ["CHECK.*", ...]
-  FORWARD_REPORTS:
-    REG: "OK|UNKNOWN"
-    XREF: "OK|UNKNOWN"
-    KB: "OK|UNKNOWN"
-  DISPATCH:
-    TARGET_LAYER: "PIPE"
-    NEXT_MODULE_KEY: "COR.STEP_RUN_CONTROLLER"
-    NEXT_PROMPT: "го"
-
-On GAP:
-STATUS: GAP
-GAP_CODE: GAP.PIPE_KEY_NOT_REACHABLE
-REQUIRED_FIX: "Open required IDX so PIPE_KEY becomes reachable via NAV, then re-run selection/dispatch."
-DISPATCH_CONTEXT:
-  PIPE_KEY: ""
-  PIPE_KIND: ""
-  PIPE_ENTRY_KEY: ""
-  OPEN_PLAN_KEYS: []
-  REQUIRED_IDX: ["KEY", ...]
-  REQUIRED_CHECKS: ["CHECK.*", ...]
-  FORWARD_REPORTS:
-    REG: "UNKNOWN"
-    XREF: "UNKNOWN"
-    KB: "UNKNOWN"
-  DISPATCH:
-    TARGET_LAYER: "PIPE"
-    NEXT_MODULE_KEY: "COR.STEP_RUN_CONTROLLER"
-    NEXT_PROMPT: "го"
-
-On FAIL:
-STATUS: FAIL
-FAIL_CODE: FAIL.PIPE_REPORT_INVALID
-REQUIRED_FIX: "Provide valid PIPE_SELECTION_REPORT with single PIPE_OPEN_PLAN_KEYS matching PIPE_KEY."
-NEXT_PROMPT: "го"
+## [M] DISPATCH LOGIC (DETERMINISTIC)
+1) Validate NAV_ACCESS_PROOF.REALM_ACCESS_OK == true
+   - else FAIL: NAV_ACCESS_DENIED
+2) Take PIPE_KEY from PIPE_SELECTION_REPORT
+3) Select PLAYBOOK by ROUTE_TOKEN.DOMAIN + PIPE_KEY (or PIPE_ID class)
+   - if no playbook → GAP: PLAYBOOK_MISSING
+4) Build DISPATCH_CONTEXT:
+   - REQUIRED_CHECKS = PIPE_SELECTION_REPORT.REQUIRED_CHECKS (+ ROUTE_TOKEN.REQUIRED_CHECKS)
+   - REQUIRED_IDX = PIPE_SELECTION_REPORT.REQUIRED_IDX (+ ROUTE_TOKEN.REQUIRED_IDX)
+   - PHASE_PLAN = playbook phases (ordered)
+5) Output NEXT_MODULE_KEY = COR.STEP_RUN_CONTROLLER and NEXT_PROMPT = "го"
 
 ---
 
-## [M] GATES
-PASS if:
-- Keys-only (no RAW, no PATH)
-- PIPE_KEY validated + reachable via NAV proofs
-- OPEN_PLAN_KEYS <= 3 and starts with PIPE_KEY
-- NEXT_MODULE_KEY == COR.STEP_RUN_CONTROLLER
-- NEXT_PROMPT == "го"
+## [M] FAIL / GAP CODES
+FAIL:
+- NAV_ACCESS_DENIED
+- INPUT_MISSING (ROUTE_TOKEN or PIPE_SELECTION_REPORT)
+
+GAP:
+- PLAYBOOK_MISSING
+- KEY_NOT_REACHABLE (when NAV_ACCESS_PROOF lacks key needed by playbook)
+
+REQUIRED_FIX format:
+- what is missing
+- which key/module should be added or indexed
+
+---
+
+## [M] NOTES
+- This dispatcher is the answer to “кто решает кто участвует”.
+  Decision ownership here is **playbook-driven** (domain policy), not ad-hoc minimal loading.
+- Step-run controller consumes PHASE_PLAN and advances only after STOP_RULE triggers.
