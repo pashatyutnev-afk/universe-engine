@@ -4,38 +4,42 @@ DOC_TYPE: ORC_ENTITY_MODULE
 DOMAIN: COR_ORC_ENT
 KEY: COR.STEP_RUN_CONTROLLER
 UID: UE.V2.ENT.ORC.COR.STEP_RUN_CONTROLLER.001
-VERSION: 1.0.0
+VERSION: 1.1.0
 STATUS: ACTIVE
 MODE: REPO (USAGE-ONLY, NO-EDIT)
 CREATED: 2026-02-02
-UPDATED: 2026-02-02
+UPDATED: 2026-02-09
 OWNER: ORC_ENT
 NAV_RULE: RAW-only enforcement (KEY->IDX->RAW)
 
 ---
 
 ## [M] ROLE
-Step-run controller module.
-Controls the run cadence as a deterministic, user-driven “step loop” using the command "го".
-Enforces minimal-open / anti-noise policy and produces the next step plan without executing content generation itself.
+Step-run controller.
+
+Consumes `DISPATCH_CONTEXT.PHASE_PLAN` and advances **one phase per user "го"**.
+This module is the cadence manager: it does not generate domain content, it opens the correct keys for the current phase and hands off to PIPE execution.
+
+---
 
 ## [M] PURPOSE
-- Convert current run state into a single next-step plan (one atomic action).
-- Enforce step-by-step interaction: every advancement requires explicit user "го".
-- Prevent context pollution: open only minimal required targets (1–3 keys).
-- Keep route deterministic: no drift outside ROUTE_TOKEN scope.
-- Standardize gates (PASS/FAIL/GAP) + next prompt.
+- Turn a PHASE_PLAN into a sequence of atomic “phase steps”.
+- Ensure explicit user consent for each phase (default command: "го").
+- Keep determinism: same inputs => same phase progression.
+- Prevent context pollution by enforcing **per-phase** open-key budgets.
+- Standardize PASS/FAIL/GAP outputs and next prompt.
 
 ---
 
 ## [M] HARD_RULES
-- Keys-only. Never output RAW or PATH.
-- One step = one atomic action (open/validate/produce a single output bundle).
-- "го" is the only default step-advance command.
-- No massive loads: strictly follow NOISE_BUDGET and anti-noise policy.
-- Do not re-route here. ROUTE_TOKEN is authority; only validate and advance within it.
-- Any missing mandatory input => FAIL, not “guessing”.
-- Any missing required dependency key/index/pipe => GAP (needs nav resolution), not “workaround”.
+- Keys-only outputs (never RAW or PATH).
+- Do not execute pipe logic; only prepare/open/gate/hand off.
+- Use the PHASE as the atomic unit (not a random 1–3 key step).
+- Per-phase budget enforcement:
+  - `PHASE_NOISE_BUDGET = DISPATCH_CONTEXT.PHASE_NOISE_BUDGET || ROUTE_TOKEN.NOISE_BUDGET || 12`
+  - If OPEN_PLAN_KEYS > budget → FAIL.NOISE_BUDGET_VIOLATION
+- If required inputs missing → FAIL (no guessing).
+- If needed key not reachable (NAV proof) → GAP.KEY_NOT_REACHABLE
 
 ---
 
@@ -43,51 +47,47 @@ Enforces minimal-open / anti-noise policy and produces the next step plan withou
 - ROUTE_TOKEN (required)
   - DOMAIN
   - ARTIFACT_TYPE
-  - MODE_HINT (optional)
-  - PIPE_SELECTED (optional)
-  - DEFAULT_ORC (optional)
-  - REQUIRED_IDX: ["KEY"...]
-  - REQUIRED_CHECKS: ["CHECK.*"...]
   - EXEC_MODE
-  - NOISE_BUDGET (optional, default 3)
+  - NOISE_BUDGET (optional)
   - TRACE_FLAGS (optional)
+
 - DISPATCH_CONTEXT (required, from COR.PIPE_DISPATCHER)
   - PIPE_KEY
   - PIPE_KIND
-  - PIPE_ENTRY_KEY (optional)
-  - OPEN_PLAN_KEYS
-  - REQUIRED_IDX
-  - REQUIRED_CHECKS
-  - FORWARD_REPORTS (status-only)
+  - PHASE_PLAN: [PHASE...]
+  - REQUIRED_IDX: ["KEY"...]
+  - REQUIRED_CHECKS: ["CHECK.*"...]
   - DISPATCH:
-      TARGET_LAYER
-      NEXT_MODULE_KEY
-      NEXT_PROMPT
+      TARGET_LAYER: "PIPE"
+      NEXT_MODULE_KEY: "COR.STEP_RUN_CONTROLLER"
+      NEXT_PROMPT: "го"
+
 - RUN_STATE (optional)
-  - STEP_ID (optional)
-  - STEP_HISTORY (optional)
+  - PHASE_CURSOR (optional)     # index in PHASE_PLAN, default 0
+  - PHASE_HISTORY (optional)
   - LAST_STATUS (optional)
-  - LAST_FAIL_CODE / LAST_GAP_CODE (optional)
+
 - USER_COMMAND (optional)
-  - TEXT (e.g., "го", "стоп", "повтори", "сверни")
-  - NOTE (optional)
+  - TEXT ("го" | "повтори" | "стоп")
 
 ---
 
 ## [M] OUTPUTS
 - STEP_RUN_PLAN (keys-only)
-  - STEP_ID: "SR.001" ...
-  - STEP_NAME: "<ONE_LINE>"
-  - OPEN_KEYS: ["KEY"...]                  # keys to open now (1–3)
-  - VALIDATE_CHECKS: ["CHECK.*"...]        # checks to run now
-  - PRODUCE: ["OUT.*"...]                  # what artifact(s) this step yields
+  - PHASE_ID: "S0|S1|..."
+  - PHASE_NAME: "<NAME>"
+  - OPEN_KEYS: ["KEY"...]                 # from PHASE.OPEN_PLAN_KEYS
+  - VALIDATE_CHECKS: ["CHECK.*"...]       # merged checks (stable order)
+  - EXPECTED_OUTPUT_KEYS: ["TOKEN"...]
+  - STOP_RULE: "<TEXT>"
   - HANDOFF:
-      NEXT_LAYER: "PIPE|CORE|GVN|LOG"
-      NEXT_MODULE_KEY: "<KEY>"
+      NEXT_LAYER: "PIPE"
+      NEXT_MODULE_KEY: "<PIPE_KEY>"
       NEXT_PROMPT: "го"
   - CONTEXT_BUDGET:
-      NOISE_BUDGET: 3
-      OPEN_KEYS_COUNT: 1
+      PHASE_NOISE_BUDGET: 12
+      OPEN_KEYS_COUNT: <n>
+
 - STATUS: PASS | FAIL | GAP
 - FAIL_CODE or GAP_CODE
 - REQUIRED_FIX (on FAIL/GAP)
@@ -95,213 +95,111 @@ Enforces minimal-open / anti-noise policy and produces the next step plan withou
 
 ---
 
-## [M] STEP MODEL (v1)
-Step-run is expressed as a small finite-step cadence.
-This controller is cadence-only; domain logic stays inside PIPE layer.
-
-### Steps (default)
-- SR.001 DISPATCH_VALIDATE
-- SR.002 PIPE_HANDOFF_PREP
-- SR.003 PIPE_STEP_EXEC_GATE
-- SR.004 OUTPUT_PACKAGE_GATE
-
-Notes:
-- SR.* steps do not “generate content”; they prepare and gate execution.
-- If PIPE layer has its own step-run, this controller only hands off once and then follows PIPE’s cadence.
+## [M] PHASE (schema)
+PHASE:
+  PHASE_ID: "S0|S1|..."
+  PHASE_NAME: "..."
+  OPEN_PLAN_KEYS: ["KEY"...]
+  EXPECTED_OUTPUT_KEYS: ["TOKEN"...]
+  STOP_RULE: "..."
+  NEXT_PROMPT: "го"
 
 ---
 
-## [M] DETERMINISTIC LOGIC
+## [M] DETERMINISTIC LOGIC (v1.1)
 
 ### D0) Normalize user command
-Default command if missing:
-- USER_COMMAND.TEXT = "го"
+Default if missing: USER_COMMAND.TEXT = "го"
 
-Recognized commands (minimal set):
-- "го" => advance one step
-- "повтори" => re-emit last STEP_RUN_PLAN (no state change)
-- "стоп" => stop safely (returns FAIL with FAIL.USER_STOP)
+Recognized:
+- "го" => advance
+- "повтори" => re-emit current STEP_RUN_PLAN (no cursor change)
+- "стоп" => FAIL.USER_STOP
 
-If unrecognized:
-- FAIL_CODE: FAIL.UNKNOWN_COMMAND
-- REQUIRED_FIX: "Use: го | повтори | стоп"
+Unrecognized => FAIL.UNKNOWN_COMMAND
 
 ### D1) Preconditions
 FAIL if:
 - ROUTE_TOKEN missing
 - DISPATCH_CONTEXT missing
-- DISPATCH_CONTEXT.PIPE_KEY empty
-- DISPATCH_CONTEXT.OPEN_PLAN_KEYS empty
+- PIPE_KEY missing
+- PHASE_PLAN missing or empty
 
-FAIL_CODE options:
+FAIL_CODE:
 - FAIL.INPUT_MISSING
 - FAIL.DISPATCH_CONTEXT_INVALID
 
-### D2) Determine current STEP_ID
-If RUN_STATE.STEP_ID exists:
-- use it
-Else:
-- start at SR.001
+### D2) Cursor
+CURSOR = RUN_STATE.PHASE_CURSOR if present else 0
 
-### D3) SR.001 DISPATCH_VALIDATE
-Goal:
-- validate that the controller can proceed without breaking anti-noise policy
+If CURSOR >= len(PHASE_PLAN):
+- PASS with PRODUCE = ["OUT.RUN_COMPLETE"]
+- NEXT_PROMPT = "го"
+- HANDOFF.NEXT_LAYER = "CORE"
+- HANDOFF.NEXT_MODULE_KEY = "COR.RELEASE_PACKAGER"
+
+### D3) Build current phase step plan
+PHASE = PHASE_PLAN[CURSOR]
+
+Budget:
+- PHASE_NOISE_BUDGET = DISPATCH_CONTEXT.PHASE_NOISE_BUDGET || ROUTE_TOKEN.NOISE_BUDGET || 12
+
+Validate:
+- len(PHASE.OPEN_PLAN_KEYS) <= PHASE_NOISE_BUDGET
+- PHASE.OPEN_PLAN_KEYS not empty
+- PIPE_KEY present in DISPATCH_CONTEXT
+
+If budget violated:
+- FAIL.NOISE_BUDGET_VIOLATION
+- REQUIRED_FIX: "Split phase into sub-phase(s) or reduce OPEN_PLAN_KEYS."
 
 Checks:
-- OPEN_PLAN_KEYS length <= NOISE_BUDGET (default 3)
-- OPEN_PLAN_KEYS[0] == PIPE_KEY
-- ROUTE_TOKEN.REQUIRED_CHECKS union DISPATCH_CONTEXT.REQUIRED_CHECKS -> VALIDATE_CHECKS (dedup, stable order)
+- VALIDATE_CHECKS = dedup( DISPATCH_CONTEXT.REQUIRED_CHECKS + ROUTE_TOKEN.REQUIRED_CHECKS + ["CHECK.NAV.KEYS_REACHABLE"] )
 
-On PASS:
-- produce STEP_RUN_PLAN with:
-  - OPEN_KEYS = DISPATCH_CONTEXT.OPEN_PLAN_KEYS (clamped)
-  - VALIDATE_CHECKS = merged checks (dedup)
-  - PRODUCE = ["OUT.DISPATCH_OK"]
-  - HANDOFF.NEXT_MODULE_KEY = COR.FOCUS_LOOP_CONTROLLER
-  - NEXT_PROMPT = "го"
-
-On FAIL:
-- FAIL_CODE: FAIL.NOISE_BUDGET_VIOLATION | FAIL.DISPATCH_CONTEXT_INVALID
-- REQUIRED_FIX: "Reduce OPEN_PLAN_KEYS to <=3 and ensure first key equals PIPE_KEY."
-
-### D4) SR.002 PIPE_HANDOFF_PREP (after SR.001)
-Goal:
-- prepare handoff instruction into PIPE layer while preserving focus scope
-
-Inputs required:
-- ROUTE_TOKEN
-- DISPATCH_CONTEXT
-- (optional) RUN_STATE, for history only
-
-Plan:
-- OPEN_KEYS = [DISPATCH_CONTEXT.PIPE_KEY] plus optional PIPE_ENTRY_KEY (if present) (<=3)
-- VALIDATE_CHECKS = ["CHECK.NAV.PIPE_REACHABLE"] plus existing REQUIRED_CHECKS (keys-only)
-- PRODUCE = ["OUT.PIPE_HANDOFF_READY"]
+Emit STEP_RUN_PLAN:
+- OPEN_KEYS = PHASE.OPEN_PLAN_KEYS
+- EXPECTED_OUTPUT_KEYS = PHASE.EXPECTED_OUTPUT_KEYS
+- STOP_RULE = PHASE.STOP_RULE
 - HANDOFF.NEXT_LAYER = "PIPE"
-- HANDOFF.NEXT_MODULE_KEY = "PIPE.DEFAULT" (or DISPATCH_CONTEXT.PIPE_KEY if already a pipe module key)
+- HANDOFF.NEXT_MODULE_KEY = DISPATCH_CONTEXT.PIPE_KEY
 - NEXT_PROMPT = "го"
 
-If PIPE_KEY is not a PIPE module key (shape unknown):
-- GAP_CODE: GAP.PIPE_KEY_SHAPE_UNKNOWN
-- REQUIRED_FIX: "Ensure PIPE_KEY resolves to a pipe module key through NAV/IDX."
-
-### D5) SR.003 PIPE_STEP_EXEC_GATE (after SR.002)
-Goal:
-- gate execution: confirm the user explicitly advances and scope is intact
-
-Rules:
-- If USER_COMMAND.TEXT != "го" => FAIL.UNKNOWN_COMMAND (handled by D0)
-- If ROUTE_TOKEN scope changed (detected by mismatch of DOMAIN/ARTIFACT_TYPE) => FAIL.ROUTE_DRIFT
-
-Output:
-- STEP_RUN_PLAN produces ["OUT.PIPE_EXEC_AUTHORIZED"]
-- HANDOFF stays in PIPE, NEXT_MODULE_KEY = DISPATCH_CONTEXT.PIPE_KEY
-- NEXT_PROMPT = "го"
-
-### D6) SR.004 OUTPUT_PACKAGE_GATE (after PIPE returns a result)
-Goal:
-- package outputs deterministically and close run
-
-Required (from PIPE layer):
-- PIPE_RESULT (keys-only reference summary)
-  - OUT_PACK_KEYS (optional)
-  - STATUS
-  - NEXT (optional)
-
-If PIPE_RESULT missing:
-- GAP_CODE: GAP.PIPE_RESULT_MISSING
-- REQUIRED_FIX: "Return PIPE_RESULT (keys-only) from PIPE layer to finalize."
-
-On PASS:
-- HANDOFF.NEXT_MODULE_KEY = COR.RELEASE_PACKAGER
-- PRODUCE = ["OUT.READY_FOR_RELEASE_PACK"]
-- NEXT_PROMPT = "го"
+### D4) Advance rules
+If USER_COMMAND.TEXT == "го":
+- return STEP_RUN_PLAN for PHASE[CURSOR] and instruct next cursor = CURSOR+1
+If USER_COMMAND.TEXT == "повтори":
+- re-emit same plan, cursor unchanged
 
 ---
 
-## [M] ANTI-NOISE / MIN-OPEN POLICY
-Default NOISE_BUDGET = 3 keys.
-OPEN_KEYS must be:
-- 1 key minimum
-- 3 keys maximum
-- Always start with PIPE_KEY when operating in pipe-cadence steps
-
-Violations:
-- FAIL.NOISE_BUDGET_VIOLATION
-
----
-
-## [M] FAIL CONDITIONS
+## [M] FAIL CODES
 - FAIL.INPUT_MISSING
 - FAIL.DISPATCH_CONTEXT_INVALID
 - FAIL.UNKNOWN_COMMAND
 - FAIL.NOISE_BUDGET_VIOLATION
-- FAIL.ROUTE_DRIFT
 - FAIL.USER_STOP
-
-FAIL payload must include:
-- FAIL_CODE
-- REQUIRED_FIX
-- NEXT_PROMPT: "го"
 
 ---
 
-## [M] GAP CONDITIONS
-- GAP.PIPE_KEY_SHAPE_UNKNOWN
-- GAP.PIPE_RESULT_MISSING
+## [M] GAP CODES
+- GAP.KEY_NOT_REACHABLE
+- GAP.NAV_PROOF_MISSING
 
-GAP payload must include:
-- GAP_CODE
-- REQUIRED_FIX
-- NEXT_PROMPT: "го"
+REQUIRED_FIX must specify which key(s) are unreachable and which NAV/IDX needs repair.
 
 ---
 
 ## [M] OUTPUT TEMPLATE (canonical)
-
-On PASS:
 STATUS: PASS
 STEP_RUN_PLAN:
-  STEP_ID: "SR.001"
-  STEP_NAME: "DISPATCH_VALIDATE"
-  OPEN_KEYS: ["<KEY>", "..."]
+  PHASE_ID: "S0"
+  PHASE_NAME: "INTAKE + CONSTRAINTS"
+  OPEN_KEYS: ["CTL.MUS.DURATION_POLICY", "..."]
   VALIDATE_CHECKS: ["CHECK.*", "..."]
-  PRODUCE: ["OUT.*"]
+  EXPECTED_OUTPUT_KEYS: ["CONSTRAINT_FRAME", "..."]
+  STOP_RULE: "constraints locked (duration/structure/language/bpm)"
   HANDOFF:
-    NEXT_LAYER: "CORE|PIPE|LOG|GVN"
-    NEXT_MODULE_KEY: "<KEY>"
+    NEXT_LAYER: "PIPE"
+    NEXT_MODULE_KEY: "MUS.TRACK"
     NEXT_PROMPT: "го"
-  CONTEXT_BUDGET:
-    NOISE_BUDGET: 3
-    OPEN_KEYS_COUNT: 1
 NEXT_PROMPT: "го"
-
-On GAP:
-STATUS: GAP
-GAP_CODE: GAP.PIPE_RESULT_MISSING
-REQUIRED_FIX: "Return PIPE_RESULT (keys-only) from PIPE layer to finalize."
-NEXT_PROMPT: "го"
-
-On FAIL:
-STATUS: FAIL
-FAIL_CODE: FAIL.UNKNOWN_COMMAND
-REQUIRED_FIX: "Use: го | повтори | стоп"
-NEXT_PROMPT: "го"
-
----
-
-## [M] GATES
-PASS if:
-- Keys-only (no RAW, no PATH)
-- STEP_RUN_PLAN includes OPEN_KEYS (1–3) and NEXT_PROMPT "го"
-- No re-routing outside ROUTE_TOKEN scope
-- Anti-noise policy satisfied
-
-FAIL if:
-- required inputs missing/invalid
-- unknown command
-- route drift detected
-- noise budget violated
-
-GAP if:
-- required PIPE key shape/result cannot be validated with provided proofs

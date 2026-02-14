@@ -1,192 +1,210 @@
 # 01__PIPE_DEFAULT
+KIND: ENGINE
+ROLE: PIPE
+SCOPE: SYSTEM
+STATUS: CANON
+VERSION: 1.0.0
 
-SCOPE: Universe Engine (UE_V2)
-DOC_TYPE: PIPE
-UID: UE.V2.PIPE.DEFAULT.001
-VERSION: 1.2.0
-STATUS: ACTIVE
-MODE: REPO (USAGE-ONLY, NO-EDIT)
-NAV_RULE: Use RAW links only
+## 0) PURPOSE
+Единый исполнительный конвейер.
+PIPE принимает ROUTE_TOKEN и:
+- резолвит требуемые модули (IDX/KEY)
+- энфорсит REQUIRED_SET (roles/outputs/gates)
+- запускает стадии SPC → ORC → CTL → VAL → (QA) → PACK
+- останавливает выполнение при GAP/FAIL (STOP_GAP)
+- выдаёт артефакты (FULL_PATCH / KB_PATCH / PATCH_OUTPUT) и отчёты
 
-PURPOSE:
-Универсальный пайп исполнения задач: маршрутизация -> шаги -> контроль -> упаковка.
-Делает handoff в доменные пайпы по ROUTE_TOKEN.
-Фиксирует правило: сначала SPC-INTAKE (первый спец), потом ORC и домены.
-
----
-
-## [M] INTENT
-Дать единый механизм исполнения любой задачи:
-- выбрать домен и пайп (через ROUTE_TOKEN)
-- работать пошагово (STEP-RUN) и итеративно (FOCUS-LOOP)
-- выбирать сущности через REG+XREF+KB scope
-- не выпускать результат без обязательных проверок и упаковки
-- обеспечить, что первый контакт с задачей делает SPC-INTAKE (семейство GOV)
+PIPE НЕ “думает” вместо ROUTER и НЕ расширяет scope.
 
 ---
 
-## [M] INPUTS
-- ROUTE_TOKEN (обязателен):
-  DOMAIN, ARTIFACT_TYPE, MODE, PIPE_SELECTED, DEFAULT_ORC, REQUIRED_IDX, REQUIRED_CHECKS, EXEC_MODE
-- TASK_TEXT (обязателен)
-- OPTIONAL: BRIEF_TOKEN (если уже сформирован)
-- OPTIONAL: INTAKE_TOKEN (если уже сформирован)
-- OPTIONAL: MODE_HINT (FAST|RELEASE_READY|MASTERPIECE)
-- OPTIONAL: constraints (platform, duration, style, references)
+## 1) INPUTS
+REQUIRED:
+- ROUTE_TOKEN (из 00_BOOT/09__TASK_ROUTER)
+
+OPTIONAL:
+- USER_FILES
+- USER_CONTEXT
+- RUNTIME_MANIFEST (если есть)
 
 ---
 
-## [M] OUTPUTS
-- STEP tokens (STD/15)
-- INTAKE_TOKEN (SPC intake result: goals, tone, constraints, risks, required specialists)
-- BRIEF_TOKEN (минимум)
-- PLAN_TOKEN (stages + budgets)
-- KB_TOKEN (scope + boundaries)
-- REPORT_TOKEN (CTL/VAL/QA)
-- PACK_TOKEN (если требуется "готовый" результат)
-- BASELINE_TOKEN (если требуется signoff)
-- HANDOFF_TOKEN (куда передали и на каком основании)
+## 2) OUTPUTS
+PIPE всегда возвращает:
+- PACK_OUTPUT (итоговые артефакты)
+- VAL_REPORT (PASS/FAIL + причины)
+- EXEC_LEDGER (что реально запускалось)
+- (optional) QA_REPORT
+- (for repo patching) CHANGELOG_ENTRY + NEXT_POINTER
 
 ---
 
-## [M] PRECONDITIONS (MUST)
-P0) Entry: запуск должен быть через START (LAW_17)
-P1) MUST_LOAD ядро доступно (LAW_18)
-P2) Доступны IDX: REG, XREF, KB, PIPE, LOG (через NAV_ROOT)
-P3) NOISE_BUDGET включён (LAW_20)
+## 3) CORE LAWS (ENFORCEMENT)
+### 3.1 Required Set is law
+PIPE обязан исполнять только то, что указано в:
+- ROUTE_TOKEN.REQUIRED_SET
+И ничего сверх (иначе FAIL:SCOPE_VIOLATION).
 
-Если любое P0–P3 не выполнено -> STOP или GAP по STOP_GAP.
+### 3.2 No silent skipping
+Если REQUIRED_ROLES/OUTPUT_CONTRACT/REQUIRED_VAL_KEYS не выполнены:
+- STOP_GAP + FAIL_CODE
+Никаких “ну ок”.
 
----
-
-## [M] ROUTING (PIPE DEFAULT)
-R0) Если ROUTE_TOKEN.PIPE_SELECTED задан -> использовать его как PRIMARY_TARGET_PIPE.
-R1) Иначе выбрать PRIMARY_TARGET_PIPE по DOMAIN:
-- CORE -> PIPE_DEFAULT (текущий)
-- MUSIC -> PIPE_MUSIC_TRACK или PIPE_MUSIC_LYRICS или PIPE_MUSIC_IDENTITY (по ARTIFACT_TYPE)
-- VIS -> PIPE_VIS
-- LOR -> PIPE_LOR
-- REL -> PIPE_REL
-
-R2) Если доменный пайп отсутствует -> GAP (создать пайп / IDX / обязательные сущности).
-
-R3) Handoff:
-- PIPE_DEFAULT исполняет только bootstrap-шаги (INTAKE/PLAN/KB/ROUTE) и передаёт управление доменному пайпу.
-- Исключение: DOMAIN=CORE — остаёмся в PIPE_DEFAULT.
+### 3.3 KEY-first resolution
+Любой модуль/движок/валидатор подключается только через:
+- KEY → (MANIFEST) → LOCAL_PATH
+Прямые пути и RAW навигация запрещены.
 
 ---
 
-## [M] EXECUTION MODEL
-E0) Всегда использовать STEP-RUN (один шаг -> токен -> "го").
-E1) Если ROUTE_TOKEN.EXEC_MODE=FOCUS-LOOP -> вставить FOCUS-LOOP на текущем фокусе (через PIPE_FOCUS_LOOP протокол).
-E2) Любой STEP обязан:
-- выбрать партию сущностей через REG + XREF + KB_SCOPE
-- соблюсти лимиты (LAW_20 + CTL budgets)
-- записать токены в LOG (RUN_LOG + TOKEN_ARCHIVE + DECISION_LOG при необходимости)
+## 4) EXECUTION LEDGERS (доказательство работы)
+PIPE ведёт 3 леджера:
+
+### 4.1 ROLE_LEDGER
+Для каждой роли из REQUIRED_ROLES:
+- status: ran/skipped/failed
+- outputs_produced: []
+
+### 4.2 ENGINE_RUN_LEDGER
+Для каждого eng_key из ENGINE_PLAN_TOKEN.required_eng_keys:
+- status: ran/skipped/failed
+- outputs_produced: []
+- notes
+
+### 4.3 OUTPUT_LEDGER
+Для каждого output из OUTPUT_CONTRACT:
+- present: true/false
+- source: SPC/ORC/CTL/VAL/QA/PACK
+
+Эти леджеры потом проверяет VAL.COVERAGE.
 
 ---
 
-## [M] BOOTSTRAP STEPS (ALWAYS)
+## 5) STAGES (CANON ORDER)
+### STAGE 0 — PRECHECK (ROUTE_TOKEN sanity)
+Check:
+- ROUTE_TOKEN exists
+- REQUIRED_SET exists
+- REQUIRED_ROLES exists (for production)
+- OUTPUT_CONTRACT exists
+- REQUIRED_VAL_KEYS includes:
+  - KEY:VAL.ENGINE_COVERAGE_GATE
+  - KEY:VAL.OUTPUT_CONTRACT_GATE
+If missing -> STOP_GAP (FAIL:MARKER_NOT_CONFIRMED)
 
-### STEP_00 (S0 INTAKE, FIRST SPECIALIST)
-Цель: первый контакт с задачей делает SPC-INTAKE, а не ORC/PIPE.
+### STAGE 1 — RESOLVE (IDX + MODULES)
+1) Resolve REQUIRED_IDX via manifests
+2) Resolve PIPE_SELECTED key
+3) Resolve REQUIRED_VAL_KEYS
+If any key cannot be resolved -> STOP_GAP (FAIL:ENTRYPOINT_MISSING / FAIL:FILE_NOT_FOUND)
 
-S0.0) Ensure inputs:
-- TASK_TEXT должен существовать, иначе STOP (UE.FAIL.INPUT_ABSENT)
+### STAGE 2 — SPC (INTAKE → PLAN)
+SPC обязан выдать минимум:
+- BRIEF_TOKEN
+- ENGINE_PLAN_TOKEN
+- OUTPUT_CONTRACT (если ROUTER не задал — но в каноне ROUTER задаёт)
 
-S0.1) ROUTE_TOKEN presence:
-- если ROUTE_TOKEN отсутствует -> сформировать через TASK_ROUTER (детерминированно)
+PIPE rules:
+- If "SPC" in REQUIRED_ROLES and BRIEF_TOKEN missing -> FAIL
+- If "SPC" in REQUIRED_ROLES and ENGINE_PLAN_TOKEN missing -> FAIL
 
-S0.2) Mandatory SPC-INTAKE:
-- если INTAKE_TOKEN отсутствует -> выполнить SPC intake через SPC_ENT PIPELINE_CONTRACT
-- FAMILY_HINT: GOV (обязателен)
-- вход: TASK_TEXT + MODE_HINT? + constraints?
-- выход: INTAKE_TOKEN (goals, tone, constraints, risks, required specialists, suggested DOMAIN/ARTIFACT_TYPE)
+Update ROLE_LEDGER[SPC].
 
-S0.3) Sync ROUTE_TOKEN with INTAKE_TOKEN:
-- если INTAKE_TOKEN предлагает DOMAIN/ARTIFACT_TYPE и это не конфликтует с ROUTER -> уточнить ROUTE_TOKEN (без эвристик: только явные поля из INTAKE_TOKEN)
-- DEFAULT_ORC: берётся из INTAKE_TOKEN (если задан), иначе из ROUTE_TOKEN
+#### ENGINE_PLAN_TOKEN (minimum schema)
+ENGINE_PLAN_TOKEN:
+- required_eng_keys: []
+- allowed_eng_keys: [] (optional)
+- no_go_eng_keys: [] (optional)
+- expected_outputs: [] (optional)
 
-S0.4) BRIEF_TOKEN:
-- если BRIEF_TOKEN отсутствует -> собрать BRIEF_TOKEN (минимум) на основе TASK_TEXT + INTAKE_TOKEN
+If required_eng_keys missing (field absent) -> FAIL:MARKER_NOT_CONFIRMED
+(пустой список допустим только на SYS-патчах, не на контент-производстве)
 
-Выход STEP_00:
-- ROUTE_TOKEN (подтверждён)
-- INTAKE_TOKEN (если требовался)
-- BRIEF_TOKEN (минимум)
-NEXT: "го"
+### STAGE 3 — ENG RESOLVE + ORC (RUN ENGINES → DRAFT)
+If "ORC" in REQUIRED_ROLES:
+- Resolve each eng_key from ENGINE_PLAN_TOKEN.required_eng_keys
+- Run engines according to ENG pipeline contract
+- Produce ENG_OUTPUTS_TOKEN
+- Produce ENGINE_RUN_LEDGER (proof)
+
+Update ROLE_LEDGER[ORC].
+
+Rules:
+- If any required_eng_key cannot be resolved -> FAIL:ENTRYPOINT_MISSING
+- If engine fails -> mark failed; continue only if profile allows (default: FAIL)
+
+### STAGE 4 — CTL (POLICIES → CONTROLLED)
+If "CTL" in REQUIRED_ROLES:
+- Apply policies (NO_GO, naming, variants, structure)
+- Produce CONTROLLED_ARTIFACTS + POLICY_REPORT
+Update ROLE_LEDGER[CTL].
+
+Rules:
+- If CTL produces outputs outside OUTPUT_CONTRACT and not requested -> ignore (do not add)
+- If required policy outputs missing -> FAIL
+
+### STAGE 5 — VAL (QUALITY + COVERAGE)
+If "VAL" in REQUIRED_ROLES:
+VAL runs at least:
+- VAL.ENGINE_COVERAGE_GATE (required engines executed)
+- VAL.OUTPUT_CONTRACT_GATE (all outputs present)
+Plus any domain gates in REQUIRED_VAL_KEYS.
+
+VAL produces:
+- VAL_REPORT (PASS/FAIL, reasons, fix list)
+
+Update ROLE_LEDGER[VAL].
+
+Rules:
+- If FAIL -> STOP_GAP (do not PACK as final, only provide fix instructions)
+- If PASS -> proceed
+
+### STAGE 6 — QA (OPTIONAL BUT SUPPORTED)
+If "QA" in REQUIRED_ROLES or profile requires:
+- Run regression checks
+- Produce QA_REPORT
+Update ROLE_LEDGER[QA].
+
+### STAGE 7 — PACK (DELIVERABLES)
+PACK must:
+- compile PACK_OUTPUT according to ARTIFACT_TYPE:
+  - FULL_PATCH -> output files for replacement
+  - KB_PATCH -> KB module(s)
+  - PLAN/AUDIT -> structured doc
+- attach EXEC_LEDGER (ledgers summary)
+- update CHANGELOG_ENTRY and NEXT_POINTER if patching repo
+
+PACK is allowed only if VAL_REPORT=PASS for production outputs.
 
 ---
 
-### STEP_01 (S2 PLAN)
-- сформировать PLAN_TOKEN:
-  - coverage level
-  - budgets (FAST/RELEASE_READY/MASTERPIECE)
-  - список стадий доменного пайпа
-  - required checks (CTL/VAL/QA) из ROUTE_TOKEN
-NEXT: "го"
+## 6) STOP_GAP / FAIL CODES (MANDATORY)
+If any condition triggers STOP:
+- emit FAIL_CODE
+- emit what is missing (single smallest next action)
+- do not fabricate missing modules
+
+Common FAIL triggers:
+- INPUT_ABSENT
+- ENTRYPOINT_MISSING
+- FILE_NOT_FOUND
+- MARKER_NOT_CONFIRMED
+- SCOPE_VIOLATION
+- WEB_INSUFFICIENT (if web was allowed and insufficient)
 
 ---
 
-### STEP_02 (S3 KB)
-- сформировать KB_TOKEN:
-  - KB_SCOPE_ID
-  - правила и запреты (do_not)
-  - allowed sources (KB_SOURCES)
-  - подтвердить, что KB в границах (KB_BOUNDARIES)
-NEXT: "го"
+## 7) OUTPUT CONTRACT (STRICT)
+OUTPUT_CONTRACT is a list. PIPE must ensure every item is present in OUTPUT_LEDGER.
+Default expectations:
+- SYS patches: PATCH_OUTPUT, VAL_REPORT, CHANGELOG_ENTRY, NEXT_POINTER
+- Content production: BRIEF_TOKEN, ENGINE_PLAN_TOKEN, ENGINE_RUN_LEDGER, VAL_REPORT, PACK_OUTPUT
+
+If any missing -> FAIL (VAL.OUTPUT_CONTRACT_GATE).
 
 ---
 
-## [M] DOMAIN HANDOFF MAP (PATH)
-MUSIC:
-- TRACK -> UE_V2/06_PIPE/20__PIPE_MUSIC_TRACK.md
-- LYRICS -> UE_V2/06_PIPE/21__PIPE_MUSIC_LYRICS.md
-- IDENTITY -> UE_V2/06_PIPE/22__PIPE_MUSIC_IDENTITY.md
-- MIX/HOOK -> PIPE_MUSIC_TRACK (как focus steps) или FOCUS-ORC, если задано в ROUTE_TOKEN
-
-REL:
-- UE_V2/06_PIPE/14__PIPE_REL.md
-
-VIS:
-- UE_V2/06_PIPE/04__PIPE_VIS.md
-
-LOR:
-- UE_V2/06_PIPE/05__PIPE_LOR.md
-
-CORE:
-- остаётся в PIPE_DEFAULT (текущий)
-
----
-
-## [M] REQUIRED CONTROL (DEFAULT)
-На уровне PIPE_DEFAULT (bootstrap):
-- CTL readiness + noise budget (минимум)
-- VAL doc format (минимум)
-- QA accept (минимум)
-
-Доменные проверки берутся из ROUTE_TOKEN.REQUIRED_CHECKS и доменного пайпа.
-
----
-
-## [M] EXIT RULES (WHEN TO FINISH IN PIPE_DEFAULT)
-PIPE_DEFAULT завершается, если:
-- DOMAIN != CORE и handoff успешно выполнен (дальше работает доменный пайп)
-- DOMAIN = CORE и выполнены: REVIEW -> PACK -> SIGNOFF (если требуется)
-
----
-
-## [M] GATES
-PASS если:
-- выполнены bootstrap steps и handoff выполнен (для доменных задач)
-- или для CORE задач завершены нужные стадии с токенами и логами
-
-REWORK если:
-- нет токенов/логов
-- нарушены лимиты или пропущены контрольные стадии
-
-GAP если:
-- отсутствует доменный пайп/IDX/обязательные сущности
-
-STOP если:
-- нарушены P0–P3 (entrypoint/manifest/idx/noise) или нет задачи
+## 8) NOTES
+- PIPE_DEFAULT is universal.
+- Domain-specific behavior must be expressed via PROFILE + REQUIRED_SET (not by editing PIPE_DEFAULT per domain).
+END.
