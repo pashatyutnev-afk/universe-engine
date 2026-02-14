@@ -1,196 +1,115 @@
 # 02__STOP_GAP
+KIND: ENGINE
+ROLE: BOOT_GUARD
+SCOPE: SYSTEM
+STATUS: CANON
+VERSION: 1.0.0
 
-SCOPE: UE_V2  
-DOC_TYPE: POLICY (STOP / GAP)  
-UID: UE.V2.BOOT.STOPGAP.001  
-VERSION: 1.1.0  
-STATUS: ACTIVE  
-MODE: REPO (USAGE-ONLY, NO-EDIT)  
-NAV_RULE: Use RAW links only  
+## [M] PURPOSE
+STOP_GAP — протокол немедленной остановки.
+Срабатывает, когда система не может гарантировать корректность/качество из-за:
+- отсутствия обязательных входов/модулей/токенов
+- провала обязательных гейтов (mandatory validators)
+- нарушения scope (подключили лишнее / обошли правила)
 
-PURPOSE:  
-Жёстко определить, когда рантайм обязан остановиться (STOP) и когда он обязан выдать “дыру” (GAP).
-Политика защищает от обходов, гаданий и засорения контекста.
-
----
-
-## [M] DEFINITIONS
-
-### STOP
-HARD STOP: продолжать нельзя.
-Причины:
-- нет входа (TASK_TEXT)
-- нет RAW для MUST_LOAD
-- обязательный маркер не подтверждён
-- отсутствует обязательный системный файл шага (MANIFEST/ROUTER/NAV/PIPE_DEFAULT/LOG_RULES)
-
-### GAP
-FIXABLE GAP: продолжать можно только после добавления/починки отсутствующего элемента.
-Причины:
-- нет доменного PIPE/IDX/контракта
-- нет обязательной сущности/панели/проверки по ROUTE_TOKEN
-- нет KB/примеров/гейтов, требуемых маршрутом
+STOP_GAP предотвращает “мусорные финалы” и принудительно возвращает систему в управляемый режим.
 
 ---
 
-## [M] ABSOLUTE RULES (NO BYPASSES)
-1) НЕЛЬЗЯ:
-- обходить IDX (никаких “прямых” открытий доменных файлов мимо REQUIRED_IDX)
-- массово грузить деревья/папки “для ориентации”
-- строить маршрут без ROUTE_TOKEN
-- выполнять пайплайн без PIPE_DEFAULT
-- “угадывать” сущности или их RAW
+## [M] HARD_RULES
+1) NO-SILENT-SKIP
+- Нельзя “пропустить” required роль/движок/гейт ради скорости.
 
-2) МОЖНО:
-- открывать только MUST_LOAD + REQUIRED_IDX + 1–3 целевых файла
-- отвечать шагами через STEP-RUN (“го”)
-- выдавать только один STOP или один GAP код на шаг
+2) NO-FINAL-ON-FAIL
+- Если любой mandatory gate FAIL → запрещено выдавать результат как “финал/готово”.
+- Разрешено выдавать только:
+  - FAIL_CODE
+  - что отсутствует/сломано
+  - минимальный FIX_LIST
+  - (опционально) частичный черновик с явной меткой DRAFT
 
----
+3) MINIMAL NEXT ACTION
+- В ответе при STOP_GAP указывается только 1 минимальное действие, которое нужно сделать дальше.
 
-## [M] STOP CONDITIONS (CANON)
-
-### S0 ENTRYPOINT CHECK
-STOP если:
-- отсутствует TASK_TEXT  
-CODE: STOP.ENTRY.NO_TASK_TEXT
-
-### RAW AVAILABILITY (любая стадия)
-STOP если:
-- любой MUST_LOAD файл не открывается по RAW / 404 / нет ссылки  
-CODE: STOP.RAW.RAW_MISSING
-
-### MARKER CONFIRMATION (любая стадия)
-STOP если:
-- в MUST_LOAD документе не найден обязательный [M] блок (маркер)  
-CODE: STOP.BOOT.MARKER_MISSING
-
-### S2 MUST_LOAD ядро
-STOP если:
-- RUNTIME_MANIFEST не доступен или MUST_LOAD_SET не подтверждён  
-CODE: STOP.MANIFEST.MUST_LOAD_MISSING
-
-### S3 ROUTING
-STOP если:
-- ROUTE_TOKEN не сформирован полностью (нет DOMAIN/ARTIFACT_TYPE/MODE/PIPE_SELECTED/REQUIRED_IDX/REQUIRED_CHECKS/EXEC_MODE)  
-CODE: STOP.ROUTER.ROUTE_TOKEN_MISSING
-
-### S4 NAV
-STOP если:
-- NAV_ROOT не доступен  
-CODE: STOP.NAV.NAV_ROOT_MISSING
-STOP если:
-- REQUIRED_IDX не доступен или не найден  
-CODE: STOP.IDX.REQUIRED_IDX_MISSING
-
-### S5 PIPE EXEC
-STOP если:
-- PIPE_DEFAULT не доступен  
-CODE: STOP.PIPE.PIPE_DEFAULT_MISSING
-
-### S6 LOG INIT
-STOP если:
-- LOG_RULES не доступен или отсутствует обязательный набор логов  
-CODE: STOP.LOG.LOG_SET_MISSING
+4) DETERMINISM
+- STOP_GAP должен всегда выдавать одинаковый FAIL_CODE при одинаковой причине.
 
 ---
 
-## [M] GAP CONDITIONS (CANON)
+## [M] TRIGGERS (WHEN TO STOP)
+STOP_GAP обязателен при любом из:
 
-GAP объявляется ТОЛЬКО после того, как:
-- MUST_LOAD пройден
-- ROUTE_TOKEN сформирован
-- NAV_ROOT + REQUIRED_IDX доступны
+### A) Missing Inputs
+- TASK_TEXT отсутствует
+- ROUTE_TOKEN отсутствует
 
-### DOMAIN PIPE / CONTRACT
-GAP если:
-- выбран доменный PIPE (PIPE_SELECTED), но файла нет  
-CODE: GAP.PIPE.DOMAIN_PIPE_MISSING
+=> FAIL: INPUT_ABSENT
 
-GAP если:
-- в домене отсутствует PIPELINE_CONTRACT или INDEX_MANIFEST, требуемые маршрутом  
-CODE: GAP.PIPE.CONTRACT_MISSING
+### B) Missing Entry Points / Keys
+- KEY из REQUIRED_SET не резолвится в PATH (IDX/PIPE/ENG/VAL/KB)
+=> FAIL: ENTRYPOINT_MISSING
 
-### REQUIRED CHECKS / PANELS
-GAP если:
-- REQUIRED_CHECKS перечислены, но соответствующие файлы/правила не доступны  
-CODE: GAP.IDX.REQUIRED_CHECKS_MISSING
+### C) Missing Files
+- PATH указан, но файла нет / недоступен
+=> FAIL: FILE_NOT_FOUND
 
-### ENTITIES (SPC/ORC/CTL/VAL/QA/XREF)
-GAP если:
-- ROUTE_TOKEN требует сущность/роль/дефолтный хэнд-офф, но:
-  - файл отсутствует, или
-  - маркеры роли отсутствуют, или
-  - нет связки через IDX/REG  
-CODE: GAP.ENT.ENT_REQUIRED_MISSING
+### D) Marker / Contract Missing
+- отсутствует обязательное поле/токен:
+  - REQUIRED_ROLES
+  - OUTPUT_CONTRACT
+  - ENGINE_PLAN_TOKEN.required_eng_keys (как поле)
+  - ENGINE_RUN_LEDGER
+  - OUTPUT_LEDGER
+=> FAIL: MARKER_NOT_CONFIRMED
 
-### KB
-GAP если:
-- маршрут требует KB элемент (пример/гейт/рубрику), но его нет или он не связан через XREF/IDX  
-CODE: GAP.KB.KB_REQUIRED_MISSING
+### E) Scope Violations
+- запущен engine вне allowed list
+- запущен engine из no-go list
+- PIPE/ORC подключили модули не из REQUIRED_SET
+=> FAIL: SCOPE_VIOLATION
 
-### LOG (архив/решения)
-GAP если:
-- RUN_LOG есть, но TOKEN_ARCHIVE/DECISION_LOG отсутствуют  
-CODE: GAP.LOG.ARCHIVE_MISSING
+### F) Mandatory Validation Failed
+- mandatory валидатор FAIL, например:
+  - VAL_ENG.COVERAGE_AND_OUTPUT_CONTRACT
+  - VAL_ENG.ERROR_DETECTION
+=> FAIL: <propagate validator FAIL_CODE> (обычно MARKER_NOT_CONFIRMED / ENTRYPOINT_MISSING / SCOPE_VIOLATION)
 
----
-
-## [M] SINGLE-CODE RULE (ONE STEP → ONE CODE)
-На каждом шаге (S0–S6) допускается:
-- либо PASS (продолжаем)
-- либо ровно один STOP code
-- либо ровно один GAP code
-
-Если обнаружено несколько проблем:
-- выбирать самую раннюю по sequence (S0→S6)
-- внутри шага выбирать самый “жёсткий” (STOP приоритетнее GAP)
+### G) Web insufficient (если web был разрешён)
+=> FAIL: WEB_INSUFFICIENT
 
 ---
 
-## [M] REPORT TEMPLATE (MANDATORY)
-Если STOP:
-- CODE: <STOP.*>
-- NOTE: <что missing, 1 строка>
-- NEXT: <что требуется от пользователя, 1 строка>
-
-Если GAP:
-- CODE: <GAP.*>
-- NOTE: <что missing, 1 строка>
-- REQUIRED: <какой файл/сущность/контракт добавить, 1 строка>
-
-PASS:
-- OK: <шаг выполнен>
-- NEXT: "го"
+## [M] STOP_GAP OUTPUT (MANDATORY FORMAT)
+When STOP_GAP triggers, output MUST contain:
+1) MODE
+2) RESOURCES USED (что реально использовано)
+3) DELIVERABLES:
+   - STATUS: STOP_GAP
+   - FAIL_CODE: <...>
+   - MISSING: [<item1>, <item2>...]
+   - FIX_LIST: [<minimal steps>]
+   - SAFE_PARTIALS (optional): [DRAFT artifacts if they help]
+4) GATES:
+   - FAIL
 
 ---
 
-## [M] ANTI-NOISE LOAD POLICY (REPEAT)
-ALWAYS:
-- START
-- RUNTIME_MANIFEST
-- TASK_ROUTER
-- NAV_ROOT
-
-THEN:
-- один REQUIRED_IDX
-- 1–3 целевых файла по задаче
-
-NEVER:
-- обход IDX
-- загрузка папок
-- “на всякий случай” загрузка десятков документов
+## [M] SPECIAL RULE — PRODUCTION LOCK
+For production tasks (content factory):
+- If VAL_REPORT=FAIL → STOP_GAP is mandatory
+- PACK_OUTPUT may be produced ONLY as DRAFT (no “final” label)
 
 ---
 
-## [M] INTERFACES (RAW ONLY)
-FAIL CODES:
-https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/00_BOOT/07__FAIL_CODES.md
+## [M] EXAMPLES (short)
+Example 1:
+- Missing ENGINE_RUN_LEDGER
+=> FAIL: MARKER_NOT_CONFIRMED
+=> FIX_LIST: ["ORC must generate ENGINE_RUN_LEDGER for required_eng_keys"]
 
-STEP RUN:
-https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/00_BOOT/10__STEP_RUN_PROTOCOL.md
-
-FOCUS LOOP:
-https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/00_BOOT/12__FOCUS_LOOP_PROTOCOL.md
+Example 2:
+- required_eng_key not resolvable
+=> FAIL: ENTRYPOINT_MISSING
+=> FIX_LIST: ["Add eng_key mapping to 00__INDEX_MANIFEST__ENG__ENT"]
 
 END.

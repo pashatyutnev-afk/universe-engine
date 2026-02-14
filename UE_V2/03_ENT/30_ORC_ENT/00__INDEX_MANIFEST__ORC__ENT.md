@@ -6,28 +6,28 @@ UID: UE.V2.ENT.IDX.ORC_ENT.001
 VERSION: 1.0.0
 STATUS: ACTIVE
 MODE: REPO (USAGE-ONLY, NO-EDIT)
-CREATED: 2026-02-02
-UPDATED: 2026-02-02
+CREATED: 2026-02-15
+UPDATED: 2026-02-15
 OWNER: ORC_ENT
-NAV_RULE: RAW lives here only
+NAV_RULE: KEY-first. RAW optional metadata only.
 
 ---
 
 ## [M] PURPOSE
-INDEX_MANIFEST — адресная таблица реалма 30_ORC_ENT.
-Хранит KEYS, короткий смысл, RAW и PATH (как справка). Без длинных историй.
+INDEX_MANIFEST — адресная таблица реалма оркестраторов (ORC).
+Хранит KEY и короткие смыслы файлов. Без длинных объяснений.
 
 ## [M] HARD_RULES
-- RAW ссылки допускаются только тут (и в ROOT LINK BASE / START по закону системы).
-- Каждый элемент имеет KEY. PIPELINE_CONTRACT ссылается только на KEY.
-- Коротко: 1–2 строки смысла. Без лирики.
+- Каждый элемент имеет KEY.
+- PIPE/ROUTER/контракты ссылаются только на KEY.
 - SELF запись обязательна.
-- Не обходить через PATH при наличии RAW (PATH хранится как справка).
+- PATH обязателен (repo truth).
+- RAW допускается как метаданные (может быть пустым).
 
 ## [M] INDEX_CONTEXT
 - REALM_ID: UE_V2/03_ENT/30_ORC_ENT
 - FOLDER_NAME: 30_ORC_ENT
-- INDEX_SCOPE_TAGS: [ENT, ORC]
+- INDEX_SCOPE_TAGS: [ENT, ORC, PIPELINE]
 
 ## [M] ENTRY_SCHEMA (v1)
 - KEY: <UNIQUE_KEY>

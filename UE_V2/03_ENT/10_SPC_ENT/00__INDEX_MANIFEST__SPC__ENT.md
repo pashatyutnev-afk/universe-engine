@@ -2,32 +2,32 @@ FILE: UE_V2/03_ENT/10_SPC_ENT/00__INDEX_MANIFEST__SPC__ENT.md
 SCOPE: UE_V2 / 03_ENT / 10_SPC_ENT
 DOC_TYPE: INDEX_MANIFEST
 DOMAIN: SPC_ENT
-UID: UE.V2.ENT.SPC.INDEX_MANIFEST.001
+UID: UE.V2.ENT.IDX.SPC_ENT.001
 VERSION: 1.0.0
 STATUS: ACTIVE
 MODE: REPO (USAGE-ONLY, NO-EDIT)
-CREATED: 2026-01-31
-UPDATED: 2026-01-31
-OWNER: SYS
-NAV_RULE: RAW lives here only
+CREATED: 2026-02-15
+UPDATED: 2026-02-15
+OWNER: SPC_ENT
+NAV_RULE: KEY-first. RAW optional metadata only.
 
 ---
 
 ## [M] PURPOSE
-INDEX_MANIFEST — мастер “таблица адресов” для слоя 10_SPC_ENT.
-Хранит RAW и машинные паспорта под-реалмов (семей SPC). Никаких длинных объяснений.
+INDEX_MANIFEST — адресная таблица реалма специалистов (SPC).
+Хранит KEY и короткие смыслы файлов. Без длинных объяснений.
 
 ## [M] HARD_RULES
-- RAW ссылки допускаются только тут (и в ROOT LINK BASE / START по закону системы).
-- Любая навигация по 10_SPC_ENT: KEY -> resolve RAW here -> open.
-- Каждый под-реалм должен иметь свой INDEX_MANIFEST и PIPELINE_CONTRACT.
+- Каждый элемент имеет KEY.
+- PIPE/ROUTER/контракты ссылаются только на KEY.
 - SELF запись обязательна.
-- Не обходить через PATH при наличии RAW (PATH хранится как справка).
+- PATH обязателен (repo truth).
+- RAW допускается как метаданные (может быть пустым).
 
 ## [M] INDEX_CONTEXT
 - REALM_ID: UE_V2/03_ENT/10_SPC_ENT
 - FOLDER_NAME: 10_SPC_ENT
-- INDEX_SCOPE_TAGS: [ENT, SPC]
+- INDEX_SCOPE_TAGS: [ENT, SPC, PIPELINE]
 
 ## [M] ENTRY_SCHEMA (v1)
 - KEY: <UNIQUE_KEY>

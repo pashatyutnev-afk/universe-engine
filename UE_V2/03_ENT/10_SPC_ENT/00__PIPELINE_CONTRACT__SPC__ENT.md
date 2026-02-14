@@ -1,149 +1,149 @@
-FILE: UE_V2/03_ENT/10_SPC_ENT/00__PIPELINE_CONTRACT__SPC__ENT.md
-SCOPE: UE_V2 / 03_ENT / 10_SPC_ENT
-DOC_TYPE: PIPELINE_CONTRACT
-DOMAIN: SPC_ENT
-UID: UE.V2.ENT.SPC.PIPELINE_CONTRACT.001
+# 00__PIPELINE_CONTRACT__SPC__ENT
+KIND: ENGINE
+ROLE: SPC_CONTRACT
+SCOPE: ENT.SPC
+STATUS: CANON
 VERSION: 1.0.0
-STATUS: ACTIVE
-MODE: REPO (USAGE-ONLY, NO-EDIT)
-CREATED: 2026-01-31
-UPDATED: 2026-01-31
-OWNER: SYS
-NAV_RULE: Contract has no RAW
+
+## [M] PURPOSE
+SPC (специалист) — слой снятия задачи и формализации производства.
+SPC обязан превратить любой запрос в:
+- BRIEF_TOKEN (что строим + ограничения)
+- ENGINE_PLAN_TOKEN (какие движки нужны)
+- OUTPUT_CONTRACT (какие артефакты обязаны выйти)
+- NO_GO_LIST (что запрещено, чтобы не было мусора)
+
+SPC не производит финальный контент — он задаёт правила и план.
 
 ---
 
-## [M] PURPOSE
-PIPELINE_CONTRACT — верхний навигатор выполнения для слоя 10_SPC_ENT.
-Не хранит RAW-адреса. Работает через KEY и резолвит адреса в INDEX_MANIFEST.
-Роутит в семейный реалм через его INDEX_MANIFEST и дальше передаёт управление семейному PIPELINE_CONTRACT.
-
 ## [M] HARD_RULES
-- Запрещено хранить RAW внутри CONTRACT (без исключений).
-- Все обращения: TARGET_KEY -> resolve via master INDEX_MANIFEST -> open.
-- Выполнение по STEP-RUN: один шаг = одна пачка действий.
-- Никаких эвристик, никаких догадок, никаких keyword-scan.
-- FAMILY_HINT обязателен и должен быть валидным.
-- Семейный PIPELINE_CONTRACT обязателен и резолвится внутри семейного INDEX_MANIFEST.
+1) BRIEF ALWAYS
+- BRIEF_TOKEN обязателен для production задач.
 
-## [M] REQUIRED_KEYS (must exist in master INDEX_MANIFEST)
-- INDEX_MANIFEST
-- PIPELINE_CONTRACT
+2) ENGINE PLAN ALWAYS
+- ENGINE_PLAN_TOKEN обязателен если REQUIRED_ROLES содержит SPC.
+- Поле required_eng_keys MUST exist (как поле всегда).
 
-- SPC.FAM.GVN.INDEX_MANIFEST
-- SPC.FAM.CRV.INDEX_MANIFEST
-- SPC.FAM.NAR.INDEX_MANIFEST
-- SPC.FAM.CHR.INDEX_MANIFEST
-- SPC.FAM.WRL.INDEX_MANIFEST
-- SPC.FAM.VIS.INDEX_MANIFEST
-- SPC.FAM.SND.INDEX_MANIFEST
-- SPC.FAM.PRD.INDEX_MANIFEST
-- SPC.FAM.PSY.INDEX_MANIFEST
-- SPC.FAM.RSC.INDEX_MANIFEST
-- SPC.FAM.MKT.INDEX_MANIFEST
-- SPC.FAM.META.INDEX_MANIFEST
+3) OUTPUT CONTRACT IS LAW
+- OUTPUT_CONTRACT берётся из ROUTE_TOKEN, SPC может только уточнять, но не удалять обязательное.
 
-## [M] CONTRACT_HEADER
-- REALM_ID: UE_V2/03_ENT/10_SPC_ENT
-- DOMAIN: SPC_ENT
-- ARTIFACT_TYPES: [INDEX, PIPE, ENTITY, SPECIALIST_OUTPUT, OUTPUT_PACK, LOG]
-- DEFAULT_MODE: FAST
+4) NO-GO IS ENFORCED
+- NO_GO_LIST фиксируется и дальше обязателен для CTL/VAL (анти-мусор).
 
-## [M] FAMILY_SELECTOR (routing keys)
-# RULE: FAMILY_HINT must be one of these IDs (no free text).
-- GOV: SPC.FAM.GVN.INDEX_MANIFEST
-- CREATIVE: SPC.FAM.CRV.INDEX_MANIFEST
-- NARRATIVE: SPC.FAM.NAR.INDEX_MANIFEST
-- CHARACTER: SPC.FAM.CHR.INDEX_MANIFEST
-- WORLD: SPC.FAM.WRL.INDEX_MANIFEST
-- VISUAL: SPC.FAM.VIS.INDEX_MANIFEST
-- SOUND_MUSIC: SPC.FAM.SND.INDEX_MANIFEST
-- PRODUCTION: SPC.FAM.PRD.INDEX_MANIFEST
-- PSYCHOLOGY: SPC.FAM.PSY.INDEX_MANIFEST
-- RESEARCH: SPC.FAM.RSC.INDEX_MANIFEST
-- MARKETING: SPC.FAM.MKT.INDEX_MANIFEST
-- META: SPC.FAM.META.INDEX_MANIFEST
+5) DETERMNISM
+- Для одинаковой задачи SPC выдаёт одинаковую структуру (не меняет формат).
 
-## [M] FAIL_CODES
-- UE.FAIL.INPUT_ABSENT
-- UE.FAIL.MISSING_KEY
-- UE.FAIL.INVALID_FAMILY_HINT
-- UE.FAIL.FAMILY_INDEX_NOT_FOUND
-- UE.FAIL.FAMILY_PIPELINE_MISSING
+---
 
-## [M] EXEC_MODEL (how it runs)
-1) Resolve master INDEX_MANIFEST via KEY: INDEX_MANIFEST
-2) Validate REQUIRED_KEYS exist (all family index keys must be present)
-3) Resolve FAMILY_INDEX_KEY using FAMILY_HINT via FAMILY_SELECTOR
-4) Open FAMILY_INDEX_MANIFEST (resolved from master)
-5) Inside family index, resolve KEY: PIPELINE_CONTRACT and open it
-6) Handoff: continue execution in family realm (family pipeline)
+## [M] INPUTS
+REQUIRED:
+- ROUTE_TOKEN
+- TASK_TEXT
 
-## [M] STEP-RUN (canonical)
-Each step block format:
-- STEP: S<n>
-  GOAL: <one line>
-  INPUTS: [<tokens>]
-  TARGETS: [<KEYS_ONLY>]
-  ACTIONS:
-    - <imperative action>
-  OUTPUTS: [<tokens/artifacts>]
-  CHECKS: [<gates>]
-  FAIL: <FAIL_CODE_IF_ANY>
-  NEXT: "го"
+OPTIONAL:
+- USER_CONSTRAINTS (язык, формат, референсы)
+- USER_FILES (если есть)
+- RUNTIME_MANIFEST (если есть)
 
-## [M] STEPS
+---
 
-- STEP: S0
-  GOAL: Entry sanity and deterministic route selection
-  INPUTS: [TASK_TEXT, FAMILY_HINT, MODE_HINT?]
-  TARGETS: [INDEX_MANIFEST]
-  ACTIONS:
-    - Ensure TASK_TEXT exists, else FAIL
-    - Ensure FAMILY_HINT exists, else FAIL
-    - Decide EXEC_MODE using MODE_HINT or DEFAULT_MODE
-    - Validate FAMILY_HINT is one of FAMILY_SELECTOR IDs, else FAIL
-  OUTPUTS: [TASK_TOKEN, EXEC_MODE, FAMILY_HINT]
-  CHECKS: [TASK_PRESENT, FAMILY_HINT_PRESENT, FAMILY_HINT_VALID]
-  FAIL: UE.FAIL.INVALID_FAMILY_HINT
-  NEXT: "го"
+## [M] OUTPUTS
+REQUIRED (production):
+- BRIEF_TOKEN
+- ENGINE_PLAN_TOKEN
+- SPC_REPORT
 
-- STEP: S1
-  GOAL: Load master index and validate full readiness
-  INPUTS: [TASK_TOKEN, FAMILY_HINT]
-  TARGETS: [INDEX_MANIFEST, PIPELINE_CONTRACT]
-  ACTIONS:
-    - Resolve INDEX_MANIFEST via KEY: INDEX_MANIFEST
-    - Validate keys: INDEX_MANIFEST, PIPELINE_CONTRACT exist
-    - Validate ALL REQUIRED_KEYS exist in master INDEX_MANIFEST ENTRIES
-  OUTPUTS: [MASTER_READY]
-  CHECKS: [REQUIRED_KEYS_OK]
-  FAIL: UE.FAIL.MISSING_KEY
-  NEXT: "го"
+OPTIONAL:
+- CANON_TOKEN (если есть “ДНК проекта”)
 
-- STEP: S2
-  GOAL: Enter family realm via family index and open family pipeline
-  INPUTS: [TASK_TOKEN, EXEC_MODE, FAMILY_HINT]
-  TARGETS: [INDEX_MANIFEST]
-  ACTIONS:
-    - Map FAMILY_HINT -> FAMILY_INDEX_KEY via FAMILY_SELECTOR
-    - Ensure FAMILY_INDEX_KEY exists in master index, else FAIL
-    - Resolve and open FAMILY_INDEX_MANIFEST using FAMILY_INDEX_KEY
-    - Inside FAMILY_INDEX_MANIFEST, resolve KEY: PIPELINE_CONTRACT
-    - Open family PIPELINE_CONTRACT
-  OUTPUTS: [FAMILY_INDEX_KEY, FAMILY_PIPELINE_KEY, HANDOFF_READY]
-  CHECKS: [FAMILY_INDEX_OK, FAMILY_PIPELINE_OK]
-  FAIL: UE.FAIL.FAMILY_PIPELINE_MISSING
-  NEXT: "го"
+---
 
-- STEP: S3
-  GOAL: Handoff summary (KEYS only) and continue
-  INPUTS: [FAMILY_INDEX_KEY, FAMILY_PIPELINE_KEY]
-  TARGETS: [INDEX_MANIFEST]
-  ACTIONS:
-    - Return route summary (which family, which keys opened)
-    - Continue in family pipeline
-  OUTPUTS: [ROUTE_SUMMARY]
-  CHECKS: [TRACE_PRESENT]
-  FAIL: UE.FAIL.MISSING_KEY
-  NEXT: "го"
+## [M] BRIEF_TOKEN (minimum schema)
+BRIEF_TOKEN:
+  goal: "<one line goal>"
+  domain: "<from ROUTE_TOKEN.DOMAIN>"
+  audience: "<if known>"
+  language: "<RU/EN/OTHER>"
+  format: "<artifact format>"
+  constraints:
+    - "<hard constraint 1>"
+    - "<hard constraint 2>"
+  success_criteria:
+    - "<measurable criterion 1>"
+    - "<measurable criterion 2>"
+  risks:
+    - "<risk 1>"
+  notes: "<optional>"
+
+RULE:
+- constraints must be short and enforceable
+- success_criteria must be checkable by VAL/QA (не “круто”, а “что проверяем”)
+
+---
+
+## [M] ENGINE_PLAN_TOKEN (minimum schema)
+ENGINE_PLAN_TOKEN:
+  required_eng_keys: ["KEY:ENG.*", "..."]
+  allowed_eng_keys:  ["KEY:ENG.*", "..."]   # optional
+  no_go_eng_keys:    ["KEY:ENG.*", "..."]   # optional
+  expected_outputs:  ["<artifact_name>", "..."] # optional
+
+RULES:
+- required_eng_keys field MUST exist always:
+  - for SYS patches may be empty []
+  - for content production should usually be non-empty
+- If allowed_eng_keys is present, it must include all required_eng_keys (otherwise it’s inconsistent).
+- no_go_eng_keys must not intersect required_eng_keys.
+
+---
+
+## [M] OUTPUT_CONTRACT (source of truth)
+SOURCE:
+- ROUTE_TOKEN.REQUIRED_SET.OUTPUT_CONTRACT is the baseline.
+SPC may:
+- add extra outputs ONLY if profile allows (otherwise NO)
+SPC must NOT:
+- remove mandatory outputs
+
+---
+
+## [M] NO_GO_LIST (anti-trash)
+SOURCE:
+- ROUTE_TOKEN.REQUIRED_SET.NO_GO_LIST baseline
+SPC may:
+- add extra NO_GO items to prevent scope creep
+
+Examples (generic):
+- "Do not add unrelated domains"
+- "Do not output long lore unless requested"
+- "Do not skip required roles"
+
+---
+
+## [M] SPC_REPORT (short)
+SPC_REPORT:
+  summary: "<what was understood>"
+  open_questions: ["<only if truly blocking>"]
+  selected_profile: "<ROUTE_TOKEN.PROFILE_KEY>"
+  required_roles: "<ROUTE_TOKEN.REQUIRED_SET.REQUIRED_ROLES>"
+  required_eng_count: "<len(required_eng_keys)>"
+
+RULE:
+- open_questions максимум 1, и только если без него нельзя продолжать.
+
+---
+
+## [M] FAIL / STOP POLICY
+- Missing ROUTE_TOKEN or TASK_TEXT -> FAIL: INPUT_ABSENT
+- Missing OUTPUT_CONTRACT -> FAIL: MARKER_NOT_CONFIRMED
+- ENGINE_PLAN_TOKEN.required_eng_keys field missing -> FAIL: MARKER_NOT_CONFIRMED
+- allowed/no-go inconsistency -> FAIL: MARKER_NOT_CONFIRMED
+
+On FAIL:
+- provide FIX_LIST minimal:
+  - "Provide missing ROUTE_TOKEN"
+  - "Add required_eng_keys field"
+  - "Remove intersection required vs no_go"
+
+END.

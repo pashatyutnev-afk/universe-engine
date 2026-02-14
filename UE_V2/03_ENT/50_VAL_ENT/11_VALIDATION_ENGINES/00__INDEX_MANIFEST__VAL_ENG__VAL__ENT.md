@@ -161,7 +161,7 @@ INDEX_MANIFEST — адресная таблица реалма валидиру
   KIND: ENTITY
   ROLE: Enforces role/engine coverage + output contract gates (PASS/FAIL)
   DESC: Prevents skipping SPC/ORC/CTL/VAL; validates required outputs and engine execution ledger
-  RAW: 
+  RAW: https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/03_ENT/50_VAL_ENT/11_VALIDATION_ENGINES/07__VAL_ENG__COVERAGE_AND_OUTPUT_CONTRACT__ENG__VAL__ENT.md
   PATH: UE_V2/03_ENT/50_VAL_ENT/11_VALIDATION_ENGINES/07__VAL_ENG__COVERAGE_AND_OUTPUT_CONTRACT__ENG__VAL__ENT.md
   MARKERS: [VAL, ENG, MUST_LOAD]
   STATUS: ACTIVE

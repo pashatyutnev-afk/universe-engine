@@ -1,148 +1,141 @@
-FILE: UE_V2/03_ENT/30_ORC_ENT/00__PIPELINE_CONTRACT__ORC__ENT.md
-SCOPE: UE_V2 / 03_ENT / 30_ORC_ENT
-DOC_TYPE: PIPELINE_CONTRACT (REALM)
-DOMAIN: ORC_ENT
-UID: UE.V2.ENT.PIPE.ORC_ENT.001
+# 00__PIPELINE_CONTRACT__ORC__ENT
+KIND: ENGINE
+ROLE: ORC_CONTRACT
+SCOPE: ENT.ORC
+STATUS: CANON
 VERSION: 1.0.0
-STATUS: ACTIVE
-MODE: REPO (USAGE-ONLY, NO-EDIT)
-CREATED: 2026-02-02
-UPDATED: 2026-02-02
-OWNER: ORC_ENT
-NAV_RULE: Resolve by KEY via INDEX_MANIFEST__ORC__ENT only. No PATH bypass.
-
----
 
 ## [M] PURPOSE
-Единый контракт навигации и handoff для реалма ORC_ENT.
-Принимает ROUTE_TOKEN и переводит задачу в нужный под-реалм ORC_ENT по KEY.
-Принуждает: Intake → Router → Nav confirm → Step-run → Log hooks → Output pack.
+ORC (оркестратор) — исполнительный слой между SPC и ENG.
+ORC превращает план (ENGINE_PLAN_TOKEN) в факт исполнения:
+- резолвит движки по KEY
+- запускает их по контракту ENG
+- собирает выходы
+- ведёт доказательные леджеры
 
----
-
-## [M] INPUTS (from RUNTIME)
-- TASK_TEXT (required)
-- ROUTE_TOKEN (required)
-  - DOMAIN
-  - ARTIFACT_TYPE
-  - MODE
-  - PIPE_SELECTED (optional)
-  - DEFAULT_ORC
-  - REQUIRED_IDX
-  - REQUIRED_CHECKS
-  - EXEC_MODE (STEP_RUN)
-- OPTIONAL: constraints (platform, duration, style, references)
+Главная задача ORC: НЕ “писать текст”, а ОРКЕСТРИРОВАТЬ движки и собирать артефакты.
 
 ---
 
 ## [M] HARD_RULES
-- Единственный справочник адресов: 00__INDEX_MANIFEST__ORC__ENT (KEY → RAW).
-- Любой переход в файл/под-реалм — только по KEY из индекса.
-- Не грузить деревья. Только: индекс → 1 под-реалм индекс → 1–3 target файла.
-- Любая недостача обязательного KEY/RAW/маркерного блока = GAP (не STOP), если TASK_TEXT есть.
+1) ORC runs engines ONLY by KEY (KEY-first).
+2) ORC must produce ENGINE_RUN_LEDGER always (если ORC required).
+3) ORC must not invent missing modules:
+   - если eng_key не резолвится → STOP_GAP (FAIL: ENTRYPOINT_MISSING)
+4) ORC must follow constraints:
+   - allowed_eng_keys (если есть)
+   - no_go_eng_keys (если есть)
+5) ORC must output only artifacts in OUTPUT_CONTRACT (лишнее не добавлять).
 
 ---
 
-## [M] REQUIRED RESOURCES (KEYS)
-- INDEX_MANIFEST  (self)
-- PIPELINE_CONTRACT (this)
-- SUB-REALMS (folders, entry by KEY):
-  - REALM.GOVERNANCE_ORC_ENT
-  - REALM.CORE_ORC_ENT
-  - REALM.CREATIVE_ORC_ENT
-  - REALM.MUSIC_ORC_ENT
-  - REALM.VIDEO_ORC_ENT
-  - REALM.DOCS_ORC_ENT
-  - REALM.WEB_ORC_ENT
-  - REALM.RESEARCH_ORC_ENT
-  - REALM.META_ORC_ENT
+## [M] INPUTS (TOKENS)
+REQUIRED:
+- ROUTE_TOKEN
+- BRIEF_TOKEN
+- ENGINE_PLAN_TOKEN
+
+OPTIONAL:
+- CANON_TOKEN
+- KB_TOKEN (если профиль требует)
+- NO_GO_LIST (из ROUTE_TOKEN/PROFILE)
+- POLICY_REPORT (если CTL раньше ORC — редко)
 
 ---
 
-## [M] ROUTING POLICY (deterministic)
-### 1) Primary selector
-IF ROUTE_TOKEN.PIPE_SELECTED is set:
-- Route to the corresponding REALM.* by mapping table below (PIPE_SELECTED → KEY)
+## [M] OUTPUTS (TOKENS)
+REQUIRED:
+- ENGINE_RUN_LEDGER
+- ENG_OUTPUTS_TOKEN
+- ORC_REPORT (короткий отчёт)
 
-ELSE:
-- Use ROUTE_TOKEN.DOMAIN and ROUTE_TOKEN.ARTIFACT_TYPE to select REALM.*
-
-### 2) Mapping table (minimal v1)
-- DOMAIN in [AUD, MUSIC] OR ARTIFACT_TYPE in [TRACK, LYRICS, IDENTITY] -> KEY: REALM.MUSIC_ORC_ENT
-- DOMAIN in [VIS, VIDEO] OR ARTIFACT_TYPE in [VIDEO, SHOT_PLAN, PROMPT_PACK] -> KEY: REALM.VIDEO_ORC_ENT
-- DOMAIN in [DOC, KB, SPEC, README] OR ARTIFACT_TYPE in [DOC, TEMPLATE, KB_ITEM] -> KEY: REALM.DOCS_ORC_ENT
-- DOMAIN in [WEB, MPS] OR ARTIFACT_TYPE in [HTML_BLOCK, LANDING, SEO_PACK] -> KEY: REALM.WEB_ORC_ENT
-- DOMAIN in [RESEARCH, SOURCES] -> KEY: REALM.RESEARCH_ORC_ENT
-- DOMAIN in [META, UID, NORMALIZE, DEPRECATE] -> KEY: REALM.META_ORC_ENT
-- DOMAIN in [GOV, COMPLIANCE, RISK, APPROVAL] -> KEY: REALM.GOVERNANCE_ORC_ENT
-- Fallback (default): KEY: REALM.CORE_ORC_ENT
+OPTIONAL:
+- DRAFT_ARTIFACTS (если ORC собирает черновики для CTL)
 
 ---
 
-## [M] EXECUTION SEQUENCE (ORC_ENT)
-E0) INTAKE CHECK
-- Require: TASK_TEXT present
-- Require: ROUTE_TOKEN present
-- Require: REQUIRED_IDX present
+## [M] ENGINE_PLAN_TOKEN (minimum expected)
+ENGINE_PLAN_TOKEN:
+- required_eng_keys: ["KEY:ENG.*", "..."]
+- allowed_eng_keys:  ["KEY:ENG.*", "..."] (optional)
+- no_go_eng_keys:    ["KEY:ENG.*", "..."] (optional)
+- expected_outputs:  ["<artifact_name>", "..."] (optional)
 
-E1) NAV CONFIRM
-- Confirm access by KEY:
-  - INDEX_MANIFEST
-  - PIPELINE_CONTRACT
-  - selected REALM.* index (00__INDEX_MANIFEST__... inside sub-realm)
-- Confirm ROUTE_TOKEN.REQUIRED_IDX is reachable from NAV.
-
-E2) HANDOFF (sub-realm)
-- Open selected REALM.* index-manifest
-- Resolve its PIPELINE_CONTRACT (or entrypoint) by KEY inside that sub-realm
-- Transfer control to that contract in STEP_RUN mode
-
-E3) STEP_RUN DISCIPLINE
-- Follow global STEP_RUN / FOCUS_LOOP / COMMANDS protocols (called by runtime; ORC_ENT does not duplicate them)
-- Output must be incremental and "go"-driven.
-
-E4) LOG HOOKS (routing-level)
-- Emit routing decision into DECISION_LOG token (who/why/what key)
-- Emit GAP card if any required KEY/RAW missing (see GAP section)
+RULE:
+- field required_eng_keys MUST exist as field (even if empty for SYS tasks).
+- For content production it should usually be non-empty.
 
 ---
 
-## [M] GAP POLICY (who issues / who owns)
-GAP is issued by: RUNTIME_ROUTER / PIPE routing layer (this contract at E1/E2 when missing KEY/RAW/marker).
-GAP is owned by: ROUTE_TOKEN.DEFAULT_ORC (assigned executor).
-GAP must contain:
-- Missing: KEY / RAW / marker
-- Where: E-step (E1/E2)
-- Selected realm key (or fallback) and reason
-- Minimal fix suggestion (add entry to index or add missing file)
+## [M] EXECUTION STEPS (CANON)
+### STEP 0 — PRECHECK
+- validate ENGINE_PLAN_TOKEN schema exists
+- validate required_eng_keys field exists
+If missing → FAIL: MARKER_NOT_CONFIRMED
+
+### STEP 1 — RESOLVE ENGINES
+For each eng_key in required_eng_keys:
+- if no_go_eng_keys contains eng_key → mark SKIPPED in ledger, continue
+- if allowed_eng_keys exists and eng_key not in it → FAIL: SCOPE_VIOLATION
+- resolve eng_key via ENG index manifest:
+  - KEY → LOCAL_PATH
+If cannot resolve → FAIL: ENTRYPOINT_MISSING
+
+### STEP 2 — RUN ENGINES
+For each resolved engine:
+- execute engine per ENG pipeline contract:
+  inputs: BRIEF_TOKEN + (CANON_TOKEN) + (KB_TOKEN) + PROFILE_KEY
+  outputs: named artifacts + local gates report
+- append ENGINE_RUN_LEDGER entry:
+  - eng_key, status, outputs_produced, notes
+- collect outputs into ENG_OUTPUTS_TOKEN
+
+Default rule:
+- if any required engine fails → STOP and return FAIL (unless profile explicitly allows continue)
+
+### STEP 3 — OUTPUT CONTRACT FILTER
+- if ROUTE_TOKEN.REQUIRED_SET.OUTPUT_CONTRACT exists:
+  keep only artifacts relevant to contract (or mark extras as ignored)
+- ORC_REPORT should summarize:
+  - engines ran/skipped/failed
+  - key outputs produced
 
 ---
 
-## [M] STOP CONDITIONS (strict)
-STOP only if:
-- TASK_TEXT missing
-- ROUTE_TOKEN missing
-
-Everything else is GAP (not STOP).
-
----
-
-## [M] OUTPUT CONTRACT (what to return)
-- ROUTE_TOKEN (unchanged or refined: PIPE_SELECTED + REALM_KEY)
-- HANDOFF_TARGET (REALM_KEY + sub-realm contract KEY)
-- FIRST_STEP_PROMPT: "го"
-- If GAP: GAP_CARD (one, concrete)
+## [M] ENGINE_RUN_LEDGER (required format)
+ENGINE_RUN_LEDGER:
+  run_id: "<runtime>"
+  entries:
+    - eng_key: "KEY:ENG...."
+      status: "ran|skipped|failed"
+      outputs_produced: ["<artifact_name>", "..."]
+      notes: "<optional>"
 
 ---
 
-## [M] SELF-CHECK GATES
-PASS if:
-- Selected REALM_KEY resolved deterministically
-- Sub-realm index reachable
-- Handoff target resolved by KEY
+## [M] ENG_OUTPUTS_TOKEN (required format)
+ENG_OUTPUTS_TOKEN:
+  produced_artifacts:
+    - name: "<artifact_name>"
+      eng_key: "KEY:ENG...."
+      payload_ref: "<summary/ref>"
+  summary:
+    total_engines_required: <int>
+    total_engines_ran: <int>
+    total_engines_failed: <int>
 
-GAP if:
-- Any required KEY/RAW/marker missing for selected step
+---
 
-STOP if:
-- No TASK_TEXT OR no ROUTE_TOKEN
+## [M] FAIL / STOP POLICY
+- Missing required token → FAIL: MARKER_NOT_CONFIRMED
+- Unresolvable eng_key → FAIL: ENTRYPOINT_MISSING
+- Allowed/no-go violation → FAIL: SCOPE_VIOLATION
+- Engine execution failure (required) → FAIL: MARKER_NOT_CONFIRMED (or propagate)
+
+On FAIL:
+- Provide minimal FIX_LIST:
+  - "Add eng_key mapping to ENG index manifest"
+  - "Remove forbidden eng_key from plan"
+  - "Provide missing token <...>"
+
+END.

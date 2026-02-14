@@ -1,184 +1,142 @@
 # 07__FAIL_CODES
+KIND: LAW
+ROLE: FAIL_CODES
+SCOPE: SYSTEM
+STATUS: CANON
+VERSION: 1.0.0
 
-SCOPE: UE_V2  
-DOC_TYPE: FAIL_CODES (STOP / GAP CODEBOOK)  
-UID: UE.V2.BOOT.FAILCODES.001  
-VERSION: 1.1.0  
-STATUS: ACTIVE  
-MODE: REPO (USAGE-ONLY, NO-EDIT)  
-NAV_RULE: Use RAW links only  
+## [M] PURPOSE
+Единый список FAIL кодов для всей системы.
+Каждый FAIL:
+- детерминированный
+- краткий
+- указывает 1 минимальное действие (FIX_LIST)
 
-PURPOSE:  
-Единый справочник кодов ошибок для BOOT/PIPE рантайма.
-- STOP = нельзя продолжать (нет входа / нет MUST_LOAD / нет RAW / маркер не подтверждён)
-- GAP  = можно продолжать после того, как добавят/починят отсутствующий обязательный элемент
-
-RULE: коды короткие, детерминированные, без “лирики”.
-
----
-
-## [M] CODE FORMAT
-- STOP.<AREA>.<REASON>
-- GAP.<AREA>.<MISSING>
-
-AREA:
-- ENTRY
-- RAW
-- BOOT
-- MANIFEST
-- ROUTER
-- NAV
-- IDX
-- PIPE
-- LOG
-- ENT   (сущности/роли/орки/спц)
-- KB
-
-REASON / MISSING:
-- NO_TASK_TEXT
-- RAW_MISSING
-- MARKER_MISSING
-- MUST_LOAD_MISSING
-- ROUTE_TOKEN_MISSING
-- REQUIRED_IDX_MISSING
-- PIPE_DEFAULT_MISSING
-- LOG_SET_MISSING
-- ENT_REQUIRED_MISSING
-- KB_REQUIRED_MISSING
-- CONTRACT_MISSING
+STOP_GAP использует эти коды как закон.
 
 ---
 
-## [M] STOP CODES (HARD STOP)
+## [M] HARD_RULES
+1) NO GUESSING
+- При нехватке данных -> FAIL, а не “примерно так”.
 
-### ENTRY
-- STOP.ENTRY.NO_TASK_TEXT  
-TRIGGER: отсутствует TASK_TEXT на S0.  
-ACTION: запросить TASK_TEXT (или вернуть "input absent").  
+2) MINIMAL NEXT ACTION
+- FIX_LIST содержит 1–3 минимальных шага, не больше.
 
-### RAW
-- STOP.RAW.RAW_MISSING  
-TRIGGER: обязательный RAW недоступен/404/нет ссылки.  
-ACTION: останов, требовать RAW.
+3) PROPAGATION
+- Если FAIL пришёл из валидатора/движка — его FAIL_CODE переносится наверх (не затирать).
 
-### BOOT
-- STOP.BOOT.MARKER_MISSING  
-TRIGGER: маркер [M] не найден в MUST_LOAD документе, который обязателен на этом шаге.  
-ACTION: останов, требовать исправления маркера.
-
-### MANIFEST
-- STOP.MANIFEST.MUST_LOAD_MISSING  
-TRIGGER: не подтверждён MUST_LOAD_SET или отсутствует манифест.  
-ACTION: останов, починить RUNTIME_MANIFEST.
-
-### ROUTER
-- STOP.ROUTER.ROUTE_TOKEN_MISSING  
-TRIGGER: ROUTE_TOKEN не собран (не удалось определить DOMAIN/ARTIFACT_TYPE/PIPE).  
-ACTION: останов, починить TASK_ROUTER правила/маркеры.
-
-### NAV / IDX
-- STOP.NAV.NAV_ROOT_MISSING  
-TRIGGER: NAV_ROOT недоступен.  
-ACTION: останов, требовать NAV_ROOT RAW.
-
-- STOP.IDX.REQUIRED_IDX_MISSING  
-TRIGGER: REQUIRED_IDX из ROUTE_TOKEN не найден/не открывается.  
-ACTION: останов, требовать индекс.
-
-### PIPE
-- STOP.PIPE.PIPE_DEFAULT_MISSING  
-TRIGGER: PIPE_DEFAULT недоступен.  
-ACTION: останов, требовать PIPE_DEFAULT.
-
-### LOG
-- STOP.LOG.LOG_SET_MISSING  
-TRIGGER: LOG_RULES или обязательные логи недоступны.  
-ACTION: останов, требовать LOG_RULES + пути.
+4) CONSISTENCY
+- Один тип проблемы -> один и тот же FAIL_CODE во всех модулях.
 
 ---
 
-## [M] GAP CODES (FIXABLE GAP)
+## [M] FAIL CODES (CANON)
 
-### ENT (сущности/роли/оркестрация)
-- GAP.ENT.ENT_REQUIRED_MISSING  
-TRIGGER: по ROUTE_TOKEN требуется сущность (SPC/ORC/CTL/VAL/QA/XREF), но:
-- нет файла сущности, или
-- нет обязательного маркера роли, или
-- нет привязки через IDX/REG.  
-ACTION: добавить/починить сущность и её регистрацию (REG/IDX).
+### FAIL: INPUT_ABSENT
+WHEN:
+- отсутствует TASK_TEXT или обязательный пользовательский ввод
+- отсутствует критичный артефакт от пользователя (например текст файла для точного патча)
 
-### KB
-- GAP.KB.KB_REQUIRED_MISSING  
-TRIGGER: требуется доменный KB/пример/гейт/рубрика, но отсутствует или не связан.  
-ACTION: добавить KB элемент + связать через XREF/IDX.
-
-### PIPE (доменный)
-- GAP.PIPE.CONTRACT_MISSING  
-TRIGGER: доменный PIPE выбран, но нет PIPELINE_CONTRACT/INDEX_MANIFEST в домене.  
-ACTION: добавить контракт/манифест домена.
-
-- GAP.PIPE.DOMAIN_PIPE_MISSING  
-TRIGGER: ROUTE_TOKEN.PIPE_SELECTED указывает доменный пайп, но файла нет.  
-ACTION: создать доменный PIPE или откатиться на PIPE_DEFAULT (только если разрешено TASK_ROUTER).
-
-### IDX
-- GAP.IDX.REQUIRED_CHECKS_MISSING  
-TRIGGER: REQUIRED_CHECKS в ROUTE_TOKEN не подтверждены (нет файлов правил/чеков).  
-ACTION: добавить missing checks или снять требование в ROUTER.
-
-### LOG
-- GAP.LOG.ARCHIVE_MISSING  
-TRIGGER: TOKEN_ARCHIVE/DECISION_LOG отсутствуют.  
-ACTION: добавить файлы логов и правила.
+OUTPUT MUST INCLUDE:
+- MISSING: что именно отсутствует
+- FIX_LIST: "Provide <missing input>"
 
 ---
 
-## [M] MAPPING TO BOOT STAGES
+### FAIL: RAW_MISSING
+WHEN:
+- система по старой логике ожидает RAW ссылку как обязательную (deprecated case)
+NOTE:
+- В vNext KEY-first RAW_MISSING должен встречаться редко. Использовать только если правило реально требует RAW.
 
-S0:
-- STOP.ENTRY.NO_TASK_TEXT
-
-S1:
-- STOP.RAW.RAW_MISSING
-- STOP.BOOT.MARKER_MISSING
-
-S2:
-- STOP.MANIFEST.MUST_LOAD_MISSING
-
-S3:
-- STOP.ROUTER.ROUTE_TOKEN_MISSING
-- GAP.ENT.ENT_REQUIRED_MISSING (если ROUTER требует сущность для дефолтного хэнд-оффа)
-
-S4:
-- STOP.NAV.NAV_ROOT_MISSING
-- STOP.IDX.REQUIRED_IDX_MISSING
-- GAP.KB.KB_REQUIRED_MISSING
-- GAP.IDX.REQUIRED_CHECKS_MISSING
-
-S5:
-- STOP.PIPE.PIPE_DEFAULT_MISSING
-- GAP.PIPE.DOMAIN_PIPE_MISSING
-- GAP.PIPE.CONTRACT_MISSING
-
-S6:
-- STOP.LOG.LOG_SET_MISSING
-- GAP.LOG.ARCHIVE_MISSING
+FIX_LIST example:
+- "Add RAW field (or migrate reference to KEY-first)"
 
 ---
 
-## [M] OUTPUT RULE (HOW TO REPORT)
-При любом STOP/GAP:
-- печатать CODE (один)
-- печатать NOTE (одна строка: что конкретно missing)
-- не печатать “как я думаю”, только факт
+### FAIL: FILE_NOT_FOUND
+WHEN:
+- указан PATH, но файла нет / не читается / недоступен
+
+FIX_LIST example:
+- "Create file at <PATH> or correct manifest mapping"
 
 ---
 
-## [M] INTERFACES (RAW ONLY)
-STOP/GAP POLICY:
-https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/00_BOOT/02__STOP_GAP.md
+### FAIL: ENTRYPOINT_MISSING
+WHEN:
+- отсутствует ключевой entrypoint/KEY (не резолвится KEY → PATH)
+- required_eng_key / required_val_key / required_pipe_key не найден в манифесте
+- отсутствует обязательный системный модуль (router/pipe/manifest)
 
-TRACE POLICY:
-https://raw.githubusercontent.com/pashatyutnev-afk/universe-engine/refs/heads/main/UE_V2/00_BOOT/06__TRACE.md
+FIX_LIST example:
+- "Add KEY mapping to INDEX_MANIFEST: <KEY> -> <PATH>"
+
+---
+
+### FAIL: MARKER_NOT_CONFIRMED
+WHEN:
+- отсутствуют обязательные маркеры/поля/токены/контракты, например:
+  - REQUIRED_ROLES
+  - OUTPUT_CONTRACT
+  - ENGINE_PLAN_TOKEN.required_eng_keys (как поле)
+  - ENGINE_RUN_LEDGER
+  - OUTPUT_LEDGER
+  - VAL_REPORT
+- формат не соответствует ENTRY_SCHEMA/contract
+
+FIX_LIST example:
+- "Add missing field <FIELD_NAME> to <TOKEN/FILE>"
+
+---
+
+### FAIL: SCOPE_VIOLATION
+WHEN:
+- подключены модули вне REQUIRED_SET
+- запущен engine вне allowed list
+- запущен engine из no-go list
+- PIPE/ORC расширили задачу за пределы профиля/контракта
+
+FIX_LIST example:
+- "Remove forbidden module/engine <KEY> or update profile allow-list"
+
+---
+
+### FAIL: WEB_INSUFFICIENT
+WHEN:
+- WEB был разрешён политикой, но источников не хватило/они конфликтуют
+- нет надёжных источников для ключевого утверждения
+
+FIX_LIST example:
+- "Provide additional sources or tighten requirements"
+
+---
+
+### FAIL: SCOPE_VIOLATION (SAFETY)
+WHEN:
+- запрос нарушает правила безопасности/политики (если применимо)
+NOTE:
+- Если у тебя отдельный safety код — вынеси туда. Если нет, оставляем как подтип SCOPE_VIOLATION.
+
+---
+
+## [M] FAIL RESPONSE TEMPLATE (MANDATORY)
+Every FAIL response must include:
+1) MODE
+2) RESOURCES USED
+3) DELIVERABLES:
+   - STATUS: FAIL or STOP_GAP
+   - FAIL_CODE: <...>
+   - MISSING: [ ... ]
+   - FIX_LIST: [ ... ]
+4) GATES:
+   - FAIL
+
+---
+
+## [M] MAPPING TO STOP_GAP
+- Любой FAIL_CODE может активировать STOP_GAP.
+- Для production задач: FAIL от mandatory validators -> STOP_GAP обязателен.
 
 END.
